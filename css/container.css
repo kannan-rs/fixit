@@ -1,0 +1,55 @@
+.login-form {
+	padding: 10px 10px 0px 10px;
+}
+
+.section {
+	border-bottom: 1px solid #D3D3D3;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.user_type_as {
+	/*display: none;*/
+}
+.label {
+	width: 200px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.dataSection {
+	display: inline-block;
+}
+
+.permissions input {
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.button-panel a.signup {
+	font-size: 13px;
+	float: left;
+	margin-left: 10px;
+	text-decoration: underline;
+}
+
+.inputForm .label.notMandatory:after {
+	content: "";
+}
+
+.inputForm .label:after {
+	content: "*";
+	color: red;
+}
+
+.notes_list {
+
+}
+
+.notes_list table {
+	border-bottom: 1px solid #dddddd;	
+}
+
+.notes_list table tr td {
+	border-bottom: 0px solid #dddddd;	
+}

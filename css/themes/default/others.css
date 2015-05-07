@@ -1,0 +1,17 @@
+.prefMode {
+	padding-top: 20px;
+}
+
+table.innerOption {
+	width: inherit;
+}
+
+table.innerOption tr td {
+	border: 0px;
+	padding: 0px;
+	padding-right:10px;
+}
+
+table.innerOption input[type="checkbox"], table.innerOption input[type="radio"]{
+	margin : 5px 0px 5px 0px;
+}
