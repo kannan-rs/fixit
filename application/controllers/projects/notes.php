@@ -14,26 +14,11 @@ class Notes extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 	
-	// Notes Section
-	public function projectDetails() {
-		$this->load->model('projects/model_projects');
-
-		$projectId 			= $this->input->post('projectId');
-		$project 			= $this->model_projects->get_projects_list($projectId);
-
-		$params = array(
-			'projectName' 		=> $project[0]->project_name,
-			'projectDescr' 		=> $project[0]->project_descr
-		);
-		
-		echo $this->load->view("projects/notes/projectDetails", $params, true);
-	}
-
 	public function viewAll() {
 		$this->load->model('projects/model_notes');
-
 		$this->load->model('security/model_users');
-		
+		$this->load->model('projects/model_projects');
+
 		$projectId 			= $this->input->post('projectId');
 		$startRecord 		= $this->input->post('startRecord');
 		$count 				= $this->input->post('count');
@@ -48,9 +33,24 @@ class Notes extends CI_Controller {
 			$project_notes[$i]->updated_by_name = $this->model_users->get_users_list($project_notes[$i]->updated_by)[0]->user_name;
 		}
 
+		$project 			= $this->model_projects->get_projects_list($projectId);
+
+		$paramsNameDescr 	= array(
+			'projectName' 		=> $project[0]->project_name,
+			'projectDescr' 		=> $project[0]->project_descr
+		);
+
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "documents"],
+			"projectId" 			=> $projectId
+		);
+
 		$params = array(
 			'project_notes' 	=> $project_notes,
-			'startRecord' 		=> $startRecord
+			'startRecord' 		=> $startRecord,
+			'projectId' 		=> $projectId,
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 		=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/notes/viewAll", $params, true);

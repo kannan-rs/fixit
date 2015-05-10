@@ -2,7 +2,7 @@
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._operations.createForm()">Create Operation</a></div>
 <div>
 	<!-- List all the operations from database -->
-	<table>
+	<table cellspacing="0">
 	
 	<?php
 		if(count($operations) > 0) {
@@ -19,8 +19,8 @@
 			$deleteText = "Delete";
 			$deleteFn = $deleteText ? "securityObj._operations.delete(".$operations[$i]->sno.")" : "";
 			echo "<tr class='row'>";
-			echo "<td class='cell'>".($i+1)."</td>";
-			echo "<td class='cell'>";
+			echo "<td class='cell number'>".($i+1)."</td>";
+			echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"securityObj._operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_id;
 			echo "</td>";
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_name ."</td>";

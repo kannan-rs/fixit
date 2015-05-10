@@ -6,6 +6,8 @@ function task() {
 };
 
 task.prototype.viewAll = function( projectId ) {
+	projectObj.resetCounter("docs");
+	projectObj.resetCounter("notes");
 	projectObj.clearRest();
 	$.ajax({
 		method: "POST",
@@ -46,6 +48,19 @@ task.prototype.createForm = function( projectId ) {
 };
 
 task.prototype.createValidate =  function () {
+	$("#create_task_form").validate({
+		rules: {
+			task_end_date: {
+				greaterThanOrEqualTo: "#task_start_date"
+			}
+		},
+		messages: {
+			task_end_date: {
+				greaterThanOrEqualTo: "End Date need to be greater that start date"
+			}
+		}
+	});
+
 	var validator = $( "#create_task_form" ).validate();
 
 
@@ -121,6 +136,19 @@ task.prototype.editTask = function(taskId) {
 };
 
 task.prototype.updateValidate = function() {
+	$("#update_task_form").validate({
+		rules: {
+			task_end_date: {
+				greaterThanOrEqualTo: "#task_start_date"
+			}
+		},
+		messages: {
+			task_end_date: {
+				greaterThanOrEqualTo: "End Date need to be greater that start date"
+			}
+		}
+	});
+	
 	var validator = $( "#update_task_form" ).validate();
 
 	if(validator.form()) {

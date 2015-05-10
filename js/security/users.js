@@ -48,13 +48,9 @@ securityUsers.prototype.createValidate =  function () {
 securityUsers.prototype.updateValidate = function() {
 	$("#update_user_form").validate({
 		rules: {
-			/*password: {
-				required: true
+			activeEndDate: {
+				greaterThanOrEqualTo: "#activeStartDate"
 			},
-			confirm_password: {
-				required: true,
-				equalTo: "#password"
-			},*/
 			privilege: {
 				required: {
 					depends: function(element) {
@@ -69,6 +65,9 @@ securityUsers.prototype.updateValidate = function() {
 		messages: {
 			privilege: {
 				required: "Please select an option from the list"
+			},
+			activeEndDate: {
+				greaterThanOrEqualTo: "End Date need to be greater that start date"
 			}
 		}
 	});
@@ -222,6 +221,8 @@ securityUsers.prototype.updateSubmit = function(userId) {
 	var firstName 			= $("#firstName").val();
 	var lastName 			= $("#lastName").val();
 	var belongsTo 			= $("#belongsTo").val();
+	var activeStartDate 	= $("#activeStartDate").length ? $("#activeStartDate").val() : "";
+	var activeEndDate 		= $("#activeEndDate").length ? $("#activeEndDate").val() : "";
 	var userType 			= $("#userType").val();
 	var userStatus 			= $("#userStatus").val();
 	var contactPhoneNumber 	= $("#contactPhoneNumber").val();
@@ -255,6 +256,8 @@ securityUsers.prototype.updateSubmit = function(userId) {
 			firstName: 			firstName,
 			lastName: 			lastName, 
 			belongsTo: 			belongsTo,
+			activeStartDate: 	activeStartDate,
+			activeEndDate: 		activeEndDate,
 			userType: 			userType,
 			userStatus: 		userStatus,
 			contactPhoneNumber: contactPhoneNumber,

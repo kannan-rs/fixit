@@ -1,17 +1,12 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="projectObj._tasks.viewAll('<?php echo $projectId; ?>')">Tasks</a>
-	<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projectId; ?>')">Notes</a>
-	<a href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $projectId; ?>')">Documents</a>
+	<?php echo $internalLink; ?>
 </div>
-<div class="projectDetails">
-	<div>Project Name: '<?php echo $projectName; ?>'</div>
-	<div>Project Description : <?php echo $projectDescr; ?></div>
-</div>
+<?php echo $projectNameDescr; ?>
 <!-- Add Function Start -->
 <h2>Create Task</h3>
 	<form id="create_task_form" name="create_task_form">
 	<div class='form'>
-		<input type="hidden" name="parentId" id="parentId" value="<?php echo $projcetId; ?>">
+		<input type="hidden" name="parentId" id="parentId" value="<?php echo $projectId; ?>">
 		<div class="label">Task Name:</div>
 		<div><input type="text" name="task_name" id="task_name" value=""></div>
 		<div class="label">Description:</div>

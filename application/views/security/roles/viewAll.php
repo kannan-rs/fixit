@@ -2,7 +2,7 @@
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._roles.createForm()">Create Role</a></div>
 <div>
 	<!-- List all the Roles from database -->
-	<table>
+	<table cellspacing="0">
 	
 	<?php
 		if(count($roles) > 0) {
@@ -19,7 +19,7 @@
 			$deleteText = "Delete";
 			$deleteFn = $deleteText ? "securityObj._roles.delete(".$roles[$i]->sno.")" : "";
 			echo "<tr class='row'>";
-			echo "<td class='cell'>".($i+1)."</td>";
+			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"securityObj._roles.viewOne('".$roles[$i]->sno."')\">". $roles[$i]->role_id;
 			echo "</td>";

@@ -1247,6 +1247,22 @@ $.extend( $.validator, {
 			return value === target.val();
 		},
 
+		greaterThanOrEqualTo: function( value, element, param ) {
+			// bind to the blur event of the target in order to revalidate whenever the target field is updated
+			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
+			var target = $( param );
+			if ( this.settings.onfocusout ) {
+				target.unbind( ".validate-greaterThanOrEqualTo" ).bind( "blur.validate-greaterThanOrEqualTo", function() {
+					$( element ).valid();
+				});
+			}
+			if(value === "") {
+				value = target.val();
+			}
+			
+			return value >= target.val();
+		},
+
 		// http://jqueryvalidation.org/remote-method/
 		remote: function( value, element, param ) {
 			if ( this.optional( element ) ) {

@@ -30,7 +30,8 @@ note.prototype.projectDetails = function( projectId ) {
 };
 
 note.prototype.viewAll = function(projectId) {
-	this.projectDetails(projectId);
+	projectObj.resetCounter("notes");
+	projectObj.clearRest(["note_content", "new_note_content"]);
 	this.createForm(projectId);
 
 	this.noteListStartRecord 	= this.noteListStartRecord ? this.noteListStartRecord: 0;

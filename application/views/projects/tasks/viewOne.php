@@ -1,20 +1,14 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="projectObj._tasks.viewAll('<?php echo $tasks[0]->project_id; ?>')">Tasks</a>
-	<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $tasks[0]->project_id; ?>')">Notes</a>
-	<a href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $tasks[0]->project_id; ?>')">Documents</a>
+	<?php echo $internalLink; ?>
 	<?php
 	if(count($tasks) > 0) {
 	?>
-	<a href="javascript:void(0);" onclick="projectObj._tasks.editTask(<?php echo $tasks[0]->task_id; ?>)">Update Task</a>
+	<span><a href="javascript:void(0);" onclick="projectObj._tasks.editTask(<?php echo $tasks[0]->task_id; ?>)">Update Task</a></span>
 	<?php
 	}
 	?>
 </div>
-
-<div class="projectDetails">
-	<div>Project Name: '<?php echo $projectName; ?>'</div>
-	<div>Project Description : <?php echo $projectDescr; ?></div>
-</div>
+<?php echo $projectNameDescr; ?>
 <h2>View Task Details</h3>
 <div>
 	<table>

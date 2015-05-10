@@ -2,7 +2,11 @@
 if(count($project_notes) > 0) {
 	if($startRecord == 0) {
 ?>
-	<h2>Notes List</h3>
+<div class="create-link">
+	<?php echo $internalLink; ?>
+</div>
+<?php echo $projectNameDescr; ?>
+<h2>Notes List</h3>
 <?php
 }
 ?>

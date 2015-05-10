@@ -61,10 +61,16 @@
 		<div>
 			<input type="text" name="remaining_budget" id="remaining_budget" value="">
 		</div>
+		<?php
+		if($userType == "admin") {
+		?>
 		<div class="label">Referral Fee</div>
 		<div>
 			<input type="text" name="referral_fee" id="referral_fee" value="">
 		</div>
+		<?php
+		}
+		?>
 		<div class="label">Project Lender</div>
 		<div>
 			<input type="text" name="project_lender" id="project_lender" value="">

@@ -1,7 +1,5 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="projectObj._tasks.viewAll(<?php echo $projects[0]->proj_id; ?>)">Tasks</a>
-	<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projects[0]->proj_id; ?>')">Notes</a>
-	<a href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $projects[0]->proj_id; ?>')">Documents</a>
+	<?php echo $internalLink; ?>
 </div>
 <?php
 	$i = 0;
@@ -69,10 +67,16 @@
 		<div>
 			<input type="text" name="remaining_budget" id="remaining_budget" value="<?php echo $projects[$i]->remaining_budget;?>">
 		</div>
+		<?php
+		if($userType == "admin") {
+		?>
 		<div class="label">Referral Fee</div>
 		<div>
 			<input type="text" name="referral_fee" id="referral_fee" value="<?php echo $projects[$i]->referral_fee;?>">
 		</div>
+		<?php
+		}
+		?>
 		<div class="label">Project Lender</div>
 		<div>
 			<input type="text" name="project_lender" id="project_lender" value="<?php echo $projects[$i]->project_lender;?>">

@@ -1,16 +1,11 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projectId; ?>')">Notes</a>
-	<a href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $projectId; ?>')">Documents</a>
-	<a href="javascript:void(0);" onclick="projectObj._tasks.createForm(<?php echo $projectId; ?>)">Create Task</a>
+	<?php echo $internalLink; ?>
 </div>
-<div class="projectDetails">
-	<div>Project Name: '<?php echo $projectName; ?>'</div>
-	<div>Project Description : <?php echo $projectDescr; ?></div>
-</div>
+<?php echo $projectNameDescr; ?>
 <div>
 	<h2>Tasks List</h2>
 	<!-- List all the Functions from database -->
-	<table>
+	<table  cellspacing="0">
 	
 	<?php
 		if(count($tasks) > 0) {
@@ -27,14 +22,14 @@
 		for($i = 0; $i < count($tasks); $i++) { 
 			$deleteText = "Delete";
 			$deleteFn = $deleteText ? "projectObj._tasks.delete(".$tasks[$i]->task_id.",".$tasks[$i]->project_id.")" : "";
-			echo "<tr class='row'>";
-			echo "<td class='cell'>".($i+1)."</td>";
+			echo "<tr class='row viewAll'>";
+			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"projectObj._tasks.viewOne('".$tasks[$i]->task_id."')\">". $tasks[$i]->task_name;
 			echo "</a></td>";
-			echo "<td>". $tasks[$i]->task_percent_complete ."</td>";
-			echo "<td>". $tasks[$i]->task_start_date_for_view ."</td>";
-			echo "<td>". $tasks[$i]->task_end_date_for_view ."</td>";
+			echo "<td class='cell percentage'>". $tasks[$i]->task_percent_complete ."</td>";
+			echo "<td class='cell date'>". $tasks[$i]->task_start_date_for_view ."</td>";
+			echo "<td class='cell date'>". $tasks[$i]->task_end_date_for_view ."</td>";
 			echo "<td class='cell table-action'>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"projectObj._tasks.editTask('".$tasks[$i]->task_id."')\">Edit</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$deleteText."</a></span></td>";

@@ -142,7 +142,8 @@ class Users extends CI_Controller {
 			'function'=>"edit",
 			'record'=>$record,
 			'users'=>$users,
-			'user_details' => $user_details
+			'user_details' => $user_details,
+			'userType' 	=> $this->session->userdata("account_type")
 		);
 		
 		echo $this->load->view("security/users/editForm", $params, true);
@@ -153,8 +154,10 @@ class Users extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
+		$active_start_date 		= $this->input->post("activeStartDate") == "" ? date("Y-m-d H:i:s") : $this->input->post("activeStartDate");
+		$active_end_date 		= $this->input->post("activeEndDate");
+
 		$user_record 			= $this->input->post('userId');
-		//$password 			= md5($this->input->post('password'));
 		$privilege 				= $this->input->post('privilege');
 		$user_details_record 	= $this->input->post('sno'); 
 		$firstName 				= $this->input->post('firstName');
@@ -182,6 +185,8 @@ class Users extends CI_Controller {
 			'belongs_to' 			=> $belongsTo,
 			'type' 					=> $userType,
 			'status' 				=> $userStatus,
+			'active_start_date' 	=> $active_start_date,
+			'active_end_date' 		=> $active_end_date,
 			'contact_ph1' 			=> $contactPhoneNumber,
 			'contact_mobile' 		=> $mobileNumber,
 			'contact_alt_mobile'	=> $altNumber,
@@ -250,7 +255,8 @@ class Users extends CI_Controller {
 			'function'		=> "view",
 			'record'		=> $record,
 			'users'			=> $users,
-			'user_details' => $user_details
+			'user_details' 	=> $user_details,
+			'userType' 		=> $this->session->userdata("account_type")
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);

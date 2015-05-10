@@ -38,6 +38,8 @@ project.prototype.createValidate =  function () {
 };
 
 project.prototype.viewAll = function() {
+	projectObj.resetCounter("docs");
+	projectObj.resetCounter("notes");
 	projectObj.clearRest();
 	$.ajax({
 		method: "POST",
@@ -88,7 +90,7 @@ project.prototype.createSubmit = function() {
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
 	var remaining_budget		= $("#remaining_budget").val();
-	var referral_fee			= $("#referral_fee").val();
+	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
 
@@ -197,7 +199,7 @@ project.prototype.updateSubmit = function() {
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
 	var remaining_budget		= $("#remaining_budget").val();
-	var referral_fee			= $("#referral_fee").val();
+	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
 

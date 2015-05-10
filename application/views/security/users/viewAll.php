@@ -2,7 +2,7 @@
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a></div>
 <div>
 	<!-- List all the users from database -->
-	<table>
+	<table cellspacing="0">
 	
 	<?php
 		if(count($users) > 0) {
@@ -18,7 +18,7 @@
 			$deleteText = ($users[$i]->account_type =='admin') ?"":"Delete";
 			$deleteFn = $deleteText ? "securityObj._users.delete(".$users[$i]->sno.")" : "";
 			echo "<tr class='row'>";
-			echo "<td class='cell'>".($i+1)."</td>";
+			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._users.viewOne('".$users[$i]->sno."')\">". $users[$i]->user_name ."</td>";
 			echo "<td class='cell'>". $users[$i]->account_type ."</td>";
 			echo "<td class='cell table-action'>";

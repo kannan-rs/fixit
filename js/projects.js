@@ -11,13 +11,34 @@ projects.prototype.clearRest = function(excludeList) {
 	var containers = ["project_content", "task_content", "note_content", "new_note_content", "attachment_list", "new_attachment"];
 
 	for(var i=0; i < containers.length; i++) {
-		console.log(i);
-		if(!excludeList || !$.isArray(excludeList) || !excludeList.indexOf(containers[i])) {
-			console.log("clear");
+		if(!excludeList || !$.isArray(excludeList) || excludeList.indexOf(containers[i]) == -1) {
 			$("#"+containers[i]).html("");
 		}
 	}
 }
+
+projects.prototype.resetCounter = function( module ) {
+	switch (module) {
+		case "docs":
+			this.resetNoteCounter();
+		break;
+		case "notes":
+			this.resetDocsCounter();
+		break;
+		default:
+		break;
+	}
+}
+projects.prototype.resetNoteCounter = function() {
+	this._notes.noteRequestSent 			= 0;
+	this._notes.noteListStartRecord 		= 0;
+}
+
+projects.prototype.resetDocsCounter = function() {
+	this._docs.docsListStartRecord			= 0;
+	this._docs.docsRequestSent				= 0;
+}
+
 
 var projectObj = new projects();
 

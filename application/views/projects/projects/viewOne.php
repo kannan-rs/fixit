@@ -1,13 +1,5 @@
-<?php
-	$deleteText = "Delete Project";
-	$deleteFn = $deleteText ? "projectObj._projects.delete(".$projects[0]->proj_id.")" : "";
-?>
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="projectObj._tasks.viewAll(<?php echo $projects[0]->proj_id; ?>)">Tasks</a>
-	<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projects[0]->proj_id; ?>')">Notes</a>
-	<a href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $projects[0]->proj_id; ?>')">Documents</a>
-	<a href="javascript:void(0);" onclick="projectObj._projects.editProject(<?php echo $projects[0]->proj_id; ?>)">Update Project</a>
-	<a href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"> <?php echo $deleteText; ?></a>
+	<?php echo $internalLink; ?>
 </div>
 <h2>View Project Details</h3>
 <div>
@@ -77,10 +69,16 @@
 			<td class='cell'>Remaining Budget:</td>
 			<td class='cell'><?php echo $projects[$i]->remaining_budget; ?></td>
 		</tr>
+		<?php
+		if($userType == "admin") {
+		?>
 		<tr>
 			<td class='cell'>Referral Fee:</td>
 			<td class='cell'><?php echo $projects[$i]->referral_fee; ?></td>
 		</tr>
+		<?php
+		}
+		?>
 		<tr>
 			<td class='cell'>Project Lender:</td>
 			<td class='cell'><?php echo $projects[$i]->project_lender; ?></td>

@@ -244,6 +244,15 @@ table tr.heading {
 	text-align: center;
 }
 
+table tr td.cell.number {
+	text-align: right;
+}
+
+table tr td.cell.table-action, table tr td.cell.percentage, table tr td.cell.date {
+	text-align: center;
+}
+
+
 /* default links */
 a, a:visited { 
 	color:#4086AA;

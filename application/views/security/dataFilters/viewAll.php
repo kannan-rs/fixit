@@ -2,7 +2,7 @@
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._dataFilters.createForm()">Create Data Filter</a></div>
 <div>
 	<!-- List all the Data Filters from database -->
-	<table>
+	<table cellspacing="0">
 	
 	<?php
 		if(count($dataFilters) > 0) {
@@ -19,8 +19,8 @@
 			$deleteText = "Delete";
 			$deleteFn = $deleteText ? "securityObj._dataFilters.delete(".$dataFilters[$i]->sno.")" : "";
 			echo "<tr class='row'>";
-			echo "<td class='cell'>".($i+1)."</td>";
-			echo "<td class='cell'>";
+			echo "<td class='cell number'>".($i+1)."</td>";
+			echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"securityObj._dataFilters.viewOne('".$dataFilters[$i]->sno."')\">". $dataFilters[$i]->data_filter_id;
 			echo "</td>";
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._dataFilters.viewOne('".$dataFilters[$i]->sno."')\">". $dataFilters[$i]->data_filter_name ."</td>";

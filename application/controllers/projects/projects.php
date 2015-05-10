@@ -41,8 +41,6 @@ class Projects extends CI_Controller {
 		}
 
 		$params = array(
-			'function'=>"view",
-			'record'=>"all",
 			'projects'=>$projects
 		);
 		
@@ -51,10 +49,10 @@ class Projects extends CI_Controller {
 	
 	public function createForm() {
 		$this->load->model('security/model_users');
+		
 		$params = array(
-			'function'=>"createprojectform",
-			'record'=>"",
-			'users' => $this->model_users->get_users_list()
+			'users' 		=> $this->model_users->get_users_list(),
+			'userType' 		=> $this->session->userdata('account_type')
 		);
 
 		echo $this->load->view("projects/projects/createForm", $params, true);
@@ -102,11 +100,16 @@ class Projects extends CI_Controller {
 
 		$projects = $this->model_projects->get_projects_list($record);
 
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"projectId" 			=> $record
+		);
+
 		$params = array(
-			'function'=>"edit",
-			'record'=>$record,
 			'projects'=>$projects,
-			'users' => $this->model_users->get_users_list()
+			'users' => $this->model_users->get_users_list(),
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
+			'userType' 		=> $this->session->userdata('account_type')
 		);
 		
 		echo $this->load->view("projects/projects/editForm", $params, true);
@@ -184,10 +187,15 @@ class Projects extends CI_Controller {
 			$projects[$i]->updated_by_name = $this->model_users->get_users_list($projects[$i]->updated_by)[0]->user_name;
 		}
 
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "notes", "documents", "update project", "delete project"],
+			"projectId" 			=> $record
+		);
+
 		$params = array(
-			'function'=>"view",
-			'record'		=>$record,
-			'projects'		=>$projects,
+			'projects'		=> $projects,
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
+			'userType' 		=> $this->session->userdata('account_type')
 		);
 		
 		echo $this->load->view("projects/projects/viewOne", $params, true);

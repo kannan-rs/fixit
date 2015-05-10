@@ -32,16 +32,16 @@
 		<div class="label">User Status:</div>
 		<div><?php echo $user_details[$i]->status; ?></div>
 
-		<!--
+		<?php
+		if($userType) {
+		?>
 		<div class="label">Active Start Date:</div>
-		<div>
-			<input type="date" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$user_details[$i]->active_start_date)[0]; ?>" placeholder="Active Start Date" required>
-		</div>
+		<div><?php echo explode(" ",$user_details[$i]->active_start_date)[0]; ?></div>
 		<div class="label">Active End Date:</div>
-		<div>
-			<input type="date" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$user_details[$i]->active_end_date)[0]; ?>" placeholder="Active End Date" required>
-		</div>
-		-->
+		<div><?php echo explode(" ",$user_details[$i]->active_end_date)[0]; ?></div>
+		<?php
+		}
+		?>
 		
 		<div class="label">Email ID:</div>
 		<div><?php echo $user_details[$i]->email; ?></div>

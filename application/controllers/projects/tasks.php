@@ -24,13 +24,21 @@ class Tasks extends CI_Controller {
 		
 		$tasks = $this->model_tasks->get_tasks_list($projectId);
 
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["notes", "documents", "create task"],
+			"projectId" 			=> $projectId
+		);
+
+		$paramsNameDescr 	= array(
+			'projectName' 		=> $parent_record[0]->project_name,
+			'projectDescr' 		=> $parent_record[0]->project_descr,
+		);
+
 		$params = array(
-			'function'=>"view",
-			'record'=>"all",
 			'tasks'=>$tasks,
-			'projectName' => $parent_record[0]->project_name,
-			'projectDescr' => $parent_record[0]->project_descr,
-			'projectId' => $projectId
+			'projectId' => $projectId,
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/tasks/viewAll", $params, true);
@@ -44,12 +52,20 @@ class Tasks extends CI_Controller {
 
 		$parent_record = $this->model_projects->get_projects_list($projectId);
 
+		$paramsNameDescr 	= array(
+			'projectName' 		=> $parent_record[0]->project_name,
+			'projectDescr' 		=> $parent_record[0]->project_descr,
+		);
+
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"projectId" 			=> $projectId
+		);
+
 		$params = array(
-			'function' 		=>"createtaskform",
-			'record' 		=>"",
-			'projectName' 	=> $parent_record[0]->project_name,
-			'projectDescr' 	=> $parent_record[0]->project_descr,
-			'projectId' 	=> $projectId
+			'projectId' 	=> $projectId,
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 
 		echo $this->load->view("projects/tasks/createForm", $params, true);
@@ -59,12 +75,15 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 
+		$task_start_date 			= ($this->input->post('task_start_date') == "") ? date("Y-m-d") : $this->input->post('task_start_date');
+		$task_end_date 				= ($this->input->post('task_end_date') == "" ) ?  $task_start_date : $this->input->post('task_end_date');
+
 		$data = array(
 		   'project_id' 				=> $this->input->post('parentId'),
 		   'task_name' 					=>  $this->input->post('task_name'),
 		   'task_desc' 					=> $this->input->post('task_desc'),
-		   'task_start_date' 			=> $this->input->post('task_start_date'),
-		   'task_end_date' 				=> $this->input->post('task_end_date'),
+		   'task_start_date' 			=> $task_start_date,
+		   'task_end_date' 				=> $task_end_date,
 		   'task_status' 				=> $this->input->post('task_status'),
 		   'task_owner_id' 				=> $this->input->post('task_owner_id'),
 		   'task_percent_complete' 		=> $this->input->post('task_percent_complete'),
@@ -94,14 +113,22 @@ class Tasks extends CI_Controller {
 		$projectId 		= $tasks[0]->project_id;
 		$parent_record 	= $this->model_projects->get_projects_list($projectId);
 
+		$paramsNameDescr 	= array(
+			'projectName' 		=> $parent_record[0]->project_name,
+			'projectDescr' 		=> $parent_record[0]->project_descr,
+		);
+
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"projectId" 			=> $projectId
+		);
+
 		$params = array(
-			'function'=>"edit",
-			'record'=>$record,
 			'tasks'=>$tasks,
 			'users' => $this->model_users->get_users_list(),
-			'projectName' => $parent_record[0]->project_name,
-			'projectDescr' => $parent_record[0]->project_descr,
-			'projectId' => $projectId
+			'projectId' => $projectId,
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/tasks/editForm", $params, true);
@@ -113,11 +140,14 @@ class Tasks extends CI_Controller {
 
 		$record = 	$this->input->post('task_id');
 
+		$task_start_date 			= ($this->input->post('task_start_date') == "") ? date("Y-m-d") : $this->input->post('task_start_date');
+		$task_end_date 				= ($this->input->post('task_end_date') == "" ) ?  $task_start_date : $this->input->post('task_end_date');
+
 		$data = array(
 		   'task_name' 					=> $this->input->post('task_name'),
 		   'task_desc' 					=> $this->input->post('task_desc'),
-		   'task_start_date' 			=> $this->input->post('task_start_date'),
-		   'task_end_date' 				=> $this->input->post('task_end_date'),
+		   'task_start_date' 			=> $task_start_date,
+		   'task_end_date' 				=> $task_end_date,
 		   'task_status' 				=> $this->input->post('task_status'),
 		   'task_owner_id' 				=> $this->input->post('task_owner_id'),
 		   'task_percent_complete'		=> $this->input->post('task_percent_complete'),
@@ -160,15 +190,23 @@ class Tasks extends CI_Controller {
 
 		$parent_record 	= $this->model_projects->get_projects_list($projectId);
 
+		$paramsNameDescr 	= array(
+			'projectName' 		=> $parent_record[0]->project_name,
+			'projectDescr' 		=> $parent_record[0]->project_descr,
+		);
+
+		$internalLinkParams = array(
+			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"projectId" 			=> $projectId
+		);
+
 		$params = array(
-			'function'=>"view",
-			'record'=>$record,
 			'tasks'=>$tasks,
 			'created_by' => $created_by,
 			'updated_by' => $updated_by,
-			'projectName' => $parent_record[0]->project_name,
-			'projectDescr' => $parent_record[0]->project_descr,
-			'projectId' => $projectId
+			'projectId' => $projectId,
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/tasks/viewOne", $params, true);
