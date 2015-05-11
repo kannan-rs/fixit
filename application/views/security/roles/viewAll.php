@@ -1,5 +1,5 @@
-<h2>View All Roles</h3>
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._roles.createForm()">Create Role</a></div>
+<h2>View All Roles</h2>
 <div>
 	<!-- List all the Roles from database -->
 	<table cellspacing="0">

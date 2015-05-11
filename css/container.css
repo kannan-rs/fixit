@@ -16,6 +16,7 @@
 	width: 200px;
 	display: inline-block;
 	vertical-align: top;
+	text-transform: capitalize;
 }
 
 .dataSection {
@@ -53,4 +54,8 @@
 
 .notes_list table tr td {
 	border-bottom: 0px solid #dddddd;	
+}
+
+.notes_list table tr td.cell.label {
+	width: auto;	
 }

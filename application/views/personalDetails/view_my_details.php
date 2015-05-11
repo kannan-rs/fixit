@@ -1,6 +1,6 @@
-<h2>Personal Details</h3>
+<div class="create-link"><a href="javascript:void(0);" onclick="personalDetailsObj._userInfo.editPage(<?php echo $user_details[0]->sno; ?>);">Edit Details</a></div>
+<h2>Personal Details</h2>
 	<form>
-	<div class="create-link"><a href="javascript:void(0);" onclick="personalDetailsObj._userInfo.editPage(<?php echo $user_details[0]->sno; ?>);">Edit Details</a></div>
 	<div class='form'>
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details[0]->primary_contact; ?>">

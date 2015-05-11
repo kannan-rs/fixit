@@ -1,5 +1,5 @@
 <!-- Add Data Filter Start -->
-<h2>Create Data Filter</h3>
+<h2>Create Data Filter</h2>
 	<form id="create_dataFilter_form" name="create_dataFilter_form">
 	<div class='form'>
 		<p>

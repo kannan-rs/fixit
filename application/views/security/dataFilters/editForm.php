@@ -2,7 +2,7 @@
 	//Edit Individual
 	$i = 0;
 ?>
-<h2>Edit Data Filter</h3>
+<h2>Edit Data Filter</h2>
 <form id="update_dataFilter_form" name="update_dataFilter_form">
 	<input type="hidden" id='dataFilter_sno' value="<?php echo $dataFilters[$i]->sno; ?>" />
 	<div class='form'>

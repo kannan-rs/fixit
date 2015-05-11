@@ -11,49 +11,49 @@
 <?php echo $projectNameDescr; ?>
 <h2>View Task Details</h3>
 <div>
-	<table>
+	<table cellspacing="0">
 	<?php
 		if(count($tasks) > 0) {
 			$i = 0;
 	?>
 		<tr>
-		<td class='cell'>Task Title:</td><td class='cell'><?php echo $tasks[$i]->task_name; ?></td>
+		<td class='cell label'>Task Title:</td><td class='cell'><?php echo $tasks[$i]->task_name; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Description:</td><td class='cell'><?php echo $tasks[$i]->task_desc; ?></td>
+		<td class='cell label'>Description:</td><td class='cell'><?php echo $tasks[$i]->task_desc; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Start Date:</td><td class='cell'><?php echo $tasks[$i]->task_start_date_for_view; ?></td>
+		<td class='cell label'>Start Date:</td><td class='cell'><?php echo $tasks[$i]->task_start_date_for_view; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>End Date:</td><td class='cell'><?php echo $tasks[$i]->task_end_date_for_view; ?></td>
+		<td class='cell label'>End Date:</td><td class='cell'><?php echo $tasks[$i]->task_end_date_for_view; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Task Status:</td><td class='cell'><?php echo $tasks[$i]->task_status; ?></td>
+		<td class='cell label'>Task Status:</td><td class='cell'><?php echo $tasks[$i]->task_status; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Owner ID:</td><td class='cell'><?php echo $tasks[$i]->task_owner_id; ?></td>
+		<td class='cell label'>Owner ID:</td><td class='cell'><?php echo $tasks[$i]->task_owner_id; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Dependency:</td><td class='cell'><?php echo $tasks[$i]->task_dependency; ?></td>
+		<td class='cell label'>Dependency:</td><td class='cell'><?php echo $tasks[$i]->task_dependency; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Trend Type:</td><td class='cell'><?php echo $tasks[$i]->task_trade_type; ?></td>
+		<td class='cell label'>Trend Type:</td><td class='cell'><?php echo $tasks[$i]->task_trade_type; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>% Complete:</td><td class='cell'><?php echo $tasks[$i]->task_percent_complete; ?></td>
+		<td class='cell label'>% Complete:</td><td class='cell'><?php echo $tasks[$i]->task_percent_complete; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Created By</td><td class='cell'><?php echo $created_by; ?></td>
+		<td class='cell label'>Created By</td><td class='cell'><?php echo $created_by; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Created On:</td><td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
+		<td class='cell label'>Created On:</td><td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Updated By</td><td class='cell'><?php echo $updated_by; ?></td>
+		<td class='cell label'>Updated By</td><td class='cell'><?php echo $updated_by; ?></td>
 		</tr>
 		<tr>
-		<td class='cell'>Last Updated on</td><td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
+		<td class='cell label'>Last Updated on</td><td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
 		</tr>
 	<?php
 		}

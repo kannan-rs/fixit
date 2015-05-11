@@ -17,7 +17,7 @@
 		<div><input type="date" name="task_end_date" id="task_end_date" value=""></div>
 		<div class="label">Status:</div>
 		<div>
-			<select name="task_status" id="task_status">
+			<select name="task_status" id="task_status" onchange="projectObj._tasks.setPercentage(this.value);">
 				<option value="">--Select Task Status--</option>
 				<option value="task created">Task Created</option>
 				<option value="not assigned">Not Assigned</option>
@@ -26,10 +26,10 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
+		<div class="label">% Complete:</div>
+		<div><input type="text" name="task_percent_complete" id="task_percent_complete" defaultValue="" onchange="projectObj._tasks.percentageChange(this.value)" ></div>
 		<div class="label">Owner ID:</div>
 		<div><input type="text" name="task_owner_id" id="task_owner_id" value=""></div>
-		<div class="label">% Complete:</div>
-		<div><input type="text" name="task_percent_complete" id="task_percent_complete" value=""></div>
 		<div class="label">Dependency:</div>
 		<div><input type="text" name="task_dependency" id="task_dependency" value=""></div>
 		<div class="label">Trade Type:</div>

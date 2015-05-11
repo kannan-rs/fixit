@@ -1,5 +1,5 @@
-<h2>View All Data Filters</h3>
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._dataFilters.createForm()">Create Data Filter</a></div>
+<h2>View All Data Filters</h2>
 <div>
 	<!-- List all the Data Filters from database -->
 	<table cellspacing="0">

@@ -253,3 +253,17 @@ task.prototype.setDropdownValue = function() {
 
 	$("#task_status").val(db_task_status);
 };
+
+task.prototype.setPercentage = function(statusValue) {
+	if(statusValue == "completed") {
+		$("#task_percent_complete").val("100").attr("disabled",true);
+	} else {
+		if($("#task_percent_complete").val() == "100" || $("#task_percent_complete").val() != $("#task_percent_complete").attr("defaultValue")) {
+			$("#task_percent_complete").val($("#task_percent_complete").attr("defaultValue")).attr("disabled",false);
+		}
+	}
+};
+
+task.prototype.percentageChange = function (percentageValue) {
+	$("#task_percent_complete").attr("defaultValue", percentageValue);
+}

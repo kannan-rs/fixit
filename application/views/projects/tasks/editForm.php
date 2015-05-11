@@ -21,7 +21,7 @@
 		<div class="label">Status:</div>
 		<div>
 			<input type="hidden" name="db_task_status" id="db_task_status" value="<?php echo $tasks[$i]->task_status; ?>">
-			<select name="task_status" id="task_status">
+			<select name="task_status" id="task_status"  onchange="projectObj._tasks.setPercentage(this.value)">
 				<option value="">--Select Task Status--</option>
 				<option value="task created">Task Created</option>
 				<option value="not assigned">Not Assigned</option>
@@ -30,10 +30,10 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
+		<div class="label">% Complete:</div>
+		<div><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" defaultValue="<?php echo $tasks[$i]->task_percent_complete; ?>" value="<?php echo $tasks[$i]->task_percent_complete; ?>"></div>
 		<div class="label">Owner ID:</div>
 		<div><input type="text" name="task_owner_id" id="task_owner_id" value="<?php echo $tasks[$i]->task_owner_id; ?>"></div>
-		<div class="label">% Complete:</div>
-		<div><input type="text" name="task_percent_complete" id="task_percent_complete" value="<?php echo $tasks[$i]->task_percent_complete; ?>"></div>
 		<div class="label">Dependency:</div>
 		<div><input type="text" name="task_dependency" id="task_dependency" value="<?php echo $tasks[$i]->task_dependency; ?>"></div>
 		<div class="label">Trade Type:</div>

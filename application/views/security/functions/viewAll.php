@@ -1,5 +1,5 @@
-<h2>View All Functions</h3>
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._functions.createForm()">Create Function</a></div>
+<h2>View All Functions</h2>
 <div>
 	<!-- List all the Functions from database -->
 	<table cellspacing="0">

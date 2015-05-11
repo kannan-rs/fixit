@@ -1,8 +1,7 @@
-<h2>View User Details</h2>
 <div class="create-link">
-	<!--<a href="javascript:void(0);" onclick="personalDetailsObj._userInfo.editPage(<?php echo $user_details[$i]->sno; ?>);">Edit Details</a>-->
 	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a>
 </div>
+<h2>View User Details</h2>
 <?php
 	if(count($users) > 0 && count($user_details) > 0) {
 		$i = 0;
