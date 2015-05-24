@@ -13,7 +13,7 @@
 }
 
 .label {
-	width: 200px;
+	width: 150px;
 	display: inline-block;
 	vertical-align: top;
 	text-transform: capitalize;
@@ -58,4 +58,71 @@
 
 .notes_list table tr td.cell.label {
 	width: auto;	
+}
+
+table.viewOne tr td.cell.label {
+	/*width: auto;*/
+}
+
+table.viewOne tr td {
+	border-bottom:0px;
+}
+
+table.viewOne.projectViewOne {
+	margin: 0px;
+}
+
+/* Accordiance CSS Override */
+.accordion h3, .accordion h2 {
+	padding: 5px 5px 5px 30px !important;
+	background-color: transparent;
+	background-image: none;
+	border:0px;
+}
+
+.accordion h2 {
+	/*border-bottom: 1px solid #cccccc;*/
+	padding: 5px 5px 0px 40px !important;
+	color:#244C61 !important;
+	font-size:1.7em !important;
+	font-weight:normal;
+	text-transform:none !important;
+}
+
+.project_section {
+	border: 0px;
+}
+/* Page Links */
+.create-link {
+	margin-bottom: 20px;
+}
+
+.size-12 { font-size: 12px; }
+      
+.size-14 { font-size: 14px; }
+
+.size-16 { font-size: 16px; }
+
+.size-18 { font-size: 18px; }
+
+.size-21 { font-size: 21px; }
+
+.size-24 { font-size: 24px; }
+
+.size-36 { font-size: 36px; }
+
+.size-48 { font-size: 48px; }
+
+.size-60 { font-size: 60px; }
+
+.size-72 { font-size: 72px; }
+
+.red { color : red;}
+
+.delete:hover {
+	color:red;
+}
+
+table.viewAll tr td {
+	padding:5px;
 }

@@ -101,7 +101,7 @@ class Projects extends CI_Controller {
 		$projects = $this->model_projects->get_projects_list($record);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"internalLinkArr" 		=> ["tasks", "project notes", "documents"],
 			"projectId" 			=> $record
 		);
 
@@ -158,10 +158,12 @@ class Projects extends CI_Controller {
 
 	public function viewOne() {
 		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
+		$this->load->model('projects/model_notes');
 
-		$record = $this->input->post('projectId');
-		$projects = $this->model_projects->get_projects_list($record);
+		$projectId = $this->input->post('projectId');
+		$projects = $this->model_projects->get_projects_list($projectId);
 
 		$start_date		= "";
 		$end_date		= "";
@@ -188,14 +190,28 @@ class Projects extends CI_Controller {
 		}
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes", "documents", "update project", "delete project"],
-			"projectId" 			=> $record
+			"internalLinkArr" 		=> ["tasks", "project notes", "documents", "update project", "delete project"],
+			"projectId" 			=> $projectId
 		);
+
+		// Get List of tasks for the project ID
+		$tasks = $this->model_tasks->get_tasks_list($projectId);
+
+		//Get All Notes for Project
+		$notes 		= $this->model_notes->get_notes_list($projectId, 0, "", 0, 'All');
+
+		for($i=0; $i < count($notes); $i++) {
+			$notes[$i]->created_by_name = $this->model_users->get_users_list($notes[$i]->created_by)[0]->user_name;
+			$notes[$i]->updated_by_name = $this->model_users->get_users_list($notes[$i]->updated_by)[0]->user_name;
+		}
 
 		$params = array(
 			'projects'		=> $projects,
 			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
-			'userType' 		=> $this->session->userdata('account_type')
+			'userType' 		=> $this->session->userdata('account_type'),
+			'tasks' 		=>$tasks,
+			'projectId' 	=> $projectId,
+			'notes' 		=> $notes
 		);
 		
 		echo $this->load->view("projects/projects/viewOne", $params, true);

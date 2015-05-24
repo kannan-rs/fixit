@@ -102,3 +102,32 @@ docs.prototype.createValidate = function() {
 docs.prototype.getAttachment = function(doc_id) {
 
 }
+
+docs.prototype.delete = function ( doc_id ) {
+		$.ajax({
+		method: "POST",
+		url: "/projects/docs/delete",
+		data: {
+			docId: doc_id
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				alert(response.message);
+				projectObj._docs.removeDoc( response.docId);
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+docs.prototype.removeDoc = function( docId) {
+	$("#docId_"+docId).hide();
+}

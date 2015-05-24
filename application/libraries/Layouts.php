@@ -14,6 +14,7 @@ class Layouts
 	private $js_includes = array(
 			'common' => array(
 				"js/library/jquery-2.1.3.min.js",
+				"js/library/jquery-ui.js",
 				"js/library/jquery.validate.js",
 				"js/themes/default/layouts.js",
 				"js/validation.js",
@@ -40,7 +41,14 @@ class Layouts
 				"js/personalDetails.js",
 			)
 		);
-	private $css_includes = array("css/themes/default/styles.css", "css/themes/default/others.css", "css/container.css"); 
+
+	private $css_includes = array(
+		"css/themes/default/styles.css", 
+		"css/themes/default/others.css", 
+		"css/jquery-ui.css",
+		"css/container.css",
+		"css/foundation-icons.css"
+	); 
 
 	private $includes = array();
 

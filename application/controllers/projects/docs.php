@@ -35,12 +35,14 @@ class Docs extends CI_Controller {
 		$project 			= $this->model_projects->get_projects_list($projectId);
 
 		$paramsNameDescr 	= array(
+			'projectId' 		=> $projectId,
 			'projectName' 		=> $project[0]->project_name,
 			'projectDescr' 		=> $project[0]->project_descr,
+			'accountType' 		=> $this->session->userdata('account_type')
 		);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes"],
+			"internalLinkArr" 		=> ["tasks", "project notes"],
 			"projectId" 			=> $projectId
 		);
 
@@ -112,5 +114,18 @@ class Docs extends CI_Controller {
 				echo $one_doc[$i]->document_content;
 			}
 		}
+	}
+
+	public function delete() {
+		$this->load->model('projects/model_docs');
+
+		$docId = $this->input->post('docId');
+		$delete_doc = $this->model_docs->delete($docId);
+
+		if($delete_doc["status"] == "success") {
+			$delete_doc["docId"] = $docId;
+		}
+
+		print_r(json_encode($delete_doc));	
 	}
 }

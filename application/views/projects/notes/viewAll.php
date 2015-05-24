@@ -1,26 +1,46 @@
 <?php
 if(count($project_notes) > 0) {
 	if($startRecord == 0) {
+		if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
-<div class="create-link">
-	<?php echo $internalLink; ?>
-</div>
-<?php echo $projectNameDescr; ?>
-<h2>Notes List</h3>
+	<div class="create-link">
+		<?php echo $internalLink; ?>
+	</div>
+	<?php echo $projectNameDescr; ?>
+ 	<h2>Notes</h2>
+ <?php
+ 	}
+ ?>
+<div class="notes_list">
+	<!-- List all the Functions from database -->
+<table cellspacing="0" id="note_list_table">
 <?php
 }
 ?>
-<div class="notes_list">
-	<!-- List all the Functions from database -->
 	<?php
 	for($i=0; $i < count($project_notes); $i++) {
+
+		$deleteFn = ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._notes.delete" : "projectObj._projects.notesDelete";
+		$deleteFn .= "(".$project_notes[$i]->notes_id.")";
 	?>
-	<table cellspacing="0">
+		<!--
 		<tr>
 			<td class='cell label'>Note Name:</td>
 			<td class='cell' colspan="3"><?php echo $project_notes[$i]->notes_name; ?></td>
 		</tr>
-		<tr>
+		-->
+		<tr id="notes_<?php echo $project_notes[$i]->notes_id; ?>">
+			<td class='cell' colspan="3">
+				<?php echo $project_notes[$i]->notes_content; ?> 
+				<i>Created By: <?php echo $project_notes[$i]->created_by_name; ?> on 
+					<?php echo $project_notes[$i]->created_date_for_view; ?>
+				</i>
+			</td>
+			<td class="table-action">
+				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"></a></span>
+			</td>
+		</tr>
+		<!--<tr>
 			<td class='cell label'>Note Content:</td>
 			<td class='cell' colspan="3"><?php echo $project_notes[$i]->notes_content; ?></td>
 		</tr>
@@ -29,12 +49,16 @@ if(count($project_notes) > 0) {
 			<td class='cell'><?php echo $project_notes[$i]->created_by_name; ?></td>
 			<td class='cell label'>Created On:</td>
 			<td class='cell'><?php echo $project_notes[$i]->created_date_for_view; ?></td>
-		</tr>
-	</table>
+		</tr>-->
 	<?php
 	}
-	?>
+?>
+<?php
+if($startRecord == 0) {
+?>
+</table>
 </div>
 <?php
+	}
 }
 ?>

@@ -9,6 +9,7 @@ task.prototype.viewAll = function( projectId ) {
 	projectObj.resetCounter("docs");
 	projectObj.resetCounter("notes");
 	projectObj.clearRest();
+	projectObj.toggleAccordiance("task");
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/viewAll",
@@ -16,7 +17,7 @@ task.prototype.viewAll = function( projectId ) {
 			projectId: projectId
 		},
 		success: function( response ) {
-			$("#project_content").html(response);
+			$("#task_content").html(response);
 		},
 		error: function( error ) {
 			error = error;
@@ -29,6 +30,7 @@ task.prototype.viewAll = function( projectId ) {
 
 task.prototype.createForm = function( projectId ) {
 	projectObj.clearRest();
+	projectObj.toggleAccordiance("task");
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/createForm",
@@ -36,7 +38,7 @@ task.prototype.createForm = function( projectId ) {
 			projectId: projectId
 		},
 		success: function( response ) {
-			$("#project_content").html(response);
+			$("#task_content").html(response);
 		},
 		error: function( error ) {
 			error = error;
@@ -116,6 +118,7 @@ task.prototype.createSubmit = function() {
 
 task.prototype.editTask = function(taskId) {
 	projectObj.clearRest();
+	projectObj.toggleAccordiance("task");
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/editForm",
@@ -135,7 +138,7 @@ task.prototype.editTask = function(taskId) {
 	});
 };
 
-task.prototype.updateValidate = function() {
+task.prototype.updateValidate = function( viewFor ) {
 	$("#update_task_form").validate({
 		rules: {
 			task_end_date: {
@@ -152,7 +155,11 @@ task.prototype.updateValidate = function() {
 	var validator = $( "#update_task_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._tasks.updateSubmit();
+		if(!viewFor) {
+			projectObj._tasks.updateSubmit();
+		} else {
+			projectObj._projects.taskUpdateSubmit();
+		}
 	}
 };
 
@@ -202,13 +209,14 @@ task.prototype.updateSubmit = function() {
 	});
 };
 
-task.prototype.delete = function(task_id, project_id) {
+task.prototype.delete = function(task_id, project_id, viewFor) {
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/delete",
 		data: {
-			task_id: task_id,
-			project_id: project_id
+			task_id 	: 	task_id,
+			project_id 	: 	project_id,
+			viewFor 	: 	viewFor
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -230,6 +238,7 @@ task.prototype.delete = function(task_id, project_id) {
 
 task.prototype.viewOne = function( taskId ) {
 	projectObj.clearRest();
+	projectObj.toggleAccordiance("task");
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/viewOne",
@@ -237,7 +246,7 @@ task.prototype.viewOne = function( taskId ) {
 			taskId: taskId
 		},
 		success: function( response ) {
-			$("#project_content").html(response);
+			$("#task_content").html(response);
 		},
 		error: function( error ) {
 			error = error;

@@ -6,17 +6,17 @@ if(count($project_docs) > 0) {
 	<?php echo $internalLink; ?>
 </div>
 <?php echo $projectNameDescr; ?>
-<h2>Docs List</h3>
+<h2>Project Documents</h3>
 <?php
 }
 ?>
 <div class="docs_list">
 	<!-- List all the Functions from database -->
+	<table cellspacing="0">
 	<?php
 	for($i=0; $i < count($project_docs); $i++) {
 	?>
-	<table>
-		<tr>
+		<tr id="<?php echo 'docId_'.$project_docs[$i]->doc_id; ?>">
 			<td class='cell' colspan="3">
 				<!--<a href="javascript:void(0);" onclick="projectObj._docs.getAttachment('<?php echo $project_docs[$i]->doc_id; ?>')">-->
 				<a href="/projects/docs/downloadAttachment/<?php echo $project_docs[$i]->doc_id; ?>" target="_blank">
@@ -24,11 +24,18 @@ if(count($project_docs) > 0) {
 				</a>
 			</td>
 			<td class='cell'>Created By: <?php echo $project_docs[$i]->created_by_name; ?> on <?php echo $project_docs[$i]->created_date_for_view; ?></td>
+			<?php
+			if($accountType == "admin") {
+			?>
+			<td><a href="javascript:void(0)" onclick="projectObj._docs.delete('<?php echo $project_docs[$i]->doc_id; ?>')">Delete</a></td>
+			<?php
+			}
+			?>
 		</tr>
-	</table>
 	<?php
 	}
 	?>
+	</table>
 </div>
 <?php
 }

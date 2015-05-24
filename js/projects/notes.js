@@ -29,13 +29,15 @@ note.prototype.projectDetails = function( projectId ) {
 	});
 };
 
-note.prototype.viewAll = function(projectId) {
+note.prototype.viewAll = function(projectId, taskId, noteId) {
 	projectObj.resetCounter("notes");
 	projectObj.clearRest(["note_content", "new_note_content"]);
-	this.createForm(projectId);
+	this.createForm(projectId, taskId);
 
 	this.noteListStartRecord 	= this.noteListStartRecord ? this.noteListStartRecord: 0;
-	this.noteListCount 			= this.noteListCount ? this.noteListCount: 5;
+	this.noteListCount 			= this.noteListCount ? this.noteListCount: "All";
+
+	taskId = taskId ? taskId : 0;
 
 	if(!this.noteRequestSent || this.noteRequestSent < this.noteListStartRecord) {
 		$.ajax({
@@ -43,15 +45,18 @@ note.prototype.viewAll = function(projectId) {
 			url: "/projects/notes/viewAll",
 			data: {
 				projectId: 		projectId,
+				taskId: 		taskId,
+				noteId: 		noteId,
 				startRecord: 	projectObj._notes.noteListStartRecord,
 				count: 			projectObj._notes.noteListCount
 			},
 			success: function( response ) {
 				if(response.length) {
+					$("#notesCount").remove();
 					if(projectObj._notes.noteListStartRecord == 0) {
 						$("#note_content").html(response);
 					} else {
-						$("#note_content").append(response);
+						$("#note_list_table").append(response);
 					}
 
 					projectObj._notes.noteRequestSent = projectObj._notes.noteListStartRecord;
@@ -68,7 +73,7 @@ note.prototype.viewAll = function(projectId) {
 	}
 };
 
-note.prototype.createForm = function(projectId) {
+note.prototype.createForm = function(projectId, taskId) {
 	if($("#create_project_note_form").length) {
 		$("input[type='text']").val("");
 		$("textarea").val("");
@@ -78,7 +83,8 @@ note.prototype.createForm = function(projectId) {
 		method: "POST",
 		url: "/projects/notes/createForm",
 		data: {
-			projectId: projectId
+			projectId: projectId,
+			taskId: taskId
 		},
 		success: function( response ) {
 			$("#new_note_content").html(response);
@@ -102,14 +108,16 @@ note.prototype.createValidate = function() {
 
 note.prototype.createSubmit = function() {
 	var projectId 			= $("#projectId").val();
+	var taskId 				= $("#taskId").val();
 	var noteName 			= $("#noteName").val();
 	var noteContent 		= $("#noteContent").val();
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/_notes/add",
+		url: "/projects/notes/add",
 		data: {
 			projectId: 			projectId,
+			taskId: 			taskId,
 			noteName: 			noteName,
 			noteContent: 		noteContent
 		},
@@ -117,7 +125,7 @@ note.prototype.createSubmit = function() {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._notes.viewAll(response.projectId);
+				projectObj._notes.viewAll(response.projectId, response.taskId, response.insertedId);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}

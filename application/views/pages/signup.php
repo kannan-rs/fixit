@@ -20,7 +20,13 @@
 		</div>
 		<div class="label">User Belongs To:</div>
 		<div>
-			<input type="text" name="belongsTo" id="belongsTo" value="" placeholder="User Belongs To" required>
+			<select name="belongsTo" id="belongsTo">
+				<option value="">--Select Belongs To--</option>
+				<option value="customer">Customer</option>
+				<option value="contractor">Contractor</option>
+				<option value="adjuster">Adjuster</option>
+			</select>
+			<!--<input type="text" name="belongsTo" id="belongsTo" value="" placeholder="User Belongs To" required>-->
 		</div>
 		<div class="label">User Type:</div>
 		<div>

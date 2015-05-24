@@ -1,40 +1,83 @@
-<div class="create-link">
-	<?php echo $internalLink; ?>
-</div>
-<?php echo $projectNameDescr; ?>
-<div>
+<?php
+if($viewFor == "" || $viewFor != "projectViewOne") {
+?>
+	<div class="create-link">
+		<?php echo $internalLink; ?>
+	</div>
+	<?php echo $projectNameDescr; ?>
 	<h2>Tasks List</h2>
-	<!-- List all the Functions from database -->
-	<table  cellspacing="0">
-	
-	<?php
-		if(count($tasks) > 0) {
-			echo "<tr class='heading'>";
-			echo "<td class='cell'>Sno</td>";
-			echo "<td class='cell'>Task Name</td>";
-			echo "<td class='cell'>% Complete</td>";
-			echo "<td class='cell'>Start Date</td>";
-			echo "<td class='cell'>End Date</td>";
-			echo "<td class='cell'>Action</td>";
-			echo "</tr>";
-		}
+<?php
+}
+?>
+<!--<h2>Tasks List</h2>-->
+<!-- List all the Functions from database -->
+<table  cellspacing="0" class="viewAll">
 
-		for($i = 0; $i < count($tasks); $i++) { 
-			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "projectObj._tasks.delete(".$tasks[$i]->task_id.",".$tasks[$i]->project_id.")" : "";
-			echo "<tr class='row viewAll'>";
-			echo "<td class='cell number'>".($i+1)."</td>";
-			echo "<td class='cell'>";
-			echo "<a href=\"javascript:void(0);\" onclick=\"projectObj._tasks.viewOne('".$tasks[$i]->task_id."')\">". $tasks[$i]->task_name;
-			echo "</a></td>";
-			echo "<td class='cell percentage'>". $tasks[$i]->task_percent_complete ."</td>";
-			echo "<td class='cell date'>". $tasks[$i]->task_start_date_for_view ."</td>";
-			echo "<td class='cell date'>". $tasks[$i]->task_end_date_for_view ."</td>";
-			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"projectObj._tasks.editTask('".$tasks[$i]->task_id."')\">Edit</a></span>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$deleteText."</a></span></td>";
-			echo "</tr>";
-		}
-	?>
-	</table>
-</div>
+<?php
+	if(count($tasks) > 0) {
+?>
+		<tr class='heading'>
+			<!--<td class='cell'>Sno</td>-->
+			<td class='cell'>Task Name</td>
+			<td class='cell'>Description</td>
+			<td class='cell'>Owner</td>
+			<td class='cell'>% Complete</td>
+			<td class='cell'>Start Date</td>
+			<td class='cell'>End Date</td>
+			<td class='cell'></td>
+		</tr>
+<?php
+	}
+
+	for($i = 0; $i < count($tasks); $i++) { 
+		
+		$taskId 		= $tasks[$i]->task_id;
+		$task_name 		= $tasks[$i]->task_name ? $tasks[$i]->task_name : "--";
+		$descr 			= ($tasks[$i]->task_desc != "") ? $tasks[$i]->task_desc : '--';
+		$percent 		= $tasks[$i]->task_percent_complete;
+		$stard_date 	= $tasks[$i]->task_start_date_for_view;
+		$end_date 		= $tasks[$i]->task_end_date_for_view;
+		$projectId 		= $tasks[$i]->project_id;
+		
+		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.delete" : "projectObj._projects.taskDelete";
+		$deleteFn  .= "(".$taskId.",".$projectId.")";
+
+		$viewOneFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.viewOne" : "projectObj._projects.taskViewOne";
+		$viewOneFn .= "('".$taskId."')";
+
+		$editFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.editTask" : "projectObj._projects.editTask";
+		$editFn    .= "('".$taskId."')";
+?>
+		<tr class='row' id="task_<?php echo $taskId; ?>">
+			<!--<td class='cell number'>".($i+1)."</td>-->
+			<td class='cell'>
+				<a href="javascript:void(0);" onclick="<?php echo $viewOneFn; ?>">
+					<?php echo $task_name; ?>
+				</a>
+			</td>
+			<td class='cell'><?php echo $descr; ?></td>
+			<td class='cell'>-- To be decided --</td>
+			<td class='cell percentage'><?php echo $percent; ?></td>
+			<td class='cell date'><?php echo  $stard_date; ?></td>
+			<td class='cell date'><?php echo  $end_date; ?></td>
+			<td class='cell table-action'>
+				<!--<span>
+					<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projectId; ?>','<?php echo $taskId; ?>',0, 5)">Notes</a>
+				</span>-->
+				<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>"></a></span>
+				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"></a></span>
+
+				<!--
+				<span>
+					<a href="javascript:void(0);" onclick="projectObj._tasks.editTask('<?php echo $taskId; ?>')">Edit</a>
+				</span>
+				<span>
+					<a href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"><?php echo $deleteText; ?></a>
+				</span>
+				-->
+			</td>
+		</tr>
+<?php
+	}
+?>
+</table>

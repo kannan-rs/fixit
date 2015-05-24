@@ -18,27 +18,35 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('projects/model_projects');
 
-		$projectId = $this->input->post('projectId');
+		$projectId 	= $this->input->post('projectId');
+		$viewFor 	= $this->input->post('viewFor');
 
-		$parent_record = $this->model_projects->get_projects_list($projectId);
+		$viewFor = $viewFor ? $viewFor : "";
+
+		$project = $this->model_projects->get_projects_list($projectId);
 		
 		$tasks = $this->model_tasks->get_tasks_list($projectId);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["notes", "documents", "create task"],
+			"internalLinkArr" 		=> ["project notes", "documents", "create task"],
 			"projectId" 			=> $projectId
 		);
 
 		$paramsNameDescr 	= array(
-			'projectName' 		=> $parent_record[0]->project_name,
-			'projectDescr' 		=> $parent_record[0]->project_descr,
+			'projectId' 		=> $projectId,
+			'projectName' 		=> $project[0]->project_name,
+			'projectDescr' 		=> $project[0]->project_descr
 		);
 
+		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
+		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
+
 		$params = array(
-			'tasks'=>$tasks,
-			'projectId' => $projectId,
-			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
+			'tasks' 			=>$tasks,
+			'projectId' 		=> $projectId,
+			'viewFor' 			=> $viewFor,
+			'projectNameDescr' 	=> $projectNameDescr,
+			'internalLink' 		=> $internalLink
 		);
 		
 		echo $this->load->view("projects/tasks/viewAll", $params, true);
@@ -53,12 +61,13 @@ class Tasks extends CI_Controller {
 		$parent_record = $this->model_projects->get_projects_list($projectId);
 
 		$paramsNameDescr 	= array(
+			'projectId' 		=> $projectId,
 			'projectName' 		=> $parent_record[0]->project_name,
 			'projectDescr' 		=> $parent_record[0]->project_descr,
 		);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"internalLinkArr" 		=> ["tasks", "project notes", "documents"],
 			"projectId" 			=> $projectId
 		);
 
@@ -106,7 +115,10 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 
 
-		$record = $this->input->post('taskId');
+		$record 	= $this->input->post('taskId');
+		$viewFor 	= $this->input->post('viewFor');
+		$viewFor 	= $viewFor ? $viewFor : "";
+
 
 		$tasks = $this->model_tasks->get_task($record);
 
@@ -114,21 +126,26 @@ class Tasks extends CI_Controller {
 		$parent_record 	= $this->model_projects->get_projects_list($projectId);
 
 		$paramsNameDescr 	= array(
+			'projectId' 		=> $projectId,
 			'projectName' 		=> $parent_record[0]->project_name,
 			'projectDescr' 		=> $parent_record[0]->project_descr,
 		);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
+			"internalLinkArr" 		=> ["tasks", "project notes", "documents"],
 			"projectId" 			=> $projectId
 		);
 
+		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
+		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
+
 		$params = array(
-			'tasks'=>$tasks,
-			'users' => $this->model_users->get_users_list(),
-			'projectId' => $projectId,
-			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
+			'tasks' 			=>$tasks,
+			'users' 			=> $this->model_users->get_users_list(),
+			'projectId' 		=> $projectId,
+			'projectNameDescr' 	=> $projectNameDescr,
+			'internalLink' 		=> $internalLink,
+			'viewFor' 			=> $viewFor
 		);
 		
 		echo $this->load->view("projects/tasks/editForm", $params, true);
@@ -164,8 +181,6 @@ class Tasks extends CI_Controller {
 
 	public function delete() {
 		$this->load->model('projects/model_tasks');
-		$this->load->model('projects/model_projects');
-
 
 		$task_id = $this->input->post('task_id');
 		$project_id = $this->input->post('project_id');
@@ -180,7 +195,9 @@ class Tasks extends CI_Controller {
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
 
-		$record = $this->input->post('taskId');
+		$record 	= $this->input->post('taskId');
+		$viewFor 	= $this->input->post('viewFor');
+		$viewFor 	= $viewFor ? $viewFor : "";
 
 		$tasks = $this->model_tasks->get_task($record);
 
@@ -191,22 +208,28 @@ class Tasks extends CI_Controller {
 		$parent_record 	= $this->model_projects->get_projects_list($projectId);
 
 		$paramsNameDescr 	= array(
+			'projectId' 		=> $projectId,
 			'projectName' 		=> $parent_record[0]->project_name,
 			'projectDescr' 		=> $parent_record[0]->project_descr,
 		);
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "notes", "documents"],
-			"projectId" 			=> $projectId
+			"internalLinkArr" 		=> ["tasks", "task notes", "documents"],
+			"projectId" 			=> $projectId,
+			'taskId' 				=> $tasks[0]->task_id
 		);
+
+		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
+		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
 		$params = array(
 			'tasks'=>$tasks,
 			'created_by' => $created_by,
 			'updated_by' => $updated_by,
 			'projectId' => $projectId,
-			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
+			'projectNameDescr' 	=> $projectNameDescr,
+			'internalLink' 	=> $internalLink,
+			'viewFor' 	=> $viewFor
 		);
 		
 		echo $this->load->view("projects/tasks/viewOne", $params, true);

@@ -20,20 +20,13 @@ class Notes extends CI_Controller {
 		$this->load->model('projects/model_projects');
 
 		$projectId 			= $this->input->post('projectId');
-		$taskId 			= $this->input->post('taskId');
 		$startRecord 		= $this->input->post('startRecord');
 		$count 				= $this->input->post('count');
-		$noteId 			= $this->input->post('noteId');
-		$viewFor 			= $this->input->post('viewFor');
-
-		$viewFor 			= $viewFor ? $viewFor : "";
 
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		$count 				= $count != "" ? $count : 5;
 
-		$project_notes 		= $this->model_notes->get_notes_list($projectId, $taskId, $noteId, $startRecord, $count);
-
-		$count 				= $this->model_notes->count($projectId, $taskId);
+		$project_notes 		= $this->model_notes->get_notes_list($projectId, 0, $startRecord, $count);
 
 		for($i=0; $i < count($project_notes); $i++) {
 			$project_notes[$i]->created_by_name = $this->model_users->get_users_list($project_notes[$i]->created_by)[0]->user_name;
@@ -43,7 +36,6 @@ class Notes extends CI_Controller {
 		$project 			= $this->model_projects->get_projects_list($projectId);
 
 		$paramsNameDescr 	= array(
-			'projectId' 		=> $projectId,
 			'projectName' 		=> $project[0]->project_name,
 			'projectDescr' 		=> $project[0]->project_descr
 		);
@@ -53,17 +45,12 @@ class Notes extends CI_Controller {
 			"projectId" 			=> $projectId
 		);
 
-		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
-		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";	
-
 		$params = array(
 			'project_notes' 	=> $project_notes,
 			'startRecord' 		=> $startRecord,
 			'projectId' 		=> $projectId,
-			'count' 			=> $count,
-			'projectNameDescr' 	=> $projectNameDescr,
-			'internalLink' 		=> $internalLink,
-			'viewFor' 			=> $viewFor
+			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
+			'internalLink' 		=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/notes/viewAll", $params, true);
@@ -71,11 +58,10 @@ class Notes extends CI_Controller {
 	
 	public function createForm() {
 		$projectId			= $this->input->post('projectId');
-		$taskId				= $this->input->post('taskId');
 		$params = array(
 			'function'		=>"createFormNotes",
-			'projectId' 	=> $projectId,
-			'taskId' 		=> $taskId
+			'record'		=>"",
+			'projectId' 	=> $projectId
 		);
 
 		echo $this->load->view("projects/notes/createForm", $params, true);
@@ -86,7 +72,6 @@ class Notes extends CI_Controller {
 
 		$data = array(
 			'project_id'		=> $this->input->post('projectId'),
-			'task_id'			=> $this->input->post('taskId'),
 			'notes_name'		=> $this->input->post('noteName'),
 			'notes_content'		=> $this->input->post('noteContent'),
 			'created_by'		=> $this->session->userdata('user_id'),
@@ -99,19 +84,8 @@ class Notes extends CI_Controller {
 
 		if($insert_notes["status"] == "success") {
 			$insert_notes["projectId"] = $this->input->post('projectId');
-			$insert_notes["taskId"] = $this->input->post('taskId');
 		}
 
 		print_r(json_encode($insert_notes));
-	}
-
-	public function delete() {
-		$this->load->model('projects/model_notes');
-
-		$noteId = $this->input->post('noteId');
-
-		$delete_task = $this->model_notes->delete($noteId);
-
-		print_r(json_encode($delete_task));
 	}
 }

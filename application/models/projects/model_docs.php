@@ -54,4 +54,23 @@ class Model_docs extends CI_Model {
 		}
 		return $response;
 	}
+
+	public function delete($record) {
+		$response = array(
+			'status' => 'error'
+		);
+		if($record && $record!= "") {
+			$this->db->where('doc_id', $record);
+			
+			if($this->db->delete('project_docs')) {
+				$response['status']		= "success";
+				$response['message']	= "Document Deleted Successfully";
+			} else {
+				$response["message"] = "Error while deleting the Document";
+			}
+		} else {
+			$response['message']	= 'Invalid Document, Please try again';
+		}
+		return $response;
+	}
 }

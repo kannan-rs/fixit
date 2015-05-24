@@ -116,9 +116,9 @@ h2 {
 	text-transform:none;
 }
 h3 {
-	color:#222;
+	color: #244C61;
 	font-size:1.2em;
-	font-weight:bold;
+	font-weight:normal;
 	padding-bottom:10px;
 }
 h4 {
@@ -265,7 +265,7 @@ a, a:visited {
 	color:#4086AA;
 } 
 a:hover { 
-	color:#2B5B78; 
+	color:#2B5B78;
 }
 div.sidebar a {
 	color:#4086AA;

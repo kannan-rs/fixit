@@ -1,14 +1,25 @@
 <?php
 	//Edit Individual
 	$i = 0;
+	 $updateFn = "projectObj.";
+
+	if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
-<div class="create-link">
-	<?php echo $internalLink; ?>
-</div>
-<?php echo $projectNameDescr; ?>
-<h2>Edit Task</h3>
+	<div class="create-link">
+		<?php echo $internalLink; ?>
+	</div>
+	<?php echo $projectNameDescr; ?>
+	<h2>Edit Task</h2>
+<?php
+		$updateFn .= "_projects";
+	} else {
+		$updateFn .= "_tasks";
+	}
+	$updateFn .= ".updateValidate('".$viewFor."')";
+?>
 <form id="update_task_form" name="update_task_form">
 	<input type="hidden" id='task_sno' value="<?php echo $tasks[$i]->task_id; ?>" />
+	<input type="hidden" id='projectId' value="<?php echo $tasks[$i]->project_id; ?>" />
 	<div class='form'>
 		<div class="label">Task Title:</div>
 		<div><input type="text" name="task_name" id="task_name" value="<?php echo $tasks[$i]->task_name; ?>"></div>
@@ -39,7 +50,7 @@
 		<div class="label">Trade Type:</div>
 		<div><input type="text" name="task_trade_type" id="task_trade_type" value="<?php echo $tasks[$i]->task_trade_type; ?>"></div>
 		<p class="button-panel">
-			<button type="button" id="update_task_submit" onclick="projectObj._tasks.updateValidate()">Update Task</button>
+			<button type="button" id="update_task_submit" onclick="<?php echo $updateFn; ?>">Update Task</button>
 		</p>
 	</div>
 </form>
