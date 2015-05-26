@@ -92,6 +92,7 @@ table.viewOne.projectViewOne {
 .project_section {
 	border: 0px;
 }
+
 /* Page Links */
 .create-link {
 	margin-bottom: 20px;
@@ -125,4 +126,22 @@ table.viewOne.projectViewOne {
 
 table.viewAll tr td {
 	padding:5px;
+}
+
+a.accordion_link {
+	width: 100px;
+	position: absolute;
+	margin-left: 600px;
+	font-size: 12px;
+	text-decoration: underline !important;
+	text-align: right;
+	float: left;
+	left: 0px;
+}
+
+a.accordion_link, a.accordion_link:visited { 
+	color:#4086AA !important;
+} 
+a.accordion_link:hover { 
+	color:#2B5B78  !important;
 }

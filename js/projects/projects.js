@@ -230,6 +230,7 @@ project.prototype.delete = function(projectId) {
 };
 
 project.prototype.viewOne = function(projectId) {
+	this.projectId = projectId;
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("project", "viewOne");
 	
@@ -506,4 +507,14 @@ project.prototype.openDialog = function() {
       	modal: true
   	});
   	popupDialog.dialog("open");
+}
+
+project.prototype.addTask = function( ) {
+	console.log(this.projectId);
+	event.stopPropagation();
+}
+
+project.prototype.addNote = function( ) {
+	console.log(this.projectId);
+	event.stopPropagation();
 }

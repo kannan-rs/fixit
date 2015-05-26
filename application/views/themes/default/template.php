@@ -12,8 +12,8 @@ session = <?php print_r(json_encode($initVar)); ?>;
 
 <?php 
 	echo $includes; 
-	$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-640";
-	$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-640";
+	$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-700";
+	$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
 ?>
 </head>
 <body>
