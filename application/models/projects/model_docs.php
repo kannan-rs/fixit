@@ -7,7 +7,7 @@ class Model_docs extends CI_Model {
 			return [];
 		}
 
-		$this->db->limit($count, $startRecord);
+		//$this->db->limit($count, $startRecord);
 
 		$this->db->select([
 				"*", 

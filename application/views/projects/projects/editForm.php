@@ -1,10 +1,14 @@
+<!--
 <div class="create-link">
 	<?php echo $internalLink; ?>
 </div>
+-->
 <?php
 	$i = 0;
 ?>
+<!--
 <h2>Edit Project</h3>
+-->
 <form id="update_project_form" name="update_project_form" class="inputForm">
 	<input type="hidden" id='project_sno' value="<?php echo $projects[$i]->proj_id; ?>" />
 	<div class='form'>

@@ -78,13 +78,20 @@ table.viewOne.projectViewOne {
 	background-color: transparent;
 	background-image: none;
 	border:0px;
+	/*color: #244C61;*/
+}
+
+span.inner_accordion {
+	font-size: 12px;
+	color: rgb(85, 85, 85);
+	padding: 1px 5px 1px 5px;
+	background: #dddddd;
 }
 
 .accordion h2 {
-	/*border-bottom: 1px solid #cccccc;*/
 	padding: 5px 5px 0px 40px !important;
 	color:#244C61 !important;
-	font-size:1.7em !important;
+	font-size:1.2em !important;
 	font-weight:normal;
 	text-transform:none !important;
 }

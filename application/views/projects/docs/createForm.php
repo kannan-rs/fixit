@@ -1,5 +1,5 @@
 <!-- Add Function Start -->
-<h2>Attach Document</h3>
+<!-- <h2>Attach Document</h3>-->
 <form id="create_project_doc_form" name="create_project_doc_form" class="inputForm" enctype="multipart/form-data">
 	<div class='form'>
 		<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
@@ -20,7 +20,6 @@
 <script>
 $("#create_project_doc_form").on('submit',(function(e) {
 	e.preventDefault();
-	//$("#notification").show().text("Uploading ..."); 
 	
 	$.ajax({
     	url: "/projects/docs/add",
@@ -31,10 +30,12 @@ $("#create_project_doc_form").on('submit',(function(e) {
 		processData:false,
 		success: function( response ) {
 			response = $.parseJSON(response);
-			alert(response.message);
 			if(response.status == "success") {
-				projectObj._docs.viewAll($("#projectId").val(), "new");
+				$(".ui-button").trigger("click");
+				projectObj._projects.getProjectDocumentList();
 			}
+			alert(response.message);
+			
 	    },
 		error: function( error ) {
 			error = error;

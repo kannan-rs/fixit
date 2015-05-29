@@ -115,7 +115,7 @@ project.prototype.createSubmit = function() {
 }
 
 project.prototype.editProject = function(projectId) {
-	projectObj.clearRest();
+	//projectObj.clearRest();
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/editForm",
@@ -123,7 +123,10 @@ project.prototype.editProject = function(projectId) {
 			'projectId' : projectId
 		},
 		success: function( response ) {
-			$("#project_content").html(response);
+			//$("#project_content").html(response);
+			$("#popupForAll").attr("title", "Edit Project")
+			$("#popupForAll").html(response);
+			projectObj._projects.openDialog();
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
 		},
@@ -188,8 +191,9 @@ project.prototype.updateSubmit = function() {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				alert(response.message);
+				$(".ui-button").trigger("click");
 				projectObj._projects.viewOne(response.updatedId);
+				alert(response.message);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -254,6 +258,11 @@ project.prototype.viewOne = function(projectId) {
 	// Project Notes
 	setTimeout(function() {
 		projectObj._projects.getProjectNotesList(projectId);
+	}, 0);
+
+	// Project Notes
+	setTimeout(function() {
+		projectObj._projects.getProjectDocumentList();
 	}, 0);
 };
 
@@ -338,6 +347,81 @@ project.prototype.getProjectNotesList = function(projectId) {
 	});
 }
 
+project.prototype.getProjectDocumentList = function() {
+	$.ajax({
+		method: "POST",
+		url: "/projects/docs/viewAll",
+		data: {
+			projectId: 		projectObj._projects.projectId,
+			startRecord: 	projectObj._docs.docsListStartRecord
+		},
+		success: function( response ) {
+			if(response.length) {
+				//if(projectObj._docs.docsListStartRecord == 0) {
+					$("#attachment_content").html(response);
+				//} else {
+				//	$("#attachment_content").append(response);
+				//}
+				//projectObj._docs.docsRequestSent = projectObj._docs.docsListStartRecord;
+				//projectObj._docs.docsListStartRecord += 10;
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.addDocumentForm = function() {
+	event.stopPropagation();
+	$.ajax({
+		method: "POST",
+		url: "/projects/docs/createForm",
+		data: {
+			projectId: projectObj._projects.projectId,
+		},
+		success: function( response ) {
+			$("#popupForAll").attr("title", "Add Document");
+			$("#popupForAll").html(response);
+			projectObj._projects.openDialog();
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+};
+
+project.prototype.documentDelete = function ( doc_id ) {
+		$.ajax({
+		method: "POST",
+		url: "/projects/docs/delete",
+		data: {
+			docId: doc_id
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				$("#docId_"+response.docId).remove();
+				alert(response.message);
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
 project.prototype.taskDelete = function(task_id, project_id) {
 	$.ajax({
 		method: "POST",
@@ -375,8 +459,8 @@ project.prototype.notesDelete = function(noteId) {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				alert(response.message);
 				$("#notes_"+noteId).remove();
+				alert(response.message);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -413,6 +497,55 @@ project.prototype.taskViewOne = function(taskId) {
 	});
 }
 
+project.prototype.addTask = function( ) {
+	event.stopPropagation();
+	$.ajax({
+		method: "POST",
+		url: "/projects/tasks/createForm",
+		data: {
+			projectId: projectObj._projects.projectId,
+			viewFor 	: 'projectViewOne'
+		},
+		success: function( response ) {
+			$("#popupForAll").attr("title", "Add Task")
+			$("#popupForAll").html(response);
+			projectObj._projects.openDialog();
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.addProjectNote = function( ) {
+	event.stopPropagation();
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/notes/createForm",
+		data: {
+			projectId 	: projectObj._projects.projectId,
+			taskId 		: "",
+			viewFor 	: 'projectViewOne'
+		},
+		success: function( response ) {
+			$("#popupForAll").attr("title", "Add Notes")
+			$("#popupForAll").html(response);
+			projectObj._projects.openDialog();
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+
+}
+
 project.prototype.editTask = function(taskId) {
 	$.ajax({
 		method: "POST",
@@ -436,6 +569,86 @@ project.prototype.editTask = function(taskId) {
 	});
 };
 
+project.prototype.taskCreateSubmit = function() {
+	parentId 					= $("#parentId").val();
+	task_name 					= $("#task_name").val();
+	task_desc 					= $("#task_desc").val();
+	task_start_date 			= $("#task_start_date").val();
+	task_end_date 				= $("#task_end_date").val();
+	task_status					= $("#task_status").val();
+	task_owner_id				= $("#task_owner_id").val();
+	task_percent_complete		= $("#task_percent_complete").val();
+	task_dependency				= $("#task_dependency").val();
+	task_trade_type				= $("#task_trade_type").val();
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/tasks/add",
+		data: {
+			parentId: 				projectObj._projects.projectId,
+			task_name: 				task_name,
+			task_desc: 				task_desc,
+			task_start_date: 		task_start_date,
+			task_end_date: 			task_end_date,
+			task_status: 			task_status,
+			task_owner_id: 			task_owner_id,
+			task_percent_complete: 	task_percent_complete,
+			task_dependency: 		task_dependency,
+			task_trade_type: 		task_trade_type
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				alert(response.message);
+				//projectObj._tasks.viewOne(response.insertedId);
+				projectObj._projects.getProjectTasksList(projectObj._projects.projectId);
+				projectObj._projects.taskViewOne(response.insertedId);
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.noteCreateSubmit = function() {
+	var projectId 			= $("#projectId").val();
+	var taskId 				= $("#taskId").val();
+	var noteName 			= $("#noteName").val();
+	var noteContent 		= $("#noteContent").val();
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/notes/add",
+		data: {
+			projectId: 			projectId,
+			taskId: 			taskId,
+			noteName: 			noteName,
+			noteContent: 		noteContent
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				alert(response.message);
+				projectObj._projects.getProjectNotesList(response.projectId);
+				$(".ui-button").trigger("click");
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+};
 
 project.prototype.taskUpdateSubmit = function() {
 	projectId 				= $("#projectId").val();
@@ -470,7 +683,6 @@ project.prototype.taskUpdateSubmit = function() {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				//projectObj._tasks.viewOne(response.updatedId);
 				projectObj._projects.getProjectTasksList(projectId);
 				projectObj._projects.taskViewOne(task_id);
 			} else if(response.status.toLowerCase() == "error") {
@@ -500,21 +712,11 @@ project.prototype.setMandatoryFields = function(){
 }
 
 project.prototype.openDialog = function() {
-	popupDialog = $( "#popupForAll" ).dialog({
+	this.popupDialog = $( "#popupForAll" ).dialog({
       	autoOpen: false,
-      	height: "auto",
+      	maxHeight : 700,
       	width: 700,
       	modal: true
   	});
-  	popupDialog.dialog("open");
-}
-
-project.prototype.addTask = function( ) {
-	console.log(this.projectId);
-	event.stopPropagation();
-}
-
-project.prototype.addNote = function( ) {
-	console.log(this.projectId);
-	event.stopPropagation();
+  	this.popupDialog.dialog("open");
 }

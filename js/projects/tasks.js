@@ -49,7 +49,7 @@ task.prototype.createForm = function( projectId ) {
 	});
 };
 
-task.prototype.createValidate =  function () {
+task.prototype.createValidate =  function ( viewFor ) {
 	$("#create_task_form").validate({
 		rules: {
 			task_end_date: {
@@ -67,7 +67,11 @@ task.prototype.createValidate =  function () {
 
 
 	if(validator.form()) {
-		projectObj._tasks.createSubmit();
+		if(!viewFor) {
+			projectObj._tasks.createSubmit();
+		} else {
+			projectObj._projects.taskCreateSubmit();
+		}
 	}
 };
 

@@ -190,7 +190,8 @@ class Projects extends CI_Controller {
 		}
 
 		$internalLinkParams = array(
-			"internalLinkArr" 		=> ["tasks", "project notes", "documents", "update project", "delete project"],
+			//"internalLinkArr" 		=> ["tasks", "project notes", "documents", "update project", "delete project"],
+			"internalLinkArr" 		=> ["update project", "delete project"],
 			"projectId" 			=> $projectId
 		);
 

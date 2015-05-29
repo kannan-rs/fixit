@@ -98,11 +98,16 @@ note.prototype.createForm = function(projectId, taskId) {
 	});
 };
 
-note.prototype.createValidate = function() {
+note.prototype.createValidate = function( viewFor ) {
 	var validator = $( "#create_project_note_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._notes.createSubmit();
+		if(!viewFor) {
+			projectObj._notes.createSubmit();
+		} else {
+			projectObj._projects.noteCreateSubmit();
+		}
+		
 	}	
 };
 

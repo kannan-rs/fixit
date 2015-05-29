@@ -1,7 +1,7 @@
 <?php
 	//Edit Individual
 	$i = 0;
-	 $updateFn = "projectObj.";
+	 $updateFn = "projectObj._tasks.updateValidate('".$viewFor."')";
 
 	if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
@@ -11,11 +11,7 @@
 	<?php echo $projectNameDescr; ?>
 	<h2>Edit Task</h2>
 <?php
-		$updateFn .= "_projects";
-	} else {
-		$updateFn .= "_tasks";
 	}
-	$updateFn .= ".updateValidate('".$viewFor."')";
 ?>
 <form id="update_task_form" name="update_task_form">
 	<input type="hidden" id='task_sno' value="<?php echo $tasks[$i]->task_id; ?>" />

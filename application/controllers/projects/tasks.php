@@ -57,6 +57,7 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 
 		$projectId = $this->input->post('projectId');
+		$viewFor 	= $this->input->post('viewFor');
 
 		$parent_record = $this->model_projects->get_projects_list($projectId);
 
@@ -71,10 +72,14 @@ class Tasks extends CI_Controller {
 			"projectId" 			=> $projectId
 		);
 
+		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
+		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
+		
 		$params = array(
-			'projectId' 	=> $projectId,
-			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
+			'projectId' 		=> $projectId,
+			'projectNameDescr' 	=> $projectNameDescr,
+			'internalLink' 		=> $internalLink,
+			'viewFor' 			=> $viewFor,
 		);
 
 		echo $this->load->view("projects/tasks/createForm", $params, true);

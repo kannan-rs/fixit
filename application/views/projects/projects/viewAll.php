@@ -32,9 +32,11 @@
 				<td class="cell date"><?php echo $projects[$i]->start_date; ?></td>
 				<td class="cell dates"><?php echo $projects[$i]->end_date; ?></td>
 				<td class='cell table-action'>
+					<!--
 					<span><a class="step fi-list-thumbnails size-21" href="javascript:void(0);" onclick="projectObj._tasks.viewAll('<?php echo $projects[$i]->proj_id; ?>')" title="Tasks"></a></span>
 					<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projects[$i]->proj_id; ?>')" title="Notes"></a></span>
 					<span><a class="step fi-page-doc size-21" href="javascript:void(0);" onclick="projectObj._docs.viewAll('<?php echo $projects[$i]->proj_id; ?>')" title="Documents"></a></span>
+					-->
 				</td>
 			</tr>
 	<?php

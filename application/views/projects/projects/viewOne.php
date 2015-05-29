@@ -27,7 +27,7 @@
 		</tr>
 	</table>
 	<div id="accordion" class="accordion">
-		<h3>Customer Details</h3>
+		<h3><span class="inner_accordion">Customer Details<span></h3>
 		<div>
 			<table cellspacing="0" class="viewOne projectViewOne">
 				<tr>
@@ -52,7 +52,7 @@
 				</tr>
 			</table>
 		</div>
-		<h3>Insurance Details</h3>
+		<h3><span class="inner_accordion">Insurance Details<span></h3>
 		<div>
 			<table cellspacing="0" class="viewOne projectViewOne">
 				<tr>

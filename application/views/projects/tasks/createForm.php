@@ -1,12 +1,22 @@
-<div class="create-link">
-	<?php echo $internalLink; ?>
-</div>
-<?php echo $projectNameDescr; ?>
-<!-- Add Function Start -->
-<h2>Create Task</h3>
+<?php
+$createFn = "projectObj._tasks.createValidate('".$viewFor."')";
+
+if($viewFor == "" || $viewFor != "projectViewOne") {
+	echo "<div class=\"create-link\">".$internalLink."</div>";
+	echo $projectNameDescr; 
+
+	echo "<h2>Create Task</h3>";
+}
+?>
 	<form id="create_task_form" name="create_task_form">
 	<div class='form'>
-		<input type="hidden" name="parentId" id="parentId" value="<?php echo $projectId; ?>">
+	<?php
+		if($viewFor == "" || $viewFor != "projectViewOne") {
+	?>
+		<input type="hidden" name="parentId" id="parentId" value="<?php //echo $projectId; ?>">
+	<?php
+		}
+	?>
 		<div class="label">Task Name:</div>
 		<div><input type="text" name="task_name" id="task_name" value=""></div>
 		<div class="label">Description:</div>
@@ -35,7 +45,7 @@
 		<div class="label">Trade Type:</div>
 		<div><input type="text" name="task_trade_type" id="task_trade_type" value=""></div>
 		<p class="button-panel">
-			<button type="button" id="create_task_submit" onclick="projectObj._tasks.createValidate()">Create Task</button>
+			<button type="button" id="create_task_submit" onclick="<?php echo $createFn; ?>">Add Task</button>
 		</p>
 	</div>
 </form>

@@ -72,10 +72,13 @@ class Notes extends CI_Controller {
 	public function createForm() {
 		$projectId			= $this->input->post('projectId');
 		$taskId				= $this->input->post('taskId');
+		$viewFor 			= $this->input->post('viewFor');
+
 		$params = array(
 			'function'		=>"createFormNotes",
 			'projectId' 	=> $projectId,
-			'taskId' 		=> $taskId
+			'taskId' 		=> $taskId,
+			'viewFor' 		=> $viewFor
 		);
 
 		echo $this->load->view("projects/notes/createForm", $params, true);
