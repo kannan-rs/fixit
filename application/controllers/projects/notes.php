@@ -60,6 +60,7 @@ class Notes extends CI_Controller {
 			'project_notes' 	=> $project_notes,
 			'startRecord' 		=> $startRecord,
 			'projectId' 		=> $projectId,
+			'taskId' 			=> $taskId,
 			'count' 			=> $count,
 			'projectNameDescr' 	=> $projectNameDescr,
 			'internalLink' 		=> $internalLink,

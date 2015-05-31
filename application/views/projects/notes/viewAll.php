@@ -1,6 +1,6 @@
 <?php
-if(count($project_notes) > 0) {
-	if($startRecord == 0) {
+//if(count($project_notes) > 0) {
+//	if($startRecord == 0) {
 		if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 	<div class="create-link">
@@ -15,13 +15,13 @@ if(count($project_notes) > 0) {
 	<!-- List all the Functions from database -->
 <table cellspacing="0" id="note_list_table">
 <?php
-}
+//}
 ?>
 	<?php
 	for($i=0; $i < count($project_notes); $i++) {
 
 		$deleteFn = ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._notes.delete" : "projectObj._projects.notesDelete";
-		$deleteFn .= "(".$project_notes[$i]->notes_id.")";
+		$deleteFn .= "(".$project_notes[$i]->notes_id.", ".$project_notes[$i]->task_id.")";
 	?>
 		<!--
 		<tr>
@@ -54,11 +54,11 @@ if(count($project_notes) > 0) {
 	}
 ?>
 <?php
-if($startRecord == 0) {
+//if($startRecord == 0) {
 ?>
 </table>
 </div>
 <?php
-	}
-}
+//	}
+//}
 ?>

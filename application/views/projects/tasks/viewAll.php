@@ -48,7 +48,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$editFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.editTask" : "projectObj._projects.editTask";
 		$editFn    .= "('".$taskId."')";
 
-		$notesFn 	= "projectObj._projects.NotesForTaskviewAll('".$projectId."','".$taskId."',0, 5)";
+		$notesFn 		= "projectObj._projects.getTaskNotesList('".$taskId."',0, 5);";
+		//$notesCreateFn = "projectObj._projects.addTaskNote('".$taskId."');";
 ?>
 		<tr class='row' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->

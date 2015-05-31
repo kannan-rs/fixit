@@ -114,19 +114,18 @@ project.prototype.createSubmit = function() {
 	});
 }
 
-project.prototype.editProject = function(projectId) {
-	//projectObj.clearRest();
+project.prototype.editProject = function() {
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/editForm",
 		data: {
-			'projectId' : projectId
+			'projectId' : projectObj._projects.projectId
+			
 		},
 		success: function( response ) {
 			//$("#project_content").html(response);
-			$("#popupForAll").attr("title", "Edit Project")
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title" : "Edit Project"});
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
 		},
@@ -208,12 +207,12 @@ project.prototype.updateSubmit = function() {
 	});
 };
 
-project.prototype.delete = function(projectId) {
+project.prototype.delete = function() {
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/delete",
 		data: {
-			projectId: projectId
+			projectId: projectObj._projects.projectId
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -247,17 +246,17 @@ project.prototype.viewOne = function(projectId) {
 	);
 	// Project Details View
 	setTimeout(function() {
-		projectObj._projects.getProjectDetails(projectId);
+		projectObj._projects.getProjectDetails();
 	}, 0);
 
 	// Project Task List
 	setTimeout(function() {
-		projectObj._projects.getProjectTasksList(projectId);
+		projectObj._projects.getProjectTasksList();
 	}, 0);
 
 	// Project Notes
 	setTimeout(function() {
-		projectObj._projects.getProjectNotesList(projectId);
+		projectObj._projects.getProjectNotesList();
 	}, 0);
 
 	// Project Notes
@@ -266,12 +265,12 @@ project.prototype.viewOne = function(projectId) {
 	}, 0);
 };
 
-project.prototype.getProjectDetails = function(projectId) {
+project.prototype.getProjectDetails = function() {
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/viewOne",
 		data: {
-			projectId: projectId
+			projectId: projectObj._projects.projectId
 		},
 		success: function( response ) {
 			$("#project_content").html(response);
@@ -292,12 +291,12 @@ project.prototype.getProjectDetails = function(projectId) {
 	});
 }
 
-project.prototype.getProjectTasksList = function(projectId) {
+project.prototype.getProjectTasksList = function() {
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/viewAll",
 		data: {
-			projectId 	: projectId,
+			projectId 	: projectObj._projects.projectId,
 			viewFor 	: 'projectViewOne'
 		},
 		success: function( response ) {
@@ -312,13 +311,13 @@ project.prototype.getProjectTasksList = function(projectId) {
 	});
 }
 
-project.prototype.getProjectNotesList = function(projectId) {
+project.prototype.getProjectNotesList = function() {
 	taskId = "", noteId = "";
 	$.ajax({
 		method: "POST",
 		url: "/projects/notes/viewAll",
 		data: {
-			projectId 		: projectId,
+			projectId 		: projectObj._projects.projectId,
 			taskId 			: taskId,
 			noteId 			: noteId,
 			startRecord 	: projectObj._notes.noteListStartRecord,
@@ -328,15 +327,65 @@ project.prototype.getProjectNotesList = function(projectId) {
 		success: function( response ) {
 			if(response.length) {
 				$("#notesCount").remove();
-				if(projectObj._notes.noteListStartRecord == 0) {
+				//if(projectObj._notes.noteListStartRecord == 0) {
 					$("#note_content").html(response);
-				} else {
-					$("#note_list_table").append(response);
-				}
+				//} else {
+				//	$("#note_list_table").append(response);
+				//}
 
 				projectObj._notes.noteRequestSent = projectObj._notes.noteListStartRecord;
 				projectObj._notes.noteListStartRecord += 5;
 			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.getTaskNotesList = function( taskId, startingRecord) {
+	noteId = "";
+	$.ajax({
+		method: "POST",
+		url: "/projects/notes/viewAll",
+		data: {
+			projectId 		: projectObj._projects.projectId,
+			taskId 			: taskId,
+			noteId 			: noteId,
+			startRecord 	: 0,
+			count 			: projectObj._notes.noteListCount,
+			viewFor 		: 'projectViewOne'
+		},
+		success: function( response ) {
+			if(response.length) {	
+				$("#popupForAll").html(response);
+				projectObj._projects.openDialog({"title": "Nots List for Task"});
+				projectObj._projects.addTaskNote(taskId);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.addTaskNote = function( taskId ) {
+	$.ajax({
+		method: "POST",
+		url: "/projects/notes/createForm",
+		data: {
+			projectId 	: projectObj._projects.projectId,
+			taskId 		: taskId,
+			viewFor 	: 'projectViewOne'
+		},
+		success: function( response ) {
+			$("#popupForAll").append(response);
 		},
 		error: function( error ) {
 			error = error;
@@ -384,9 +433,8 @@ project.prototype.addDocumentForm = function() {
 			projectId: projectObj._projects.projectId,
 		},
 		success: function( response ) {
-			$("#popupForAll").attr("title", "Add Document");
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title": "Add Document"});
 		},
 		error: function( error ) {
 			error = error;
@@ -449,7 +497,7 @@ project.prototype.taskDelete = function(task_id, project_id) {
 	});
 };
 
-project.prototype.notesDelete = function(noteId) {
+project.prototype.notesDelete = function(noteId, taskId) {
 	$.ajax({
 		method: "POST",
 		url: "/projects/notes/delete",
@@ -459,8 +507,13 @@ project.prototype.notesDelete = function(noteId) {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				$("#notes_"+noteId).remove();
-				alert(response.message);
+					$("#notes_"+noteId).hide();
+					$("#notes_"+noteId).remove();
+					if(taskId && taskId > 0) {
+						$(".ui-button").trigger("click");
+						projectObj._projects.getTaskNotesList(taskId, 0);
+					}
+				setTimeout(function(){alert(response.message);},100);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -483,9 +536,8 @@ project.prototype.taskViewOne = function(taskId) {
 			viewFor 	: 'projectViewOne'
 		},
 		success: function( response ) {
-			$("#popupForAll").attr("title", "Task Details")
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title": "Task Details"});
 
 		},
 		error: function( error ) {
@@ -507,9 +559,8 @@ project.prototype.addTask = function( ) {
 			viewFor 	: 'projectViewOne'
 		},
 		success: function( response ) {
-			$("#popupForAll").attr("title", "Add Task")
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title": "Add Task"});
 		},
 		error: function( error ) {
 			error = error;
@@ -532,9 +583,8 @@ project.prototype.addProjectNote = function( ) {
 			viewFor 	: 'projectViewOne'
 		},
 		success: function( response ) {
-			$("#popupForAll").attr("title", "Add Notes")
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title" : "Add Notes"});
 		},
 		error: function( error ) {
 			error = error;
@@ -543,7 +593,6 @@ project.prototype.addProjectNote = function( ) {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
-
 }
 
 project.prototype.editTask = function(taskId) {
@@ -555,9 +604,8 @@ project.prototype.editTask = function(taskId) {
 			viewFor 	: 'projectViewOne'
 		},
 		success: function( response ) {
-			$("#popupForAll").attr("title", "Edit Task Details")
 			$("#popupForAll").html(response);
-			projectObj._projects.openDialog();
+			projectObj._projects.openDialog({"title": "Edit Task Details"});
 			projectObj._tasks.setDropdownValue();
 		},
 		error: function( error ) {
@@ -617,7 +665,6 @@ project.prototype.taskCreateSubmit = function() {
 }
 
 project.prototype.noteCreateSubmit = function() {
-	var projectId 			= $("#projectId").val();
 	var taskId 				= $("#taskId").val();
 	var noteName 			= $("#noteName").val();
 	var noteContent 		= $("#noteContent").val();
@@ -626,7 +673,7 @@ project.prototype.noteCreateSubmit = function() {
 		method: "POST",
 		url: "/projects/notes/add",
 		data: {
-			projectId: 			projectId,
+			projectId: 			projectObj._projects.projectId,
 			taskId: 			taskId,
 			noteName: 			noteName,
 			noteContent: 		noteContent
@@ -634,9 +681,15 @@ project.prototype.noteCreateSubmit = function() {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				alert(response.message);
-				projectObj._projects.getProjectNotesList(response.projectId);
+				
 				$(".ui-button").trigger("click");
+				if(taskId && taskId != "" && taskId > 0) {
+					projectObj._projects.getTaskNotesList(taskId);
+				} else {
+					projectObj._projects.getProjectNotesList();
+				}
+				
+				alert(response.message);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -651,7 +704,6 @@ project.prototype.noteCreateSubmit = function() {
 };
 
 project.prototype.taskUpdateSubmit = function() {
-	projectId 				= $("#projectId").val();
 	task_id 				= $("#task_sno").val();
 	task_name 				= $("#task_name").val();
 	task_desc 				= $("#task_desc").val();
@@ -683,7 +735,7 @@ project.prototype.taskUpdateSubmit = function() {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._projects.getProjectTasksList(projectId);
+				projectObj._projects.getProjectTasksList();
 				projectObj._projects.taskViewOne(task_id);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
@@ -711,12 +763,17 @@ project.prototype.setMandatoryFields = function(){
 	
 }
 
-project.prototype.openDialog = function() {
-	this.popupDialog = $( "#popupForAll" ).dialog({
-      	autoOpen: false,
-      	maxHeight : 700,
-      	width: 700,
-      	modal: true
-  	});
+project.prototype.openDialog = function( options ) {
+	if(typeof(this.popupDialog) == "undefined") {
+		this.popupDialog = $( "#popupForAll" ).dialog({
+	      	autoOpen: false,
+	      	maxHeight : 700,
+	      	width: 700,
+	      	modal: true
+	  	});
+	}
   	this.popupDialog.dialog("open");
+  	if( typeof(options) != "undefined" ) {
+  		this.popupDialog.dialog("option", "title", options.title); 
+  	}
 }
