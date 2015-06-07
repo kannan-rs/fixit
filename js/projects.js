@@ -1,14 +1,17 @@
 //Projects JS
 function projects() {
 
-	this._projects = new project();
-	this._tasks = new task();
-	this._notes = new note();
-	this._docs = new docs();
+	this._projects 		= new project();
+	this._tasks 		= new task();
+	this._notes 		= new note();
+	this._docs 			= new docs();
+
+	// Contractors
+	this._contractors	= new contractors();
 };
 
 projects.prototype.clearRest = function(excludeList) {
-	var containers = ["project_content", "task_content", "note_content", "new_note_content", "attachment_list", "new_attachment"];
+	var containers = ["project_content", "task_content", "note_content", "attachment_content", "popupForAll", "contractor_content"];
 
 	for(var i=0; i < containers.length; i++) {
 		if(!excludeList || !$.isArray(excludeList) || excludeList.indexOf(containers[i]) == -1) {
@@ -29,6 +32,7 @@ projects.prototype.resetCounter = function( module ) {
 		break;
 	}
 }
+
 projects.prototype.resetNoteCounter = function() {
 	this._notes.noteRequestSent 			= 0;
 	this._notes.noteListStartRecord 		= 0;
@@ -41,7 +45,7 @@ projects.prototype.resetDocsCounter = function() {
 
 projects.prototype.toggleAccordiance = function(page, module) {
 	$("#project_section_accordion").hide();
-	if((page == "project" && module == "viewOne") || page == "task") {
+	if(page == "project" && module == "viewOne") {
 		$("#project_section_accordion").show();
 	}
 }
@@ -57,6 +61,12 @@ $().ready(function() {
 			break;
 			case "create_project":
 				projectObj._projects.createForm();
+			break;
+			case "contractors":
+				projectObj._contractors.viewAll();
+			break;
+			case "create_contractor":
+				projectObj._contractors.createForm();
 			break;
 			default:
 			break;
@@ -77,7 +87,7 @@ window.onscroll = function() {
 		}
 		*/
 	} else if($("#attachment_list").text().length) {
-		var content_height = $(document).height();
+/*		var content_height = $(document).height();
 	    var content_scroll_pos = $(window).scrollTop();
 	    var percentage_value = content_scroll_pos * 100 / content_height;
 		
@@ -85,5 +95,5 @@ window.onscroll = function() {
 			var projectId = $("#projectId").val();
 			projectObj._docs.viewAll( projectId );
 		}
-	}
+*/	}
 }

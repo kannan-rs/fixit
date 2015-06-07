@@ -9,7 +9,6 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 <?php
 }
 ?>
-<!--<h2>Tasks List</h2>-->
 <!-- List all the Functions from database -->
 <table  cellspacing="0" class="viewAll">
 

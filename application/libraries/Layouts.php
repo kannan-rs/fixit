@@ -34,6 +34,7 @@ class Layouts
 				"js/projects/tasks.js",
 				"js/projects/notes.js",
 				"js/projects/docs.js",
+				"js/projects/contractors.js",
 				"js/projects.js"
 			),
 			'personalDetails' => array(
@@ -68,6 +69,8 @@ class Layouts
 		'projects' => array(
 			array('text' => 'Projects', 'link'=> '/main/projects/projects', 'key' => 'projects'),
 			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
+			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
+			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractors'),
 		)
 	);
 

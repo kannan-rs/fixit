@@ -1,51 +1,63 @@
 <!-- Add Users Start -->
-<h2>Enroll to Fixit</h3>
+<h2>Enroll to Fixit</h2>
 	<form id="signup_user_form" name="signup_user_form">
-	<div class='form'>
-		<div class="label">First Name:</div>
-		<div>
+	<DIV class='form'>
+		<DIV class="label">First Name:</DIV>
+		<DIV>
 			<input type="text" name="firstName" id="firstName" value="" placeholder="First Name" required>
-		</div>
-		<div class="label">Last Name:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Last Name:</DIV>
+		<DIV>
 			<input type="text" name="lastName" id="lastName" value="" placeholder="Last Name" required>
-		</div>
-		<div class="label">Password</div>
-		<div><input type="password" name="password" id="password" value="" placeholder="Password" required></div>
-		<div class="label">Confirm Password:</div>
-		<div><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Confirm Password" required></div>
-		<div class="label">Password Hint:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Password</DIV>
+		<DIV><input type="password" name="password" id="password" value="" placeholder="Password" required></DIV>
+		<DIV class="label">Confirm Password:</DIV>
+		<DIV><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Confirm Password" required></DIV>
+		<DIV class="label">Password Hint:</DIV>
+		<DIV>
 			<input type="text" name="passwordHint" id="passwordHint" value="" placeholder="Password Hint">
-		</div>
-		<div class="label">User Belongs To:</div>
-		<div>
-			<select name="belongsTo" id="belongsTo">
+		</DIV>
+		<DIV class="label">User Belongs To:</DIV>
+		<DIV>
+			<select name="belongsTo" id="belongsTo" onchange="showContractor(this.value)">
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
 				<option value="adjuster">Adjuster</option>
 			</select>
-			<!--<input type="text" name="belongsTo" id="belongsTo" value="" placeholder="User Belongs To" required>-->
-		</div>
-		<div class="label">User Type:</div>
-		<div>
+		</DIV>
+		<DIV class="contractorDetails">
+			<DIV class="label">Select Contractor</DIV>
+			<DIV>
+				<select name="contractorId" id="contractorId" onchange="showContractorCompany(this.value);">
+					<option value="">--Select Contractor--</option>
+				</select>
+			</DIV>
+			<DIV class="contractorCompany">
+				<DIV class="label">Contractor Company Name:</DIV>
+				<DIV class="contractorCompanyInfo">
+				</DIV>
+			</DIV>
+		</DIV>
+		<DIV class="label">User Type:</DIV>
+		<DIV>
 			<input type="text" name="userType" id="userType" value="" placeholder="User Type" required>
-		</div>
-		<div class="label">User Status:</div>
-		<div>
+		</DIV>
+		<DIV class="label">User Status:</DIV>
+		<DIV>
 			<input type="text" name="userStatus" id="userStatus" value="" placeholder="User Status" required>
-		</div>
-		<div class="label">Email ID:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Email ID:</DIV>
+		<DIV>
 			<input type="email" name="emailId" id="emailId" value="" placeholder="Email ID" required>
-		</div>
-		<div class="label">Contact Phone Number:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Contact Phone Number:</DIV>
+		<DIV>
 			<input type="number" name="contactPhoneNumber" id="contactPhoneNumber" value="" placeholder="Contact Phone Number" required>
-		</div>
-		<div class="label">Mobile Number:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Mobile Number:</DIV>
+		<DIV>
 			<table  class="innerOption">
 				<tr>
 					<td colspan="2">
@@ -59,9 +71,9 @@
 					<td><span>Set as Primary Contact Number</span></td>
 				</tr>
 			</table>
-		</div>
-		<div class="label">Alternate Number:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Alternate Number:</DIV>
+		<DIV>
 			<table class="innerOption">
 				<tr>
 					<td colspan="2">
@@ -75,9 +87,9 @@
 					<td><span>Set as Primary Contact Number</span></td>
 				</tr>
 			</table>
-		</div>
-		<div class="label prefMode">Prefered Mode for Contact:</div>
-		<div>
+		</DIV>
+		<DIV class="label prefMode">Prefered Mode for Contact:</DIV>
+		<DIV>
 			<table class="innerOption">
 				<tr>
 					<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
@@ -92,43 +104,43 @@
 					<td>Alternate Number</td>
 				</tr>
 			</table>
-		</div>
-		<div class="label">Flat No:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Flat No:</DIV>
+		<DIV>
 			<input type="text" name="addressLine1" id="addressLine1" value="" placeholder="Address Line 1:" required>
-		</div>
-		<div class="label">Building Name:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Building Name:</DIV>
+		<DIV>
 			<input type="text" name="addressLine2" id="addressLine2" value="" placeholder="Address Line 2" required>
-		</div>
-		<div class="label">Street:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Street:</DIV>
+		<DIV>
 			<input type="text" name="addressLine3" id="addressLine3" value="" placeholder="Address Line 3" >
-		</div>
-		<div class="label">Main:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Main:</DIV>
+		<DIV>
 			<input type="text" name="addressLine4" id="addressLine4" value="" placeholder="Address Line 4" >
-		</div>
-		<div class="label">City:</div>
-		<div>
+		</DIV>
+		<DIV class="label">City:</DIV>
+		<DIV>
 			<input type="text" name="city" id="city" value="" placeholder="City" required>
-		</div>
-		<div class="label">State:</div>
-		<div>
+		</DIV>
+		<DIV class="label">State:</DIV>
+		<DIV>
 			<input type="text" name="state" id="state" value="" placeholder="State" required>
-		</div>
-		<div class="label">Country:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Country:</DIV>
+		<DIV>
 			<input type="text" name="country" id="country" value="" placeholder="Country" required>
-		</div>
-		<div class="label">Pin Code:</div>
-		<div>
+		</DIV>
+		<DIV class="label">Pin Code:</DIV>
+		<DIV>
 			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
-		</div>
+		</DIV>
 		<p class="button-panel">
 			<button type="button" id="signup_user_submit" onclick="signupValidate()">Signup</button>
 		</p>
 		
-	</div>
+	</DIV>
 </form>
 <!-- Add Users Ends -->

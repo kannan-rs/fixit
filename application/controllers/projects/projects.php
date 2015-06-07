@@ -161,6 +161,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
+		$this->load->model('projects/model_contractors');
 
 		$projectId = $this->input->post('projectId');
 		$projects = $this->model_projects->get_projects_list($projectId);
@@ -168,6 +169,7 @@ class Projects extends CI_Controller {
 		$start_date		= "";
 		$end_date		= "";
 		$percentage 	= "";
+		$contractors 	= "";
 		// Individual View
 		
 		for($i = 0; $i < count($projects); $i++) {
@@ -185,12 +187,21 @@ class Projects extends CI_Controller {
 			$projects[$i]->start_date = ($consolidate_data->start_date != "" ? $consolidate_data->start_date : "-NA-");
 			$projects[$i]->end_date = ($consolidate_data->end_date != "" ? $consolidate_data->end_date : "-NA-");
 
+			// Created By and Updated By user Name
 			$projects[$i]->created_by_name = $this->model_users->get_users_list($projects[$i]->created_by)[0]->user_name;
 			$projects[$i]->updated_by_name = $this->model_users->get_users_list($projects[$i]->updated_by)[0]->user_name;
+
+			// Contractor Name
+			$projects[$i]->contractorName = "-- Not Provided --";
+			if($projects[$i]->contractor_id != "") {
+				$contractors = $this->model_contractors->get_contractors_list($projects[$i]->contractor_id);
+				if(count($contractors)) {
+					$projects[$i]->contractorName = $this->model_contractors->get_contractors_list($projects[$i]->contractor_id)[0]->name;
+				}
+			}
 		}
 
 		$internalLinkParams = array(
-			//"internalLinkArr" 		=> ["tasks", "project notes", "documents", "update project", "delete project"],
 			"internalLinkArr" 		=> ["update project", "delete project"],
 			"projectId" 			=> $projectId
 		);
@@ -212,7 +223,8 @@ class Projects extends CI_Controller {
 			'userType' 		=> $this->session->userdata('account_type'),
 			'tasks' 		=>$tasks,
 			'projectId' 	=> $projectId,
-			'notes' 		=> $notes
+			'notes' 		=> $notes,
+			'contractors' 	=> $contractors
 		);
 		
 		echo $this->load->view("projects/projects/viewOne", $params, true);

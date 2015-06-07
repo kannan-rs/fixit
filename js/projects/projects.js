@@ -40,6 +40,7 @@ project.prototype.viewAll = function() {
 
 project.prototype.createForm = function() {
 	projectObj.clearRest();
+	projectObj.toggleAccordiance("project", "create_project");
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/createForm",
@@ -47,6 +48,9 @@ project.prototype.createForm = function() {
 		success: function( response ) {
 			$("#project_content").html(response);
 			projectObj._projects.setMandatoryFields();
+			projectObj._projects.hideContractorDetails();
+			projectObj._projects.getContractorDetails();
+
 		},
 		error: function( error ) {
 			error = error;
@@ -66,7 +70,7 @@ project.prototype.createSubmit = function() {
 	var project_status			= $("#project_status").val();
 	var project_budget			= $("#project_budget").val();
 	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= $("#contractor_id").val();
+	var contractor_id			= $("#contractorId").val();
 	var adjuster_id				= $("#adjuster_id").val();
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
@@ -128,6 +132,9 @@ project.prototype.editProject = function() {
 			projectObj._projects.openDialog({"title" : "Edit Project"});
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
+			projectObj._projects.hideContractorDetails();
+			projectObj._projects.getContractorDetails();
+			projectObj._projects.setContractorDetails();
 		},
 		error: function( error ) {
 			error = error;
@@ -156,7 +163,7 @@ project.prototype.updateSubmit = function() {
 	var project_status			= $("#project_status").val();
 	var project_budget			= $("#project_budget").val();
 	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= $("#contractor_id").val();
+	var contractor_id			= $("#contractorId").val();
 	var adjuster_id				= $("#adjuster_id").val();
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
@@ -776,4 +783,45 @@ project.prototype.openDialog = function( options ) {
   	if( typeof(options) != "undefined" ) {
   		this.popupDialog.dialog("option", "title", options.title); 
   	}
+}
+
+project.prototype.hideContractorDetails = function() {
+	$(".contractorDetails").hide();
+	$(".contractorCompany").hide();
+	$(".contractorCompanyInfo > span").hide();
+}
+
+project.prototype.getContractorDetails = function() {
+	$.ajax({
+		method: "POST",
+		url: "/projects/contractors/getList",
+		data: {},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status == "success") {
+				contractors = response["contractors"];
+				for(var i =0 ; i < contractors.length; i++) {
+					$('#contractorId').append($('<option>', {
+					    value: contractors[i].id,
+					    text: contractors[i].name
+					}));
+				}
+				hideContractorDetails();
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.setContractorDetails = function() {
+	setTimeout(function() {
+		$("#contractorId").val($("#contractorIdDb").val());
+	}, 100);
 }

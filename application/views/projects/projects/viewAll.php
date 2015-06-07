@@ -1,4 +1,4 @@
-<h2>Projects List</h3>
+<h2>Projects List</h2>
 <div>
 	<!-- List all the Functions from database -->
 	<table cellspacing="0">

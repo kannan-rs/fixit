@@ -1,5 +1,5 @@
 <!-- Add Function Start -->
-<h2>Create Project</h3>
+<h2>Create Project</h2>
 <form id="create_project_form" name="create_project_form" class="inputForm">
 	<div class='form'>
 		<div class="label">Project Title:</div>
@@ -41,9 +41,11 @@
 		<div>
 			<input type="text" name="property_owner_id" id="property_owner_id" value="">
 		</div>
-		<div class="label">Contractor ID</div>
+		<div class="label">Contractor Name</div>
 		<div>
-			<input type="text" name="contractor_id" id="contractor_id" value="" >
+			<select name="contractorId" id="contractorId" onchange="showContractorCompany(this.value);">
+				<option value="">--Select Contractor--</option>
+			</select>
 		</div>
 		<div class="label">Adjuster ID</div>
 		<div>

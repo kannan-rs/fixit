@@ -54,12 +54,18 @@ form_submit.prototype.signupSubmit = function() {
 	var state 				= $("#state").val();
 	var country 			= $("#country").val();
 	var pinCode				= $("#pinCode").val();
+	var contracterId		= "";
 
 	$("input[name=prefContact]:checked").each(
 		function() {
 			prefContact += prefContact != "" ? (","+this.value) : this.value;
 		}
 	);
+
+	if(belongsTo == "contractor") {
+		contractorId = $("#contractorId").val();
+	}
+
 
 	$.ajax({
 		method: "POST",
@@ -70,6 +76,7 @@ form_submit.prototype.signupSubmit = function() {
 			password: 			password,
 			passwordHint: 		passwordHint,
 			belongsTo: 			belongsTo,
+			contractorId: 		contractorId,
 			userType: 			userType,
 			userStatus: 		userStatus,
 			emailId: 			emailId,

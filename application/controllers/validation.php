@@ -53,6 +53,7 @@ class Validation extends CI_Controller {
 		$password 				= $this->input->post('password');
 		$passwordHint 			= $this->input->post('passwordHint');
 		$belongsTo 				= $this->input->post('belongsTo');
+		$contractorId 			= $this->input->post('contractorId');
 		$userType 				= $this->input->post('userType');
 		$userStatus 			= $this->input->post('userStatus');
 		$emailId 				= $this->input->post('emailId');
@@ -77,6 +78,7 @@ class Validation extends CI_Controller {
 				'first_name' 			=> $firstName,
 				'last_name' 			=> $lastName, 
 				'belongs_to' 			=> $belongsTo,
+				'contractorId' 			=> $contractorId,
 				'type' 					=> $userType,
 				'status' 				=> $userStatus,
 				'active_start_date' 	=> date("Y-m-d H:i:s"),

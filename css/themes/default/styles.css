@@ -652,6 +652,7 @@ scrollammount: 5;
 .form .label {
 	float:left;
 	width : 200px;
+	clear: both;
 }
 
 .form textarea {

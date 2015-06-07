@@ -85,7 +85,6 @@ span.inner_accordion {
 	font-size: 12px;
 	color: rgb(85, 85, 85);
 	padding: 1px 5px 1px 5px;
-	background: #dddddd;
 }
 
 .accordion h2 {
@@ -151,4 +150,38 @@ a.accordion_link, a.accordion_link:visited {
 } 
 a.accordion_link:hover { 
 	color:#2B5B78  !important;
+}
+
+a.accordion-icon {
+	text-align: right;
+	float: right;
+}
+
+a.accordion-icon, a.accordion-icon:visited { 
+	color:#4086AA;
+} 
+a.accordion-icon:hover { 
+	color:#2B5B78;
+}
+
+.header-options h2 {
+	float:left;
+}
+
+.header-options .options-icon {
+	float: right;
+}
+
+.header-options .options-icon a {
+	text-decoration: none;
+	margin: 0px 5px 0px 5px;
+}
+
+.contractorDetails {
+	border: 1px solid #D3D3D3;
+	padding: 10px;
+}
+
+.contractorCompany {
+	margin-top : 10px;
 }
