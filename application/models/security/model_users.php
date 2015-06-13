@@ -1,7 +1,7 @@
 <?php
 
 class Model_users extends CI_Model {
-	public function can_login($email, $password) {
+	public function canLogin($email, $password) {
 
 		//echo $email."-".$password;
 		$this->db->where('user_name', $email);
@@ -20,7 +20,7 @@ class Model_users extends CI_Model {
 		}
 	}
 
-	public function get_account_type($email, $password) {
+	public function getAccountType($email, $password) {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
@@ -35,7 +35,7 @@ class Model_users extends CI_Model {
 		}
 	}
 
-	public function get_user_id($email, $password) {
+	public function getUserId($email, $password) {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
@@ -50,7 +50,7 @@ class Model_users extends CI_Model {
 		}
 	}
 
-	public function get_user_sno_via_email($email = '') {
+	public function getUserSnoViaEmail($email = '') {
 		if($email != '') {
 			$this->db->where('user_name', $email);
 
@@ -68,7 +68,7 @@ class Model_users extends CI_Model {
 		}
 	}
 
-	public function get_users_list($params = "") {
+	public function getUsersList($params = "") {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}
@@ -78,7 +78,7 @@ class Model_users extends CI_Model {
 		return $users;
 	}
 
-	public function insert_user_details($params) {
+	public function insertUserDetails($params) {
 		$response = array();
 		if($this->db->insert('user_details', $params) && $this->db->insert_id()) {
 			$record = $this->db->insert_id();
@@ -92,7 +92,7 @@ class Model_users extends CI_Model {
 		return $response;
 	}
 
-	public function insert_users($params) {
+	public function insertUsers($params) {
 		$response = array();
 		if($this->db->insert('users', $params) && $this->db->insert_id()) {
 			$record = $this->db->insert_id();
@@ -106,14 +106,14 @@ class Model_users extends CI_Model {
 		return $response;
 	}
 
-	public function get_user_details_by_email($email) {
+	public function getUserDetailsByEmail($email) {
 		$this->db->where('email', $email);
 		$query = $this->db->get('user_details');
 		$user_details = $query->result();
 		return $user_details;
 	}
 
-	public function update_user_table($params, $sno) {
+	public function updateUserTable($params, $sno) {
 		$response = array();
 		$this->db->where('sno', $sno);
 
@@ -126,7 +126,7 @@ class Model_users extends CI_Model {
 		return $response;	
 	}
 
-	public function update_user_table_by_email($params, $email) {
+	public function updateUserTableByEmail($params, $email) {
 		$response = array();
 		$this->db->where('user_name', $email);
 
@@ -139,7 +139,7 @@ class Model_users extends CI_Model {
 		return $response;	
 	}
 
-	public function update_details_table($params, $record) {
+	public function updateDetailsTable($params, $record) {
 		$response = array();
 		$this->db->where('sno', $record);
 

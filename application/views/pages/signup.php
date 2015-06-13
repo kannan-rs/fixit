@@ -20,7 +20,7 @@
 		</DIV>
 		<DIV class="label">User Belongs To:</DIV>
 		<DIV>
-			<select name="belongsTo" id="belongsTo" onchange="showContractor(this.value)">
+			<select name="belongsTo" id="belongsTo" onchange="homeObj.showContractor(this.value)">
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
@@ -30,7 +30,7 @@
 		<DIV class="contractorDetails">
 			<DIV class="label">Select Contractor</DIV>
 			<DIV>
-				<select name="contractorId" id="contractorId" onchange="showContractorCompany(this.value);">
+				<select name="contractorId" id="contractorId" onchange="homeObj.showContractorCompany(this.value);">
 					<option value="">--Select Contractor--</option>
 				</select>
 			</DIV>
@@ -40,14 +40,14 @@
 				</DIV>
 			</DIV>
 		</DIV>
-		<DIV class="label">User Type:</DIV>
+		<!-- <DIV class="label">User Type:</DIV>
 		<DIV>
 			<input type="text" name="userType" id="userType" value="" placeholder="User Type" required>
 		</DIV>
 		<DIV class="label">User Status:</DIV>
 		<DIV>
 			<input type="text" name="userStatus" id="userStatus" value="" placeholder="User Status" required>
-		</DIV>
+		</DIV> -->
 		<DIV class="label">Email ID:</DIV>
 		<DIV>
 			<input type="email" name="emailId" id="emailId" value="" placeholder="Email ID" required>
@@ -125,20 +125,24 @@
 		<DIV>
 			<input type="text" name="city" id="city" value="" placeholder="City" required>
 		</DIV>
-		<DIV class="label">State:</DIV>
-		<DIV>
-			<input type="text" name="state" id="state" value="" placeholder="State" required>
-		</DIV>
 		<DIV class="label">Country:</DIV>
 		<DIV>
-			<input type="text" name="country" id="country" value="" placeholder="Country" required>
+			<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, 'state');">
+				<option value="">--Select Country--</option>
+			</select>
+		</DIV>
+		<DIV class="label">State:</DIV>
+		<DIV>
+			<select name="state" id="state" required>
+				<option value="">--Select State--</option>
+			</select>
 		</DIV>
 		<DIV class="label">Pin Code:</DIV>
 		<DIV>
 			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
 		</DIV>
 		<p class="button-panel">
-			<button type="button" id="signup_user_submit" onclick="signupValidate()">Signup</button>
+			<button type="button" id="signup_user_submit" onclick="homeObj.signupValidate()">Signup</button>
 		</p>
 		
 	</DIV>

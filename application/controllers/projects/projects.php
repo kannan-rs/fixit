@@ -18,7 +18,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_projects');
 
 		
-		$projects = $this->model_projects->get_projects_list();
+		$projects = $this->model_projects->getProjectsList();
 
 		for($i = 0; $i < count($projects); $i++) {
 			$start_date = "";
@@ -51,7 +51,7 @@ class Projects extends CI_Controller {
 		$this->load->model('security/model_users');
 		
 		$params = array(
-			'users' 		=> $this->model_users->get_users_list(),
+			'users' 		=> $this->model_users->getUsersList(),
 			'userType' 		=> $this->session->userdata('account_type')
 		);
 
@@ -98,7 +98,7 @@ class Projects extends CI_Controller {
 
 		$record = $this->input->post('projectId');
 
-		$projects = $this->model_projects->get_projects_list($record);
+		$projects = $this->model_projects->getProjectsList($record);
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["tasks", "project notes", "documents"],
@@ -107,7 +107,7 @@ class Projects extends CI_Controller {
 
 		$params = array(
 			'projects'=>$projects,
-			'users' => $this->model_users->get_users_list(),
+			'users' => $this->model_users->getUsersList(),
 			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
 			'userType' 		=> $this->session->userdata('account_type')
 		);
@@ -164,7 +164,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_contractors');
 
 		$projectId = $this->input->post('projectId');
-		$projects = $this->model_projects->get_projects_list($projectId);
+		$projects = $this->model_projects->getProjectsList($projectId);
 
 		$start_date		= "";
 		$end_date		= "";
@@ -188,16 +188,23 @@ class Projects extends CI_Controller {
 			$projects[$i]->end_date = ($consolidate_data->end_date != "" ? $consolidate_data->end_date : "-NA-");
 
 			// Created By and Updated By user Name
-			$projects[$i]->created_by_name = $this->model_users->get_users_list($projects[$i]->created_by)[0]->user_name;
-			$projects[$i]->updated_by_name = $this->model_users->get_users_list($projects[$i]->updated_by)[0]->user_name;
+			$projects[$i]->created_by_name = $this->model_users->getUsersList($projects[$i]->created_by)[0]->user_name;
+			$projects[$i]->updated_by_name = $this->model_users->getUsersList($projects[$i]->updated_by)[0]->user_name;
 
 			// Contractor Name
 			$projects[$i]->contractorName = "-- Not Provided --";
 			if($projects[$i]->contractor_id != "") {
-				$contractors = $this->model_contractors->get_contractors_list($projects[$i]->contractor_id);
-				if(count($contractors)) {
-					$projects[$i]->contractorName = $this->model_contractors->get_contractors_list($projects[$i]->contractor_id)[0]->name;
-				}
+				$contractorIdArr = explode(",", $projects[$i]->contractor_id);
+
+				$contractors = $this->model_contractors->getContractorsList($contractorIdArr);
+				
+				/*if(count($contractors)) {
+					for($ci = 0; $ci < count($contractors); $ci++) {
+						echo $i.",".$ci."<br>";
+						echo $projects[$i]->contractorName[$ci];
+						$projects[$i]->contractorName[$ci] = $this->model_contractors->getContractorsList($projects[$i]->contractor_id)[$ci]->name;
+					}
+				}*/
 			}
 		}
 
@@ -207,14 +214,14 @@ class Projects extends CI_Controller {
 		);
 
 		// Get List of tasks for the project ID
-		$tasks = $this->model_tasks->get_tasks_list($projectId);
+		$tasks = $this->model_tasks->getTasksList($projectId);
 
 		//Get All Notes for Project
-		$notes 		= $this->model_notes->get_notes_list($projectId, 0, "", 0, 'All');
+		$notes 		= $this->model_notes->getNotesList($projectId, 0, "", 0, 'All');
 
 		for($i=0; $i < count($notes); $i++) {
-			$notes[$i]->created_by_name = $this->model_users->get_users_list($notes[$i]->created_by)[0]->user_name;
-			$notes[$i]->updated_by_name = $this->model_users->get_users_list($notes[$i]->updated_by)[0]->user_name;
+			$notes[$i]->created_by_name = $this->model_users->getUsersList($notes[$i]->created_by)[0]->user_name;
+			$notes[$i]->updated_by_name = $this->model_users->getUsersList($notes[$i]->updated_by)[0]->user_name;
 		}
 
 		$params = array(

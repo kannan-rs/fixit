@@ -78,6 +78,7 @@ table.viewOne.projectViewOne {
 	background-color: transparent;
 	background-image: none;
 	border:0px;
+	clear: both;
 	/*color: #244C61;*/
 }
 
@@ -184,4 +185,9 @@ a.accordion-icon:hover {
 
 .contractorCompany {
 	margin-top : 10px;
+}
+
+select.multi-select {
+	min-height : 100px;
+	min-width: 100px;
 }

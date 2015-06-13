@@ -11,13 +11,13 @@ class Validation extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
-		if(!$this->model_users->can_login($email, $password)) {
+		if(!$this->model_users->canLogin($email, $password)) {
 			$response["status"] = "error";
 			$response["message"] = "Incorrect Username / Password";
 		} else {
 
-			$account_type = $this->model_users->get_account_type($email, $password);
-			$user_id = $this->model_users->get_user_id($email, $password);
+			$account_type = $this->model_users->getAccountType($email, $password);
+			$user_id = $this->model_users->getUserId($email, $password);
 			
 			$data = array(
 				'email' => $email,
@@ -35,15 +35,15 @@ class Validation extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function validate_login($email, $password) {
+	/*public function validateLogin($email, $password) {
 		$this->load->model('security/model_users');
 
-		if($this->model_users->can_login($email, $password)) {
+		if($this->model_users->canLogin($email, $password)) {
 			return true;
 		} else {	
 			return false;
 		}
-	}
+	}*/
 
 	public function signup() {
 		$response = array();
@@ -54,8 +54,8 @@ class Validation extends CI_Controller {
 		$passwordHint 			= $this->input->post('passwordHint');
 		$belongsTo 				= $this->input->post('belongsTo');
 		$contractorId 			= $this->input->post('contractorId');
-		$userType 				= $this->input->post('userType');
-		$userStatus 			= $this->input->post('userStatus');
+		/*$userType 				= $this->input->post('userType');
+		$userStatus 			= $this->input->post('userStatus');*/
 		$emailId 				= $this->input->post('emailId');
 		$contactPhoneNumber 	= $this->input->post('contactPhoneNumber');
 		$mobileNumber 			= $this->input->post('mobileNumber');
@@ -73,14 +73,14 @@ class Validation extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
-		if(!$this->model_users->get_user_sno_via_email($emailId)) {
+		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
 			$signup_data = array(
 				'first_name' 			=> $firstName,
 				'last_name' 			=> $lastName, 
 				'belongs_to' 			=> $belongsTo,
 				'contractorId' 			=> $contractorId,
-				'type' 					=> $userType,
-				'status' 				=> $userStatus,
+				/*'type' 					=> $userType,
+				'status' 				=> $userStatus,*/
 				'active_start_date' 	=> date("Y-m-d H:i:s"),
 				'email' 				=> $emailId,
 				'contact_ph1' 			=> $contactPhoneNumber,
@@ -102,7 +102,7 @@ class Validation extends CI_Controller {
 				'updated_by'			=> 0	// Self
 			);
 
-			$inserted = $this->model_users->insert_user_details($signup_data);
+			$inserted = $this->model_users->insertUserDetails($signup_data);
 			if($inserted["status"] == "success") {
 
 				$users_data = array(
@@ -113,7 +113,7 @@ class Validation extends CI_Controller {
 					'status' => 1
 				);
 
-				$inserted_login = $this->model_users->insert_users($users_data);
+				$inserted_login = $this->model_users->insertUsers($users_data);
 				
 				if($inserted_login['status'] == "success") {
 					$response["status"] = "success";
@@ -134,7 +134,7 @@ class Validation extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function updateUserDetails() {
+	/*public function updateUserDetails() {
 		$response = array();
 
 		$record 				= $this->input->post('sno'); 
@@ -192,6 +192,6 @@ class Validation extends CI_Controller {
 		}
 		
 		print_r(json_encode($response));
-	}
+	}*/
 }
 ?>

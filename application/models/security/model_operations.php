@@ -1,7 +1,7 @@
 <?php
 
 class Model_operations extends CI_Model {
-	public function get_operations_list($params = "") {
+	public function getOperationsList($params = "") {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}

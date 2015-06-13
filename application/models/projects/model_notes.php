@@ -1,7 +1,7 @@
 <?php
 
 class Model_notes extends CI_Model {
-	public function get_notes_list($projectId = "", $taskId = 0, $noteId, $startRecord = 0, $count) {
+	public function getNotesList($projectId = "", $taskId = 0, $noteId, $startRecord = 0, $count) {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
 		} else {

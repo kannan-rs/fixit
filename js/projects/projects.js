@@ -64,7 +64,6 @@ project.prototype.createForm = function() {
 project.prototype.createSubmit = function() {
 	var projectTitle 			= $("#projectTitle").val();
 	var description 			= $("#description").val();
-	//var assign_user 			= $("#assign_user").val();
 	var associated_claim_num 	= $("#associated_claim_num").val();
 	var project_type			= $("#project_type").val();
 	var project_status			= $("#project_status").val();
@@ -78,6 +77,11 @@ project.prototype.createSubmit = function() {
 	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
+
+	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
+	if(contractor_id) {
+		contractor_id = contractor_id.join(",");
+	}
 
 	$.ajax({
 		method: "POST",
@@ -127,7 +131,6 @@ project.prototype.editProject = function() {
 			
 		},
 		success: function( response ) {
-			//$("#project_content").html(response);
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title" : "Edit Project"});
 			projectObj._projects.setDropdownValue();
@@ -171,6 +174,11 @@ project.prototype.updateSubmit = function() {
 	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
+
+	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
+	if(contractor_id) {
+		contractor_id = contractor_id.join(",");
+	}
 
 	$.ajax({
 		method: "POST",
@@ -285,6 +293,13 @@ project.prototype.getProjectDetails = function() {
 				{
 					collapsible : true,  
 					icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
+					active 		: false
+				}
+			);
+			$( "#contractor_accordion" ).accordion(
+				{
+					collapsible : true,  
+					icons 		: { "header": "ui-icon-triangle-1-e", "activeHeader": "ui-icon-triangle-1-s" },
 					active 		: false
 				}
 			);
@@ -770,18 +785,37 @@ project.prototype.setMandatoryFields = function(){
 	
 }
 
-project.prototype.openDialog = function( options ) {
-	if(typeof(this.popupDialog) == "undefined") {
-		this.popupDialog = $( "#popupForAll" ).dialog({
+project.prototype.openDialog = function( options, popupType ) {
+	if(popupType && popupType != "" ) {
+		projectObj._projects.openDialog2( options );
+	} else {
+		if(typeof(this.popupDialog) == "undefined") {
+			this.popupDialog = $( "#popupForAll" ).dialog({
+		      	autoOpen: false,
+		      	maxHeight : 700,
+		      	width: 700,
+		      	modal: true
+		  	});
+		}
+	  	this.popupDialog.dialog("open");
+	  	if( typeof(options) != "undefined" ) {
+	  		this.popupDialog.dialog("option", "title", options.title); 
+	  	}
+  	}
+}
+
+project.prototype.openDialog2 = function( options ) {
+	if(typeof(this.popupDialog2) == "undefined") {
+		this.popupDialog2 = $( "#popupForAll2" ).dialog({
 	      	autoOpen: false,
-	      	maxHeight : 700,
-	      	width: 700,
+	      	maxHeight : 600,
+	      	width: 600,
 	      	modal: true
 	  	});
 	}
-  	this.popupDialog.dialog("open");
+  	this.popupDialog2.dialog("open");
   	if( typeof(options) != "undefined" ) {
-  		this.popupDialog.dialog("option", "title", options.title); 
+  		this.popupDialog2.dialog("option", "title", options.title); 
   	}
 }
 
@@ -822,6 +856,39 @@ project.prototype.getContractorDetails = function() {
 
 project.prototype.setContractorDetails = function() {
 	setTimeout(function() {
-		$("#contractorId").val($("#contractorIdDb").val());
+		$("#contractorId").val($("#contractorIdDb").val().split(","));
 	}, 100);
+}
+
+project.prototype.updateContractorSelectionList = function() {
+	$.ajax({
+		method: "POST",
+		url: "/projects/contractors/getList",
+		data: {},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			$("#contractorId").children().remove();
+			if(response.status == "success") {
+				contractors = response["contractors"];
+				for(var i =0 ; i < contractors.length; i++) {
+					$('#contractorId').append($('<option>', {
+					    value: contractors[i].id,
+					    text: contractors[i].name
+					}));
+				}
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});	
+}
+
+project.prototype.setSelectedContractor = function() {
+	$("#contractorIdDb").val($("#contractorId").val().join(","));
 }

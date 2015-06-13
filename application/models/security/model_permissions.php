@@ -1,7 +1,7 @@
 <?php
 
 class Model_permissions extends CI_Model {
-	public function get_all_list( $params = "") {
+	public function getAllList( $params = "") {
 		$users_query 		= $this->db->get('users');
 		$roles_query 		= $this->db->get('roles');
 		$operations_query 	= $this->db->get('operations');
@@ -24,7 +24,7 @@ class Model_permissions extends CI_Model {
 		return $output;
 	}
 
-	public function get_user_permission() {
+	public function getUserPermission() {
 		$this->db->where('user_id', $this->input->post("user_id"));
 		$permissions_query 		= $this->db->get('permissions');
 
@@ -32,7 +32,7 @@ class Model_permissions extends CI_Model {
 		return $permissions;
 	}
 
-	public function set_user_permission() {
+	public function setUserPermission() {
 		$this->db->where('user_id', $this->input->post("user_id"));
 		$get_query 		= $this->db->get('permissions');
 

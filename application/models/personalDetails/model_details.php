@@ -1,7 +1,7 @@
 <?php
 
 class Model_details extends CI_Model {
-	public function get_users_list($params = "") {
+	public function getUsersList($params = "") {
 		if($params && $params != "") {
 			$this->db->where('email', $params);			
 		}

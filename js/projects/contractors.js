@@ -2,15 +2,27 @@ function contractors() {
 	
 }
 
-contractors.prototype.createForm = function() {
-	projectObj.clearRest();
-	projectObj.toggleAccordiance("contractors", "new");
+contractors.prototype.createForm = function( openAs, popupType ) {
+	popupType = popupType ? popupType : "";
+	if(!openAs) {
+		projectObj.clearRest();
+		projectObj.toggleAccordiance("contractors", "new");
+	}
+	
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/createForm",
-		data: {},
+		data: {
+			openAs 		: openAs,
+			popupType 	: popupType
+		},
 		success: function( response ) {
-			$("#contractor_content").html(response);
+			if(openAs == "popup") {
+				$("#popupForAll"+popupType).html( response );
+				projectObj._projects.openDialog({"title" : "Add Contractor"}, popupType);
+			} else{
+				$("#contractor_content").html(response);
+			}
 			projectObj._projects.setMandatoryFields();
 		},
 		error: function( error ) {
@@ -22,15 +34,15 @@ contractors.prototype.createForm = function() {
 	});
 };
 
-contractors.prototype.createValidate =  function () {
+contractors.prototype.createValidate =  function ( openAs, popupType ) {
 	var validator = $( "#create_contractor_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._contractors.createSubmit();
+		projectObj._contractors.createSubmit( openAs, popupType );
 	}
 };
 
-contractors.prototype.createSubmit = function() {
+contractors.prototype.createSubmit = function( openAs, popupType ) {
 	var name 					= $("#name").val();
 	var company 				= $("#company").val();
 	var type 					= $("#type").val();
@@ -79,13 +91,15 @@ contractors.prototype.createSubmit = function() {
 			contactPhoneNumber 		: contactPhoneNumber,
 			mobileNumber 			: mobileNumber,
 			prefContact 			: prefContact,
-			websiteURL 				: websiteURL
+			websiteURL 				: websiteURL,
+			openAs 					: openAs,
+			popupType 				: popupType
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._contractors.viewOne(response.insertedId);
+				projectObj._contractors.viewOne(response.insertedId, openAs, popupType);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -99,19 +113,31 @@ contractors.prototype.createSubmit = function() {
 	});
 }
 
-contractors.prototype.viewOne = function( contractorId ) {
-	this.contractorId = contractorId;
-	projectObj.clearRest();
-	projectObj.toggleAccordiance("contractors", "viewOne");
+contractors.prototype.viewOne = function( contractorId, openAs, popupType ) {
+	this.contractorId 	= contractorId;
+	popupType 			= popupType ? popupType : "";
+	if(!openAs || openAs != "popup") {
+		projectObj.clearRest();
+		projectObj.toggleAccordiance("contractors", "viewOne");
+	}
 	
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/viewOne",
 		data: {
-			contractorId: projectObj._contractors.contractorId
+			contractorId 	: projectObj._contractors.contractorId,
+			openAs 			: openAs,
+			popupType 		: popupType
 		},
 		success: function( response ) {
-			$("#contractor_content").html(response);
+			if( openAs && openAs == "popup") {
+				$("#popupForAll"+popupType).html( response );
+				projectObj._projects.openDialog({"title" : "Contractor Details"}, popupType);
+				projectObj._projects.updateContractorSelectionList();
+				projectObj._projects.setContractorDetails();
+			} else {
+				$("#contractor_content").html(response);
+			}
 			projectObj._contractors.setPrefContact();
 		},
 		error: function( error ) {

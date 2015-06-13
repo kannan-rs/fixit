@@ -301,7 +301,7 @@ securityUsers.prototype.delete = function(userId) {
 			response = $.parseJSON(response);
 			alert(response["message"]);
 			if(response["status"] == "success") {
-				securityObj._users.getAllDatas();
+				securityObj._users.viewAll();
 			}
 		},
 		error: function( error ) {

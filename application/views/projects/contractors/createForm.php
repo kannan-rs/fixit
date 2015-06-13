@@ -1,5 +1,11 @@
 <!-- Add Function Start -->
+<?php
+if(!$openAs || $openAs != "popup") {
+?>
 <h2>Create Contractor</h3>
+<?php
+}
+?>
 <form id="create_contractor_form" name="create_contractor_form" class="inputForm">
 	<div class='form'>
 		<div class="label">Name:</div>
@@ -88,7 +94,7 @@
 			<input type="text" name="websiteURL" id="websiteURL" value="" placeholder="Website URL" required>
 		</div>
 		<p class="button-panel">
-			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.createValidate()">Create Contractor</button>
+			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Create Contractor</button>
 		</p>
 	</div>
 </form>

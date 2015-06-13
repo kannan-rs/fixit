@@ -3,6 +3,9 @@
 	$deleteFn 		= "projectObj._contractors.delete('".$contractorId."')";
 	$contractor		= $contractors[0];
 ?>
+<?php
+	if(!$openAs || $openAs != "popup") {
+?>
 <div class="header-options">
 	<h2>Contractor Details</h2>
 	<span class="options-icon">
@@ -10,6 +13,9 @@
 		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Contractor"></a></span>	
 	</span>
 </div>
+<?php
+}
+?>
 
 <div>
 	<!-- List all the Functions from database -->

@@ -16,7 +16,7 @@ class Users extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_users');
-		$users = $this->model_users->get_users_list();
+		$users = $this->model_users->getUsersList();
 
 		$params = array(
 			'function'=>"view",
@@ -63,7 +63,7 @@ class Users extends CI_Controller {
 		$pinCode				= $this->input->post('pinCode');
 
 
-		if(!$this->model_users->get_user_sno_via_email($emailId)) {
+		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
 				'first_name' 			=> $firstName,
 				'last_name' 			=> $lastName, 
@@ -91,7 +91,7 @@ class Users extends CI_Controller {
 				'updated_by'			=> $this->session->userdata("user_id")
 			);
 
-			$inserted = $this->model_users->insert_user_details($createUser_data);
+			$inserted = $this->model_users->insertUserDetails($createUser_data);
 			if($inserted["status"] == "success") {
 
 				$loginTableUser_data = array(
@@ -106,7 +106,7 @@ class Users extends CI_Controller {
 					'updated_date'			=> date("Y-m-d H:i:s")
 				);
 
-				$inserted_login = $this->model_users->insert_users($loginTableUser_data);
+				$inserted_login = $this->model_users->insertUsers($loginTableUser_data);
 				
 				if($inserted_login['status'] == "success") {
 					$record 				= $this->db->insert_id();
@@ -135,8 +135,8 @@ class Users extends CI_Controller {
 
 		$record = $this->input->post('userId');
 
-		$users 			= $this->model_users->get_users_list($record);
-		$user_details 	= $this->model_users->get_user_details_by_email($users[0]->user_name);
+		$users 			= $this->model_users->getUsersList($record);
+		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 
 		$params = array(
 			'function'=>"edit",
@@ -204,14 +204,14 @@ class Users extends CI_Controller {
 			'updated_by'			=> $this->session->userdata('user_id')
 		);
 
-		$update_details = $this->model_users->update_details_table($update_details_data, $user_details_record);
+		$update_details = $this->model_users->updateDetailsTable($update_details_data, $user_details_record);
 
 		$update_data = array(
 		   //'password' 	=> $password,
 		   'account_type' 	=> ($privilege == 1 ? 'admin':'user')
 		);
 
-		$update = $this->model_users->update_user_table($update_data, $user_record);
+		$update = $this->model_users->updateUserTable($update_data, $user_record);
 
 		if($update["status"] == "success" && $update_details["status"] == "success") {
 			$response["status"]		= "success";
@@ -248,8 +248,8 @@ class Users extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
-		$users = $this->model_users->get_users_list($record);
-		$user_details = $this->model_users->get_user_details_by_email($users[0]->user_name);
+		$users = $this->model_users->getUsersList($record);
+		$user_details = $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 
 		$params = array(
 			'function'		=> "view",

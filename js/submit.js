@@ -1,12 +1,13 @@
 /* Form AJAX submit */
-function form_submit()
+function formSubmit()
 {
 
 }
+
 var error = null;
 var fail_error = null;
 
-form_submit.prototype.login_submit = function() {
+formSubmit.prototype.loginSubmit = function() {
 	
 	var email = $("#login_email").val();
 	var password = $("#login_password").val();
@@ -32,14 +33,14 @@ form_submit.prototype.login_submit = function() {
 	});
 };
 
-form_submit.prototype.signupSubmit = function() {
+formSubmit.prototype.signupSubmit = function() {
 	var firstName 			= $("#firstName").val();
 	var lastName 			= $("#lastName").val();
 	var password 			= $("#password").val();
 	var passwordHint 		= $("#passwordHint").val();
 	var belongsTo 			= $("#belongsTo").val();
-	var userType 			= $("#userType").val();
-	var userStatus 			= $("#userStatus").val();
+	/*var userType 			= $("#userType").val();
+	var userStatus 			= $("#userStatus").val();*/
 	var emailId 			= $("#emailId").val();
 	var contactPhoneNumber 	= $("#contactPhoneNumber").val();
 	var mobileNumber 		= $("#mobileNumber").val();
@@ -54,7 +55,7 @@ form_submit.prototype.signupSubmit = function() {
 	var state 				= $("#state").val();
 	var country 			= $("#country").val();
 	var pinCode				= $("#pinCode").val();
-	var contracterId		= "";
+	var contractorId		= "";
 
 	$("input[name=prefContact]:checked").each(
 		function() {
@@ -66,7 +67,6 @@ form_submit.prototype.signupSubmit = function() {
 		contractorId = $("#contractorId").val();
 	}
 
-
 	$.ajax({
 		method: "POST",
 		url: "/validation/signup",
@@ -76,9 +76,7 @@ form_submit.prototype.signupSubmit = function() {
 			password: 			password,
 			passwordHint: 		passwordHint,
 			belongsTo: 			belongsTo,
-			contractorId: 		contractorId,
-			userType: 			userType,
-			userStatus: 		userStatus,
+			'contractorId': 		contractorId,
 			emailId: 			emailId,
 			contactPhoneNumber: contactPhoneNumber,
 			mobileNumber: 		mobileNumber,
@@ -112,7 +110,7 @@ form_submit.prototype.signupSubmit = function() {
 	});
 };
 
-form_submit.prototype.updateUserDetailsSubmit = function() {
+/*formSubmit.prototype.updateUserDetailsSubmit = function() {
 	var sno 				= $("#user_details_sno").val();
 	var lastName 			= $("#lastName").val();
 	var firstName 			= $("#firstName").val();
@@ -175,6 +173,6 @@ form_submit.prototype.updateUserDetailsSubmit = function() {
 		fail_error = failedObj;
 	});
 };
+*/
 
-
-var submit = new form_submit();
+var submit = new formSubmit();

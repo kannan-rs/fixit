@@ -11,7 +11,7 @@
 			</p>
 			<p class="button-panel">
 				<a class="signup" href="<?php echo $baseUrl; ?>main/signup">Sign up</a>
-				<button class="formbutton" type="button" onclick="login_validate()">Login</button>
+				<button class="formbutton" type="button" onclick="homeObj.loginValidate()">Login</button>
 			</p>
 			<p class='note error' id="login_error"></p>
 		</form>

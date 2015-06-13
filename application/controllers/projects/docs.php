@@ -25,14 +25,14 @@ class Docs extends CI_Controller {
 
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		
-		$project_docs 		= $this->model_docs->get_docs_list($projectId, $startRecord);
+		$project_docs 		= $this->model_docs->getDocsList($projectId, $startRecord);
 
 		for($i=0; $i < count($project_docs); $i++) {
-			$project_docs[$i]->created_by_name = $this->model_users->get_users_list($project_docs[$i]->created_by)[0]->user_name;
-			$project_docs[$i]->updated_by_name = $this->model_users->get_users_list($project_docs[$i]->updated_by)[0]->user_name;
+			$project_docs[$i]->created_by_name = $this->model_users->getUsersList($project_docs[$i]->created_by)[0]->user_name;
+			$project_docs[$i]->updated_by_name = $this->model_users->getUsersList($project_docs[$i]->updated_by)[0]->user_name;
 		}
 
-		$project 			= $this->model_projects->get_projects_list($projectId);
+		$project 			= $this->model_projects->getProjectsList($projectId);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -100,7 +100,7 @@ class Docs extends CI_Controller {
 	public function downloadAttachment() {
 		if(isset($this->function)) {
 			$this->load->model('projects/model_docs');
-			$one_doc = $this->model_docs->get_doc_by_id($this->function);
+			$one_doc = $this->model_docs->getDocById($this->function);
 			
 			for($i=0; $i < count($one_doc); $i++) {
 				header("Pragma: public");

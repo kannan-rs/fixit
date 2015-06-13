@@ -17,8 +17,9 @@ class Layouts
 				"js/library/jquery-ui.js",
 				"js/library/jquery.validate.js",
 				"js/themes/default/layouts.js",
-				"js/validation.js",
-				"js/submit.js",	
+				"js/home.js",
+				"js/submit.js",
+				"js/utils/formUtils.js",	
 			),
 			'security' => array(
 				"js/security/users.js",
@@ -85,22 +86,22 @@ class Layouts
 	}
 
 	// set layout Page
-	public function set_page($page) {
+	public function setPage($page) {
 		$this->layout_data['page'] = $page;
 	}
 
 	// set layout description
-	public function set_description($description) {
+	/*public function setDescription($description) {
 		$this->layout_description = $description;
-	}
+	}*/
 
 	//Set one User Details
-	public function set_user_details($user_details) {
+	/*public function setUserDetails($user_details) {
 		$this->layout_data['user_details'] = $user_details;
-	}
+	}*/
 
 	// add includes like css and js
-	public function add_include($path, $prepend_base_url = true) {
+	public function addInclude($path, $prepend_base_url = true) {
 		if($prepend_base_url) {
 			$this->CI->load->helper('url'); // just in case
 			$this->includes[] = base_url() . $path;
@@ -111,7 +112,7 @@ class Layouts
 	}
 
 	// print the includes
-	public function print_includes() {
+	public function printIncludes() {
 		$final_includes = '';
 
 		foreach($this->includes as $include) {
@@ -152,14 +153,14 @@ class Layouts
 		$this->layout_data["main_content_name"] = $main_content_name;
 		
 		// Set Template and its required layouts
-		$this->set_layout($params);
+		$this->setLayout($params);
 		//Set JS and CSS Includes
-		$this->set_includes($params);
+		$this->setIncludes($params);
 		// render view
 		$this->CI->load->view("themes/".$this->layout_template."/template", $this->layout_data);
 	}
 
-	public function set_layout($params) {
+	public function setLayout($params) {
 		// set layout's Header
 		$this->layout_data['header'] 			= $this->CI->load->view("themes/".$this->layout_template."/header", $this->layout_data, true);
 		// set layout's top menu Links
@@ -184,24 +185,24 @@ class Layouts
 		$this->layout_data['footer']			= $this->CI->load->view("themes/".$this->layout_template."/footer", $this->layout_data, true);
 	}
 
-	public function set_includes($params) {
+	public function setIncludes($params) {
 		// Set layout's JS files
 		
 		for($jsIdx = 0; $jsIdx < count($this->js_includes['common']); $jsIdx++){
-			$this->add_include($this->js_includes['common'][$jsIdx]);
+			$this->addInclude($this->js_includes['common'][$jsIdx]);
 		}
 		
 		if(isset($this->layout_data['page']) && isset($this->js_includes[$this->layout_data['page']])) {
 			for($jsIdx = 0; $jsIdx < count($this->js_includes[$this->layout_data['page']]); $jsIdx++){
-				$this->add_include($this->js_includes[$this->layout_data['page']][$jsIdx]);
+				$this->addInclude($this->js_includes[$this->layout_data['page']][$jsIdx]);
 			}
 		}
 		
 		// Set layout's CSS files
 		for($cssIdx = 0; $cssIdx < count($this->css_includes); $cssIdx++){
-			$this->add_include($this->css_includes[$cssIdx]);
+			$this->addInclude($this->css_includes[$cssIdx]);
 		}
-		$this->layout_data["includes"]			= $this->print_includes();
+		$this->layout_data["includes"]			= $this->printIncludes();
 	}
 }
 ?>

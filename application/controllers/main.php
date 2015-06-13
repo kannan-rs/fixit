@@ -29,7 +29,7 @@ class Main extends CI_Controller {
 		// With View library
 		$this->load->library("layouts");
 
-		$this->layouts->set_page("index");
+		$this->layouts->setPage("index");
 		
 		if($this->session->userdata('is_logged_in')) {
 			redirect(base_url()."main/personalDetails	");
@@ -43,11 +43,11 @@ class Main extends CI_Controller {
 		// With View library
 		$this->load->library("layouts");
 
-		if(!$this->is_logged_in()) {
+		if(!$this->isLoggedIn()) {
 			return false;
 		}
 
-		$this->layouts->set_page("personalDetails");
+		$this->layouts->setPage("personalDetails");
 		
 		//Render a view
 		$this->layouts->view();
@@ -58,11 +58,11 @@ class Main extends CI_Controller {
 		// With View library
 		$this->load->library("layouts");
 
-		if(!$this->is_logged_in()) {
+		if(!$this->isLoggedIn()) {
 			return false;
 		}
 
-		$this->layouts->set_page("security");
+		$this->layouts->setPage("security");
 		//Render a view
 		$this->layouts->view();
 	}
@@ -72,10 +72,10 @@ class Main extends CI_Controller {
 		// With View library
 		$this->load->library("layouts");
 
-		if(!$this->is_logged_in()) {
+		if(!$this->isLoggedIn()) {
 			return false;
 		}
-		$this->layouts->set_page("projects");
+		$this->layouts->setPage("projects");
 		//Render a view
 		$this->layouts->view();
 	}
@@ -85,13 +85,13 @@ class Main extends CI_Controller {
 		// With View library
 		$this->load->library("layouts");
 
-		$this->layouts->set_page("signup");
+		$this->layouts->setPage("signup");
 		//Render a view
 		$this->layouts->view();
 	}
 
 
-	public function is_logged_in() {
+	public function isLoggedIn() {
 		if(!$this->session->userdata("is_logged_in")) {
 			 redirect('/main/index', 'refresh');
 		} else {

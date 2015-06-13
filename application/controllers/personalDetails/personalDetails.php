@@ -16,14 +16,18 @@ class PersonalDetails extends CI_Controller {
 
 	public function getUserDatas() {
 		$this->load->model('personalDetails/model_details');
+		$this->load->model('utils/model_form_utils');
 		
 		$email = $this->session->userdata("email");
-		$users = $this->model_details->get_users_list($email);
+		$users = $this->model_details->getUsersList($email);
+
+		$stateDetails = $this->model_form_utils->getCountryStatus($users[0]->addr_state);
 		
 		$params = array(
 			'function'=>"view",
 			'record'=>"all",
-			'user_details'=>$users
+			'user_details'=>$users,
+			'state' => $stateDetails
 		);
 
 		echo $this->load->view("personalDetails/view_my_details", $params, true);
@@ -34,7 +38,7 @@ class PersonalDetails extends CI_Controller {
 		$this->load->model('personalDetails/model_details');
 		
 		$email = $this->session->userdata("email");
-		$users = $this->model_details->get_users_list($email);
+		$users = $this->model_details->getUsersList($email);
 		
 		$params = array(
 			'function'=>"view",
@@ -108,7 +112,7 @@ class PersonalDetails extends CI_Controller {
 		$this->load->model('security/model_users');
 		
 		$record = $this->session->userdata("user_id");
-		$users = $this->model_users->get_users_list($record);
+		$users = $this->model_users->getUsersList($record);
 
 		$params = array(
 			'function'=>"changePassForm",
@@ -137,7 +141,7 @@ class PersonalDetails extends CI_Controller {
 		);
 
 
-		$update = $this->model_users->update_user_table_by_email($update_data, $email);
+		$update = $this->model_users->updateUserTableByEmail($update_data, $email);
 
 		if($update["status"] == "success") {
 			$response["status"] = "Success";

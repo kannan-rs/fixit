@@ -1,7 +1,7 @@
 <?php
 
 class Model_functions extends CI_Model {
-	public function get_functions_list($params = "") {
+	public function getFunctionsList($params = "") {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}

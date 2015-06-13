@@ -1,6 +1,6 @@
 <?php
 class Model_docs extends CI_Model {
-	public function get_docs_list($projectId = "", $startRecord = 0, $count= 10) {
+	public function getDocsList($projectId = "", $startRecord = 0, $count= 10) {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);	
 		} else {
@@ -25,7 +25,7 @@ class Model_docs extends CI_Model {
 		return $project_docs;	
 	}
 
-	public function get_doc_by_id($docId = "") {
+	public function getDocById($docId = "") {
 		if(isset($docId) && !is_null($docId) && $docId != "") {
 			$this->db->where('doc_id', $docId);	
 		} else {

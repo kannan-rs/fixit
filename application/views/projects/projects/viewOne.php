@@ -75,36 +75,53 @@
 		</div>
 		<h3><span class="inner_accordion">Contractor Details</span></h3>
 		<div>
-			<table cellspacing="0" class="viewOne projectViewOne">
-				<tr>
-					<td class='cell label'>Name</td>
-					<td class='cell' ><?php echo $project->contractorName; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Company</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->company : "--NA--"; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Prefered Contact Mode</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->prefer : "--NA--"; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Contact Office Email</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->office_email : "--NA--"; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Contact Office Number</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->office_ph : "--NA--"; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Contact Mobile Number</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->mobile_ph : "--NA--"; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Address</td>
-					<td class='cell' ><?php echo ($contractors && $contractors[0]) ? $contractors[0]->address1.",<br/>".$contractors[0]->address2.",<br/>".$contractors[0]->address3.",<br/>".$contractors[0]->address4.",<br/>".$contractors[0]->city.",<br/>".$contractors[0]->state.",<br/>".$contractors[0]->country.",<br/>".$contractors[0]->pin_code : "--NA--"; ?></td>
-				</tr>
-			</table>
+			<div id="contractor_accordion" class="accordion">
+				<?php
+				if(count($contractors)) {
+					for($i = 0; $i < count($contractors); $i++) {
+				?>
+				<h3><span class="inner_accordion">Contractor Name: <?php echo $contractors[$i]->name; ?></span></h3>
+				<div>
+					<table cellspacing="0" class="viewOne projectViewOne">
+						<!--<tr>
+							<td class='cell label'>Name</td>
+							<td class='cell' ><?php echo $contractors[$i]->name; ?></td>
+						</tr>-->
+						<tr>
+							<td class='cell label'>Company</td>
+							<td class='cell' ><?php echo $contractors[$i]->company; ?></td>
+						</tr>
+						<tr>
+							<td class='cell label'>Prefered Contact Mode</td>
+							<td class='cell' ><?php echo$contractors[$i]->prefer; ?></td>
+						</tr>
+						<tr>
+							<td class='cell label'>Contact Office Email</td>
+							<td class='cell' ><?php echo $contractors[$i]->office_email; ?></td>
+						</tr>
+						<tr>
+							<td class='cell label'>Contact Office Number</td>
+							<td class='cell' ><?php echo $contractors[$i]->office_ph; ?></td>
+						</tr>
+						<tr>
+							<td class='cell label'>Contact Mobile Number</td>
+							<td class='cell' ><?php echo $contractors[$i]->mobile_ph; ?></td>
+						</tr>
+						<tr>
+							<td class='cell label'>Address</td>
+							<td class='cell' ><?php echo $contractors[$i]->address1.",<br/>".$contractors[$i]->address2.",<br/>".$contractors[$i]->address3.",<br/>".$contractors[$i]->address4.",<br/>".$contractors[$i]->city.",<br/>".$contractors[$i]->state.",<br/>".$contractors[$i]->country.",<br/>".$contractors[$i]->pin_code; ?></td>
+						</tr>
+					</table>
+				</div>
+				<?php
+					}
+				} else {
+				?>
+					<span>Yet to assign contractor</span>
+				<?php
+				}
+				?>
+			</div>
 		</div>
 	</div>
 	<!-- Project Description -->

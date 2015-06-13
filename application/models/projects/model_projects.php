@@ -2,7 +2,7 @@
 
 class Model_projects extends CI_Model {
 	
-	public function get_projects_list($record = "") {
+	public function getProjectsList($record = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('proj_id', $record);	
 		}

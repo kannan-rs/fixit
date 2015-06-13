@@ -16,7 +16,7 @@ class Contractors extends CI_Controller {
 
 	public function getList() {
 		$this->load->model('projects/model_contractors');
-		$contractors = $this->model_contractors->get_contractors_list();
+		$contractors = $this->model_contractors->getContractorsList();
 		$response = array();
 		if($contractors) {
 			$response['status'] 		= 'success';
@@ -32,7 +32,7 @@ class Contractors extends CI_Controller {
 		$this->load->model('projects/model_contractors');
 
 		
-		$contractors = $this->model_contractors->get_contractors_list();
+		$contractors = $this->model_contractors->getContractorsList();
 
 		$params = array(
 			'contractors'=>$contractors
@@ -43,10 +43,15 @@ class Contractors extends CI_Controller {
 	
 	public function createForm() {
 		$this->load->model('security/model_users');
+
+		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
+		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 		
 		$params = array(
-			'users' 		=> $this->model_users->get_users_list(),
-			'userType' 		=> $this->session->userdata('account_type')
+			'users' 		=> $this->model_users->getUsersList(),
+			'userType' 		=> $this->session->userdata('account_type'),
+			'openAs' 		=> $openAs,
+			'popupType' 	=> $popupType
 		);
 
 		echo $this->load->view("projects/contractors/createForm", $params, true);
@@ -90,17 +95,19 @@ class Contractors extends CI_Controller {
 		$this->load->model('security/model_users');
 
 		$contractorId 		= $this->input->post('contractorId');
-		$contractors 		= $this->model_contractors->get_contractors_list($contractorId);
+		$openAs		 		= $this->input->post('openAs');
+		$contractors 		= $this->model_contractors->getContractorsList($contractorId);
 		
 		for($i=0; $i < count($contractors); $i++) {
-			$contractors[$i]->created_by_name = $this->model_users->get_users_list($contractors[$i]->created_by)[0]->user_name;
-			$contractors[$i]->updated_by_name = $this->model_users->get_users_list($contractors[$i]->updated_by)[0]->user_name;
+			$contractors[$i]->created_by_name = $this->model_users->getUsersList($contractors[$i]->created_by)[0]->user_name;
+			$contractors[$i]->updated_by_name = $this->model_users->getUsersList($contractors[$i]->updated_by)[0]->user_name;
 		}
 
 		$params = array(
 			'contractors'	=> $contractors,
 			'userType' 		=> $this->session->userdata('account_type'),
 			'contractorId' 	=> $contractorId,
+			'openAs' 		=> $openAs
 		);
 		
 		echo $this->load->view("projects/contractors/viewOne", $params, true);
@@ -111,7 +118,7 @@ class Contractors extends CI_Controller {
 
 		$contractorId = $this->input->post('contractorId');
 
-		$contractors = $this->model_contractors->get_contractors_list($contractorId);
+		$contractors = $this->model_contractors->getContractorsList($contractorId);
 
 		$params = array(
 			'contractors'=>$contractors,

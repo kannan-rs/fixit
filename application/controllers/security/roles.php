@@ -16,7 +16,7 @@ class Roles extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_roles');
-		$roles = $this->model_roles->get_roles_list();
+		$roles = $this->model_roles->getRolesList();
 
 		$params = array(
 			'function'=>"view",
@@ -63,7 +63,7 @@ class Roles extends CI_Controller {
 
 		$record = $this->input->post('role_sno');
 
-		$roles = $this->model_roles->get_roles_list($record);
+		$roles = $this->model_roles->getRolesList($record);
 
 		$params = array(
 			'function'=>"edit",
@@ -126,7 +126,7 @@ class Roles extends CI_Controller {
 		$this->load->model('security/model_roles');
 
 		$record = $this->input->post('role_sno');
-		$roles = $this->model_roles->get_roles_list($record);
+		$roles = $this->model_roles->getRolesList($record);
 
 		$params = array(
 			'function'=>"view",

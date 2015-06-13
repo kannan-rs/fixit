@@ -16,7 +16,7 @@ class Operations extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_operations');
-		$operations = $this->model_operations->get_operations_list();
+		$operations = $this->model_operations->getOperationsList();
 
 		$params = array(
 			'function'=>"view",
@@ -64,7 +64,7 @@ class Operations extends CI_Controller {
 
 		$record = $this->input->post('ope_sno');
 
-		$operations = $this->model_operations->get_operations_list($record);
+		$operations = $this->model_operations->getOperationsList($record);
 
 		$params = array(
 			'function'=>"edit",
@@ -128,7 +128,7 @@ class Operations extends CI_Controller {
 		$this->load->model('security/model_operations');
 
 		$record = $this->input->post('ope_id');
-		$operations = $this->model_operations->get_operations_list($record);
+		$operations = $this->model_operations->getOperationsList($record);
 
 		$params = array(
 			'function'=>"view",

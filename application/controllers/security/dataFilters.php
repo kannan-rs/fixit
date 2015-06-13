@@ -16,7 +16,7 @@ class DataFilters extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_dataFilters');
-		$dataFilters = $this->model_dataFilters->get_dataFilters_list();
+		$dataFilters = $this->model_dataFilters->getDataFiltersList();
 
 		$params = array(
 			'function'=>"view",
@@ -63,7 +63,7 @@ class DataFilters extends CI_Controller {
 
 		$record = $this->input->post('dataFilter_sno');
 
-		$dataFilters = $this->model_dataFilters->get_dataFilters_list($record);
+		$dataFilters = $this->model_dataFilters->getDataFiltersList($record);
 
 		$params = array(
 			'function'=>"edit",
@@ -125,7 +125,7 @@ class DataFilters extends CI_Controller {
 		$this->load->model('security/model_dataFilters');
 
 		$record = $this->input->post('dataFilter_sno');
-		$dataFilters = $this->model_dataFilters->get_dataFilters_list($record);
+		$dataFilters = $this->model_dataFilters->getDataFiltersList($record);
 
 		$params = array(
 			'function'=>"view",

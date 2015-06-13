@@ -23,9 +23,9 @@ class Tasks extends CI_Controller {
 
 		$viewFor = $viewFor ? $viewFor : "";
 
-		$project = $this->model_projects->get_projects_list($projectId);
+		$project = $this->model_projects->getProjectsList($projectId);
 		
-		$tasks = $this->model_tasks->get_tasks_list($projectId);
+		$tasks = $this->model_tasks->getTasksList($projectId);
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["project notes", "documents", "create task"],
@@ -59,7 +59,7 @@ class Tasks extends CI_Controller {
 		$projectId = $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
 
-		$parent_record = $this->model_projects->get_projects_list($projectId);
+		$parent_record = $this->model_projects->getProjectsList($projectId);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -125,10 +125,10 @@ class Tasks extends CI_Controller {
 		$viewFor 	= $viewFor ? $viewFor : "";
 
 
-		$tasks = $this->model_tasks->get_task($record);
+		$tasks = $this->model_tasks->getTask($record);
 
 		$projectId 		= $tasks[0]->project_id;
-		$parent_record 	= $this->model_projects->get_projects_list($projectId);
+		$parent_record 	= $this->model_projects->getProjectsList($projectId);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -146,7 +146,7 @@ class Tasks extends CI_Controller {
 
 		$params = array(
 			'tasks' 			=>$tasks,
-			'users' 			=> $this->model_users->get_users_list(),
+			'users' 			=> $this->model_users->getUsersList(),
 			'projectId' 		=> $projectId,
 			'projectNameDescr' 	=> $projectNameDescr,
 			'internalLink' 		=> $internalLink,
@@ -204,13 +204,13 @@ class Tasks extends CI_Controller {
 		$viewFor 	= $this->input->post('viewFor');
 		$viewFor 	= $viewFor ? $viewFor : "";
 
-		$tasks = $this->model_tasks->get_task($record);
+		$tasks = $this->model_tasks->getTask($record);
 
 		$projectId 		= $tasks[0]->project_id;
-		$created_by 	= $this->model_users->get_users_list($tasks[0]->created_by)[0]->user_name;
-		$updated_by 	= $this->model_users->get_users_list($tasks[0]->updated_by)[0]->user_name;
+		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
+		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 
-		$parent_record 	= $this->model_projects->get_projects_list($projectId);
+		$parent_record 	= $this->model_projects->getProjectsList($projectId);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,

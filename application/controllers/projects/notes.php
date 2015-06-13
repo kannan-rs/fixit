@@ -31,16 +31,16 @@ class Notes extends CI_Controller {
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		$count 				= $count != "" ? $count : 5;
 
-		$project_notes 		= $this->model_notes->get_notes_list($projectId, $taskId, $noteId, $startRecord, $count);
+		$project_notes 		= $this->model_notes->getNotesList($projectId, $taskId, $noteId, $startRecord, $count);
 
 		$count 				= $this->model_notes->count($projectId, $taskId);
 
 		for($i=0; $i < count($project_notes); $i++) {
-			$project_notes[$i]->created_by_name = $this->model_users->get_users_list($project_notes[$i]->created_by)[0]->user_name;
-			$project_notes[$i]->updated_by_name = $this->model_users->get_users_list($project_notes[$i]->updated_by)[0]->user_name;
+			$project_notes[$i]->created_by_name = $this->model_users->getUsersList($project_notes[$i]->created_by)[0]->user_name;
+			$project_notes[$i]->updated_by_name = $this->model_users->getUsersList($project_notes[$i]->updated_by)[0]->user_name;
 		}
 
-		$project 			= $this->model_projects->get_projects_list($projectId);
+		$project 			= $this->model_projects->getProjectsList($projectId);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,

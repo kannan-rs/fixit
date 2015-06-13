@@ -16,7 +16,7 @@ class Permissions extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_permissions');
-		$data = $this->model_permissions->get_all_list();
+		$data = $this->model_permissions->getAllList();
 
 		$params = array(
 			'function'=>"view",
@@ -29,7 +29,7 @@ class Permissions extends CI_Controller {
 
 	public function getPermissions() {
 		$this->load->model('security/model_permissions');
-		$data = $this->model_permissions->get_user_permission();
+		$data = $this->model_permissions->getUserPermission();
 
 		$response = array(
 			'status' => "success"
@@ -43,7 +43,7 @@ class Permissions extends CI_Controller {
 
 	public function setPermissions() {
 		$this->load->model('security/model_permissions');
-		$data = $this->model_permissions->set_user_permission();
+		$data = $this->model_permissions->setUserPermission();
 
 		$response = array(
 			'status' => "success"

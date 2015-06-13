@@ -2,9 +2,15 @@
 
 class Model_contractors extends CI_Model {
 	
-	public function get_contractors_list($record = "") {
+	public function getContractorsList($record = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
-			$this->db->where('id', $record);	
+			if(is_array($record)) {
+				for($i = 0; $i < count($record); $i++) {
+					$this->db->or_where('id', $record[$i]);	
+				}
+			} else {
+				$this->db->where('id', $record);
+			}
 		}
 
 		$this->db->select([

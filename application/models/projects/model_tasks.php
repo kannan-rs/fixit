@@ -1,7 +1,7 @@
 <?php
 
 class Model_tasks extends CI_Model {
-	public function get_tasks_list($parentId = "") {
+	public function getTasksList($parentId = "") {
 		if(isset($parentId) && !is_null($parentId) && $parentId != "") {
 			$this->db->where('project_id', $parentId);
 		}
@@ -23,7 +23,7 @@ class Model_tasks extends CI_Model {
 		return $tasks;
 	}
 
-	public function get_task($record = "") {
+	public function getTask($record = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('task_id', $record);	
 		}

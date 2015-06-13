@@ -116,11 +116,11 @@
 		</div>
 		<div class="label">State:</div>
 		<div>
-			<?php echo $user_details[0]->addr_state; ?>
+			<?php echo $state[0]->name; ?>
 		</div>
 		<div class="label">Country:</div>
 		<div>
-			<?php echo $user_details[0]->addr_country; ?>
+			<?php echo $state[0]->country; ?>
 		</div>
 		<div class="label">Pin Code:</div>
 		<div>

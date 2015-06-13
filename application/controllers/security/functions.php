@@ -16,7 +16,7 @@ class Functions extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('security/model_functions');
-		$functions = $this->model_functions->get_functions_list();
+		$functions = $this->model_functions->getFunctionsList();
 
 		$params = array(
 			'function'=>"view",
@@ -65,7 +65,7 @@ class Functions extends CI_Controller {
 
 		$record = $this->input->post('function_sno');
 
-		$functions = $this->model_functions->get_functions_list($record);
+		$functions = $this->model_functions->getFunctionsList($record);
 
 		$params = array(
 			'function'=>"edit",
@@ -129,7 +129,7 @@ class Functions extends CI_Controller {
 		$this->load->model('security/model_functions');
 
 		$record = $this->input->post('function_sno');
-		$functions = $this->model_functions->get_functions_list($record);
+		$functions = $this->model_functions->getFunctionsList($record);
 
 		$params = array(
 			'function'=>"view",

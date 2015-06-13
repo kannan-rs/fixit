@@ -43,9 +43,9 @@
 		</div>
 		<div class="label">Contractor Name</div>
 		<div>
-			<select name="contractorId" id="contractorId" onchange="showContractorCompany(this.value);">
-				<option value="">--Select Contractor--</option>
+			<select class="multi-select" name="contractorId" id="contractorId" multiple="multiple">
 			</select>
+			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
 		</div>
 		<div class="label">Adjuster ID</div>
 		<div>
