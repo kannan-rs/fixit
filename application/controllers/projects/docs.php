@@ -116,11 +116,11 @@ class Docs extends CI_Controller {
 		}
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('projects/model_docs');
 
 		$docId = $this->input->post('docId');
-		$delete_doc = $this->model_docs->delete($docId);
+		$delete_doc = $this->model_docs->deleteRecord($docId);
 
 		if($delete_doc["status"] == "success") {
 			$delete_doc["docId"] = $docId;

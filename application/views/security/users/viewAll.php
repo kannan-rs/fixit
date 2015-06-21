@@ -16,7 +16,7 @@
 
 		for($i = 0; $i < count($users); $i++) { 
 			$deleteText = ($users[$i]->account_type =='admin') ?"":"Delete";
-			$deleteFn = $deleteText ? "securityObj._users.delete(".$users[$i]->sno.")" : "";
+			$deleteFn = $deleteText ? "securityObj._users.deleteRecord(".$users[$i]->sno.")" : "";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._users.viewOne('".$users[$i]->sno."')\">". $users[$i]->user_name ."</td>";

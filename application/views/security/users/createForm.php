@@ -1,7 +1,17 @@
-<!-- Add Users Start -->
-<h2>Create Users</h3>
+<?php if($userType == "admin") { 
+	$header 		= "Create User";
+	$buttonText 	= "Create User";
+} else { 
+	$header 		= "Enroll to Fixit";
+	$buttonText 	= "Signup";
+} 
+?>
+<h2><?php echo $header; ?></h2>
 <form id="create_user_form" name="create_user_form">
 	<div class='form'>
+		<?php
+		if($userType == "admin") {
+		?>
 		<div class="label">Privilege:</div>
 		<div>
 			<select name="privilege" id="privilege">
@@ -10,6 +20,9 @@
 				<option value="2">User</option>
 			</select>
 		</div>
+		<?php
+		}
+		?>
 		<div class="label">First Name:</div>
 		<div>
 			<input type="text" name="firstName" id="firstName" value="" placeholder="First Name" required>
@@ -28,16 +41,38 @@
 		</div>
 		<div class="label">User Belongs To:</div>
 		<div>
-			<input type="text" name="belongsTo" id="belongsTo" value="" placeholder="User Belongs To" required>
+			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showContractor(this.value)" <?php } ?>>
+				<option value="">--Select Belongs To--</option>
+				<option value="customer">Customer</option>
+				<option value="contractor">Contractor</option>
+				<option value="adjuster">Adjuster</option>
+			</select>
 		</div>
-		<div class="label">User Type:</div>
-		<div>
-			<input type="text" name="userType" id="userType" value="" placeholder="User Type" required>
-		</div>
+		<?php if($userType == "admin") { ?>
+		<DIV class="contractor-search">
+			<div class="label">Search Contractor By Zip Code and Select</div>
+			<div>
+				<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip()"></span>
+			</div>
+			<div class="contractor-result">
+				<DIV class="label">&nbsp;</DIV>
+				<DIV>
+					<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
+				</DIV>
+			</div>
+		</DIV>
+		
 		<div class="label">User Status:</div>
 		<div>
-			<input type="text" name="userStatus" id="userStatus" value="" placeholder="User Status" required>
+			<select name="userStatus" id="userStatus" required>
+				<option value="">--Select Status--</option>
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+			</select>
 		</div>
+		<?php } ?>
+		
 		<div class="label">Email ID:</div>
 		<div>
 			<input type="email" name="emailId" id="emailId" value="" placeholder="Email ID" required>
@@ -115,13 +150,17 @@
 		<div>
 			<input type="text" name="city" id="city" value="" placeholder="City" required>
 		</div>
-		<div class="label">State:</div>
+		<DIV class="label">Country:</DIV>
 		<div>
-			<input type="text" name="state" id="state" value="" placeholder="State" required>
+			<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, 'state');">
+				<option value="">--Select Country--</option>
+			</select>
 		</div>
-		<div class="label">Country:</div>
+		<DIV class="label">State:</DIV>
 		<div>
-			<input type="text" name="country" id="country" value="" placeholder="Country" required>
+			<select name="state" id="state" required>
+				<option value="">--Select State--</option>
+			</select>
 		</div>
 		<div class="label">Pin Code:</div>
 		<div>
@@ -132,4 +171,4 @@
 		</p>
 	</div>
 </form>
-<!-- Add Users Ends -->
+<!-- Add Users Ends

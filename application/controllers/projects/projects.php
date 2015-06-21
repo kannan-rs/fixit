@@ -147,11 +147,11 @@ class Projects extends CI_Controller {
 		print_r(json_encode($update_project));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('projects/model_projects');
 
 		$record = $this->input->post('projectId');
-		$delete_project = $this->model_projects->delete($record);
+		$delete_project = $this->model_projects->deleteRecord($record);
 
 		print_r(json_encode($delete_project));	
 	}

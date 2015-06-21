@@ -144,7 +144,6 @@
 		<p class="button-panel">
 			<button type="button" id="signup_user_submit" onclick="homeObj.signupValidate()">Signup</button>
 		</p>
-		
 	</DIV>
 </form>
 <!-- Add Users Ends -->

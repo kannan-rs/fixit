@@ -38,8 +38,11 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		</div>
 		<div class="label">% Complete:</div>
 		<div><input type="text" name="task_percent_complete" id="task_percent_complete" defaultValue="" onchange="projectObj._tasks.percentageChange(this.value)" ></div>
-		<div class="label">Owner ID:</div>
-		<div><input type="text" name="task_owner_id" id="task_owner_id" value=""></div>
+		<div class="label">Choose Owner:</div>
+		<div>
+			<!-- <input type="text" name="task_owner_id" id="task_owner_id" value=""> -->
+			<ul id="ownerSearchResult" class="connectedSortable owner-search-result"></ul>
+		</div>
 		<div class="label">Dependency:</div>
 		<div><input type="text" name="task_dependency" id="task_dependency" value=""></div>
 		<div class="label">Trade Type:</div>

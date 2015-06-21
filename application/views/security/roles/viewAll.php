@@ -17,7 +17,7 @@
 
 		for($i = 0; $i < count($roles); $i++) { 
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "securityObj._roles.delete(".$roles[$i]->sno.")" : "";
+			$deleteFn = $deleteText ? "securityObj._roles.deleteRecord(".$roles[$i]->sno.")" : "";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell'>";

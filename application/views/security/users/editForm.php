@@ -1,23 +1,28 @@
-<?php
-$i = 0;
+<?php if($viewFrom == "security") { 
+	$heading = "Edit Users";
+} else {
+	$heading = "Edit Personal Details";
+}
 ?>
-<h2>Edit Users</h2>
+<h2><?php echo $heading; ?></h2>
 <form id="update_user_form" name="update_user_form">
 	<div class='form'>
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
-		<input type="hidden" id='userId' value="<?php echo $users[$i]->sno; ?>" />
+		<input type="hidden" id='userId' value="<?php echo $users[0]->sno; ?>" />
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details[0]->primary_contact; ?>">
 		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details[0]->contact_pref; ?>">
 
+		<?php if($userType == "admin" && $viewFrom == "security") { ?>
 		<div class="label">Privilege:</div>
 		<div>
-			<input type="hidden" id='privilege_db_val' value="<?php echo $users[$i]->account_type; ?>" />
+			<input type="hidden" id='privilege_db_val' value="<?php echo $users[0]->account_type; ?>" />
 			<select name="privilege" id="privilege">
 				<option value="">--Select Privilege--</option>
 				<option value="1">Admin</option>
 				<option value="2">User</option>
 			</select>
 		</div>
+		<?php } ?>
 		<div class="label">First Name:</div>
 		<div>
 			<input type="text" name="firstName" id="firstName" value="<?php echo $user_details[0]->first_name; ?>" placeholder="First Name" required>
@@ -28,20 +33,44 @@ $i = 0;
 		</div>
 		<div class="label">User Belongs To:</div>
 		<div>
-			<input type="text" name="belongsTo" id="belongsTo" value="<?php echo $user_details[0]->belongs_to; ?>" placeholder="User Belongs To" required>
+			<input type="hidden" name="belongsToDb" id="belongsToDb" value="<?php echo $user_details[0]->belongs_to; ?>">
+			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showContractor(this.value)" <?php } ?>>
+				<option value="">--Select Belongs To--</option>
+				<option value="customer">Customer</option>
+				<option value="contractor">Contractor</option>
+				<option value="adjuster">Adjuster</option>
+			</select>
+			<?php if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") { 
+				echo "<span id=\"selectedContractorDB\">".$contractorName."</span>";
+			}
+			?>
 		</div>
-		<div class="label">User Type:</div>
-		<div>
-			<input type="text" name="userType" id="userType" value="<?php echo $user_details[0]->type; ?>" placeholder="User Type" required>
-		</div>
+		<?php if($userType == "admin") { ?>
+		<DIV class="contractor-search">
+			<div class="label">Search Contractor By Zip Code and Select</div>
+			<div>
+				<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip()"></span>
+			</div>
+			<div class="contractor-result">
+				<DIV class="label">&nbsp;</DIV>
+				<DIV>
+					<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
+				</DIV>
+			</div>
+		</DIV>
 		<div class="label">User Status:</div>
 		<div>
-			<input type="text" name="userStatus" id="userStatus" value="<?php echo $user_details[0]->status; ?>" placeholder="User Status" required>
+			<input type="hidden" name="userStatusDb" id="userStatusDb" value="<?php echo $user_details[0]->status; ?>">
+			<select name="userStatus" id="userStatus" required>
+				<option>--Select Status--</option>
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+			</select>
 		</div>
-		
-		<?php
-		if($userType) {
-		?>
+		<?php } ?>
+
+		<?php if($userType == "admin"  && $viewFrom == "security") { ?>
 		<div class="label">Active Start Date:</div>
 		<div>
 			<input type="date" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$user_details[0]->active_start_date)[0]; ?>" placeholder="Active Start Date" required>
@@ -50,9 +79,8 @@ $i = 0;
 		<div>
 			<input type="date" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$user_details[0]->active_end_date)[0]; ?>" placeholder="Active End Date" required>
 		</div>
-		<?php
-		}
-		?>
+		<?php } ?>
+		
 		<div class="label">Email ID:</div>
 		<div>
 			<input type="email" name="emailId" id="emailId" value="<?php echo $user_details[0]->email; ?>" placeholder="Email ID" disabled required>

@@ -1,6 +1,6 @@
 <?php
 	$editFn 		= "projectObj._contractors.edit('".$contractorId."')";
-	$deleteFn 		= "projectObj._contractors.delete('".$contractorId."')";
+	$deleteFn 		= "projectObj._contractors.deleteRecord('".$contractorId."')";
 	$contractor		= $contractors[0];
 ?>
 <?php
@@ -111,6 +111,10 @@
 		<tr>
 			<td class='cell label'>WebSite URL</td>
 			<td class='cell' ><?php echo $contractor->website_url; ?></td>
+		</tr>
+		<tr>
+			<td class='cell label'>Serive Provided in ZipCode</td>
+			<td class='cell' ><?php echo $contractor->service_area; ?></td>
 		</tr>
 		<tr>
 			<td class='cell label'>Created By</td>

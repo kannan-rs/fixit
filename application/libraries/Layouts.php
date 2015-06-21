@@ -19,7 +19,7 @@ class Layouts
 				"js/themes/default/layouts.js",
 				"js/home.js",
 				"js/submit.js",
-				"js/utils/formUtils.js",	
+				"js/utils/formUtils.js"
 			),
 			'security' => array(
 				"js/security/users.js",
@@ -28,7 +28,7 @@ class Layouts
 				"js/security/functions.js",
 				"js/security/dataFilters.js",
 				"js/security/permissions.js",
-				"js/security.js",
+				"js/security.js"
 			),
 			'projects' => array(
 				"js/projects/projects.js",
@@ -39,8 +39,15 @@ class Layouts
 				"js/projects.js"
 			),
 			'personalDetails' => array(
+				"js/security/users.js",
+				"js/security/operations.js",
+				"js/security/roles.js",
+				"js/security/functions.js",
+				"js/security/dataFilters.js",
+				"js/security/permissions.js",
 				'js/personalDetails/userInfo.js',
 				"js/personalDetails.js",
+				"js/security.js"
 			)
 		);
 
@@ -175,7 +182,14 @@ class Layouts
 		} else {
 			//echo "<br/>Logged In";
 			//echo "<br/>"."pages/".$this->layout_data['main_content_name'];
-			$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
+			//echo "---".$this->CI->session->userdata("userType")."---<br/>";
+			//print_r($this->layout_data);
+			if($this->layout_data['main_content_name'] == "signup") {
+				$this->layout_data["userType"] 			= $this->CI->session->userdata("account_type");
+				$this->layout_data['main_content']		= $this->CI->load->view("security/users/createForm", $this->layout_data, true);
+			} else {
+				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
+			}
 		}
 		
 		

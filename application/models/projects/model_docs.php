@@ -55,7 +55,7 @@ class Model_docs extends CI_Model {
 		return $response;
 	}
 
-	public function delete($record) {
+	public function deleteRecord($record) {
 		$response = array(
 			'status' => 'error'
 		);

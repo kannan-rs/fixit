@@ -39,8 +39,11 @@
 		</div>
 		<div class="label">% Complete:</div>
 		<div><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" defaultValue="<?php echo $tasks[$i]->task_percent_complete; ?>" value="<?php echo $tasks[$i]->task_percent_complete; ?>"></div>
-		<div class="label">Owner ID:</div>
-		<div><input type="text" name="task_owner_id" id="task_owner_id" value="<?php echo $tasks[$i]->task_owner_id; ?>"></div>
+		<div class="label">Choose Owner:</div>
+		<div>
+			<input type="hidden" name="taskOwnerIdDb" id="taskOwnerIdDb" value="<?php echo $tasks[$i]->task_owner_id; ?>">
+			<ul id="ownerSearchResult" class="connectedSortable owner-search-result"></ul>
+		</div>
 		<div class="label">Dependency:</div>
 		<div><input type="text" name="task_dependency" id="task_dependency" value="<?php echo $tasks[$i]->task_dependency; ?>"></div>
 		<div class="label">Trade Type:</div>

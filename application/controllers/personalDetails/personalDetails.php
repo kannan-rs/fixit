@@ -14,14 +14,18 @@ class PersonalDetails extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
-	public function getUserDatas() {
+	/*public function getUserDatas() {
+		$this->load->model('security/model_users');
 		$this->load->model('personalDetails/model_details');
 		$this->load->model('utils/model_form_utils');
 		
 		$email = $this->session->userdata("email");
-		$users = $this->model_details->getUsersList($email);
+		$user_details = $this->model_details->getUsersList($email); // 1 user from user Details table
 
-		$stateDetails = $this->model_form_utils->getCountryStatus($users[0]->addr_state);
+		$users = $this->model_users->getUsersList($this->session->userdata("user_id")); // 1 user from users table
+
+		$stateDetails = $this->model_form_utils->getCountryStatus($user_details[0]->addr_state);
+		
 		
 		$params = array(
 			'function'=>"view",
@@ -29,12 +33,12 @@ class PersonalDetails extends CI_Controller {
 			'user_details'=>$users,
 			'state' => $stateDetails
 		);
-
+		
 		echo $this->load->view("personalDetails/view_my_details", $params, true);
-	}
+	}*/
 
 	
-	public function editPage() {
+	/*public function editPage() {
 		$this->load->model('personalDetails/model_details');
 		
 		$email = $this->session->userdata("email");
@@ -47,10 +51,10 @@ class PersonalDetails extends CI_Controller {
 		);
 
 		echo $this->load->view("personalDetails/edit_my_details", $params, true);
-	}
+	}*/
 
 
-	public function update() {
+	/*public function update() {
 		$this->load->model('personalDetails/model_details');
 
 		$response = array();
@@ -106,7 +110,7 @@ class PersonalDetails extends CI_Controller {
 		} else {
 			$this->editPage();
 		}
-	}
+	}*/
 
 	function changePassForm() {
 		$this->load->model('security/model_users');

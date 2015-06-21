@@ -17,6 +17,7 @@ class Tasks extends CI_Controller {
 	public function viewAll() {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_contractors');
 
 		$projectId 	= $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
@@ -26,6 +27,14 @@ class Tasks extends CI_Controller {
 		$project = $this->model_projects->getProjectsList($projectId);
 		
 		$tasks = $this->model_tasks->getTasksList($projectId);
+
+		$contractorIds = explode(",", $project[0]->contractor_id);
+
+		$contractorDB 	= $this->model_contractors->getContractorsList($contractorIds);
+
+		for($i = 0; $i < count($contractorDB); $i++) {
+			$contractors[$contractorDB[$i]->id] = $contractorDB[$i];
+		}
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["project notes", "documents", "create task"],
@@ -46,7 +55,8 @@ class Tasks extends CI_Controller {
 			'projectId' 		=> $projectId,
 			'viewFor' 			=> $viewFor,
 			'projectNameDescr' 	=> $projectNameDescr,
-			'internalLink' 		=> $internalLink
+			'internalLink' 		=> $internalLink,
+			'contractors' 		=> $contractors
 		);
 		
 		echo $this->load->view("projects/tasks/viewAll", $params, true);
@@ -184,13 +194,13 @@ class Tasks extends CI_Controller {
 		print_r(json_encode($update_task));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('projects/model_tasks');
 
 		$task_id = $this->input->post('task_id');
 		$project_id = $this->input->post('project_id');
 
-		$delete_task = $this->model_tasks->delete($task_id, $project_id);
+		$delete_task = $this->model_tasks->deleteRecord($task_id, $project_id);
 
 		print_r(json_encode($delete_task));	
 	}
@@ -199,6 +209,8 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_contractors');
+
 
 		$record 	= $this->input->post('taskId');
 		$viewFor 	= $this->input->post('viewFor');
@@ -207,6 +219,9 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 
 		$projectId 		= $tasks[0]->project_id;
+
+		$contractorIds 	= explode(",", $tasks[0]->task_owner_id);
+		$contractors 	= $this->model_contractors->getContractorsList($contractorIds);
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 
@@ -228,13 +243,14 @@ class Tasks extends CI_Controller {
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
 		$params = array(
-			'tasks'=>$tasks,
-			'created_by' => $created_by,
-			'updated_by' => $updated_by,
-			'projectId' => $projectId,
-			'projectNameDescr' 	=> $projectNameDescr,
-			'internalLink' 	=> $internalLink,
-			'viewFor' 	=> $viewFor
+			'tasks' 				=>$tasks,
+			'created_by' 			=> $created_by,
+			'updated_by' 			=> $updated_by,
+			'projectId' 			=> $projectId,
+			'projectNameDescr' 		=> $projectNameDescr,
+			'internalLink' 			=> $internalLink,
+			'viewFor' 				=> $viewFor,
+			'contractors' 			=> $contractors
 		);
 		
 		echo $this->load->view("projects/tasks/viewOne", $params, true);

@@ -2,7 +2,7 @@
 
 class Model_contractors extends CI_Model {
 	
-	public function getContractorsList($record = "") {
+	public function getContractorsList($record = "", $zip = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			if(is_array($record)) {
 				for($i = 0; $i < count($record); $i++) {
@@ -10,6 +10,16 @@ class Model_contractors extends CI_Model {
 				}
 			} else {
 				$this->db->where('id', $record);
+			}
+		}
+
+		if(isset($zip) && !is_null($zip) && $zip != "") {
+			if(is_array($zip)) {
+				for($i = 0; $i < count($zip); $i++) {
+					$this->db->or_like('service_area', $zip[$i]);	
+				}
+			} else {
+				$this->db->or_like('service_area', $zip);
 			}
 		}
 
@@ -59,7 +69,7 @@ class Model_contractors extends CI_Model {
 		return $response;
 	}
 
-	public function delete($record) {
+	public function deleteRecord($record) {
 		$response = array(
 			'status' => 'error'
 		);

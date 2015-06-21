@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Fixit Minifier" basedir="." default=r"un">
+<project name="Fixit Minifier" basedir="." default="run">
  
     <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="build-lib/compiler.jar" />
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -39,7 +39,8 @@
         ]]> </script>
         <echo message="Compressing file ${file.js} in ${directory}" />
      
-        <jscomp compilationLevel="simple" warning="verbose" debug="false" output="${foreach.file}">
+        <!--<jscomp compilationLevel="whitespace" warning="verbose" debug="false" output="${foreach.file}">-->
+        <jscomp forceRecompile="true" compilationLevel="whitespace" warning="verbose" debug="false" output="build/fixit.js">
             <sources dir="${directory}">
                 <file name="${file.js}"/>
             </sources>

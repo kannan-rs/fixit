@@ -18,7 +18,7 @@
 
 		for($i = 0; $i < count($projects); $i++) { 
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "projectObj._projects.delete(".$projects[$i]->proj_id.")" : "";
+			$deleteFn = $deleteText ? "projectObj._projects.deleteRecord(".$projects[$i]->proj_id.")" : "";
 	?>
 			<tr class='row viewAll'>
 				<td class='cell'>

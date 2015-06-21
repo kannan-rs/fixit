@@ -43,12 +43,28 @@
 		<div>
 			<input type="text" name="property_owner_id" id="property_owner_id" value="<?php echo $project->property_owner_id;?>">
 		</div>
-		<div class="label">Contractor Name</div>
-		<div>
+		<div class="contractor-search-selected">
 			<input type="hidden" id="contractorIdDb" value="<?php echo $project->contractor_id;?>">
-			<select class="multi-select" name="contractorId" id="contractorId" onchange="projectObj._projects.setSelectedContractor();" multiple="multiple">
-			</select>
-			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup', '2')">Click Here</a>.
+			<div class="label">Contractor's List</div>
+			<div>
+				<ul id="contractorSearchSelected" class="connectedSortable" ondrop="projectObj._projects.drop(event)" ondragover="projectObj._projects.allowDrop(event)">
+				</ul>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="label">Search Contractor By Zip Code</div>
+		<div>
+			<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+			<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingZip()"></span>
+		</div>
+		<div class="contractor-search-result">
+			<div>
+				<ul id="contractorSearchResult" class="connectedSortable" ondrop="projectObj._projects.drop(event)" ondragover="projectObj._projects.allowDrop(event)"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
+		<div>
+			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
 		</div>
 		<div class="label">Adjuster ID</div>
 		<div>

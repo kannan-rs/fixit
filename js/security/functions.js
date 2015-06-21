@@ -11,7 +11,7 @@ securityFunctions.prototype.createValidate = function() {
 				required: true
 			},
 			functionName: {
-				required: true,
+				required: true
 			},
 			functionDescr: {
 				required: true
@@ -163,10 +163,10 @@ securityFunctions.prototype.updateSubmit = function() {
 	});
 };
 
-securityFunctions.prototype.delete = function(function_sno) {
+securityFunctions.prototype.deleteRecord = function(function_sno) {
 	$.ajax({
 		method: "POST",
-		url: "/security/functions/delete",
+		url: "/security/functions/deleteRecord",
 		data: {
 			function_sno: function_sno
 		},

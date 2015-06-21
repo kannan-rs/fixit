@@ -20,7 +20,7 @@
 	<?php
 	for($i=0; $i < count($project_notes); $i++) {
 
-		$deleteFn = ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._notes.delete" : "projectObj._projects.notesDelete";
+		$deleteFn = ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._notes.deleteRecord" : "projectObj._projects.notesDelete";
 		$deleteFn .= "(".$project_notes[$i]->notes_id.", ".$project_notes[$i]->task_id.")";
 	?>
 		<!--

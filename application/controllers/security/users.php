@@ -29,8 +29,7 @@ class Users extends CI_Controller {
 
 	public function createForm() {
 		$params = array(
-			'function'=>"createusersform",
-			'record'=>""
+			'userType' 		=> $this->session->userdata("account_type")
 		);
 
 		echo $this->load->view("security/users/createForm", $params, true);
@@ -45,7 +44,7 @@ class Users extends CI_Controller {
 		$password 				= $this->input->post('password');
 		$passwordHint 			= $this->input->post('passwordHint');
 		$belongsTo 				= $this->input->post('belongsTo');
-		$userType 				= $this->input->post('userType');
+		$contractorId 			= $this->input->post("contractorId");
 		$userStatus 			= $this->input->post('userStatus');
 		$emailId 				= $this->input->post('emailId');
 		$contactPhoneNumber 	= $this->input->post('contactPhoneNumber');
@@ -62,13 +61,12 @@ class Users extends CI_Controller {
 		$country 				= $this->input->post('country');
 		$pinCode				= $this->input->post('pinCode');
 
-
 		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
 				'first_name' 			=> $firstName,
 				'last_name' 			=> $lastName, 
 				'belongs_to' 			=> $belongsTo,
-				'type' 					=> $userType,
+				'contractorId' 			=> $contractorId,
 				'status' 				=> $userStatus,
 				'active_start_date' 	=> date("Y-m-d H:i:s"),
 				'email' 				=> $emailId,
@@ -93,13 +91,12 @@ class Users extends CI_Controller {
 
 			$inserted = $this->model_users->insertUserDetails($createUser_data);
 			if($inserted["status"] == "success") {
-
 				$loginTableUser_data = array(
 					'user_name' 			=> $emailId, 
 					'password' 				=> md5($password),
 					'password_hint' 		=> $passwordHint,
-					'account_type' 			=> '',
-					'status' 				=> 1,
+					'account_type' 			=> $privilege,
+					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata("user_id"),
 					'updated_by'			=> $this->session->userdata("user_id"),
 					'created_date'			=> date("Y-m-d H:i:s"),
@@ -132,18 +129,27 @@ class Users extends CI_Controller {
 
 	public function editForm() {
 		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('utils/model_form_utils');
 
-		$record = $this->input->post('userId');
+		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
 
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 
+		$contractorName = "";
+		if(!empty($user_details[0]->contractorId)) {
+			$contractors = $this->model_contractors->getContractorsList($user_details[0]->contractorId);
+			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		}
+
 		$params = array(
-			'function'=>"edit",
-			'record'=>$record,
-			'users'=>$users,
-			'user_details' => $user_details,
-			'userType' 	=> $this->session->userdata("account_type")
+			'record' 			=> $record,
+			'viewFrom' 			=> $this->input->post('userId') ? "security" : "personalDetails",
+			'users' 			=> $users,
+			'user_details' 		=> $user_details,
+			'contractorName' 	=> $contractorName,
+			'userType' 			=> $this->session->userdata("account_type")
 		);
 		
 		echo $this->load->view("security/users/editForm", $params, true);
@@ -154,16 +160,15 @@ class Users extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
-		$active_start_date 		= $this->input->post("activeStartDate") == "" ? date("Y-m-d H:i:s") : $this->input->post("activeStartDate");
+		$active_start_date 		= $this->input->post("activeStartDate");
 		$active_end_date 		= $this->input->post("activeEndDate");
-
 		$user_record 			= $this->input->post('userId');
 		$privilege 				= $this->input->post('privilege');
 		$user_details_record 	= $this->input->post('sno'); 
 		$firstName 				= $this->input->post('firstName');
 		$lastName 				= $this->input->post('lastName'); 
 		$belongsTo 				= $this->input->post('belongsTo');
-		$userType 				= $this->input->post('userType');
+		$contractorId 			= $this->input->post("contractorId");
 		$userStatus 			= $this->input->post('userStatus');
 		$contactPhoneNumber 	= $this->input->post('contactPhoneNumber');
 		$mobileNumber 			= $this->input->post('mobileNumber');
@@ -183,10 +188,7 @@ class Users extends CI_Controller {
 			'first_name' 			=> $firstName,
 			'last_name' 			=> $lastName, 
 			'belongs_to' 			=> $belongsTo,
-			'type' 					=> $userType,
 			'status' 				=> $userStatus,
-			'active_start_date' 	=> $active_start_date,
-			'active_end_date' 		=> $active_end_date,
 			'contact_ph1' 			=> $contactPhoneNumber,
 			'contact_mobile' 		=> $mobileNumber,
 			'contact_alt_mobile'	=> $altNumber,
@@ -204,14 +206,31 @@ class Users extends CI_Controller {
 			'updated_by'			=> $this->session->userdata('user_id')
 		);
 
+		if( $active_start_date != "" )
+			$update_details_data["active_start_date"] = $active_start_date;
+
+		if( $active_end_date != "" )
+			$update_details_data["active_end_date"] = $active_end_date;
+
+		if($contractorId != "") {
+			$update_details_data["contractorId"] = $contractorId;
+		}
+
+		if($belongsTo != "contractor") {
+			$update_details_data["contractorId"] = "";
+		}
+
 		$update_details = $this->model_users->updateDetailsTable($update_details_data, $user_details_record);
 
-		$update_data = array(
-		   //'password' 	=> $password,
-		   'account_type' 	=> ($privilege == 1 ? 'admin':'user')
-		);
+		$update_data = array();
 
-		$update = $this->model_users->updateUserTable($update_data, $user_record);
+		if($privilege != "") {
+			$update_data['account_type'] = $privilege == 1 ? 'admin':'user';
+			$update = $this->model_users->updateUserTable($update_data, $user_record);
+		} else {
+			$update["status"] = "success";
+		}
+		
 
 		if($update["status"] == "success" && $update_details["status"] == "success") {
 			$response["status"]		= "success";
@@ -223,7 +242,7 @@ class Users extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('security/model_users');
 
 		$record = $this->input->post('userId');
@@ -244,19 +263,32 @@ class Users extends CI_Controller {
 	}
 
 	public function viewOne() {
-		$record = $this->input->post('userId');
-
 		$this->load->model('security/model_users');
+		$this->load->model('utils/model_form_utils');
+		$this->load->model('projects/model_contractors');
 
-		$users = $this->model_users->getUsersList($record);
-		$user_details = $this->model_users->getUserDetailsByEmail($users[0]->user_name);
+		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
+		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "personalDetails";
+
+		$users 			= $this->model_users->getUsersList($record);
+		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
+		$stateDetails 	= $this->model_form_utils->getCountryStatus($user_details[0]->addr_state);
+
+		$contractorName = "";
+		if(!empty($user_details[0]->contractorId)) {
+			$contractors = $this->model_contractors->getContractorsList($user_details[0]->contractorId);
+			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		}
+
 
 		$params = array(
-			'function'		=> "view",
-			'record'		=> $record,
-			'users'			=> $users,
-			'user_details' 	=> $user_details,
-			'userType' 		=> $this->session->userdata("account_type")
+			'viewFrom' 			=> $viewFrom,
+			'record'			=> $record,
+			'users'				=> $users,
+			'user_details' 		=> $user_details,
+			'state' 			=> $stateDetails,
+			'userType' 			=> $this->session->userdata("account_type"),
+			'contractorName' 	=> $contractorName
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);

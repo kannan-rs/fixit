@@ -109,12 +109,12 @@ class Notes extends CI_Controller {
 		print_r(json_encode($insert_notes));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('projects/model_notes');
 
 		$noteId = $this->input->post('noteId');
 
-		$delete_task = $this->model_notes->delete($noteId);
+		$delete_task = $this->model_notes->deleteRecord($noteId);
 
 		print_r(json_encode($delete_task));
 	}

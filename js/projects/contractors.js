@@ -62,6 +62,7 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 	var mobileNumber 			= $("#mobileNumber").val();
 	var prefContact 			= "";
 	var websiteURL 				= $("#websiteURL").val();
+	var serviceZip				= $("#serviceZip").val();
 
 	$("input[name=prefContact]:checked").each(
 		function() {
@@ -92,6 +93,7 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 			mobileNumber 			: mobileNumber,
 			prefContact 			: prefContact,
 			websiteURL 				: websiteURL,
+			serviceZip 				: serviceZip,
 			openAs 					: openAs,
 			popupType 				: popupType
 		},
@@ -220,6 +222,7 @@ contractors.prototype.updateSubmit = function() {
 	var mobileNumber 			= $("#mobileNumber").val();
 	var prefContact 			= "";
 	var websiteURL 				= $("#websiteURL").val();
+	var serviceZip 				= $("#serviceZip").val();
 
 	$("input[name=prefContact]:checked").each(
 		function() {
@@ -251,7 +254,8 @@ contractors.prototype.updateSubmit = function() {
 			contactPhoneNumber 		: contactPhoneNumber,
 			mobileNumber 			: mobileNumber,
 			prefContact 			: prefContact,
-			websiteURL 				: websiteURL
+			websiteURL 				: websiteURL,
+			serviceZip 				: serviceZip
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -273,10 +277,10 @@ contractors.prototype.updateSubmit = function() {
 	});
 };
 
-contractors.prototype.delete = function() {
+contractors.prototype.deleteRecord = function() {
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/delete",
+		url: "/projects/contractors/deleteRecord",
 		data: {
 			contractorId: projectObj._contractors.contractorId
 		},

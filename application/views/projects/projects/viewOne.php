@@ -1,6 +1,6 @@
 <?php
 	$editFn = "projectObj._projects.editProject('".$projectId."')";
-	$deleteFn = "projectObj._projects.delete('".$projectId."'')";
+	$deleteFn = "projectObj._projects.deleteRecord('".$projectId."')";
 	$project = $projects[0];
 ?>
 <div class="header-options">
@@ -12,6 +12,8 @@
 </div>
 <div>
 	<!-- List all the Functions from database -->
+	<input type="hidden" id="projectCustomerName" value="<?php echo $project->contractor_id;?>">
+	<input type="hidden" id="contractorIdDb" value="<?php echo $project->contractor_id;?>">
 	<table cellspacing="0" class="viewOne projectViewOne">
 		<tr>
 			<td class='cell label'>Project Title:</td>

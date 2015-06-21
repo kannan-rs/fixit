@@ -17,7 +17,7 @@
 
 		for($i = 0; $i < count($functions); $i++) { 
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "securityObj._functions.delete(".$functions[$i]->sno.")" : "";
+			$deleteFn = $deleteText ? "securityObj._functions.deleteRecord(".$functions[$i]->sno.")" : "";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell number'>";

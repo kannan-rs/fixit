@@ -44,7 +44,11 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 	<td class='cell label'>Task Status:</td><td class='cell'><?php echo $tasks[$i]->task_status; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'>Owner ID:</td><td class='cell'><?php echo $tasks[$i]->task_owner_id; ?></td>
+	<td class='cell label'>Owner Name:</td><td class='cell'>
+		<?php 
+			echo count($contractors) ? $contractors[0]->name." from company '".$contractors[0]->company."'" : "Customer";
+		?>
+	</td>
 	</tr>
 	<tr>
 	<td class='cell label'>Dependency:</td><td class='cell'><?php echo $tasks[$i]->task_dependency; ?></td>

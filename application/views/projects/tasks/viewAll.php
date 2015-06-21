@@ -38,7 +38,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$end_date 		= $tasks[$i]->task_end_date_for_view;
 		$projectId 		= $tasks[$i]->project_id;
 		
-		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.delete" : "projectObj._projects.taskDelete";
+		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.deleteRecord" : "projectObj._projects.taskDelete";
 		$deleteFn  .= "(".$taskId.",".$projectId.")";
 
 		$viewOneFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.viewOne" : "projectObj._projects.taskViewOne";
@@ -49,6 +49,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 
 		$notesFn 		= "projectObj._projects.getTaskNotesList('".$taskId."',0, 5);";
 		//$notesCreateFn = "projectObj._projects.addTaskNote('".$taskId."');";
+		
+		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : "Customer";
 ?>
 		<tr class='row' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->
@@ -58,7 +60,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 				</a>
 			</td>
 			<td class='cell'><?php echo $descr; ?></td>
-			<td class='cell'>-- To be decided --</td>
+			<td class='cell'><?php echo $ownerName; ?></td>
 			<td class='cell percentage'><?php echo $percent; ?></td>
 			<td class='cell date'><?php echo  $stard_date; ?></td>
 			<td class='cell date'><?php echo  $end_date; ?></td>

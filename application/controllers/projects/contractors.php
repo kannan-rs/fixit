@@ -16,7 +16,13 @@ class Contractors extends CI_Controller {
 
 	public function getList() {
 		$this->load->model('projects/model_contractors');
-		$contractors = $this->model_contractors->getContractorsList();
+
+		$records = [];
+		if($this->input->post("records")) {
+			$records = explode(",", $this->input->post("records"));
+		}
+
+		$contractors = $this->model_contractors->getContractorsList( $records );
 		$response = array();
 		if($contractors) {
 			$response['status'] 		= 'success';
@@ -26,6 +32,25 @@ class Contractors extends CI_Controller {
 			$response["message"] 		= "Error retriving contractors details";
 		}
 		print_r(json_encode($response));
+	}
+
+	public function getContractorListUsingZip() {
+		$this->load->model('projects/model_contractors');
+		
+		$zip = explode(",", $this->input->post('zip'));
+		$record = "";
+
+		$contractors = $this->model_contractors->getContractorsList($record, $zip);
+
+		$response = array();
+		if($contractors) {
+			$response['status'] 		= 'success';
+			$response['contractors']	= $contractors;
+		} else {
+			$response['status'] 		= 'error';
+			$response["message"] 		= "Error retriving contractors details";
+		}
+		print_r(json_encode($response));	
 	}
 
 	public function viewAll() {
@@ -80,6 +105,7 @@ class Contractors extends CI_Controller {
 			'mobile_ph' 		=> $this->input->post('mobileNumber'),
 			'prefer' 			=> $this->input->post('prefContact'),
 			'website_url' 		=> $this->input->post('websiteURL'),
+			'service_area' 		=> $this->input->post('serviceZip'),
 			'created_by'		=> $this->session->userdata('user_id'),
 			'updated_by'		=> $this->session->userdata('user_id'),
 			'created_on'		=> date("Y-m-d H:i:s"),
@@ -153,6 +179,7 @@ class Contractors extends CI_Controller {
 			'mobile_ph' 		=> $this->input->post('mobileNumber'),
 			'prefer' 			=> $this->input->post('prefContact'),
 			'website_url' 		=> $this->input->post('websiteURL'),
+			'service_area' 		=> $this->input->post('serviceZip'),
 			'updated_by'		=> $this->session->userdata('user_id'),
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
@@ -162,11 +189,11 @@ class Contractors extends CI_Controller {
 		print_r(json_encode($update_contractor));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('projects/model_contractors');
 
 		$contractorId = $this->input->post('contractorId');
-		$delete_contractor = $this->model_contractors->delete($contractorId);
+		$delete_contractor = $this->model_contractors->deleteRecord($contractorId);
 
 		print_r(json_encode($delete_contractor));	
 	}

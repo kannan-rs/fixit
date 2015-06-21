@@ -11,7 +11,7 @@ securityDataFilters.prototype.createValidate = function() {
 				required: true
 			},
 			dataFilterName: {
-				required: true,
+				required: true
 			},
 			dataFilterDescr: {
 				required: true
@@ -163,10 +163,10 @@ securityDataFilters.prototype.updateSubmit = function() {
 	});
 };
 
-securityDataFilters.prototype.delete = function(dataFilter_sno) {
+securityDataFilters.prototype.deleteRecord = function(dataFilter_sno) {
 	$.ajax({
 		method: "POST",
-		url: "/security/dataFilters/delete",
+		url: "/security/dataFilters/deleteRecord",
 		data: {
 			dataFilter_sno: dataFilter_sno
 		},

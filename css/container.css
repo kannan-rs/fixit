@@ -191,3 +191,70 @@ select.multi-select {
 	min-height : 100px;
 	min-width: 100px;
 }
+
+textarea.small-textarea {
+	width : 200px !important;
+	height : 50px !important;
+}
+
+.contractorSearch .searchIcon {
+	padding: 0px 5px;
+	position: absolute;
+}
+
+.contractor-search-result ul, .contractor-search-selected ul, .owner-search-result {
+    border: 1px solid #D0D0D0;
+    width: 220px;
+    min-height: 20px;
+    max-height : 150px;
+    overflow-y: auto;
+    overflow-x:hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: left;
+    margin-right: 10px;
+    background-color: #EEEEEE;
+  }
+ 
+ .owner-search-result {
+ 	max-height: none;
+ 	float : none;
+ }
+ 
+ .owner-search-result.users {
+ 	max-height: 150px;
+ }
+.contractor-search-result ul li, .contractor-search-selected ul li, .owner-search-result li {
+    margin: 0px 2px 5px 2px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 190px;
+    color: inherit;
+  }
+
+.contractor-search-result ul {
+	margin-top: -20px;
+	position: absolute;
+	margin-left: 200px;
+}
+
+.contractor-search-result .company, .owner-search-result .company {
+	color: #D2B9B9;
+}
+
+.search-action {
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	padding: 2px 1px 0px 1px;
+	float: right;
+	margin-top: -25px;
+	background-color: #f6f6f6;
+}
+
+.owner-search-result .search-action {
+	border: 0px;
+	background: initial;
+	padding: 0px;
+	margin-top: -32px;
+}

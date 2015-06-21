@@ -213,10 +213,10 @@ task.prototype.updateSubmit = function() {
 	});
 };
 
-task.prototype.delete = function(task_id, project_id, viewFor) {
+task.prototype.deleteRecord = function(task_id, project_id, viewFor) {
 	$.ajax({
 		method: "POST",
-		url: "/projects/tasks/delete",
+		url: "/projects/tasks/deleteRecord",
 		data: {
 			task_id 	: 	task_id,
 			project_id 	: 	project_id,
@@ -266,6 +266,10 @@ task.prototype.setDropdownValue = function() {
 
 	$("#task_status").val(db_task_status);
 };
+
+task.prototype.setOwnerOption = function() {
+	$("input[name=optionSelectedOwner][value=" + $("#taskOwnerIdDb").val() + "]").attr('checked', 'checked');
+}
 
 task.prototype.setPercentage = function(statusValue) {
 	if(statusValue == "completed") {

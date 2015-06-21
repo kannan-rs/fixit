@@ -97,3 +97,17 @@ window.onscroll = function() {
 		}
 */	}
 }
+
+$(document).on("click", function(e) {
+	if(e && e.target && 
+		(e.target.id == "contractorSearchResult" || 
+			(e.target.parentElement && e.target.parentElement.id == "contractorSearchResult") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorSearchResult")
+		)
+	) {
+		return;
+	}
+	if($(".contractor-search-result").length) { 
+		$(".contractor-search-result").hide();
+	}
+});

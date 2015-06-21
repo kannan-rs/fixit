@@ -80,7 +80,7 @@ class Model_tasks extends CI_Model {
 		return $response;
 	}
 
-	public function delete ($task_id, $project_id) {
+	public function deleteRecord($task_id, $project_id) {
 		$response = array(
 			'status' => 'error'
 		);

@@ -103,7 +103,7 @@ class Roles extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('security/model_roles');
 
 		$record = $this->input->post('role_sno');

@@ -41,10 +41,26 @@
 		<div>
 			<input type="text" name="property_owner_id" id="property_owner_id" value="">
 		</div>
-		<div class="label">Contractor Name</div>
+		<div class="contractor-search-selected">
+			<div class="label">Drop Contractor from Search result</div>
+			<div>
+				<ul id="contractorSearchSelected" class="connectedSortable" ondrop="projectObj._projects.drop(event)" ondragover="projectObj._projects.allowDrop(event)">
+				</ul>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div class="label">Search Contractor By Zip Code</div>
 		<div>
-			<select class="multi-select" name="contractorId" id="contractorId" multiple="multiple">
-			</select>
+			<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+			<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingZip()"></span>
+		</div>
+		<div class="contractor-search-result">
+			<div>
+				<ul id="contractorSearchResult" class="connectedSortable" ondrop="projectObj._projects.drop(event)" ondragover="projectObj._projects.allowDrop(event)"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
+		<div>
 			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
 		</div>
 		<div class="label">Adjuster ID</div>

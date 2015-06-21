@@ -102,7 +102,7 @@ class DataFilters extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('security/model_dataFilters');
 
 		$record = $this->input->post('dataFilter_sno');

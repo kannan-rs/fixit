@@ -11,7 +11,7 @@ securityOperations.prototype.createValidate = function() {
 				required: true
 			},
 			operationName: {
-				required: true,
+				required: true
 			},
 			operationDescr: {
 				required: {
@@ -41,7 +41,7 @@ securityOperations.prototype.updateValidate = function() {
 				required: true
 			},
 			operationName: {
-				required: true,
+				required: true
 			},
 			operationDescr: {
 				required: {
@@ -177,10 +177,10 @@ securityOperations.prototype.updateSubmit = function() {
 	});
 };
 
-securityOperations.prototype.delete = function(ope_sno) {
+securityOperations.prototype.deleteRecord = function(ope_sno) {
 	$.ajax({
 		method: "POST",
-		url: "/security/operations/delete",
+		url: "/security/operations/deleteRecord",
 		data: {
 			ope_sno: ope_sno
 		},

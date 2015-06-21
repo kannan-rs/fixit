@@ -73,7 +73,7 @@ class Model_notes extends CI_Model {
 		}
 	}
 
-	public function delete ($noteId) {
+	public function deleteRecord($noteId) {
 		$response = array(
 			'status' => 'error'
 		);

@@ -11,7 +11,7 @@ securityRoles.prototype.createValidate = function() {
 				required: true
 			},
 			roleName: {
-				required: true,
+				required: true
 			},
 			roleDescr: {
 				required: true
@@ -161,10 +161,10 @@ securityRoles.prototype.updateSubmit = function() {
 	});
 };
 
-securityRoles.prototype.delete = function(role_sno) {
+securityRoles.prototype.deleteRecord = function(role_sno) {
 	$.ajax({
 		method: "POST",
-		url: "/security/roles/delete",
+		url: "/security/roles/deleteRecord",
 		data: {
 			role_sno: role_sno
 		},

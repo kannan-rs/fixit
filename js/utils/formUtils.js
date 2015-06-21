@@ -48,9 +48,9 @@ formUtils.prototype.populateState = function( country, stateId ) {
 	for(var i =0 ; i < formUtilObj.state.length; i++) {
 		if(formUtilObj.state[i].country == country) {
 			$('#'+stateId).append($('<option>', {
-			    value: formUtilObj.state[i].abbreviation,
-			    text: formUtilObj.state[i].name,
-			    class: formUtilObj.state[i].country
+			    'value': formUtilObj.state[i].abbreviation,
+			    'text': formUtilObj.state[i].name,
+			    'class': formUtilObj.state[i].country
 			}));
 		}
 	}

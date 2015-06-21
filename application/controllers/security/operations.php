@@ -105,7 +105,7 @@ class Operations extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function delete() {
+	public function deleteRecord() {
 		$this->load->model('security/model_operations');
 
 		$record = $this->input->post('ope_sno');

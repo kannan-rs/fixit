@@ -93,6 +93,10 @@ if(!$openAs || $openAs != "popup") {
 		<div>
 			<input type="text" name="websiteURL" id="websiteURL" value="" placeholder="Website URL" required>
 		</div>
+		<div class="label">Zip codes of Available Service Area:</div>
+		<div>
+			<textarea name="serviceZip" id="serviceZip" class="small-textarea" required></textarea>
+		</div>
 		<p class="button-panel">
 			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Create Contractor</button>
 		</p>

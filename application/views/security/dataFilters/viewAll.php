@@ -17,7 +17,7 @@
 
 		for($i = 0; $i < count($dataFilters); $i++) { 
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "securityObj._dataFilters.delete(".$dataFilters[$i]->sno.")" : "";
+			$deleteFn = $deleteText ? "securityObj._dataFilters.deleteRecord(".$dataFilters[$i]->sno.")" : "";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell number'>";

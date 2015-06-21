@@ -5,6 +5,7 @@ function project() {
 
 };
 
+project.prototype.selectedContractor = [];
 /**
 	Create Project Validation
 */
@@ -48,9 +49,7 @@ project.prototype.createForm = function() {
 		success: function( response ) {
 			$("#project_content").html(response);
 			projectObj._projects.setMandatoryFields();
-			projectObj._projects.hideContractorDetails();
-			projectObj._projects.getContractorDetails();
-
+			projectObj._projects.hideContractorDetails('all');
 		},
 		error: function( error ) {
 			error = error;
@@ -69,7 +68,7 @@ project.prototype.createSubmit = function() {
 	var project_status			= $("#project_status").val();
 	var project_budget			= $("#project_budget").val();
 	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= $("#contractorId").val();
+	var contractor_id			= [];//$("#contractorId").val();
 	var adjuster_id				= $("#adjuster_id").val();
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
@@ -78,8 +77,15 @@ project.prototype.createSubmit = function() {
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
 
+
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
-	if(contractor_id) {
+	$("#contractorSearchSelected li").each(
+		function() {
+			contractor_id.push($(this).attr("id"));
+		}
+	);
+
+	if(contractor_id.length) {
 		contractor_id = contractor_id.join(",");
 	}
 
@@ -135,9 +141,9 @@ project.prototype.editProject = function() {
 			projectObj._projects.openDialog({"title" : "Edit Project"});
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
-			projectObj._projects.hideContractorDetails();
-			projectObj._projects.getContractorDetails();
-			projectObj._projects.setContractorDetails();
+			projectObj._projects.hideContractorDetails('all');
+			projectObj._projects.getContractorDetails( $("#contractorIdDb").val() );
+			//projectObj._projects.setContractorDetails();
 		},
 		error: function( error ) {
 			error = error;
@@ -166,7 +172,7 @@ project.prototype.updateSubmit = function() {
 	var project_status			= $("#project_status").val();
 	var project_budget			= $("#project_budget").val();
 	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= $("#contractorId").val();
+	var contractor_id			= [];//$("#contractorId").val();
 	var adjuster_id				= $("#adjuster_id").val();
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
@@ -176,7 +182,13 @@ project.prototype.updateSubmit = function() {
 	var lend_amount				= $("#lend_amount").val();
 
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
-	if(contractor_id) {
+	$("#contractorSearchSelected li").each(
+		function() {
+			contractor_id.push($(this).attr("id"));
+		}
+	);
+
+	if(contractor_id.length) {
 		contractor_id = contractor_id.join(",");
 	}
 
@@ -222,10 +234,10 @@ project.prototype.updateSubmit = function() {
 	});
 };
 
-project.prototype.delete = function() {
+project.prototype.deleteRecord = function() {
 	$.ajax({
 		method: "POST",
-		url: "/projects/projects/delete",
+		url: "/projects/projects/deleteRecord",
 		data: {
 			projectId: projectObj._projects.projectId
 		},
@@ -452,7 +464,7 @@ project.prototype.addDocumentForm = function() {
 		method: "POST",
 		url: "/projects/docs/createForm",
 		data: {
-			projectId: projectObj._projects.projectId,
+			projectId: projectObj._projects.projectId
 		},
 		success: function( response ) {
 			$("#popupForAll").html(response);
@@ -470,7 +482,7 @@ project.prototype.addDocumentForm = function() {
 project.prototype.documentDelete = function ( doc_id ) {
 		$.ajax({
 		method: "POST",
-		url: "/projects/docs/delete",
+		url: "/projects/docs/deleteRecord",
 		data: {
 			docId: doc_id
 		},
@@ -495,7 +507,7 @@ project.prototype.documentDelete = function ( doc_id ) {
 project.prototype.taskDelete = function(task_id, project_id) {
 	$.ajax({
 		method: "POST",
-		url: "/projects/tasks/delete",
+		url: "/projects/tasks/deleteRecord",
 		data: {
 			task_id 	: 	task_id,
 			project_id 	: 	project_id
@@ -522,7 +534,7 @@ project.prototype.taskDelete = function(task_id, project_id) {
 project.prototype.notesDelete = function(noteId, taskId) {
 	$.ajax({
 		method: "POST",
-		url: "/projects/notes/delete",
+		url: "/projects/notes/deleteRecord",
 		data: {
 			noteId 	: 	noteId
 		},
@@ -583,6 +595,7 @@ project.prototype.addTask = function( ) {
 		success: function( response ) {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title": "Add Task"});
+			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
 		},
 		error: function( error ) {
 			error = error;
@@ -628,6 +641,7 @@ project.prototype.editTask = function(taskId) {
 		success: function( response ) {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title": "Edit Task Details"});
+			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
 			projectObj._tasks.setDropdownValue();
 		},
 		error: function( error ) {
@@ -646,10 +660,15 @@ project.prototype.taskCreateSubmit = function() {
 	task_start_date 			= $("#task_start_date").val();
 	task_end_date 				= $("#task_end_date").val();
 	task_status					= $("#task_status").val();
-	task_owner_id				= $("#task_owner_id").val();
+	task_owner_id				= "";//$("#task_owner_id").val();
 	task_percent_complete		= $("#task_percent_complete").val();
 	task_dependency				= $("#task_dependency").val();
 	task_trade_type				= $("#task_trade_type").val();
+
+	var ownerSelected = $("input[type='radio'][name='optionSelectedOwner']:checked");
+	if (ownerSelected.length > 0) {
+	    task_owner_id = ownerSelected.val();
+	}
 
 	$.ajax({
 		method: "POST",
@@ -732,11 +751,15 @@ project.prototype.taskUpdateSubmit = function() {
 	task_start_date 		= $("#task_start_date").val();
 	task_end_date 			= $("#task_end_date").val();
 	task_status 			= $("#task_status").val();
-	task_owner_id 			= $("#task_owner_id").val();
+	task_owner_id 			= "";//$("#task_owner_id").val();
 	task_percent_complete	= $("#task_percent_complete").val();
 	task_dependency			= $("#task_dependency").val();
 	task_trade_type			= $("#task_trade_type").val();
 
+	var ownerSelected = $("input[type='radio'][name='optionSelectedOwner']:checked");
+	if (ownerSelected.length > 0) {
+	    task_owner_id = ownerSelected.val();
+	}
 
 	$.ajax({
 		method: "POST",
@@ -819,28 +842,50 @@ project.prototype.openDialog2 = function( options ) {
   	}
 }
 
-project.prototype.hideContractorDetails = function() {
-	$(".contractorDetails").hide();
-	$(".contractorCompany").hide();
-	$(".contractorCompanyInfo > span").hide();
+project.prototype.hideContractorDetails = function(hide) {
+	if(!hide || hide == "" || hide == "all" || hide == "results") {
+		$(".contractor-search-result").hide();
+	}
+	if(!hide || hide == "" || hide == "all" || hide == "selected") {
+		$(".contractor-search-selected").hide();
+	}
 }
 
-project.prototype.getContractorDetails = function() {
+project.prototype.showContractorDetails = function(show) {
+	if(!show || show == "" || show == "all" || show == "results") {
+		$(".contractor-search-result").show();
+	}
+	if(!show || show == "" || show == "all" || show == "selected") {
+		$(".contractor-search-selected").show();
+	}
+}
+
+project.prototype.getContractorDetails = function( records ) {
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/getList",
-		data: {},
+		data: {
+			records : records
+		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
 				contractors = response["contractors"];
 				for(var i =0 ; i < contractors.length; i++) {
-					$('#contractorId').append($('<option>', {
-					    value: contractors[i].id,
-					    text: contractors[i].name
-					}));
+					var li = "<li class=\"ui-state-highlight\" id=\""+contractors[i].id+"\" draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\">";
+						li += "<div>"+contractors[i].name+"</div>";
+						li += "<div class=\"company\">"+contractors[i].company+"</div>";
+						li += "<span class=\"ui-icon ui-icon-minus search-action\" onclick=\"projectObj._projects.removeSelectedContractor(event, this);\"></span>";
+						li += "</li>";
+					$('#contractorSearchSelected').append(li);
 				}
-				hideContractorDetails();
+				projectObj._projects.selectedContractor = []; 
+		    	$("#contractorSearchSelected li").each(
+					function() {
+						projectObj._projects.selectedContractor.push($(this).attr("id"));
+					}
+				);
+				projectObj._projects.showContractorDetails("selected");
 			} else {
 				alert(response.message);
 			}
@@ -891,4 +936,121 @@ project.prototype.updateContractorSelectionList = function() {
 
 project.prototype.setSelectedContractor = function() {
 	$("#contractorIdDb").val($("#contractorId").val().join(","));
+}
+
+project.prototype.getContractorListUsingZip = function() {
+	var zip = $("#contractorZipCode").val();
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/contractors/getContractorListUsingZip",
+		data: {
+			zip: zip
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				response.contractorList;
+				$("#contractorSearchResult").children().remove();				
+
+				contractors = response["contractors"];
+				for(var i =0 ; i < contractors.length; i++) {
+					if(projectObj._projects.selectedContractor.indexOf(contractors[i].id) == -1) {
+						var li = "<li class=\"ui-state-default\" id=\""+contractors[i].id+"\" draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\">";
+							li += "<div>"+contractors[i].name+"</div>";
+							li += "<div class=\"company\">"+contractors[i].company+"</div>";
+							li += "<span class=\"ui-icon ui-icon-plus search-action\" onclick=\"projectObj._projects.removeSelectedContractor(event, this);\"></span>";
+							li += "</li>";
+						$('#contractorSearchResult').append(li);
+					}
+				}
+				$('#contractorSearchResult li .ui-icon').hide();
+
+				projectObj._projects.showContractorDetails('all');
+			
+			
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});	
+}
+
+project.prototype.allowDrop = function(ev) {
+    ev.preventDefault();
+}
+
+project.prototype.drag = function (ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+project.prototype.drop = function(ev) {
+	if(ev.toElement.id == "contractorSearchSelected" || ev.toElement.id == "contractorSearchResult") {
+		ev.preventDefault();
+	    var data = ev.dataTransfer.getData("text");
+	    ev.target.appendChild(document.getElementById(data));
+    }
+    if(ev.toElement.id == "contractorSearchSelected") {
+    	$("#contractorSearchSelected li .ui-icon-plus").removeClass("ui-icon-plus").addClass("ui-icon-minus");
+    	$("#contractorSearchSelected .ui-state-default").removeClass("ui-state-default").addClass("ui-state-highlight");
+    	projectObj._projects.selectedContractor = []; 
+    	$("#contractorSearchSelected li").each(
+			function() {
+				projectObj._projects.selectedContractor.push($(this).attr("id"));
+			}
+		);
+		$('#contractorSearchSelected li .ui-icon').show();
+    }
+    if(ev.toElement.id == "contractorSearchResult") {
+    	$("#contractorSearchResult li .ui-icon-minus").removeClass("ui-icon-minus").addClass("ui-icon-plus");
+    	$("#contractorSearchResult .ui-state-highlight").removeClass("ui-state-highlight").addClass("ui-state-default");
+    	$('#contractorSearchResult li .ui-icon').hide();
+    }
+}
+
+project.prototype.removeSelectedContractor = function(ev, element) {
+	if(element.className.indexOf("ui-icon-minus") >= 0 ) {
+		var id = element.parentElement.id;
+		projectObj._projects.selectedContractor.splice(projectObj._projects.selectedContractor.indexOf(id),1);
+		element.parentElement.remove();
+	}
+}
+
+project.prototype.getOwnerList = function( records ) {
+	$.ajax({
+		method: "POST",
+		url: "/projects/contractors/getList",
+		data: {
+			records : records
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status == "success") {
+				contractors = response["contractors"];
+				for(var i =0 ; i < contractors.length; i++) {
+					var li = "<li class=\"ui-state-default\">";
+						li += "<div>"+contractors[i].name+"</div>";
+						li += "<div class=\"company\">"+contractors[i].company+"</div>";
+						li += "<span class=\"search-action\"><input type=\"radio\" name=\"optionSelectedOwner\" value=\""+contractors[i].id+"\" /></span>";
+						li += "</li>";
+					$('#ownerSearchResult').append(li);
+				}
+				projectObj._tasks.setOwnerOption();
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
 }

@@ -21,7 +21,7 @@
 			break;
 			case "delete project":
 				$deleteText = "Delete Project";
-				$deleteFn = $deleteText ? "projectObj._projects.delete(".$projectId.")" : "";
+				$deleteFn = $deleteText ? "projectObj._projects.deleteRecord(".$projectId.")" : "";
 				echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\"> ".$deleteText."</a></span>";
 			break;
 			case "create task":

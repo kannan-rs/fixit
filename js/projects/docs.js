@@ -103,10 +103,10 @@ docs.prototype.getAttachment = function(doc_id) {
 
 }
 
-docs.prototype.delete = function ( doc_id ) {
+docs.prototype.deleteRecord = function ( doc_id ) {
 		$.ajax({
 		method: "POST",
-		url: "/projects/docs/delete",
+		url: "/projects/docs/deleteRecord",
 		data: {
 			docId: doc_id
 		},

@@ -1,53 +1,46 @@
-<div class="create-link">
-	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a>
-</div>
-<h2>View User Details</h2>
 <?php
-	if(count($users) > 0 && count($user_details) > 0) {
 		$i = 0;
 ?>
+<div class="create-link">
+	<?php if($viewFrom == "security") { 
+		$heading = "View User Details";
+	?>
+	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a>
+	<?php } else { 
+		$heading = "Personal Details";
+	?>
+		<a href="javascript:void(0);" onclick="personalDetailsObj._userInfo.editPage(<?php echo $user_details[$i]->sno; ?>);">Edit Details</a>
+	<?php } ?>
+</div>
+<h2><?php echo $heading; ?></h2>
 	<form>
 	<div class='form'>
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[$i]->sno; ?>">
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details[$i]->primary_contact; ?>">
 		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details[$i]->contact_pref; ?>">
 		<input type="hidden" name="viewonly" value="true">
-
 		<div class='label'>Privilege</div>
 		<div><?php echo $users[$i]->account_type; ?></div>
-
 		<div class="label">First Name:</div>
 		<div><?php echo $user_details[$i]->first_name; ?></div>
-
 		<div class="label">Last Name:</div>
 		<div><?php echo $user_details[$i]->last_name; ?></div>
-
 		<div class="label">User Belongs To:</div>
 		<div><?php echo $user_details[$i]->belongs_to; ?></div>
-
-		<div class="label">User Type:</div>
-		<div><?php echo $user_details[$i]->type; ?></div>
-
+		<?php if($user_details[$i]->belongs_to == "contractor") { ?>
+		<div class="label">Contractor Nmae:</div>
+		<div><?php echo $contractorName; ?></div>
+		<?php } ?>
 		<div class="label">User Status:</div>
 		<div><?php echo $user_details[$i]->status; ?></div>
-
-		<?php
-		if($userType) {
-		?>
 		<div class="label">Active Start Date:</div>
 		<div><?php echo explode(" ",$user_details[$i]->active_start_date)[0]; ?></div>
 		<div class="label">Active End Date:</div>
-		<div><?php echo explode(" ",$user_details[$i]->active_end_date)[0]; ?></div>
-		<?php
-		}
-		?>
-		
+		<div><?php echo explode(" ",$user_details[$i]->active_end_date)[0]; ?></div>	
 		<div class="label">Email ID:</div>
 		<div><?php echo $user_details[$i]->email; ?></div>
-
 		<div class="label">Contact Phone Number:</div>
 		<div><?php echo $user_details[$i]->contact_ph1; ?></div>
-
 		<div class="label">Mobile Number:</div>
 		<div>
 			<table  class="innerOption">
@@ -98,29 +91,19 @@
 		
 		<div class="label">Flat No:</div>
 		<div><?php echo $user_details[$i]->addr1; ?></div>
-
 		<div class="label">Building Name:</div>
 		<div><?php echo $user_details[$i]->addr2; ?></div>
-
 		<div class="label">Street:</div>
 		<div><?php echo $user_details[$i]->addr3; ?></div>
-
 		<div class="label">Main:</div>
 		<div><?php echo $user_details[$i]->addr4; ?></div>
-
 		<div class="label">City:</div>
 		<div><?php echo $user_details[$i]->addr_city; ?></div>
-
 		<div class="label">State:</div>
-		<div><?php echo $user_details[$i]->addr_state; ?></div>
-
+		<div><?php echo count($state) ? $state[0]->name : "--State Not Selected--" ; ?></div>
 		<div class="label">Country:</div>
-		<div><?php echo $user_details[$i]->addr_country; ?></div>
-
+		<div><?php echo count($state) ? $state[0]->country : "--Country Not Selected--" ; ?></div>
 		<div class="label">Pin Code:</div>
 		<div><?php echo $user_details[$i]->addr_pin;?></div>
 	</div>
 </form>
-<?php
-	}
-?>

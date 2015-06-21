@@ -90,6 +90,10 @@
 		<div>
 			<input type="text" name="websiteURL" id="websiteURL" value="<?php echo $contractor->website_url;?>" placeholder="Website URL" required>
 		</div>
+		<div class="label">Zip codes of Available Service Area:</div>
+		<div>
+			<textarea name="serviceZip" id="serviceZip" class="small-textarea" required><?php echo $contractor->service_area; ?></textarea>
+		</div>
 		<p class="button-panel">
 			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.updateValidate()">Update Contractor</button>
 		</p>
