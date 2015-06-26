@@ -105,7 +105,7 @@
 				</tr>
 			</table>
 		</DIV>
-		<DIV class="label">Flat No:</DIV>
+		<!-- <DIV class="label">Flat No:</DIV>
 		<DIV>
 			<input type="text" name="addressLine1" id="addressLine1" value="" placeholder="Address Line 1:" required>
 		</DIV>
@@ -140,7 +140,7 @@
 		<DIV class="label">Pin Code:</DIV>
 		<DIV>
 			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
-		</DIV>
+		</DIV> -->
 		<p class="button-panel">
 			<button type="button" id="signup_user_submit" onclick="homeObj.signupValidate()">Signup</button>
 		</p>

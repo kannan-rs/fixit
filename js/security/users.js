@@ -104,7 +104,7 @@ securityUsers.prototype.createForm = function() {
 		success: function( response ) {
 			$("#security_content").html(response);
 			securityObj._users.showContractor();
-			formUtilObj.getCountryStatus("state", "country");
+			formUtilObj.getAndSetCountryStatus("state", "country");
 		},
 		error: function( error ) {
 			error = error;
@@ -214,7 +214,7 @@ securityUsers.prototype.editUser = function(userId) {
 			securityObj._users.setStatus();
 			
 			securityObj._users.showContractor();
-			formUtilObj.getCountryStatus("state", "country");
+			formUtilObj.getAndSetCountryStatus("state", "country");
 		},
 		error: function( error ) {
 			error = error;

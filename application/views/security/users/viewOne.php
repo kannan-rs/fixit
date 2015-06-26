@@ -88,22 +88,8 @@
 				</tr>
 			</table>
 		</div>
-		
-		<div class="label">Flat No:</div>
-		<div><?php echo $user_details[$i]->addr1; ?></div>
-		<div class="label">Building Name:</div>
-		<div><?php echo $user_details[$i]->addr2; ?></div>
-		<div class="label">Street:</div>
-		<div><?php echo $user_details[$i]->addr3; ?></div>
-		<div class="label">Main:</div>
-		<div><?php echo $user_details[$i]->addr4; ?></div>
-		<div class="label">City:</div>
-		<div><?php echo $user_details[$i]->addr_city; ?></div>
-		<div class="label">State:</div>
-		<div><?php echo count($state) ? $state[0]->name : "--State Not Selected--" ; ?></div>
-		<div class="label">Country:</div>
-		<div><?php echo count($state) ? $state[0]->country : "--Country Not Selected--" ; ?></div>
-		<div class="label">Pin Code:</div>
-		<div><?php echo $user_details[$i]->addr_pin;?></div>
+		<?php
+			echo $addressFile;
+		?>
 	</div>
 </form>

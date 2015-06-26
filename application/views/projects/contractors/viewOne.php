@@ -16,121 +16,59 @@
 <?php
 }
 ?>
-
-<div>
+<div class="clear"></div>
+<form>
+	<div class='form'>
 	<!-- List all the Functions from database -->
-	<table cellspacing="0" class="viewOne projectViewOne">
-		<tr>
-			<td class='cell label'>Name:</td>
-			<td class='cell' ><?php echo $contractor->name; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Company</td>
-			<td class='cell' ><?php echo $contractor->company; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Type</td>
-			<td class='cell' ><?php echo $contractor->type; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Type</td>
-			<td class='cell' ><?php echo $contractor->type; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>License</td>
-			<td class='cell' ><?php echo $contractor->license; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>BBB</td>
-			<td class='cell' ><?php echo $contractor->bbb; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Status</td>
-			<td class='cell' ><?php echo $contractor->status; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Flat No</td>
-			<td class='cell' ><?php echo $contractor->address1; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Building Name</td>
-			<td class='cell' ><?php echo $contractor->address2; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Street</td>
-			<td class='cell' ><?php echo $contractor->address3; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Main</td>
-			<td class='cell' ><?php echo $contractor->address4; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>City</td>
-			<td class='cell' ><?php echo $contractor->city; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>State</td>
-			<td class='cell' ><?php echo $contractor->state; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Country</td>
-			<td class='cell' ><?php echo $contractor->country; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Pin Code</td>
-			<td class='cell' ><?php echo $contractor->pin_code; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Office Email ID</td>
-			<td class='cell' ><?php echo $contractor->office_email; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Office Number</td>
-			<td class='cell' ><?php echo $contractor->office_ph; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Mobile Number</td>
-			<td class='cell' ><?php echo $contractor->mobile_ph; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Prefered Mode for Contact</td>
-			<td class='cell' >
+			<div class='label'>Name:</div>
+			<div><?php echo $contractor->name; ?></div>
+			<div class='label'>Company</div>
+			<div><?php echo $contractor->company; ?></div>
+			<div class='label'>Type</div>
+			<div><?php echo $contractor->type; ?></div>
+			<div class='label'>Type</div>
+			<div><?php echo $contractor->type; ?></div>
+			<div class='label'>License</div>
+			<div><?php echo $contractor->license; ?></div>
+			<div class='label'>BBB</div>
+			<div><?php echo $contractor->bbb; ?></div>
+			<div class='label'>Status</div>
+			<div><?php echo $contractor->status; ?></div>
+			<?php
+			echo $addressFile;
+			?>
+			<div class='label'>Office Email ID</div>
+			<div><?php echo $contractor->office_email; ?></div>
+			<div class='label'>Office Number</div>
+			<div><?php echo $contractor->office_ph; ?></div>
+			<div class='label'>Mobile Number</div>
+			<div><?php echo $contractor->mobile_ph; ?></div>
+			<div class='label'>Prefered Mode for Contact</div>
+			<div>
 				<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo $contractor->prefer; ?>" />
 				<table class="innerOption">
-					<tr>
+					
 						<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled></td>
 						<td>Email</td>
 						<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber" disabled></td>
 						<td>Office Phone</td>
 						<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled></td>
 						<td>Mobile Number</td>
-					</tr>
+					
 				</table>
-			</td>
-		</tr>
-		<tr>
-			<td class='cell label'>WebSite URL</td>
-			<td class='cell' ><?php echo $contractor->website_url; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Serive Provided in ZipCode</td>
-			<td class='cell' ><?php echo $contractor->service_area; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Created By</td>
-			<td class='cell' ><?php echo $contractor->created_by; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Created On</td>
-			<td class='cell' ><?php echo $contractor->created_on; ?></td>
-		</tr>	
-		<tr>
-			<td class='cell label'>Updated By</td>
-			<td class='cell' ><?php echo $contractor->updated_by; ?></td>
-		</tr>
-		<tr>
-			<td class='cell label'>Updated On</td>
-			<td class='cell' ><?php echo $contractor->updated_on; ?></td>
-		</tr>
-	</table>
-</div>
+			</div>
+			<div class='label'>WebSite URL</div>
+			<div><?php echo $contractor->website_url; ?></div>
+			<div class='label'>Serive Provided in ZipCode</div>
+			<div><?php echo $contractor->service_area; ?></div>
+			<div class='label'>Created By</div>
+			<div><?php echo $contractor->created_by; ?></div>
+			<div class='label'>Created On</div>
+			<div><?php echo $contractor->created_on; ?></div>
+			<div class='label'>Updated By</div>
+			<div><?php echo $contractor->updated_by; ?></div>
+			<div class='label'>Updated On</div>
+			<div><?php echo $contractor->updated_on; ?></div>
+	<!-- </table> -->
+	</div>
+</form>

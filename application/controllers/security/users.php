@@ -28,8 +28,10 @@ class Users extends CI_Controller {
 	}
 
 	public function createForm() {
+		$addressFile = $this->load->view("forms/address", '', true);
 		$params = array(
-			'userType' 		=> $this->session->userdata("account_type")
+			'userType' 		=> $this->session->userdata("account_type"),
+			'addressFile' 	=> $addressFile
 		);
 
 		echo $this->load->view("security/users/createForm", $params, true);
@@ -54,8 +56,6 @@ class Users extends CI_Controller {
 		$prefContact			= $this->input->post('prefContact');
 		$addressLine1 			= $this->input->post('addressLine1');
 		$addressLine2 			= $this->input->post('addressLine2');
-		$addressLine3 			= $this->input->post('addressLine3');
-		$addressLine4 			= $this->input->post('addressLine4');
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
@@ -76,8 +76,6 @@ class Users extends CI_Controller {
 				'primary_contact'		=> $primaryContact,
 				'addr1' 				=> $addressLine1,
 				'addr2' 				=> $addressLine2,
-				'addr3' 				=> $addressLine3,
-				'addr4' 				=> $addressLine4,
 				'addr_city' 			=> $city,
 				'addr_state' 			=> $state,
 				'addr_country' 			=> $country,
@@ -143,12 +141,24 @@ class Users extends CI_Controller {
 			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 		}
 
+		$addressParams = array(
+			'addressLine1' 		=> $user_details[0]->addr1,
+			'addressLine2' 		=> $user_details[0]->addr2,
+			'city' 				=> $user_details[0]->addr_city,
+			'country' 			=> $user_details[0]->addr_country,
+			'state'				=> $user_details[0]->addr_state,
+			'pinCode' 			=> $user_details[0]->addr_pin,
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
+
 		$params = array(
 			'record' 			=> $record,
 			'viewFrom' 			=> $this->input->post('userId') ? "security" : "personalDetails",
 			'users' 			=> $users,
 			'user_details' 		=> $user_details,
 			'contractorName' 	=> $contractorName,
+			'addressFile' 		=> $addressFile,
 			'userType' 			=> $this->session->userdata("account_type")
 		);
 		
@@ -177,8 +187,6 @@ class Users extends CI_Controller {
 		$prefContact			= $this->input->post('prefContact');
 		$addressLine1 			= $this->input->post('addressLine1');
 		$addressLine2 			= $this->input->post('addressLine2');
-		$addressLine3 			= $this->input->post('addressLine3');
-		$addressLine4 			= $this->input->post('addressLine4');
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
@@ -196,8 +204,6 @@ class Users extends CI_Controller {
 			'contact_pref'			=> $prefContact,
 			'addr1' 				=> $addressLine1,
 			'addr2' 				=> $addressLine2,
-			'addr3' 				=> $addressLine3,
-			'addr4' 				=> $addressLine4,
 			'addr_city' 			=> $city,
 			'addr_state' 			=> $state,
 			'addr_country' 			=> $country,
@@ -280,6 +286,17 @@ class Users extends CI_Controller {
 			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 		}
 
+		$addressParams = array(
+			'addressLine1' 		=> $user_details[0]->addr1,
+			'addressLine2' 		=> $user_details[0]->addr2,
+			'city' 				=> $user_details[0]->addr_city,
+			'country' 			=> $user_details[0]->addr_country,
+			'state'				=> $user_details[0]->addr_state,
+			'pinCode' 			=> $user_details[0]->addr_pin,
+			'requestFrom' 		=> 'view'
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		$params = array(
 			'viewFrom' 			=> $viewFrom,
@@ -288,6 +305,7 @@ class Users extends CI_Controller {
 			'user_details' 		=> $user_details,
 			'state' 			=> $stateDetails,
 			'userType' 			=> $this->session->userdata("account_type"),
+			'addressFile' 		=> $addressFile,
 			'contractorName' 	=> $contractorName
 		);
 		

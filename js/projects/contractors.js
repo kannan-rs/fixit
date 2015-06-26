@@ -24,6 +24,7 @@ contractors.prototype.createForm = function( openAs, popupType ) {
 				$("#contractor_content").html(response);
 			}
 			projectObj._projects.setMandatoryFields();
+			formUtilObj.getAndSetCountryStatus("state", "country");
 		},
 		error: function( error ) {
 			error = error;
@@ -183,6 +184,7 @@ contractors.prototype.edit = function() {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title" : "Edit Contractor"});
 			projectObj._contractors.setPrefContact();
+			formUtilObj.getAndSetCountryStatus("state", "country");
 		},
 		error: function( error ) {
 			error = error;

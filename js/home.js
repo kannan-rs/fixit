@@ -30,13 +30,13 @@ home.prototype.signupValidate = function() {
 	}
 }
 
-home.prototype.hideContractorDetails = function() {
+/*home.prototype.hideContractorDetails = function() {
 	$(".contractorDetails").hide();
 	$(".contractorCompany").hide();
 	$(".contractorCompanyInfo > span").hide();
 }
-
-home.prototype.getContractorDetails = function() {
+*/
+/*home.prototype.getContractorDetails = function() {
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/getList",
@@ -65,17 +65,17 @@ home.prototype.getContractorDetails = function() {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
-}
+}*/
 
-home.prototype.showContractor = function( belongsTo ) {
+/*home.prototype.showContractor = function( belongsTo ) {
 	if(belongsTo == "contractor") {
 		$(".contractorDetails").show();
 	} else {
 		homeObj.hideContractorDetails();
 	}
-}
+}*/
 
-home.prototype.showContractorCompany = function( contractorId ) {
+/*home.prototype.showContractorCompany = function( contractorId ) {
 	if(contractorId == "") {
 		$(".contractorCompany").hide();
 		$(".contractorCompanyInfo > span").hide();
@@ -84,14 +84,14 @@ home.prototype.showContractorCompany = function( contractorId ) {
 		$(".contractorCompanyInfo > span").hide();
 		$("#contractorCompany_"+contractorId).show();
 	}
-}
+}*/
 
 $().ready(function() {
 	homeObj = new home();
 	formUtilObj = new formUtils();
 
-	homeObj.getContractorDetails();
-	homeObj.hideContractorDetails();
+	/*homeObj.getContractorDetails();
+	homeObj.hideContractorDetails();*/
 
-	formUtilObj.getCountryStatus("state", "country");
+	//formUtilObj.getAndSetCountryStatus("state", "country");
 });

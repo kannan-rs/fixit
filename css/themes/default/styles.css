@@ -672,6 +672,9 @@ scrollammount: 5;
 	border-color: #D0D0D0;
 }
 
+.form input.address {
+	width:300px;
+}
 .create-link {
 	text-align:right;
 }

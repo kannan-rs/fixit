@@ -870,15 +870,12 @@ project.prototype.getContractorDetails = function( records ) {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
-				contractors = response["contractors"];
-				for(var i =0 ; i < contractors.length; i++) {
-					var li = "<li class=\"ui-state-highlight\" id=\""+contractors[i].id+"\" draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\">";
-						li += "<div>"+contractors[i].name+"</div>";
-						li += "<div class=\"company\">"+contractors[i].company+"</div>";
-						li += "<span class=\"ui-icon ui-icon-minus search-action\" onclick=\"projectObj._projects.removeSelectedContractor(event, this);\"></span>";
-						li += "</li>";
-					$('#contractorSearchSelected').append(li);
+				var contractors = {
+					"list" 			: response["contractors"],
+					"appendTo"		: "contractorSearchSelected",
+					"type"			: "selectedList"
 				}
+				formUtilObj.createContractorOptionsList(contractors);
 				projectObj._projects.selectedContractor = []; 
 		    	$("#contractorSearchSelected li").each(
 					function() {
@@ -953,17 +950,13 @@ project.prototype.getContractorListUsingZip = function() {
 				response.contractorList;
 				$("#contractorSearchResult").children().remove();				
 
-				contractors = response["contractors"];
-				for(var i =0 ; i < contractors.length; i++) {
-					if(projectObj._projects.selectedContractor.indexOf(contractors[i].id) == -1) {
-						var li = "<li class=\"ui-state-default\" id=\""+contractors[i].id+"\" draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\">";
-							li += "<div>"+contractors[i].name+"</div>";
-							li += "<div class=\"company\">"+contractors[i].company+"</div>";
-							li += "<span class=\"ui-icon ui-icon-plus search-action\" onclick=\"projectObj._projects.removeSelectedContractor(event, this);\"></span>";
-							li += "</li>";
-						$('#contractorSearchResult').append(li);
-					}
+				var contractors = {
+					"list" 			: response["contractors"],
+					"appendTo"		: "contractorSearchResult",
+					"type"			: "searchList",
+					"excludeList" 	: projectObj._projects.selectedContractor
 				}
+				formUtilObj.createContractorOptionsList(contractors);
 				$('#contractorSearchResult li .ui-icon').hide();
 
 				projectObj._projects.showContractorDetails('all');
@@ -1032,15 +1025,12 @@ project.prototype.getOwnerList = function( records ) {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
-				contractors = response["contractors"];
-				for(var i =0 ; i < contractors.length; i++) {
-					var li = "<li class=\"ui-state-default\">";
-						li += "<div>"+contractors[i].name+"</div>";
-						li += "<div class=\"company\">"+contractors[i].company+"</div>";
-						li += "<span class=\"search-action\"><input type=\"radio\" name=\"optionSelectedOwner\" value=\""+contractors[i].id+"\" /></span>";
-						li += "</li>";
-					$('#ownerSearchResult').append(li);
+				var contractors = {
+					"list" 			: response["contractors"],
+					"appendTo"		: "ownerSearchResult",
+					"type"			: "ownerList"
 				}
+				formUtilObj.createContractorOptionsList(contractors);
 				projectObj._tasks.setOwnerOption();
 			} else {
 				alert(response.message);

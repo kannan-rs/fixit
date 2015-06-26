@@ -32,38 +32,9 @@ if(!$openAs || $openAs != "popup") {
 		<div>
 			<input type="text" name="status" id="status" value="" placeholder="Status">
 		</div>
-		<div class="label">Flat No:</div>
-		<div>
-			<input type="text" name="addressLine1" id="addressLine1" value="" placeholder="Address Line 1:" required>
-		</div>
-		<div class="label">Building Name:</div>
-		<div>
-			<input type="text" name="addressLine2" id="addressLine2" value="" placeholder="Address Line 2" required>
-		</div>
-		<div class="label">Street:</div>
-		<div>
-			<input type="text" name="addressLine3" id="addressLine3" value="" placeholder="Address Line 3" >
-		</div>
-		<div class="label">Main:</div>
-		<div>
-			<input type="text" name="addressLine4" id="addressLine4" value="" placeholder="Address Line 4" >
-		</div>
-		<div class="label">City:</div>
-		<div>
-			<input type="text" name="city" id="city" value="" placeholder="City" required>
-		</div>
-		<div class="label">State:</div>
-		<div>
-			<input type="text" name="state" id="state" value="" placeholder="State" required>
-		</div>
-		<div class="label">Country:</div>
-		<div>
-			<input type="text" name="country" id="country" value="" placeholder="Country" required>
-		</div>
-		<div class="label">Pin Code:</div>
-		<div>
-			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
-		</div>
+		<?php
+		echo $addressFile;
+		?>
 		<div class="label">Office Email ID:</div>
 		<div>
 			<input type="email" name="emailId" id="emailId" value="" placeholder="Email ID" required>

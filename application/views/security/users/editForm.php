@@ -138,38 +138,9 @@
 				</tr>
 			</table>
 		</div>
-		<div class="label">Flat No:</div>
-		<div>
-			<input type="text" name="addressLine1" id="addressLine1" value="<?php echo $user_details[0]->addr1; ?>" placeholder="Address Line 1:" required>
-		</div>
-		<div class="label">Building Name:</div>
-		<div>
-			<input type="text" name="addressLine2" id="addressLine2" value="<?php echo $user_details[0]->addr2; ?>" placeholder="Address Line 2" required>
-		</div>
-		<div class="label">Street:</div>
-		<div>
-			<input type="text" name="addressLine3" id="addressLine3" value="<?php echo $user_details[0]->addr3; ?>" placeholder="Address Line 3" >
-		</div>
-		<div class="label">Main:</div>
-		<div>
-			<input type="text" name="addressLine4" id="addressLine4" value="<?php echo $user_details[0]->addr4; ?>" placeholder="Address Line 4" >
-		</div>
-		<div class="label">City:</div>
-		<div>
-			<input type="text" name="city" id="city" value="<?php echo $user_details[0]->addr_city; ?>" placeholder="City" required>
-		</div>
-		<div class="label">State:</div>
-		<div>
-			<input type="text" name="state" id="state" value="<?php echo $user_details[0]->addr_state; ?>" placeholder="State" required>
-		</div>
-		<div class="label">Country:</div>
-		<div>
-			<input type="text" name="country" id="country" value="<?php echo $user_details[0]->addr_country; ?>" placeholder="Country" required>
-		</div>
-		<div class="label">Pin Code:</div>
-		<div>
-			<input type="text" name="pinCode" id="pinCode" value="<?php echo $user_details[0]->addr_pin;?>" placeholder="Pref" required>
-		</div>
+		<?php
+			echo $addressFile;
+		?>
 		<p class="button-panel">
 			<button type="button" id="update_user_submit" onclick="securityObj._users.updateValidate()">Update</button>
 		</p>

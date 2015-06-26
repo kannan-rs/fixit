@@ -130,42 +130,9 @@
 				</tr>
 			</table>
 		</div>
-		<div class="label">Flat No:</div>
-		<div>
-			<input type="text" name="addressLine1" id="addressLine1" value="" placeholder="Address Line 1:" required>
-		</div>
-		<div class="label">Building Name:</div>
-		<div>
-			<input type="text" name="addressLine2" id="addressLine2" value="" placeholder="Address Line 2" required>
-		</div>
-		<div class="label">Street:</div>
-		<div>
-			<input type="text" name="addressLine3" id="addressLine3" value="" placeholder="Address Line 3" >
-		</div>
-		<div class="label">Main:</div>
-		<div>
-			<input type="text" name="addressLine4" id="addressLine4" value="" placeholder="Address Line 4" >
-		</div>
-		<div class="label">City:</div>
-		<div>
-			<input type="text" name="city" id="city" value="" placeholder="City" required>
-		</div>
-		<DIV class="label">Country:</DIV>
-		<div>
-			<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, 'state');">
-				<option value="">--Select Country--</option>
-			</select>
-		</div>
-		<DIV class="label">State:</DIV>
-		<div>
-			<select name="state" id="state" required>
-				<option value="">--Select State--</option>
-			</select>
-		</div>
-		<div class="label">Pin Code:</div>
-		<div>
-			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
-		</div>
+		<?php
+			echo $addressFile;
+		?>
 		<p class="button-panel">
 			<button type="button" id="create_user_submit" onclick="securityObj._users.createValidate()">Create User</button>
 		</p>

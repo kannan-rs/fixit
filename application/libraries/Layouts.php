@@ -186,6 +186,8 @@ class Layouts
 			//print_r($this->layout_data);
 			if($this->layout_data['main_content_name'] == "signup") {
 				$this->layout_data["userType"] 			= $this->CI->session->userdata("account_type");
+				$addressFile 							= $this->CI->load->view("forms/address", '', true);
+				$this->layout_data['addressFile']		= $addressFile;
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/createForm", $this->layout_data, true);
 			} else {
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);

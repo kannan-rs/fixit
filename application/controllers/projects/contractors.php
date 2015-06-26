@@ -71,11 +71,14 @@ class Contractors extends CI_Controller {
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
+
+		$addressFile = $this->load->view("forms/address", '', true);
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
 			'userType' 		=> $this->session->userdata('account_type'),
 			'openAs' 		=> $openAs,
+			'addressFile' 	=> $addressFile,
 			'popupType' 	=> $popupType
 		);
 
@@ -129,10 +132,23 @@ class Contractors extends CI_Controller {
 			$contractors[$i]->updated_by_name = $this->model_users->getUsersList($contractors[$i]->updated_by)[0]->user_name;
 		}
 
+		$addressParams = array(
+			'addressLine1' 		=> $contractors[0]->address1,
+			'addressLine2' 		=> $contractors[0]->address2,
+			'city' 				=> $contractors[0]->city,
+			'country' 			=> $contractors[0]->country,
+			'state'				=> $contractors[0]->state,
+			'pinCode' 			=> $contractors[0]->pin_code,
+			'requestFrom' 		=> 'view'
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
+
 		$params = array(
 			'contractors'	=> $contractors,
 			'userType' 		=> $this->session->userdata('account_type'),
 			'contractorId' 	=> $contractorId,
+			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs
 		);
 		
@@ -146,8 +162,20 @@ class Contractors extends CI_Controller {
 
 		$contractors = $this->model_contractors->getContractorsList($contractorId);
 
+		$addressParams = array(
+			'addressLine1' 		=> $contractors[0]->address1,
+			'addressLine2' 		=> $contractors[0]->address2,
+			'city' 				=> $contractors[0]->city,
+			'country' 			=> $contractors[0]->country,
+			'state'				=> $contractors[0]->state,
+			'pinCode' 			=> $contractors[0]->pin_code,
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
+
 		$params = array(
-			'contractors'=>$contractors,
+			'contractors' 	=> $contractors,
+			'addressFile' 	=> $addressFile,
 			'userType' 		=> $this->session->userdata('account_type')
 		);
 		
