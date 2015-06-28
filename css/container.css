@@ -202,7 +202,7 @@ textarea.small-textarea {
 	position: absolute;
 }
 
-.contractor-search-result ul, .contractor-search-selected ul, .owner-search-result {
+.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul, .contractor-search-selected ul, .owner-search-result {
     border: 1px solid #D0D0D0;
     width: 220px;
     min-height: 20px;
@@ -225,7 +225,7 @@ textarea.small-textarea {
  .owner-search-result.users {
  	max-height: 150px;
  }
-.contractor-search-result ul li, .contractor-search-selected ul li, .owner-search-result li {
+.adjuster-search-result ul li, .customer-search-result ul li,.contractor-search-result ul li, .contractor-search-selected ul li, .owner-search-result li {
     margin: 0px 2px 5px 2px;
     padding: 5px;
     font-size: 1.2em;
@@ -233,13 +233,13 @@ textarea.small-textarea {
     color: inherit;
   }
 
-.contractor-search-result ul {
-	margin-top: -20px;
+.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul {
+	margin-top: -10px;
 	position: absolute;
 	margin-left: 200px;
 }
 
-.contractor-search-result .company, .owner-search-result .company {
+.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company {
 	color: #D2B9B9;
 }
 
@@ -257,4 +257,23 @@ textarea.small-textarea {
 	background: initial;
 	padding: 0px;
 	margin-top: -32px;
+}
+
+/* Search Combo box */
+.custom-combobox {
+	position: relative;
+	display: inline-block;
+}
+
+.custom-combobox-toggle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin-left: -1px;
+	padding: 0;
+}
+
+.custom-combobox-input {
+	margin: 0;
+	padding: 5px 10px;
 }

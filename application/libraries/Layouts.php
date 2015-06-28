@@ -16,6 +16,7 @@ class Layouts
 				"js/library/jquery-2.1.3.min.js",
 				"js/library/jquery-ui.js",
 				"js/library/jquery.validate.js",
+				"js/library/plugin/searchSelect-Jquery.js",
 				"js/themes/default/layouts.js",
 				"js/home.js",
 				"js/submit.js",

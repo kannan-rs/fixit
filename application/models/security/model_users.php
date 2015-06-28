@@ -113,6 +113,13 @@ class Model_users extends CI_Model {
 		return $user_details;
 	}
 
+	public function getUserDetailsBySno($sno) {
+		$this->db->where('sno', $sno);
+		$query = $this->db->get('user_details');
+		$user_details = $query->result();
+		return $user_details;
+	}
+
 	public function updateUserTable($params, $sno) {
 		$response = array();
 		$this->db->where('sno', $sno);

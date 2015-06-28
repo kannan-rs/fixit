@@ -28,4 +28,34 @@ class formUtils extends CI_Controller {
 		}
 		print_r(json_encode($response));
 	}
+
+	public function getCustomerList() {
+		$this->load->model('utils/model_form_utils');
+
+		$customer = $this->model_form_utils->getCustomerList();
+
+		$response["status"] = "error";
+		if($customer) {
+			$response["status"] = "success";
+			$response["customer"] = $customer;
+		} else {
+			$response["message"] = "Error while fetching customer details";
+		}
+		print_r(json_encode($response));
+	}
+
+	public function getAdjusterList() {
+		$this->load->model('utils/model_form_utils');
+
+		$adjuster = $this->model_form_utils->getAdjusterList();
+
+		$response["status"] = "error";
+		if($adjuster) {
+			$response["status"] = "success";
+			$response["adjuster"] = $adjuster;
+		} else {
+			$response["message"] = "Error while fetching adjuster details";
+		}
+		print_r(json_encode($response));
+	}
 }

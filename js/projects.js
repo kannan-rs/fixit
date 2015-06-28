@@ -107,7 +107,29 @@ $(document).on("click", function(e) {
 	) {
 		return;
 	}
+	if(e && e.target && 
+		(e.target.id == "customerNameList" || 
+			(e.target.parentElement && e.target.parentElement.id == "customerNameList") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "customerNameList")
+		)
+	) {
+		return;
+	}
+	if(e && e.target && 
+		(e.target.id == "adjusterNameList" || 
+			(e.target.parentElement && e.target.parentElement.id == "adjusterNameList") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterNameList")
+		)
+	) {
+		return;
+	}
 	if($(".contractor-search-result").length) { 
 		$(".contractor-search-result").hide();
+	}
+	if($(".customer-search-result").length) { 
+		$(".customer-search-result").hide();
+	}
+	if($(".adjuster-search-result").length) { 
+		$(".adjuster-search-result").hide();
 	}
 });

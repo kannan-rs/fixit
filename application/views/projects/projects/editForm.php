@@ -35,10 +35,6 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
-		<div class="label">Project Budget</div>
-		<div>
-			<input type="text" name="project_budget" id="project_budget" value="<?php echo $project->project_budget;?>" >
-		</div>
 		<div class="label">Property Owner ID</div>
 		<div>
 			<input type="text" name="property_owner_id" id="property_owner_id" value="<?php echo $project->property_owner_id;?>">
@@ -66,29 +62,65 @@
 		<div>
 			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
 		</div>
-		<div class="label">Adjuster ID</div>
+		<!-- <div class="label">Adjuster ID</div>
 		<div>
 			<input type="text" name="adjuster_id" id="adjuster_id" value="<?php echo $project->adjuster_id;?>" >
 		</div>
 		<div class="label">Customer ID</div>
 		<div>
 			<input type="text" name="customer_id" id="customer_id" value="<?php echo $project->customer_id;?>" >
+		</div> -->
+		<div class="label">Adjuster Name</div>
+		<div>
+			<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList" onkeyup="projectObj._projects.showAdjusterListInDropDown()">
+			<input type="hidden" value="<?php echo $project->adjuster_id;?>" name="adjuster_id" id="adjuster_id">
+		</div>
+		<div class="adjuster-search-result">
+			<div>
+				<ul id="adjusterNameList" class="connectedSortable"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
+		<div>
+			Do you want to add new adjuster? <a href="javascript:void(0);" onclick="">Click Here</a>.
+		</div>
+		<div class="label">Customer Name</div>
+		<div>
+			<input type="text" name="searchCustomerName" id="searchCustomerName" value="" onkeyup="projectObj._projects.showCustomerListInDropDown()">
+			<input type="hidden" value="<?php echo $project->customer_id;?>" name="customer_id" id="customer_id">
+		</div>
+		<div class="customer-search-result">
+			<div>
+				<ul id="customerNameList" class="connectedSortable"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
+		<div>
+			Do you want to add new customer? <a href="javascript:void(0);" onclick="">Click Here</a>.
+		</div>
+		<div class="label">Project Budget</div>
+		<div>
+			<input type="text" name="project_budget" id="project_budget" value="<?php echo $project->project_budget;?>" >
 		</div>
 		<div class="label">Paid from Budget</div>
 		<div>
 			<input type="text" name="paid_from_budget" id="paid_from_budget" value="<?php echo $project->paid_from_budget;?>" >
 		</div>
-		<div class="label">Remaining Budget</div>
+		<!-- <div class="label">Remaining Budget</div>
 		<div>
 			<input type="text" name="remaining_budget" id="remaining_budget" value="<?php echo $project->remaining_budget;?>">
-		</div>
+		</div> -->
 		<?php
 		if($userType == "admin") {
 		?>
-		<div class="label">Referral Fee</div>
+		<div class="label">Deductible</div>
+		<div>
+			<input type="text" name="deductible" id="deductible" value="<?php echo $project->deductible;?>">
+		</div>
+		<!-- <div class="label">Referral Fee</div>
 		<div>
 			<input type="text" name="referral_fee" id="referral_fee" value="<?php echo $project->referral_fee;?>">
-		</div>
+		</div> -->
 		<?php
 		}
 		?>

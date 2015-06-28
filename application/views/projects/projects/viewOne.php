@@ -1,7 +1,6 @@
 <?php
 	$editFn = "projectObj._projects.editProject('".$projectId."')";
 	$deleteFn = "projectObj._projects.deleteRecord('".$projectId."')";
-	$project = $projects[0];
 ?>
 <div class="header-options">
 	<h2>Project Details</h2>
@@ -19,6 +18,16 @@
 			<td class='cell label'>Project Title:</td>
 			<td class='cell' ><?php echo $project->project_name; ?></td>
 		</tr>
+	</table>
+	<div id="projectDescrAccordion" class="accordion">
+	<h3><span class="inner_accordion">Project Description</span></h3>
+	<table cellspacing="0" class="viewOne">
+		<tr>
+			<td class='cell'><?php echo $project->project_descr; ?></td>
+		</tr>
+	</table>
+	</div>
+	<table cellspacing="0" class="viewOne">
 		<tr>
 			<td class='cell label'>Project Start Date</td>
 			<td class='cell' ><?php echo $project->start_date; ?></td>
@@ -27,37 +36,34 @@
 			<td class='cell label'>Projected End Date</td>
 			<td class='cell' ><?php echo $project->end_date; ?></td>
 		</tr>
-		<tr>
-			<td class='cell label'>Budget</td>
-			<td class='cell' >-- What is the calculation --</td>
-		</tr>
 	</table>
 	<div id="accordion" class="accordion">
-		<h3><span class="inner_accordion">Customer Details</span></h3>
+		<h3><span class="inner_accordion">Budget</span></h3>
 		<div>
 			<table cellspacing="0" class="viewOne projectViewOne">
 				<tr>
-					<td class='cell label'>First Name</td>
-					<td class='cell' >-- Need to Take from customer --</td>
+					<td class='cell label'>Project Budget</td>
+					<td class='cell' ><?php echo $project->project_budget; ?></td>
 				</tr>
 				<tr>
-					<td class='cell label'>Last Name</td>
-					<td class='cell' >-- Need to Take from customer --</td>
+					<td class='cell label'>Paid from Budget</td>
+					<td class='cell' ><?php echo $project->paid_from_budget; ?></td>
 				</tr>
 				<tr>
-					<td class='cell label'>Address</td>
-					<td class='cell' >-- Need to Take from customer --</td>
+					<td class='cell label'>Remaining Bbudget</td>
+					<td class='cell' ><?php echo ($project->project_budget - $project->paid_from_budget); ?></td>
 				</tr>
 				<tr>
-					<td class='cell label'>Phone</td>
-					<td class='cell' >-- Need to Take from customer --</td>
+					<td class='cell label'>Deductible</td>
+					<td class='cell' ><?php echo $project->deductible; ?></td>
 				</tr>
 				<tr>
-					<td class='cell label'>Email</td>
-					<td class='cell' >-- Need to Take from customer --</td>
+					<td class='cell label'>Referral Fee</td>
+					<td class='cell' ><?php echo (($project->project_budget - $project->deductible)/100) * 7; ?></td>
 				</tr>
 			</table>
 		</div>
+		<?php echo $customerFile; ?>
 		<h3><span class="inner_accordion">Insurance Details</span></h3>
 		<div>
 			<table cellspacing="0" class="viewOne projectViewOne">
@@ -127,10 +133,10 @@
 		</div>
 	</div>
 	<!-- Project Description -->
-	<h3>Project Description</h3>
+	<!-- <h3>Project Description</h3>
 	<table cellspacing="0" class="viewOne">
 		<tr>
 			<td class='cell'><?php echo $project->project_descr; ?></td>
 		</tr>
-	</table>
+	</table> -->
 </div>

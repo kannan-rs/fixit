@@ -49,9 +49,12 @@ class Projects extends CI_Controller {
 	
 	public function createForm() {
 		$this->load->model('security/model_users');
+
+		$addressFile = $this->load->view("forms/address", '', true);
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
+			'addressFile' 	=> $addressFile,
 			'userType' 		=> $this->session->userdata('account_type')
 		);
 
@@ -76,7 +79,8 @@ class Projects extends CI_Controller {
 			'customer_id'				=> $this->input->post('customer_id'),
 			'paid_from_budget'			=> $this->input->post('paid_from_budget'),
 			'remaining_budget'			=> $this->input->post('remaining_budget'),
-			'referral_fee'				=> $this->input->post('referral_fee'),
+			//'referral_fee'			=> $this->input->post('referral_fee'),
+			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
 			'created_by'				=> $this->session->userdata('user_id'),
@@ -135,7 +139,8 @@ class Projects extends CI_Controller {
 			'customer_id'				=> $this->input->post('customer_id'),
 			'paid_from_budget'			=> $this->input->post('paid_from_budget'),
 			'remaining_budget'			=> $this->input->post('remaining_budget'),
-			'referral_fee'				=> $this->input->post('referral_fee'),
+			//'referral_fee'				=> $this->input->post('referral_fee'),
+			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
 			'updated_by'				=> $this->session->userdata('user_id'),
@@ -166,45 +171,40 @@ class Projects extends CI_Controller {
 		$projectId = $this->input->post('projectId');
 		$projects = $this->model_projects->getProjectsList($projectId);
 
+		$project 	= count($projects) ? $projects[0] : "";
+
 		$start_date		= "";
 		$end_date		= "";
 		$percentage 	= "";
 		$contractors 	= "";
+		$customerFile 	= "";
+
 		// Individual View
 		
-		for($i = 0; $i < count($projects); $i++) {
+		if($project) {
 			$ed_query = "select 
 								AVG(task_percent_complete) as percentage, 
 								DATE_FORMAT( MIN(task_end_date),  '%d-%m-%y') as end_date, 
 								DATE_FORMAT( MIN(task_start_date),  '%d-%m-%y') as start_date 
-						from project_details where project_id = '".$projects[$i]->proj_id."'";
+						from project_details where project_id = '".$project->proj_id."'";
 
 			$consolidate_data_query = $this->db->query($ed_query);
 			$consolidate_data_result = $consolidate_data_query->result();
 			$consolidate_data = $consolidate_data_result[0];
 
-			$projects[$i]->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
-			$projects[$i]->start_date = ($consolidate_data->start_date != "" ? $consolidate_data->start_date : "-NA-");
-			$projects[$i]->end_date = ($consolidate_data->end_date != "" ? $consolidate_data->end_date : "-NA-");
+			$project->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
+			$project->start_date = ($consolidate_data->start_date != "" ? $consolidate_data->start_date : "-NA-");
+			$project->end_date = ($consolidate_data->end_date != "" ? $consolidate_data->end_date : "-NA-");
 
 			// Created By and Updated By user Name
-			$projects[$i]->created_by_name = $this->model_users->getUsersList($projects[$i]->created_by)[0]->user_name;
-			$projects[$i]->updated_by_name = $this->model_users->getUsersList($projects[$i]->updated_by)[0]->user_name;
+			$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
+			$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
 
 			// Contractor Name
-			$projects[$i]->contractorName = "-- Not Provided --";
-			if($projects[$i]->contractor_id != "") {
-				$contractorIdArr = explode(",", $projects[$i]->contractor_id);
-
+			$project->contractorName = "-- Not Provided --";
+			if($project->contractor_id != "") {
+				$contractorIdArr = explode(",", $project->contractor_id);
 				$contractors = $this->model_contractors->getContractorsList($contractorIdArr);
-				
-				/*if(count($contractors)) {
-					for($ci = 0; $ci < count($contractors); $ci++) {
-						echo $i.",".$ci."<br>";
-						echo $projects[$i]->contractorName[$ci];
-						$projects[$i]->contractorName[$ci] = $this->model_contractors->getContractorsList($projects[$i]->contractor_id)[$ci]->name;
-					}
-				}*/
 			}
 		}
 
@@ -224,14 +224,26 @@ class Projects extends CI_Controller {
 			$notes[$i]->updated_by_name = $this->model_users->getUsersList($notes[$i]->updated_by)[0]->user_name;
 		}
 
+		$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
+		$customer 	= count($customers) ? $customers[0] : "";
+
+		if($customer) {
+			$customerParams = array(
+				"customer"			=> $customer
+			);
+
+			$customerFile 		= $this->load->view("projects/projects/customerDetailsView", $customerParams, true);
+		}
+
 		$params = array(
-			'projects'		=> $projects,
+			'project'		=> $project,
 			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
 			'userType' 		=> $this->session->userdata('account_type'),
 			'tasks' 		=>$tasks,
 			'projectId' 	=> $projectId,
 			'notes' 		=> $notes,
-			'contractors' 	=> $contractors
+			'contractors' 	=> $contractors,
+			'customerFile' 	=> $customerFile
 		);
 		
 		echo $this->load->view("projects/projects/viewOne", $params, true);

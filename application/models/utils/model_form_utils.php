@@ -14,4 +14,36 @@ class Model_form_utils extends CI_Model {
 		
 		return $state;
 	}
+
+	public function getCustomerList( $record = "") {
+		if(isset($record) && !is_null($record) && $record != "") {
+			$this->db->where('sno', $record);	
+		}
+
+		$this->db->where('belongs_to', "customer");
+		
+		$this->db->select(["*"]);
+
+		$query = $this->db->from('user_details')->get();
+		
+		$customer = $query->result();
+		
+		return $customer;
+	}
+
+	public function getAdjusterList( $record = "") {
+		if(isset($record) && !is_null($record) && $record != "") {
+			$this->db->where('sno', $record);	
+		}
+
+		$this->db->where('belongs_to', "adjuster");
+		
+		$this->db->select(["*"]);
+
+		$query = $this->db->from('user_details')->get();
+		
+		$adjuster = $query->result();
+		
+		return $adjuster;
+	}
 }

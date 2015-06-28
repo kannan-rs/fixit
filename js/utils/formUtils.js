@@ -95,3 +95,101 @@ formUtils.prototype.createContractorOptionsList = function(contractors) {
 		}
 	}
 }
+
+formUtils.prototype.getCustomerList = function() {
+	var customer = $.ajax({
+		method: "POST",
+		url: "/utils/formUtils/getCustomerList",
+		data: {},
+		async: false
+	}).responseText;
+	return customer;
+}
+
+
+formUtils.prototype.getAdjusterList = function() {
+	var adjuster = $.ajax({
+		method: "POST",
+		url: "/utils/formUtils/getAdjusterList",
+		data: {},
+		async: false
+	}).responseText;
+	return adjuster;
+}
+
+formUtils.prototype.setCustomerDataList = function() {
+	var response = this.getCustomerList();
+	var responseObj = $.parseJSON(response);
+	var customer = [];
+	if(responseObj.status == "success") {
+		customer = responseObj.customer;
+	}
+
+	var searchList = {
+		"list"				: customer,
+		"excludeList" 		: [],
+		"appendTo"			: "customerNameList",
+		"type" 				: "searchList",
+		"functionName" 		: "projectObj._projects.setCustomerId",
+		"searchBoxId"		: "searchCustomerName",
+		"dbEntryId"			: "customer_id"
+
+	}
+
+	this.setSearchList(searchList);
+}
+
+formUtils.prototype.setAdjusterDataList = function(){
+	var response = this.getAdjusterList();
+	var responseObj = $.parseJSON(response);
+	var adjuster = [];
+	if(responseObj.status == "success") {
+		adjuster = responseObj.adjuster;
+	}
+	var searchList = {
+		"list"				: adjuster,
+		"excludeList" 		: [],
+		"appendTo"			: "adjusterNameList",
+		"type" 				: "searchList",
+		"functionName" 		: "projectObj._projects.setAdjusterId",
+		"searchBoxId"		: "searchAdjusterName",
+		"dbEntryId"			: "adjuster_id"
+
+	}
+
+	this.setSearchList(searchList);
+}
+
+formUtils.prototype.setSearchList = function ( searchList ) {
+	var excludeList 	= !searchList.excludeList ? [] : searchList.excludeList;
+	var css 			= {
+							"searchList"		: {"li" : "ui-state-default" },
+						};
+	var list 			= searchList.list;
+	var type 			= searchList.type;
+	var appendTo 		= searchList.appendTo;
+	var functionName 	= searchList.functionName;
+
+	var dBVal 			= $("#"+searchList.dbEntryId).val();
+
+	for(var i =0 ; i < list.length; i++) {
+		if(excludeList.indexOf(list[i].id) == -1) {
+			var clickParamsObj = {
+				"searchBoxId" 		: appendTo,
+				"first_name" 		: list[i].first_name,
+				"last_name" 		: list[i].last_name,
+				"searchId"			: list[i].sno,
+				"email" 			: list[i].email
+			};
+			if(dBVal == list[i].sno) {
+				$("#"+searchList.searchBoxId).val(list[i].first_name+" "+list[i].last_name);
+			}
+			var clickParams = JSON.stringify(clickParamsObj);
+			var li = "<li class=\""+css[type].li+"\" id=\""+list[i].id+"\" onclick='"+functionName+"(event, this,"+clickParams+")'>";
+				li += "<div>"+list[i].first_name+" "+list[i].last_name+"</div>";
+				li += "<div class=\"second\">"+list[i].email+"</div>";
+				li += "</li>";
+			$('#'+appendTo).append(li);
+		}
+	}
+}

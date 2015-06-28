@@ -50,6 +50,9 @@ project.prototype.createForm = function() {
 			$("#project_content").html(response);
 			projectObj._projects.setMandatoryFields();
 			projectObj._projects.hideContractorDetails('all');
+			projectObj._projects.hideDropDowns();
+			formUtilObj.setCustomerDataList();
+			formUtilObj.setAdjusterDataList();
 		},
 		error: function( error ) {
 			error = error;
@@ -73,7 +76,8 @@ project.prototype.createSubmit = function() {
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
 	var remaining_budget		= $("#remaining_budget").val();
-	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
+	//var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
+	var deductible				= $("#deductible").length ? $("#deductible").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
 
@@ -106,7 +110,8 @@ project.prototype.createSubmit = function() {
 			customer_id: 			customer_id,
 			paid_from_budget: 		paid_from_budget,
 			remaining_budget: 		remaining_budget,
-			referral_fee: 			referral_fee,
+			//referral_fee: 			referral_fee,
+			deductible: 			deductible,
 			project_lender: 		project_lender,
 			lend_amount: 			lend_amount
 		},
@@ -142,7 +147,12 @@ project.prototype.editProject = function() {
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
 			projectObj._projects.hideContractorDetails('all');
+			projectObj._projects.hideDropdowns
 			projectObj._projects.getContractorDetails( $("#contractorIdDb").val() );
+
+			projectObj._projects.hideDropDowns();
+			formUtilObj.setCustomerDataList();
+			formUtilObj.setAdjusterDataList();
 			//projectObj._projects.setContractorDetails();
 		},
 		error: function( error ) {
@@ -177,7 +187,8 @@ project.prototype.updateSubmit = function() {
 	var customer_id				= $("#customer_id").val();
 	var paid_from_budget		= $("#paid_from_budget").val();
 	var remaining_budget		= $("#remaining_budget").val();
-	var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
+	//var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
+	var deductible				= $("#deductible").length ? $("#deductible").val() : "";
 	var project_lender			= $("#project_lender").val();
 	var lend_amount				= $("#lend_amount").val();
 
@@ -209,7 +220,8 @@ project.prototype.updateSubmit = function() {
 			customer_id: 			customer_id,
 			paid_from_budget: 		paid_from_budget,
 			remaining_budget: 		remaining_budget,
-			referral_fee: 			referral_fee,
+			//referral_fee: 			referral_fee,
+			deductible: 			deductible,
 			project_lender: 		project_lender,
 			lend_amount: 			lend_amount
 
@@ -302,6 +314,13 @@ project.prototype.getProjectDetails = function() {
 		success: function( response ) {
 			$("#project_content").html(response);
 			$( "#accordion" ).accordion(
+				{
+					collapsible : true,  
+					icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
+					active 		: false
+				}
+			);
+			$( "#projectDescrAccordion" ).accordion(
 				{
 					collapsible : true,  
 					icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
@@ -860,6 +879,11 @@ project.prototype.showContractorDetails = function(show) {
 	}
 }
 
+project.prototype.hideDropDowns = function() {
+	$(".adjuster-search-result").hide();
+	$(".customer-search-result").hide()
+}
+
 project.prototype.getContractorDetails = function( records ) {
 	$.ajax({
 		method: "POST",
@@ -1043,4 +1067,42 @@ project.prototype.getOwnerList = function( records ) {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
+}
+
+project.prototype.showCustomerListInDropDown = function() {
+	var customer = $("#searchCustomerName").val();
+	$(".customer-search-result").show();
+	$("#customerNameList").show();
+
+	for(var i = 0; i < $("#customerNameList").children().length; i++) {
+		if($($("#customerNameList").children()[i]).text().indexOf(customer) > -1 ) {
+			$($("#customerNameList").children()[i]).show();
+		} else {
+			$($("#customerNameList").children()[i]).hide();
+		}
+	}
+}
+
+project.prototype.showAdjusterListInDropDown = function() {
+	var adjuster = $("#searchAdjusterName").val();
+	$(".adjuster-search-result").show();
+	$("#adjusterNameList").show();
+
+	for(var i = 0; i < $("#adjusterNameList").children().length; i++) {
+		if($($("#adjusterNameList").children()[i]).text().indexOf(adjuster) > -1 ) {
+			$($("#adjusterNameList").children()[i]).show();
+		} else {
+			$($("#adjusterNameList").children()[i]).hide();
+		}
+	}
+}
+
+project.prototype.setCustomerId = function(event, element, options) {
+	$("#searchCustomerName").val(options.first_name+" "+options.last_name);
+	$("#customer_id").val(options.searchId);
+}
+
+project.prototype.setAdjusterId = function(event, element, options) {
+	$("#searchAdjusterName").val(options.first_name+" "+options.last_name);
+	$("#adjuster_id").val(options.searchId);
 }

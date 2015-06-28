@@ -33,10 +33,6 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
-		<div class="label">Project Budget</div>
-		<div>
-			<input type="text" name="project_budget" id="project_budget" value="" >
-		</div>
 		<div class="label">Property Owner ID</div>
 		<div>
 			<input type="text" name="property_owner_id" id="property_owner_id" value="">
@@ -63,29 +59,57 @@
 		<div>
 			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
 		</div>
-		<div class="label">Adjuster ID</div>
+		<div class="label">Adjuster Name</div>
 		<div>
-			<input type="text" name="adjuster_id" id="adjuster_id" value="" >
+			<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList" onkeyup="projectObj._projects.showAdjusterListInDropDown()">
+			<input type="hidden" value="" name="adjuster_id" id="adjuster_id">
 		</div>
-		<div class="label">Customer ID</div>
+		<div class="adjuster-search-result">
+			<div>
+				<ul id="adjusterNameList" class="connectedSortable"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
 		<div>
-			<input type="text" name="customer_id" id="customer_id" value="" >
+			Do you want to add new adjuster? <a href="javascript:void(0);" onclick="">Click Here</a>.
+		</div>
+		<div class="label">Customer Name</div>
+		<div>
+			<input type="text" name="searchCustomerName" id="searchCustomerName" value="" onkeyup="projectObj._projects.showCustomerListInDropDown()">
+			<input type="hidden" value="" name="customer_id" id="customer_id">
+		</div>
+		<div class="customer-search-result">
+			<div>
+				<ul id="customerNameList" class="connectedSortable"></ul>
+			</div>
+		</div>
+		<div  class="label notMandatory">&nbsp;</div>
+		<div>
+			Do you want to add new customer? <a href="javascript:void(0);" onclick="">Click Here</a>.
+		</div>
+		<div class="label">Project Budget</div>
+		<div>
+			<input type="text" name="project_budget" id="project_budget" value="" >
 		</div>
 		<div class="label">Paid from Budget</div>
 		<div>
 			<input type="text" name="paid_from_budget" id="paid_from_budget" value="" >
 		</div>
-		<div class="label">Remaining Bbudget</div>
+		<!-- <div class="label">Remaining Bbudget</div>
 		<div>
 			<input type="text" name="remaining_budget" id="remaining_budget" value="">
-		</div>
+		</div> -->
 		<?php
 		if($userType == "admin") {
 		?>
-		<div class="label">Referral Fee</div>
+		<div class="label">Deductible</div>
+		<div>
+			<input type="text" name="deductible" id="deductible" value="">
+		</div>
+		<!-- <div class="label">Referral Fee</div>
 		<div>
 			<input type="text" name="referral_fee" id="referral_fee" value="">
-		</div>
+		</div> -->
 		<?php
 		}
 		?>
@@ -97,21 +121,9 @@
 		<div>
 			<input type="text" name="lend_amount" id="lend_amount" value="" required>
 		</div>
-		<!--
-		<div class="label">Assign to User:</div>
-		<div>
-			<select name="assign_user" id="assign_user" required>
-				<option value="">--select User--</option>
-				<?php
-					if(isset($users) && is_array($users)) {
-						for( $i = 0; $i < count($users); $i++) {
-							echo "<option value='". $users[$i]->sno ."'>". $users[$i]->user_name ."</option>";
-						}
-					}
-				?>
-			</select>
-		</div>
-		-->
+		<?php
+			//echo $addressFile;
+		?>
 		<p class="button-panel">
 			<button type="button" id="create_project_submit" onclick="projectObj._projects.createValidate()">Create Project</button>
 		</p>

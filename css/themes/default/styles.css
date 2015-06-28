@@ -251,6 +251,10 @@ tr.heading td {
 	text-transform: capitalize;
 }
 
+table tr td.cell {
+	color:#555555;
+}
+
 table tr td.cell.number {
 	text-align: right;
 }
@@ -649,7 +653,7 @@ scrollammount: 5;
 }
 
 .form>div {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .form .label {

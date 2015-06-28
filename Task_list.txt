@@ -1,0 +1,34 @@
+Pending List
+
+
+11. "To be assigned" by default.
+13. Data for subject category, subject area and contractor experties. (Mallik will provide this details)
+
+Michael’s Feedback 06/16/2015
+	
+	If the customer is added by a contractor or Admin, then the fields should be defaulted to 'please add details', this should be mandatory when creating a new project as we want to capture the new customer for marketing purposes.
+	Contractor list page, for admin, customer and contractor users, they should be able to add add'l contractors here.  need the edit function features on this page identical to documents/tasks, etc.	
+	Admin needs to be able to send 'the Fixit Network' user acceptance form to customer or contractor to be added to a project when a contractor is adding a customer as well as when a customer is adding a contractor.  So until a customer and contractor accepts the terms of agreement, their access is disabled.  Will provide a user acceptance form.
+	Confirming, item #5 below means...If task owner is not assigned, by default customer is the owner, correct?
+
+Clarifications Needed
+Create Project page, form needs to have address fields added
+
+Done List
+1. Zip code validation 5 digit number.
+2. Pin code text need to be changed to Zip.
+3. Unified code for Address
+9. Address only 2 lines, with bigger text box.
+8. By default USA is selected. Same for all place where ever address comes.
+4. Contractor search Company name as 1st line, city and state as 2nd line
+Unified UI for contractor Listing
+10. Vertical distance between Form fields need to be reduced. All Form are brought under single CSS
+3. Customer ID, Adjuster ID Need to be dropdown as per users belongs selection
+
+-Project Description font size is too big, should be consistent with Project Title font size
+-Project Description should be underneath Project name
+-Project Description detail should be collapsable 
+-Calculations need to occur.  Budget entered, paid from budget, system should calculate the remaining budget. (Budget calculation should be factored in, please confirm you have the formula?)
+Referral fee should be 7% of budget.  formula (budget-deductible) x 7% = referral fee.
+Need a field called deductible, dollar amount needs to be entered by admin or user only.
+Customer details should be auto fill when a customer registers for the site and be editable
