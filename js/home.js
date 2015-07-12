@@ -1,5 +1,5 @@
 function home() {
-
+	this._userInfo = new userInfo();
 }
 
 home.prototype.loginValidate = function() {
@@ -30,68 +30,61 @@ home.prototype.signupValidate = function() {
 	}
 }
 
-/*home.prototype.hideContractorDetails = function() {
-	$(".contractorDetails").hide();
-	$(".contractorCompany").hide();
-	$(".contractorCompanyInfo > span").hide();
-}
-*/
-/*home.prototype.getContractorDetails = function() {
-	$.ajax({
-		method: "POST",
-		url: "/projects/contractors/getList",
-		data: {},
-		success: function( response ) {
-			response = $.parseJSON(response);
-			if(response.status == "success") {
-				contractors = response["contractors"];
-				for(var i =0 ; i < contractors.length; i++) {
-					$('#contractorId').append($('<option>', {
-					    value: contractors[i].id,
-					    text: contractors[i].name
-					}));
-
-					$('.contractorCompanyInfo').append('<span id="contractorCompany_'+contractors[i].id+'">'+contractors[i].company+'</span>');
-				}
-				homeObj.hideContractorDetails();
-			} else {
-				alert(response.message);
-			}
-		},
-		error: function( error ) {
-			error = error;
-		}
-	})
-	.fail(function ( failedObj ) {
-		fail_error = failedObj;
-	});
-}*/
-
-/*home.prototype.showContractor = function( belongsTo ) {
-	if(belongsTo == "contractor") {
-		$(".contractorDetails").show();
-	} else {
-		homeObj.hideContractorDetails();
-	}
-}*/
-
-/*home.prototype.showContractorCompany = function( contractorId ) {
-	if(contractorId == "") {
-		$(".contractorCompany").hide();
-		$(".contractorCompanyInfo > span").hide();
-	} else {
-		$(".contractorCompany").show();
-		$(".contractorCompanyInfo > span").hide();
-		$("#contractorCompany_"+contractorId).show();
-	}
-}*/
 
 $().ready(function() {
-	homeObj = new home();
-	formUtilObj = new formUtils();
+	homeObj 			= new home();
+	formUtilObj 		= new formUtils();
+	projectObj 			= new projects();
+	securityObj 		= new security();
+	homeObj 			= new home();
 
-	/*homeObj.getContractorDetails();
-	homeObj.hideContractorDetails();*/
+	var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : "projects"));
+	if(module) {
+		switch (module) {
+			/*Security Page*/
+			case "users":
+				securityObj._users.viewAll();
+			break;
+			case "operations":
+				securityObj._operations.viewAll();
+			break;
+			case "roles":
+				securityObj._roles.viewAll();
+			break;
+			case "functions":
+				securityObj._functions.viewAll();
+			break;
+			case "data_filters":
+				securityObj._dataFilters.viewAll();
+			break;
+			case "permissions":
+				securityObj._permissions.viewAll();
+			break;
+			/*Project Page*/
+			case "projects":
+				projectObj._projects.viewAll();
+			break;
+			case "create_project":
+				projectObj._projects.createForm();
+			break;
+			case "contractors":
+				projectObj._contractors.viewAll();
+			break;
+			case "create_contractor":
+				projectObj._contractors.createForm();
+			break;
+			/*Personal Details*/
+			case "view_my_details":
+				homeObj._userInfo.getUserData();
+			break;
+			case "change_pass_form":
+				homeObj._userInfo.changePassForm();
+			break;
+			default:
+			break;
+		}
+	}
 
-	//formUtilObj.getAndSetCountryStatus("state", "country");
+	$("#login_error").hide();
+
 });

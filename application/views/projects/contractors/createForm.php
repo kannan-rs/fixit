@@ -12,26 +12,36 @@ if(!$openAs || $openAs != "popup") {
 		<div>
 			<input type="text" name="name" id="name" value="" required placeholder="Contractor Name">
 		</div>
+		
 		<div class="label">Company:</div>
 		<div>
 			<input type="text" name="company" id="company" value="" required placeholder="Company Name">
 		</div>
+		
 		<div class="label">Type</div>
 		<div>
 			<input type="text" name="type" id="type" value="" placeholder="Contractor Type">
 		</div>
+		
 		<div class="label">License</div>
 		<div>
 			<input type="text" name="license" id="license" value="" placeholder="Contractor License">
 		</div>
+		
 		<div class="label">BBB</div>
 		<div>
 			<input type="text" name="bbb" id="bbb" value="" placeholder="BBB">
 		</div>
+		
 		<div class="label">Status</div>
 		<div>
-			<input type="text" name="status" id="status" value="" placeholder="Status">
+			<select name="status" id="status" required>
+				<option value="">--Select Status--</option>
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+			</select>
 		</div>
+		
 		<?php
 		echo $addressFile;
 		?>
@@ -70,6 +80,17 @@ if(!$openAs || $openAs != "popup") {
 		</div>
 		<p class="button-panel">
 			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Create Contractor</button>
+			<?php
+			if($openAs == "popup") {
+			?>
+			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+			<?php
+			} else {
+			?>
+			<button type="reset" id="resetButton" onclick="">Clear</button>
+			<?php	
+			}
+			?>
 		</p>
 	</div>
 </form>

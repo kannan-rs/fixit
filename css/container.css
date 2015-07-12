@@ -277,3 +277,11 @@ textarea.small-textarea {
 	margin: 0;
 	padding: 5px 10px;
 }
+
+a.icon-right {
+	margin-top: -7px;
+}
+
+#project_content .ui-widget-content {
+	border-width:0px 0px 1px 0px;
+}

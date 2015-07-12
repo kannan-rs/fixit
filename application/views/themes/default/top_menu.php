@@ -12,9 +12,9 @@
 		$selected = "";
 
 		if( preg_replace('/\s+/', '', strtolower($menus[$menuIdx]["text"])) == $page) {
-			$selected = 'class = "current"';
+			$selected = 'current';
 		}
-		echo '<li '.$selected.'><a href="'. $menus[$menuIdx]["link"] .'">'. $menus[$menuIdx]["text"] .'</a></li>';
+		echo '<li class="'.$selected.'"><a href="'. $menus[$menuIdx]["link"] .'">'. $menus[$menuIdx]["text"] .'</a></li>';
 	}
 	?>
 	<!-- END MENU -->

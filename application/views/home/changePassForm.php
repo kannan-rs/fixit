@@ -10,7 +10,7 @@
 		<div class="label">Password Hint:</div>
 		<div><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="Password Hint"></div>
 		<p class="button-panel">
-			<button type="button" id="signup_user_submit" onclick="personalDetailsObj._userInfo.updatePasswordValidate()">Update</button>
+			<button type="button" id="signup_user_submit" onclick="homeObj._userInfo.updatePasswordValidate()">Update</button>
 		</p>
 	</div>
 </form>

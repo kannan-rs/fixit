@@ -1,19 +1,19 @@
 <?php
 		$i = 0;
+		$heading = $viewFrom == "security" ? "View User Details" : "Personal Details";
+		$heading = $viewFrom == "projects" ? "" : $heading;
+		$heading = $heading != "" ? "<h2>".$heading."</h2>" : $heading;
 ?>
 <div class="create-link">
-	<?php if($viewFrom == "security") { 
-		$heading = "View User Details";
-	?>
+	<?php if($viewFrom == "security") { ?>
 	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a>
-	<?php } else { 
-		$heading = "Personal Details";
-	?>
-		<a href="javascript:void(0);" onclick="personalDetailsObj._userInfo.editPage(<?php echo $user_details[$i]->sno; ?>);">Edit Details</a>
+	<?php } else if($viewFrom == "") { ?>
+		<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details[$i]->sno; ?>);">Edit Details</a>
 	<?php } ?>
 </div>
-<h2><?php echo $heading; ?></h2>
-	<form>
+
+<?php echo $heading; ?>
+<form>
 	<div class='form'>
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[$i]->sno; ?>">
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details[$i]->primary_contact; ?>">
@@ -55,7 +55,6 @@
 				</tr>
 			</table>
 		</div>
-
 		<div class="label">Alternate Number:</div>
 		<div>
 			<table class="innerOption">

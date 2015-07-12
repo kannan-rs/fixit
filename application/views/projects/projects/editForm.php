@@ -8,12 +8,10 @@
 		<div>
 			<input type="text" name="projectTitle" id="projectTitle" value="<?php echo $project->project_name; ?>" required>
 		</div>
+		
 		<div class="label">Description</div>
 		<div><textarea rows="6" cols="30" name="description" id="description" required><?php echo $project->project_descr; ?></textarea></div>
-		<div class="label notMandatory">Associated Claim Number</div>
-		<div>
-			<input type="text" name="associated_claim_num" id="associated_claim_num" value="<?php echo $project->associated_claim_num;?>">
-		</div>
+		
 		<div class="label">Project Type</div>
 		<div>
 			<input type="hidden" id="db_project_type" name="db_project_type" value="<?php echo $project->project_type;?>">
@@ -23,6 +21,7 @@
 				<option value="personal">Personal</option>
 			</select>
 		</div>
+
 		<div class="label">Project Status</div>
 		<div>
 			<input type="hidden" id="db_project_status" name="db_project_status" value="<?php echo $project->project_status;?>">
@@ -35,10 +34,20 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
-		<div class="label">Property Owner ID</div>
+
+		<div class="label">Project Start Date</div>
 		<div>
-			<input type="text" name="property_owner_id" id="property_owner_id" value="<?php echo $project->property_owner_id;?>">
+			<input type="text" name="start_date" id="start_date" value="<?php echo $project->start_date; ?>">
 		</div>
+		<div class="label">Project End Date</div>
+		<div>
+			<input type="text" name="end_date" id="end_date" value="<?php echo $project->end_date; ?>">
+		</div>
+
+		<?php
+			echo $addressFile;
+		?>
+
 		<div class="contractor-search-selected">
 			<input type="hidden" id="contractorIdDb" value="<?php echo $project->contractor_id;?>">
 			<div class="label">Contractor's List</div>
@@ -60,16 +69,40 @@
 		</div>
 		<div  class="label notMandatory">&nbsp;</div>
 		<div>
-			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
+			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm({'openAs': 'popup', 'popupType' : '2'})">Click Here</a>.
 		</div>
-		<!-- <div class="label">Adjuster ID</div>
+
+		<div class="label">Project Budget</div>
 		<div>
-			<input type="text" name="adjuster_id" id="adjuster_id" value="<?php echo $project->adjuster_id;?>" >
+			<input type="text" name="project_budget" id="project_budget" value="<?php echo $project->project_budget;?>" >
 		</div>
-		<div class="label">Customer ID</div>
+
+		<div class="label">Loan Amount</div>
 		<div>
-			<input type="text" name="customer_id" id="customer_id" value="<?php echo $project->customer_id;?>" >
-		</div> -->
+			<input type="text" name="lend_amount" id="lend_amount" value="<?php echo $project->lend_amount;?>">
+		</div>
+
+		<div class="label">Project Lender</div>
+		<div>
+			<input type="text" name="project_lender" id="project_lender" value="<?php echo $project->project_lender;?>">
+		</div>
+
+		<?php
+		if($userType == "admin") {
+		?>
+		<div class="label">Deductible</div>
+		<div>
+			<input type="text" name="deductible" id="deductible" value="<?php echo $project->deductible;?>">
+		</div>
+		<?php
+		}
+		?>
+
+		<div class="label">Property Owner ID</div>
+		<div>
+			<input type="text" name="property_owner_id" id="property_owner_id" value="<?php echo $project->property_owner_id;?>">
+		</div>
+		
 		<div class="label">Adjuster Name</div>
 		<div>
 			<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList" onkeyup="projectObj._projects.showAdjusterListInDropDown()">
@@ -98,58 +131,17 @@
 		<div>
 			Do you want to add new customer? <a href="javascript:void(0);" onclick="">Click Here</a>.
 		</div>
-		<div class="label">Project Budget</div>
+
+		<div class="label notMandatory">Associated Claim Number</div>
 		<div>
-			<input type="text" name="project_budget" id="project_budget" value="<?php echo $project->project_budget;?>" >
+			<input type="text" name="associated_claim_num" id="associated_claim_num" value="<?php echo $project->associated_claim_num;?>">
 		</div>
-		<div class="label">Paid from Budget</div>
-		<div>
-			<input type="text" name="paid_from_budget" id="paid_from_budget" value="<?php echo $project->paid_from_budget;?>" >
-		</div>
-		<!-- <div class="label">Remaining Budget</div>
-		<div>
-			<input type="text" name="remaining_budget" id="remaining_budget" value="<?php echo $project->remaining_budget;?>">
-		</div> -->
-		<?php
-		if($userType == "admin") {
-		?>
-		<div class="label">Deductible</div>
-		<div>
-			<input type="text" name="deductible" id="deductible" value="<?php echo $project->deductible;?>">
-		</div>
-		<!-- <div class="label">Referral Fee</div>
-		<div>
-			<input type="text" name="referral_fee" id="referral_fee" value="<?php echo $project->referral_fee;?>">
-		</div> -->
-		<?php
-		}
-		?>
-		<div class="label">Project Lender</div>
-		<div>
-			<input type="text" name="project_lender" id="project_lender" value="<?php echo $project->project_lender;?>">
-		</div>
-		<div class="label">Lend Amount</div>
-		<div>
-			<input type="text" name="lend_amount" id="lend_amount" value="<?php echo $project->lend_amount;?>">
-		</div>
-		<!--
-			<div class="label">Assign to User:</div>
-			<div>
-				<select name="assign_user" id="assign_user" required>
-					<option value="">--select User--</option>
-					<?php
-						if(isset($users) && is_array($users)) {
-							for( $j = 0; $j < count($users); $j++) {
-								$selected = ($project->owner == $users[$j]->sno) ? "selected" : "";
-								echo "<option value='". $users[$j]->sno ."' ".$selected.">". $users[$j]->user_name ."</option>";
-							}
-						}
-					?>
-				</select>
-			</div>
-		-->
+		
+		
+		
 		<p class="button-panel">
 			<button type="button" id="update_project_submit" onclick="projectObj._projects.updateValidate()">Update Project</button>
+			<button type="button" onclick="projectObj._projects.closeDialog()">Cancel</button>
 		</p>
 	</div>
 </form>

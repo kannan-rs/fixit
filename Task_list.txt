@@ -7,28 +7,25 @@ Pending List
 Michael’s Feedback 06/16/2015
 	
 	If the customer is added by a contractor or Admin, then the fields should be defaulted to 'please add details', this should be mandatory when creating a new project as we want to capture the new customer for marketing purposes.
-	Contractor list page, for admin, customer and contractor users, they should be able to add add'l contractors here.  need the edit function features on this page identical to documents/tasks, etc.	
+	
+	--> When contractor add an new customer, Application could able to send a mail to the customer to fill rest of details.
+
 	Admin needs to be able to send 'the Fixit Network' user acceptance form to customer or contractor to be added to a project when a contractor is adding a customer as well as when a customer is adding a contractor.  So until a customer and contractor accepts the terms of agreement, their access is disabled.  Will provide a user acceptance form.
 	Confirming, item #5 below means...If task owner is not assigned, by default customer is the owner, correct?
 
-Clarifications Needed
-Create Project page, form needs to have address fields added
 
-Done List
-1. Zip code validation 5 digit number.
-2. Pin code text need to be changed to Zip.
-3. Unified code for Address
-9. Address only 2 lines, with bigger text box.
-8. By default USA is selected. Same for all place where ever address comes.
-4. Contractor search Company name as 1st line, city and state as 2nd line
-Unified UI for contractor Listing
-10. Vertical distance between Form fields need to be reduced. All Form are brought under single CSS
-3. Customer ID, Adjuster ID Need to be dropdown as per users belongs selection
+Reset will be change to clear
+Done -- Project Budget Need to have an option to add expense. Columns 1. Date, 2. Description, 3. Amount.
+Done -- Paid from budget need to be removed from create and edit project.
+Done -- Paid from budget is auto calculated from the expense.
 
--Project Description font size is too big, should be consistent with Project Title font size
--Project Description should be underneath Project name
--Project Description detail should be collapsable 
--Calculations need to occur.  Budget entered, paid from budget, system should calculate the remaining budget. (Budget calculation should be factored in, please confirm you have the formula?)
-Referral fee should be 7% of budget.  formula (budget-deductible) x 7% = referral fee.
-Need a field called deductible, dollar amount needs to be entered by admin or user only.
-Customer details should be auto fill when a customer registers for the site and be editable
+Done--1. Error popped up when I tried to add a contractor to the project from the project detail page when there is NOT a contractor assigned to the project.  i was not able to close/cancel the Contractor create form after it popped up
+Done--2. left hand navigation, when you select create contractor, the navigation element does not stay highlighted
+Done--3. Project Management in the left hand navigation, remove the 's' from Project
+Done--4. Project Details page order...Project Title, Project Description, Project Date, Project address, Budget, Contractor details, Tasks list, Notes, Documents and Insurance Details
+Done --5. Edit Project Page order: Project Title, Project Description, Project type, Project status, Project start and end date, Project address, city, state, zip code, country,search contractor by zip code, Project budget, Loan amount, Project lender, property owner ID, customer name, adjuster name, Associated claim number (remove paid from budget, this information on the project details page under the budget parent item)
+Done --6. Create Contractor, what does status field mean?
+Done --7. Create contractor form was not working when I tried to create a contractor from the project details page.  This feature works from the left hand navigation bar.
+Done --8. Create task form not working when I stride to create a task from the project details page
+Done --9. Add New Adjuster from project details and update the project with this adjuster added to the project list.
+Done --10. Add New Customer from project details and update the project with this customer added to the project list.

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class PersonalDetails extends CI_Controller {
+class home extends CI_Controller {
 
 	public function __construct()
   	{
@@ -26,7 +26,7 @@ class PersonalDetails extends CI_Controller {
 			'user_details'=>$users
 		);
 
-		echo $this->load->view("personalDetails/changePassForm", $params, true);
+		echo $this->load->view("home/changePassForm", $params, true);
 	}
 
 	public function updatePassword() {

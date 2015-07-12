@@ -9,7 +9,7 @@ function security() {
 	this._permissions = new securityPermissions();
 };
 
-var securityObj = new security();
+/*var securityObj = new security();
 
 $().ready(function() {
 	var module = session.module != "" ? session.module : "users";
@@ -37,4 +37,4 @@ $().ready(function() {
 			break;
 		}
 	}
-});
+});*/

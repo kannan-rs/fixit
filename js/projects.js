@@ -1,17 +1,17 @@
 //Projects JS
 function projects() {
 
-	this._projects 		= new project();
-	this._tasks 		= new task();
-	this._notes 		= new note();
-	this._docs 			= new docs();
-
-	// Contractors
-	this._contractors	= new contractors();
+	this._projects 			= new project();
+	this._tasks 			= new task();
+	this._notes 			= new note();
+	this._docs 				= new docs();
+	this._contractors		= new contractors();		// Contractors
+	this._remainingBudget 	= new remainingBudget();
 };
 
 projects.prototype.clearRest = function(excludeList) {
-	var containers = ["project_content", "task_content", "note_content", "attachment_content", "popupForAll", "contractor_content"];
+	//var containers = ["project_content", "task_content", "note_content", "attachment_content", "popupForAll", "contractor_content"];
+	var containers = ["project_content", "popupForAll", "contractor_content"];
 
 	for(var i=0; i < containers.length; i++) {
 		if(!excludeList || !$.isArray(excludeList) || excludeList.indexOf(containers[i]) == -1) {
@@ -49,30 +49,6 @@ projects.prototype.toggleAccordiance = function(page, module) {
 		$("#project_section_accordion").show();
 	}
 }
-
-var projectObj = new projects();
-
-$().ready(function() {
-	var module = session.module != "" ? session.module : "projects";
-	if(module) {
-		switch (module) {
-			case "projects":
-				projectObj._projects.viewAll();
-			break;
-			case "create_project":
-				projectObj._projects.createForm();
-			break;
-			case "contractors":
-				projectObj._contractors.viewAll();
-			break;
-			case "create_contractor":
-				projectObj._contractors.createForm();
-			break;
-			default:
-			break;
-		}
-	}
-});
 
 window.onscroll = function() {
 	if($("#note_content").text().length) {

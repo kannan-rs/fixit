@@ -8,10 +8,10 @@ class Model_tasks extends CI_Model {
 
 		$this->db->select([
 				"*", 
-				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
-				"DATE_FORMAT( task_start_date, \"%d-%m-%y\") as task_start_date_for_view",
-				"DATE_FORMAT( task_end_date, \"%d-%m-%y\") as task_end_date_for_view",
+				"DATE_FORMAT(created_on, \"%m/%d/%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%m/%d/%y %H:%i:%S\") as updated_on_for_view",
+				"DATE_FORMAT( task_start_date, \"%m/%d/%y\") as task_start_date_for_view",
+				"DATE_FORMAT( task_end_date, \"%m/%d/%y\") as task_end_date_for_view",
 				"created_on",
 				"updated_on",
 				"task_start_date",
@@ -30,10 +30,10 @@ class Model_tasks extends CI_Model {
 
 		$this->db->select([
 			"*", 
-			"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-			"DATE_FORMAT( updated_on, \"%d-%m-%y  %H:%i:%S\") as updated_on_for_view",
-			"DATE_FORMAT( task_start_date, \"%d-%m-%y\") as task_start_date_for_view",
-			"DATE_FORMAT( task_end_date, \"%d-%m-%y\") as task_end_date_for_view",
+			"DATE_FORMAT(created_on, \"%m/%d/%y %H:%i:%S\") as created_on_for_view", 
+			"DATE_FORMAT( updated_on, \"%m/%d/%y  %H:%i:%S\") as updated_on_for_view",
+			"DATE_FORMAT( task_start_date, \"%m/%d/%y\") as task_start_date_for_view",
+			"DATE_FORMAT( task_end_date, \"%m/%d/%y\") as task_end_date_for_view",
 			"created_on",
 			"updated_on",
 			"task_start_date",

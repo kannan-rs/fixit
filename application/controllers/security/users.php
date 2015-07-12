@@ -28,10 +28,22 @@ class Users extends CI_Controller {
 	}
 
 	public function createForm() {
-		$addressFile = $this->load->view("forms/address", '', true);
+		$addressParams = array(
+			'forForm' 			=> "create_user_form"
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
+
+		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
+		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
+		$belongsTo 		= $this->input->post('belongsTo') ? $this->input->post('belongsTo') : "";
+		
 		$params = array(
 			'userType' 		=> $this->session->userdata("account_type"),
-			'addressFile' 	=> $addressFile
+			'addressFile' 	=> $addressFile,
+			'openAs' 		=> $openAs,
+			'belongsTo' 	=> $belongsTo,
+			'popupType' 	=> $popupType
 		);
 
 		echo $this->load->view("security/users/createForm", $params, true);
@@ -148,13 +160,14 @@ class Users extends CI_Controller {
 			'country' 			=> $user_details[0]->addr_country,
 			'state'				=> $user_details[0]->addr_state,
 			'pinCode' 			=> $user_details[0]->addr_pin,
+			'forForm' 			=> "update_user_form"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		$params = array(
 			'record' 			=> $record,
-			'viewFrom' 			=> $this->input->post('userId') ? "security" : "personalDetails",
+			'viewFrom' 			=> $this->input->post('userId') ? "security" : "home",
 			'users' 			=> $users,
 			'user_details' 		=> $user_details,
 			'contractorName' 	=> $contractorName,
@@ -274,7 +287,7 @@ class Users extends CI_Controller {
 		$this->load->model('projects/model_contractors');
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
-		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "personalDetails";
+		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "home";
 
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);

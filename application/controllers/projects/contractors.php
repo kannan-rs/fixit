@@ -22,16 +22,9 @@ class Contractors extends CI_Controller {
 			$records = explode(",", $this->input->post("records"));
 		}
 
-		$contractors = $this->model_contractors->getContractorsList( $records );
-		$response = array();
-		if($contractors) {
-			$response['status'] 		= 'success';
-			$response['contractors']	= $contractors;
-		} else {
-			$response['status'] 		= 'error';
-			$response["message"] 		= "Error retriving contractors details";
-		}
-		print_r(json_encode($response));
+		$contractorsResponse = $this->model_contractors->getContractorsList( $records );
+
+		print_r(json_encode($contractorsResponse));
 	}
 
 	public function getContractorListUsingZip() {
@@ -40,27 +33,19 @@ class Contractors extends CI_Controller {
 		$zip = explode(",", $this->input->post('zip'));
 		$record = "";
 
-		$contractors = $this->model_contractors->getContractorsList($record, $zip);
+		$contractorsResponse = $this->model_contractors->getContractorsList($record, $zip);
 
-		$response = array();
-		if($contractors) {
-			$response['status'] 		= 'success';
-			$response['contractors']	= $contractors;
-		} else {
-			$response['status'] 		= 'error';
-			$response["message"] 		= "Error retriving contractors details";
-		}
-		print_r(json_encode($response));	
+		print_r(json_encode($contractorsResponse));	
 	}
 
 	public function viewAll() {
 		$this->load->model('projects/model_contractors');
 
 		
-		$contractors = $this->model_contractors->getContractorsList();
+		$contractorsResponse = $this->model_contractors->getContractorsList();
 
 		$params = array(
-			'contractors'=>$contractors
+			'contractors'=>$contractorsResponse["contractors"]
 		);
 		
 		echo $this->load->view("projects/contractors/viewAll", $params, true);
@@ -72,7 +57,11 @@ class Contractors extends CI_Controller {
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 
-		$addressFile = $this->load->view("forms/address", '', true);
+		$addressParams = array(
+			'forForm' 		=> "create_contractor_form"
+		);
+
+		$addressFile = $this->load->view("forms/address", $addressParams, true);
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
@@ -97,8 +86,6 @@ class Contractors extends CI_Controller {
 			'status' 			=> $this->input->post('status'),
 			'address1' 			=> $this->input->post('addressLine1'),
 			'address2'			=> $this->input->post('addressLine2'),
-			'address3' 			=> $this->input->post('addressLine3'),
-			'address4' 			=> $this->input->post('addressLine4'),
 			'city' 				=> $this->input->post('city'),
 			'state' 			=> $this->input->post('state'),
 			'country' 			=> $this->input->post('country'),
@@ -123,9 +110,11 @@ class Contractors extends CI_Controller {
 		$this->load->model('projects/model_contractors');
 		$this->load->model('security/model_users');
 
-		$contractorId 		= $this->input->post('contractorId');
-		$openAs		 		= $this->input->post('openAs');
-		$contractors 		= $this->model_contractors->getContractorsList($contractorId);
+		$contractorId 			= $this->input->post('contractorId');
+		$openAs		 			= $this->input->post('openAs');
+		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorId);
+
+		$contractors = $contractorsResponse["contractors"];
 		
 		for($i=0; $i < count($contractors); $i++) {
 			$contractors[$i]->created_by_name = $this->model_users->getUsersList($contractors[$i]->created_by)[0]->user_name;
@@ -159,8 +148,11 @@ class Contractors extends CI_Controller {
 		$this->load->model('projects/model_contractors');
 
 		$contractorId = $this->input->post('contractorId');
+		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
+		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 
-		$contractors = $this->model_contractors->getContractorsList($contractorId);
+		$contractorsResponse = $this->model_contractors->getContractorsList($contractorId);
+		$contractors = $contractorsResponse["contractors"];
 
 		$addressParams = array(
 			'addressLine1' 		=> $contractors[0]->address1,
@@ -169,6 +161,7 @@ class Contractors extends CI_Controller {
 			'country' 			=> $contractors[0]->country,
 			'state'				=> $contractors[0]->state,
 			'pinCode' 			=> $contractors[0]->pin_code,
+			'forForm' 			=> "update_contractor_form"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
@@ -176,7 +169,9 @@ class Contractors extends CI_Controller {
 		$params = array(
 			'contractors' 	=> $contractors,
 			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('account_type')
+			'userType' 		=> $this->session->userdata('account_type'),
+			'openAs' 		=> $openAs,
+			'popupType' 	=> $popupType
 		);
 		
 		echo $this->load->view("projects/contractors/editForm", $params, true);
@@ -196,8 +191,6 @@ class Contractors extends CI_Controller {
 			'status' 			=> $this->input->post('status'),
 			'address1' 			=> $this->input->post('addressLine1'),
 			'address2'			=> $this->input->post('addressLine2'),
-			'address3' 			=> $this->input->post('addressLine3'),
-			'address4' 			=> $this->input->post('addressLine4'),
 			'city' 				=> $this->input->post('city'),
 			'state' 			=> $this->input->post('state'),
 			'country' 			=> $this->input->post('country'),

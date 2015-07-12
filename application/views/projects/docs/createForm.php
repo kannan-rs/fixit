@@ -13,6 +13,7 @@
 		</div>
 		<p class="button-panel">
 			<button type="submit" id="create_project_doc_submit">Upload Document</button>
+			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
 		</p>
 		<div id="notification"></div>
 	</div>

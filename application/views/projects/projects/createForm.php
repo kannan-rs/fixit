@@ -10,10 +10,7 @@
 		<div>
 			<textarea type="text" name="description" id="description" rows="10" cols="70" required></textarea>
 		</div>
-		<div class="label notMandatory">Associated Claim Number</div>
-		<div>
-			<input type="text" name="associated_claim_num" id="associated_claim_num" value="">
-		</div>
+
 		<div class="label">Project Type</div>
 		<div>
 			<select name="project_type" id="project_type">
@@ -22,6 +19,7 @@
 			<option value="personal">Personal</option>
 			</select>
 		</div>
+
 		<div class="label">Project Status</div>
 		<div>
 			<select name="project_status" id="project_status">
@@ -33,10 +31,20 @@
 				<option value="completed">Completed</option>
 			</select>
 		</div>
-		<div class="label">Property Owner ID</div>
+
+		<div class="label">Project Start Date</div>
 		<div>
-			<input type="text" name="property_owner_id" id="property_owner_id" value="">
+			<input type="text" name="start_date" id="start_date" value="">
 		</div>
+		<div class="label">Project End Date</div>
+		<div>
+			<input type="text" name="end_date" id="end_date" value="">
+		</div>
+
+		<?php
+			echo $addressFile;
+		?>
+
 		<div class="contractor-search-selected">
 			<div class="label">Drop Contractor from Search result</div>
 			<div>
@@ -57,22 +65,40 @@
 		</div>
 		<div  class="label notMandatory">&nbsp;</div>
 		<div>
-			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm('popup')">Click Here</a>.
+			Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm({'openAs': 'popup', 'popupType' : '2'})">Click Here</a>.
 		</div>
-		<div class="label">Adjuster Name</div>
+
+		<div class="label">Project Budget</div>
 		<div>
-			<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList" onkeyup="projectObj._projects.showAdjusterListInDropDown()">
-			<input type="hidden" value="" name="adjuster_id" id="adjuster_id">
+			<input type="text" name="project_budget" id="project_budget" value="" >
 		</div>
-		<div class="adjuster-search-result">
-			<div>
-				<ul id="adjusterNameList" class="connectedSortable"></ul>
-			</div>
-		</div>
-		<div  class="label notMandatory">&nbsp;</div>
+
+		<div class="label">Loan Amount</div>
 		<div>
-			Do you want to add new adjuster? <a href="javascript:void(0);" onclick="">Click Here</a>.
+			<input type="text" name="lend_amount" id="lend_amount" value="" required>
 		</div>
+
+		<?php
+		if($userType == "admin") {
+		?>
+		<div class="label">Deductible</div>
+		<div>
+			<input type="text" name="deductible" id="deductible" value="">
+		</div>
+		<?php
+		}
+		?>
+
+		<div class="label">Project Lender</div>
+		<div>
+			<input type="text" name="project_lender" id="project_lender" value="">
+		</div>
+
+		<div class="label">Property Owner ID</div>
+		<div>
+			<input type="text" name="property_owner_id" id="property_owner_id" value="">
+		</div>
+
 		<div class="label">Customer Name</div>
 		<div>
 			<input type="text" name="searchCustomerName" id="searchCustomerName" value="" onkeyup="projectObj._projects.showCustomerListInDropDown()">
@@ -85,47 +111,32 @@
 		</div>
 		<div  class="label notMandatory">&nbsp;</div>
 		<div>
-			Do you want to add new customer? <a href="javascript:void(0);" onclick="">Click Here</a>.
+			Do you want to add new customer? <a href="javascript:void(0);" onclick="securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})">Click Here</a>.
 		</div>
-		<div class="label">Project Budget</div>
+
+		<div class="label">Adjuster Name</div>
 		<div>
-			<input type="text" name="project_budget" id="project_budget" value="" >
+			<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList" onkeyup="projectObj._projects.showAdjusterListInDropDown()">
+			<input type="hidden" value="" name="adjuster_id" id="adjuster_id">
 		</div>
-		<div class="label">Paid from Budget</div>
-		<div>
-			<input type="text" name="paid_from_budget" id="paid_from_budget" value="" >
+		<div class="adjuster-search-result">
+			<div>
+				<ul id="adjusterNameList" class="connectedSortable"></ul>
+			</div>
 		</div>
-		<!-- <div class="label">Remaining Bbudget</div>
+		<div  class="label notMandatory">&nbsp;</div>
 		<div>
-			<input type="text" name="remaining_budget" id="remaining_budget" value="">
-		</div> -->
-		<?php
-		if($userType == "admin") {
-		?>
-		<div class="label">Deductible</div>
-		<div>
-			<input type="text" name="deductible" id="deductible" value="">
+			Do you want to add new adjuster? <a href="javascript:void(0);" onclick="securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})">Click Here</a>.
 		</div>
-		<!-- <div class="label">Referral Fee</div>
+
+		<div class="label notMandatory">Associated Claim Number</div>
 		<div>
-			<input type="text" name="referral_fee" id="referral_fee" value="">
-		</div> -->
-		<?php
-		}
-		?>
-		<div class="label">Project Lender</div>
-		<div>
-			<input type="text" name="project_lender" id="project_lender" value="">
+			<input type="text" name="associated_claim_num" id="associated_claim_num" value="">
 		</div>
-		<div class="label">Lend Amount</div>
-		<div>
-			<input type="text" name="lend_amount" id="lend_amount" value="" required>
-		</div>
-		<?php
-			//echo $addressFile;
-		?>
+		
 		<p class="button-panel">
 			<button type="button" id="create_project_submit" onclick="projectObj._projects.createValidate()">Create Project</button>
+			<button type="reset" id="resetButton" onclick="">Clear</button>
 		</p>
 	</div>
 </form>

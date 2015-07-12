@@ -4,7 +4,7 @@ function formUtils() {
 
 formUtils.prototype.state = [];
 
-formUtils.prototype.getAndSetCountryStatus =  function(stateId, countryId) {
+formUtils.prototype.getAndSetCountryStatus =  function(moduleId) {
 	$.ajax({
 		method: "POST",
 		url: "/utils/formUtils/getCountryStatus",
@@ -17,7 +17,7 @@ formUtils.prototype.getAndSetCountryStatus =  function(stateId, countryId) {
 				for(var i =0 ; i < formUtilObj.state.length; i++) {
 					if(country.indexOf(formUtilObj.state[i].country) < 0) {
 						country.push(formUtilObj.state[i].country);
-						$('#'+countryId).append($('<option>', {
+						$('#'+moduleId+" #country").append($('<option>', {
 						    value: formUtilObj.state[i].country,
 						    text: formUtilObj.state[i].country
 						}));
@@ -27,7 +27,7 @@ formUtils.prototype.getAndSetCountryStatus =  function(stateId, countryId) {
 			} else {
 				alert(response.message);
 			}
-			formUtilObj.setCountryStateOfDb();
+			formUtilObj.setCountryStateOfDb( moduleId );
 		},
 		error: function( error ) {
 			error = error;
@@ -38,17 +38,17 @@ formUtils.prototype.getAndSetCountryStatus =  function(stateId, countryId) {
 	});
 }
 
-formUtils.prototype.populateState = function( country, stateId ) {
-	$('#'+stateId).html("");
+formUtils.prototype.populateState = function( country, moduleId ) {
+	$('#'+moduleId+" #state").html("");
 	
-	$('#'+stateId).append($('<option>', {
+	$('#'+moduleId+" #state").append($('<option>', {
 	    value: "",
 	    text: "--Select State--"
 	}));
 
 	for(var i =0 ; i < formUtilObj.state.length; i++) {
 		if(formUtilObj.state[i].country == country) {
-			$('#'+stateId).append($('<option>', {
+			$('#'+moduleId+" #state").append($('<option>', {
 			    'value': formUtilObj.state[i].abbreviation,
 			    'text': formUtilObj.state[i].name,
 			    'class': formUtilObj.state[i].country
@@ -57,18 +57,18 @@ formUtils.prototype.populateState = function( country, stateId ) {
 	}
 }
 
-formUtils.prototype.setCountryStateOfDb = function() {
+formUtils.prototype.setCountryStateOfDb = function( moduleId ) {
 	var country = $("#countryDbVal").val();
 	var state = $("#stateDbVal").val();
 
 	if(!country) {
-		country = $($("#country").children()[1]).val();
+		country = $($("#"+moduleId+" #country").children()[1]).val();
 	}
 
-	$("#country").val(country).trigger("change");
+	$("#"+moduleId+" #country").val(country).trigger("change");
 
 	if(state) {
-		setTimeout(function() {$("#state").val(state)}, 10);
+		setTimeout(function() {$("#"+moduleId+" #state").val(state)}, 10);
 	}
 }
 
@@ -192,4 +192,68 @@ formUtils.prototype.setSearchList = function ( searchList ) {
 			$('#'+appendTo).append(li);
 		}
 	}
+}
+
+formUtils.prototype.setAsDateFields = function(options) {
+	$( "#"+options.dateField ).datepicker( {
+		showAnim		: "fadeIn",
+		dateFormat 		: "mm/dd/y"
+	});
+}
+
+/*
+	options = {
+		fromDateField 	: string 	<ID for Date Field of starting from field>,
+		toDateField		: string 	<ID for Date Field of ending with field>,
+		numberOfMonths	: Int 		<Number of month to show> / Default "3" [optional]
+	}
+*/
+formUtils.prototype.setAsDateRangeFields = function(options) {
+	var numberOfMonths = options.numberOfMonths ? options.numberOfMonths : 3;
+	$(function() {
+		$( "#"+options.fromDateField ).datepicker({
+			defaultDate 	: "+1w",
+			changeMonth 	: true,
+			numberOfMonths 	: numberOfMonths,
+			showAnim		: "fadeIn",
+			dateFormat 		: "mm/dd/y",
+			
+			onClose 		: function( selectedDate ) {
+				$( "#"+options.toDateField ).datepicker( "option", "minDate", selectedDate );
+			}
+		});
+		$( "#"+options.toDateField ).datepicker({
+			defaultDate 	: "+1w",
+			changeMonth 	: true,
+			numberOfMonths 	: numberOfMonths,
+			showAnim		: "fadeIn",
+			dateFormat 		: "mm/dd/y",
+			
+			onClose 		: function( selectedDate ) {
+				$( "#"+options.fromDateField ).datepicker( "option", "maxDate", selectedDate );
+			}
+		});
+	});
+}
+
+/*
+	Convert from "mm/dd/yy" to "yyyy-mm-dd"
+*/
+formUtils.prototype.toMySqlDateFormat = function( dateStr ) {
+	var dateStrArr 		= dateStr.split("/");
+	var month 		= dateStrArr[0];
+	var date 		= dateStrArr[1];
+	var year 		= "20"+dateStrArr[2];
+	return (year+"-"+month+"-"+date);
+}
+
+/*
+	Convert from "yyyy-mm-dd" to "mm/dd/yy"
+*/
+formUtils.prototype.toDisplayDateFormat = function( dateStr ) {
+	var dateStrArr 		= dateStr.split("-");
+	var year 		= dateStrArr[0].substr(2,2);
+	var month 		= dateStrArr[1];
+	var date 		= dateStrArr[2];
+	return (month+"/"+date+"/"+year);
 }

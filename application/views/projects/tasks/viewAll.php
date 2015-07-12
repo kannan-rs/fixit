@@ -65,21 +65,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<td class='cell date'><?php echo  $stard_date; ?></td>
 			<td class='cell date'><?php echo  $end_date; ?></td>
 			<td class='cell table-action'>
-				<!--<span>
-					<a href="javascript:void(0);" onclick="projectObj._notes.viewAll('<?php echo $projectId; ?>','<?php echo $taskId; ?>',0, 5)">Notes</a>
-				</span>-->
 				<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="<?php echo $notesFn?>" title="Notes For Task"></a></span>
 				<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
 				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span>
-
-				<!--
-				<span>
-					<a href="javascript:void(0);" onclick="projectObj._tasks.editTask('<?php echo $taskId; ?>')">Edit</a>
-				</span>
-				<span>
-					<a href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"><?php echo $deleteText; ?></a>
-				</span>
-				-->
 			</td>
 		</tr>
 <?php

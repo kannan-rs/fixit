@@ -53,6 +53,8 @@ project.prototype.createForm = function() {
 			projectObj._projects.hideDropDowns();
 			formUtilObj.setCustomerDataList();
 			formUtilObj.setAdjusterDataList();
+			formUtilObj.getAndSetCountryStatus("create_project_form");
+			formUtilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {
 			error = error;
@@ -64,26 +66,33 @@ project.prototype.createForm = function() {
 };
 
 project.prototype.createSubmit = function() {
-	var projectTitle 			= $("#projectTitle").val();
-	var description 			= $("#description").val();
-	var associated_claim_num 	= $("#associated_claim_num").val();
-	var project_type			= $("#project_type").val();
-	var project_status			= $("#project_status").val();
-	var project_budget			= $("#project_budget").val();
-	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= [];//$("#contractorId").val();
-	var adjuster_id				= $("#adjuster_id").val();
-	var customer_id				= $("#customer_id").val();
-	var paid_from_budget		= $("#paid_from_budget").val();
-	var remaining_budget		= $("#remaining_budget").val();
-	//var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
-	var deductible				= $("#deductible").length ? $("#deductible").val() : "";
-	var project_lender			= $("#project_lender").val();
-	var lend_amount				= $("#lend_amount").val();
-
+	var idPrefix 				= "#create_project_form ";
+	var projectTitle 			= $(idPrefix+"#projectTitle").val();
+	var description 			= $(idPrefix+"#description").val();
+	var associated_claim_num 	= $(idPrefix+"#associated_claim_num").val();
+	var project_type			= $(idPrefix+"#project_type").val();
+	var start_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
+	var end_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
+	var project_status			= $(idPrefix+"#project_status").val();
+	var project_budget			= $(idPrefix+"#project_budget").val();
+	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
+	var contractor_id			= [];//$(idPrefix+"#contractorId").val();
+	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
+	var customer_id				= $(idPrefix+"#customer_id").val();
+	//var paid_from_budget		= $(idPrefix+"#paid_from_budget").val();
+	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
+	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
+	var project_lender			= $(idPrefix+"#project_lender").val();
+	var lend_amount				= $(idPrefix+"#lend_amount").val();
+	var addressLine1 			= $(idPrefix+"#addressLine1").val();
+	var addressLine2 			= $(idPrefix+"#addressLine2").val();
+	var city 					= $(idPrefix+"#city").val();
+	var state 					= $(idPrefix+"#state").val();
+	var country 				= $(idPrefix+"#country").val();
+	var pinCode					= $(idPrefix+"#pinCode").val();
 
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
-	$("#contractorSearchSelected li").each(
+	$(idPrefix+"#contractorSearchSelected li").each(
 		function() {
 			contractor_id.push($(this).attr("id"));
 		}
@@ -97,23 +106,33 @@ project.prototype.createSubmit = function() {
 		method: "POST",
 		url: "/projects/projects/add",
 		data: {
-			projectTitle: 			projectTitle,
-			description: 			description,
-			//assign_user: 			assign_user,
-			associated_claim_num: 	associated_claim_num,
-			project_type: 			project_type,
-			project_status: 		project_status,
-			project_budget: 		project_budget,
-			property_owner_id: 		property_owner_id,
-			contractor_id: 			contractor_id,
-			adjuster_id: 			adjuster_id,
-			customer_id: 			customer_id,
-			paid_from_budget: 		paid_from_budget,
-			remaining_budget: 		remaining_budget,
-			//referral_fee: 			referral_fee,
-			deductible: 			deductible,
-			project_lender: 		project_lender,
-			lend_amount: 			lend_amount
+			projectTitle 		: projectTitle,
+			description 		: description,
+			//assign_user 		: assign_user,
+			associated_claim_num: associated_claim_num,
+			project_type 		: project_type,
+			start_date 			: start_date,
+			end_date 			: end_date,
+			project_status 		: project_status,
+			project_budget		: project_budget,
+			property_owner_id	: property_owner_id,
+			contractor_id 		: contractor_id,
+			adjuster_id			: adjuster_id,
+			customer_id			: customer_id,
+			//paid_from_budget	: paid_from_budget,
+			remaining_budget	: remaining_budget,
+			//referral_fee		: referral_fee,
+			deductible			: deductible,
+			project_lender		: project_lender,
+			lend_amount 		: lend_amount,
+			addressLine1 		: addressLine1,
+			addressLine2 		: addressLine2,
+			//addressLine3 		: addressLine3,
+			//addressLine4 		: addressLine4,
+			city 				: city,
+			state 				: state,
+			country 			: country,
+			pinCode 			: pinCode
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -154,6 +173,8 @@ project.prototype.editProject = function() {
 			formUtilObj.setCustomerDataList();
 			formUtilObj.setAdjusterDataList();
 			//projectObj._projects.setContractorDetails();
+			formUtilObj.getAndSetCountryStatus("update_project_form");
+			formUtilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {
 			error = error;
@@ -173,24 +194,31 @@ project.prototype.updateValidate = function() {
 };
 
 project.prototype.updateSubmit = function() {
-	var project_sno 			= $("#project_sno").val();
-	var projectTitle 			= $("#projectTitle").val();
-	var description 			= $("#description").val();
-	//var assign_user 			= $("#assign_user").val();
-	var associated_claim_num 	= $("#associated_claim_num").val();
-	var project_type			= $("#project_type").val();
-	var project_status			= $("#project_status").val();
-	var project_budget			= $("#project_budget").val();
-	var property_owner_id		= $("#property_owner_id").val();
-	var contractor_id			= [];//$("#contractorId").val();
-	var adjuster_id				= $("#adjuster_id").val();
-	var customer_id				= $("#customer_id").val();
-	var paid_from_budget		= $("#paid_from_budget").val();
-	var remaining_budget		= $("#remaining_budget").val();
-	//var referral_fee			= $("#referral_fee").length ? $("#referral_fee").val() : "";
-	var deductible				= $("#deductible").length ? $("#deductible").val() : "";
-	var project_lender			= $("#project_lender").val();
-	var lend_amount				= $("#lend_amount").val();
+	var idPrefix 				="#update_project_form ";
+	var project_sno 			= $(idPrefix+"#project_sno").val();
+	var projectTitle 			= $(idPrefix+"#projectTitle").val();
+	var description 			= $(idPrefix+"#description").val();
+	var associated_claim_num 	= $(idPrefix+"#associated_claim_num").val();
+	var project_type			= $(idPrefix+"#project_type").val();
+	var start_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
+	var end_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
+	var project_status			= $(idPrefix+"#project_status").val();
+	var project_budget			= $(idPrefix+"#project_budget").val();
+	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
+	var contractor_id			= [];//$(idPrefix+"#contractorId").val();
+	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
+	var customer_id				= $(idPrefix+"#customer_id").val();
+	//var paid_from_budget		= $(idPrefix+"#paid_from_budget").val();
+	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
+	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
+	var project_lender			= $(idPrefix+"#project_lender").val();
+	var lend_amount				= $(idPrefix+"#lend_amount").val();
+	var addressLine1 			= $(idPrefix+"#addressLine1").val();
+	var addressLine2 			= $(idPrefix+"#addressLine2").val();
+	var city 					= $(idPrefix+"#city").val();
+	var state 					= $(idPrefix+"#state").val();
+	var country 				= $(idPrefix+"#country").val();
+	var pinCode					= $(idPrefix+"#pinCode").val();
 
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
 	$("#contractorSearchSelected li").each(
@@ -207,23 +235,30 @@ project.prototype.updateSubmit = function() {
 		method: "POST",
 		url: "/projects/projects/update",
 		data: {
-			project_sno: 			project_sno,
-			projectTitle: 			projectTitle,
-			description: 			description,
-			associated_claim_num: 	associated_claim_num,
-			project_type: 			project_type,
-			project_status: 		project_status,
-			project_budget: 		project_budget,
-			property_owner_id: 		property_owner_id,
-			contractor_id: 			contractor_id,
-			adjuster_id: 			adjuster_id,
-			customer_id: 			customer_id,
-			paid_from_budget: 		paid_from_budget,
-			remaining_budget: 		remaining_budget,
-			//referral_fee: 			referral_fee,
-			deductible: 			deductible,
-			project_lender: 		project_lender,
-			lend_amount: 			lend_amount
+			project_sno 			: project_sno,
+			projectTitle 			: projectTitle,
+			description 			: description,
+			associated_claim_num 	: associated_claim_num,
+			project_type 			: project_type,
+			start_date 				: start_date,
+			end_date 				: end_date,
+			project_status 			: project_status,
+			project_budget 			: project_budget,
+			property_owner_id 		: property_owner_id,
+			contractor_id 			: contractor_id,
+			adjuster_id 			: adjuster_id,
+			customer_id 			: customer_id,
+			//paid_from_budget 		: paid_from_budget,
+			remaining_budget		: remaining_budget,
+			deductible				: deductible,
+			project_lender 			: project_lender,
+			lend_amount 			: lend_amount,
+			addressLine1 			: addressLine1,
+			addressLine2 			: addressLine2,
+			city					: city,
+			state 					: state,
+			country					: country,
+			pinCode					: pinCode
 
 		},
 		success: function( response ) {
@@ -276,32 +311,23 @@ project.prototype.viewOne = function(projectId) {
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("project", "viewOne");
 	
-	$( "#project_section_accordion" ).accordion(
+	/*$( "#project_section_accordion" ).accordion(
 		{
 			collapsible : true,  
 			icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
 			active 		: false
 		}
-	);
+	);*/
 	// Project Details View
 	setTimeout(function() {
 		projectObj._projects.getProjectDetails();
+		setTimeout(function() {
+			projectObj._projects.getProjectTasksList();
+			projectObj._projects.getProjectNotesList();
+			projectObj._projects.getProjectDocumentList();
+		}, 1000);
 	}, 0);
 
-	// Project Task List
-	setTimeout(function() {
-		projectObj._projects.getProjectTasksList();
-	}, 0);
-
-	// Project Notes
-	setTimeout(function() {
-		projectObj._projects.getProjectNotesList();
-	}, 0);
-
-	// Project Notes
-	setTimeout(function() {
-		projectObj._projects.getProjectDocumentList();
-	}, 0);
 };
 
 project.prototype.getProjectDetails = function() {
@@ -615,6 +641,12 @@ project.prototype.addTask = function( ) {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title": "Add Task"});
 			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
+			
+			dateOptions = {
+				fromDateField 	: "task_start_date",
+				toDateField		: "task_end_date"
+			}
+			formUtilObj.setAsDateRangeFields(dateOptions);
 		},
 		error: function( error ) {
 			error = error;
@@ -662,6 +694,12 @@ project.prototype.editTask = function(taskId) {
 			projectObj._projects.openDialog({"title": "Edit Task Details"});
 			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
 			projectObj._tasks.setDropdownValue();
+
+			dateOptions = {
+				fromDateField 	: "task_start_date",
+				toDateField		: "task_end_date"
+			}
+			formUtilObj.setAsDateRangeFields(dateOptions);
 		},
 		error: function( error ) {
 			error = error;
@@ -676,8 +714,8 @@ project.prototype.taskCreateSubmit = function() {
 	parentId 					= $("#parentId").val();
 	task_name 					= $("#task_name").val();
 	task_desc 					= $("#task_desc").val();
-	task_start_date 			= $("#task_start_date").val();
-	task_end_date 				= $("#task_end_date").val();
+	task_start_date 			= formUtilObj.toMySqlDateFormat($("#task_start_date").val());
+	task_end_date 				= formUtilObj.toMySqlDateFormat($("#task_end_date").val());
 	task_status					= $("#task_status").val();
 	task_owner_id				= "";//$("#task_owner_id").val();
 	task_percent_complete		= $("#task_percent_complete").val();
@@ -767,8 +805,8 @@ project.prototype.taskUpdateSubmit = function() {
 	task_id 				= $("#task_sno").val();
 	task_name 				= $("#task_name").val();
 	task_desc 				= $("#task_desc").val();
-	task_start_date 		= $("#task_start_date").val();
-	task_end_date 			= $("#task_end_date").val();
+	task_start_date 		= formUtilObj.toMySqlDateFormat($("#task_start_date").val());
+	task_end_date 			= formUtilObj.toMySqlDateFormat($("#task_end_date").val());
 	task_status 			= $("#task_status").val();
 	task_owner_id 			= "";//$("#task_owner_id").val();
 	task_percent_complete	= $("#task_percent_complete").val();
@@ -859,6 +897,11 @@ project.prototype.openDialog2 = function( options ) {
   	if( typeof(options) != "undefined" ) {
   		this.popupDialog2.dialog("option", "title", options.title); 
   	}
+}
+
+project.prototype.closeDialog = function( options ) {
+	var popupType = (options && options.popupType) ? options.popupType : "";
+	$( "#popupForAll"+popupType ).dialog( "close" );
 }
 
 project.prototype.hideContractorDetails = function(hide) {

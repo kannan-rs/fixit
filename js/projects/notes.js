@@ -31,7 +31,7 @@ note.prototype.projectDetails = function( projectId ) {
 
 note.prototype.viewAll = function(projectId, taskId, noteId) {
 	projectObj.resetCounter("notes");
-	projectObj.clearRest(["note_content", "new_note_content"]);
+	//projectObj.clearRest(["note_content", "new_note_content"]);
 	this.createForm(projectId, taskId);
 
 	this.noteListStartRecord 	= this.noteListStartRecord ? this.noteListStartRecord: 0;

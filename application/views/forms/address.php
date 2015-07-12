@@ -33,7 +33,7 @@
 	<?php 
 		if($requestFrom == "view") { echo $country; } else { ?>
 	<input type="hidden" name="countryDbVal" id="countryDbVal" value="<?php echo $country;?>" >
-	<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, 'state');">
+	<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, '<?php echo $forForm; ?>');">
 		<option value="">--Select Country--</option>
 	</select>
 	<?php } ?>

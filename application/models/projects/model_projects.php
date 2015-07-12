@@ -13,9 +13,11 @@ class Model_projects extends CI_Model {
 		*/
 
 		$this->db->select([
-				"*", 
-				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+				"*",
+				"DATE_FORMAT(start_date, \"%m/%d/%y\") as start_date",
+				"DATE_FORMAT(end_date, \"%m/%d/%y\") as end_date",  
+				"DATE_FORMAT(created_on, \"%m-%d-%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%m-%d-%y %H:%i:%S\") as updated_on_for_view",
 				"created_on",
 				"updated_on"
 			]);

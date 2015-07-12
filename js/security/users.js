@@ -8,7 +8,7 @@ function securityUsers() {
 /**
 	Create User Validation
 */
-securityUsers.prototype.createValidate =  function () {
+securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsTo ) {
 	$("#create_user_form").validate({
 		rules: {
 			password: {
@@ -41,7 +41,7 @@ securityUsers.prototype.createValidate =  function () {
 
 	if(validator.form()) {
 
-		securityObj._users.createSubmit();
+		securityObj._users.createSubmit( openAs, popupType, belongsTo );
 	}
 };
 
@@ -96,15 +96,34 @@ securityUsers.prototype.viewAll = function() {
 	});
 };
 
-securityUsers.prototype.createForm = function() {
+securityUsers.prototype.createForm = function( options ) {
+	var openAs 			= options && options.openAs ? options.openAs : "";
+	var popupType 		= options && options.popupType ? options.popupType : "";
+	var belongsTo 		= options && options.belongsTo ? options.belongsTo : "";
+	var requestFrom 	= options && options.requestFrom ? options.requestFrom : "";
+
 	$.ajax({
 		method: "POST",
 		url: "/security/users/createForm",
-		data: {},
+		data: {
+			openAs 		: openAs,
+			belongsTo 	: belongsTo,
+			popupType 	: popupType,
+			requestFrom : requestFrom
+		},
 		success: function( response ) {
-			$("#security_content").html(response);
+			if(openAs == "") {
+				$("#security_content").html(response);
+			} else {
+				$("#popupForAll"+popupType).html( response );
+				if(belongsTo == "adjuster") {
+					projectObj._projects.openDialog({"title" : "Add Adjuster"}, popupType);
+				} else if(belongsTo == "customer") {
+					projectObj._projects.openDialog({"title" : "Add Customer"}, popupType);
+				}
+			}
 			securityObj._users.showContractor();
-			formUtilObj.getAndSetCountryStatus("state", "country");
+			formUtilObj.getAndSetCountryStatus("create_user_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -115,37 +134,37 @@ securityUsers.prototype.createForm = function() {
 	});
 };
 
-securityUsers.prototype.createSubmit = function() {
-	var privilege 			= $("#privilege").val();
-	var firstName 			= $("#firstName").val();
-	var lastName 			= $("#lastName").val();
-	var password 			= $("#password").val();
-	var passwordHint 		= $("#passwordHint").val();
-	var belongsTo 			= $("#belongsTo").val();
-	var contractorId 		= "";
-	var userStatus 			= $("#userStatus").val();
-	var emailId 			= $("#emailId").val();
-	var contactPhoneNumber 	= $("#contactPhoneNumber").val();
-	var mobileNumber 		= $("#mobileNumber").val();
-	var altNumber 			= $("#altNumber").val();
-	var primaryContact		= $("input[name=primaryContact]:checked").val();
-	var prefContact			= "";
-	var addressLine1 		= $("#addressLine1").val();
-	var addressLine2 		= $("#addressLine2").val();
-	var addressLine3 		= $("#addressLine3").val();
-	var addressLine4 		= $("#addressLine4").val();
-	var city 				= $("#city").val();
-	var state 				= $("#state").val();
-	var country 			= $("#country").val();
-	var pinCode				= $("#pinCode").val();
+securityUsers.prototype.createSubmit = function( openAs, popupType, belongsToForPopup ) {
+	var idPrefix 			= "#create_user_form ";
 
-	$("input[name=prefContact]:checked").each(
+	var privilege 			= $(idPrefix+"#privilege").val();
+	var firstName 			= $(idPrefix+"#firstName").val();
+	var lastName 			= $(idPrefix+"#lastName").val();
+	var password 			= $(idPrefix+"#password").val();
+	var passwordHint 		= $(idPrefix+"#passwordHint").val();
+	var belongsTo 			= $(idPrefix+"#belongsTo").val();
+	var contractorId 		= "";
+	var userStatus 			= $(idPrefix+"#userStatus").val();
+	var emailId 			= $(idPrefix+"#emailId").val();
+	var contactPhoneNumber 	= $(idPrefix+"#contactPhoneNumber").val();
+	var mobileNumber 		= $(idPrefix+"#mobileNumber").val();
+	var altNumber 			= $(idPrefix+"#altNumber").val();
+	var primaryContact		= $(idPrefix+"input[name=primaryContact]:checked").val();
+	var prefContact			= "";
+	var addressLine1 		= $(idPrefix+"#addressLine1").val();
+	var addressLine2 		= $(idPrefix+"#addressLine2").val();
+	var city 				= $(idPrefix+"#city").val();
+	var state 				= $(idPrefix+"#state").val();
+	var country 			= $(idPrefix+"#country").val();
+	var pinCode				= $(idPrefix+"#pinCode").val();
+
+	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
 			prefContact += prefContact != "" ? (","+this.value) : this.value;
 		}
 	);
 
-	var ownerSelected = $("input[type='radio'][name='optionSelectedOwner']:checked");
+	var ownerSelected = $(idPrefix+"input[type='radio'][name='optionSelectedOwner']:checked");
 	if (belongsTo == "contractor" && ownerSelected.length > 0) {
 	    contractorId = ownerSelected.val();
 	}
@@ -170,8 +189,6 @@ securityUsers.prototype.createSubmit = function() {
 			prefContact 		: prefContact, 
 			addressLine1 		: addressLine1,
 			addressLine2 		: addressLine2,
-			addressLine3 		: addressLine3,
-			addressLine4 		: addressLine4,
 			city 				: city,
 			state 				: state,
 			country 			: country,
@@ -181,7 +198,7 @@ securityUsers.prototype.createSubmit = function() {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				securityObj._users.viewOne(response.insertedId);
+				securityObj._users.viewOne(response.insertedId, openAs, popupType, belongsToForPopup);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -201,7 +218,7 @@ securityUsers.prototype.editUser = function(userId) {
 		url: "/security/users/editForm",
 		data: {'userId' : userId},
 		success: function( response ) {
-			if(session.page == "personalDetails") {
+			if(session.page == "home") {
 				$("#index_content").html(response);
 			} else {
 				$("#security_content").html(response);
@@ -214,7 +231,13 @@ securityUsers.prototype.editUser = function(userId) {
 			securityObj._users.setStatus();
 			
 			securityObj._users.showContractor();
-			formUtilObj.getAndSetCountryStatus("state", "country");
+			formUtilObj.getAndSetCountryStatus("update_user_form");
+
+			dateOptions = {
+				fromDateField 	: "activeStartDate",
+				toDateField		: "activeEndDate"
+			}
+			formUtilObj.setAsDateRangeFields(dateOptions);
 		},
 		error: function( error ) {
 			error = error;
@@ -226,36 +249,36 @@ securityUsers.prototype.editUser = function(userId) {
 };
 
 securityUsers.prototype.updateSubmit = function(userId) {
-	var userId 				= $("#userId").val();
-	var privilege 			= $("#privilege").length ? $("#privilege").val() : "";
-	var sno 				= $("#user_details_sno").val();
-	var firstName 			= $("#firstName").val();
-	var lastName 			= $("#lastName").val();
-	var belongsTo 			= $("#belongsTo").val();
-	var activeStartDate 	= $("#activeStartDate").length ? $("#activeStartDate").val() : "";
-	var activeEndDate 		= $("#activeEndDate").length ? $("#activeEndDate").val() : "";
-	var contractorId 		= "";
-	var userStatus 			= $("#userStatus").val();
-	var contactPhoneNumber 	= $("#contactPhoneNumber").val();
-	var mobileNumber 		= $("#mobileNumber").val();
-	var altNumber 			= $("#altNumber").val();
-	var primaryContact		= $("input[name=primaryContact]:checked").val();
-	var prefContact			= "";
-	var addressLine1 		= $("#addressLine1").val();
-	var addressLine2 		= $("#addressLine2").val();
-	var addressLine3 		= $("#addressLine3").val();
-	var addressLine4 		= $("#addressLine4").val();
-	var city 				= $("#city").val();
-	var state 				= $("#state").val();
-	var country 			= $("#country").val();
-	var pinCode				= $("#pinCode").val();
+	var idPrefix 			= "#create_user_form ";
 
-	var ownerSelected = $("input[type='radio'][name='optionSelectedOwner']:checked");
+	var userId 				= $(idPrefix+"#userId").val();
+	var privilege 			= $(idPrefix+"#privilege").length ? $("#privilege").val() : "";
+	var sno 				= $(idPrefix+"#user_details_sno").val();
+	var firstName 			= $(idPrefix+"#firstName").val();
+	var lastName 			= $(idPrefix+"#lastName").val();
+	var belongsTo 			= $(idPrefix+"#belongsTo").val();
+	var activeStartDate 	= $(idPrefix+"#activeStartDate").length ? $("#activeStartDate").val() : "";
+	var activeEndDate 		= $(idPrefix+"#activeEndDate").length ? $("#activeEndDate").val() : "";
+	var contractorId 		= "";
+	var userStatus 			= $(idPrefix+"#userStatus").val();
+	var contactPhoneNumber 	= $(idPrefix+"#contactPhoneNumber").val();
+	var mobileNumber 		= $(idPrefix+"#mobileNumber").val();
+	var altNumber 			= $(idPrefix+"#altNumber").val();
+	var primaryContact		= $(idPrefix+"input[name=primaryContact]:checked").val();
+	var prefContact			= "";
+	var addressLine1 		= $(idPrefix+"#addressLine1").val();
+	var addressLine2 		= $(idPrefix+"#addressLine2").val();
+	var city 				= $(idPrefix+"#city").val();
+	var state 				= $(idPrefix+"#state").val();
+	var country 			= $(idPrefix+"#country").val();
+	var pinCode				= $(idPrefix+"#pinCode").val();
+
+	var ownerSelected = $(idPrefix+"input[type='radio'][name='optionSelectedOwner']:checked");
 	if (belongsTo == "contractor" && ownerSelected.length > 0) {
 	    contractorId = ownerSelected.val();
 	}
 
-	$("input[name=prefContact]:checked").each(
+	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
 			prefContact += prefContact != "" ? (","+this.value) : this.value;
 		}
@@ -282,8 +305,6 @@ securityUsers.prototype.updateSubmit = function(userId) {
 			prefContact 		: prefContact,
 			addressLine1 		: addressLine1,
 			addressLine2 		: addressLine2,
-			addressLine3		: addressLine3,
-			addressLine4		: addressLine4,
 			city				: city,
 			state 				: state,
 			country				: country,
@@ -328,7 +349,7 @@ securityUsers.prototype.deleteRecord = function(userId) {
 	});
 };
 
-securityUsers.prototype.viewOne = function(userId) {
+securityUsers.prototype.viewOne = function(userId, openAs, popupType, belongsTo ) {
 	$.ajax({
 		method: "POST",
 		url: "/security/users/viewOne",
@@ -337,10 +358,19 @@ securityUsers.prototype.viewOne = function(userId) {
 			viewFrom 	: session.page
 		},
 		success: function( response ) {
-			if(session.page == "personalDetails") {
-				$("#index_content").html(response);
+			if( openAs && openAs == "popup") {
+				$("#popupForAll"+popupType).html( response );
+				var title = "";
+				title = belongsTo == "adjuster" ? "Adjuster" : title;
+				title = belongsTo == "customer" ? "Customer" : title;
+
+				projectObj._projects.openDialog({"title" : title+" Details"}, popupType);
 			} else {
-				$("#security_content").html(response);
+				if(session.page == "home") {
+					$("#index_content").html(response);
+				} else {
+					$("#security_content").html(response);
+				}
 			}
 			
 			securityObj._users.setPrimaryContact();

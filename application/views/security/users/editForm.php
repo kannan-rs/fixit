@@ -73,11 +73,11 @@
 		<?php if($userType == "admin"  && $viewFrom == "security") { ?>
 		<div class="label">Active Start Date:</div>
 		<div>
-			<input type="date" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$user_details[0]->active_start_date)[0]; ?>" placeholder="Active Start Date" required>
+			<input type="text" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$user_details[0]->active_start_date)[0]; ?>" placeholder="Active Start Date" required>
 		</div>
 		<div class="label">Active End Date:</div>
 		<div>
-			<input type="date" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$user_details[0]->active_end_date)[0]; ?>" placeholder="Active End Date" required>
+			<input type="text" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$user_details[0]->active_end_date)[0]; ?>" placeholder="Active End Date" required>
 		</div>
 		<?php } ?>
 		

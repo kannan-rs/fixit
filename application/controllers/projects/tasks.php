@@ -30,7 +30,9 @@ class Tasks extends CI_Controller {
 
 		$contractorIds = explode(",", $project[0]->contractor_id);
 
-		$contractorDB 	= $this->model_contractors->getContractorsList($contractorIds);
+		//$contractorDB 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractorDB 	= $contractorsResponse["contractors"];
 
 		for($i = 0; $i < count($contractorDB); $i++) {
 			$contractors[$contractorDB[$i]->id] = $contractorDB[$i];
@@ -221,7 +223,8 @@ class Tasks extends CI_Controller {
 		$projectId 		= $tasks[0]->project_id;
 
 		$contractorIds 	= explode(",", $tasks[0]->task_owner_id);
-		$contractors 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractors 	= $contractorsResponse["contractors"];
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 

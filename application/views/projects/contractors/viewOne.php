@@ -1,5 +1,5 @@
 <?php
-	$editFn 		= "projectObj._contractors.edit('".$contractorId."')";
+	$editFn 		= "projectObj._contractors.editForm({'openAs':'popup', 'popupType' : 2})";
 	$deleteFn 		= "projectObj._contractors.deleteRecord('".$contractorId."')";
 	$contractor		= $contractors[0];
 ?>

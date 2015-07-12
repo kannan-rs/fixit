@@ -2,8 +2,14 @@ function contractors() {
 	
 }
 
-contractors.prototype.createForm = function( openAs, popupType ) {
-	popupType = popupType ? popupType : "";
+contractors.prototype.createForm = function( options ) {
+
+	event.stopPropagation();
+	
+	var openAs 		= options && options.openAs ? options.openAs : "";
+	var popupType 	= options && options.popupType ? options.popupType : "";
+	var projectId 	= options && options.projectId ? options.projectId : "";
+
 	if(!openAs) {
 		projectObj.clearRest();
 		projectObj.toggleAccordiance("contractors", "new");
@@ -14,7 +20,8 @@ contractors.prototype.createForm = function( openAs, popupType ) {
 		url: "/projects/contractors/createForm",
 		data: {
 			openAs 		: openAs,
-			popupType 	: popupType
+			popupType 	: popupType,
+			projectId 	: projectId
 		},
 		success: function( response ) {
 			if(openAs == "popup") {
@@ -24,7 +31,7 @@ contractors.prototype.createForm = function( openAs, popupType ) {
 				$("#contractor_content").html(response);
 			}
 			projectObj._projects.setMandatoryFields();
-			formUtilObj.getAndSetCountryStatus("state", "country");
+			formUtilObj.getAndSetCountryStatus("create_contractor_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -44,28 +51,27 @@ contractors.prototype.createValidate =  function ( openAs, popupType ) {
 };
 
 contractors.prototype.createSubmit = function( openAs, popupType ) {
-	var name 					= $("#name").val();
-	var company 				= $("#company").val();
-	var type 					= $("#type").val();
-	var license 				= $("#license").val();
-	var bbb 					= $("#bbb").val();
-	var status 					= $("#status").val();
-	var addressLine1 			= $("#addressLine1").val();
-	var addressLine2 			= $("#addressLine2").val();
-	var addressLine3 			= $("#addressLine3").val();
-	var addressLine4 			= $("#addressLine4").val();
-	var city 					= $("#city").val();
-	var state 					= $("#state").val();
-	var country 				= $("#country").val();
-	var pinCode 				= $("#pinCode").val();
-	var emailId 				= $("#emailId").val();
-	var contactPhoneNumber 		= $("#contactPhoneNumber").val();
-	var mobileNumber 			= $("#mobileNumber").val();
+	var idPrefix 				= "#create_contractor_form "
+	var name 					= $(idPrefix+"#name").val();
+	var company 				= $(idPrefix+"#company").val();
+	var type 					= $(idPrefix+"#type").val();
+	var license 				= $(idPrefix+"#license").val();
+	var bbb 					= $(idPrefix+"#bbb").val();
+	var status 					= $(idPrefix+"#status").val();
+	var addressLine1 			= $(idPrefix+"#addressLine1").val();
+	var addressLine2 			= $(idPrefix+"#addressLine2").val();
+	var city 					= $(idPrefix+"#city").val();
+	var state 					= $(idPrefix+"#state").val();
+	var country 				= $(idPrefix+"#country").val();
+	var pinCode 				= $(idPrefix+"#pinCode").val();
+	var emailId 				= $(idPrefix+"#emailId").val();
+	var contactPhoneNumber 		= $(idPrefix+"#contactPhoneNumber").val();
+	var mobileNumber 			= $(idPrefix+"#mobileNumber").val();
 	var prefContact 			= "";
-	var websiteURL 				= $("#websiteURL").val();
-	var serviceZip				= $("#serviceZip").val();
+	var websiteURL 				= $(idPrefix+"#websiteURL").val();
+	var serviceZip				= $(idPrefix+"#serviceZip").val();
 
-	$("input[name=prefContact]:checked").each(
+	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
 			prefContact += prefContact != "" ? (","+this.value) : this.value;
 		}
@@ -83,8 +89,6 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 			status 					: status,
 			addressLine1 			: addressLine1,
 			addressLine2 			: addressLine2,
-			addressLine3 			: addressLine3,
-			addressLine4 			: addressLine4,
 			city 					: city,
 			state 					: state,
 			country 				: country,
@@ -172,19 +176,26 @@ contractors.prototype.viewAll = function() {
 	});
 };
 
-contractors.prototype.edit = function() {
+contractors.prototype.editForm = function( options ) {
+	var openAs 		= options && options.openAs ? options.openAs : "";
+	var popupType 	= options && options.popupType ? options.popupType : "";
+
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/editForm",
 		data: {
-			'contractorId' : projectObj._contractors.contractorId
+			'contractorId' : projectObj._contractors.contractorId,
+			'openAs' 		: openAs,
+			'popupType' 	: popupType
 			
 		},
 		success: function( response ) {
-			$("#popupForAll").html(response);
-			projectObj._projects.openDialog({"title" : "Edit Contractor"});
+			$("#popupForAll"+popupType).html(response);
+			projectObj._projects.openDialog({"title" : "Edit Contractor"}, popupType);
 			projectObj._contractors.setPrefContact();
-			formUtilObj.getAndSetCountryStatus("state", "country");
+			projectObj._contractors.setStatus();
+			formUtilObj.getAndSetCountryStatus("update_contractor_form");
+
 		},
 		error: function( error ) {
 			error = error;
@@ -204,34 +215,32 @@ contractors.prototype.updateValidate = function() {
 };
 
 contractors.prototype.updateSubmit = function() {
-	var contractorId			= $("#contractorId").val();
-	var name 					= $("#name").val();
-	var company 				= $("#company").val();
-	var type 					= $("#type").val();
-	var license 				= $("#license").val();
-	var bbb 					= $("#bbb").val();
-	var status 					= $("#status").val();
-	var addressLine1 			= $("#addressLine1").val();
-	var addressLine2 			= $("#addressLine2").val();
-	var addressLine3 			= $("#addressLine3").val();
-	var addressLine4 			= $("#addressLine4").val();
-	var city 					= $("#city").val();
-	var state 					= $("#state").val();
-	var country 				= $("#country").val();
-	var pinCode 				= $("#pinCode").val();
-	var emailId 				= $("#emailId").val();
-	var contactPhoneNumber 		= $("#contactPhoneNumber").val();
-	var mobileNumber 			= $("#mobileNumber").val();
+	var idPrefix 				= "#update_contractor_form ";
+	var contractorId			= $(idPrefix+"#contractorId").val();
+	var name 					= $(idPrefix+"#name").val();
+	var company 				= $(idPrefix+"#company").val();
+	var type 					= $(idPrefix+"#type").val();
+	var license 				= $(idPrefix+"#license").val();
+	var bbb 					= $(idPrefix+"#bbb").val();
+	var status 					= $(idPrefix+"#status").val();
+	var addressLine1 			= $(idPrefix+"#addressLine1").val();
+	var addressLine2 			= $(idPrefix+"#addressLine2").val();
+	var city 					= $(idPrefix+"#city").val();
+	var state 					= $(idPrefix+"#state").val();
+	var country 				= $(idPrefix+"#country").val();
+	var pinCode 				= $(idPrefix+"#pinCode").val();
+	var emailId 				= $(idPrefix+"#emailId").val();
+	var contactPhoneNumber 		= $(idPrefix+"#contactPhoneNumber").val();
+	var mobileNumber 			= $(idPrefix+"#mobileNumber").val();
 	var prefContact 			= "";
-	var websiteURL 				= $("#websiteURL").val();
-	var serviceZip 				= $("#serviceZip").val();
+	var websiteURL 				= $(idPrefix+"#websiteURL").val();
+	var serviceZip 				= $(idPrefix+"#serviceZip").val();
 
-	$("input[name=prefContact]:checked").each(
+	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
 			prefContact += prefContact != "" ? (","+this.value) : this.value;
 		}
 	);
-
 
 	$.ajax({
 		method: "POST",
@@ -246,8 +255,6 @@ contractors.prototype.updateSubmit = function() {
 			status 					: status,
 			addressLine1 			: addressLine1,
 			addressLine2 			: addressLine2,
-			addressLine3 			: addressLine3,
-			addressLine4 			: addressLine4,
 			city 					: city,
 			state 					: state,
 			country 				: country,
@@ -313,3 +320,10 @@ contractors.prototype.setPrefContact = function() {
 		}
 	});
 };
+
+contractors.prototype.setStatus = function() {
+	var status = $("#statusDb").val();
+	if(status != "" && $("#status").length) {
+		$("#status").val(status);
+	}
+}

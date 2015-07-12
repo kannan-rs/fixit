@@ -31,7 +31,7 @@ docs.prototype.projectDetails = function( projectId ) {
 
 docs.prototype.viewAll = function( projectId ) {
 	projectObj.resetCounter("docs");
-	projectObj.clearRest(["attachment_list", "new_attachment"]);
+	//projectObj.clearRest(["attachment_list", "new_attachment"]);
 	this.createForm(projectId);
 
 	this.docsListStartRecord = this.docsListStartRecord ? this.docsListStartRecord: 0;

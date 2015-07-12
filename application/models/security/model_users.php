@@ -24,7 +24,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		$this->db->where('status', '1');
+		//$this->db->where('status', '1');
 
 		$query = $this->db->get('users');
 
@@ -39,7 +39,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		$this->db->where('status', '1');
+		//$this->db->where('status', '1');
 
 		$query = $this->db->get('users');
 
@@ -72,7 +72,7 @@ class Model_users extends CI_Model {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}
-		$this->db->where('status', '1');
+		//$this->db->where('status', '1');
 		$query = $this->db->get('users');
 		$users = $query->result();
 		return $users;

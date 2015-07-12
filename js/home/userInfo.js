@@ -13,7 +13,7 @@ userInfo.prototype.editPage = function() {
 userInfo.prototype.changePassForm = function() {
 		$.ajax({
 		method: "POST",
-		url: "/personalDetails/personalDetails/changePassForm",
+		url: "/home/home/changePassForm",
 		data: {},
 		success: function( response ) {
 			$("#index_content").html(response);
@@ -52,7 +52,7 @@ userInfo.prototype.updatePasswordSubmit = function() {
 	
 	$.ajax({
 		method: "POST",
-		url: "/personalDetails/personalDetails/updatePassword",
+		url: "/home/home/updatePassword",
 		data: { 
 			sno: sno,
 			password: password, 

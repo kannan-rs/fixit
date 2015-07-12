@@ -26,8 +26,14 @@
 		</div>
 		<div class="label">Status</div>
 		<div>
-			<input type="text" name="status" id="status" value="<?php echo $contractor->status;?>" placeholder="Status">
+			<input type="hidden" name="statusDb" id="statusDb" value="<?php echo $contractor->status; ?>">
+			<select name="status" id="status" required>
+				<option>--Select Status--</option>
+				<option value="active">Active</option>
+				<option value="inactive">Inactive</option>
+			</select>
 		</div>
+
 		<?php
 			echo $addressFile;
 		?>
@@ -67,6 +73,17 @@
 		</div>
 		<p class="button-panel">
 			<button type="button" id="create_contractor_submit" onclick="projectObj._contractors.updateValidate()">Update Contractor</button>
+			<?php
+			if($openAs == "popup") {
+			?>
+			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+			<?php
+			} else {
+			?>
+			<button type="reset" id="resetButton" onclick="">Reset</button>
+			<?php	
+			}
+			?>
 		</p>
 	</div>
 </form>

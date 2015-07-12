@@ -6,7 +6,14 @@
 	$buttonText 	= "Signup";
 } 
 ?>
+
+<?php
+if(!$openAs || $openAs != "popup") {
+?>
 <h2><?php echo $header; ?></h2>
+<?php
+}
+?>
 <form id="create_user_form" name="create_user_form">
 	<div class='form'>
 		<?php
@@ -41,12 +48,22 @@
 		</div>
 		<div class="label">User Belongs To:</div>
 		<div>
+			<?php
+			if(!$belongsTo || $belongsTo == "") {
+			?>
 			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showContractor(this.value)" <?php } ?>>
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
 				<option value="adjuster">Adjuster</option>
 			</select>
+			<?php
+			} else {
+			?>
+			<div><?php echo $belongsTo; ?><input type="hidden" id="belongsTo" value="<?php echo $belongsTo; ?>"></div>
+			<?php
+			}
+			?>
 		</div>
 		<?php if($userType == "admin") { ?>
 		<DIV class="contractor-search">
@@ -134,7 +151,18 @@
 			echo $addressFile;
 		?>
 		<p class="button-panel">
-			<button type="button" id="create_user_submit" onclick="securityObj._users.createValidate()">Create User</button>
+			<button type="button" id="create_user_submit" onclick="securityObj._users.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>', '<?php echo $belongsTo; ?>')">Create User</button>
+			<?php
+			if(!$openAs || $openAs != "popup") {
+			?>
+			<button type="reset" id="resetButton" onclick="">Reset</button>
+			<?php
+			} else {
+			?>
+			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+			<?php
+			}
+			?>
 		</p>
 	</div>
 </form>

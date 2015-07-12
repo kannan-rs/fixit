@@ -22,9 +22,9 @@
 		<div class="label">Description</div>
 		<div><textarea rows="6" cols="30" name="task_desc" id="task_desc" ><?php echo $tasks[$i]->task_desc; ?></textarea></div>
 		<div class="label">Start Date:</div>
-		<div><input type="date" name="task_start_date" id="task_start_date" value="<?php echo $tasks[$i]->task_start_date; ?>" ></div>
+		<div><input type="text" name="task_start_date" id="task_start_date" value="<?php echo $tasks[$i]->task_start_date_for_view; ?>" ></div>
 		<div class="label">End Date:</div>
-		<div><input type="date" name="task_end_date" id="task_end_date" value="<?php echo $tasks[$i]->task_end_date; ?>" ></div>
+		<div><input type="text" name="task_end_date" id="task_end_date" value="<?php echo $tasks[$i]->task_end_date_for_view; ?>" ></div>
 		<div class="label">Status:</div>
 		<div>
 			<input type="hidden" name="db_task_status" id="db_task_status" value="<?php echo $tasks[$i]->task_status; ?>">
@@ -50,6 +50,7 @@
 		<div><input type="text" name="task_trade_type" id="task_trade_type" value="<?php echo $tasks[$i]->task_trade_type; ?>"></div>
 		<p class="button-panel">
 			<button type="button" id="update_task_submit" onclick="<?php echo $updateFn; ?>">Update Task</button>
+			<button type="button" onclick="projectObj._projects.closeDialog()">Cancel</button>
 		</p>
 	</div>
 </form>

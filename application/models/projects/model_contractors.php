@@ -31,9 +31,20 @@ class Model_contractors extends CI_Model {
 				"updated_on"
 			]);
 		$query = $this->db->from('contractor')->get();
+
 		
-		$contractors = $query->result();
-		return $contractors;
+		$response = array();
+		
+		if($this->db->_error_number() == 0) {
+			$response["status"] 		= "success";
+			$response["contractors"] 	= $query->result();
+		} else {
+			$response["status"] 		= "error";
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+		
+		return $response;
 	}
 
 	public function insert($data) {

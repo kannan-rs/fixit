@@ -1,10 +1,5 @@
 <!-- SIDEBAR -->
 <ul>	
-	<!--
-	<li>
-		<p class="phone">+44 02392 299189</p>
-	</li>
-	-->
 	<?php
 	if($this->session->userdata("is_logged_in")) {
 		
@@ -13,58 +8,23 @@
 		$module			= $this->session->userdata("module");
 		$account_type 	= $this->session->userdata("account_type");
 		
-		if($page == "personalDetails") {
-			$menuOutput = "";
-			for($menuIdx = 0; $menuIdx < count($menus['personalDetails']); $menuIdx++) {
-				if(!isset($menus['personalDetails'][$menuIdx]['account_type']) || 
-					(isset($menus['personalDetails'][$menuIdx]['account_type']) && $menus['personalDetails'][$menuIdx]['account_type'] == $account_type)) {
-					$selected = ($this->session->userdata("module") == $menus['personalDetails'][$menuIdx]['key']) ? "selected" : "";
-					$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus['personalDetails'][$menuIdx]['link']."\">". $menus['personalDetails'][$menuIdx]['text'] ."</a></li>";
-				}
+		$menuOutput = "";
+		for($menuIdx = 0; $menuIdx < count($menus[$page]); $menuIdx++) {
+			if(!isset($menus[$page][$menuIdx]['account_type']) || 
+				(isset($menus[$page][$menuIdx]['account_type']) && $menus[$page][$menuIdx]['account_type'] == $account_type)) {
+				$selected = ($module == $menus[$page][$menuIdx]['key']) ? "selected" : "";
+				$selected = ($selected == "" && $module == "" && $menus_default[$page] == $menus[$page][$menuIdx]['key']) ? "selected" : $selected; 
+				$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus[$page][$menuIdx]['link']."\">". $menus[$page][$menuIdx]['text'] ."</a></li>";
 			}
-		?>
-			<li>
-				<h4>Personal Details</h4>
-				<ul class="blocklist">
-				  <?php echo $menuOutput; ?>
-				</ul>
-			</li>
-		<?php
-		} else if($page == "security") {
-			$menuOutput = "";
-			for($menuIdx = 0; $menuIdx < count($menus['security']); $menuIdx++) {
-				if(!isset($menus['security'][$menuIdx]['account_type']) || 
-					(isset($menus['security'][$menuIdx]['account_type']) && $menus['security'][$menuIdx]['account_type'] == $account_type)) {
-					$selected = ($this->session->userdata("module") == $menus['security'][$menuIdx]['key']) ? "selected" : "";
-					$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus['security'][$menuIdx]['link']."\">". $menus['security'][$menuIdx]['text'] ."</a></li>";
-				}
-			}
-		?>
-			<li>
-				<h4>Security Management</h4>
-				<ul class="blocklist">
-				  <?php echo $menuOutput; ?>
-				</ul>
-			</li>
-		<?php
-		} else if($page == "projects") {
-			$menuOutput = "";
-			for($menuIdx = 0; $menuIdx < count($menus['projects']); $menuIdx++) {
-				if(!isset($menus['projects'][$menuIdx]['account_type']) || 
-					(isset($menus['projects'][$menuIdx]['account_type']) && $menus['projects'][$menuIdx]['account_type'] == $account_type)) {
-					$selected = ($this->session->userdata("module") == $menus['projects'][$menuIdx]['key']) ? "selected" : "";
-					$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus['projects'][$menuIdx]['link']."\">". $menus['projects'][$menuIdx]['text'] ."</a></li>";
-				}
-			}
-		?>
-			<li>
-				<h4>projects Management</h4>
-				<ul class="blocklist">
-				  <?php echo $menuOutput; ?>
-				</ul>
-			</li>
-		<?php
 		}
+		?>
+		<li>
+			<h4><?php echo $menu_title[$page]; ?></h4>
+			<ul class="blocklist">
+			  <?php echo $menuOutput; ?>
+			</ul>
+		</li>
+		<?php
 	} else { // If Not logged in then following link
 	?>
 		<li>

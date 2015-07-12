@@ -11,7 +11,7 @@ class Layouts
 	private $layout_template = "default";
 
 	// hold includes like css and js files
-	private $js_includes = array(
+	/*private $js_includes = array(
 			'common' => array(
 				"js/library/jquery-2.1.3.min.js",
 				"js/library/jquery-ui.js",
@@ -20,7 +20,7 @@ class Layouts
 				"js/themes/default/layouts.js",
 				"js/home.js",
 				"js/submit.js",
-				"js/utils/formUtils.js"
+				"js/utils/formUtils.js",
 			),
 			'security' => array(
 				"js/security/users.js",
@@ -39,16 +39,44 @@ class Layouts
 				"js/projects/contractors.js",
 				"js/projects.js"
 			),
-			'personalDetails' => array(
+			'home' => array(
 				"js/security/users.js",
 				"js/security/operations.js",
 				"js/security/roles.js",
 				"js/security/functions.js",
 				"js/security/dataFilters.js",
 				"js/security/permissions.js",
-				'js/personalDetails/userInfo.js',
-				"js/personalDetails.js",
+				'js/home/userInfo.js',
+				"js/home.js",
 				"js/security.js"
+			)
+		);*/
+	private $js_includes = array(
+			'common' => array(
+				"js/library/jquery-2.1.3.min.js",
+				"js/library/jquery-ui.js",
+				"js/library/jquery.validate.js",
+				"js/library/plugin/searchSelect-Jquery.js",
+				"js/themes/default/layouts.js",
+				"js/submit.js",
+				"js/utils/formUtils.js",
+				"js/security/users.js",
+				"js/security/operations.js",
+				"js/security/roles.js",
+				"js/security/functions.js",
+				"js/security/dataFilters.js",
+				"js/security/permissions.js",
+				"js/security.js",
+				"js/projects/projects.js",
+				"js/projects/tasks.js",
+				"js/projects/notes.js",
+				"js/projects/docs.js",
+				"js/projects/contractors.js",
+				"js/projects/remainingBudget.js",
+				"js/projects.js",
+				'js/home/userInfo.js',
+				"js/home.js",
+				"js/home.js",
 			)
 		);
 
@@ -69,24 +97,30 @@ class Layouts
 			array('text'=> 'Operations', 'link'=> '/main/security/operations', 'key'=> 'operations'),
 			array('text'=> 'Functions', 'link'=> '/main/security/functions', 'key'=> 'functions'),
 			array('text'=> 'Data Filters', 'link'=> '/main/security/data_filters', 'key'=> 'data_filters'),
-			array('text'=> 'Permissions', 'link'=> '/main/security/permissions', 'key'=> 'promissions'),
+			array('text'=> 'Permissions', 'link'=> '/main/security/permissions', 'key'=> 'permissions'),
 		),
-		'personalDetails' => array(
-			array('text' => 'View My Details', 'link'=> '/main/personalDetails/view_my_details', 'key' => 'view_my_details'),
-			array('text' => 'Change Password', 'link'=> '/main/personalDetails/changePass_form', 'key' => 'change_pass_form')
+		'home' => array(
+			array('text' => 'View My Details', 'link'=> '/main/home/view_my_details', 'key' => 'view_my_details'),
+			array('text' => 'Change Password', 'link'=> '/main/home/change_pass_form', 'key' => 'change_pass_form')
 		),
 		'projects' => array(
 			array('text' => 'Projects', 'link'=> '/main/projects/projects', 'key' => 'projects'),
 			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
 			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
-			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractors'),
+			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractor'),
 		)
 	);
 
 	private $menus_default = array(
 		'security'=>"users",
-		'personalDetails' => "my_details",
+		'home' => "view_my_details",
 		'projects' => 'projects'
+	);
+
+	private $menu_title = array(
+		'security' 	=> "Security Management",
+		'home' 		=> "Personal Details",
+		'projects' 	=> "Project Management"
 	);
 
 	public function __construct() {
@@ -97,16 +131,6 @@ class Layouts
 	public function setPage($page) {
 		$this->layout_data['page'] = $page;
 	}
-
-	// set layout description
-	/*public function setDescription($description) {
-		$this->layout_description = $description;
-	}*/
-
-	//Set one User Details
-	/*public function setUserDetails($user_details) {
-		$this->layout_data['user_details'] = $user_details;
-	}*/
 
 	// add includes like css and js
 	public function addInclude($path, $prepend_base_url = true) {
@@ -141,8 +165,9 @@ class Layouts
 	*/
 	public function view($params = array(), $layouts = array()) {
 
-		$this->layout_data['menus'] = $this->menus;
+		$this->layout_data['menus'] 		= $this->menus;
 		$this->layout_data['menus_default'] = $this->menus_default;
+		$this->layout_data['menu_title'] 	= $this->menu_title;
 
 		$this->layout_data['initVar'] = $this->CI->session->userdata;
 		$this->layout_data['baseUrl'] = base_url();
@@ -187,7 +212,11 @@ class Layouts
 			//print_r($this->layout_data);
 			if($this->layout_data['main_content_name'] == "signup") {
 				$this->layout_data["userType"] 			= $this->CI->session->userdata("account_type");
-				$addressFile 							= $this->CI->load->view("forms/address", '', true);
+
+				$addressParams = array(
+					'forForm' 		=> "create_user_form"
+				);
+				$addressFile 							= $this->CI->load->view("forms/address", $addressParams, true);
 				$this->layout_data['addressFile']		= $addressFile;
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/createForm", $this->layout_data, true);
 			} else {

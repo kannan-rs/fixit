@@ -22,9 +22,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<div class="label">Description:</div>
 		<div><textarea type="text" name="task_desc" id="task_desc" rows="10" cols="70" ></textarea></div>
 		<div class="label">Start Date:</div>
-		<div><input type="date" name="task_start_date" id="task_start_date" value=""></div>
+		<div><input type="text" name="task_start_date" id="task_start_date" value=""></div>
 		<div class="label">End Date:</div>
-		<div><input type="date" name="task_end_date" id="task_end_date" value=""></div>
+		<div><input type="text" name="task_end_date" id="task_end_date" value=""></div>
 		<div class="label">Status:</div>
 		<div>
 			<select name="task_status" id="task_status" onchange="projectObj._tasks.setPercentage(this.value);">
@@ -49,6 +49,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<div><input type="text" name="task_trade_type" id="task_trade_type" value=""></div>
 		<p class="button-panel">
 			<button type="button" id="create_task_submit" onclick="<?php echo $createFn; ?>">Add Task</button>
+			<button type="button" onclick="projectObj._projects.closeDialog()">Cancel</button>
 		</p>
 	</div>
 </form>

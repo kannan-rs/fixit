@@ -32,13 +32,13 @@ class Main extends CI_Controller {
 		$this->layouts->setPage("index");
 		
 		if($this->session->userdata('is_logged_in')) {
-			redirect(base_url()."main/personalDetails	");
+			redirect(base_url()."main/home");
 		}
 		//Render a view
 		$this->layouts->view();
 	}
 
-	public function personalDetails()
+	public function home()
 	{
 		// With View library
 		$this->load->library("layouts");
@@ -47,7 +47,7 @@ class Main extends CI_Controller {
 			return false;
 		}
 
-		$this->layouts->setPage("personalDetails");
+		$this->layouts->setPage("home");
 		
 		//Render a view
 		$this->layouts->view();

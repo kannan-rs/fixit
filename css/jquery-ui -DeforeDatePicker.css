@@ -177,8 +177,8 @@
 	display: block;
 	cursor: pointer;
 	position: relative;
-	margin: 2px 0 0 0;
-	padding: .5em .5em .5em .7em;
+	/*margin: 2px 0 0 0;
+	padding: .5em .5em .5em .7em;*/
 	min-height: 0; /* support: IE7 */
 	font-size: 100%;
 }
@@ -363,7 +363,6 @@ button.ui-button::-moz-focus-inner {
 .ui-datepicker select.ui-datepicker-month,
 .ui-datepicker select.ui-datepicker-year {
 	width: 45%;
-	padding: 0px !important;
 }
 .ui-datepicker table {
 	width: 100%;
@@ -489,9 +488,9 @@ button.ui-button::-moz-focus-inner {
 	position: relative;
 }
 .ui-dialog .ui-dialog-title {
-	/*color: #244C61;
+	color: #244C61;
 	font-size: 1.7em;
-	font-weight: normal;*/
+	font-weight: normal;
 	float: left;
 	margin: .1em 0;
 	white-space: nowrap;
@@ -835,8 +834,8 @@ body .ui-tooltip {
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-	font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
-	font-size: 1.1em;
+	/*font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+	font-size: 1.1em;*/
 }
 .ui-widget .ui-widget {
 	font-size: 1em;
@@ -849,10 +848,10 @@ body .ui-tooltip {
 	font-size: 1em;
 }
 .ui-widget-content {
-	border: 1px solid #dddddd;
-	/*border-bottom: 1px solid #dddddd;*/
-	/*background: #FFFFFF url("/images/jquery/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;*/
-	background-color: #FFFFFF;
+	/*border: 1px solid #dddddd;*/
+	border-bottom: 1px solid #dddddd;
+	/*background: #eeeeee url("/images/jquery/ui-bg_highlight-soft_100_eeeeee_1x100.png") 50% top repeat-x;*/
+	background-color: #FFFFFF; 
 	color: #333333;
 }
 .ui-widget-content a {
@@ -860,7 +859,7 @@ body .ui-tooltip {
 }
 .ui-widget-header {
 	/*border: 1px solid #e78f08;*/
-	background: #f6a828 url("/images/jquery/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;
+	/*background: #f6a828 url("/images/jquery/ui-bg_gloss-wave_35_f6a828_500x100.png") 50% 50% repeat-x;*/
 	color: #ffffff;
 	font-weight: bold;
 }
