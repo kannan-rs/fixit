@@ -60,7 +60,7 @@
 		<div class="label">Search Contractor By Zip Code</div>
 		<div>
 			<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
-			<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingZip()"></span>
+			<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingServiceZip('')"></span>
 		</div>
 		<div class="contractor-search-result">
 			<div>

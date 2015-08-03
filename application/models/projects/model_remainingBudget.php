@@ -1,6 +1,6 @@
 <?php
 
-class Model_remainingBudget extends CI_Model {
+class Model_remainingbudget extends CI_Model {
 	
 	public function getList($projectId = "") {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {			
@@ -32,6 +32,37 @@ class Model_remainingBudget extends CI_Model {
 		return $response;
 	}
 
+	public function getBudgetById($budgetId = "") {
+		if(isset($budgetId) && !is_null($budgetId) && $budgetId != "") {			
+			$this->db->where('sno', $budgetId);
+		}
+
+		$this->db->select([
+				"*", 
+				"DATE_FORMAT(created_on, \"%m/%d/%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%m/%d/%y %H:%i:%S\") as updated_on_for_view",
+				"DATE_FORMAT( date, \"%m/%d/%y\") as date",
+				"created_on",
+				"updated_on"
+		]);
+
+		$query = $this->db->from('paid_from_budget')->get();
+
+		
+		$response = array();
+		
+		if($this->db->_error_number() == 0) {
+			$response["status"] 			= "success";
+			$response["paidFromBudget"] 	= $query->result();
+		} else {
+			$response["status"] 		= "error";
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+		
+		return $response;
+	}
+
 	public function getPaidBudgetSum($projectId = "") {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {			
 			$this->db->where('project_id', $projectId);
@@ -42,18 +73,6 @@ class Model_remainingBudget extends CI_Model {
 		]);
 		
 		$query = $this->db->from('paid_from_budget')->get();
-
-		
-		//$response = array();
-		
-		/*if($this->db->_error_number() == 0) {
-			$response["status"] 			= "success";
-			$response["paidFromBudget"] 	= $query->result()[0]->amount;
-		} else {
-			$response["status"] 		= "error";
-			$response["errorCode"] 		= $this->db->_error_number();
-			$response["errorMessage"] 	= $this->db->_error_message();
-		}*/
 		
 		return $query->result()[0]->amount;
 

@@ -1,26 +1,27 @@
-function remainingBudget() {
-	this.updateId = "";
+function remainingbudget() {
 }
 
-remainingBudget.prototype.getListWithForm = function( options ) {
+remainingbudget.prototype.getListWithForm = function( options ) {
 	event.stopPropagation();
 	
 	var openAs 		= options && options.openAs ? options.openAs : "";
 	var popupType 	= options && options.popupType ? options.popupType : "";
+	var budgetId	= options && options.budgetId ? options.budgetId : "";
 	
 	$.ajax({
 		method: "POST",
-		url: "/projects/remainingBudget/getListWithForm",
+		url: "/projects/remainingbudget/getListWithForm",
 		data: {
 			openAs 		: openAs,
 			popupType 	: popupType,
-			projectId 	: projectObj._projects.projectId
+			projectId 	: projectObj._projects.projectId,
+			budgetId 	: budgetId
 		},
 		success: function( response ) {
 			if(openAs == "popup") {
 				$("#popupForAll"+popupType).html( response );
 				projectObj._projects.openDialog({"title" : "Paid From Budget"}, popupType);
-				formUtilObj.setAsDateFields({"dateField":"date"});
+				utilObj.setAsDateFields({"dateField":"date"});
 			}
 		},
 		error: function( error ) {
@@ -32,23 +33,23 @@ remainingBudget.prototype.getListWithForm = function( options ) {
 	});
 }
 
-remainingBudget.prototype.validate =  function ( openAs, popupType ) {
+remainingbudget.prototype.validate =  function ( openAs, popupType ) {
 	var validator = $( "#create_pfbudget_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._remainingBudget.addUpdate( openAs, popupType );
+		projectObj._remainingbudget.addUpdate( openAs, popupType );
 	}
 };
 
-remainingBudget.prototype.addUpdate = function( openAs, popupType ) {
-	var idPrefix 				= "#create_pfbudget_form "
-	var date 					= formUtilObj.toMySqlDateFormat($(idPrefix+"#date").val());
+remainingbudget.prototype.addUpdate = function( openAs, popupType ) {
+	var idPrefix 				= "#create_pfbudget_form ";
+	var budgetId 				= $(idPrefix+"#budgetId").val();
+	var date 					= utilObj.toMySqlDateFormat($(idPrefix+"#date").val());
 	var descr 					= $(idPrefix+"#descr").val();
 	var amount 					= $(idPrefix+"#amount").val();
+	var urlSuffix				= budgetId == "" ? "add" : "update";
 
-	var url = "/projects/remainingBudget/add";
-
-	if(this.updateId) { url = "/projects/remainingBudget/update"; }
+	var url = "/projects/remainingbudget/"+urlSuffix;
 	
 	$.ajax({
 		method: "POST",
@@ -58,13 +59,14 @@ remainingBudget.prototype.addUpdate = function( openAs, popupType ) {
 			descr 				: descr,
 			amount 				: amount,
 			projectId 			: projectObj._projects.projectId,
-			updateId 			: this.updateId
+			budgetId 			: budgetId,
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._remainingBudget.getListWithForm({"openAs" : openAs, "popupType" : popupType});
+				projectObj._remainingbudget.getListWithForm({"openAs" : openAs, "popupType" : popupType});
+				projectObj._projects.viewOnlyBudget();
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -78,18 +80,23 @@ remainingBudget.prototype.addUpdate = function( openAs, popupType ) {
 	});
 }
 
-remainingBudget.prototype.deleteRecord = function( budgetId ) {
+remainingbudget.prototype.editRecordForm = function( budgetId ) {
+	projectObj._remainingbudget.getListWithForm({"openAs" : "popup", "popupType" : "2", "budgetId" : budgetId});
+};
+
+remainingbudget.prototype.deleteRecord = function( budgetId ) {
 	$.ajax({
 		method: "POST",
-		url: "/projects/remainingBudget/deleteRecord",
+		url: "/projects/remainingbudget/deleteRecord",
 		data: {
-			remainingBudgetId: budgetId
+			remainingbudgetId: budgetId
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			alert(response.message);
 			if(response.status.toLowerCase() == "success") {
-				projectObj._remainingBudget.getListWithForm({"openAs" : "popup", "popupType" : "2"});
+				projectObj._remainingbudget.getListWithForm({"openAs" : "popup", "popupType" : "2"});
+				projectObj._projects.viewOnlyBudget();
 			}
 		},
 		error: function( error ) {

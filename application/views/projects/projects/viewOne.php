@@ -43,42 +43,14 @@
 				echo $addressFile;
 			?>
 		</div>
-		<h3><span class="inner_accordion">Budget</span></h3>
-		<div>
-			<table cellspacing="0" class="viewOne projectViewOne">
-				<tr>
-					<td class='cell label'>Project Budget</td>
-					<td class='cell' ><?php echo $project->project_budget; ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Paid from Budget</td>
-					<td class='cell' >
-						<?php echo $project->paid_from_budget; ?>
-						<span>
-							<a style="margin-left: 30px;" href="javascript:void(0);" onclick="projectObj._remainingBudget.getListWithForm({'openAs': 'popup', 'popupType' : '2', 'projectId' :  <?php echo $projectId; ?>})">Update remaining budget</a>
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td class='cell label'>Remaining Bbudget</td>
-					<td class='cell' ><?php echo ($project->project_budget - $project->paid_from_budget); ?></td>
-				</tr>
-				<tr>
-					<td class='cell label'>Deductible</td>
-					<td class='cell' ><?php echo $project->deductible; ?></td>
-				</tr>
-				<?php
-				if($userType == "admin") {
-				?>
-				<tr>
-					<td class='cell label'>Referral Fee</td>
-					<td class='cell' ><?php echo (($project->project_budget - $project->deductible)/100) * 7; ?></td>
-				</tr>
-				<?php
-				}
-				?>
-			</table>
+		<h3>
+			<span class="inner_accordion">Budget</span>
+			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" title="Update remaining budget"></a>
+		</h3>
+		<div id= "viewOneProjectBudget">
+		<?php echo $projectBudgetFile; ?>
 		</div>
+		
 		<?php echo $customerFile; ?>
 		
 		<h3>
@@ -135,17 +107,17 @@
 			</div>
 		</div>
 		<h3>
-			<span class="inner_accordion">Tasks List</span>
+			<span class="inner_accordion">Tasks List<span id="taskCountDisplay"></span></span>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addTask();" title="Add Task"></a>
 		</h3>
 		<div class="project_section" id="task_content"></div>
 		<h3>
-			<span class="inner_accordion">Notes</span>
+			<span class="inner_accordion">Notes<span id="notesCountForProjectDisplay"></span></span>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addProjectNote();" title="Add Note"></a>
 		</h3>
 		<div class="project_section" id="note_content"></div>
 		<h3>
-			<span class="inner_accordion">Documents</span>
+			<span class="inner_accordion">Documents<span id="docsCountDisplay"></span></span>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addDocumentForm();" title="Add Documents"></a>
 		</h3>
 		<div class="project_section" id="attachment_content"></div>

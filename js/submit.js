@@ -54,7 +54,7 @@ formSubmit.prototype.signupSubmit = function() {
 	var city 				= $("#city").val();
 	var state 				= $("#state").val();
 	var country 			= $("#country").val();
-	var pinCode				= $("#pinCode").val();
+	var zipCode				= $("#zipCode").val();
 	var contractorId		= "";
 
 	$("input[name=prefContact]:checked").each(
@@ -90,7 +90,7 @@ formSubmit.prototype.signupSubmit = function() {
 			city: 				city,
 			state: 				state,
 			country: 			country,
-			pinCode: 			pinCode
+			zipCode: 			zipCode
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);

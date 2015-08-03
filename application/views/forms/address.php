@@ -4,7 +4,7 @@
 	$city 			= !empty($city) ? $city : "";
 	$country 		= !empty($country) ? $country : "";
 	$state 			= !empty($state) ? $state : "";
-	$pinCode 		= !empty($pinCode) ? $pinCode : "";
+	$zipCode 		= !empty($zipCode) ? $zipCode : "";
 	$requestFrom	= !empty($requestFrom) ? $requestFrom : "";
 ?>
 <div class="label">Address Line1:</div>
@@ -14,11 +14,11 @@
 		<input type="text" class="address" name="addressLine1" id="addressLine1" value="<?php echo $addressLine1; ?>" placeholder="Address Line 1:" required>
 	<?php } ?>
 </div>
-<div class="label">Address Line2:</div>
+<div class="label notMandatory">Address Line2:</div>
 <div>
 	<?php 
 		if($requestFrom == "view") { echo $addressLine2; } else { ?>
-	<input type="text" class="address" name="addressLine2" id="addressLine2" value="<?php echo $addressLine2; ?>" placeholder="Address Line 2" required>
+	<input type="text" class="address" name="addressLine2" id="addressLine2" value="<?php echo $addressLine2; ?>" placeholder="Address Line 2" >
 	<?php } ?>
 </div>
 <div class="label">City:</div>
@@ -33,7 +33,7 @@
 	<?php 
 		if($requestFrom == "view") { echo $country; } else { ?>
 	<input type="hidden" name="countryDbVal" id="countryDbVal" value="<?php echo $country;?>" >
-	<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, '<?php echo $forForm; ?>');">
+	<select name="country" id="country" required onchange="utilObj.populateState(this.value, '<?php echo $forForm; ?>');">
 		<option value="">--Select Country--</option>
 	</select>
 	<?php } ?>
@@ -51,7 +51,7 @@
 <div class="label">Zip Code:</div>
 <div>
 	<?php 
-		if($requestFrom == "view") { echo $pinCode; } else { ?>
-	<input type="number" name="pinCode" id="pinCode" value="<?php echo $pinCode;?>" maxlength='5' placeholder="Pin Code" required>
+		if($requestFrom == "view") { echo $zipCode; } else { ?>
+	<input type="number" name="zipCode" id="zipCode" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" required>
 	<?php } ?>
 </div>

@@ -2,8 +2,10 @@
 
 class Model_tasks extends CI_Model {
 	public function getTasksList($parentId = "") {
+		$whereStr = "";
 		if(isset($parentId) && !is_null($parentId) && $parentId != "") {
 			$this->db->where('project_id', $parentId);
+			$whereStr .= " where project_id = ".$parentId;
 		}
 
 		$this->db->select([
@@ -19,8 +21,27 @@ class Model_tasks extends CI_Model {
 			]);
 		$query = $this->db->from('project_details')->get();
 
-		$tasks = $query->result();
-		return $tasks;
+		$tasksResult 	= $query->result();
+
+		// Count
+		$countQueryStr 	= "SELECT COUNT(*) as count FROM `project_details`".$whereStr;
+		$countQuery 	= $this->db->query($countQueryStr);
+		$countResult	= $countQuery->result();
+
+		$response = array();
+
+		$response["count"] 			= $countResult;
+
+		if($tasksResult) {
+			$response["status"] 		= "success";
+			$response["tasks"] 			= $tasksResult;
+		} else {
+			$response["status"] 		= "error";
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+		
+		return $response;
 	}
 
 	public function getTask($record = "") {

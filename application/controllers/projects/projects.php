@@ -36,8 +36,6 @@ class Projects extends CI_Controller {
 			$consolidate_data = $consolidate_data_result[0];
 
 			$projects[$i]->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
-			//$projects[$i]->start_date = ($consolidate_data->start_date != "" ? $consolidate_data->start_date : "-NA-");
-			//$projects[$i]->end_date = ($consolidate_data->end_date != "" ? $consolidate_data->end_date : "-NA-");
 
 			$start_date 			= $consolidate_data->start_date != "" ? ($projects[$i]->start_date != "" && $projects[$i]->start_date < $consolidate_data->start_date ? $projects[$i]->start_date : $consolidate_data->start_date) : ($projects[$i]->start_date != "" ? $projects[$i]->start_date : "-NA-");
 			$end_date 				= $consolidate_data->end_date != "" ? ($projects[$i]->end_date != "" && $projects[$i]->end_date > $consolidate_data->end_date ? $projects[$i]->end_date : $consolidate_data->end_date) : ($projects[$i]->end_date != "" ? $projects[$i]->end_date : "-NA-");
@@ -79,7 +77,7 @@ class Projects extends CI_Controller {
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
-		$pinCode				= $this->input->post('pinCode');
+		$zipCode				= $this->input->post('zipCode');
 
 		$data = array(
 			'project_name' 				=> $this->input->post('projectTitle'),
@@ -98,7 +96,6 @@ class Projects extends CI_Controller {
 			'customer_id'				=> $this->input->post('customer_id'),
 			'paid_from_budget'			=> $this->input->post('paid_from_budget'),
 			'remaining_budget'			=> $this->input->post('remaining_budget'),
-			//'referral_fee'			=> $this->input->post('referral_fee'),
 			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
@@ -111,7 +108,7 @@ class Projects extends CI_Controller {
 			'addr_city' 				=> $city,
 			'addr_state' 				=> $state,
 			'addr_country' 				=> $country,
-			'addr_pin'					=> $pinCode
+			'addr_pin'					=> $zipCode
 		);
 
 		$insert_project = $this->model_projects->insert($data);
@@ -140,7 +137,7 @@ class Projects extends CI_Controller {
 			'city' 				=> $projects[0]->addr_city,
 			'country' 			=> $projects[0]->addr_country,
 			'state'				=> $projects[0]->addr_state,
-			'pinCode' 			=> $projects[0]->addr_pin,
+			'zipCode' 			=> $projects[0]->addr_pin,
 			'forForm' 			=> "update_project_form"
 		);
 
@@ -166,7 +163,7 @@ class Projects extends CI_Controller {
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
-		$pinCode 				= $this->input->post('pinCode');
+		$zipCode 				= $this->input->post('zipCode');
 
 		$data = array(
 			'project_name' 				=> $this->input->post('projectTitle'),
@@ -185,7 +182,6 @@ class Projects extends CI_Controller {
 			'customer_id'				=> $this->input->post('customer_id'),
 			'paid_from_budget'			=> $this->input->post('paid_from_budget'),
 			'remaining_budget'			=> $this->input->post('remaining_budget'),
-			//'referral_fee'			=> $this->input->post('referral_fee'),
 			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
@@ -194,7 +190,7 @@ class Projects extends CI_Controller {
 			'addr_city' 				=> $city,
 			'addr_state' 				=> $state,
 			'addr_country' 				=> $country,
-			'addr_pin'					=> $pinCode,
+			'addr_pin'					=> $zipCode,
 			'updated_by'				=> $this->session->userdata('user_id'),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);
@@ -213,13 +209,32 @@ class Projects extends CI_Controller {
 		print_r(json_encode($delete_project));	
 	}
 
+	public function viewOnlyBudget() {
+		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_remainingbudget');
+
+		$projectId = $this->input->post('projectId');
+		$projects = $this->model_projects->getProjectsList($projectId);
+
+		$project 	= count($projects) ? $projects[0] : "";
+
+		$project->paid_from_budget = $this->model_remainingbudget->getPaidBudgetSum($project->proj_id);
+
+		$budgetParams = array(
+			'project'		=> $project,
+			'userType' 		=> $this->session->userdata('account_type'),
+		);
+
+		echo  $this->load->view("projects/projects/projectBudget", $budgetParams, true);
+	}
+
 	public function viewOne() {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
 		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_remainingBudget');
+		$this->load->model('projects/model_remainingbudget');
 
 		$projectId = $this->input->post('projectId');
 		$projects = $this->model_projects->getProjectsList($projectId);
@@ -233,64 +248,49 @@ class Projects extends CI_Controller {
 		$customerFile 	= "";
 
 		// Individual View
-		
-		if($project) {
-			$ed_query = "select 
-								AVG(task_percent_complete) as percentage, 
-								DATE_FORMAT( MIN(task_end_date),  '%m/%d/%y') as end_date, 
-								DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
-						from project_details where project_id = '".$project->proj_id."'";
+		$ed_query = "select 
+							AVG(task_percent_complete) as percentage, 
+							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%y') as end_date, 
+							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
+					from project_details where project_id = '".$project->proj_id."'";
 
-			$consolidate_data_query = $this->db->query($ed_query);
-			$consolidate_data_result = $consolidate_data_query->result();
-			$consolidate_data = $consolidate_data_result[0];
+		$consolidate_data_query = $this->db->query($ed_query);
+		$consolidate_data_result = $consolidate_data_query->result();
+		$consolidate_data = $consolidate_data_result[0];
 
-			$project->percentage 	= $consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0;
-			$start_date 			= $consolidate_data->start_date != "" ? ($project->start_date != "" && $project->start_date < $consolidate_data->start_date ? $project->start_date : $consolidate_data->start_date) : ($project->start_date != "" ? $project->start_date : "-NA-");
-			$end_date 				= $consolidate_data->end_date != "" ? ($project->end_date != "" && $project->end_date > $consolidate_data->end_date ? $project->end_date : $consolidate_data->end_date) : ($project->end_date != "" ? $project->end_date : "-NA-");
+		$project->percentage 	= $consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0;
+		$start_date 			= $consolidate_data->start_date != "" ? ($project->start_date != "" && $project->start_date < $consolidate_data->start_date ? $project->start_date : $consolidate_data->start_date) : ($project->start_date != "" ? $project->start_date : "-NA-");
+		$end_date 				= $consolidate_data->end_date != "" ? ($project->end_date != "" && $project->end_date > $consolidate_data->end_date ? $project->end_date : $consolidate_data->end_date) : ($project->end_date != "" ? $project->end_date : "-NA-");
 
-			$project->start_date 	= $start_date;
-			$project->end_date 		= $end_date;
-			//$end_date 				= $consolidate_data->end_date 	!= "" ? $consolidate_data->end_date : $project->end_date;
+		$project->start_date 	= $start_date;
+		$project->end_date 		= $end_date;
 
-			//if($start_date == "-NA-" && $project->start_date == "") ? $start_date : ($start_date != "-NA-" ? );
+		// Created By and Updated By user Name
+		$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
+		$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
 
-			// Created By and Updated By user Name
-			$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
-			$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
-
-			// Contractor Name
-			$project->contractorName = "-- Not Provided --";
-			if($project->contractor_id != "") {
-				$contractorIdArr = explode(",", $project->contractor_id);
-				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
-				 $contractors = $contractorsResponse["contractors"];
-			}
-
-			//Paid From budget
-			$project->paid_from_budget = $this->model_remainingBudget->getPaidBudgetSum($project->proj_id);
-
+		// Contractor Name
+		$project->contractorName = "-- Not Provided --";
+		if($project->contractor_id != "") {
+			$contractorIdArr = explode(",", $project->contractor_id);
+			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			 $contractors = $contractorsResponse["contractors"];
 		}
+
+		//Paid From budget
+		$project->paid_from_budget = $this->model_remainingbudget->getPaidBudgetSum($project->proj_id);
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["update project", "delete project"],
 			"projectId" 			=> $projectId
 		);
 
-		// Get List of tasks for the project ID
-		$tasks = $this->model_tasks->getTasksList($projectId);
-
-		//Get All Notes for Project
-		$notes 		= $this->model_notes->getNotesList($projectId, 0, "", 0, 'All');
-
-		for($i=0; $i < count($notes); $i++) {
-			$notes[$i]->created_by_name = $this->model_users->getUsersList($notes[$i]->created_by)[0]->user_name;
-			$notes[$i]->updated_by_name = $this->model_users->getUsersList($notes[$i]->updated_by)[0]->user_name;
-		}
-
+		/*
+			Customer Output
+		*/
 		$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
 		$customer 	= count($customers) ? $customers[0] : "";
-
+		
 		if($customer) {
 			$customerParams = array(
 				"customer"			=> $customer
@@ -299,30 +299,40 @@ class Projects extends CI_Controller {
 			$customerFile 		= $this->load->view("projects/projects/customerDetailsView", $customerParams, true);
 		}
 
+		/*
+			Address Output
+		*/
 		$addressParams = array(
 			'addressLine1' 		=> $project->addr1,
 			'addressLine2' 		=> $project->addr2,
 			'city' 				=> $project->addr_city,
 			'country' 			=> $project->addr_country,
 			'state'				=> $project->addr_state,
-			'pinCode' 			=> $project->addr_pin,
+			'zipCode' 			=> $project->addr_pin,
 			'requestFrom' 		=> 'view'
 		);
+		//$addressFile = $this->load->view("forms/address", $addressParams, true);
 
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
-
-		$params = array(
+		/*
+			Budget List
+		*/
+		$budgetParams = array(
 			'project'		=> $project,
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
 			'userType' 		=> $this->session->userdata('account_type'),
-			'tasks' 		=>$tasks,
-			'projectId' 	=> $projectId,
-			'notes' 		=> $notes,
-			'contractors' 	=> $contractors,
-			'customerFile' 	=> $customerFile,
-			'addressFile' 	=> $addressFile
 		);
-		
+
+		/*
+			Final Project ViewOnly template output
+		*/
+		$params = array(
+			'project'			=> $project,
+			'userType' 			=> $this->session->userdata('account_type'),
+			'projectId' 		=> $projectId,
+			'contractors' 		=> $contractors,
+			'customerFile' 		=> $customerFile,
+			'addressFile' 		=> $this->load->view("forms/address", $addressParams, true),
+			'projectBudgetFile' =>  $this->load->view("projects/projects/projectBudget.php", $budgetParams, true)
+		);
 		echo $this->load->view("projects/projects/viewOne", $params, true);
 	}
 }

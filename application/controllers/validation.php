@@ -69,7 +69,7 @@ class Validation extends CI_Controller {
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
-		$pinCode				= $this->input->post('pinCode');
+		$zipCode				= $this->input->post('zipCode');
 
 		$this->load->model('security/model_users');
 
@@ -94,7 +94,7 @@ class Validation extends CI_Controller {
 				'addr_city' 			=> $city,
 				'addr_state' 			=> $state,
 				'addr_country' 			=> $country,
-				'addr_pin'				=> $pinCode,
+				'addr_pin'				=> $zipCode,
 				'contact_pref' 			=> $prefContact,
 				'created_dt' 			=> date("Y-m-d H:i:s"),
 				'last_updated_dt' 		=> date("Y-m-d H:i:s"),

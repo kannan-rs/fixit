@@ -1,7 +1,7 @@
 <?php
 //if(count($project_notes) > 0) {
 //	if($startRecord == 0) {
-		if($viewFor == "" || $viewFor != "projectViewOne") {
+if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 	<div class="create-link">
 		<?php echo $internalLink; ?>
@@ -9,8 +9,15 @@
 	<?php echo $projectNameDescr; ?>
  	<h2>Notes</h2>
  <?php
- 	}
+ }
+
+ $countId = "notesCountForProject";
+ if(!empty($projectId) && !empty($taskId)) {
+	$countId = "notesCountForTask";
+ }
  ?>
+<input type="hidden" id="<?php echo $countId; ?>" value="<?php echo $count[0]->count; ?>" />
+
 <div class="notes_list">
 	<!-- List all the Functions from database -->
 <table cellspacing="0" id="note_list_table">

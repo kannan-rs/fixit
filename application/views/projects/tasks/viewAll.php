@@ -8,8 +8,10 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 	<h2>Tasks List</h2>
 <?php
 }
+
 ?>
 <!-- List all the Functions from database -->
+<input type="hidden" id="tasksCount" value="<?php echo $count[0]->count; ?>" />
 <table  cellspacing="0" class="viewAll">
 
 <?php
@@ -50,7 +52,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$notesFn 		= "projectObj._projects.getTaskNotesList('".$taskId."',0, 5);";
 		//$notesCreateFn = "projectObj._projects.addTaskNote('".$taskId."');";
 		
-		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : "Customer";
+		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
 ?>
 		<tr class='row' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->

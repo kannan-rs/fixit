@@ -1,35 +1,25 @@
 <?php
 
-class Model_contractors extends CI_Model {
+class Model_partners extends CI_Model {
 	
-	public function getContractorsList($record = "", $zip = "", $serviceZip = "") {
+	public function getPartnersList($record = "", $companyNmae = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			if(is_array($record)) {
 				for($i = 0; $i < count($record); $i++) {
-					if($record[$i]) $this->db->or_where('id', $record[$i]);	
+					$this->db->or_where('id', $record[$i]);	
 				}
-			} else if($record != "") {
+			} else {
 				$this->db->where('id', $record);
 			}
 		}
 
-		if(isset($zip) && !is_null($zip) && $zip != "") {
-			if(is_array($zip)) {
-				for($i = 0; $i < count($zip); $i++) {
-					if($zip[$i] != "") $this->db->or_like('pin_code', $zip[$i]);	
+		if(isset($companyNmae) && !is_null($companyNmae) && $companyNmae != "") {
+			if(is_array($companyNmae)) {
+				for($i = 0; $i < count($companyNmae); $i++) {
+					$this->db->or_like('company_name', $companyNmae[$i]);	
 				}
-			} else if($zip != "") {
-				$this->db->or_like('pin_code', $zip);
-			}
-		}
-
-		if(isset($serviceZip) && !is_null($serviceZip) && $serviceZip != "") {
-			if(is_array($serviceZip)) {
-				for($i = 0; $i < count($serviceZip); $i++) {
-					if($serviceZip[$i] != "") $this->db->or_like('service_area', $serviceZip[$i]);	
-				}
-			} else if($service_area != "") {
-				$this->db->or_like('service_area', $serviceZip);
+			} else {
+				$this->db->or_like('company_name', $companyNmae);
 			}
 		}
 
@@ -40,14 +30,14 @@ class Model_contractors extends CI_Model {
 				"created_on",
 				"updated_on"
 			]);
-		$query = $this->db->from('contractor')->get();
+		$query = $this->db->from('partner')->get();
 
 		
 		$response = array();
 		
 		if($this->db->_error_number() == 0) {
 			$response["status"] 		= "success";
-			$response["contractors"] 	= $query->result();
+			$response["partners"] 	= $query->result();
 		} else {
 			$response["status"] 		= "error";
 			$response["errorCode"] 		= $this->db->_error_number();
@@ -59,10 +49,10 @@ class Model_contractors extends CI_Model {
 
 	public function insert($data) {
 		$response = array();
-		if($this->db->insert('contractor', $data)) {
+		if($this->db->insert('partner', $data)) {
 			$response['status'] 		= 'success';
 			$response['insertedId']	= $this->db->insert_id();
-			$response['message']		= "contractor Inserted Successfully";
+			$response['message']		= "Partner Inserted Successfully";
 		} else {
 			$response['status'] 		= 'error';
 			$response['message']		= $this->db->_error_message();
@@ -77,15 +67,15 @@ class Model_contractors extends CI_Model {
 		if($record) {
 			$this->db->where('id', $record);
 		
-			if($this->db->update('contractor', $data)) {
+			if($this->db->update('partner', $data)) {
 				$response['status']		= 'success';
-				$response['message']	= 'contractor updated Successfully';
+				$response['message']	= 'Partner updated Successfully';
 				$response['updatedId']	= $record;
 			} else {
 				$response["message"] = "Error while updating the records";
 			}	
 		} else {
-			$response['message']	= 'Invalid contractor, Please try again';
+			$response['message']	= 'Invalid partner, Please try again';
 		}
 		return $response;
 	}
@@ -97,14 +87,14 @@ class Model_contractors extends CI_Model {
 		if($record && $record!= "") {
 			$this->db->where('id', $record);
 			
-			if($this->db->delete('contractor')) {
+			if($this->db->delete('partner')) {
 				$response['status']		= "success";
-				$response['message']	= "contractor Deleted Successfully";
+				$response['message']	= "Partner Deleted Successfully";
 			} else {
-				$response["message"] = "Error while deleting the contractor";
+				$response["message"] = "Error while deleting the partner";
 			}
 		} else {
-			$response['message']	= 'Invalid contractor, Please try again';
+			$response['message']	= 'Invalid partner, Please try again';
 		}
 		return $response;
 	}

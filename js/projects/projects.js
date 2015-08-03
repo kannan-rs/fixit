@@ -51,10 +51,10 @@ project.prototype.createForm = function() {
 			projectObj._projects.setMandatoryFields();
 			projectObj._projects.hideContractorDetails('all');
 			projectObj._projects.hideDropDowns();
-			formUtilObj.setCustomerDataList();
-			formUtilObj.setAdjusterDataList();
-			formUtilObj.getAndSetCountryStatus("create_project_form");
-			formUtilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
+			utilObj.setCustomerDataList();
+			utilObj.setAdjusterDataList();
+			utilObj.getAndSetCountryStatus("create_project_form");
+			utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {
 			error = error;
@@ -71,15 +71,14 @@ project.prototype.createSubmit = function() {
 	var description 			= $(idPrefix+"#description").val();
 	var associated_claim_num 	= $(idPrefix+"#associated_claim_num").val();
 	var project_type			= $(idPrefix+"#project_type").val();
-	var start_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
-	var end_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
+	var start_date 				= utilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
+	var end_date 				= utilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
 	var project_status			= $(idPrefix+"#project_status").val();
 	var project_budget			= $(idPrefix+"#project_budget").val();
 	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
-	var contractor_id			= [];//$(idPrefix+"#contractorId").val();
+	var contractor_id			= [];
 	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
 	var customer_id				= $(idPrefix+"#customer_id").val();
-	//var paid_from_budget		= $(idPrefix+"#paid_from_budget").val();
 	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
 	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
 	var project_lender			= $(idPrefix+"#project_lender").val();
@@ -89,7 +88,7 @@ project.prototype.createSubmit = function() {
 	var city 					= $(idPrefix+"#city").val();
 	var state 					= $(idPrefix+"#state").val();
 	var country 				= $(idPrefix+"#country").val();
-	var pinCode					= $(idPrefix+"#pinCode").val();
+	var zipCode					= $(idPrefix+"#zipCode").val();
 
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
 	$(idPrefix+"#contractorSearchSelected li").each(
@@ -108,7 +107,6 @@ project.prototype.createSubmit = function() {
 		data: {
 			projectTitle 		: projectTitle,
 			description 		: description,
-			//assign_user 		: assign_user,
 			associated_claim_num: associated_claim_num,
 			project_type 		: project_type,
 			start_date 			: start_date,
@@ -119,20 +117,16 @@ project.prototype.createSubmit = function() {
 			contractor_id 		: contractor_id,
 			adjuster_id			: adjuster_id,
 			customer_id			: customer_id,
-			//paid_from_budget	: paid_from_budget,
 			remaining_budget	: remaining_budget,
-			//referral_fee		: referral_fee,
 			deductible			: deductible,
 			project_lender		: project_lender,
 			lend_amount 		: lend_amount,
 			addressLine1 		: addressLine1,
 			addressLine2 		: addressLine2,
-			//addressLine3 		: addressLine3,
-			//addressLine4 		: addressLine4,
 			city 				: city,
 			state 				: state,
 			country 			: country,
-			pinCode 			: pinCode
+			zipCode 			: zipCode
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -170,11 +164,10 @@ project.prototype.editProject = function() {
 			projectObj._projects.getContractorDetails( $("#contractorIdDb").val() );
 
 			projectObj._projects.hideDropDowns();
-			formUtilObj.setCustomerDataList();
-			formUtilObj.setAdjusterDataList();
-			//projectObj._projects.setContractorDetails();
-			formUtilObj.getAndSetCountryStatus("update_project_form");
-			formUtilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
+			utilObj.setCustomerDataList();
+			utilObj.setAdjusterDataList();
+			utilObj.getAndSetCountryStatus("update_project_form");
+			utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {
 			error = error;
@@ -200,15 +193,14 @@ project.prototype.updateSubmit = function() {
 	var description 			= $(idPrefix+"#description").val();
 	var associated_claim_num 	= $(idPrefix+"#associated_claim_num").val();
 	var project_type			= $(idPrefix+"#project_type").val();
-	var start_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
-	var end_date 				= formUtilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
+	var start_date 				= utilObj.toMySqlDateFormat($(idPrefix+"#start_date").val());
+	var end_date 				= utilObj.toMySqlDateFormat($(idPrefix+"#end_date").val());
 	var project_status			= $(idPrefix+"#project_status").val();
 	var project_budget			= $(idPrefix+"#project_budget").val();
 	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
-	var contractor_id			= [];//$(idPrefix+"#contractorId").val();
+	var contractor_id			= [];
 	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
 	var customer_id				= $(idPrefix+"#customer_id").val();
-	//var paid_from_budget		= $(idPrefix+"#paid_from_budget").val();
 	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
 	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
 	var project_lender			= $(idPrefix+"#project_lender").val();
@@ -218,7 +210,7 @@ project.prototype.updateSubmit = function() {
 	var city 					= $(idPrefix+"#city").val();
 	var state 					= $(idPrefix+"#state").val();
 	var country 				= $(idPrefix+"#country").val();
-	var pinCode					= $(idPrefix+"#pinCode").val();
+	var zipCode					= $(idPrefix+"#zipCode").val();
 
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
 	$("#contractorSearchSelected li").each(
@@ -248,7 +240,6 @@ project.prototype.updateSubmit = function() {
 			contractor_id 			: contractor_id,
 			adjuster_id 			: adjuster_id,
 			customer_id 			: customer_id,
-			//paid_from_budget 		: paid_from_budget,
 			remaining_budget		: remaining_budget,
 			deductible				: deductible,
 			project_lender 			: project_lender,
@@ -258,7 +249,7 @@ project.prototype.updateSubmit = function() {
 			city					: city,
 			state 					: state,
 			country					: country,
-			pinCode					: pinCode
+			zipCode					: zipCode
 
 		},
 		success: function( response ) {
@@ -311,13 +302,6 @@ project.prototype.viewOne = function(projectId) {
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("project", "viewOne");
 	
-	/*$( "#project_section_accordion" ).accordion(
-		{
-			collapsible : true,  
-			icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
-			active 		: false
-		}
-	);*/
 	// Project Details View
 	setTimeout(function() {
 		projectObj._projects.getProjectDetails();
@@ -360,6 +344,7 @@ project.prototype.getProjectDetails = function() {
 					active 		: false
 				}
 			);
+			//projectObj._projects.budgetFormat();
 		},
 		error: function( error ) {
 			error = error;
@@ -380,6 +365,9 @@ project.prototype.getProjectTasksList = function() {
 		},
 		success: function( response ) {
 			$("#task_content").html(response);
+			var taskCount = $("#tasksCount").val();
+			taskCount = taskCount != "" || taskCount > 0 ? " ("+taskCount+")" : 0;
+			$("#taskCountDisplay").html(taskCount);
 		},
 		error: function( error ) {
 			error = error;
@@ -406,14 +394,14 @@ project.prototype.getProjectNotesList = function() {
 		success: function( response ) {
 			if(response.length) {
 				$("#notesCount").remove();
-				//if(projectObj._notes.noteListStartRecord == 0) {
-					$("#note_content").html(response);
-				//} else {
-				//	$("#note_list_table").append(response);
-				//}
+				$("#note_content").html(response);
 
 				projectObj._notes.noteRequestSent = projectObj._notes.noteListStartRecord;
 				projectObj._notes.noteListStartRecord += 5;
+
+				var noteCount = $("#notesCountForProject").val();
+				noteCount = noteCount != "" || noteCount > 0 ? " ("+noteCount+")" : 0;
+				$("#notesCountForProjectDisplay").html(noteCount);
 			}
 		},
 		error: function( error ) {
@@ -485,13 +473,11 @@ project.prototype.getProjectDocumentList = function() {
 		},
 		success: function( response ) {
 			if(response.length) {
-				//if(projectObj._docs.docsListStartRecord == 0) {
-					$("#attachment_content").html(response);
-				//} else {
-				//	$("#attachment_content").append(response);
-				//}
-				//projectObj._docs.docsRequestSent = projectObj._docs.docsListStartRecord;
-				//projectObj._docs.docsListStartRecord += 10;
+				$("#attachment_content").html(response);
+
+				var docsCount = $("#docsCount").val();
+				docsCount = docsCount != "" || docsCount > 0 ? " ("+docsCount+")" : 0;
+				$("#docsCountDisplay").html(docsCount);
 			}
 		},
 		error: function( error ) {
@@ -561,7 +547,6 @@ project.prototype.taskDelete = function(task_id, project_id) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				//projectObj._projects.getProjectTasksList();
 				$("#task_"+task_id).remove();
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
@@ -646,7 +631,7 @@ project.prototype.addTask = function( ) {
 				fromDateField 	: "task_start_date",
 				toDateField		: "task_end_date"
 			}
-			formUtilObj.setAsDateRangeFields(dateOptions);
+			utilObj.setAsDateRangeFields(dateOptions);
 		},
 		error: function( error ) {
 			error = error;
@@ -699,7 +684,7 @@ project.prototype.editTask = function(taskId) {
 				fromDateField 	: "task_start_date",
 				toDateField		: "task_end_date"
 			}
-			formUtilObj.setAsDateRangeFields(dateOptions);
+			utilObj.setAsDateRangeFields(dateOptions);
 		},
 		error: function( error ) {
 			error = error;
@@ -714,10 +699,10 @@ project.prototype.taskCreateSubmit = function() {
 	parentId 					= $("#parentId").val();
 	task_name 					= $("#task_name").val();
 	task_desc 					= $("#task_desc").val();
-	task_start_date 			= formUtilObj.toMySqlDateFormat($("#task_start_date").val());
-	task_end_date 				= formUtilObj.toMySqlDateFormat($("#task_end_date").val());
+	task_start_date 			= utilObj.toMySqlDateFormat($("#task_start_date").val());
+	task_end_date 				= utilObj.toMySqlDateFormat($("#task_end_date").val());
 	task_status					= $("#task_status").val();
-	task_owner_id				= "";//$("#task_owner_id").val();
+	task_owner_id				= "";
 	task_percent_complete		= $("#task_percent_complete").val();
 	task_dependency				= $("#task_dependency").val();
 	task_trade_type				= $("#task_trade_type").val();
@@ -746,7 +731,6 @@ project.prototype.taskCreateSubmit = function() {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				//projectObj._tasks.viewOne(response.insertedId);
 				projectObj._projects.getProjectTasksList(projectObj._projects.projectId);
 				projectObj._projects.taskViewOne(response.insertedId);
 			} else if(response.status.toLowerCase() == "error") {
@@ -805,10 +789,10 @@ project.prototype.taskUpdateSubmit = function() {
 	task_id 				= $("#task_sno").val();
 	task_name 				= $("#task_name").val();
 	task_desc 				= $("#task_desc").val();
-	task_start_date 		= formUtilObj.toMySqlDateFormat($("#task_start_date").val());
-	task_end_date 			= formUtilObj.toMySqlDateFormat($("#task_end_date").val());
+	task_start_date 		= utilObj.toMySqlDateFormat($("#task_start_date").val());
+	task_end_date 			= utilObj.toMySqlDateFormat($("#task_end_date").val());
 	task_status 			= $("#task_status").val();
-	task_owner_id 			= "";//$("#task_owner_id").val();
+	task_owner_id 			= "";
 	task_percent_complete	= $("#task_percent_complete").val();
 	task_dependency			= $("#task_dependency").val();
 	task_trade_type			= $("#task_trade_type").val();
@@ -942,7 +926,7 @@ project.prototype.getContractorDetails = function( records ) {
 					"appendTo"		: "contractorSearchSelected",
 					"type"			: "selectedList"
 				}
-				formUtilObj.createContractorOptionsList(contractors);
+				utilObj.createContractorOptionsList(contractors);
 				projectObj._projects.selectedContractor = []; 
 		    	$("#contractorSearchSelected li").each(
 					function() {
@@ -1002,14 +986,14 @@ project.prototype.setSelectedContractor = function() {
 	$("#contractorIdDb").val($("#contractorId").val().join(","));
 }
 
-project.prototype.getContractorListUsingZip = function() {
-	var zip = $("#contractorZipCode").val();
+project.prototype.getContractorListUsingServiceZip = function( prefix ) {
+	var serviceZip = $("#contractorZipCode").val();
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/getContractorListUsingZip",
+		url: "/projects/contractors/getList",
 		data: {
-			zip: zip
+			serviceZip: serviceZip
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
@@ -1023,7 +1007,7 @@ project.prototype.getContractorListUsingZip = function() {
 					"type"			: "searchList",
 					"excludeList" 	: projectObj._projects.selectedContractor
 				}
-				formUtilObj.createContractorOptionsList(contractors);
+				utilObj.createContractorOptionsList(contractors);
 				$('#contractorSearchResult li .ui-icon').hide();
 
 				projectObj._projects.showContractorDetails('all');
@@ -1097,11 +1081,31 @@ project.prototype.getOwnerList = function( records ) {
 					"appendTo"		: "ownerSearchResult",
 					"type"			: "ownerList"
 				}
-				formUtilObj.createContractorOptionsList(contractors);
+				utilObj.createContractorOptionsList(contractors);
 				projectObj._tasks.setOwnerOption();
 			} else {
 				alert(response.message);
 			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.viewOnlyBudget = function () {
+	$.ajax({
+		method: "POST",
+		url: "/projects/projects/viewOnlyBudget",
+		data: {
+			projectId :  projectObj._projects.projectId
+		},
+		success: function( response ) {
+			$("#viewOneProjectBudget").html(response);
+			//projectObj._projects.budgetFormat();
 		},
 		error: function( error ) {
 			error = error;
@@ -1148,4 +1152,11 @@ project.prototype.setCustomerId = function(event, element, options) {
 project.prototype.setAdjusterId = function(event, element, options) {
 	$("#searchAdjusterName").val(options.first_name+" "+options.last_name);
 	$("#adjuster_id").val(options.searchId);
+}
+
+project.prototype.budgetFormat = function() {
+	$(".dollers").each(function() {
+		console.log($(this).html());
+		$(this).html("$ "+utilObj.toDisplayNumberFormat($(this).html()));
+	})
 }

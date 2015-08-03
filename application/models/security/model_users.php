@@ -3,7 +3,6 @@
 class Model_users extends CI_Model {
 	public function canLogin($email, $password) {
 
-		//echo $email."-".$password;
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
 		$this->db->where('status', '1');
@@ -24,7 +23,6 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		//$this->db->where('status', '1');
 
 		$query = $this->db->get('users');
 
@@ -39,7 +37,6 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		//$this->db->where('status', '1');
 
 		$query = $this->db->get('users');
 
@@ -69,11 +66,15 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUsersList($params = "") {
-		if($params && $params != "" && $params != 0) {
-			$this->db->where('sno', $params);			
+		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.account_type, ";
+		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
+		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email";
+
+		 if($params && $params != "" && $params != 0) {
+			$queryStr .= " where users.sno = ".$params;			
 		}
-		//$this->db->where('status', '1');
-		$query = $this->db->get('users');
+
+		$query = $this->db->query($queryStr);
 		$users = $query->result();
 		return $users;
 	}
@@ -108,12 +109,47 @@ class Model_users extends CI_Model {
 
 	public function getUserDetailsByEmail($email) {
 		$this->db->where('email', $email);
+		$this->db->select([
+			"sno",
+			"last_name",
+			"first_name",
+			"login_id",
+			"belongs_to",
+			"referred_by",
+			"referred_by_id",
+			"type",
+			"belongs_to_id",
+			"status",
+			"DATE_FORMAT(active_start_date, \"%m/%d/%y\") as active_start_date",
+			"DATE_FORMAT(active_end_date, \"%m/%d/%y\") as active_end_date",
+			"email",
+			"contact_ph1",
+			"contact_mobile",
+			"contact_alt_mobile",
+			"primary_contact",
+			"addr1",
+			"addr2",
+			"addr_city",
+			"addr_state",
+			"addr_country",
+			"addr_pin",
+			"contact_pref",
+			"DATE_FORMAT(created_dt, \"%m/%d/%y %H:%i:%S\") as created_dt",
+			"DATE_FORMAT(last_updated_dt, \"%m/%d/%y %H:%i:%S\") as last_updated_dt",
+			"created_by",
+			"updated_by"
+		]);
+
 		$query = $this->db->get('user_details');
 		$user_details = $query->result();
 		return $user_details;
 	}
 
 	public function getUserDetailsBySno($sno) {
+		if(!isset($sno) || empty($sno)) {
+			return [];
+		}
+		
 		$this->db->where('sno', $sno);
 		$query = $this->db->get('user_details');
 		$user_details = $query->result();

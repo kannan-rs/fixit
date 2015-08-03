@@ -25,11 +25,13 @@ class Docs extends CI_Controller {
 
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		
-		$project_docs 		= $this->model_docs->getDocsList($projectId, $startRecord);
+		$projectDocsResponse 	= $this->model_docs->getDocsList($projectId, $startRecord);
 
-		for($i=0; $i < count($project_docs); $i++) {
-			$project_docs[$i]->created_by_name = $this->model_users->getUsersList($project_docs[$i]->created_by)[0]->user_name;
-			$project_docs[$i]->updated_by_name = $this->model_users->getUsersList($project_docs[$i]->updated_by)[0]->user_name;
+		if(isset($projectDocsResponse["docs"])) {
+			for($i=0; $i < count($projectDocsResponse["docs"]); $i++) {
+				$projectDocsResponse["docs"][$i]->created_by_name = $this->model_users->getUsersList($projectDocsResponse["docs"][$i]->created_by)[0]->user_name;
+				$projectDocsResponse["docs"][$i]->updated_by_name = $this->model_users->getUsersList($projectDocsResponse["docs"][$i]->updated_by)[0]->user_name;
+			}
 		}
 
 		$project 			= $this->model_projects->getProjectsList($projectId);
@@ -47,7 +49,8 @@ class Docs extends CI_Controller {
 		);
 
 		$params = array(
-			'project_docs' 		=> $project_docs,
+			'project_docs' 		=> isset($projectDocsResponse["docs"]) ? $projectDocsResponse["docs"] : [],
+			"count"				=> $projectDocsResponse["count"],
 			'startRecord'		=> $startRecord,
 			'projectId' 		=> $projectId,
 			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),

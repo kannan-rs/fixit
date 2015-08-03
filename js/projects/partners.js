@@ -1,8 +1,8 @@
-function contractors() {
+function partners() {
 	
 }
 
-contractors.prototype.createForm = function( options ) {
+partners.prototype.createForm = function( options ) {
 
 	event.stopPropagation();
 	
@@ -12,12 +12,12 @@ contractors.prototype.createForm = function( options ) {
 
 	if(!openAs) {
 		projectObj.clearRest();
-		projectObj.toggleAccordiance("contractors", "new");
+		projectObj.toggleAccordiance("partners", "new");
 	}
 	
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/createForm",
+		url: "/projects/partners/createForm",
 		data: {
 			openAs 		: openAs,
 			popupType 	: popupType,
@@ -26,12 +26,12 @@ contractors.prototype.createForm = function( options ) {
 		success: function( response ) {
 			if(openAs == "popup") {
 				$("#popupForAll"+popupType).html( response );
-				projectObj._projects.openDialog({"title" : "Add Contractor"}, popupType);
+				projectObj._projects.openDialog({"title" : "Add Partner"}, popupType);
 			} else{
-				$("#contractor_content").html(response);
+				$("#partner_content").html(response);
 			}
 			projectObj._projects.setMandatoryFields();
-			utilObj.getAndSetCountryStatus("create_contractor_form");
+			utilObj.getAndSetCountryStatus("create_partner_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -42,21 +42,20 @@ contractors.prototype.createForm = function( options ) {
 	});
 };
 
-contractors.prototype.createValidate =  function ( openAs, popupType ) {
-	var validator = $( "#create_contractor_form" ).validate();
+partners.prototype.createValidate =  function ( openAs, popupType ) {
+	var validator = $( "#create_partner_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._contractors.createSubmit( openAs, popupType );
+		projectObj._partners.createSubmit( openAs, popupType );
 	}
 };
 
-contractors.prototype.createSubmit = function( openAs, popupType ) {
-	var idPrefix 				= "#create_contractor_form "
+partners.prototype.createSubmit = function( openAs, popupType ) {
+	var idPrefix 				= "#create_partner_form "
 	var name 					= $(idPrefix+"#name").val();
 	var company 				= $(idPrefix+"#company").val();
 	var type 					= $(idPrefix+"#type").val();
 	var license 				= $(idPrefix+"#license").val();
-	var bbb 					= $(idPrefix+"#bbb").val();
 	var status 					= $(idPrefix+"#status").val();
 	var addressLine1 			= $(idPrefix+"#addressLine1").val();
 	var addressLine2 			= $(idPrefix+"#addressLine2").val();
@@ -64,12 +63,12 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 	var state 					= $(idPrefix+"#state").val();
 	var country 				= $(idPrefix+"#country").val();
 	var zipCode 				= $(idPrefix+"#zipCode").val();
-	var emailId 				= $(idPrefix+"#emailId").val();
-	var contactPhoneNumber 		= $(idPrefix+"#contactPhoneNumber").val();
-	var mobileNumber 			= $(idPrefix+"#mobileNumber").val();
+	var wNumber 				= $(idPrefix+"#wNumber").val();
+	var wEmailId 				= $(idPrefix+"#wEmailId").val();
+	var pNumber 				= $(idPrefix+"#pNumber").val();
+	var pEmailId 				= $(idPrefix+"#pEmailId").val();
 	var prefContact 			= "";
 	var websiteURL 				= $(idPrefix+"#websiteURL").val();
-	var serviceZip				= $(idPrefix+"#serviceZip").val();
 
 	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
@@ -79,13 +78,12 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/add",
+		url: "/projects/partners/add",
 		data: {
 			name 					: name,
 			company 				: company,
 			type 					: type,
 			license 				: license,
-			bbb 					: bbb,
 			status 					: status,
 			addressLine1 			: addressLine1,
 			addressLine2 			: addressLine2,
@@ -93,12 +91,12 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 			state 					: state,
 			country 				: country,
 			zipCode 				: zipCode,
-			emailId 				: emailId,
-			contactPhoneNumber 		: contactPhoneNumber,
-			mobileNumber 			: mobileNumber,
+			wNumber 				: wNumber,
+			wEmailId 				: wEmailId,
+			pNumber 				: pNumber,
+			pEmailId 				: pEmailId,
 			prefContact 			: prefContact,
 			websiteURL 				: websiteURL,
-			serviceZip 				: serviceZip,
 			openAs 					: openAs,
 			popupType 				: popupType
 		},
@@ -106,7 +104,7 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._contractors.viewOne(response.insertedId, openAs, popupType);
+				projectObj._partners.viewOne(response.insertedId, openAs, popupType);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -120,32 +118,32 @@ contractors.prototype.createSubmit = function( openAs, popupType ) {
 	});
 }
 
-contractors.prototype.viewOne = function( contractorId, openAs, popupType ) {
-	this.contractorId 	= contractorId;
+partners.prototype.viewOne = function( partnerId, openAs, popupType ) {
+	this.partnerId 	= partnerId;
 	popupType 			= popupType ? popupType : "";
 	if(!openAs || openAs != "popup") {
 		projectObj.clearRest();
-		projectObj.toggleAccordiance("contractors", "viewOne");
+		projectObj.toggleAccordiance("partners", "viewOne");
 	}
 	
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/viewOne",
+		url: "/projects/partners/viewOne",
 		data: {
-			contractorId 	: projectObj._contractors.contractorId,
+			partnerId 	: projectObj._partners.partnerId,
 			openAs 			: openAs,
 			popupType 		: popupType
 		},
 		success: function( response ) {
 			if( openAs && openAs == "popup") {
 				$("#popupForAll"+popupType).html( response );
-				projectObj._projects.openDialog({"title" : "Contractor Details"}, popupType);
-				projectObj._projects.updateContractorSelectionList();
-				projectObj._projects.setContractorDetails();
+				projectObj._projects.openDialog({"title" : "Partner Details"}, popupType);
+				projectObj._projects.updatePartnerSelectionList();
+				projectObj._projects.setPartnerDetails();
 			} else {
-				$("#contractor_content").html(response);
+				$("#partner_content").html(response);
 			}
-			projectObj._contractors.setPrefContact();
+			projectObj._partners.setPrefContact();
 		},
 		error: function( error ) {
 			error = error;
@@ -156,16 +154,16 @@ contractors.prototype.viewOne = function( contractorId, openAs, popupType ) {
 	});
 };
 
-contractors.prototype.viewAll = function() {
+partners.prototype.viewAll = function() {
 	projectObj.clearRest();
-	projectObj.toggleAccordiance("contractors", "viewAll");
+	projectObj.toggleAccordiance("partners", "viewAll");
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/viewAll",
+		url: "/projects/partners/viewAll",
 		data: {},
 		success: function( response ) {
-			$("#contractor_content").html(response);
+			$("#partner_content").html(response);
 		},
 		error: function( error ) {
 			error = error;
@@ -176,25 +174,25 @@ contractors.prototype.viewAll = function() {
 	});
 };
 
-contractors.prototype.editForm = function( options ) {
+partners.prototype.editForm = function( options ) {
 	var openAs 		= options && options.openAs ? options.openAs : "";
 	var popupType 	= options && options.popupType ? options.popupType : "";
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/editForm",
+		url: "/projects/partners/editForm",
 		data: {
-			'contractorId' : projectObj._contractors.contractorId,
+			'partnerId' : projectObj._partners.partnerId,
 			'openAs' 		: openAs,
 			'popupType' 	: popupType
 			
 		},
 		success: function( response ) {
 			$("#popupForAll"+popupType).html(response);
-			projectObj._projects.openDialog({"title" : "Edit Contractor"}, popupType);
-			projectObj._contractors.setPrefContact();
-			projectObj._contractors.setStatus();
-			utilObj.getAndSetCountryStatus("update_contractor_form");
+			projectObj._projects.openDialog({"title" : "Edit Partner"}, popupType);
+			projectObj._partners.setPrefContact();
+			projectObj._partners.setStatus();
+			utilObj.getAndSetCountryStatus("update_partner_form");
 
 		},
 		error: function( error ) {
@@ -206,22 +204,21 @@ contractors.prototype.editForm = function( options ) {
 	});
 };
 
-contractors.prototype.updateValidate = function() {
-	var validator = $( "#update_contractor_form" ).validate();
+partners.prototype.updateValidate = function() {
+	var validator = $( "#update_partner_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._contractors.updateSubmit();
+		projectObj._partners.updateSubmit();
 	}
 };
 
-contractors.prototype.updateSubmit = function() {
-	var idPrefix 				= "#update_contractor_form ";
-	var contractorId			= $(idPrefix+"#contractorId").val();
+partners.prototype.updateSubmit = function() {
+	var idPrefix 				= "#update_partner_form ";
+	var partnerId				= $(idPrefix+"#partnerId").val();
 	var name 					= $(idPrefix+"#name").val();
 	var company 				= $(idPrefix+"#company").val();
 	var type 					= $(idPrefix+"#type").val();
 	var license 				= $(idPrefix+"#license").val();
-	var bbb 					= $(idPrefix+"#bbb").val();
 	var status 					= $(idPrefix+"#status").val();
 	var addressLine1 			= $(idPrefix+"#addressLine1").val();
 	var addressLine2 			= $(idPrefix+"#addressLine2").val();
@@ -229,12 +226,12 @@ contractors.prototype.updateSubmit = function() {
 	var state 					= $(idPrefix+"#state").val();
 	var country 				= $(idPrefix+"#country").val();
 	var zipCode 				= $(idPrefix+"#zipCode").val();
-	var emailId 				= $(idPrefix+"#emailId").val();
-	var contactPhoneNumber 		= $(idPrefix+"#contactPhoneNumber").val();
-	var mobileNumber 			= $(idPrefix+"#mobileNumber").val();
+	var wNumber 				= $(idPrefix+"#wNumber").val();
+	var wEmailId 				= $(idPrefix+"#wEmailId").val();
+	var pNumber 				= $(idPrefix+"#pNumber").val();
+	var pEmailId 				= $(idPrefix+"#pEmailId").val();
 	var prefContact 			= "";
 	var websiteURL 				= $(idPrefix+"#websiteURL").val();
-	var serviceZip 				= $(idPrefix+"#serviceZip").val();
 
 	$(idPrefix+"input[name=prefContact]:checked").each(
 		function() {
@@ -244,14 +241,13 @@ contractors.prototype.updateSubmit = function() {
 
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/update",
+		url: "/projects/partners/update",
 		data: {
-			contractorId 			: contractorId,
+			partnerId 			: partnerId,
 			name 					: name,
 			company 				: company,
 			type 					: type,
 			license 				: license,
-			bbb 					: bbb,
 			status 					: status,
 			addressLine1 			: addressLine1,
 			addressLine2 			: addressLine2,
@@ -259,19 +255,19 @@ contractors.prototype.updateSubmit = function() {
 			state 					: state,
 			country 				: country,
 			zipCode 				: zipCode,
-			emailId 				: emailId,
-			contactPhoneNumber 		: contactPhoneNumber,
-			mobileNumber 			: mobileNumber,
+			wNumber 				: wNumber,
+			wEmailId 				: wEmailId,
+			pNumber 				: pNumber,
+			pEmailId 				: pEmailId,
 			prefContact 			: prefContact,
-			websiteURL 				: websiteURL,
-			serviceZip 				: serviceZip
+			websiteURL 				: websiteURL
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				$(".ui-button").trigger("click");
 				alert(response.message);
-				projectObj._contractors.viewOne(response.updatedId);
+				projectObj._partners.viewOne(response.updatedId);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -286,18 +282,18 @@ contractors.prototype.updateSubmit = function() {
 	});
 };
 
-contractors.prototype.deleteRecord = function() {
+partners.prototype.deleteRecord = function() {
 	$.ajax({
 		method: "POST",
-		url: "/projects/contractors/deleteRecord",
+		url: "/projects/partners/deleteRecord",
 		data: {
-			contractorId: projectObj._contractors.contractorId
+			partnerId: projectObj._partners.partnerId
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				projectObj._contractors.viewAll();
+				projectObj._partners.viewAll();
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -311,7 +307,7 @@ contractors.prototype.deleteRecord = function() {
 	});
 };
 
-contractors.prototype.setPrefContact = function() {
+partners.prototype.setPrefContact = function() {
 	var prefContact	= $("#prefContactDb").val().split(",");
 
 	$("input[name=prefContact]").each(function() {
@@ -321,7 +317,7 @@ contractors.prototype.setPrefContact = function() {
 	});
 };
 
-contractors.prototype.setStatus = function() {
+partners.prototype.setStatus = function() {
 	var status = $("#statusDb").val();
 	if(status != "" && $("#status").length) {
 		$("#status").val(status);

@@ -17,25 +17,16 @@ class Contractors extends CI_Controller {
 	public function getList() {
 		$this->load->model('projects/model_contractors');
 
-		$records = [];
-		if($this->input->post("records")) {
-			$records = explode(",", $this->input->post("records"));
-		}
+		$serviceZip = explode(",", $this->input->post("serviceZip"));
+		$zip 		= $this->input->post("zip");
 
-		$contractorsResponse = $this->model_contractors->getContractorsList( $records );
+		$records = [];
+		$records = explode(",", $this->input->post("records"));
+		
+
+		$contractorsResponse = $this->model_contractors->getContractorsList( $records, $zip, $serviceZip );
 
 		print_r(json_encode($contractorsResponse));
-	}
-
-	public function getContractorListUsingZip() {
-		$this->load->model('projects/model_contractors');
-		
-		$zip = explode(",", $this->input->post('zip'));
-		$record = "";
-
-		$contractorsResponse = $this->model_contractors->getContractorsList($record, $zip);
-
-		print_r(json_encode($contractorsResponse));	
 	}
 
 	public function viewAll() {
@@ -76,6 +67,7 @@ class Contractors extends CI_Controller {
 
 	public function add() {
 		$this->load->model('projects/model_contractors');
+		$this->load->model('mail/model_mail');
 
 		$data = array(
 			'name' 				=> $this->input->post('name'),
@@ -89,7 +81,7 @@ class Contractors extends CI_Controller {
 			'city' 				=> $this->input->post('city'),
 			'state' 			=> $this->input->post('state'),
 			'country' 			=> $this->input->post('country'),
-			'pin_code' 			=> $this->input->post('pinCode'),
+			'pin_code' 			=> $this->input->post('zipCode'),
 			'office_email' 		=> $this->input->post('emailId'),
 			'office_ph' 		=> $this->input->post('contactPhoneNumber'),
 			'mobile_ph' 		=> $this->input->post('mobileNumber'),
@@ -103,6 +95,15 @@ class Contractors extends CI_Controller {
 		);
 
 		$insert_contractor = $this->model_contractors->insert($data);
+
+		$contractorCompanyParamsFormMail = array(
+			'response'				=> $insert_contractor,
+			'contractorData'		=> $data
+		);
+
+		$mail_options = $this->model_mail->generateCreateContractorCompanyMailOptions( $contractorCompanyParamsFormMail );
+		
+		$this->model_mail->sendMail( $mail_options );
 		print_r(json_encode($insert_contractor));
 	}
 
@@ -127,7 +128,7 @@ class Contractors extends CI_Controller {
 			'city' 				=> $contractors[0]->city,
 			'country' 			=> $contractors[0]->country,
 			'state'				=> $contractors[0]->state,
-			'pinCode' 			=> $contractors[0]->pin_code,
+			'zipCode' 			=> $contractors[0]->pin_code,
 			'requestFrom' 		=> 'view'
 		);
 
@@ -160,7 +161,7 @@ class Contractors extends CI_Controller {
 			'city' 				=> $contractors[0]->city,
 			'country' 			=> $contractors[0]->country,
 			'state'				=> $contractors[0]->state,
-			'pinCode' 			=> $contractors[0]->pin_code,
+			'zipCode' 			=> $contractors[0]->pin_code,
 			'forForm' 			=> "update_contractor_form"
 		);
 
@@ -194,7 +195,7 @@ class Contractors extends CI_Controller {
 			'city' 				=> $this->input->post('city'),
 			'state' 			=> $this->input->post('state'),
 			'country' 			=> $this->input->post('country'),
-			'pin_code' 			=> $this->input->post('pinCode'),
+			'pin_code' 			=> $this->input->post('zipCode'),
 			'office_email' 		=> $this->input->post('emailId'),
 			'office_ph' 		=> $this->input->post('contactPhoneNumber'),
 			'mobile_ph' 		=> $this->input->post('mobileNumber'),

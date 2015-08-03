@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class RemainingBudget extends CI_Controller {
+class remainingbudget extends CI_Controller {
 
 	public function __construct()
    	{
@@ -19,28 +19,35 @@ class RemainingBudget extends CI_Controller {
 		$projectId 		= $this->input->post("projectId");
 		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
+		$budgetId 		= $this->input->post('budgetId') ? $this->input->post('budgetId') : "";
+		$updateBudget 	= "";
 
-		$this->load->model('projects/model_remainingBudget');
-		$rbResponse = $this->model_remainingBudget->getList( $projectId );
+		$this->load->model('projects/model_remainingbudget');
+		$rbResponse = $this->model_remainingbudget->getList( $projectId );
+
+		if($budgetId != "") {
+			$updateBudget = $this->model_remainingbudget->getBudgetById( $budgetId )["paidFromBudget"];
+		}
 
 		$inputFormParams = array(
 			'openAs' 		=> $openAs,
-			'popupType' 	=> $popupType
+			'popupType' 	=> $popupType,
+			'updateBudget'	=> $updateBudget
 		);
 
-		$inputForm = $this->load->view("projects/remainingBudget/createForm", $inputFormParams, true);
+		$inputForm = $this->load->view("projects/remainingbudget/createForm", $inputFormParams, true);
 
 		$listParams = array(
 			'budgetList' 	=> $rbResponse['paidFromBudget']
 		);
 
-		$listData = $this->load->view("projects/remainingBudget/budgetList", $listParams, true);
+		$listData = $this->load->view("projects/remainingbudget/budgetList", $listParams, true);
 
 		echo $listData.$inputForm;
 	}
 
 	public function add() {
-		$this->load->model('projects/model_remainingBudget');
+		$this->load->model('projects/model_remainingbudget');
 
 		$data = array(
 			'project_id' 	=> $this->input->post('projectId'),
@@ -53,14 +60,14 @@ class RemainingBudget extends CI_Controller {
 			'updated_on'	=> date("Y-m-d H:i:s")
 		);
 
-		$insert_rb = $this->model_remainingBudget->insert($data);
+		$insert_rb = $this->model_remainingbudget->insert($data);
 		print_r(json_encode($insert_rb));
 	}
 
 	public function update() {
-		$this->load->model('projects/model_remainingBudget');
+		$this->load->model('projects/model_remainingbudget');
 
-		$remainingBudgetId 			= $this->input->post('remainingBudgetId');
+		$budgetId 			= $this->input->post('budgetId');
 
 		$data = array(
 			'project_id' 	=> $this->input->post('projectId'),
@@ -72,16 +79,16 @@ class RemainingBudget extends CI_Controller {
 			
 		);
 
-		$update_rd = $this->model_remainingBudget->update($data, $remainingBudgetId);
+		$update_rd = $this->model_remainingbudget->update($data, $budgetId);
 
 		print_r(json_encode($update_rd));
 	}
 
 	public function deleteRecord() {
-		$this->load->model('projects/model_remainingBudget');
+		$this->load->model('projects/model_remainingbudget');
 
-		$remainingBudgetId = $this->input->post('remainingBudgetId');
-		$delete_rB = $this->model_remainingBudget->deleteRecord($remainingBudgetId);
+		$remainingbudgetId = $this->input->post('remainingbudgetId');
+		$delete_rB = $this->model_remainingbudget->deleteRecord($remainingbudgetId);
 
 		print_r(json_encode($delete_rB));
 	}

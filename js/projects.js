@@ -6,7 +6,8 @@ function projects() {
 	this._notes 			= new note();
 	this._docs 				= new docs();
 	this._contractors		= new contractors();		// Contractors
-	this._remainingBudget 	= new remainingBudget();
+	this._partners			= new partners();			// Partners
+	this._remainingbudget 	= new remainingbudget();
 };
 
 projects.prototype.clearRest = function(excludeList) {
@@ -92,9 +93,9 @@ $(document).on("click", function(e) {
 		return;
 	}
 	if(e && e.target && 
-		(e.target.id == "adjusterNameList" || 
-			(e.target.parentElement && e.target.parentElement.id == "adjusterNameList") || 
-			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterNameList")
+		(e.target.id == "partnerNameList" || 
+			(e.target.parentElement && e.target.parentElement.id == "partnerNameList") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "partnerNameList")
 		)
 	) {
 		return;
@@ -105,7 +106,7 @@ $(document).on("click", function(e) {
 	if($(".customer-search-result").length) { 
 		$(".customer-search-result").hide();
 	}
-	if($(".adjuster-search-result").length) { 
-		$(".adjuster-search-result").hide();
+	if($(".partner-search-result").length) { 
+		$(".partner-search-result").hide();
 	}
 });

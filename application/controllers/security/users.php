@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Users extends CI_Controller {
+class Users extends CI_controller {
 
 	public function __construct()
    {
@@ -43,56 +43,47 @@ class Users extends CI_Controller {
 			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs,
 			'belongsTo' 	=> $belongsTo,
-			'popupType' 	=> $popupType
+			'popupType' 	=> $popupType,
+			'belongsToName' => "-NA-",
+			'referredByName'=> "-NA-"
 		);
 
-		echo $this->load->view("security/users/createForm", $params, true);
+		echo $this->load->view("security/users/inputForm", $params, true);
 	}
 
 	public function add() {
 		$this->load->model('security/model_users');
+		$this->load->model('mail/model_mail');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
 
-		$privilege				= ($this->input->post('privilege') == 1 ? 'admin':'user');
-		$firstName 				= $this->input->post('firstName');
-		$lastName 				= $this->input->post('lastName'); 
-		$password 				= $this->input->post('password');
-		$passwordHint 			= $this->input->post('passwordHint');
-		$belongsTo 				= $this->input->post('belongsTo');
-		$contractorId 			= $this->input->post("contractorId");
-		$userStatus 			= $this->input->post('userStatus');
-		$emailId 				= $this->input->post('emailId');
-		$contactPhoneNumber 	= $this->input->post('contactPhoneNumber');
-		$mobileNumber 			= $this->input->post('mobileNumber');
-		$altNumber 				= $this->input->post('altNumber');
-		$primaryContact			= $this->input->post('primaryContact');
-		$prefContact			= $this->input->post('prefContact');
-		$addressLine1 			= $this->input->post('addressLine1');
-		$addressLine2 			= $this->input->post('addressLine2');
-		$city 					= $this->input->post('city');
-		$state 					= $this->input->post('state');
-		$country 				= $this->input->post('country');
-		$pinCode				= $this->input->post('pinCode');
+		$emailId 		= $this->input->post('emailId');
+		$userStatus 	= $this->input->post('userStatus');
+		$referredBy 	= $this->input->post("referredBy");
+		$referredById 	= $this->input->post("referredById");
 
 		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
-				'first_name' 			=> $firstName,
-				'last_name' 			=> $lastName, 
-				'belongs_to' 			=> $belongsTo,
-				'contractorId' 			=> $contractorId,
+				'first_name' 			=> $this->input->post('firstName'),
+				'last_name' 			=> $this->input->post('lastName'), 
+				'belongs_to' 			=> $this->input->post('belongsTo'),
+				'belongs_to_id' 		=> $this->input->post("belongsToId"),
+				'referred_by' 			=> $referredBy,
+				'referred_by_id' 		=> $referredById,
 				'status' 				=> $userStatus,
 				'active_start_date' 	=> date("Y-m-d H:i:s"),
 				'email' 				=> $emailId,
-				'contact_ph1' 			=> $contactPhoneNumber,
-				'contact_mobile' 		=> $mobileNumber,
-				'contact_alt_mobile'	=> $altNumber,
-				'primary_contact'		=> $primaryContact,
-				'addr1' 				=> $addressLine1,
-				'addr2' 				=> $addressLine2,
-				'addr_city' 			=> $city,
-				'addr_state' 			=> $state,
-				'addr_country' 			=> $country,
-				'addr_pin'				=> $pinCode,
-				'contact_pref' 			=> $prefContact,
+				'contact_ph1' 			=> $this->input->post('contactPhoneNumber'),
+				'contact_mobile' 		=> $this->input->post('mobileNumber'),
+				'contact_alt_mobile'	=> $this->input->post('altNumber'),
+				'primary_contact'		=> $this->input->post('primaryContact'),
+				'addr1' 				=> $this->input->post('addressLine1'),
+				'addr2' 				=> $this->input->post('addressLine2'),
+				'addr_city' 			=> $this->input->post('city'),
+				'addr_state' 			=> $this->input->post('state'),
+				'addr_country' 			=> $this->input->post('country'),
+				'addr_pin'				=> $this->input->post('zipCode'),
+				'contact_pref' 			=> $this->input->post('prefContact'),
 				'created_dt' 			=> date("Y-m-d H:i:s"),
 				'last_updated_dt' 		=> date("Y-m-d H:i:s"),
 				'created_by'			=> $this->session->userdata("user_id"),
@@ -103,9 +94,9 @@ class Users extends CI_Controller {
 			if($inserted["status"] == "success") {
 				$loginTableUser_data = array(
 					'user_name' 			=> $emailId, 
-					'password' 				=> md5($password),
-					'password_hint' 		=> $passwordHint,
-					'account_type' 			=> $privilege,
+					'password' 				=> md5($this->input->post('password')),
+					'password_hint' 		=> $this->input->post('passwordHint'),
+					'account_type' 			=> ($this->input->post('privilege') == 1 ? 'admin':'user'),
 					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata("user_id"),
 					'updated_by'			=> $this->session->userdata("user_id"),
@@ -134,12 +125,42 @@ class Users extends CI_Controller {
 			$response["status"] 			= "error";
 			$response["message"] 			= "Email ID already exist";
 		}
+
+		$user_details_record 	= $this->model_users->getUserDetailsBySno($inserted['record']);
+		$user_details 			= $this->model_users->getUsersList($inserted_login["record"]);	
+		$userParamsFormMail = array(
+			'response'				=> $response,
+			'user_details_record'	=> $user_details_record,
+			'user_record' 			=> $user_details
+		);
+		$mail_options = $this->model_mail->generateCreateUserMailOptions( $userParamsFormMail );
+		$this->model_mail->sendMail( $mail_options );
+
+		/*
+			Reference Email
+		*/
+		if(!empty($referredBy) && $referredBy != "customer") {
+			$userReferredByParamsFormMail = array(
+				'response'				=> $response,
+				'user_details_record'	=> $user_details_record,
+				'user_record' 			=> $user_details,
+				'referredBy' 			=> $referredBy
+			);
+			if($referredBy == "contractor") {
+				$userReferredByParamsFormMail['referredByDetails'] = $this->model_contractors->getContractorsList($referredById)["contractors"];
+			} else if( $referredBy == "adjuster") {
+				$userReferredByParamsFormMail['referredByDetails'] = $this->model_partners->getPartnersList($referredById)["parrtners"];
+			}
+			$mail_options = $this->model_mail->generateCreateuserReferredByMailOptions( $userReferredByParamsFormMail );
+			$this->model_mail->sendMail( $mail_options );
+		}
 		print_r(json_encode($response));
 	}
 
 	public function editForm() {
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
 		$this->load->model('utils/model_form_utils');
 
 		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
@@ -147,10 +168,26 @@ class Users extends CI_Controller {
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 
-		$contractorName = "";
-		if(!empty($user_details[0]->contractorId)) {
-			$contractors = $this->model_contractors->getContractorsList($user_details[0]->contractorId);
-			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		$belongsToName = "";
+		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
+			$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->belongs_to_id);
+			$contractors = $contractorsResponse["contractors"];
+			$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
+			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
+			$adjusters 	= $adjustersResponse["partners"];
+			$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
+		}
+
+		$referredByName = "";
+		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
+			$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->referred_by_id);
+			$contractors = $contractorsResponse["contractors"];
+			$referredByName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
+			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->referred_by_id);
+			$adjusters 	= $adjustersResponse["partners"];
+			$referredByName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
 		}
 
 		$addressParams = array(
@@ -159,7 +196,7 @@ class Users extends CI_Controller {
 			'city' 				=> $user_details[0]->addr_city,
 			'country' 			=> $user_details[0]->addr_country,
 			'state'				=> $user_details[0]->addr_state,
-			'pinCode' 			=> $user_details[0]->addr_pin,
+			'zipCode' 			=> $user_details[0]->addr_pin,
 			'forForm' 			=> "update_user_form"
 		);
 
@@ -170,18 +207,20 @@ class Users extends CI_Controller {
 			'viewFrom' 			=> $this->input->post('userId') ? "security" : "home",
 			'users' 			=> $users,
 			'user_details' 		=> $user_details,
-			'contractorName' 	=> $contractorName,
+			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
+			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
 			'addressFile' 		=> $addressFile,
 			'userType' 			=> $this->session->userdata("account_type")
 		);
 		
-		echo $this->load->view("security/users/editForm", $params, true);
+		echo $this->load->view("security/users/inputForm", $params, true);
 	}
 
 	public function update() {
 		$response = array();
 
 		$this->load->model('security/model_users');
+		$this->load->model('mail/model_mail');
 
 		$active_start_date 		= $this->input->post("activeStartDate");
 		$active_end_date 		= $this->input->post("activeEndDate");
@@ -191,7 +230,7 @@ class Users extends CI_Controller {
 		$firstName 				= $this->input->post('firstName');
 		$lastName 				= $this->input->post('lastName'); 
 		$belongsTo 				= $this->input->post('belongsTo');
-		$contractorId 			= $this->input->post("contractorId");
+		$belongsToId 			= $this->input->post("belongsToId");
 		$userStatus 			= $this->input->post('userStatus');
 		$contactPhoneNumber 	= $this->input->post('contactPhoneNumber');
 		$mobileNumber 			= $this->input->post('mobileNumber');
@@ -203,12 +242,17 @@ class Users extends CI_Controller {
 		$city 					= $this->input->post('city');
 		$state 					= $this->input->post('state');
 		$country 				= $this->input->post('country');
-		$pinCode 				= $this->input->post('pinCode');
+		$zipCode 				= $this->input->post('zipCode');
+		$referredBy 			= $this->input->post("referredBy");
+		$referredById 			= $this->input->post("referredById");
 
 		$update_details_data = array(
 			'first_name' 			=> $firstName,
 			'last_name' 			=> $lastName, 
 			'belongs_to' 			=> $belongsTo,
+			'belongs_to_id' 		=> $belongsToId,
+			'referred_by' 			=> $referredBy,
+			'referred_by_id' 		=> $referredById,
 			'status' 				=> $userStatus,
 			'contact_ph1' 			=> $contactPhoneNumber,
 			'contact_mobile' 		=> $mobileNumber,
@@ -220,7 +264,7 @@ class Users extends CI_Controller {
 			'addr_city' 			=> $city,
 			'addr_state' 			=> $state,
 			'addr_country' 			=> $country,
-			'addr_pin'				=> $pinCode,
+			'addr_pin'				=> $zipCode,
 			'last_updated_dt' 		=> date("Y-m-d H:i:s"),
 			'updated_by'			=> $this->session->userdata('user_id')
 		);
@@ -231,12 +275,12 @@ class Users extends CI_Controller {
 		if( $active_end_date != "" )
 			$update_details_data["active_end_date"] = $active_end_date;
 
-		if($contractorId != "") {
-			$update_details_data["contractorId"] = $contractorId;
+		if($belongsTo == "" || $belongsTo == "customer") {
+			$update_details_data["belongs_to_id"] = "";
 		}
 
-		if($belongsTo != "contractor") {
-			$update_details_data["contractorId"] = "";
+		if($referredBy == "" || $referredBy == "customer") {
+			$update_details_data["referred_by_id"] = "";
 		}
 
 		$update_details = $this->model_users->updateDetailsTable($update_details_data, $user_details_record);
@@ -258,6 +302,17 @@ class Users extends CI_Controller {
 			$response["status"]		= "error";
 			$response["message"] 	= "Error while updating the records<br/>".$update["message"]."<br/>".$update_details["message"];
 		}
+
+		$userParamsFormMail = array(
+			'response'				=> $response,
+			'user_details_record'	=> $this->model_users->getUserDetailsBySno($user_details_record),
+			'user_record' 			=> $this->model_users->getUsersList($user_record)
+		);
+
+		$mail_options = $this->model_mail->generateUpdateUserMailOptions( $userParamsFormMail );
+		
+		$this->model_mail->sendMail( $mail_options );
+
 		print_r(json_encode($response));
 	}
 
@@ -285,6 +340,7 @@ class Users extends CI_Controller {
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
 		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
 		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "home";
@@ -293,10 +349,31 @@ class Users extends CI_Controller {
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 		$stateDetails 	= $this->model_form_utils->getCountryStatus($user_details[0]->addr_state);
 
-		$contractorName = "";
-		if(!empty($user_details[0]->contractorId)) {
-			$contractors = $this->model_contractors->getContractorsList($user_details[0]->contractorId);
-			$contractorName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		$belongsToName = "";
+		if(!empty($user_details[0]->belongs_to_id) && !empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to != "customer") {
+			if($user_details[0]->belongs_to == "contractor") {
+				$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->belongs_to_id);
+				$contractors = $contractorsResponse["contractors"];
+				$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+			} else if($user_details[0]->belongs_to == "adjuster") {
+				$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
+				$adjusters 	= $adjustersResponse["partners"];
+				$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
+			}
+		}
+
+		/* User Referred by */
+		$referredByName = "";
+		if(!empty($user_details[0]->referred_by_id) && !empty($user_details[0]->referred_by) && $user_details[0]->referred_by != "customer") {
+			if($user_details[0]->referred_by == "contractor") {
+				$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->referred_by_id);
+				$contractors = $contractorsResponse["contractors"];
+				$referredByName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+			} else if($user_details[0]->referred_by == "adjuster") {
+				$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->referred_by_id);
+				$adjusters 	= $adjustersResponse["partners"];
+				$referredByName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
+			}
 		}
 
 		$addressParams = array(
@@ -305,7 +382,7 @@ class Users extends CI_Controller {
 			'city' 				=> $user_details[0]->addr_city,
 			'country' 			=> $user_details[0]->addr_country,
 			'state'				=> $user_details[0]->addr_state,
-			'pinCode' 			=> $user_details[0]->addr_pin,
+			'zipCode' 			=> $user_details[0]->addr_pin,
 			'requestFrom' 		=> 'view'
 		);
 
@@ -319,7 +396,8 @@ class Users extends CI_Controller {
 			'state' 			=> $stateDetails,
 			'userType' 			=> $this->session->userdata("account_type"),
 			'addressFile' 		=> $addressFile,
-			'contractorName' 	=> $contractorName
+			'belongsToName' 	=> !empty($belongsToName) ? $belongsToName : "-NA-",
+			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-"
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);

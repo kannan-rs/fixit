@@ -2,23 +2,23 @@
 
 class Model_notes extends CI_Model {
 	public function getNotesList($projectId = "", $taskId = 0, $noteId, $startRecord = 0, $count) {
+		$countWhereStr = "";
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
+			$countWhereStr .= " where project_id = ".$projectId;
 		} else {
 			return [];
 		}
 
 		if(isset($taskId) && !is_null($taskId) && $taskId != "") {
 			$this->db->where('task_id', $taskId);
+			$countWhereStr .= (count($countWhereStr) ? " AND " : " where")." task_id = ".$taskId;
 		}
 
 		if(isset($noteId) && !is_null($noteId) && $noteId != "" && $noteId != 0) {
 			$this->db->where('notes_id', $noteId);
+			$countWhereStr .= (count($countWhereStr) ? " AND " : " where")." notes_id = ".$noteId;
 		}
-		
-		//if($count && $startRecord && $count != "All") {
-		//	$this->db->limit($count, $startRecord);
-		//}
 
 		$this->db->select([
 				"*", 
@@ -28,14 +28,27 @@ class Model_notes extends CI_Model {
 				"updated_date"
 			]);
 		$this->db->order_by("created_date", "asc");
-
-		//print_r($this->db);
-
 		$query = $this->db->from('project_notes')->get();
-		
-		$project_notes = $query->result();
+		$notesResult = $query->result();
 
-		return $project_notes;
+		// Count
+		$countQueryStr 	= "SELECT COUNT(*) as count FROM `project_notes`".$countWhereStr;
+		$countQuery 	= $this->db->query($countQueryStr);
+		$countResult	= $countQuery->result();
+
+		$response = array();
+		
+		$response["count"] 			= $countResult;
+		if($notesResult) {
+			$response["status"] 		= "success";
+			$response["notes"] 			= $notesResult;
+		} else {
+			$response["status"] 		= "error";
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+		
+		return $response;
 	}
 
 	public function insert($data) {

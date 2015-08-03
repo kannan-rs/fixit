@@ -1,13 +1,13 @@
 <?php
 class Model_docs extends CI_Model {
 	public function getDocsList($projectId = "", $startRecord = 0, $count= 10) {
+		$countWhereStr = "";
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
-			$this->db->where('project_id', $projectId);	
+			$this->db->where('project_id', $projectId);
+			$countWhereStr .= " where project_id = ".$projectId;
 		} else {
 			return [];
 		}
-
-		//$this->db->limit($count, $startRecord);
 
 		$this->db->select([
 				"*", 
@@ -17,12 +17,28 @@ class Model_docs extends CI_Model {
 				"updated_on"
 			]);
 		$this->db->order_by("created_on", "asc");
-
 		$query = $this->db->from('project_docs')->get();
-		
-		$project_docs = $query->result();
+		$docsResult = $query->result();
 
-		return $project_docs;	
+		// Count
+		$countQueryStr 	= "SELECT COUNT(*) as count FROM `project_docs`".$countWhereStr;
+		$countQuery 	= $this->db->query($countQueryStr);
+		$countResult	= $countQuery->result();
+
+		//return $project_docs;	
+		$response = array();
+		
+		$response["count"] 			= $countResult;
+		if($docsResult) {
+			$response["status"] 		= "success";
+			$response["docs"] 			= $docsResult;
+		} else {
+			$response["status"] 		= "error";
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+		
+		return $response;
 	}
 
 	public function getDocById($docId = "") {
@@ -38,7 +54,7 @@ class Model_docs extends CI_Model {
 		
 		$project_docs = $query->result();
 
-		return $project_docs;	
+		return $project_docs;
 	}
 
 	public function insert($data) {

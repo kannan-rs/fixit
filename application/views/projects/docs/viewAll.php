@@ -1,15 +1,6 @@
+<input type="hidden" id="docsCount" value="<?php echo $count[0]->count; ?>" />
 <?php
 if(count($project_docs) > 0) {
-	if($startRecord == 0) {
-?>
-<!--<div class="create-link">
-	<?php echo $internalLink; ?>
-</div>
-<?php echo $projectNameDescr; ?>
-<h2>Project Documents</h3>
--->
-<?php
-}
 ?>
 <div class="docs_list">
 	<!-- List all the Functions from database -->

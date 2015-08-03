@@ -1,10 +1,10 @@
 /* Utils JS */
-function formUtils() {
+function utils() {
 }
 
-formUtils.prototype.state = [];
+utils.prototype.state = [];
 
-formUtils.prototype.getAndSetCountryStatus =  function(moduleId) {
+utils.prototype.getAndSetCountryStatus =  function(moduleId) {
 	$.ajax({
 		method: "POST",
 		url: "/utils/formUtils/getCountryStatus",
@@ -12,14 +12,14 @@ formUtils.prototype.getAndSetCountryStatus =  function(moduleId) {
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
-				formUtilObj.state = response["state"];
+				utilObj.state = response["state"];
 				var country = [];
-				for(var i =0 ; i < formUtilObj.state.length; i++) {
-					if(country.indexOf(formUtilObj.state[i].country) < 0) {
-						country.push(formUtilObj.state[i].country);
+				for(var i =0 ; i < utilObj.state.length; i++) {
+					if(country.indexOf(utilObj.state[i].country) < 0) {
+						country.push(utilObj.state[i].country);
 						$('#'+moduleId+" #country").append($('<option>', {
-						    value: formUtilObj.state[i].country,
-						    text: formUtilObj.state[i].country
+						    value: utilObj.state[i].country,
+						    text: utilObj.state[i].country
 						}));
 					}
 
@@ -27,7 +27,7 @@ formUtils.prototype.getAndSetCountryStatus =  function(moduleId) {
 			} else {
 				alert(response.message);
 			}
-			formUtilObj.setCountryStateOfDb( moduleId );
+			utilObj.setCountryStateOfDb( moduleId );
 		},
 		error: function( error ) {
 			error = error;
@@ -38,7 +38,7 @@ formUtils.prototype.getAndSetCountryStatus =  function(moduleId) {
 	});
 }
 
-formUtils.prototype.populateState = function( country, moduleId ) {
+utils.prototype.populateState = function( country, moduleId ) {
 	$('#'+moduleId+" #state").html("");
 	
 	$('#'+moduleId+" #state").append($('<option>', {
@@ -46,18 +46,18 @@ formUtils.prototype.populateState = function( country, moduleId ) {
 	    text: "--Select State--"
 	}));
 
-	for(var i =0 ; i < formUtilObj.state.length; i++) {
-		if(formUtilObj.state[i].country == country) {
+	for(var i =0 ; i < utilObj.state.length; i++) {
+		if(utilObj.state[i].country == country) {
 			$('#'+moduleId+" #state").append($('<option>', {
-			    'value': formUtilObj.state[i].abbreviation,
-			    'text': formUtilObj.state[i].name,
-			    'class': formUtilObj.state[i].country
+			    'value': utilObj.state[i].abbreviation,
+			    'text': utilObj.state[i].name,
+			    'class': utilObj.state[i].country
 			}));
 		}
 	}
 }
 
-formUtils.prototype.setCountryStateOfDb = function( moduleId ) {
+utils.prototype.setCountryStateOfDb = function( moduleId ) {
 	var country = $("#countryDbVal").val();
 	var state = $("#stateDbVal").val();
 
@@ -72,7 +72,7 @@ formUtils.prototype.setCountryStateOfDb = function( moduleId ) {
 	}
 }
 
-formUtils.prototype.createContractorOptionsList = function(contractors) {
+utils.prototype.createContractorOptionsList = function(contractors) {
 	var excludeList 	= !contractors.excludeList ? [] : contractors.excludeList;
 	var css 			= {
 							"selectedList" 		: {"li" : "ui-state-highlight", "symbol" : "ui-icon ui-icon-minus" }, 
@@ -96,7 +96,7 @@ formUtils.prototype.createContractorOptionsList = function(contractors) {
 	}
 }
 
-formUtils.prototype.getCustomerList = function() {
+utils.prototype.getCustomerList = function() {
 	var customer = $.ajax({
 		method: "POST",
 		url: "/utils/formUtils/getCustomerList",
@@ -107,7 +107,7 @@ formUtils.prototype.getCustomerList = function() {
 }
 
 
-formUtils.prototype.getAdjusterList = function() {
+utils.prototype.getAdjusterList = function() {
 	var adjuster = $.ajax({
 		method: "POST",
 		url: "/utils/formUtils/getAdjusterList",
@@ -117,7 +117,7 @@ formUtils.prototype.getAdjusterList = function() {
 	return adjuster;
 }
 
-formUtils.prototype.setCustomerDataList = function() {
+utils.prototype.setCustomerDataList = function() {
 	var response = this.getCustomerList();
 	var responseObj = $.parseJSON(response);
 	var customer = [];
@@ -139,7 +139,7 @@ formUtils.prototype.setCustomerDataList = function() {
 	this.setSearchList(searchList);
 }
 
-formUtils.prototype.setAdjusterDataList = function(){
+utils.prototype.setAdjusterDataList = function(){
 	var response = this.getAdjusterList();
 	var responseObj = $.parseJSON(response);
 	var adjuster = [];
@@ -160,7 +160,7 @@ formUtils.prototype.setAdjusterDataList = function(){
 	this.setSearchList(searchList);
 }
 
-formUtils.prototype.setSearchList = function ( searchList ) {
+utils.prototype.setSearchList = function ( searchList ) {
 	var excludeList 	= !searchList.excludeList ? [] : searchList.excludeList;
 	var css 			= {
 							"searchList"		: {"li" : "ui-state-default" },
@@ -194,7 +194,7 @@ formUtils.prototype.setSearchList = function ( searchList ) {
 	}
 }
 
-formUtils.prototype.setAsDateFields = function(options) {
+utils.prototype.setAsDateFields = function(options) {
 	$( "#"+options.dateField ).datepicker( {
 		showAnim		: "fadeIn",
 		dateFormat 		: "mm/dd/y"
@@ -208,7 +208,7 @@ formUtils.prototype.setAsDateFields = function(options) {
 		numberOfMonths	: Int 		<Number of month to show> / Default "3" [optional]
 	}
 */
-formUtils.prototype.setAsDateRangeFields = function(options) {
+utils.prototype.setAsDateRangeFields = function(options) {
 	var numberOfMonths = options.numberOfMonths ? options.numberOfMonths : 3;
 	$(function() {
 		$( "#"+options.fromDateField ).datepicker({
@@ -239,7 +239,7 @@ formUtils.prototype.setAsDateRangeFields = function(options) {
 /*
 	Convert from "mm/dd/yy" to "yyyy-mm-dd"
 */
-formUtils.prototype.toMySqlDateFormat = function( dateStr ) {
+utils.prototype.toMySqlDateFormat = function( dateStr ) {
 	var dateStrArr 		= dateStr.split("/");
 	var month 		= dateStrArr[0];
 	var date 		= dateStrArr[1];
@@ -250,10 +250,18 @@ formUtils.prototype.toMySqlDateFormat = function( dateStr ) {
 /*
 	Convert from "yyyy-mm-dd" to "mm/dd/yy"
 */
-formUtils.prototype.toDisplayDateFormat = function( dateStr ) {
+utils.prototype.toDisplayDateFormat = function( dateStr ) {
 	var dateStrArr 		= dateStr.split("-");
 	var year 		= dateStrArr[0].substr(2,2);
 	var month 		= dateStrArr[1];
 	var date 		= dateStrArr[2];
 	return (month+"/"+date+"/"+year);
+}
+
+/*
+	Number display formatting. Adding "," to seperate numbers
+	US 		: 4,231,546.44
+*/
+utils.prototype.toDisplayNumberFormat = function( number ) {
+	return number.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

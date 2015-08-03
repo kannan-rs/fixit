@@ -7,11 +7,12 @@
 <h2><?php echo $heading; ?></h2>
 <form id="update_user_form" name="update_user_form">
 	<div class='form'>
+		<!-- 
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
 		<input type="hidden" id='userId' value="<?php echo $users[0]->sno; ?>" />
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details[0]->primary_contact; ?>">
 		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details[0]->contact_pref; ?>">
-
+ 		-->
 		<?php if($userType == "admin" && $viewFrom == "security") { ?>
 		<div class="label">Privilege:</div>
 		<div>
@@ -34,15 +35,18 @@
 		<div class="label">User Belongs To:</div>
 		<div>
 			<input type="hidden" name="belongsToDb" id="belongsToDb" value="<?php echo $user_details[0]->belongs_to; ?>">
-			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showContractor(this.value)" <?php } ?>>
+			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption(this.value)" <?php } ?>>
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
 				<option value="adjuster">Adjuster</option>
 			</select>
-			<?php if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") { 
-				echo "<span id=\"selectedContractorDB\">".$contractorName."</span>";
-			}
+			<?php 
+			if(!empty($user_details[0]->belongs_to)) {
+				if( $user_details[0]->belongs_to == "contractor") { 
+					echo "<span id=\"selectedContractorDB\">".$contractorName."</span>";
+				}
+			} 
 			?>
 		</div>
 		<?php if($userType == "admin") { ?>
@@ -50,7 +54,7 @@
 			<div class="label">Search Contractor By Zip Code and Select</div>
 			<div>
 				<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
-				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip()"></span>
+				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
 			</div>
 			<div class="contractor-result">
 				<DIV class="label">&nbsp;</DIV>
@@ -59,6 +63,22 @@
 				</DIV>
 			</div>
 		</DIV>
+
+		<!-- Adjuster Search and search results -->
+		<DIV class="adjuster-search">
+			<div class="label">Search Adjuster By Company Name and Select</div>
+			<div>
+				<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="adjuster Company Name">
+				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
+			</div>
+			<div class="adjuster-result">
+				<DIV class="label">&nbsp;</DIV>
+				<DIV>
+					<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
+				</DIV>
+			</div>
+		</DIV>
+
 		<div class="label">User Status:</div>
 		<div>
 			<input type="hidden" name="userStatusDb" id="userStatusDb" value="<?php echo $user_details[0]->status; ?>">

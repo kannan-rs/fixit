@@ -20,7 +20,7 @@
 		</DIV>
 		<DIV class="label">User Belongs To:</DIV>
 		<DIV>
-			<select name="belongsTo" id="belongsTo" onchange="homeObj.showContractor(this.value)">
+			<select name="belongsTo" id="belongsTo" onchange="homeObj.showBelongsToOption(this.value)">
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
@@ -127,7 +127,7 @@
 		</DIV>
 		<DIV class="label">Country:</DIV>
 		<DIV>
-			<select name="country" id="country" required onchange="formUtilObj.populateState(this.value, 'state');">
+			<select name="country" id="country" required onchange="utilObj.populateState(this.value, 'state');">
 				<option value="">--Select Country--</option>
 			</select>
 		</DIV>
@@ -139,7 +139,7 @@
 		</DIV>
 		<DIV class="label">Pin Code:</DIV>
 		<DIV>
-			<input type="text" name="pinCode" id="pinCode" value="" placeholder="Pin Code" required>
+			<input type="text" name="zipCode" id="zipCode" value="" placeholder="Pin Code" required>
 		</DIV> -->
 		<p class="button-panel">
 			<button type="button" id="signup_user_submit" onclick="homeObj.signupValidate()">Signup</button>

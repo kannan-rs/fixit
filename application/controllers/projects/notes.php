@@ -31,13 +31,13 @@ class Notes extends CI_Controller {
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		$count 				= $count != "" ? $count : 5;
 
-		$project_notes 		= $this->model_notes->getNotesList($projectId, $taskId, $noteId, $startRecord, $count);
+		$projectNotesResponse 		= $this->model_notes->getNotesList($projectId, $taskId, $noteId, $startRecord, $count);
 
 		$count 				= $this->model_notes->count($projectId, $taskId);
 
-		for($i=0; $i < count($project_notes); $i++) {
-			$project_notes[$i]->created_by_name = $this->model_users->getUsersList($project_notes[$i]->created_by)[0]->user_name;
-			$project_notes[$i]->updated_by_name = $this->model_users->getUsersList($project_notes[$i]->updated_by)[0]->user_name;
+		for($i=0; $i < count($projectNotesResponse["notes"]); $i++) {
+			$projectNotesResponse["notes"][$i]->created_by_name = $this->model_users->getUsersList($projectNotesResponse["notes"][$i]->created_by)[0]->user_name;
+			$projectNotesResponse["notes"][$i]->updated_by_name = $this->model_users->getUsersList($projectNotesResponse["notes"][$i]->updated_by)[0]->user_name;
 		}
 
 		$project 			= $this->model_projects->getProjectsList($projectId);
@@ -57,11 +57,11 @@ class Notes extends CI_Controller {
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";	
 
 		$params = array(
-			'project_notes' 	=> $project_notes,
+			'project_notes' 	=> isset($projectNotesResponse["notes"]) ? $projectNotesResponse["notes"] : [],
+			'count' 			=> $projectNotesResponse["count"],
 			'startRecord' 		=> $startRecord,
 			'projectId' 		=> $projectId,
 			'taskId' 			=> $taskId,
-			'count' 			=> $count,
 			'projectNameDescr' 	=> $projectNameDescr,
 			'internalLink' 		=> $internalLink,
 			'viewFor' 			=> $viewFor

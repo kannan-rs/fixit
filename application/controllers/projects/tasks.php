@@ -15,25 +15,28 @@ class Tasks extends CI_Controller {
 	}
 
 	public function viewAll() {
+		$contractors = array();
 		$this->load->model('projects/model_tasks');
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_contractors');
+		$this->load->model('security/model_users');
 
 		$projectId 	= $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
-
 		$viewFor = $viewFor ? $viewFor : "";
 
-		$project = $this->model_projects->getProjectsList($projectId);
-		
-		$tasks = $this->model_tasks->getTasksList($projectId);
+		$project 			= $this->model_projects->getProjectsList($projectId);
+		$customerDetails 	= $this->model_users->getUserDetailsBySno($project[0]->customer_id);
+		$customerName 		= isset($customerDetails) && count($customerDetails) ? $customerDetails[0]->first_name." ".$customerDetails[0]->last_name : "-NA-";
 
-		$contractorIds = explode(",", $project[0]->contractor_id);
 
-		//$contractorDB 	= $this->model_contractors->getContractorsList($contractorIds);
+		$tasksResponse 	= $this->model_tasks->getTasksList($projectId);
+
+		$contractorIds 			= explode(",", $project[0]->contractor_id);
 		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
-		$contractorDB 	= $contractorsResponse["contractors"];
+		$contractorDB 			= $contractorsResponse["contractors"];
 
+		
 		for($i = 0; $i < count($contractorDB); $i++) {
 			$contractors[$contractorDB[$i]->id] = $contractorDB[$i];
 		}
@@ -53,12 +56,15 @@ class Tasks extends CI_Controller {
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
 		$params = array(
-			'tasks' 			=>$tasks,
+			'tasks' 			=> isset($tasksResponse["tasks"]) ? $tasksResponse["tasks"] : [],
+			'count' 			=> $tasksResponse["count"],
 			'projectId' 		=> $projectId,
 			'viewFor' 			=> $viewFor,
 			'projectNameDescr' 	=> $projectNameDescr,
 			'internalLink' 		=> $internalLink,
-			'contractors' 		=> $contractors
+			'contractors' 		=> $contractors,
+			'project_details'	=> $project,
+			'customerName' 		=> $customerName
 		);
 		
 		echo $this->load->view("projects/tasks/viewAll", $params, true);

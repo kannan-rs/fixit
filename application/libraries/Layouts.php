@@ -20,7 +20,7 @@ class Layouts
 				"js/themes/default/layouts.js",
 				"js/home.js",
 				"js/submit.js",
-				"js/utils/formUtils.js",
+				"js/utils/utils.js",
 			),
 			'security' => array(
 				"js/security/users.js",
@@ -59,7 +59,7 @@ class Layouts
 				"js/library/plugin/searchSelect-Jquery.js",
 				"js/themes/default/layouts.js",
 				"js/submit.js",
-				"js/utils/formUtils.js",
+				"js/utils/utils.js",
 				"js/security/users.js",
 				"js/security/operations.js",
 				"js/security/roles.js",
@@ -72,7 +72,8 @@ class Layouts
 				"js/projects/notes.js",
 				"js/projects/docs.js",
 				"js/projects/contractors.js",
-				"js/projects/remainingBudget.js",
+				"js/projects/partners.js",
+				"js/projects/remainingbudget.js",
 				"js/projects.js",
 				'js/home/userInfo.js',
 				"js/home.js",
@@ -108,6 +109,8 @@ class Layouts
 			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
 			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
 			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractor'),
+			array('text' => 'Partners', 'link'=> '/main/projects/partners', 'key' => 'partners'),
+			array('text' => 'Create Partner', 'link'=> '/main/projects/create_partner', 'key' => 'create_partners')
 		)
 	);
 
@@ -218,7 +221,7 @@ class Layouts
 				);
 				$addressFile 							= $this->CI->load->view("forms/address", $addressParams, true);
 				$this->layout_data['addressFile']		= $addressFile;
-				$this->layout_data['main_content']		= $this->CI->load->view("security/users/createForm", $this->layout_data, true);
+				$this->layout_data['main_content']		= $this->CI->load->view("security/users/inputForm", $this->layout_data, true);
 			} else {
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
 			}
