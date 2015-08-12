@@ -3,6 +3,7 @@
 class Model_tasks extends CI_Model {
 	public function getTasksList($parentId = "") {
 		$whereStr = "";
+		$this->db->where('deleted', '0');
 		if(isset($parentId) && !is_null($parentId) && $parentId != "") {
 			$this->db->where('project_id', $parentId);
 			$whereStr .= " where project_id = ".$parentId;
@@ -45,6 +46,7 @@ class Model_tasks extends CI_Model {
 	}
 
 	public function getTask($record = "") {
+		$this->db->where('deleted', '0');
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('task_id', $record);	
 		}
@@ -107,8 +109,12 @@ class Model_tasks extends CI_Model {
 		);
 		if($task_id && $task_id!= "") {
 			$this->db->where('task_id', $task_id);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
 			
-			if($this->db->delete('project_details')) {
+			if($this->db->update('project_details', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Task Deleted Successfully";
 			} else {

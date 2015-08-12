@@ -1,6 +1,6 @@
 <!-- Add Role Start -->
 <h2>Create Role</h2>
-	<form id="create_role_form" name="create_role_form">
+	<form id="create_role_form" name="create_role_form" class="inputForm">
 	<div class='form'>
 		<div class="label">Role ID:</div>
 		<div><input type="text" name="roleId" id="roleId" value="" required></div>

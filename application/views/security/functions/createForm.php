@@ -1,6 +1,6 @@
 <!-- Add Function Start -->
 <h2>Create Function</h2>
-	<form id="create_function_form" name="create_function_form">
+	<form id="create_function_form" name="create_function_form" class="inputForm">
 	<div class='form'>
 		<div class="label">Function ID:</div>
 		<div><input type="text" name="functionId" id="functionId" value="" required></div>		

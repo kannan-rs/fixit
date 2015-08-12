@@ -17,12 +17,15 @@ class Partners extends CI_Controller {
 	public function getList() {
 		$this->load->model('projects/model_partners');
 
+		$companyName 	= explode(",", $this->input->post("companyName"));
+		$name 			= explode(",", $this->input->post("name"));
+
 		$records = [];
 		if($this->input->post("records")) {
 			$records = explode(",", $this->input->post("records"));
 		}
 
-		$partnersResponse = $this->model_partners->getPartnersList( $records );
+		$partnersResponse = $this->model_partners->getPartnersList( $records, $companyName, $name);
 
 		print_r(json_encode($partnersResponse));
 	}

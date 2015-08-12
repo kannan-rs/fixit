@@ -13,22 +13,22 @@
 <?php
 	}
 ?>
-<form id="update_task_form" name="update_task_form">
+<form id="update_task_form" name="update_task_form" class="inputForm">
 	<input type="hidden" id='task_sno' value="<?php echo $tasks[$i]->task_id; ?>" />
 	<input type="hidden" id='projectId' value="<?php echo $tasks[$i]->project_id; ?>" />
 	<div class='form'>
 		<div class="label">Task Title:</div>
-		<div><input type="text" name="task_name" id="task_name" value="<?php echo $tasks[$i]->task_name; ?>"></div>
+		<div><input type="text" name="task_name" id="task_name" value="<?php echo $tasks[$i]->task_name; ?>" required></div>
 		<div class="label">Description</div>
-		<div><textarea rows="6" cols="30" name="task_desc" id="task_desc" ><?php echo $tasks[$i]->task_desc; ?></textarea></div>
+		<div><textarea rows="6" cols="30" name="task_desc" id="task_desc" required><?php echo $tasks[$i]->task_desc; ?></textarea></div>
 		<div class="label">Start Date:</div>
-		<div><input type="text" name="task_start_date" id="task_start_date" value="<?php echo $tasks[$i]->task_start_date_for_view; ?>" ></div>
+		<div><input type="text" name="task_start_date" id="task_start_date" value="<?php echo $tasks[$i]->task_start_date_for_view; ?>" required></div>
 		<div class="label">End Date:</div>
-		<div><input type="text" name="task_end_date" id="task_end_date" value="<?php echo $tasks[$i]->task_end_date_for_view; ?>" ></div>
+		<div><input type="text" name="task_end_date" id="task_end_date" value="<?php echo $tasks[$i]->task_end_date_for_view; ?>" required></div>
 		<div class="label">Status:</div>
 		<div>
 			<input type="hidden" name="db_task_status" id="db_task_status" value="<?php echo $tasks[$i]->task_status; ?>">
-			<select name="task_status" id="task_status"  onchange="projectObj._tasks.setPercentage(this.value)">
+			<select name="task_status" id="task_status"  onchange="projectObj._tasks.setPercentage(this.value)" required>
 				<option value="">--Select Task Status--</option>
 				<option value="task created">Task Created</option>
 				<option value="not assigned">Not Assigned</option>
@@ -38,15 +38,15 @@
 			</select>
 		</div>
 		<div class="label">% Complete:</div>
-		<div><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" defaultValue="<?php echo $tasks[$i]->task_percent_complete; ?>" value="<?php echo $tasks[$i]->task_percent_complete; ?>"></div>
-		<div class="label">Choose Owner:</div>
+		<div><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" defaultValue="<?php echo $tasks[$i]->task_percent_complete; ?>" value="<?php echo $tasks[$i]->task_percent_complete; ?>" required></div>
+		<div class="label notMandatory">Choose Owner:</div>
 		<div>
 			<input type="hidden" name="taskOwnerIdDb" id="taskOwnerIdDb" value="<?php echo $tasks[$i]->task_owner_id; ?>">
 			<ul id="ownerSearchResult" class="connectedSortable owner-search-result"></ul>
 		</div>
-		<div class="label">Dependency:</div>
+		<div class="label notMandatory">Dependency:</div>
 		<div><input type="text" name="task_dependency" id="task_dependency" value="<?php echo $tasks[$i]->task_dependency; ?>"></div>
-		<div class="label">Trade Type:</div>
+		<div class="label notMandatory">Trade Type:</div>
 		<div><input type="text" name="task_trade_type" id="task_trade_type" value="<?php echo $tasks[$i]->task_trade_type; ?>"></div>
 		<p class="button-panel">
 			<button type="button" id="update_task_submit" onclick="<?php echo $updateFn; ?>">Update Task</button>

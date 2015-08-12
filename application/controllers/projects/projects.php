@@ -66,7 +66,7 @@ class Projects extends CI_Controller {
 			'userType' 		=> $this->session->userdata('account_type')
 		);
 
-		echo $this->load->view("projects/projects/createForm", $params, true);
+		echo $this->load->view("projects/projects/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -151,7 +151,7 @@ class Projects extends CI_Controller {
 			'addressFile' 		=> $addressFile,
 		);
 		
-		echo $this->load->view("projects/projects/editForm", $params, true);
+		echo $this->load->view("projects/projects/inputForm", $params, true);
 	}
 
 	public function update() {
@@ -234,6 +234,7 @@ class Projects extends CI_Controller {
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
 		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
 		$this->load->model('projects/model_remainingbudget');
 
 		$projectId = $this->input->post('projectId');
@@ -245,6 +246,7 @@ class Projects extends CI_Controller {
 		$end_date		= "";
 		$percentage 	= "";
 		$contractors 	= "";
+		$partners 	= "";
 		$customerFile 	= "";
 
 		// Individual View
@@ -275,6 +277,14 @@ class Projects extends CI_Controller {
 			$contractorIdArr = explode(",", $project->contractor_id);
 			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
 			 $contractors = $contractorsResponse["contractors"];
+		}
+
+		// Partners Name
+		$project->partnerName = "-- Not Provided --";
+		if($project->adjuster_id != "") {
+			$partnerIdArr = explode(",", $project->adjuster_id);
+			$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+			 $partners = $partnersResponse["partners"];
 		}
 
 		//Paid From budget
@@ -329,6 +339,7 @@ class Projects extends CI_Controller {
 			'userType' 			=> $this->session->userdata('account_type'),
 			'projectId' 		=> $projectId,
 			'contractors' 		=> $contractors,
+			'partners' 			=> $partners,
 			'customerFile' 		=> $customerFile,
 			'addressFile' 		=> $this->load->view("forms/address", $addressParams, true),
 			'projectBudgetFile' =>  $this->load->view("projects/projects/projectBudget.php", $budgetParams, true)

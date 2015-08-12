@@ -23,32 +23,32 @@
 		<input type="hidden" name="viewonly" value="true">
 		
 		<div class='label'>Privilege</div>
-		<div><?php echo $users->account_type; ?></div>
+		<div class="capitalize"><?php echo $users->account_type; ?></div>
 		
 		<div class="label">First Name:</div>
-		<div><?php echo $user_details->first_name; ?></div>
+		<div class="capitalize"><?php echo $user_details->first_name; ?></div>
 		
 		<div class="label">Last Name:</div>
-		<div><?php echo $user_details->last_name; ?></div>
+		<div class="capitalize"><?php echo $user_details->last_name; ?></div>
 		
 		<div class="label">User Belongs To:</div>
-		<div><?php echo $user_details->belongs_to; ?></div>
+		<div class="capitalize"><?php echo !empty($user_details->belongs_to) ? $user_details->belongs_to : "-NA-"; ?></div>
 		<?php 
 			if($user_details->belongs_to == "contractor") { 
 		?>
 			<div class="label">Contractor Company:</div>
-			<div><?php echo $belongsToName; ?></div>
+			<div class="capitalize"><?php echo $belongsToName; ?></div>
 		<?php 
 			} else if($user_details->belongs_to == "adjuster") {
 		?>
 			<div class="label">Adjuster Company:</div>
-			<div><?php echo $belongsToName; ?></div>
+			<div class="capitalize"><?php echo $belongsToName; ?></div>
 		<?php
 			}
 		?>
 		
 		<div class="label">User Status:</div>
-		<div><?php echo $user_details->status; ?></div>
+		<div class="capitalize"><?php echo $user_details->status; ?></div>
 		
 		<div class="label">Active Start Date:</div>
 		<div><?php echo explode(" ",$user_details->active_start_date)[0]; ?></div>

@@ -122,7 +122,8 @@ securityUsers.prototype.createForm = function( options ) {
 					projectObj._projects.openDialog({"title" : "Add Customer"}, popupType);
 				}
 			}
-			securityObj._users.setStatus();
+			//securityObj._users.setStatus();
+			utilObj.setStatus("userStatus", "userStatusDb");
 			securityObj._users.showBelongsToOption();
 			securityObj._users.showreferredByOption();
 			utilObj.getAndSetCountryStatus("create_user_form");
@@ -254,7 +255,8 @@ securityUsers.prototype.editUser = function(userId) {
 			securityObj._users.setPrefContact();
 			securityObj._users.setBelongsTo();
 			securityObj._users.setPrivilege();
-			securityObj._users.setStatus();
+			//securityObj._users.setStatus();
+			utilObj.setStatus("userStatus", "userStatusDb");
 			securityObj._users.setreferredBy();
 			
 			securityObj._users.showBelongsToOption();
@@ -485,15 +487,6 @@ securityUsers.prototype.setPrivilege = function() {
 		} else if($("#privilege_db_val").val() == "user") {
 			$("#privilege").val("2")
 		}
-	}
-}
-
-securityUsers.prototype.setStatus = function() {
-	var status = $("#userStatusDb").val();
-	if(typeof(status) != "undefined" && status != "" && $("#userStatus").length) {
-		$("#userStatus").val(status);
-	} else {
-		$("#userStatus").val("active");
 	}
 }
 

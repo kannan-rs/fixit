@@ -2,7 +2,7 @@
 
 class Model_partners extends CI_Model {
 	
-	public function getPartnersList($record = "", $companyNmae = "") {
+	public function getPartnersList($record = "", $companyNmae = "", $name = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			if(is_array($record)) {
 				for($i = 0; $i < count($record); $i++) {
@@ -16,10 +16,24 @@ class Model_partners extends CI_Model {
 		if(isset($companyNmae) && !is_null($companyNmae) && $companyNmae != "") {
 			if(is_array($companyNmae)) {
 				for($i = 0; $i < count($companyNmae); $i++) {
-					$this->db->or_like('company_name', $companyNmae[$i]);	
+					if(!empty($companyNmae[$i])) {
+						$this->db->or_like('company_name', $companyNmae[$i]);	
+					}
 				}
-			} else {
+			} else if(!empty($companyNmae)) {
 				$this->db->or_like('company_name', $companyNmae);
+			}
+		}
+
+		if(isset($name) && !is_null($name) && $name != "") {
+			if(is_array($name)) {
+				for($i = 0; $i < count($name); $i++) {
+					if(!empty($name[$i])) {
+						$this->db->or_like('name', $name[$i]);
+					}
+				}
+			} else if(!empty($name)) {
+				$this->db->or_like('name', $name);
 			}
 		}
 
@@ -30,6 +44,7 @@ class Model_partners extends CI_Model {
 				"created_on",
 				"updated_on"
 			]);
+
 		$query = $this->db->from('partner')->get();
 
 		

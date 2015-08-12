@@ -2,7 +2,7 @@
 $i = 0;
 ?>
 <h2>Edit Operation</h2>
-<form id="update_operation_form" name="update_operation_form">
+<form id="update_operation_form" name="update_operation_form" class="inputForm">
 	<input type="hidden" id='ope_sno' value="<?php echo $operations[$i]->sno; ?>" />
 	<div class='form'>
 		<div class="label">Operation Id</div>

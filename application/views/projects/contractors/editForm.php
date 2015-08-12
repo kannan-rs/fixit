@@ -14,15 +14,15 @@
 		</div>
 		<div class="label">Type</div>
 		<div>
-			<input type="text" name="type" id="type" value="<?php echo $contractor->type;?>" placeholder="Contractor Type">
+			<input type="text" name="type" id="type" value="<?php echo $contractor->type;?>" placeholder="Contractor Type" required>
 		</div>
 		<div class="label">License</div>
 		<div>
-			<input type="text" name="license" id="license" value="<?php echo $contractor->license;?>" placeholder="Contractor License">
+			<input type="text" name="license" id="license" value="<?php echo $contractor->license;?>" placeholder="Contractor License" required>
 		</div>
 		<div class="label">BBB</div>
 		<div>
-			<input type="text" name="bbb" id="bbb" value="<?php echo $contractor->bbb;?>" placeholder="BBB">
+			<input type="text" name="bbb" id="bbb" value="<?php echo $contractor->bbb;?>" placeholder="BBB" required>
 		</div>
 		<div class="label">Status</div>
 		<div>

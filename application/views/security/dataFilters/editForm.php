@@ -3,7 +3,7 @@
 	$i = 0;
 ?>
 <h2>Edit Data Filter</h2>
-<form id="update_dataFilter_form" name="update_dataFilter_form">
+<form id="update_dataFilter_form" name="update_dataFilter_form" class="inputForm">
 	<input type="hidden" id='dataFilter_sno' value="<?php echo $dataFilters[$i]->sno; ?>" />
 	<div class='form'>
 			<div class="label">Data Filter Id</div>

@@ -6,6 +6,7 @@ function project() {
 };
 
 project.prototype.selectedContractor = [];
+project.prototype.selectedAdjuster = [];
 /**
 	Create Project Validation
 */
@@ -50,6 +51,7 @@ project.prototype.createForm = function() {
 			$("#project_content").html(response);
 			projectObj._projects.setMandatoryFields();
 			projectObj._projects.hideContractorDetails('all');
+			projectObj._projects.hideAdjusterDetails('all');
 			projectObj._projects.hideDropDowns();
 			utilObj.setCustomerDataList();
 			utilObj.setAdjusterDataList();
@@ -77,7 +79,7 @@ project.prototype.createSubmit = function() {
 	var project_budget			= $(idPrefix+"#project_budget").val();
 	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
 	var contractor_id			= [];
-	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
+	var adjuster_id				= [];//$(idPrefix+"#adjuster_id").val();
 	var customer_id				= $(idPrefix+"#customer_id").val();
 	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
 	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
@@ -93,12 +95,23 @@ project.prototype.createSubmit = function() {
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
 	$(idPrefix+"#contractorSearchSelected li").each(
 		function() {
-			contractor_id.push($(this).attr("id"));
+			contractor_id.push($(this).attr("data-contractorid"));
 		}
 	);
 
 	if(contractor_id.length) {
 		contractor_id = contractor_id.join(",");
+	}
+
+	// Adjuster ID is multi-select option, So clubing the values and dropping it in one MySql table field
+	$(idPrefix+"#adjusterSearchSelected li").each(
+		function() {
+			adjuster_id.push($(this).attr("data-adjusterid"));
+		}
+	);
+
+	if(adjuster_id.length) {
+		adjuster_id = adjuster_id.join(",");
 	}
 
 	$.ajax({
@@ -160,8 +173,10 @@ project.prototype.editProject = function() {
 			projectObj._projects.setDropdownValue();
 			projectObj._projects.setMandatoryFields();
 			projectObj._projects.hideContractorDetails('all');
+			projectObj._projects.hideAdjusterDetails('all');
 			projectObj._projects.hideDropdowns
 			projectObj._projects.getContractorDetails( $("#contractorIdDb").val() );
+			projectObj._projects.getAdjusterDetails( $("#adjusterIdDb").val() );
 
 			projectObj._projects.hideDropDowns();
 			utilObj.setCustomerDataList();
@@ -199,7 +214,7 @@ project.prototype.updateSubmit = function() {
 	var project_budget			= $(idPrefix+"#project_budget").val();
 	var property_owner_id		= $(idPrefix+"#property_owner_id").val();
 	var contractor_id			= [];
-	var adjuster_id				= $(idPrefix+"#adjuster_id").val();
+	var adjuster_id				= [];//$(idPrefix+"#adjuster_id").val();
 	var customer_id				= $(idPrefix+"#customer_id").val();
 	var remaining_budget		= $(idPrefix+"#remaining_budget").val();
 	var deductible				= $(idPrefix+"#deductible").length ? $(idPrefix+"#deductible").val() : "";
@@ -215,12 +230,23 @@ project.prototype.updateSubmit = function() {
 	// Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
 	$("#contractorSearchSelected li").each(
 		function() {
-			contractor_id.push($(this).attr("id"));
+			contractor_id.push($(this).attr("data-contractorid"));
 		}
 	);
 
 	if(contractor_id.length) {
 		contractor_id = contractor_id.join(",");
+	}
+
+	// Adjuster ID is multi-select option, So clubing the values and dropping it in one MySql table field
+	$(idPrefix+"#adjusterSearchSelected li").each(
+		function() {
+			adjuster_id.push($(this).attr("data-adjusterid"));
+		}
+	);
+
+	if(adjuster_id.length) {
+		adjuster_id = adjuster_id.join(",");
 	}
 
 	$.ajax({
@@ -273,6 +299,12 @@ project.prototype.updateSubmit = function() {
 };
 
 project.prototype.deleteRecord = function() {
+	
+	var deleteConfim = confirm("Do you want to delete this project");
+
+	if(!deleteConfim)
+		return;
+
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/deleteRecord",
@@ -338,6 +370,13 @@ project.prototype.getProjectDetails = function() {
 				}
 			);
 			$( "#contractor_accordion" ).accordion(
+				{
+					collapsible : true,  
+					icons 		: { "header": "ui-icon-triangle-1-e", "activeHeader": "ui-icon-triangle-1-s" },
+					active 		: false
+				}
+			);
+			$( "#partner_accordion" ).accordion(
 				{
 					collapsible : true,  
 					icons 		: { "header": "ui-icon-triangle-1-e", "activeHeader": "ui-icon-triangle-1-s" },
@@ -536,6 +575,11 @@ project.prototype.documentDelete = function ( doc_id ) {
 }
 
 project.prototype.taskDelete = function(task_id, project_id) {
+	var deleteConfim = confirm("Do you want to delete the task");
+
+	if(!deleteConfim)
+		return;
+
 	$.ajax({
 		method: "POST",
 		url: "/projects/tasks/deleteRecord",
@@ -906,6 +950,25 @@ project.prototype.showContractorDetails = function(show) {
 	}
 }
 
+project.prototype.hideAdjusterDetails = function(hide) {
+	if(!hide || hide == "" || hide == "all" || hide == "results") {
+		$(".adjuster-search-result").hide();
+	}
+	if(!hide || hide == "" || hide == "all" || hide == "selected") {
+		console.log("hideFN");
+		$(".adjuster-search-selected").hide();
+	}
+}
+
+project.prototype.showAdjusterDetails = function(show) {
+	if(!show || show == "" || show == "all" || show == "results") {
+		$(".adjuster-search-result").show();
+	}
+	if(!show || show == "" || show == "all" || show == "selected") {
+		$(".adjuster-search-selected").show();
+	}
+}
+
 project.prototype.hideDropDowns = function() {
 	$(".adjuster-search-result").hide();
 	$(".customer-search-result").hide()
@@ -924,7 +987,8 @@ project.prototype.getContractorDetails = function( records ) {
 				var contractors = {
 					"list" 			: response["contractors"],
 					"appendTo"		: "contractorSearchSelected",
-					"type"			: "selectedList"
+					"type"			: "selectedList",
+					"prefixId" 		: "contractorSearch"
 				}
 				utilObj.createContractorOptionsList(contractors);
 				projectObj._projects.selectedContractor = []; 
@@ -1005,10 +1069,12 @@ project.prototype.getContractorListUsingServiceZip = function( prefix ) {
 					"list" 			: response["contractors"],
 					"appendTo"		: "contractorSearchResult",
 					"type"			: "searchList",
-					"excludeList" 	: projectObj._projects.selectedContractor
+					"excludeList" 	: projectObj._projects.selectedContractor,
+					"prefixId" 		: "contractorSearch",
+					"actionButton"	: "plus"
 				}
 				utilObj.createContractorOptionsList(contractors);
-				$('#contractorSearchResult li .ui-icon').hide();
+				//$('#contractorSearchResult li .ui-icon').hide();
 
 				projectObj._projects.showContractorDetails('all');
 			
@@ -1026,7 +1092,7 @@ project.prototype.getContractorListUsingServiceZip = function( prefix ) {
 	});	
 }
 
-project.prototype.allowDrop = function(ev) {
+/*project.prototype.allowDrop = function(ev) {
     ev.preventDefault();
 }
 
@@ -1056,14 +1122,162 @@ project.prototype.drop = function(ev) {
     	$("#contractorSearchResult .ui-state-highlight").removeClass("ui-state-highlight").addClass("ui-state-default");
     	$('#contractorSearchResult li .ui-icon').hide();
     }
-}
+}*/
 
-project.prototype.removeSelectedContractor = function(ev, element) {
+/*project.prototype.removeSelectedContractor = function(ev, element) {
 	if(element.className.indexOf("ui-icon-minus") >= 0 ) {
 		var id = element.parentElement.id;
 		projectObj._projects.selectedContractor.splice(projectObj._projects.selectedContractor.indexOf(id),1);
 		element.parentElement.remove();
 	}
+}*/
+
+/*
+	Contractor Search Add and Remove
+	for create and Edit form
+*/
+project.prototype.searchContractorAction = function( events ) {
+	var element 	= event.target;
+	var clickedId 	= $(element).attr("data-contractorid");
+	var prefixId 		= $(element).attr("data-prefixid");
+	var actionToDo 	= $(element).hasClass("ui-icon-plus") ? "add" : "";
+	actionToDo 		= $(element).hasClass("ui-icon-minus") ? "remove" : actionToDo;
+
+	if(actionToDo == "add") {
+		$("#"+prefixId+"Selected").append($("#"+prefixId+clickedId));
+		$("#"+prefixId+"Selected li .ui-icon-plus").removeClass("ui-icon-plus").addClass("ui-icon-minus");
+		modifyactionToDo = "remove";	
+	} else if (actionToDo == "remove") {
+		element.parentElement.remove();
+	}
+
+	if(actionToDo == "add" || actionToDo == "remove") {
+		projectObj._projects.selectedContractor = []; 
+		$("#"+prefixId+"Selected li").each(
+			function() {
+				projectObj._projects.selectedContractor.push($(this).attr("data-contractorid"));
+			}
+		);
+	}
+
+	if(!$("#"+prefixId+"Result").children().length) {
+		$(".contractor-search-result").hide();
+	}
+	if(!$("#"+prefixId+"Selected").children().length) {
+		$(".contractor-search-selected").hide();
+	}	
+}
+
+project.prototype.getAdjusterListUsingNameCompany = function( prefix ) {
+	var nameOrComp = $("#searchAdjusterName").val();
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/partners/getList",
+		data: {
+			companyName : nameOrComp,
+			name 		: nameOrComp
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				response.adjusterList;
+				$("#adjusterSearchResult").children().remove();				
+
+				var adjusters = {
+					"list" 			: response["partners"],
+					"appendTo"		: "adjusterSearchResult",
+					"type"			: "searchList",
+					"excludeList" 	: projectObj._projects.selectedAdjuster,
+					"prefixId" 		: "adjusterSearch",
+					"actionButton"	: "plus"
+				}
+				utilObj.createAdjusterOptionsList(adjusters);
+				projectObj._projects.showAdjusterDetails('all');
+			
+			
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});	
+}
+
+project.prototype.getAdjusterDetails = function( records ) {
+	$.ajax({
+		method: "POST",
+		url: "/projects/partners/getList",
+		data: {
+			records : records
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status == "success") {
+				var adjusters = {
+					"list" 			: response["partners"],
+					"appendTo"		: "adjusterSearchSelected",
+					"type"			: "selectedList",
+					"prefixId" 		: "adjusterSearch"
+				}
+				utilObj.createAdjusterOptionsList( adjusters );
+				projectObj._projects.selectedAdjuster = []; 
+		    	$("#adjusterSearchSelected li").each(
+					function() {
+						projectObj._projects.selectedAdjuster.push($(this).attr("id"));
+					}
+				);
+				projectObj._projects.showAdjusterDetails("selected");
+			} else {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+project.prototype.searchAdjusterAction = function( events ) {
+	var element 	= event.target;
+	var clickedId 	= $(element).attr("data-adjusterid");
+	var prefixId 		= $(element).attr("data-prefixid");
+	var actionToDo 	= $(element).hasClass("ui-icon-plus") ? "add" : "";
+	actionToDo 		= $(element).hasClass("ui-icon-minus") ? "remove" : actionToDo;
+
+	if(actionToDo == "add") {
+		$("#"+prefixId+"Selected").append($("#"+prefixId+clickedId));
+		$("#"+prefixId+"Selected li .ui-icon-plus").removeClass("ui-icon-plus").addClass("ui-icon-minus");
+		modifyactionToDo = "remove";	
+	} else if (actionToDo == "remove") {
+		element.parentElement.remove();
+	}
+
+	if(actionToDo == "add" || actionToDo == "remove") {
+		projectObj._projects.selectedAdjuster = []; 
+		$("#"+prefixId+"Selected li").each(
+			function() {
+				projectObj._projects.selectedAdjuster.push($(this).attr("data-adjusterid"));
+			}
+		);
+	}
+
+	if(!$("#"+prefixId+"Result").children().length) {
+		$(".adjuster-search-result").hide();
+	}
+	if(!$("#"+prefixId+"Selected").children().length) {
+		console.log("setActionFN");
+		$(".adjuster-search-selected").hide();
+	}
+	
 }
 
 project.prototype.getOwnerList = function( records ) {
@@ -1079,7 +1293,8 @@ project.prototype.getOwnerList = function( records ) {
 				var contractors = {
 					"list" 			: response["contractors"],
 					"appendTo"		: "ownerSearchResult",
-					"type"			: "ownerList"
+					"type"			: "ownerList",
+					"prefixId" 		: "ownerSearch"
 				}
 				utilObj.createContractorOptionsList(contractors);
 				projectObj._tasks.setOwnerOption();

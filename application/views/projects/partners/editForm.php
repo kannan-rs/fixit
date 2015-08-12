@@ -14,11 +14,11 @@
 		</div>
 		<div class="label">Type</div>
 		<div>
-			<input type="text" name="type" id="type" value="<?php echo $partner->type;?>" placeholder="Partner Type">
+			<input type="text" name="type" id="type" value="<?php echo $partner->type;?>" placeholder="Partner Type" required>
 		</div>
 		<div class="label">License</div>
 		<div>
-			<input type="text" name="license" id="license" value="<?php echo $partner->license;?>" placeholder="Partner License">
+			<input type="text" name="license" id="license" value="<?php echo $partner->license;?>" placeholder="Partner License" required>
 		</div>
 		<div class="label">Status</div>
 		<div>

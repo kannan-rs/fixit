@@ -3,6 +3,7 @@
 class Model_projects extends CI_Model {
 	
 	public function getProjectsList($record = "") {
+		$this->db->where('deleted', '0');
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('proj_id', $record);	
 		}
@@ -66,8 +67,12 @@ class Model_projects extends CI_Model {
 		);
 		if($record && $record!= "") {
 			$this->db->where('proj_id', $record);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
 			
-			if($this->db->delete('project')) {
+			if($this->db->update('project', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Project Deleted Successfully";
 			} else {

@@ -39,7 +39,7 @@ class Model_notes extends CI_Model {
 		$response = array();
 		
 		$response["count"] 			= $countResult;
-		if($notesResult) {
+		if($this->db->_error_number() == 0) {
 			$response["status"] 		= "success";
 			$response["notes"] 			= $notesResult;
 		} else {

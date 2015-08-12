@@ -2,7 +2,7 @@
 $i = 0;
 ?>
 <h2>Edit Role</h2>
-<form id="update_role_form" name="update_role_form">
+<form id="update_role_form" name="update_role_form" class="inputForm">
 	<input type="hidden" id='role_sno' value="<?php echo $roles[$i]->sno; ?>" />
 	<div class='form'>
 		<div class="label">Role Id</div>

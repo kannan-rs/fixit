@@ -21,15 +21,15 @@
 	<div class='form'>
 	<!-- List all the Functions from database -->
 			<div class='label'>Name:</div>
-			<div><?php echo $partner->name; ?></div>
+			<div class="capitalize"><?php echo $partner->name; ?></div>
 			<div class='label'>Company</div>
-			<div><?php echo $partner->company_name; ?></div>
+			<div class="capitalize"><?php echo $partner->company_name; ?></div>
 			<div class='label'>Type</div>
-			<div><?php echo $partner->type; ?></div>
+			<div class="capitalize"><?php echo $partner->type; ?></div>
 			<div class='label'>Status</div>
-			<div><?php echo $partner->status; ?></div>
+			<div class="capitalize"><?php echo $partner->status; ?></div>
 			<div class='label'>License</div>
-			<div><?php echo $partner->license; ?></div>
+			<div class="capitalize"><?php echo $partner->license; ?></div>
 			<?php
 			echo $addressFile;
 			?>

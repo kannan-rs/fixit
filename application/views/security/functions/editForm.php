@@ -3,7 +3,7 @@
 	$i = 0;
 ?>
 <h2>Edit Function</h2>
-<form id="update_function_form" name="update_function_form">
+<form id="update_function_form" name="update_function_form" class="inputForm">
 	<input type="hidden" id='function_sno' value="<?php echo $functions[$i]->sno; ?>" />
 	<div class='form'>
 		<div class="label">Function Id</div>

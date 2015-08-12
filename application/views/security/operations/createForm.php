@@ -1,6 +1,6 @@
 <!-- Add Operation Start -->
 <h2>Create Operation</h2>
-	<form id="create_operation_form" name="create_operation_form">
+	<form id="create_operation_form" name="create_operation_form" class="inputForm">
 	<div class='form'>
 		<div class="label">Operation ID:</div>
 		<div><input type="text" name="operationId" id="operationId" value="" required></div>

@@ -57,7 +57,7 @@ if(!$openAs || $openAs != "popup") {
 <?php
 }
 ?>
-<form id="<?php echo $prefix; ?>_user_form" name="<?php echo $prefix; ?>_user_form">
+<form id="<?php echo $prefix; ?>_user_form" name="<?php echo $prefix; ?>_user_form" class="inputForm">
 	<div class='form'>
 		<?php
 		if($edit) {
@@ -92,9 +92,9 @@ if(!$openAs || $openAs != "popup") {
 		<div>
 			<input type="text" name="firstName" id="firstName" value="<?php echo $firstName; ?>" placeholder="First Name" required>
 		</div>
-		<div class="label">Last Name:</div>
+		<div class="label notMandatory">Last Name:</div>
 		<div>
-			<input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="Last Name" required>
+			<input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="Last Name">
 		</div>
 		<?php if($userType == "admin" && $edit == false) { // only for create user ?>
 		
@@ -104,7 +104,7 @@ if(!$openAs || $openAs != "popup") {
 		<div class="label">Confirm Password:</div>
 		<div><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Confirm Password" required></div>
 		
-		<div class="label">Password Hint:</div>
+		<div class="label notMandatory">Password Hint:</div>
 		<div><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="Password Hint"></div>
 		
 		<?php
@@ -117,7 +117,7 @@ if(!$openAs || $openAs != "popup") {
 			<div><?php echo $belongsTo; ?><input type="hidden" id="belongsTo" value="<?php echo $belongsTo; ?>"></div>
 			<?php } else {
 			?>
-			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption()" <?php } ?>>
+			<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption()" <?php } ?> required>
 				<option value="">--Select Belongs To--</option>
 				<option value="customer">Customer</option>
 				<option value="contractor">Contractor</option>
@@ -138,13 +138,13 @@ if(!$openAs || $openAs != "popup") {
 		<?php if($userType == "admin") { ?>
 		<!-- Contractor Search and search results -->
 		<DIV class="contractor-search">
-			<div class="label">Search Contractor By Zip Code and Select</div>
+			<div class="label notMandatory">Search Contractor By Zip Code and Select</div>
 			<div>
 				<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
 				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
 			</div>
 			<div class="contractor-result">
-				<DIV class="label">&nbsp;</DIV>
+				<DIV class="label notMandatory">&nbsp;</DIV>
 				<DIV>
 					<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
 				</DIV>
@@ -153,13 +153,13 @@ if(!$openAs || $openAs != "popup") {
 
 		<!-- Adjuster Search and search results -->
 		<DIV class="adjuster-search">
-			<div class="label">Search Adjuster By Company Name and Select</div>
+			<div class="label notMandatory">Search Adjuster By Company Name and Select</div>
 			<div>
 				<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="adjuster Company Name">
 				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
 			</div>
 			<div class="adjuster-result">
-				<DIV class="label">&nbsp;</DIV>
+				<DIV class="label notMandatory">&nbsp;</DIV>
 				<DIV>
 					<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
 				</DIV>
@@ -177,13 +177,13 @@ if(!$openAs || $openAs != "popup") {
 		<?php } ?>
 
 		<?php if($edit == true && $userType == "admin"  && $viewFrom == "security") { ?>
-		<div class="label">Active Start Date:</div>
+		<div class="label notMandatory">Active Start Date:</div>
 		<div>
-			<input type="text" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$activeStartDate)[0]; ?>" placeholder="Active Start Date" required>
+			<input type="text" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$activeStartDate)[0]; ?>" placeholder="Active Start Date">
 		</div>
-		<div class="label">Active End Date:</div>
+		<div class="label notMandatory">Active End Date:</div>
 		<div>
-			<input type="text" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$activeEndDate)[0]; ?>" placeholder="Active End Date" required>
+			<input type="text" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$activeEndDate)[0]; ?>" placeholder="Active End Date">
 		</div>
 		<?php } ?>
 		
@@ -197,7 +197,7 @@ if(!$openAs || $openAs != "popup") {
 			<input type="number" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contactPhoneNumber; ?>" placeholder="Contact Phone Number" required>
 		</div>
 		
-		<div class="label">Mobile Number:</div>
+		<div class="label notMandatory">Mobile Number:</div>
 		<div>
 			<table  class="innerOption">
 				<tr>
@@ -214,7 +214,7 @@ if(!$openAs || $openAs != "popup") {
 			</table>
 		</div>
 		
-		<div class="label">Alternate Number:</div>
+		<div class="label notMandatory">Alternate Number:</div>
 		<div>
 			<table class="innerOption">
 				<tr>
@@ -231,7 +231,7 @@ if(!$openAs || $openAs != "popup") {
 			</table>
 		</div>
 
-		<div class="label prefMode">Prefered Mode for Contact:</div>
+		<div class="label prefMode notMandatory">Prefered Mode for Contact:</div>
 		<div>
 			<table class="innerOption">
 				<tr>
@@ -255,7 +255,7 @@ if(!$openAs || $openAs != "popup") {
 
 		<?php if(!empty($userType)) { // Referr to will be applicable only when admin creates ?>
 		<!-- Refers too -->
-		<div class="label">User Referred By:</div>
+		<div class="label notMandatory">User Referred By:</div>
 		<div>
 			<select name="referredBy" id="referredBy" onchange="securityObj._users.showreferredByOption()">
 				<option value="">--Select Referred By--</option>
@@ -275,13 +275,13 @@ if(!$openAs || $openAs != "popup") {
 		</div>
 		<!-- Contractor Search and search results -->
 		<DIV class="referredBycontractor-search">
-			<div class="label">Search Contractor By Zip Code and Select</div>
+			<div class="label notMandatory">Search Contractor By Zip Code and Select</div>
 			<div>
 				<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="Zip Code for search">
 				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('referredBy')"></span>
 			</div>
 			<div class="contractor-result">
-				<DIV class="label">&nbsp;</DIV>
+				<DIV class="label notMandatory">&nbsp;</DIV>
 				<DIV>
 					<ul id="referredBycontractorList" name="referredBycontractorList" class="connectedSortable owner-search-result users"></ul>
 				</DIV>
@@ -290,13 +290,13 @@ if(!$openAs || $openAs != "popup") {
 
 		<!-- Adjuster Search and search results -->
 		<DIV class="referredByadjuster-search">
-			<div class="label">Search Adjuster By Company Name and Select</div>
+			<div class="label notMandatory">Search Adjuster By Company Name and Select</div>
 			<div>
 				<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="Adjuster Company Name">
 				<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('referredBy')"></span>
 			</div>
 			<div class="referredByadjuster-result">
-				<DIV class="label">&nbsp;</DIV>
+				<DIV class="label notMandatory">&nbsp;</DIV>
 				<DIV>
 					<ul id="referredByadjusterList" name="referredByadjusterList" class="connectedSortable owner-search-result users"></ul>
 				</DIV>

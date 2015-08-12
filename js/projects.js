@@ -81,32 +81,52 @@ $(document).on("click", function(e) {
 			(e.target.parentElement && e.target.parentElement.id == "contractorSearchResult") || 
 			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorSearchResult")
 		)
-	) {
+	)
 		return;
-	}
+
+	if(e && e.target && 
+		(e.target.id == "contractorSearchSelected" || 
+			(e.target.parentElement && e.target.parentElement.id == "contractorSearchSelected") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorSearchSelected")
+		)
+	)
+		return;
+
+	if(e && e.target && 
+		(e.target.id == "adjusterSearchResult" || 
+			(e.target.parentElement && e.target.parentElement.id == "adjusterSearchResult") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterSearchResult")
+		)
+	)
+		return;
+
+	if(e && e.target && 
+		(e.target.id == "adjusterSearchSelected" || 
+			(e.target.parentElement && e.target.parentElement.id == "adjusterSearchSelected") || 
+			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterSearchSelected")
+		)
+	)
+		return;
+
 	if(e && e.target && 
 		(e.target.id == "customerNameList" || 
 			(e.target.parentElement && e.target.parentElement.id == "customerNameList") || 
 			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "customerNameList")
 		)
-	) {
+	)
 		return;
-	}
+
 	if(e && e.target && 
 		(e.target.id == "partnerNameList" || 
 			(e.target.parentElement && e.target.parentElement.id == "partnerNameList") || 
 			(e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "partnerNameList")
 		)
-	) {
+	)
 		return;
-	}
-	if($(".contractor-search-result").length) { 
-		$(".contractor-search-result").hide();
-	}
-	if($(".customer-search-result").length) { 
-		$(".customer-search-result").hide();
-	}
-	if($(".partner-search-result").length) { 
-		$(".partner-search-result").hide();
-	}
+
+	
+	$(".contractor-search-result").hide();
+	$(".adjuster-search-result").hide();
+	$(".customer-search-result").hide();
+	$(".partner-search-result").hide();
 });

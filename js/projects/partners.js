@@ -31,6 +31,7 @@ partners.prototype.createForm = function( options ) {
 				$("#partner_content").html(response);
 			}
 			projectObj._projects.setMandatoryFields();
+			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("create_partner_form");
 		},
 		error: function( error ) {
@@ -191,7 +192,7 @@ partners.prototype.editForm = function( options ) {
 			$("#popupForAll"+popupType).html(response);
 			projectObj._projects.openDialog({"title" : "Edit Partner"}, popupType);
 			projectObj._partners.setPrefContact();
-			projectObj._partners.setStatus();
+			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("update_partner_form");
 
 		},
@@ -316,10 +317,3 @@ partners.prototype.setPrefContact = function() {
 		}
 	});
 };
-
-partners.prototype.setStatus = function() {
-	var status = $("#statusDb").val();
-	if(status != "" && $("#status").length) {
-		$("#status").val(status);
-	}
-}

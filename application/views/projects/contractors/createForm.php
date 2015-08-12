@@ -20,17 +20,17 @@ if(!$openAs || $openAs != "popup") {
 		
 		<div class="label">Type</div>
 		<div>
-			<input type="text" name="type" id="type" value="" placeholder="Contractor Type">
+			<input type="text" name="type" id="type" value="" placeholder="Contractor Type" required>
 		</div>
 		
 		<div class="label">License</div>
 		<div>
-			<input type="text" name="license" id="license" value="" placeholder="Contractor License">
+			<input type="text" name="license" id="license" value="" placeholder="Contractor License" required>
 		</div>
 		
 		<div class="label">BBB</div>
 		<div>
-			<input type="text" name="bbb" id="bbb" value="" placeholder="BBB">
+			<input type="text" name="bbb" id="bbb" value="" placeholder="BBB" required>
 		</div>
 		
 		<div class="label">Status</div>

@@ -81,20 +81,67 @@ utils.prototype.createContractorOptionsList = function(contractors) {
 						};
 	var list 			= contractors.list;
 	var type			= contractors.type;
+	var prefixId 		= contractors.prefixId;
 
 	for(var i =0 ; i < list.length; i++) {
 		if(excludeList.indexOf(list[i].id) == -1) {
-			var li = "<li class=\""+css[type].li+"\" id=\""+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "") +">";
+			
+			var inputRadio = " ";
+			if(type == "ownerList") {
+				inputRadio = "<input type=\"radio\" name=\"optionSelectedOwner\" value=\""+list[i].id+"\" />";
+			}
+			
+			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
+				li += " data-contractorid = "+list[i].id;
+				li += ">";
 				li += "<div>"+list[i].company+"</div>";
 				li += "<div class=\"company\">"+list[i].city+", "+list[i].state+"</div>";
-				li += "<span class=\""+css[type].symbol+" search-action\" "+(type != "ownerList" ? "" : "onclick=\"projectObj._projects.removeSelectedContractor(event, this);\"")+">";
-				li += (type == "ownerList") ? "<input type=\"radio\" name=\"optionSelectedOwner\" value=\""+list[i].id+"\" />" : "";
+				li += "<span class=\""+css[type].symbol+" search-action\" ";
+				li += " data-contractorid = "+list[i].id;
+				li += " data-prefixid = "+prefixId;
+				//li + = clickFn;
+				li += ">";
+				li += inputRadio
 				li += "</span>";
 				li += "</li>";
 			$('#'+contractors.appendTo).append(li);
 		}
 	}
 }
+
+utils.prototype.createAdjusterOptionsList = function(adjuster) {
+	var excludeList 	= !adjuster.excludeList ? [] : adjuster.excludeList;
+	var css 			= {
+							"selectedList" 		: {"li" : "ui-state-highlight", "symbol" : "ui-icon ui-icon-minus" }, 
+							"searchList"		: {"li" : "ui-state-default", "symbol" : "ui-icon ui-icon-plus" },
+							"ownerList" 		: {"li" : "ui-state-default", "symbol" : "" }
+						};
+	var list 			= adjuster.list;
+	var type			= adjuster.type;
+	var prefixId 		= adjuster.prefixId;
+
+	for(var i =0 ; i < list.length; i++) {
+		if(excludeList.indexOf(list[i].id) == -1) {
+			
+			var inputRadio = " ";
+			
+			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
+				li += " data-adjusterid = "+list[i].id;
+				li += ">";
+				li += "<div>"+list[i].company_name+"</div>";
+				li += "<div class=\"company\">"+list[i].city+", "+list[i].state+"</div>";
+				li += "<span class=\""+css[type].symbol+" search-action\" ";
+				li += " data-adjusterid = "+list[i].id;
+				li += " data-prefixid = "+prefixId;
+				li += ">";
+				li += inputRadio
+				li += "</span>";
+				li += "</li>";
+			$('#'+adjuster.appendTo).append(li);
+		}
+	}
+}
+
 
 utils.prototype.getCustomerList = function() {
 	var customer = $.ajax({
@@ -264,4 +311,15 @@ utils.prototype.toDisplayDateFormat = function( dateStr ) {
 */
 utils.prototype.toDisplayNumberFormat = function( number ) {
 	return number.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+utils.prototype.setStatus = function(statusDD, statusDbVal) {
+	var statusDbVal = typeof(statusDbVal) != "undefined" ? statusDbVal : "";
+	var status = $("#"+statusDbVal).val();
+	status = typeof(status) != "undefined" && status != "" ? status.toLocaleLowerCase() : "";
+	if(typeof(status) != "undefined" && status != "" && $("#"+statusDD).length && $("#"+statusDD+" option[value='"+status+"']").length) {
+		$("#"+statusDD).val(status);
+	} else {
+		$("#"+statusDD).val("active");
+	}
 }

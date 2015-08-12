@@ -19,42 +19,21 @@ Refer to contractor search with zip code and user belongs to contractor search.
 Refer to adjuster search by company name and user belongs to this adjuster. 
 As of now will go with email ID search for users.
 
-
 Unable to add a new contractor, new tasks or new documents from the project details page for an existing project.  Add symbol only expands and contracts the content in the sections.
 ·         Issue log section needs to be added to the project details page that is formatted similar to task section.  Column names to include: Name/Description/date opened/Status/Resolved details/Date closed.  Section should reside above the Notes section and below the Task section.
 
 Mallik's Feedback
+-----------------
 following are common to others (where ver you see same fields)  in addition to contractor :
 -- 4) phone validation 
 ( http://stackoverflow.com/questions/13628995/form-validation-email-telephone-number)
 -- 5) entering zipcodes, should be  valid numbers 
 
-Done List
------------
-Number under budget in human readable format (add , after 3 dig as per US standurd)
-Add $ next to all budget data.
-Provide option to have Cents as part of budget. (As of now decimal point is allowed)
-zip code field...has pin code listed..should be zip code or nothing 
-Budget update interface needs to be cleaner, interface should be identical to the tasks, documents interface... 
-Partner - Add, edit, delete, list, list one
-Create User - Provide Adjuster belongs to as search, show search results. Choose company and create user based on the selection :
-Added referred by in user create form: with searchable options.
-
--------------
-27-07-2015 01-08-2015
-
-- 1. Changed all adjusters to partners
-- 2. Inserted, edited and Shown Refer by in users.
-- 3. User Create and Edit from shares same code base, this is common for Enrole user, Create user from security, create user from project and edit user from security.
-- 4. status need to be active by default (Status will be active by default, in edit if its not set, it will be set to default)
-- 5. email validation is happening.
-- 6. Service Zip for projects and Address zip code for users belongs to and referredBy search.
-- 7. Count of task, Docs, and Notes
-- 8. Email For contractor creation, 
-- 9. Email For adjuster creation, 
-- 9. Email For user add, user edit, referal email.
-- 10. Show customer name in tasks which are not assigned.
-
-Points To discuss
-------------------
-1) we need to have drop down on contractor types
+MOM 3ed Aug 2015
+-----------------
+1. Merging contractor and adjuster into single table with name company and company type should define (contractor / adjuster / customer etc...) (Later)
+8. Validate email address that is available.
+9. we need to have drop down on contractor types (Electr, Plumber, general, Automobile, Mechanic, etc..)
+- 10. Delete for all need to be confirmed from user.
+- 11. Never delete any of that. Deactive it on delete.
+12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.

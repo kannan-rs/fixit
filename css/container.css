@@ -202,7 +202,7 @@ textarea.small-textarea {
 	position: absolute;
 }
 
-.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul, .contractor-search-selected ul, .owner-search-result {
+.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul, .contractor-search-selected ul, .adjuster-search-result ul, .adjuster-search-selected ul, .owner-search-result {
     border: 1px solid #D0D0D0;
     width: 220px;
     min-height: 20px;
@@ -225,7 +225,7 @@ textarea.small-textarea {
  .owner-search-result.users {
  	max-height: 150px;
  }
-.adjuster-search-result ul li, .customer-search-result ul li,.contractor-search-result ul li, .contractor-search-selected ul li, .owner-search-result li {
+.adjuster-search-result ul li, .customer-search-result ul li,.contractor-search-result ul li, .contractor-search-selected ul li, .adjuster-search-result ul li, .adjuster-search-selected ul li, .owner-search-result li {
     margin: 0px 2px 5px 2px;
     padding: 5px;
     font-size: 1.2em;
@@ -284,4 +284,11 @@ a.icon-right {
 
 #project_content .ui-widget-content {
 	border-width:0px 0px 1px 0px;
+}
+
+.projectViewOne .project-title {
+	width : auto;
+}
+.fl {
+	float: left;
 }

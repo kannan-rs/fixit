@@ -31,6 +31,7 @@ contractors.prototype.createForm = function( options ) {
 				$("#contractor_content").html(response);
 			}
 			projectObj._projects.setMandatoryFields();
+			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("create_contractor_form");
 		},
 		error: function( error ) {
@@ -193,7 +194,7 @@ contractors.prototype.editForm = function( options ) {
 			$("#popupForAll"+popupType).html(response);
 			projectObj._projects.openDialog({"title" : "Edit Contractor"}, popupType);
 			projectObj._contractors.setPrefContact();
-			projectObj._contractors.setStatus();
+			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("update_contractor_form");
 
 		},
@@ -320,10 +321,3 @@ contractors.prototype.setPrefContact = function() {
 		}
 	});
 };
-
-contractors.prototype.setStatus = function() {
-	var status = $("#statusDb").val();
-	if(status != "" && $("#status").length) {
-		$("#status").val(status);
-	}
-}

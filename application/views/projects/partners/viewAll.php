@@ -21,14 +21,14 @@
 			$deleteFn = $deleteText ? "projectObj._partners.deleteRecord(".$partner->id.")" : "";
 	?>
 			<tr class='row viewAll'>
-				<td class='cell'>
+				<td class='cell capitalize'>
 					<a href="javascript:void(0);" onclick="projectObj._partners.viewOne('<?php echo $partners[$i]->id; ?>')">
 						<?php echo $partner->name; ?>
 					</a>
 				</td>
-				<td class="cell"><?php echo $partner->company_name; ?></td>
-				<td class="cell"><?php echo $partner->type; ?></td>
-				<td class="cell"><?php echo $partner->status; ?></td>
+				<td class="cell capitalize"><?php echo $partner->company_name; ?></td>
+				<td class="cell capitalize"><?php echo $partner->type; ?></td>
+				<td class="cell capitalize"><?php echo $partner->status; ?></td>
 			</tr>
 	<?php
 		}

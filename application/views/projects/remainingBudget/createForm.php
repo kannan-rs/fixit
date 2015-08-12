@@ -30,7 +30,7 @@
 		
 		<div class="label">amount</div>
 		<div>
-			<input type="number" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="Paid Amount">
+			<input type="number" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="Paid Amount" required>
 		</div>
 
 		<div class="label">Date:</div>

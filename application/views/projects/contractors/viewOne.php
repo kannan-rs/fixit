@@ -21,19 +21,17 @@
 	<div class='form'>
 	<!-- List all the Functions from database -->
 			<div class='label'>Name:</div>
-			<div><?php echo $contractor->name; ?></div>
+			<div class="capitalize"><?php echo $contractor->name; ?></div>
 			<div class='label'>Company</div>
-			<div><?php echo $contractor->company; ?></div>
+			<div class="capitalize"><?php echo $contractor->company; ?></div>
 			<div class='label'>Type</div>
-			<div><?php echo $contractor->type; ?></div>
-			<div class='label'>Type</div>
-			<div><?php echo $contractor->type; ?></div>
+			<div class="capitalize"><?php echo $contractor->type; ?></div>
 			<div class='label'>License</div>
-			<div><?php echo $contractor->license; ?></div>
+			<div class="capitalize"><?php echo $contractor->license; ?></div>
 			<div class='label'>BBB</div>
-			<div><?php echo $contractor->bbb; ?></div>
+			<div class="capitalize"><?php echo $contractor->bbb; ?></div>
 			<div class='label'>Status</div>
-			<div><?php echo $contractor->status; ?></div>
+			<div class="capitalize"><?php echo $contractor->status; ?></div>
 			<?php
 			echo $addressFile;
 			?>

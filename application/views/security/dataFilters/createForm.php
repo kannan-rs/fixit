@@ -1,6 +1,6 @@
 <!-- Add Data Filter Start -->
 <h2>Create Data Filter</h2>
-	<form id="create_dataFilter_form" name="create_dataFilter_form">
+	<form id="create_dataFilter_form" name="create_dataFilter_form" class="inputForm">
 	<div class='form'>
 			<div class="label">Data Filter ID:</div>
 			<div><input type="text" name="dataFilterId" id="dataFilterId" value="" required></div>
