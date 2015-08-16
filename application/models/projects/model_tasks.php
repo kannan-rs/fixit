@@ -2,11 +2,11 @@
 
 class Model_tasks extends CI_Model {
 	public function getTasksList($parentId = "") {
-		$whereStr = "";
+		$whereStr = " WHERE deleted = 0";
 		$this->db->where('deleted', '0');
 		if(isset($parentId) && !is_null($parentId) && $parentId != "") {
 			$this->db->where('project_id', $parentId);
-			$whereStr .= " where project_id = ".$parentId;
+			$whereStr .= " AND project_id = ".$parentId;
 		}
 
 		$this->db->select([

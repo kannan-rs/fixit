@@ -1,10 +1,13 @@
 <?php
 class Model_docs extends CI_Model {
 	public function getDocsList($projectId = "", $startRecord = 0, $count= 10) {
-		$countWhereStr = "";
+		$countWhereStr = " WHERE deleted = 0";
+
+		$this->db->where('deleted', '0');
+
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
-			$countWhereStr .= " where project_id = ".$projectId;
+			$countWhereStr .= "  AND project_id = ".$projectId;
 		} else {
 			return [];
 		}
@@ -42,6 +45,8 @@ class Model_docs extends CI_Model {
 	}
 
 	public function getDocById($docId = "") {
+		$this->db->where('deleted', '0');
+
 		if(isset($docId) && !is_null($docId) && $docId != "") {
 			$this->db->where('doc_id', $docId);	
 		} else {
@@ -78,7 +83,11 @@ class Model_docs extends CI_Model {
 		if($record && $record!= "") {
 			$this->db->where('doc_id', $record);
 			
-			if($this->db->delete('project_docs')) {
+			$data = array(
+				'deleted' 				=> 1
+			);
+			
+			if($this->db->update('project_docs', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Document Deleted Successfully";
 			} else {

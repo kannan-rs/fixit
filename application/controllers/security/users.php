@@ -320,19 +320,14 @@ class Users extends CI_controller {
 		$this->load->model('security/model_users');
 
 		$record = $this->input->post('userId');
+		$emailId = $this->input->post('emailId');
 
-		$this->db->where('sno', $record);
-		
-		$response = array(
-		);
+		$response = $this->model_users->deleteUser($record);
 
-		if($this->db->delete('users')) {
-			$response["status"]			= "success";
-			$response["message"]		= "User Deleted Successfully";
-		} else {
-			$response["status"]			= "error";
-			$response["message"] 		= "Error while deleting the records";
+		if($response["status"] == "success") {
+			$response = $this->model_users->deleteUserDetails($emailId);
 		}
+
 		print_r(json_encode($response));
 	}
 

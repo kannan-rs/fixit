@@ -1,6 +1,7 @@
 //Projects JS
 function projects() {
 
+	this._issues 			= new issues();
 	this._projects 			= new project();
 	this._tasks 			= new task();
 	this._notes 			= new note();

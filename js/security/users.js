@@ -383,12 +383,13 @@ securityUsers.prototype.updateSubmit = function(userId) {
 	});
 };
 
-securityUsers.prototype.deleteRecord = function(userId) {
+securityUsers.prototype.deleteRecord = function(userId, emailId) {
 	$.ajax({
 		method: "POST",
 		url: "/security/users/deleteRecord",
 		data: {
-			userId: userId
+			userId: userId,
+			emailId : emailId
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);

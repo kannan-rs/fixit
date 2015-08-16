@@ -202,7 +202,15 @@ textarea.small-textarea {
 	position: absolute;
 }
 
-.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul, .contractor-search-selected ul, .adjuster-search-result ul, .adjuster-search-selected ul, .owner-search-result {
+.issue-contractor-for-project-result ul, 
+.adjuster-search-result ul, 
+.customer-search-result ul, 
+.contractor-search-result ul, 
+.contractor-search-selected ul, 
+.adjuster-search-result ul, 
+.adjuster-search-selected ul,
+.issue-adjuster-for-project-result ul, 
+.owner-search-result {
     border: 1px solid #D0D0D0;
     width: 220px;
     min-height: 20px;
@@ -225,7 +233,16 @@ textarea.small-textarea {
  .owner-search-result.users {
  	max-height: 150px;
  }
-.adjuster-search-result ul li, .customer-search-result ul li,.contractor-search-result ul li, .contractor-search-selected ul li, .adjuster-search-result ul li, .adjuster-search-selected ul li, .owner-search-result li {
+
+.issue-contractor-for-project-result ul li, 
+.adjuster-search-result ul li, 
+.customer-search-result ul li,
+.contractor-search-result ul li, 
+.contractor-search-selected ul li, 
+.adjuster-search-result ul li, 
+.adjuster-search-selected ul li,
+.issue-adjuster-for-project-result ul li,
+.owner-search-result li {
     margin: 0px 2px 5px 2px;
     padding: 5px;
     font-size: 1.2em;
@@ -252,7 +269,9 @@ textarea.small-textarea {
 	background-color: #f6f6f6;
 }
 
-.owner-search-result .search-action {
+.owner-search-result .search-action,
+.issue-contractor-for-project-result .search-action,
+.issue-adjuster-for-project-result .search-action {
 	border: 0px;
 	background: initial;
 	padding: 0px;

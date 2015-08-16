@@ -3,7 +3,9 @@
 class Model_contractors extends CI_Model {
 	
 	public function getContractorsList($record = "", $zip = "", $serviceZip = "") {
-		if(isset($record) && !is_null($record) && $record != "") {
+		//$this->db->where('deleted', '0');
+
+		if(isset($record) && !is_null($record)) {
 			if(is_array($record)) {
 				for($i = 0; $i < count($record); $i++) {
 					if($record[$i]) $this->db->or_where('id', $record[$i]);	
@@ -41,7 +43,6 @@ class Model_contractors extends CI_Model {
 				"updated_on"
 			]);
 		$query = $this->db->from('contractor')->get();
-
 		
 		$response = array();
 		
@@ -96,8 +97,12 @@ class Model_contractors extends CI_Model {
 		);
 		if($record && $record!= "") {
 			$this->db->where('id', $record);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
 			
-			if($this->db->delete('contractor')) {
+			if($this->db->update('contractor', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "contractor Deleted Successfully";
 			} else {

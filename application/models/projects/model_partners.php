@@ -3,12 +3,14 @@
 class Model_partners extends CI_Model {
 	
 	public function getPartnersList($record = "", $companyNmae = "", $name = "") {
-		if(isset($record) && !is_null($record) && $record != "") {
+		//$this->db->where('deleted', '0');
+		
+		if(isset($record) && !is_null($record)) {
 			if(is_array($record)) {
 				for($i = 0; $i < count($record); $i++) {
 					$this->db->or_where('id', $record[$i]);	
 				}
-			} else {
+			} else if($record != "") {
 				$this->db->where('id', $record);
 			}
 		}
@@ -46,7 +48,6 @@ class Model_partners extends CI_Model {
 			]);
 
 		$query = $this->db->from('partner')->get();
-
 		
 		$response = array();
 		
@@ -101,8 +102,12 @@ class Model_partners extends CI_Model {
 		);
 		if($record && $record!= "") {
 			$this->db->where('id', $record);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
 			
-			if($this->db->delete('partner')) {
+			if($this->db->update('partner', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Partner Deleted Successfully";
 			} else {

@@ -88,7 +88,7 @@ utils.prototype.createContractorOptionsList = function(contractors) {
 			
 			var inputRadio = " ";
 			if(type == "ownerList") {
-				inputRadio = "<input type=\"radio\" name=\"optionSelectedOwner\" value=\""+list[i].id+"\" />";
+				inputRadio = "<input type=\"radio\" name=\""+contractors.radioOptionName+"\" value=\""+list[i].id+"\" />";
 			}
 			
 			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
@@ -124,6 +124,10 @@ utils.prototype.createAdjusterOptionsList = function(adjuster) {
 		if(excludeList.indexOf(list[i].id) == -1) {
 			
 			var inputRadio = " ";
+
+			if(type == "ownerList") {
+				inputRadio = "<input type=\"radio\" name=\""+adjuster.radioOptionName+"\" value=\""+list[i].id+"\" />";
+			}
 			
 			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
 				li += " data-adjusterid = "+list[i].id;
@@ -322,4 +326,30 @@ utils.prototype.setStatus = function(statusDD, statusDbVal) {
 	} else {
 		$("#"+statusDD).val("active");
 	}
+}
+
+utils.prototype.setIssueStatus = function(statusDD, statusDbVal) {
+	var statusDbVal = typeof(statusDbVal) != "undefined" ? statusDbVal : "";
+	var status = $("#"+statusDbVal).val();
+	status = typeof(status) != "undefined" && status != "" ? status.toLocaleLowerCase() : "";
+	if(typeof(status) != "undefined" && status != "" && $("#"+statusDD).length && $("#"+statusDD+" option[value='"+status+"']").length) {
+		$("#"+statusDD).val(status);
+	} else {
+		$("#"+statusDD).val("open");
+	}
+}
+
+utils.prototype.setIssueAssignedTo = function(statusDD, statusDbVal) {
+	var statusDbVal = typeof(statusDbVal) != "undefined" ? statusDbVal : "";
+	var status = $("#"+statusDbVal).val();
+	status = typeof(status) != "undefined" && status != "" ? status.toLocaleLowerCase() : "";
+	if(typeof(status) != "undefined" && status != "" && $("#"+statusDD).length && $("#"+statusDD+" option[value='"+status+"']").length) {
+		$("#"+statusDD).val(status);
+	} else {
+		$("#"+statusDD).val("customer");
+	}
+}
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }

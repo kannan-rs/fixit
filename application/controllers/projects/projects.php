@@ -16,7 +16,7 @@ class Projects extends CI_Controller {
 
 	public function viewAll() {
 		$this->load->model('projects/model_projects');
-
+		$this->load->model('projects/model_issues');
 		
 		$projects = $this->model_projects->getProjectsList();
 
@@ -29,7 +29,7 @@ class Projects extends CI_Controller {
 								AVG(task_percent_complete) as percentage, 
 								DATE_FORMAT( MAX(task_end_date), '%m/%d/%y' ) as end_date, 
 								DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
-						from project_details where project_id = '".$projects[$i]->proj_id."'";
+						from project_details where project_id = '".$projects[$i]->proj_id."' and deleted = 0";
 
 			$consolidate_data_query = $this->db->query($ed_query);
 			$consolidate_data_result = $consolidate_data_query->result();
@@ -37,11 +37,17 @@ class Projects extends CI_Controller {
 
 			$projects[$i]->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
 
-			$start_date 			= $consolidate_data->start_date != "" ? ($projects[$i]->start_date != "" && $projects[$i]->start_date < $consolidate_data->start_date ? $projects[$i]->start_date : $consolidate_data->start_date) : ($projects[$i]->start_date != "" ? $projects[$i]->start_date : "-NA-");
-			$end_date 				= $consolidate_data->end_date != "" ? ($projects[$i]->end_date != "" && $projects[$i]->end_date > $consolidate_data->end_date ? $projects[$i]->end_date : $consolidate_data->end_date) : ($projects[$i]->end_date != "" ? $projects[$i]->end_date : "-NA-");
+			$start_date 	= $consolidate_data->start_date != "" ? ($projects[$i]->start_date != "" && $projects[$i]->start_date < $consolidate_data->start_date ? $projects[$i]->start_date : $consolidate_data->start_date) : ($projects[$i]->start_date != "" ? $projects[$i]->start_date : "-NA-");
+			$end_date 		= $consolidate_data->end_date != "" ? ($projects[$i]->end_date != "" && $projects[$i]->end_date > $consolidate_data->end_date ? $projects[$i]->end_date : $consolidate_data->end_date) : ($projects[$i]->end_date != "" ? $projects[$i]->end_date : "-NA-");
 
 			$projects[$i]->start_date 	= $start_date;
 			$projects[$i]->end_date 		= $end_date;
+
+			$issuesResponse = $this->model_issues->getIssuesList("", $projects[$i]->proj_id);
+			$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+
+			$projects[$i]->issueCount = $issueCount;
+
 		}
 
 		$params = array(
@@ -49,6 +55,60 @@ class Projects extends CI_Controller {
 		);
 		
 		echo $this->load->view("projects/projects/viewAll", $params, true);
+	}
+
+	public function getAssignees() {
+		$projectId 			= $this->input->post('projectId');
+
+		$this->load->model('projects/model_projects');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+
+		$customerId = "";
+		$adjusterId = "";
+		$contractorId = "";
+
+		$assigneeDetails  	= array(
+			"status" 	=> "error"
+		);
+
+		$projects = $this->model_projects->getProjectsList( $projectId );
+
+		if(count($projects)) {
+			$customerId = $projects[0]->customer_id;
+			$adjusterId = $projects[0]->adjuster_id;
+			$contractorId = $projects[0]->contractor_id;
+		}
+
+		if(!empty($customerId)) {
+			$assigneeDetails["status"] = "success";
+			$userDetails = $this->model_users->getUsersList( $customerId );
+
+			if(count($userDetails)) {
+				$customerDetails = $this->model_users->getUserDetailsByEmail( $userDetails[0]->user_name );
+				if(count($customerDetails)) {
+					$assigneeDetails["customerDetails"] = $customerDetails;
+					$assigneeDetails["customerDetails"]["user_sno"] = $userDetails[0]->sno;
+					$assigneeDetails["customerDetails"]["account_type"] = $userDetails[0]->account_type;
+					$assigneeDetails["customerDetails"]["account_status"] = $userDetails[0]->status;
+				}
+			}
+		}
+
+		if(!empty($adjusterId)) {
+			$adjusterIdArr = explode(",", $adjusterId);
+			$partnersResponse = $this->model_partners->getPartnersList($adjusterIdArr);
+			 $assigneeDetails["adjusterDetails"] = $partnersResponse["partners"];
+		}
+
+		if(!empty($contractorId)) {
+			$contractorIdArr = explode(",", $contractorId);
+			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
+		}
+
+		print_r(json_encode($assigneeDetails));
 	}
 	
 	public function createForm() {
@@ -254,7 +314,7 @@ class Projects extends CI_Controller {
 							AVG(task_percent_complete) as percentage, 
 							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%y') as end_date, 
 							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
-					from project_details where project_id = '".$project->proj_id."'";
+					from project_details where project_id = '".$project->proj_id."' and deleted = 0";
 
 		$consolidate_data_query = $this->db->query($ed_query);
 		$consolidate_data_result = $consolidate_data_query->result();

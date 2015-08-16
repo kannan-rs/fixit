@@ -16,9 +16,15 @@
 	<?php
 		}
 
-		for($i = 0; $i < count($projects); $i++) { 
+		for($i = 0; $i < count($projects); $i++) {
 			$deleteText = "Delete";
 			$deleteFn = $deleteText ? "projectObj._projects.deleteRecord(".$projects[$i]->proj_id.")" : "";
+			
+			$issueCount 	= $projects[$i]->issueCount;
+			$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
+
+			$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
+			
 	?>
 			<tr class='row viewAll'>
 				<td class='cell'>
@@ -30,6 +36,9 @@
 				<td class="cell date"><?php echo $projects[$i]->start_date; ?></td>
 				<td class="cell date"><?php echo $projects[$i]->end_date; ?></td>
 				<td class='cell table-action'>
+				<span>
+					<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues"><span class="size-9"><?php echo $issueCount; ?></span></a>
+				</span>
 				</td>
 			</tr>
 	<?php

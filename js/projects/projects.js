@@ -1294,7 +1294,8 @@ project.prototype.getOwnerList = function( records ) {
 					"list" 			: response["contractors"],
 					"appendTo"		: "ownerSearchResult",
 					"type"			: "ownerList",
-					"prefixId" 		: "ownerSearch"
+					"prefixId" 		: "ownerSearch",
+					"radioOptionName" : "optionSelectedOwner"
 				}
 				utilObj.createContractorOptionsList(contractors);
 				projectObj._tasks.setOwnerOption();

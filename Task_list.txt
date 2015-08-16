@@ -37,3 +37,17 @@ MOM 3ed Aug 2015
 - 10. Delete for all need to be confirmed from user.
 - 11. Never delete any of that. Deactive it on delete.
 12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.
+------------------
+MOM 12th Aug 2015
+------------------
+1. Issues is for a project or for a task. It will be popped for a project even if it is tied to a task.
+2. It need to have a date - logged date (calander, user selection)
+3. Status - Open, in Progress, Cancelled, Closed
+4. Issue has notes as well. (Multiple notes)
+5. Owner will be assigned to the issue. 
+6. Owner - By default is the created, it can be assigned to contractor, adjuster and customer
+7. Any one who is access to the project can be the owner of the issue.
+-----------------------------------
+
+Work for this week (10/08 - 16/08) 
+(4) - Delete Functionality implemented for contractor, partner, project docs, project notes, users, user details.

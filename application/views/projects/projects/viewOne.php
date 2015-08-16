@@ -1,12 +1,22 @@
 <?php
 	$editFn 	= "projectObj._projects.editProject('".$projectId."')";
 	$deleteFn 	= "projectObj._projects.deleteRecord('".$projectId."')";
+	
+	$issueCount 	= rand(0, 10) || "";
+
+	$issueFnOptions = "{'projectId' :".$projectId.", 'openAs' : 'popup', 'popupType' : '' }";
+	$issueFn 		= "projectObj._issues.viewAll(".$issueFnOptions.")";
 ?>
 <div class="header-options">
 	<h2>Project Details</h2>
 	<span class="options-icon">
+		<span>
+			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues">
+				<span class="size-9"><?php echo $issueCount; ?></span>
+			</a>
+		</span>
 		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Project"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Project"></a></span>	
+		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Project"></a></span>
 	</span>
 </div>
 <div>

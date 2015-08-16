@@ -6,6 +6,7 @@ class Model_users extends CI_Model {
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
 		$this->db->where('status', '1');
+		$this->db->where('deleted', '0');
 
 		$query = $this->db->get('users');
 		$result = $query->result();
@@ -23,6 +24,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
+		$this->db->where('deleted', '0');
 
 		$query = $this->db->get('users');
 
@@ -37,6 +39,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
+		$this->db->where('deleted', '0');
 
 		$query = $this->db->get('users');
 
@@ -50,6 +53,7 @@ class Model_users extends CI_Model {
 	public function getUserSnoViaEmail($email = '') {
 		if($email != '') {
 			$this->db->where('user_name', $email);
+			$this->db->where('deleted', '0');
 
 			$query = $this->db->get('users');
 
@@ -68,10 +72,10 @@ class Model_users extends CI_Model {
 	public function getUsersList($params = "") {
 		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.account_type, ";
 		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
-		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email";
+		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
 
 		 if($params && $params != "" && $params != 0) {
-			$queryStr .= " where users.sno = ".$params;			
+			$queryStr .= " AND users.sno = ".$params;			
 		}
 
 		$query = $this->db->query($queryStr);
@@ -109,6 +113,8 @@ class Model_users extends CI_Model {
 
 	public function getUserDetailsByEmail($email) {
 		$this->db->where('email', $email);
+		$this->db->where('deleted', '0');
+
 		$this->db->select([
 			"sno",
 			"last_name",
@@ -151,6 +157,8 @@ class Model_users extends CI_Model {
 		}
 		
 		$this->db->where('sno', $sno);
+		$this->db->where('deleted', '0');
+
 		$query = $this->db->get('user_details');
 		$user_details = $query->result();
 		return $user_details;
@@ -192,6 +200,52 @@ class Model_users extends CI_Model {
 		} else {
 			$response['status'] = "failed";
 			$response['message'] = $this->db->_error_message();
+		}
+		return $response;
+	}
+
+	public function deleteUser($record) {
+		$response = array(
+			'status' => 'error'
+		);
+		if($record && $record!= "") {
+			$this->db->where('sno', $record);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
+			
+			if($this->db->update('users', $data)) {
+				$response['status']		= "success";
+				$response['message']	= "User Deleted Successfully";
+			} else {
+				$response["message"] = "Error while deleting the records";
+			}
+		} else {
+			$response['message']	= 'Invalid User, Please try again';
+		}
+		return $response;
+	}
+
+	public function deleteUserDetails($email) {
+		$response = array(
+			'status' => 'error'
+		);
+		if($email && $email!= "") {
+			$this->db->where('email', $email);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
+			
+			if($this->db->update('user_details', $data)) {
+				$response['status']		= "success";
+				$response['message']	= "User Deleted Successfully";
+			} else {
+				$response["message"] = "Error while deleting the records";
+			}
+		} else {
+			$response['message']	= 'Invalid User, Please try again';
 		}
 		return $response;
 	}

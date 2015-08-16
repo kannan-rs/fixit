@@ -2,10 +2,13 @@
 
 class Model_notes extends CI_Model {
 	public function getNotesList($projectId = "", $taskId = 0, $noteId, $startRecord = 0, $count) {
-		$countWhereStr = "";
+		$this->db->where('deleted', '0');
+
+		$countWhereStr = " WHERE deleted = 0";
+
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
-			$countWhereStr .= " where project_id = ".$projectId;
+			$countWhereStr .= " AND project_id = ".$projectId;
 		} else {
 			return [];
 		}
@@ -92,8 +95,12 @@ class Model_notes extends CI_Model {
 		);
 		if($noteId && $noteId != "") {
 			$this->db->where('notes_id', $noteId);
+
+			$data = array(
+				'deleted' 				=> 1
+			);
 			
-			if($this->db->delete('project_notes')) {
+			if($this->db->update('project_notes', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Note Deleted Successfully";
 			} else {

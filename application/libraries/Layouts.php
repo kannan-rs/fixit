@@ -10,76 +10,36 @@ class Layouts
 	//Default templates includes
 	private $layout_template = "default";
 
-	// hold includes like css and js files
-	/*private $js_includes = array(
-			'common' => array(
-				"js/library/jquery-2.1.3.min.js",
-				"js/library/jquery-ui.js",
-				"js/library/jquery.validate.js",
-				"js/library/plugin/searchSelect-Jquery.js",
-				"js/themes/default/layouts.js",
-				"js/home.js",
-				"js/submit.js",
-				"js/utils/utils.js",
-			),
-			'security' => array(
-				"js/security/users.js",
-				"js/security/operations.js",
-				"js/security/roles.js",
-				"js/security/functions.js",
-				"js/security/dataFilters.js",
-				"js/security/permissions.js",
-				"js/security.js"
-			),
-			'projects' => array(
-				"js/projects/projects.js",
-				"js/projects/tasks.js",
-				"js/projects/notes.js",
-				"js/projects/docs.js",
-				"js/projects/contractors.js",
-				"js/projects.js"
-			),
-			'home' => array(
-				"js/security/users.js",
-				"js/security/operations.js",
-				"js/security/roles.js",
-				"js/security/functions.js",
-				"js/security/dataFilters.js",
-				"js/security/permissions.js",
-				'js/home/userInfo.js',
-				"js/home.js",
-				"js/security.js"
-			)
-		);*/
 	private $js_includes = array(
-			'common' => array(
-				"js/library/jquery-2.1.3.min.js",
-				"js/library/jquery-ui.js",
-				"js/library/jquery.validate.js",
-				"js/library/plugin/searchSelect-Jquery.js",
-				"js/themes/default/layouts.js",
-				"js/submit.js",
-				"js/utils/utils.js",
-				"js/security/users.js",
-				"js/security/operations.js",
-				"js/security/roles.js",
-				"js/security/functions.js",
-				"js/security/dataFilters.js",
-				"js/security/permissions.js",
-				"js/security.js",
-				"js/projects/projects.js",
-				"js/projects/tasks.js",
-				"js/projects/notes.js",
-				"js/projects/docs.js",
-				"js/projects/contractors.js",
-				"js/projects/partners.js",
-				"js/projects/remainingbudget.js",
-				"js/projects.js",
-				'js/home/userInfo.js',
-				"js/home.js",
-				"js/home.js",
-			)
-		);
+		'common' => array(
+			"js/library/jquery-2.1.3.min.js",
+			"js/library/jquery-ui.js",
+			"js/library/jquery.validate.js",
+			"js/library/plugin/searchSelect-Jquery.js",
+			"js/themes/default/layouts.js",
+			"js/submit.js",
+			"js/utils/utils.js",
+			"js/security/users.js",
+			"js/security/operations.js",
+			"js/security/roles.js",
+			"js/security/functions.js",
+			"js/security/dataFilters.js",
+			"js/security/permissions.js",
+			"js/security.js",
+			"js/projects/issues.js",
+			"js/projects/projects.js",
+			"js/projects/tasks.js",
+			"js/projects/notes.js",
+			"js/projects/docs.js",
+			"js/projects/contractors.js",
+			"js/projects/partners.js",
+			"js/projects/remainingbudget.js",
+			"js/projects.js",
+			'js/home/userInfo.js',
+			"js/home.js",
+			"js/home.js",
+		)
+	);
 
 	private $css_includes = array(
 		"css/themes/default/styles.css", 
@@ -105,6 +65,8 @@ class Layouts
 			array('text' => 'Change Password', 'link'=> '/main/home/change_pass_form', 'key' => 'change_pass_form')
 		),
 		'projects' => array(
+			array('text' => 'Issues', 'link'=> '/main/projects/issues', 'key' => 'issues'),
+			//array('text' => 'Create Issue', 'link'=> '/main/projects/create_issue', 'key' => 'create_issue'),
 			array('text' => 'Projects', 'link'=> '/main/projects/projects', 'key' => 'projects'),
 			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
 			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
@@ -114,10 +76,13 @@ class Layouts
 		)
 	);
 
+	/*
+		Set default left navigation selection and highlight if no left navigation is selected
+	*/
 	private $menus_default = array(
 		'security'=>"users",
 		'home' => "view_my_details",
-		'projects' => 'projects'
+		'projects' => 'issues'
 	);
 
 	private $menu_title = array(
