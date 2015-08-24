@@ -75,9 +75,17 @@ class Main extends CI_Controller {
 		if(!$this->isLoggedIn()) {
 			return false;
 		}
-		$this->layouts->setPage("projects");
-		//Render a view
-		$this->layouts->view();
+
+		if($this->session->userdata('module') != "exportCSV") {
+			$this->layouts->setPage("projects");
+			//Render a view
+			$this->layouts->view();
+		} else {
+			//$this->load->model('projects');
+			//$this->Users_model->csv();
+			$this->load->library('../controllers/projects/projects');
+			$this->projects->exportCSV();
+		}
 	}
 
 	public function signup()
@@ -103,5 +111,7 @@ class Main extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect("/");
 	}
+
+
 }
 ?>

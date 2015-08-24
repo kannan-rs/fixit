@@ -1,5 +1,14 @@
 <?php
-if($viewFor == "" || $viewFor != "projectViewOne") {
+$taskId = $tasks[0]->task_id;
+$projectId = $tasks[0]->project_id;
+
+$deleteFn 	= "projectObj._projects.taskDelete(".$taskId.",".$projectId.")";
+$editFn 	= "projectObj._projects.editTask('".$taskId."')";
+
+$issueCount 	= $tasks[0]->issueCount;
+$issueFnOptions = "{'projectId' :".$tasks[0]->project_id.", 'taskId' : ".$tasks[0]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
+$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
+/*if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 	<div class="create-link">
 		<?php echo $internalLink;
@@ -11,17 +20,31 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		?>
 	</div>
 	<?php echo $projectNameDescr; ?>
-	<h2>Task Details</h3>
+	<h2>Task Details</h2>
 <?php
-} else {
+} else { */
 ?>
-	<div class="create-link">
+	<div class="header-options">
+	<span class="options-icon">
+	<!-- <table>
+		<tr>
+			<td class="cell table-action right"> -->
 		<?php if(count($tasks) > 0) { ?>
-		<span><a href="javascript:void(0);" onclick="projectObj._projects.editTask(<?php echo $tasks[0]->task_id; ?>)">Update Task</a></span>
+		<span><a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
+		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span>
+		<span>
+			<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues">
+				<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
+			</a>
+		</span>
 		<?php } ?>
+			<!-- </td>
+		</tr>
+	</table> -->
+	</span>
 	</div>
 <?php
-}
+//}
 ?>
 	<table cellspacing="0">
 	<?php

@@ -1,26 +1,51 @@
 <!-- Add Function Start -->
 <?php
+$issueId = isset($issueId) && !empty($issueId) ? $issueId : "";
+
+$issueName = isset($issues) && count($issues) ? $issues[0]->issue_name : "";
+$issueDescr = isset($issues) && count($issues) ? $issues[0]->issue_desc : "";
+$assignedToUserTypeDB = isset($issues) && count($issues) ? $issues[0]->assigned_to_user_type : "";
+$assignedToUserDB = isset($issues) && count($issues) ? $issues[0]->assigned_to_user_id : "";
+$issueFromdate = isset($issues) && count($issues) ? $issues[0]->issue_from_date : "";
+$issueStatus = isset($issues) && count($issues) ? $issues[0]->status : "";
+$issueNotes = isset($issues) && count($issues) ? $issues[0]->notes : "";
+
+$headerText = "";
+$prefix = $issueId ? "update" : "create";
+
 if(!$openAs || $openAs != "popup") {
+	$headerText = $issueId != "" ? "Edit Issue" : "Create Issue";
+}
+
+
+
 ?>
-<h2>Create Issue</h3>
+
+<?php
+if(!empty($headerText)) {
+?>
+<h2>$headerText</h2>
 <?php
 }
 ?>
-<form id="create_issue_form" name="create_issue_form" class="inputForm">
+
+<form id="<?php echo $prefix; ?>_issue_form" name="<?php echo $prefix; ?>_issue_form" class="inputForm">
 	<div class='form'>
 		<input type="hidden" name="issueProjectId" id="issueProjectId" value="<?php echo $projectId; ?>" />
 		<input type="hidden" name="issueTaskId" id="issueTaskId" value="<?php echo $taskId; ?>" />
-		<input type="hidden" name="assignedToUserTypeDB" id="assignedToUserTypeDB" />
+		<input type="hidden" name="issueId" id="issueId" value="<?php echo $issueId; ?>" />
+		<input type="hidden" name="assignedToUserTypeDB" id="assignedToUserTypeDB" value="<?php echo $assignedToUserTypeDB; ?>" />
+		<input type="hidden" name="assignedToUserDB" id="assignedToUserDB" value="<?php echo $assignedToUserDB; ?>" />
 		<input type="hidden" name="issueStatusDB" id="issueStatusDB" />
 
 		<div class="label">Issue Name:</div>
 		<div>
-			<input type="text" name="issueName" id="issueName" value="" required placeholder="Issue Name">
+			<input type="text" name="issueName" id="issueName" value="<?php echo $issueName;?>" required placeholder="Issue Name">
 		</div>
 		
 		<div class="label">Issue Description:</div>
 		<div>
-			<textarea name="issueDescr" id="issueDescr" class="small-textarea" required placeholder="Issue Description"></textarea>
+			<textarea name="issueDescr" id="issueDescr" class="small-textarea" required placeholder="Issue Description"><?php echo $issueDescr;?></textarea>
 		</div>
 
 		<div class="label">Assigned to</div>
@@ -64,7 +89,7 @@ if(!$openAs || $openAs != "popup") {
 
 		<div class="label">Issue From Date</div>
 		<div>
-			<input type="text" name="issueFromdate" id="issueFromdate" value="" placeholder="Issue From Date" required>
+			<input type="text" name="issueFromdate" id="issueFromdate" value="<?php echo $issueFromdate;?>" placeholder="Issue From Date" required>
 		</div>
 		
 		<div class="label">Issue Status</div>
@@ -80,11 +105,22 @@ if(!$openAs || $openAs != "popup") {
 		
 		<div class="label">Issue Notes:</div>
 		<div>
-			<textarea name="issueNotes" id="issueNotes" class="small-textarea" placeholder="Issue Notes" required></textarea>
+			<textarea name="issueNotes" id="issueNotes" class="small-textarea" placeholder="Issue Notes" required><?php echo $issueNotes;?></textarea>
 		</div>
 		
 		<p class="button-panel">
+			<?php
+			if($issueId != "") {
+			?>
+			<button type="button" id="update_issue_submit" onclick="projectObj._issues.updateValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Update Issue</button>
+			<?php
+			} else {
+			?>
 			<button type="button" id="create_issue_submit" onclick="projectObj._issues.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Create Issue</button>
+			<?php
+			}
+			?>
+			
 			<?php
 			if($openAs == "popup") {
 			?>

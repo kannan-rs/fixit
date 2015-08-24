@@ -34,20 +34,26 @@ MOM 3ed Aug 2015
 1. Merging contractor and adjuster into single table with name company and company type should define (contractor / adjuster / customer etc...) (Later)
 8. Validate email address that is available.
 9. we need to have drop down on contractor types (Electr, Plumber, general, Automobile, Mechanic, etc..)
-- 10. Delete for all need to be confirmed from user.
-- 11. Never delete any of that. Deactive it on delete.
 12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.
-------------------
-MOM 12th Aug 2015
-------------------
-1. Issues is for a project or for a task. It will be popped for a project even if it is tied to a task.
-2. It need to have a date - logged date (calander, user selection)
-3. Status - Open, in Progress, Cancelled, Closed
-4. Issue has notes as well. (Multiple notes)
-5. Owner will be assigned to the issue. 
-6. Owner - By default is the created, it can be assigned to contractor, adjuster and customer
-7. Any one who is access to the project can be the owner of the issue.
+
 -----------------------------------
 
-Work for this week (10/08 - 16/08) 
-(4) - Delete Functionality implemented for contractor, partner, project docs, project notes, users, user details.
+Work for this week (17/08 - 23/08) 
+----------------------------------
+1. Delete Functionality implemented for contractor, partner, project docs, project notes, users, user details.
+2. Issue list table header and bottom content need to be aligned...
+3. Issue Edit Completed
+4. Issue for task Adding and editing.
+5. Counting of task seperately for Project, and task
+6. View one Expanding of task if Issue is updated from task.
+------------------------
+
+24/8/2015
+---------
+1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
+2. This contact point will receive mails when the contractor company is choosen for a project.
+3. Contractor Project view will have an option to add multiple contractor users to a project belongs to their contractor company. Same for Partners as well.
+4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
+5. Same user will be listed for task assignment as well.
+
+

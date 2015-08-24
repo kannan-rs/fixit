@@ -1,7 +1,12 @@
 <?php
 	$editFn 		= "projectObj._issuess.editForm({'openAs':'popup', 'popupType' : 2})";
 	$deleteFn 		= "projectObj._issuess.deleteRecord('".$issueId."')";
-	$issues		= $issues[0];
+	$issues			= $issues && count($issues) ? $issues[0] : [];
+
+	if(count($issues) == 0) {
+		echo "This Issue is either cancelled or closed";
+		return;
+	}
 
 	$assignedToUser 	= "";
 

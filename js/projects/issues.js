@@ -9,6 +9,7 @@ issues.prototype.createForm = function( options ) {
 	var openAs 		= options && options.openAs ? options.openAs : "";
 	var popupType 	= options && options.popupType ? options.popupType : "";
 	var projectId 	= options && options.projectId ? options.projectId : "";
+	var taskId 		= options && options.taskId ? options.taskId : "";
 
 	if(!openAs) {
 		projectObj.clearRest();
@@ -21,13 +22,14 @@ issues.prototype.createForm = function( options ) {
 		data: {
 			openAs 		: openAs,
 			popupType 	: popupType,
-			projectId 	: projectId
+			projectId 	: projectId,
+			taskId 		: taskId
 		},
 		success: function( response ) {
 			if(openAs == "popup") {
 				$("#popupForAll"+popupType).html( response );
 				projectObj._projects.openDialog({"title" : "Add Issue"}, popupType);
-			} else{
+			} else {
 				$("#issue_content").html(response);
 			}
 
@@ -36,7 +38,6 @@ issues.prototype.createForm = function( options ) {
 			utilObj.setIssueAssignedTo("assignedToUserType", "assignedToUserTypeDB");
 			projectObj._issues.showAssignedToOptions();
 			projectObj._issues.getAndListAssignees( projectId );
-			
 		},
 		error: function( error ) {
 			error = error;
@@ -106,6 +107,13 @@ issues.prototype.createSubmit = function( openAs, popupType ) {
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
+			projectObj._issues.viewAll();
+
+			if(projectObj._projects.projectId) {
+				projectObj._projects.viewOne( issueProjectId, {"triggeredBy" : "issues", "taskId": issueTaskId} );
+			} else {
+				projectObj._projects.viewAll();	
+			}
 		},
 		error: function( error ) {
 			error = error;
@@ -117,15 +125,15 @@ issues.prototype.createSubmit = function( openAs, popupType ) {
 }
 
 issues.prototype.viewOne = function( issueId, openAs, popupType ) {
-	this.issueId 	= issueId;
-	popupType 		= session.module == "projects" ? "2" : "";
-	openAs 			= session.module == "projects" ? "popup" : "";
+	//this.issueId 	= issueId;
+	popupType 		= session.page == "projects" ? "2" : "";
+	openAs 			= session.page == "projects" ? "popup" : "";
 	
 	$.ajax({
 		method: "POST",
 		url: "/projects/issues/viewOne",
 		data: {
-			issueId 		: projectObj._issues.issueId,
+			issueId 		: issueId,
 			openAs 			: openAs,
 			popupType 		: popupType
 		},
@@ -147,11 +155,19 @@ issues.prototype.viewOne = function( issueId, openAs, popupType ) {
 };
 
 issues.prototype.viewAll = function( options ) {
+	//var openAs 		= options && options.openAs ? options.openAs : "";
+	//var popupType 	= options && options.popupType ? options.popupType : "";
+	var projectId 	= options && options.projectId ? options.projectId : ( this.projectId ? this.projectId : "" );
+	var taskId 		= options && options.taskId ? options.taskId : ( this.taskId ? this.taskId : "" );
+	var popupType 	= "";
+	var openAs 		= session.page == "projects" ? "popup" : "";
 
-	var openAs 		= options && options.openAs ? options.openAs : "";
-	var popupType 	= options && options.popupType ? options.popupType : "";
-	var projectId 	= options && options.projectId ? options.projectId : "";
-	var taskId 		= options && options.taskId ? options.taskId : "";
+	this.projectId 	= projectId;
+	this.taskId 	= taskId;
+
+	if(!this.projectId && !this.taskId) {
+		return;
+	}
 
 	$.ajax({
 		method: "POST",
@@ -182,23 +198,34 @@ issues.prototype.viewAll = function( options ) {
 issues.prototype.editForm = function( options ) {
 	var openAs 		= options && options.openAs ? options.openAs : "";
 	var popupType 	= options && options.popupType ? options.popupType : "";
+	var issueId 	= options && options.issueId ? options.issueId : "";
+	var projectId 	= options && options.projectId ? options.projectId : "";
+	var taskId 		= options && options.taskId ? options.taskId : "";
 
 	$.ajax({
 		method: "POST",
 		url: "/projects/issues/editForm",
 		data: {
-			'issueId' : projectObj._issues.issueId,
+			'issueId' 		: issueId,
 			'openAs' 		: openAs,
-			'popupType' 	: popupType
+			'popupType' 	: popupType,
+			'projectId' 	: projectId,
+			'taskId' 		: taskId
 			
 		},
 		success: function( response ) {
-			$("#popupForAll"+popupType).html(response);
-			projectObj._projects.openDialog({"title" : "Edit Issue"}, popupType);
-			projectObj._issues.setPrefContact();
+			if(openAs == "popup") {
+				$("#popupForAll"+popupType).html(response);
+				projectObj._projects.openDialog({"title" : "Edit Issue"}, popupType);
+			} else {
+				$("#issue_content").html(response);
+			}
+			
+			utilObj.setAsDateFields({"dateField": "issueFromdate"})
 			utilObj.setIssueStatus("issueStatus", "issueStatusDb");
-			utilObj.getAndSetCountryStatus("update_issue_form");
-
+			utilObj.setIssueAssignedTo("assignedToUserType", "assignedToUserTypeDB");
+			projectObj._issues.showAssignedToOptions();
+			projectObj._issues.getAndListAssignees( projectId );
 		},
 		error: function( error ) {
 			error = error;
@@ -209,39 +236,41 @@ issues.prototype.editForm = function( options ) {
 	});
 };
 
-issues.prototype.updateValidate = function() {
+issues.prototype.updateValidate = function( openAs, popupType ) {
 	var validator = $( "#update_issue_form" ).validate();
 
 	if(validator.form()) {
-		projectObj._issues.updateSubmit();
+		projectObj._issues.updateSubmit( openAs, popupType );
 	}
 };
 
-issues.prototype.updateSubmit = function() {
+issues.prototype.updateSubmit = function( openAs, popupType ) {
 	var idPrefix 				= "#update_issue_form ";
-	var issueId			= $(idPrefix+"#issueId").val();
-	var name 					= $(idPrefix+"#name").val();
-	var company 				= $(idPrefix+"#company").val();
-	var type 					= $(idPrefix+"#type").val();
-	var license 				= $(idPrefix+"#license").val();
-	var bbb 					= $(idPrefix+"#bbb").val();
-	var status 					= $(idPrefix+"#status").val();
-	var addressLine1 			= $(idPrefix+"#addressLine1").val();
-	var addressLine2 			= $(idPrefix+"#addressLine2").val();
-	var city 					= $(idPrefix+"#city").val();
-	var state 					= $(idPrefix+"#state").val();
-	var country 				= $(idPrefix+"#country").val();
-	var zipCode 				= $(idPrefix+"#zipCode").val();
-	var emailId 				= $(idPrefix+"#emailId").val();
-	var contactPhoneNumber 		= $(idPrefix+"#contactPhoneNumber").val();
-	var mobileNumber 			= $(idPrefix+"#mobileNumber").val();
-	var prefContact 			= "";
-	var websiteURL 				= $(idPrefix+"#websiteURL").val();
-	var serviceZip 				= $(idPrefix+"#serviceZip").val();
+	var issueId 				= $(idPrefix+"#issueId").val();
+	var issueProjectId 			= $(idPrefix+"#issueProjectId").val();
+	var issueTaskId 				= $(idPrefix+"#issueTaskId").val();
+	var issueName 				= $(idPrefix+"#issueName").val();
+	var issueDescr 				= $(idPrefix+"#issueDescr").val();
+	var assignedToUserTypeDB	= $(idPrefix+"#assignedToUserTypeDB").val();
+	var assignedToUserType		= $(idPrefix+"#assignedToUserType").val();
+	var assignedToUserDB 		= $(idPrefix+"#assignedToUserDB").val();
+	var issueFromdate 			= utilObj.toMySqlDateFormat($(idPrefix+"#issueFromdate").val());
+	var issueStatus 			= $(idPrefix+"#issueStatus").val();
+	var issueNotes 				= $(idPrefix+"#issueNotes").val();
 
-	$(idPrefix+"input[name=prefContact]:checked").each(
+	var assignedToContractorId 	= "";
+	var assignedToAdjusterId 	= "";
+	var assignedToCustomerId 	= this.issueAssignedToCustomerId;
+
+	$(idPrefix+"input[name=issueRadioContractorSelected]:checked").each(
 		function() {
-			prefContact += prefContact != "" ? (","+this.value) : this.value;
+			assignedToContractorId = this.value;
+		}
+	);
+
+	$(idPrefix+"input[name=issueRadioAdjusterSelected]:checked").each(
+		function() {
+			assignedToAdjusterId = this.value;
 		}
 	);
 
@@ -249,35 +278,34 @@ issues.prototype.updateSubmit = function() {
 		method: "POST",
 		url: "/projects/issues/update",
 		data: {
-			issueId 			: issueId,
-			name 					: name,
-			company 				: company,
-			type 					: type,
-			license 				: license,
-			bbb 					: bbb,
-			status 					: status,
-			addressLine1 			: addressLine1,
-			addressLine2 			: addressLine2,
-			city 					: city,
-			state 					: state,
-			country 				: country,
-			zipCode 				: zipCode,
-			emailId 				: emailId,
-			contactPhoneNumber 		: contactPhoneNumber,
-			mobileNumber 			: mobileNumber,
-			prefContact 			: prefContact,
-			websiteURL 				: websiteURL,
-			serviceZip 				: serviceZip
+			issueId 				: issueId,
+			issueProjectId 			: issueProjectId,
+			issueTaskId 			: issueTaskId,
+			issueName 				: issueName,
+			issueDescr 				: issueDescr,
+			assignedToUserType		: assignedToUserType,
+			issueFromdate 			: issueFromdate,
+			issueStatus 			: issueStatus,
+			issueNotes 				: issueNotes,
+			assignedToContractorId	: assignedToContractorId,
+			assignedToAdjusterId 	: assignedToAdjusterId,
+			assignedToCustomerId 	: assignedToCustomerId
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				$(".ui-button").trigger("click");
 				alert(response.message);
-				projectObj._issues.viewOne(response.updatedId);
+				projectObj._issues.viewOne(response.updatedId, openAs, popupType);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
+			projectObj._issues.viewAll();
+			
+			if(projectObj._projects.projectId) {
+				projectObj._projects.viewOne( issueProjectId );
+			} else {
+				projectObj._projects.viewAll();	
+			} 
 		},
 		error: function( error ) {
 			alert(error);
@@ -352,6 +380,9 @@ issues.prototype.getAndListAssignees = function( projectId ) {
 };
 
 issues.prototype.setAssignees = function ( response ) {
+	var assignedToUserTypeDB 	= $("#assignedToUserTypeDB").val();
+	var assignedToUserDB 		= $("#assignedToUserDB").val();
+
 	var contractors = {
 		"list" 				: response["contractorDetails"],
 		"appendTo"			: "issueContractorResult",
@@ -359,6 +390,11 @@ issues.prototype.setAssignees = function ( response ) {
 		"prefixId" 			: "issueContractor",
 		"radioOptionName" 	: "issueRadioContractorSelected"
 	}
+
+	if(assignedToUserDB != "" && assignedToUserTypeDB == "contractor") {
+		contractors.selectId = assignedToUserDB;
+	}
+
 	utilObj.createContractorOptionsList(contractors);
 
 	var adjusters = {
@@ -368,6 +404,11 @@ issues.prototype.setAssignees = function ( response ) {
 		"prefixId" 			: "issueAdjuster",
 		"radioOptionName" 	: "issueRadioAdjusterSelected"
 	}
+
+	if(assignedToUserDB != "" && assignedToUserTypeDB == "adjuster") {
+		adjusters.selectId = assignedToUserDB;
+	}
+
 	utilObj.createAdjusterOptionsList(adjusters);
 
 	if(response["customerDetails"]) {

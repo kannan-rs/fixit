@@ -1,5 +1,5 @@
 <?php
-$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '2', 'taskId' : '".$taskId."'}";
+$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
 $createFn 		= "projectObj._issues.createForm(".$createFnOptions.")";
 $headerText = "";
 
@@ -22,10 +22,10 @@ if(!$openAs || $openAs != "popup") {
 	?>
 	<table cellspacing="0">
 		<tr class='heading'>
-			<td class='cell'>Issue Name</td>
-			<td class='cell'>Issue Status</td>
-			<td class='cell'>Issue From Date</td>
-			<td class='cell'></td>
+			<td class='cell text'>Issue Name</td>
+			<td class='cell text'>Issue Status</td>
+			<td class='cell date'>Issue From Date</td>
+			<td class='cell action'></td>
 		</tr>
 	<?php
 	for($i = 0; $i < count($issues); $i++) { 
@@ -42,7 +42,7 @@ if(!$openAs || $openAs != "popup") {
 				</a>
 			</td>
 			<td class="cell capitalize"><?php echo $issue->status; ?></td>
-			<td class="cell capitalize"><?php echo $issue->issue_from_date; ?></td>
+			<td class="cell capitalize date"><?php echo $issue->issue_from_date; ?></td>
 			<td class='cell table-action'>
 				<span>
 					<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $issueEditFn; ?>" title="Edit Issues"><span class="size-9"></a>

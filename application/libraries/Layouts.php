@@ -65,7 +65,7 @@ class Layouts
 			array('text' => 'Change Password', 'link'=> '/main/home/change_pass_form', 'key' => 'change_pass_form')
 		),
 		'projects' => array(
-			array('text' => 'Issues', 'link'=> '/main/projects/issues', 'key' => 'issues'),
+			//array('text' => 'Issues', 'link'=> '/main/projects/issues', 'key' => 'issues'),
 			//array('text' => 'Create Issue', 'link'=> '/main/projects/create_issue', 'key' => 'create_issue'),
 			array('text' => 'Projects', 'link'=> '/main/projects/projects', 'key' => 'projects'),
 			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
@@ -82,7 +82,7 @@ class Layouts
 	private $menus_default = array(
 		'security'=>"users",
 		'home' => "view_my_details",
-		'projects' => 'issues'
+		'projects' => 'projects'
 	);
 
 	private $menu_title = array(

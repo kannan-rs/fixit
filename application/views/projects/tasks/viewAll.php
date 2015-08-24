@@ -34,11 +34,15 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		
 		$taskId 		= $tasks[$i]->task_id;
 		$task_name 		= $tasks[$i]->task_name ? $tasks[$i]->task_name : "--";
-		$descr 			= ($tasks[$i]->task_desc != "") ? $tasks[$i]->task_desc : '--';
+		$descr 			= $tasks[$i]->task_desc != "" ? $tasks[$i]->task_desc : '--';
 		$percent 		= $tasks[$i]->task_percent_complete;
 		$stard_date 	= $tasks[$i]->task_start_date_for_view;
 		$end_date 		= $tasks[$i]->task_end_date_for_view;
 		$projectId 		= $tasks[$i]->project_id;
+
+		$issueCount 	= $tasks[$i]->issueCount;
+		$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
+		$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
 		
 		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.deleteRecord" : "projectObj._projects.taskDelete";
 		$deleteFn  .= "(".$taskId.",".$projectId.")";
@@ -68,8 +72,13 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<td class='cell date'><?php echo  $end_date; ?></td>
 			<td class='cell table-action'>
 				<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="<?php echo $notesFn?>" title="Notes For Task"></a></span>
-				<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
-				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span>
+				<!-- <span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
+				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span> -->
+				<span>
+					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues">
+						<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
+					</a>
+				</span>
 			</td>
 		</tr>
 <?php

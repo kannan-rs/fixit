@@ -3,7 +3,7 @@
 class Model_partners extends CI_Model {
 	
 	public function getPartnersList($record = "", $companyNmae = "", $name = "") {
-		//$this->db->where('deleted', '0');
+		$this->db->where('deleted', '0');
 		
 		if(isset($record) && !is_null($record)) {
 			if(is_array($record)) {

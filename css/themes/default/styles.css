@@ -251,6 +251,7 @@ tr.heading td {
 	text-transform: capitalize;
 }
 
+
 table tr td.cell {
 	color:#555555;
 }
@@ -258,6 +259,16 @@ table tr td.cell {
 table tr td.cell.number {
 	text-align: right;
 }
+
+table tr td.cell.text {
+	text-align: left;
+}
+
+table tr td.cell.action, table tr td.cell.date {
+	text-align: center;
+}
+
+
 
 table tr td.cell.table-action, table tr td.cell.percentage, table tr td.cell.date {
 	text-align: center;

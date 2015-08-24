@@ -7,9 +7,10 @@ class Model_contractors extends CI_Model {
 
 		if(isset($record) && !is_null($record)) {
 			if(is_array($record)) {
-				for($i = 0; $i < count($record); $i++) {
+				$this->db->where_in('id', $record);
+				/*for($i = 0; $i < count($record); $i++) {
 					if($record[$i]) $this->db->or_where('id', $record[$i]);	
-				}
+				}*/
 			} else if($record != "") {
 				$this->db->where('id', $record);
 			}
@@ -17,6 +18,7 @@ class Model_contractors extends CI_Model {
 
 		if(isset($zip) && !is_null($zip) && $zip != "") {
 			if(is_array($zip)) {
+				//$this->db->where_in('pin_code', $zip);
 				for($i = 0; $i < count($zip); $i++) {
 					if($zip[$i] != "") $this->db->or_like('pin_code', $zip[$i]);	
 				}
@@ -27,6 +29,7 @@ class Model_contractors extends CI_Model {
 
 		if(isset($serviceZip) && !is_null($serviceZip) && $serviceZip != "") {
 			if(is_array($serviceZip)) {
+				//$this->db->where_in('service_area', $zip);
 				for($i = 0; $i < count($serviceZip); $i++) {
 					if($serviceZip[$i] != "") $this->db->or_like('service_area', $serviceZip[$i]);	
 				}

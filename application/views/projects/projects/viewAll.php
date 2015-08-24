@@ -37,7 +37,9 @@
 				<td class="cell date"><?php echo $projects[$i]->end_date; ?></td>
 				<td class='cell table-action'>
 				<span>
-					<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues"><span class="size-9"><?php echo $issueCount; ?></span></a>
+				<?php if($issueCount) { ?>
+					<a class="step fi-alert size-21 red" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues"><span class="size-9"><?php echo $issueCount; ?></span></a>
+				<?php } ?>
 				</span>
 				</td>
 			</tr>

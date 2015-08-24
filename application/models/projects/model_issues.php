@@ -2,13 +2,11 @@
 
 class Model_issues extends CI_Model {
 	
-	public function getIssuesList($record = "", $projectId = "", $serviceZip = "") {
+	public function getIssuesList($record = "", $projectId = "", $taskId = "") {
 		
 		if(isset($record) && !is_null($record) && $record != "") {
 			if(is_array($record)) {
-				for($i = 0; $i < count($record); $i++) {
-					if($record[$i]) $this->db->or_where('issue_id', $record[$i]);	
-				}
+				$this->db->where_in('issue_id', $record);
 			} else if($record != "") {
 				$this->db->where('issue_id', $record);
 			}
@@ -16,13 +14,22 @@ class Model_issues extends CI_Model {
 
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			if(is_array($projectId)) {
-				for($i = 0; $i < count($projectId); $i++) {
-					if($projectId[$i]) $this->db->or_where('project_id', $projectId[$i]);	
-				}
+				$this->db->where_in('project_id', $projectId);
 			} else if($projectId != "") {
 				$this->db->where('project_id', $projectId);
 			}
 		}
+
+		if(isset($taskId) && !is_null($taskId) && $taskId != "") {
+			if(is_array($taskId)) {
+				$this->db->where_in('task_id', $taskId);
+			} else if($taskId != "") {
+				$this->db->where('task_id', $taskId);
+			}
+		}
+
+		$this->db->where_in("status", array("open", "inProgress"));
+		$this->db->where("deleted", 0);
 
 		$this->db->select([
 				"issue_id",
@@ -33,9 +40,9 @@ class Model_issues extends CI_Model {
 				"assigned_to_user_type",
 				"assigned_to_user_id",
 				"DATE_FORMAT(issue_from_date, \"%m/%d/%y\") as issue_from_date",
-				"DATE_FORMAT(issue_from_date, \"%d-%m-%y\") as issue_from_date_for_view",
+				"DATE_FORMAT(issue_from_date, \"%d/%m/%y\") as issue_from_date_for_view",
 				"assigned_date",
-				"DATE_FORMAT(assigned_date, \"%d-%m-%y\") as assigned_date_for_view",
+				"DATE_FORMAT(assigned_date, \"%m/%d/%y\") as assigned_date_for_view",
 				"status",
 				"notes",
 				"deleted", 
@@ -53,7 +60,7 @@ class Model_issues extends CI_Model {
 		
 		if($this->db->_error_number() == 0) {
 			$response["status"] 		= "success";
-			$response["issues"] 	= $query->result();
+			$response["issues"] 		= $query->result();
 		} else {
 			$response["status"] 		= "error";
 			$response["errorCode"] 		= $this->db->_error_number();
@@ -68,7 +75,7 @@ class Model_issues extends CI_Model {
 		if($this->db->insert('issue', $data)) {
 			$response['status'] 		= 'success';
 			$response['insertedId']	= $this->db->insert_id();
-			$response['message']		= "issue Inserted Successfully";
+			$response['message']		= "Issue Inserted Successfully";
 		} else {
 			$response['status'] 		= 'error';
 			$response['message']		= $this->db->_error_message();
@@ -81,11 +88,11 @@ class Model_issues extends CI_Model {
 			'status' => 'error'
 		);
 		if($record) {
-			$this->db->where('id', $record);
+			$this->db->where('issue_id', $record);
 		
 			if($this->db->update('issue', $data)) {
 				$response['status']		= 'success';
-				$response['message']	= 'issue updated Successfully';
+				$response['message']	= 'Issue updated Successfully';
 				$response['updatedId']	= $record;
 			} else {
 				$response["message"] = "Error while updating the records";

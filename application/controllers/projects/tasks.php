@@ -20,6 +20,7 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_contractors');
 		$this->load->model('security/model_users');
+		$this->load->model('projects/model_issues');
 
 		$projectId 	= $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
@@ -36,7 +37,15 @@ class Tasks extends CI_Controller {
 		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
 		$contractorDB 			= $contractorsResponse["contractors"];
 
-		
+		if (isset($tasksResponse["tasks"])) {
+			for($i = 0; $i < count($tasksResponse["tasks"]); $i++) {
+				$issuesResponse = $this->model_issues->getIssuesList("", $projectId, $tasksResponse["tasks"][$i]->task_id);
+				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+
+				$tasksResponse["tasks"][$i]->issueCount = $issueCount;
+			}
+		}
+
 		for($i = 0; $i < count($contractorDB); $i++) {
 			$contractors[$contractorDB[$i]->id] = $contractorDB[$i];
 		}
@@ -218,6 +227,7 @@ class Tasks extends CI_Controller {
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_issues');
 
 
 		$record 	= $this->input->post('taskId');
@@ -225,6 +235,15 @@ class Tasks extends CI_Controller {
 		$viewFor 	= $viewFor ? $viewFor : "";
 
 		$tasks = $this->model_tasks->getTask($record);
+
+		if (isset($tasks)) {
+			for($i = 0; $i < count($tasks); $i++) {
+				$issuesResponse = $this->model_issues->getIssuesList("", $tasks[$i]->project_id, $tasks[$i]->task_id);
+				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+
+				$tasks[$i]->issueCount = $issueCount;
+			}
+		}
 
 		$projectId 		= $tasks[0]->project_id;
 

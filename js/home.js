@@ -48,7 +48,7 @@ $().ready(function() {
             Project         -> Load Issues                        
     */
 
-    var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : "issues"));
+    var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : "projects"));
     switch (module) {
         /* Security Page */
         case "users":

@@ -7,6 +7,19 @@ function project() {
 
 project.prototype.selectedContractor = [];
 project.prototype.selectedAdjuster = [];
+
+project.prototype.viewOneAccordianList = [
+	"description",
+	"date",
+	"address",
+	"budget",
+	"contractors",
+	"partners",
+	"tasks",
+	"notes",
+	"documents",
+	"insurence"
+]
 /**
 	Create Project Validation
 */
@@ -329,14 +342,16 @@ project.prototype.deleteRecord = function() {
 	});
 };
 
-project.prototype.viewOne = function(projectId) {
+project.prototype.viewOne = function(projectId, options ) {
 	this.projectId = projectId;
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("project", "viewOne");
+
+	triggeredBy = options && options.viewTriggeredBy ? options.viewTriggeredBy : "";
 	
 	// Project Details View
 	setTimeout(function() {
-		projectObj._projects.getProjectDetails();
+		projectObj._projects.getProjectDetails( options );
 		setTimeout(function() {
 			projectObj._projects.getProjectTasksList();
 			projectObj._projects.getProjectNotesList();
@@ -346,7 +361,20 @@ project.prototype.viewOne = function(projectId) {
 
 };
 
-project.prototype.getProjectDetails = function() {
+project.prototype.exportCSV = function( projectId ) {
+	var exp = window.open("http://"+window.location.hostname+"/main/projects/exportCSV/"+projectId, "_blank");
+};
+
+project.prototype.getProjectDetails = function( options ) {
+	
+	var taskId 		= options && options.taskId ? options.taskId : "";
+	var triggeredBy = options && options.triggeredBy ? options.triggeredBy : "";
+	var defaultAccordian = false;
+
+	if(triggeredBy == "issues" && taskId != "") {
+		defaultAccordian = this.viewOneAccordianList.indexOf("tasks");
+	}
+
 	$.ajax({
 		method: "POST",
 		url: "/projects/projects/viewOne",
@@ -359,7 +387,7 @@ project.prototype.getProjectDetails = function() {
 				{
 					collapsible : true,  
 					icons 		: { "header": "ui-icon-plus", "activeHeader": "ui-icon-minus" },
-					active 		: false
+					active 		: defaultAccordian
 				}
 			);
 			$( "#projectDescrAccordion" ).accordion(
