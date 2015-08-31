@@ -1,0 +1,39 @@
+/*** NAVIGATION ***/
+nav {
+	background-color:#FFFFFF;
+	height:50px;
+	/*margin-bottom:20px;*/
+
+	ul {
+		list-style:none;
+		margin:0;
+		padding:0;
+
+		li {
+			float:left;
+			display:block;
+
+			a, a:visited {
+			    color:#326A85;
+				display:block;
+				float:left;
+				font-family:"Trebuchet MS", Verdana, Arial;
+				font-weight:bold;
+				padding:15px;
+				text-transform:uppercase;
+				text-decoration:none;
+			}
+
+			a:hover {
+				color:#326A85;
+				text-decoration:underline;
+			}
+		}
+	}
+}
+
+nav ul li.current a,
+nav ul li.current a:visited,
+nav ul li.current a:hover {
+	text-decoration:underline;
+}

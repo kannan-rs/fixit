@@ -1,11 +1,11 @@
 .login-form {
-	padding: 10px 10px 0px 10px;
+	padding: $defaultPadding $defaultPadding 0px $defaultPadding;
 }
 
 .section {
 	border-bottom: 1px solid #D3D3D3;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
+	padding-bottom: $defaultPadding;
+	margin-bottom: $defaultMargin;
 }
 
 .user_type_as {
@@ -24,48 +24,56 @@
 }
 
 .permissions input {
-	margin-bottom: 10px;
-	margin-right: 10px;
+	margin-bottom: $defaultMargin;
+	margin-right: $defaultMargin;
 }
 
-.button-panel a.signup {
-	font-size: 13px;
-	float: left;
-	margin-left: 10px;
-	text-decoration: underline;
+.button-panel {
+	a.signup {
+		font-size: 13px;
+		float: left;
+		margin-left: $defaultMargin;
+		text-decoration: underline;
+	}
 }
 
-.inputForm .label.notMandatory:after {
-	content: "";
-}
+.inputForm {
+	.label.notMandatory:after {
+		content: "";
+	}
 
-.inputForm .label:after {
-	content: "*";
-	color: red;
+	.label:after {
+		content: "*";
+		color: $redColor;
+	}
 }
 
 .notes_list {
+	 table {
+		border-bottom: 1px solid #dddddd;
 
+		tr {
+			td {
+				border-bottom: 0px solid #dddddd;
+			}
+
+			td.cell.label {
+				width: auto;	
+			}
+		}
+	}
 }
 
-.notes_list table {
-	border-bottom: 1px solid #dddddd;	
-}
+table.viewOne {
+	tr {
+		td.cell.label {
+			/*width: auto;*/
+		}
 
-.notes_list table tr td {
-	border-bottom: 0px solid #dddddd;	
-}
-
-.notes_list table tr td.cell.label {
-	width: auto;	
-}
-
-table.viewOne tr td.cell.label {
-	/*width: auto;*/
-}
-
-table.viewOne tr td {
-	border-bottom:0px;
+		td {
+			border-bottom:0px;
+		}
+	}
 }
 
 table.viewOne.projectViewOne {
@@ -125,10 +133,10 @@ span.inner_accordion {
 
 .size-72 { font-size: 72px; }
 
-.red { color : red;}
+.red { color : $redColor;}
 
 .delete:hover {
-	color:red;
+	color:$deleteColor;
 }
 
 table.viewAll tr td {
@@ -165,26 +173,27 @@ a.accordion-icon:hover {
 	color:#2B5B78;
 }
 
-.header-options h2 {
-	float:left;
-}
+.header-options {
+	h2 {
+		float:left;
+	}
+	.options-icon {
+		float: right;
 
-.header-options .options-icon {
-	float: right;
-}
-
-.header-options .options-icon a {
-	text-decoration: none;
-	margin: 0px 5px 0px 5px;
+		a {
+			text-decoration: none;
+			margin: 0px 5px 0px 5px;
+		}
+	}
 }
 
 .contractorDetails {
 	border: 1px solid #D3D3D3;
-	padding: 10px;
+	padding: $defaultPadding;
 }
 
 .contractorCompany {
-	margin-top : 10px;
+	margin-top : $defaultMargin;
 }
 
 select.multi-select {
@@ -221,7 +230,7 @@ textarea.small-textarea {
     margin: 0;
     padding: 5px 0 0 0;
     float: left;
-    margin-right: 10px;
+    margin-right: $defaultMargin;
     background-color: #EEEEEE;
   }
  
@@ -294,7 +303,7 @@ textarea.small-textarea {
 
 .custom-combobox-input {
 	margin: 0;
-	padding: 5px 10px;
+	padding: 5px $defaultMargin;
 }
 
 a.icon-right {
@@ -308,6 +317,7 @@ a.icon-right {
 .projectViewOne .project-title {
 	width : auto;
 }
+
 .fl {
 	float: left;
 }

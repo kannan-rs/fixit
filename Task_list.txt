@@ -38,16 +38,6 @@ MOM 3ed Aug 2015
 
 -----------------------------------
 
-Work for this week (17/08 - 23/08) 
-----------------------------------
-1. Delete Functionality implemented for contractor, partner, project docs, project notes, users, user details.
-2. Issue list table header and bottom content need to be aligned...
-3. Issue Edit Completed
-4. Issue for task Adding and editing.
-5. Counting of task seperately for Project, and task
-6. View one Expanding of task if Issue is updated from task.
-------------------------
-
 24/8/2015
 ---------
 1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
@@ -56,4 +46,10 @@ Work for this week (17/08 - 23/08)
 4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
 5. Same user will be listed for task assignment as well.
 
-
+8/31/2015
+---------
+1. We need to list all the tasks even it is closed
+2. If issue is colsed we ned to still show that.
+3. Remove the space between $ and amount
+4. Budget number align to Right
+5. 

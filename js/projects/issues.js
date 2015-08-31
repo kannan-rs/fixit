@@ -1,6 +1,5 @@
-function issues() {
-	
-}
+function issues() {	
+};
 
 issues.prototype.createForm = function( options ) {
 
@@ -157,15 +156,17 @@ issues.prototype.viewOne = function( issueId, openAs, popupType ) {
 issues.prototype.viewAll = function( options ) {
 	//var openAs 		= options && options.openAs ? options.openAs : "";
 	//var popupType 	= options && options.popupType ? options.popupType : "";
-	var projectId 	= options && options.projectId ? options.projectId : ( this.projectId ? this.projectId : "" );
-	var taskId 		= options && options.taskId ? options.taskId : ( this.taskId ? this.taskId : "" );
+	/*var projectId 	= options && options.projectId ? options.projectId : ( this.projectId ? this.projectId : "" );
+	var taskId 		= options && options.taskId ? options.taskId : ( this.taskId ? this.taskId : "" );*/
+    var projectId 	= options && options.projectId ? options.projectId : "" ;
+	var taskId 		= options && options.taskId ? options.taskId : "" ;
 	var popupType 	= "";
 	var openAs 		= session.page == "projects" ? "popup" : "";
 
-	this.projectId 	= projectId;
-	this.taskId 	= taskId;
+	/*this.projectId 	= projectId;
+	this.taskId 	= taskId;*/
 
-	if(!this.projectId && !this.taskId) {
+	if(!projectId && !taskId) {
 		return;
 	}
 

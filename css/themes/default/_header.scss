@@ -1,0 +1,29 @@
+/*** HEADER ***/
+header {
+	padding:15px $defaultPadding;
+	margin:0 auto;
+	background-color:#FFFFFF;
+	border-top:4px solid #326A85;
+	border-bottom:4px solid #326A85;
+	margin-bottom:$defaultMargin;
+
+	h1 {
+		float:left;
+		padding-bottom:0;
+	}
+	h2 {
+		float:left;
+		/*padding-top:20px;
+		padding-left:$defaultPadding;*/
+		/*font-size:0.75em;*/
+	}
+
+	.logged_in {
+		float: right;
+
+		.logged-in-as {
+			display: inherit;
+			font-size: 12px;
+		}
+	}
+}

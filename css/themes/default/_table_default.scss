@@ -1,0 +1,52 @@
+/* default tables */ 
+table {
+	width:100%;
+	margin-bottom:$defaultMargin;
+	/*font-size:0.75em;*/
+
+	tr {
+		th, td {
+			padding:5px $defaultPadding; 
+		}
+		th {
+			background:#4086AA none repeat-x scroll bottom left;
+			color:#ffffff;
+			border-top:3px solid #2B5B78;
+			text-align:left;
+		}
+		td {
+			border-bottom:1px solid /*#dddddd*/#eFeFeF;
+		}
+		td.cell {
+			color:$text-color;
+		}
+		td.cell.number {
+			text-align: right;
+		}
+		td.cell.text {
+			text-align: left;
+		}
+		td.cell.action, td.cell.date {
+			text-align: center;
+		}
+        td.cell.name {
+			width : 115px;
+		}
+        td.cell.descr {
+            width : 150px;
+        }
+		td.cell.table-action, td.cell.percentage, td.cell.date {
+			text-align: center;
+		}
+		td.cell.label {
+			display: table-cell;
+		}
+	}
+	tr.heading {
+		text-align: center;
+
+		td {
+			text-transform: capitalize;
+		}
+	}
+}

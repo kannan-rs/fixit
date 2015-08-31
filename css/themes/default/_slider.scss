@@ -1,0 +1,62 @@
+/*** FRONTPAGE SLIDER CSS ***/
+div.frontpage-slider {
+	height:220px;
+	background-color:#E6E6E6;
+	border-bottom:4px solid #ddd;
+	margin-bottom:25px;
+}
+div#jFlowSlide {
+	margin:0 auto;
+}
+div#slides-container {
+	height:220px;
+
+	div#jFlowSlide {
+		height:200px;
+	}
+	div.jFlowSlideContainer {
+		img {
+			margin:auto;
+			display:block;
+			border:4px solid #ccc;
+		}
+		div.slide-text {
+			padding-top:20px;
+
+			h2 {
+				font-family:$font-family;
+				font-size:1.5em;
+				font-weight:bold;
+			}
+		}
+		div.slide-image {
+			float:left;
+			width:322px;
+			padding-top:$defaultPadding;
+		}
+	}
+}
+
+span.jFlowPrev, span.jFlowNext {
+	@include jFlowPrevNext();
+
+	span { display:none; }
+}
+
+span.jFlowNext {
+	background-image:url('../images/slide-next.gif');
+	float:right;
+}
+
+div#slides-container {
+	div.controls {
+		position:relative;
+		top:-125px;
+		width:920px;
+		margin:0 auto;
+	}
+	div.jFlowSlideContainer p {
+		font-size:0.9em;
+		line-height:1.8em;
+	}
+}

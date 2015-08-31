@@ -19,8 +19,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 		<tr class='heading'>
 			<!--<td class='cell'>Sno</td>-->
-			<td class='cell'>Task Name</td>
-			<td class='cell'>Description</td>
+			<td class='cell name'>Task Name</td>
+			<td class='cell descr'>Description</td>
 			<td class='cell'>Owner</td>
 			<td class='cell'>% Complete</td>
 			<td class='cell'>Start Date</td>
@@ -60,12 +60,12 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 		<tr class='row' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->
-			<td class='cell'>
+			<td class='cell name'>
 				<a href="javascript:void(0);" onclick="<?php echo $viewOneFn; ?>">
 					<?php echo $task_name; ?>
 				</a>
 			</td>
-			<td class='cell'><?php echo $descr; ?></td>
+			<td class='cell descr'><?php echo $descr; ?></td>
 			<td class='cell'><?php echo $ownerName; ?></td>
 			<td class='cell percentage'><?php echo $percent; ?></td>
 			<td class='cell date'><?php echo  $stard_date; ?></td>

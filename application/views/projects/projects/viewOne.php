@@ -100,7 +100,7 @@
 						</tr>
 						<tr>
 							<td class='cell label'>Prefered Contact Mode</td>
-							<td class='cell' ><?php echo$contractors[$i]->prefer; ?></td>
+							<td class='cell' ><?php echo $contractors[$i]->prefer; ?></td>
 						</tr>
 						<tr>
 							<td class='cell label'>Contact Office Email</td>
@@ -155,7 +155,7 @@
 						</tr>
 						<tr>
 							<td class='cell label'>Prefered Contact Mode</td>
-							<td class='cell' ><?php echo$partners[$i]->contact_pref; ?></td>
+							<td class='cell' ><?php echo $partners[$i]->contact_pref; ?></td>
 						</tr>
 						<tr>
 							<td class='cell label'>Contact Office Email</td>

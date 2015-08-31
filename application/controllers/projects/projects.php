@@ -424,8 +424,7 @@ class Projects extends CI_Controller {
 
 	public function exportCSV() {
 		$projectId = $this->session->userdata("function");
-
-		print_r($this->session->all_userdata());
+		/*print_r($this->session->all_userdata());*/
 
 		if(!isset($projectId) || empty($projectId)) {
 			echo "Invalid Request";
@@ -493,78 +492,115 @@ class Projects extends CI_Controller {
 		//Paid From budget
 		$project->paid_from_budget = $this->model_remainingbudget->getPaidBudgetSum($project->proj_id);
 
-		/*$internalLinkParams = array(
-			"internalLinkArr" 		=> ["update project", "delete project"],
-			"projectId" 			=> $projectId
-		);
-*/
-		/*
-			Customer Output
-		*/
-		$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
-		$customer 	= count($customers) ? $customers[0] : "";
-		
-		if($customer) {
-			$customerParams = array(
-				"customer"			=> $customer
-			);
-			//$customerFile 		= $this->load->view("projects/projects/customerDetailsView", $customerParams, true);
-		}
-
-		/*
-			Issues Count
-		*/
-			$issuesResponse = $this->model_issues->getIssuesList("", $projectId);
-			$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
-
-			$project->issueCount = $issueCount;
-
-		/*
-			Address Output
-		*/
-		$addressParams = array(
-			'addressLine1' 		=> $project->addr1,
-			'addressLine2' 		=> $project->addr2,
-			'city' 				=> $project->addr_city,
-			'country' 			=> $project->addr_country,
-			'state'				=> $project->addr_state,
-			'zipCode' 			=> $project->addr_pin,
-			'requestFrom' 		=> 'view'
-		);
-		//$addressFile = $this->load->view("forms/address", $addressParams, true);
-
-		/*
-			Budget List
-		*/
-		$budgetParams = array(
-			'project'		=> $project,
-			'userType' 		=> $this->session->userdata('account_type'),
-		);
-
-		/*
-			Final Project ViewOnly template output
-		*/
-		$params = array(
-			'project'			=> $project,
-			'userType' 			=> $this->session->userdata('account_type'),
-			'projectId' 		=> $projectId,
-			'contractors' 		=> $contractors,
-			'partners' 			=> $partners,
-			'customerFile' 		=> $customerFile
-			//'addressFile' 		=> $this->load->view("forms/address", $addressParams, true),
-			//'projectBudgetFile' =>  $this->load->view("projects/projects/projectBudget.php", $budgetParams, true)
-		);
-		//echo $this->load->view("projects/projects/viewOne", $params, true);
-
-		//print_r($project);
 		$this->load->helper('download');
 
 	    $fp = fopen('php://output', 'w');
 	    
-	        fputcsv($fp, array(""));
-	        fputcsv($fp, array("", "Project Title", $project->project_name));
-	        fputcsv($fp, array("", "Project Description", $project->project_descr));
-	    
+        $csvArray = array(
+            [""], 
+            ["", "Project Title", $project->project_name], 
+            ["", "Project Description", $project->project_descr],
+            
+            /* Address Details */
+            ["Project Address", ""],
+            ["", "Address Line 1", $project->addr1],
+            ["", "Address Line 2", $project->addr2],
+            ["", "City", $project->addr_city],
+            ["", "State", $project->addr_state],
+            ["", "Country", $project->addr_country],
+            ["", "Zip", $project->addr_pin],
+            
+            /* Budget Details */
+            ["Budget", ""],
+            ["", "Project Budget", "$ ".number_format($project->project_budget, 2, '.', ',')],
+            ["", "Paid From Budget", "$ ".number_format($project->paid_from_budget, 2, '.', ',')],
+            ["", "Remaining Budget", "$ ".number_format(($project->project_budget - $project->paid_from_budget), 2, '.', ',')],
+            ["", "Deductible", "$ ".number_format($project->deductible, 2, '.', ',')],
+            ["", "Referral Fee", "$ ".number_format(((($project->project_budget - $project->deductible)/100) * 7), 2, '.', ',')],
+            
+            /* Project Dates */
+            ["Project Schedule", ""],
+            ["", "Start Date", $project->start_date],
+            ["", "End Date", $project->end_date]
+        );
+        
+        /* Contractor Details */
+        $csvArray[] = array("Contractors Assigned To The Project", "");
+        $csvArray[] = array("", "Contractor Name", "Contractor Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
+        
+        /* Contractor List */
+        for($i = 0; $i < count($contractors); $i++) {
+            $csvArray[] = array("", $contractors[$i]->name, $contractors[$i]->company, $contractors[$i]->prefer, $contractors[$i]->office_email, $contractors[$i]->office_ph, $contractors[$i]->mobile_ph, $contractors[$i]->address1, $contractors[$i]->address2, $contractors[$i]->city, $contractors[$i]->state, $contractors[$i]->country, $contractors[$i]->pin_code);
+        }
+        
+        /* Partner Details */
+        $csvArray[] = array("Partner Details", "");
+        $csvArray[] = array("", "Partner Name", "Partner Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Personal Email", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
+        for($i = 0; $i < count($partners); $i++) {
+            $csvArray[] = array("", $partners[$i]->name, $partners[$i]->company_name, $partners[$i]->contact_pref, $partners[$i]->work_email_id, $partners[$i]->work_phone, $partners[$i]->personal_email_id, $partners[$i]->mobile_no, $partners[$i]->address1, $partners[$i]->address2, $partners[$i]->city, $partners[$i]->state, $partners[$i]->country, $partners[$i]->zip_code);
+        }
+        
+        /* Task List */
+        $contractors = array();
+        
+		$customerDetails 	= $this->model_users->getUserDetailsBySno($project->customer_id);
+		$customerName 		= isset($customerDetails) && count($customerDetails) ? $customerDetails[0]->first_name." ".$customerDetails[0]->last_name : "-NA-";
+
+		$tasksResponse 	= $this->model_tasks->getTasksList($projectId);
+
+		$contractorIds 			= explode(",", $project->contractor_id);
+		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractorDB 			= $contractorsResponse["contractors"];
+
+		for($i = 0; $i < count($contractorDB); $i++) {
+			$contractors[$contractorDB[$i]->id] = $contractorDB[$i];
+		}
+			
+        $tasks = isset($tasksResponse["tasks"]) ? $tasksResponse["tasks"] : [];
+        
+        $csvArray[] = array("Task Details");
+        $csvArray[] = array("", "Task Name", "Description", "Owner", "% Complete", "Start Date", "End Date");
+        
+        for($i = 0; $i < count($tasks); $i++) { 
+            $task_name 		= $tasks[$i]->task_name ? $tasks[$i]->task_name : "--";
+            $descr 			= $tasks[$i]->task_desc != "" ? $tasks[$i]->task_desc : '--';
+            $percent 		= $tasks[$i]->task_percent_complete;
+            $stard_date 	= $tasks[$i]->task_start_date_for_view;
+            $end_date 		= $tasks[$i]->task_end_date_for_view;
+
+            $ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
+            
+            $csvArray[] = array("", $task_name, $descr, $ownerName, $percent, $stard_date, $end_date);
+        }
+        
+        /* Issues List */
+		$issuesResponse = $this->model_issues->getIssuesList("", $projectId);
+        $issues = isset($issuesResponse["issues"]) ? $issuesResponse["issues"] : [];
+        
+        $csvArray[] = array("Issues Details");
+        $csvArray[] = array("", "Issue Name", "Issue Status", "Issue From Date");
+        
+        for($i = 0; $i < count($issues); $i++) {
+             $csvArray[] = array("", $issues[$i]->issue_name, $issues[$i]->status, $issues[$i]->issue_from_date);
+        }
+        
+        /* Notes List */
+        /*$csvArray[] = array("Notes Details");
+        $csvArray[] = array("", "Notes Content", "Created By", "Created On");
+        
+        $project_notes 		= $this->model_notes->getNotesList($projectId, "" , "", "", "");
+
+		for($i=0; $i < count($project_notes["notes"]); $i++) {
+			$project_notes["notes"][$i]->created_by_name = $this->model_users->getUsersList($project_notes["notes"][$i]->created_by)[0]->user_name;
+        
+            $csvArray[] = array("", strval($project_notes["notes"][$i]->notes_content), "", "");
+		}*/
+        
+        
+        /* Print Into XLS */
+        for($i = 0; $i < count($csvArray); $i++) {
+            fputcsv($fp, $csvArray[$i]);
+        }
 
 	    $data = file_get_contents('php://output'); 
 	    $name = 'data.csv';

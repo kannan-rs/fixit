@@ -42,10 +42,8 @@ class Layouts
 	);
 
 	private $css_includes = array(
-		"css/themes/default/styles.css", 
-		"css/themes/default/others.css", 
 		"css/jquery-ui.css",
-		"css/container.css",
+		"css/style.css",
 		"css/foundation-icons.css"
 	); 
 

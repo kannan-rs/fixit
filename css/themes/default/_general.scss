@@ -1,0 +1,18 @@
+/* widths */
+div.column-220 { width:220px; }
+div.column-275 { width:275px; }
+div.column-480 { width:480px; }
+div.column-490 { width:490px; }
+div.column-640 { width:640px; }
+div.column-700 { width:700px; }
+
+
+/* floats */
+div.column-left { float:left; padding-right:$defaultPadding; }
+div.column-right { float:right; padding-left:$defaultPadding; }
+
+/* inner */
+div.inner-column { padding:0 $defaultPadding; }
+
+/* text */
+div.text-padding { padding:0 5px; }

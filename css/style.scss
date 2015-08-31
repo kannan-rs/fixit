@@ -1,0 +1,47 @@
+$deleteColor:red;
+$redColor:red;
+$defaultPadding:10px;
+$defaultMargin:10px;
+$font-family:Arial, Helvetica, sans-serif;
+$bg-color : #9A9786;
+$text-color : #555555;
+
+@mixin jFlowPrevNext() {
+	background-image:url('../images/slide-prev.gif');
+	background-repeat:no-repeat;
+	display:block;
+	height:25px;
+	width:25px;
+	float:left;
+	margin:0;
+	cursor:pointer;
+};
+
+@mixin slidbarBox() {
+	padding:5px;
+	font-size:1.1em;
+	color:#32698B;
+	background-color:#96BFD9;
+	border-top:4px solid #4B92BE;
+	margin-bottom:10px;
+}
+
+@mixin formInput() {
+	width: 200px;
+	height: 20px;
+	padding: 2px;
+	border-radius: 2px;
+	border-width: 1px;
+	border-color: #D0D0D0;
+}
+
+@import "./themes/default/styles";
+@import "./themes/default/page_outer";
+@import "./themes/default/header";
+@import "./themes/default/top_navigator";
+@import "./themes/default/table_default";
+@import "./themes/default/misc";
+@import "./themes/default/slider";
+@import "./themes/default/general";
+@import "./themes/default/others";
+@import "container";
