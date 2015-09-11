@@ -40,16 +40,24 @@ MOM 3ed Aug 2015
 
 24/8/2015
 ---------
-1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
-2. This contact point will receive mails when the contractor company is choosen for a project.
+- 1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
+- 2. This contact point will receive mails when the contractor company is choosen for a project.
 3. Contractor Project view will have an option to add multiple contractor users to a project belongs to their contractor company. Same for Partners as well.
 4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
 5. Same user will be listed for task assignment as well.
 
-8/31/2015
+Done List
 ---------
-1. We need to list all the tasks even it is closed
-2. If issue is colsed we ned to still show that.
-3. Remove the space between $ and amount
-4. Budget number align to Right
-5. 
+1. Project Details, Hide Add icon when it is each section is minimized.
+2. Task is updated successfully even, if the owner is not selected.
+3. Project > Tasks > (Added multiple view) (All, Opened, Completed). Shifting between this 3 tabs and listing of columns is also done.
+4. Projects > Issues and Tasks Issues (Added multiple view) (open, closed, cancelled, All). Shifting between this 3 tabs and listing of columns is also done.
+5. Project Budget, space between $ and amount is removed
+6. Budget text is aligned towards right, in ramaining budget table and project budget list.
+7. Projects, Partners, Contractors , View Active, inactive and all.
+
+
+9/8/2015
+--------
+1. Contractors and Partners need to be viewed by Admin (contractor, create contractor, partner and create partner).
+2. 

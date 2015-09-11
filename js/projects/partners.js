@@ -165,6 +165,7 @@ partners.prototype.viewAll = function() {
 		data: {},
 		success: function( response ) {
 			$("#partner_content").html(response);
+			projectObj._partners.showPartnersList();
 		},
 		error: function( error ) {
 			error = error;
@@ -317,3 +318,26 @@ partners.prototype.setPrefContact = function() {
 		}
 	});
 };
+
+partners.prototype.showPartnersList = function ( event ) {
+	var options = "active";
+
+	if( event ) {
+		options = event.target.getAttribute("data-option");
+		if(options) {
+			$($(".partners.internal-tab-as-links").children()).removeClass("active");
+			$(".partners-table-list .row").hide();
+			$(event.target).addClass("active");
+		} 
+	} else {
+		$($(".partners.internal-tab-as-links").children()).removeClass("active");
+		$(".partners-table-list .row").hide();
+		$($(".partners.internal-tab-as-links").children()[0]).addClass("active");
+	}
+
+	if(options == "all") {
+		$(".partners-table-list .row").show();
+	} else if (options != "") {
+		$(".partners-table-list .row."+options).show();
+	}
+}

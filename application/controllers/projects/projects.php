@@ -13,12 +13,14 @@ class Projects extends CI_Controller {
 		$function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 
-		/*echo $controller."<br/>";
+		/*
+		echo $controller."<br/>";
 		echo $page."<br/>";
 		echo $module."<br/>";
 		echo $sub_module."<br/>";
 		echo $function."<br/>";
-		echo $record."<br/>";*/
+		echo $record."<br/>";
+		*/
 	}
 
 	public function viewAll() {
@@ -50,7 +52,7 @@ class Projects extends CI_Controller {
 			$projects[$i]->start_date 	= $start_date;
 			$projects[$i]->end_date 		= $end_date;
 
-			$issuesResponse = $this->model_issues->getIssuesList("", $projects[$i]->proj_id);
+			$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
 			$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
 			$projects[$i]->issueCount = $issueCount;
@@ -58,7 +60,8 @@ class Projects extends CI_Controller {
 		}
 
 		$params = array(
-			'projects'=>$projects
+			'projects' => $projects,
+			'account_type' => $this->session->userdata('account_type')
 		);
 		
 		echo $this->load->view("projects/projects/viewAll", $params, true);
@@ -379,10 +382,10 @@ class Projects extends CI_Controller {
 		/*
 			Issues Count
 		*/
-			$issuesResponse = $this->model_issues->getIssuesList("", $projectId);
-			$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+		$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projectId, 'status' => 'open'));
+		$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
-			$project->issueCount = $issueCount;
+		$project->issueCount = $issueCount;
 
 		/*
 			Address Output
@@ -574,7 +577,7 @@ class Projects extends CI_Controller {
         }
         
         /* Issues List */
-		$issuesResponse = $this->model_issues->getIssuesList("", $projectId);
+		$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projectId, 'status' => 'open'));
         $issues = isset($issuesResponse["issues"]) ? $issuesResponse["issues"] : [];
         
         $csvArray[] = array("Issues Details");

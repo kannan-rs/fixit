@@ -41,6 +41,12 @@ table {
 		td.cell.label {
 			display: table-cell;
 		}
+		td.cell.dollers {
+			div {
+				width: 100px;
+				text-align: right;
+			}
+		}
 	}
 	tr.heading {
 		text-align: center;

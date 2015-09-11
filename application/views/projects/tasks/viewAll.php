@@ -7,12 +7,21 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 	<?php echo $projectNameDescr; ?>
 	<h2>Tasks List</h2>
 <?php
+} else {
+?>
+<!-- Show Links above the table -->
+<div class="tasks internal-tab-as-links" onclick="projectObj._tasks.showTaskList(event)">
+	<a href="javascript:void(0);" data-option="open">Open Tasks</a>
+	<a href="javascript:void(0);" data-option="completed">Completed Tasks</a>
+	<a href="javascript:void(0);" data-option="all">All Tasks</a>
+</div>
+<?php
 }
 
 ?>
 <!-- List all the Functions from database -->
 <input type="hidden" id="tasksCount" value="<?php echo $count[0]->count; ?>" />
-<table  cellspacing="0" class="viewAll">
+<table  cellspacing="0" class="viewAll task-table-list">
 
 <?php
 	if(count($tasks) > 0) {
@@ -39,6 +48,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$stard_date 	= $tasks[$i]->task_start_date_for_view;
 		$end_date 		= $tasks[$i]->task_end_date_for_view;
 		$projectId 		= $tasks[$i]->project_id;
+		$taskStatus 	= $tasks[$i]->task_status;
+
+		$rowCSS 		= $taskStatus == "completed" ? "completed" : "open";
 
 		$issueCount 	= $tasks[$i]->issueCount;
 		$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
@@ -58,7 +70,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		
 		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
 ?>
-		<tr class='row' id="task_<?php echo $taskId; ?>">
+		<tr class='row <?php echo $rowCSS; ?>' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->
 			<td class='cell name'>
 				<a href="javascript:void(0);" onclick="<?php echo $viewOneFn; ?>">

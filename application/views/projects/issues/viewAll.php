@@ -10,17 +10,23 @@ if(!$openAs || $openAs != "popup") {
 
 <div class="header-options">
 	<?php echo $headerText ? "<h2>".$headerText."</h2>" : ""; ?> 
-	<span class="options-icon">
-		<span><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="Add issues to this project"></a></span>
-		<!--<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Contractor"></a></span>	-->
-	</span>
+	<!-- <span class="options-icon"> -->
+		<!-- Show Links above the table -->
+		<div class="issues internal-tab-as-links" onclick="projectObj._issues.showIssuesList(event)">
+			<a href="javascript:void(0);" data-option="open">Open Issues</a>
+			<a href="javascript:void(0);" data-option="closed">Closed Issues</a>
+			<a href="javascript:void(0);" data-option="cancelled">Cancelled Issues</a>
+			<a href="javascript:void(0);" data-option="all">All Issues</a>
+			<span style="float:right;" ><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="Add issues to this project"></a></span>
+		</div>
+	<!-- </span> -->
 </div>
 <div>
 	<!-- List all the Functions from database -->
 	<?php
 		if(count($issues) > 0) {
 	?>
-	<table cellspacing="0">
+	<table cellspacing="0" class="issues-table-list">
 		<tr class='heading'>
 			<td class='cell text'>Issue Name</td>
 			<td class='cell text'>Issue Status</td>
@@ -34,8 +40,10 @@ if(!$openAs || $openAs != "popup") {
 		$deleteFn = $deleteText ? "projectObj._issues.deleteRecord(".$issue->issue_id.")" : "";
 		$editFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."', 'issueId' : ".$issue->issue_id."}";
 		$issueEditFn	= "projectObj._issues.editForm(".$editFnOptions.")";
+
+		$cssStatus = ($issue->status == "open" || $issue->status == "inProgress") ? "open" : $issue->status;
 	?>
-		<tr class='row viewAll'>
+		<tr class='row viewAll <?php echo $cssStatus; ?>'>
 			<td class='cell capitalize'>
 				<a href="javascript:void(0);" onclick="projectObj._issues.viewOne('<?php echo $issues[$i]->issue_id; ?>')">
 					<?php echo $issue->issue_name; ?>

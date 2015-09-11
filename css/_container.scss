@@ -321,3 +321,32 @@ a.icon-right {
 .fl {
 	float: left;
 }
+
+.ui-accordion-icons .accordion-icon {
+	display : none;
+}
+
+.ui-accordion-header-active .accordion-icon {
+	display : block;
+}
+
+.internal-tab-as-links {
+	text-align: center;
+	border-bottom: 1px solid #D0D0D0;
+	padding-bottom: 10px;
+	margin: 0px 20px;
+
+	a {
+		padding: 5px;
+		text-decoration: none;
+		border-radius: 4px;
+	}
+
+	> a {
+		border:1px solid #E0E0E0;
+	}
+
+	> a.active {
+		background-color: #E0E0E0;
+	}
+}

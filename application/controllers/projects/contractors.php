@@ -36,7 +36,8 @@ class Contractors extends CI_Controller {
 		$contractorsResponse = $this->model_contractors->getContractorsList();
 
 		$params = array(
-			'contractors'=>$contractorsResponse["contractors"]
+			'contractors'=>$contractorsResponse["contractors"],
+			'account_type' => $this->session->userdata('account_type')
 		);
 		
 		echo $this->load->view("projects/contractors/viewAll", $params, true);
@@ -62,7 +63,7 @@ class Contractors extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 
-		echo $this->load->view("projects/contractors/createForm", $params, true);
+		echo $this->load->view("projects/contractors/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -175,7 +176,7 @@ class Contractors extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 		
-		echo $this->load->view("projects/contractors/editForm", $params, true);
+		echo $this->load->view("projects/contractors/inputForm", $params, true);
 	}
 
 	public function update() {

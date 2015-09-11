@@ -39,7 +39,7 @@ class Tasks extends CI_Controller {
 
 		if (isset($tasksResponse["tasks"])) {
 			for($i = 0; $i < count($tasksResponse["tasks"]); $i++) {
-				$issuesResponse = $this->model_issues->getIssuesList("", $projectId, $tasksResponse["tasks"][$i]->task_id);
+				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projectId, 'taskId' => $tasksResponse["tasks"][$i]->task_id, 'status' => 'open'));
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
 				$tasksResponse["tasks"][$i]->issueCount = $issueCount;
@@ -238,7 +238,7 @@ class Tasks extends CI_Controller {
 
 		if (isset($tasks)) {
 			for($i = 0; $i < count($tasks); $i++) {
-				$issuesResponse = $this->model_issues->getIssuesList("", $tasks[$i]->project_id, $tasks[$i]->task_id);
+				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $tasks[$i]->project_id, 'taskId' => $tasks[$i]->task_id, 'status' => 'open'));
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
 				$tasks[$i]->issueCount = $issueCount;

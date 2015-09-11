@@ -167,6 +167,7 @@ contractors.prototype.viewAll = function() {
 		data: {},
 		success: function( response ) {
 			$("#contractor_content").html(response);
+			projectObj._contractors.showContractorsList();
 		},
 		error: function( error ) {
 			error = error;
@@ -321,3 +322,26 @@ contractors.prototype.setPrefContact = function() {
 		}
 	});
 };
+
+contractors.prototype.showContractorsList = function ( event ) {
+	var options = "active";
+
+	if( event ) {
+		options = event.target.getAttribute("data-option");
+		if(options) {
+			$($(".contractors.internal-tab-as-links").children()).removeClass("active");
+			$(".contractors-table-list .row").hide();
+			$(event.target).addClass("active");
+		} 
+	} else {
+		$($(".contractors.internal-tab-as-links").children()).removeClass("active");
+		$(".contractors-table-list .row").hide();
+		$($(".contractors.internal-tab-as-links").children()[0]).addClass("active");
+	}
+
+	if(options == "all") {
+		$(".contractors-table-list .row").show();
+	} else if (options != "") {
+		$(".contractors-table-list .row."+options).show();
+	}
+}

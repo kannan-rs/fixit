@@ -3,7 +3,9 @@
 class Model_projects extends CI_Model {
 	
 	public function getProjectsList($record = "") {
-		$this->db->where('deleted', '0');
+		if($this->session->userdata('account_type') != "admin")
+			$this->db->where('deleted', '0');
+		
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('proj_id', $record);	
 		}

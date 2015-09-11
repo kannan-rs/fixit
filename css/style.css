@@ -35,7 +35,8 @@ h2 {
   font-weight: normal;
   /*padding:0 0 $defaultPadding;*/
   text-align: left;
-  text-transform: none; }
+  /*text-transform:none;*/
+  text-transform: capitalize; }
 
 h3 {
   color: #244C61;
@@ -83,7 +84,8 @@ button {
   font-weight: bold;
   color: #ffffff;
   font-family: Verdana, Arial, Helvetica, sans-serif;
-  padding: 5px 6px; }
+  padding: 5px 6px;
+  text-transform: capitalize; }
 
 .input-radio-checkbox, .form input[type="checkbox"], .form textarea[type="checkbox"], .form select[type="checkbox"], .form input[type="radio"], .form textarea[type="radio"], .form select[type="radio"] {
   height: 20px;
@@ -486,6 +488,9 @@ table {
     text-align: center; }
   table tr td.cell.label {
     display: table-cell; }
+  table tr td.cell.dollers div {
+    width: 100px;
+    text-align: right; }
   table tr.heading {
     text-align: center; }
     table tr.heading td {
@@ -874,5 +879,25 @@ a.icon-right {
 
 .fl {
   float: left; }
+
+.ui-accordion-icons .accordion-icon {
+  display: none; }
+
+.ui-accordion-header-active .accordion-icon {
+  display: block; }
+
+.internal-tab-as-links {
+  text-align: center;
+  border-bottom: 1px solid #D0D0D0;
+  padding-bottom: 10px;
+  margin: 0px 20px; }
+  .internal-tab-as-links a {
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 4px; }
+  .internal-tab-as-links > a {
+    border: 1px solid #E0E0E0; }
+  .internal-tab-as-links > a.active {
+    background-color: #E0E0E0; }
 
 /*# sourceMappingURL=style.css.map */

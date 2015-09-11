@@ -43,6 +43,7 @@ project.prototype.viewAll = function() {
 		data: {},
 		success: function( response ) {
 			$("#project_content").html(response);
+			projectObj._projects.showProjectsList();
 		},
 		error: function( error ) {
 			error = error;
@@ -435,6 +436,8 @@ project.prototype.getProjectTasksList = function() {
 			var taskCount = $("#tasksCount").val();
 			taskCount = taskCount != "" || taskCount > 0 ? " ("+taskCount+")" : 0;
 			$("#taskCountDisplay").html(taskCount);
+
+			projectObj._tasks.showTaskList();
 		},
 		error: function( error ) {
 			error = error;
@@ -1403,4 +1406,27 @@ project.prototype.budgetFormat = function() {
 		console.log($(this).html());
 		$(this).html("$ "+utilObj.toDisplayNumberFormat($(this).html()));
 	})
+}
+
+project.prototype.showProjectsList = function ( event ) {
+	var options = "open";
+
+	if( event ) {
+		options = event.target.getAttribute("data-option");
+		if(options) {
+			$($(".projects.internal-tab-as-links").children()).removeClass("active");
+			$(".projects-table-list .row").hide();
+			$(event.target).addClass("active");
+		} 
+	} else {
+		$($(".projects.internal-tab-as-links").children()).removeClass("active");
+		$(".projects-table-list .row").hide();
+		$($(".projects.internal-tab-as-links").children()[0]).addClass("active");
+	}
+
+	if(options == "all") {
+		$(".projects-table-list .row").show();
+	} else if (options != "") {
+		$(".projects-table-list .row."+options).show();
+	}
 }

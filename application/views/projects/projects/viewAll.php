@@ -1,7 +1,16 @@
 <h2>Projects List</h2>
+<div class="projects internal-tab-as-links" onclick="projectObj._projects.showProjectsList(event)">
+	<a href="javascript:void(0);" data-option="open">Open</a>
+	<a href="javascript:void(0);" data-option="completed">Completed</a>
+	<?php if($account_type == "admin") { ?>
+	<a href="javascript:void(0);" data-option="deleted">Deleted</a>
+	<?php } ?>
+	<a href="javascript:void(0);" data-option="issues">Issue</a>
+	<a href="javascript:void(0);" data-option="all">All</a>
+</div>
 <div>
 	<!-- List all the Functions from database -->
-	<table cellspacing="0">
+	<table cellspacing="0" class="projects-table-list">
 	
 	<?php
 		if(count($projects) > 0) {
@@ -24,9 +33,11 @@
 			$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
 
 			$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
-			
+
+			$cssStatus = $projects[$i]->project_status == "completed" || $projects[$i]->percentage == "100" ? "completed" : "open";
+			$cssStatus = $projects[$i]->deleted ? "deleted" : $cssStatus;
 	?>
-			<tr class='row viewAll'>
+			<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo $issueCount ? "issues" : ""; ?>'>
 				<td class='cell'>
 					<a href="javascript:void(0);" onclick="projectObj._projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
 						<?php echo $projects[$i]->project_name; ?>

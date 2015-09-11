@@ -186,6 +186,7 @@ issues.prototype.viewAll = function( options ) {
 			} else {
 				$("#issue_content").html(response);
 			}
+			projectObj._issues.showIssuesList();
 		},
 		error: function( error ) {
 			error = error;
@@ -415,5 +416,29 @@ issues.prototype.setAssignees = function ( response ) {
 	if(response["customerDetails"]) {
 		$("#issueAssignedToCustomer").val(response["customerDetails"][0]["first_name"]+" "+response["customerDetails"][0]["last_name"]);
 		this.issueAssignedToCustomerId = response["customerDetails"]["user_sno"];
+	}
+}
+
+
+issues.prototype.showIssuesList = function ( event ) {
+	var options = "open";
+
+	if( event ) {
+		options = event.target.getAttribute("data-option");
+		if(options) {
+			$($(".issues.internal-tab-as-links").children()).removeClass("active");
+			$(".issues-table-list .row").hide();
+			$(event.target).addClass("active");
+		} 
+	} else {
+		$($(".issues.internal-tab-as-links").children()).removeClass("active");
+		$(".issues-table-list .row").hide();
+		$($(".issues.internal-tab-as-links").children()[0]).addClass("active")
+	}
+
+	if(options == "all") {
+		$(".issues-table-list .row").show();
+	} else if (options != "") {
+		$(".issues-table-list .row."+options).show();
 	}
 }

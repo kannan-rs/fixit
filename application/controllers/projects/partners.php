@@ -48,7 +48,8 @@ class Partners extends CI_Controller {
 		$partnersResponse = $this->model_partners->getPartnersList();
 
 		$params = array(
-			'partners'=>$partnersResponse["partners"]
+			'partners'=>$partnersResponse["partners"],
+			'account_type' => $this->session->userdata('account_type')
 		);
 		
 		echo $this->load->view("projects/partners/viewAll", $params, true);
@@ -74,7 +75,7 @@ class Partners extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 
-		echo $this->load->view("projects/partners/createForm", $params, true);
+		echo $this->load->view("projects/partners/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -187,7 +188,7 @@ class Partners extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 		
-		echo $this->load->view("projects/partners/editForm", $params, true);
+		echo $this->load->view("projects/partners/inputForm", $params, true);
 	}
 
 	public function update() {

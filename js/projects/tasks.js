@@ -5,6 +5,7 @@ function task() {
 
 };
 
+/*
 task.prototype.viewAll = function( projectId ) {
 	projectObj.resetCounter("docs");
 	projectObj.resetCounter("notes");
@@ -27,7 +28,9 @@ task.prototype.viewAll = function( projectId ) {
 		fail_error = failedObj;
 	});
 };
+*/
 
+/*
 task.prototype.createForm = function( projectId ) {
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("task");
@@ -48,6 +51,7 @@ task.prototype.createForm = function( projectId ) {
 		fail_error = failedObj;
 	});
 };
+*/
 
 task.prototype.createValidate =  function ( viewFor ) {
 	$("#create_task_form").validate({
@@ -75,7 +79,7 @@ task.prototype.createValidate =  function ( viewFor ) {
 	}
 };
 
-task.prototype.createSubmit = function() {
+/*task.prototype.createSubmit = function() {
 	parentId 					= $("#parentId").val();
 	task_name 					= $("#task_name").val();
 	task_desc 					= $("#task_desc").val();
@@ -118,9 +122,9 @@ task.prototype.createSubmit = function() {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
-}
+}*/
 
-task.prototype.editTask = function(taskId) {
+/*task.prototype.editTask = function(taskId) {
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("task");
 	$.ajax({
@@ -140,7 +144,7 @@ task.prototype.editTask = function(taskId) {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
-};
+};*/
 
 task.prototype.updateValidate = function( viewFor ) {
 	$("#update_task_form").validate({
@@ -167,6 +171,7 @@ task.prototype.updateValidate = function( viewFor ) {
 	}
 };
 
+/*
 task.prototype.updateSubmit = function() {
 	task_id 				= $("#task_sno").val();
 	task_name 				= $("#task_name").val();
@@ -212,7 +217,9 @@ task.prototype.updateSubmit = function() {
 		fail_error = failedObj;
 	});
 };
+*/
 
+/*
 task.prototype.deleteRecord = function(task_id, project_id, viewFor) {
 	$.ajax({
 		method: "POST",
@@ -239,7 +246,9 @@ task.prototype.deleteRecord = function(task_id, project_id, viewFor) {
 		fail_error = failedObj;
 	});
 };
+*/
 
+/*
 task.prototype.viewOne = function( taskId ) {
 	projectObj.clearRest();
 	projectObj.toggleAccordiance("task");
@@ -260,6 +269,7 @@ task.prototype.viewOne = function( taskId ) {
 		fail_error = failedObj;
 	});
 };
+*/
 
 task.prototype.setDropdownValue = function() {
 	var db_task_status = $("#db_task_status").val();
@@ -268,7 +278,7 @@ task.prototype.setDropdownValue = function() {
 };
 
 task.prototype.setOwnerOption = function() {
-	$("input[name=optionSelectedOwner][value=" + $("#taskOwnerIdDb").val() + "]").attr('checked', 'checked');
+	$("input[name=optionSelectedOwner][value='" + $("#taskOwnerIdDb").val() + "']").attr('checked', 'checked');
 }
 
 task.prototype.setPercentage = function(statusValue) {
@@ -283,4 +293,27 @@ task.prototype.setPercentage = function(statusValue) {
 
 task.prototype.percentageChange = function (percentageValue) {
 	$("#task_percent_complete").attr("defaultValue", percentageValue);
+}
+
+task.prototype.showTaskList = function ( event ) {
+	var options = "open";
+
+	if( event ) {
+		options = event.target.getAttribute("data-option");
+		if(options) {
+			$($(".tasks.internal-tab-as-links").children()).removeClass("active");
+			$(".task-table-list .row").hide();
+			$(event.target).addClass("active");
+		}
+	} else {
+		$($(".tasks.internal-tab-as-links").children()).removeClass("active");
+		$(".task-table-list .row").hide();
+		$($(".tasks.internal-tab-as-links").children()[0]).addClass("active")
+	}
+
+	if(options == "all") {
+		$(".task-table-list .row").show();
+	} else if (options != "") {
+		$(".task-table-list .row."+options).show();
+	}
 }

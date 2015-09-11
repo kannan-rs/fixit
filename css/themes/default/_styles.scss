@@ -40,7 +40,8 @@ h2 {
 	font-weight:normal;
 	/*padding:0 0 $defaultPadding;*/
 	text-align:left;
-	text-transform:none;
+	/*text-transform:none;*/
+	text-transform: capitalize;
 }
 
 h3 {
@@ -106,6 +107,7 @@ button {
 	color:#ffffff;
 	font-family:Verdana, $font-family;
 	padding:5px 6px;
+	text-transform: capitalize;
 }
 
 .input-radio-checkbox {

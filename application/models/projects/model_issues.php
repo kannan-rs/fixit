@@ -2,8 +2,17 @@
 
 class Model_issues extends CI_Model {
 	
-	public function getIssuesList($record = "", $projectId = "", $taskId = "") {
+	public function getIssuesList( $options) {
 		
+		if(!isset($options) && !is_array($options)) {
+			return;
+		}
+
+		$record 	= isset($options["records"]) ? $options["records"] : "";
+		$projectId 	= isset($options["projectId"]) ? $options["projectId"] : "";
+		$taskId 	= isset($options["taskId"]) ? $options["taskId"] : "";
+		$status 	= isset($options["status"]) ? $options["status"] : "";
+
 		if(isset($record) && !is_null($record) && $record != "") {
 			if(is_array($record)) {
 				$this->db->where_in('issue_id', $record);
@@ -28,7 +37,12 @@ class Model_issues extends CI_Model {
 			}
 		}
 
-		$this->db->where_in("status", array("open", "inProgress"));
+		if($status == "open") {
+			$this->db->where_in("status", array("open", "inProgress"));
+		} else if($status != "all") {
+			$this->db->where_in("status", explode(',', $status));
+		}
+
 		$this->db->where("deleted", 0);
 
 		$this->db->select([

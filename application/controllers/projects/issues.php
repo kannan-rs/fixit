@@ -14,17 +14,17 @@ class Issues extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
-	public function getList() {
+	/*public function getList() {
 		$this->load->model('projects/model_issues');
 
 		$records = [];
 		$records = explode(",", $this->input->post("records"));
 		
 
-		$issuesResponse = $this->model_issues->getIssuesList( $records );
+		$issuesResponse = $this->model_issues->getIssuesList(  array('records' => $records, 'status' => 'open') );
 
 		print_r(json_encode($issuesResponse));
-	}
+	}*/
 
 	public function viewAll() {
 		$this->load->model('projects/model_issues');
@@ -34,7 +34,7 @@ class Issues extends CI_Controller {
 		$projectId		 		= $this->input->post('projectId');
 		$taskId		 			= $this->input->post('taskId');
 		
-		$issuesResponse = $this->model_issues->getIssuesList("", $projectId, $taskId);
+		$issuesResponse = $this->model_issues->getIssuesList( array('records' => '', 'projectId' => $projectId, 'taskId' => $taskId, 'status' => 'all') );
 
 		$params = array(
 			'issues'	=>$issuesResponse["issues"],
@@ -81,7 +81,7 @@ class Issues extends CI_Controller {
 		$taskId 	= $this->input->post('taskId') ? $this->input->post('taskId') : "";
 		$issueId 	= $this->input->post('issueId') ? $this->input->post('issueId') : "";
 
-		$issuesResponse 	= $this->model_issues->getIssuesList($issueId);
+		$issuesResponse 	= $this->model_issues->getIssuesList(array('records' => $issueId, 'status' => 'open'));
 		$issues 			= $issuesResponse["issues"];
 
 		$assigneeDetails = array();
@@ -183,7 +183,7 @@ class Issues extends CI_Controller {
 		$issueId 			= $this->input->post('issueId');
 		$openAs		 		= $this->input->post('openAs');
 		$popupType		 	= $this->input->post('popupType');
-		$issuesResponse 	= $this->model_issues->getIssuesList($issueId);
+		$issuesResponse 	= $this->model_issues->getIssuesList(array('records' => $issueId, 'status' => 'open'));
 
 		$issues = $issuesResponse["issues"];
 
