@@ -1,30 +1,6 @@
 <?php
 
 class Model_mail extends CI_Model {
-
-	public function generateUpdateUserMailOptions( $options ) {
-		$response 				= $options['response'];
-		$user_details_record 	= $options["user_details_record"];
-		$user_record 			= $options["user_record"];
-		
-		if($response["status"] == "success") {
-			$mail_options = array();
-			$mail_options["name"] 		= $user_details_record[0]->first_name." ".$user_details_record[0]->last_name;
-			$mail_options["from"]		= "admin@fixitnetworks.com";
-			$mail_options["fromName"]	= "Fixit Admin";
-			$mail_options["to"]			= $user_record[0]->user_name;
-			$mail_options["cc"]			="";
-			$mail_options["bcc"]		= "";
-			$mail_options["subject"]	= "Personal information updateed successfully";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
-			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
-			$mail_options["message"] 	.= "<p>Your personal information is updated successfully. Please login with you credential to see the latest update</p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
-
-			return $mail_options;
-		}
-	}
-
 	public function generateCreateUserMailOptions( $options ) {
 		$response 				= $options['response'];
 		$user_details_record 	= $options["user_details_record"];
@@ -87,6 +63,55 @@ class Model_mail extends CI_Model {
 		}
 	}
 
+	public function generateDeleteUserMailOptions ( $options ) {
+		$response 		= $options['response'];
+		$email_id 		= $options["email_id"];
+
+		$mailNmae 		= "";
+		$mailToEmail 	= "";
+		
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_options["name"] 		= "User";
+			$mail_options["from"]		= "admin@fixitnetworks.com";
+			$mail_options["fromName"]	= "Fixit Admin";
+			$mail_options["to"]			= $mailToEmail;
+			$mail_options["cc"]			="";
+			$mail_options["bcc"]		= "";
+			$mail_options["subject"]	= "Deletion of account";
+			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
+
+			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"].",</p>";
+			$mail_options["message"] 	.= "<p>Your account is successfully deleted from our system.</p>";
+			$mail_options["message"] 	.= $mail_options["signature"];
+
+			return $mail_options;
+		}	
+	}
+
+	public function generateUpdateUserMailOptions( $options ) {
+		$response 				= $options['response'];
+		$user_details_record 	= $options["user_details_record"];
+		$user_record 			= $options["user_record"];
+		
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_options["name"] 		= $user_details_record[0]->first_name." ".$user_details_record[0]->last_name;
+			$mail_options["from"]		= "admin@fixitnetworks.com";
+			$mail_options["fromName"]	= "Fixit Admin";
+			$mail_options["to"]			= $user_record[0]->user_name;
+			$mail_options["cc"]			="";
+			$mail_options["bcc"]		= "";
+			$mail_options["subject"]	= "Personal information updateed successfully";
+			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
+			$mail_options["message"] 	.= "<p>Your personal information is updated successfully. Please login with you credential to see the latest update</p>";
+			$mail_options["message"] 	.= $mail_options["signature"];
+
+			return $mail_options;
+		}
+	}
+
 	public function generateCreateContractorCompanyMailOptions( $options ) {
 		$response 				= $options['response'];
 		$contractorData 		= $options["contractorData"];
@@ -110,8 +135,32 @@ class Model_mail extends CI_Model {
 		}
 	}
 
-	public function generateCreatepartnerCompanyMailOptions( $options ) {
+	public function generateUpdateContractorCompanyMailOptions( $options ) {
 		$response 				= $options['response'];
+		$contractorData 		= $options["contractorData"];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_options["name"] 		= $contractorData["name"]." for Company ".$contractorData["company"];
+			$mail_options["from"]		= "admin@fixitnetworks.com";
+			$mail_options["fromName"]	= "Fixit Admin";
+			$mail_options["to"]			= $contractorData["office_email"];
+			$mail_options["cc"]			="";
+			$mail_options["bcc"]		= "";
+			$mail_options["subject"]	= "Notice : Contractor Company information update";
+			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
+			$mail_options["message"] 	.= "<p>Your Contractor company information is updated successfully.</p>";
+			$mail_options["message"] 	.= "<p> </p>";
+			$mail_options["message"] 	.= $mail_options["signature"];
+
+			return $mail_options;
+		}
+	}
+
+
+	public function generateCreatePartnerCompanyMailOptions( $options ) {
+		$response 			= $options['response'];
 		$partnerData 		= $options["partnerData"];
 
 		if($response["status"] == "success") {
@@ -128,6 +177,146 @@ class Model_mail extends CI_Model {
 			$mail_options["message"] 	.= "<p>Welcome Partner company, Your account with fixit network was created successfully.</p>";
 			$mail_options["message"] 	.= "<p>personal information is also added successfully. </p>";
 			$mail_options["message"] 	.= $mail_options["signature"];
+
+			return $mail_options;
+		}
+	}
+
+	public function generateUpdatePartnerCompanyMailOptions( $options ) {
+		$response 			= $options['response'];
+		$partnerData 		= $options["partnerData"];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_options["name"] 		= $partnerData["name"]." for Company ".$partnerData["company_name"];
+			$mail_options["from"]		= "admin@fixitnetworks.com";
+			$mail_options["fromName"]	= "Fixit Admin";
+			$mail_options["to"]			= $partnerData["work_email_id"];
+			$mail_options["cc"]			="";
+			$mail_options["bcc"]		= "";
+			$mail_options["subject"]	= "Notice: Partner Company information update";
+			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
+			$mail_options["message"] 	.= "<pYour Partner company information is updated successfully.</p>";
+			$mail_options["message"] 	.= "<p> </p>";
+			$mail_options["message"] 	.= $mail_options["signature"];
+
+			return $mail_options;
+		}
+	}
+
+	function generateProjectMailOptions( $options ) {
+		$response 			=  $options['response'];
+		$projectData 		=  $options['projectData'];
+		$customerData 		=  $options['customerData'];
+		$contractorsData 	=  $options['contractorsData'];
+		$partnersData 		=  $options['partnersData'];
+		$mail_type 			= $options['mail_type'];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_list = array();
+
+			if($customerData && is_array($customerData)) {
+				//$mail_options["customerData"] = $customerData;
+
+				for($i = 0; $i < count($customerData); $i++ ) {
+					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
+					$mail_list["from"]		= "admin@fixitnetworks.com";
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $customerData[$i]->email;
+					$mail_list["cc"]		="";
+					$mail_list["bcc"]		= "";
+					
+					if($mail_type == "create") {
+						$mail_list["subject"]	= "New Project Created";
+					} else if ( $mail_type == "update") {
+						$mail_list["subject"]	= "Notice: Project Updated";
+					}
+
+					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+					
+					if($mail_type == "create") {
+						$mail_list["message"] 	.= "<pNew Project with your customer details is be created successfully.</p>";
+					} else if ( $mail_type == "update") {
+						$mail_list["message"] 	.= "<p>Project with your customer details is be updated successfully.</p>";
+					}
+					
+
+					$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($contractorsData && is_array($contractorsData)) {
+				//$mail_options["contractorsData"] = $contractorsData;
+
+				for($i = 0; $i < count($contractorsData); $i++ ) {
+					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
+					$mail_list["from"]		= "admin@fixitnetworks.com";
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $contractorsData[$i]->office_email;
+					$mail_list["cc"]		="";
+					$mail_list["bcc"]		= "";
+
+					if($mail_type == "create") {
+						$mail_list["subject"]	= "Contractor : New Project Created";
+					} else if ( $mail_type == "update") {
+						$mail_list["subject"]	= "Notice: Project Updated in your contractor list";
+					}
+					
+					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					if($mail_type == "create") {
+						$mail_list["message"] 	.= "<p>New Project with your contractor company as part of that was created successfully.</p>";
+					} else if ( $mail_type == "update") {
+						$mail_list["message"] 	.= "<p>Project under your company as contractor company was updated successfully.</p>";
+					}
+
+					
+					$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($partnersData && is_array($partnersData)) {
+				//$mail_options["partnersData"] = $partnersData;
+
+				for($i = 0; $i < count($partnersData); $i++ ) {
+					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
+					$mail_list["from"]		= "admin@fixitnetworks.com";
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $partnersData[$i]->work_email_id;
+					$mail_list["cc"]		="";
+					$mail_list["bcc"]		= "";
+
+					if($mail_type == "create") {
+						$mail_list["subject"]	= "Contractor : New Project Created";
+					} else if ( $mail_type == "update") {
+						$mail_list["subject"]	= "Notice: Project Updated in your partner list";
+					}
+					
+					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					if($mail_type == "create") {
+						$mail_list["message"] 	.= "<p>New Project with your Partner company as part of that was created successfully.</p>";
+					} else if ( $mail_type == "update") {
+						$mail_list["message"] 	.= "<p>Project under your company as partner company was updated successfully.</p>";
+					}
+
+					$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
 
 			return $mail_options;
 		}

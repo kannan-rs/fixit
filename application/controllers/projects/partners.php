@@ -106,18 +106,22 @@ class Partners extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$insert_partner = $this->model_partners->insert($data);
+		$response = $this->model_partners->insert($data);
 
 		$partnerCompanyParamsFormMail = array(
-			'response'				=> $insert_partner,
+			'response'			=> $response,
 			'partnerData'		=> $data
 		);
 
-		$mail_options = $this->model_mail->generateCreatepartnerCompanyMailOptions( $partnerCompanyParamsFormMail );
+		$mail_options = $this->model_mail->generateCreatePartnerCompanyMailOptions( $partnerCompanyParamsFormMail );
 		
-		$this->model_mail->sendMail( $mail_options );
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
 
-		print_r(json_encode($insert_partner));
+		print_r(json_encode($response));
 	}
 
 	public function viewOne() {
@@ -193,6 +197,7 @@ class Partners extends CI_Controller {
 
 	public function update() {
 		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
 
 		$partnerId 			= $this->input->post('partnerId');
 
@@ -218,13 +223,27 @@ class Partners extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$update_partner = $this->model_partners->update($data, $partnerId);
+		$response = $this->model_partners->update($data, $partnerId);
 
-		print_r(json_encode($update_partner));
+		$partnerCompanyParamsFormMail = array(
+			'response'			=> $response,
+			'partnerData'		=> $data
+		);
+
+		$mail_options = $this->model_mail->generateUpdatePartnerCompanyMailOptions( $partnerCompanyParamsFormMail );
+		
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
+
+		print_r(json_encode($response));
 	}
 
 	public function deleteRecord() {
 		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
 
 		$partnerId = $this->input->post('partnerId');
 		$delete_partner = $this->model_partners->deleteRecord($partnerId);

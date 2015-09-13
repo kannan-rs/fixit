@@ -4,13 +4,11 @@ class Model_partners extends CI_Model {
 	
 	public function getPartnersList($record = "", $companyNmae = "", $name = "") {
 		$this->db->where('deleted', '0');
-		
+
 		if(isset($record) && !is_null($record)) {
-			if(is_array($record)) {
-				for($i = 0; $i < count($record); $i++) {
-					$this->db->or_where('id', $record[$i]);	
-				}
-			} else if($record != "") {
+			if(is_array($record) && implode(",", $record) != "" ) {
+				$this->db->where_in('id', $record);
+			} else if(!is_array($record) && !empty($record) ) {
 				$this->db->where('id', $record);
 			}
 		}
@@ -48,6 +46,8 @@ class Model_partners extends CI_Model {
 			]);
 
 		$query = $this->db->from('partner')->get();
+
+		//echo $this->db->last_query();
 		
 		$response = array();
 		

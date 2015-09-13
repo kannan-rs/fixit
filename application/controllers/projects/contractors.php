@@ -17,13 +17,10 @@ class Contractors extends CI_Controller {
 	public function getList() {
 		$this->load->model('projects/model_contractors');
 
-		$serviceZip = explode(",", $this->input->post("serviceZip"));
-		$zip 		= $this->input->post("zip");
-
-		$records = [];
-		$records = explode(",", $this->input->post("records"));
+		$serviceZip = trim($this->input->post("serviceZip")) ? explode(",", trim($this->input->post("serviceZip"))) : null;
+		$zip 		= trim($this->input->post("zip")) ? trim($this->input->post("zip")) : null;
+		$records 	= trim($this->input->post("records")) ? explode(",", trim($this->input->post("records"))) : null;
 		
-
 		$contractorsResponse = $this->model_contractors->getContractorsList( $records, $zip, $serviceZip );
 
 		print_r(json_encode($contractorsResponse));
@@ -95,17 +92,22 @@ class Contractors extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$insert_contractor = $this->model_contractors->insert($data);
+		$response = $this->model_contractors->insert($data);
 
 		$contractorCompanyParamsFormMail = array(
-			'response'				=> $insert_contractor,
+			'response'				=> $response,
 			'contractorData'		=> $data
 		);
 
 		$mail_options = $this->model_mail->generateCreateContractorCompanyMailOptions( $contractorCompanyParamsFormMail );
 		
-		$this->model_mail->sendMail( $mail_options );
-		print_r(json_encode($insert_contractor));
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
+
+		print_r(json_encode($response));
 	}
 
 	public function viewOne() {
@@ -181,6 +183,7 @@ class Contractors extends CI_Controller {
 
 	public function update() {
 		$this->load->model('projects/model_contractors');
+		$this->load->model('mail/model_mail');
 
 		$contractorId 			= $this->input->post('contractorId');
 
@@ -207,13 +210,27 @@ class Contractors extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$update_contractor = $this->model_contractors->update($data, $contractorId);
+		$response = $this->model_contractors->update($data, $contractorId);
 
-		print_r(json_encode($update_contractor));
+		$contractorCompanyParamsFormMail = array(
+			'response'				=> $response,
+			'contractorData'		=> $data
+		);
+
+		$mail_options = $this->model_mail->generateUpdateContractorCompanyMailOptions( $contractorCompanyParamsFormMail );
+		
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
+
+		print_r(json_encode($response));
 	}
 
 	public function deleteRecord() {
 		$this->load->model('projects/model_contractors');
+		$this->load->model('mail/model_mail');
 
 		$contractorId = $this->input->post('contractorId');
 		$delete_contractor = $this->model_contractors->deleteRecord($contractorId);

@@ -69,13 +69,17 @@ class Model_users extends CI_Model {
 		}
 	}
 
-	public function getUsersList($params = "") {
+	public function getUsersList($params = "", $from_db = "users") {
 		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.account_type, ";
 		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
 		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
 
-		 if($params && $params != "" && $params != 0) {
-			$queryStr .= " AND users.sno = ".$params;			
+		if($params && $params != "" && $params != 0) {
+			if($from_db == "users") {
+				$queryStr .= " AND users.sno = ".$params;			
+			} else if($from_db == "user_details") {
+				$queryStr .= " AND user_details.sno = ".$params;
+			}
 		}
 
 		$query = $this->db->query($queryStr);

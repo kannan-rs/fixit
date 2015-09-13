@@ -133,8 +133,13 @@ class Users extends CI_controller {
 			'user_details_record'	=> $user_details_record,
 			'user_record' 			=> $user_details
 		);
+		
 		$mail_options = $this->model_mail->generateCreateUserMailOptions( $userParamsFormMail );
-		$this->model_mail->sendMail( $mail_options );
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
 
 		/*
 			Reference Email
@@ -152,7 +157,11 @@ class Users extends CI_controller {
 				$userReferredByParamsFormMail['referredByDetails'] = $this->model_partners->getPartnersList($referredById)["parrtners"];
 			}
 			$mail_options = $this->model_mail->generateCreateuserReferredByMailOptions( $userReferredByParamsFormMail );
-			$this->model_mail->sendMail( $mail_options );
+			if($this->config->item('development_mode')) {
+				$response['mail_content_referred'] = $mail_options;
+			} else {
+				$this->model_mail->sendMail( $mail_options );
+			}
 		}
 		print_r(json_encode($response));
 	}
@@ -310,14 +319,19 @@ class Users extends CI_controller {
 		);
 
 		$mail_options = $this->model_mail->generateUpdateUserMailOptions( $userParamsFormMail );
-		
-		$this->model_mail->sendMail( $mail_options );
+
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
+		}
 
 		print_r(json_encode($response));
 	}
 
 	public function deleteRecord() {
 		$this->load->model('security/model_users');
+		$this->load->model('mail/model_mail');
 
 		$record = $this->input->post('userId');
 		$emailId = $this->input->post('emailId');
@@ -326,6 +340,19 @@ class Users extends CI_controller {
 
 		if($response["status"] == "success") {
 			$response = $this->model_users->deleteUserDetails($emailId);
+		}
+
+		$userParamsFormMail = array(
+			'response'		=> $response,
+			'email_id'		=> $emailId
+		);
+
+		$mail_options = $this->model_mail->generateDeleteUserMailOptions( $userParamsFormMail );
+
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			$this->model_mail->sendMail( $mail_options );
 		}
 
 		print_r(json_encode($response));

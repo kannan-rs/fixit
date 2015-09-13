@@ -4,21 +4,19 @@ class Model_contractors extends CI_Model {
 	
 	public function getContractorsList($record = "", $zip = "", $serviceZip = "") {
 		//$this->db->where('deleted', '0');
-
+		
 		if(isset($record) && !is_null($record)) {
-			if(is_array($record)) {
+			//echo "record =>"; print_r(array_filter($record)); echo "--count =>".count($record)."--imp--".implode(",", $record)."<br/>";
+			if(is_array($record) && implode(",", $record) != "" ) {
 				$this->db->where_in('id', $record);
-				/*for($i = 0; $i < count($record); $i++) {
-					if($record[$i]) $this->db->or_where('id', $record[$i]);	
-				}*/
 			} else if($record != "") {
 				$this->db->where('id', $record);
 			}
 		}
 
 		if(isset($zip) && !is_null($zip) && $zip != "") {
+			//echo "zip =>"; print_r($zip); echo "--count =>".count($zip)."<br/>";
 			if(is_array($zip)) {
-				//$this->db->where_in('pin_code', $zip);
 				for($i = 0; $i < count($zip); $i++) {
 					if($zip[$i] != "") $this->db->or_like('pin_code', $zip[$i]);	
 				}
@@ -28,8 +26,8 @@ class Model_contractors extends CI_Model {
 		}
 
 		if(isset($serviceZip) && !is_null($serviceZip) && $serviceZip != "") {
+			//echo "serviceZip =>"; print_r(array_filter($serviceZip)); echo "--count =>".count($serviceZip)."--imp--".implode(",", $serviceZip)."<br/>";
 			if(is_array($serviceZip)) {
-				//$this->db->where_in('service_area', $zip);
 				for($i = 0; $i < count($serviceZip); $i++) {
 					if($serviceZip[$i] != "") $this->db->or_like('service_area', $serviceZip[$i]);	
 				}
@@ -38,14 +36,18 @@ class Model_contractors extends CI_Model {
 			}
 		}
 
+
 		$this->db->select([
-				"*", 
-				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
-				"created_on",
-				"updated_on"
-			]);
+			"*", 
+			"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+			"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+			"created_on",
+			"updated_on"
+		]);
+
 		$query = $this->db->from('contractor')->get();
+
+		//echo $this->db->last_query();
 		
 		$response = array();
 		
