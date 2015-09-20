@@ -83,6 +83,7 @@ utils.prototype.createContractorOptionsList = function(contractors) {
 	var type			= contractors.type;
 	var prefixId 		= contractors.prefixId;
 	var selectId 		= contractors.hasOwnProperty("selectId") ? contractors.selectId : "";
+	var valuePrefix 	= contractors.valuePrefix ? contractors.valuePrefix+"-" : "";
 
 	for(var i =0 ; i < list.length; i++) {
 		if(excludeList.indexOf(list[i].id) == -1) {
@@ -90,7 +91,7 @@ utils.prototype.createContractorOptionsList = function(contractors) {
 			var inputRadio = " ";
 			if(type == "ownerList") {
 				var selectedText = selectId && list[i].id == selectId ? " checked = checked " : ""; 
-				inputRadio = "<input type=\"radio\" name=\""+contractors.radioOptionName+"\" value=\""+list[i].id+"\" "+selectedText+"/>";
+				inputRadio = "<input type=\"radio\" name=\""+contractors.radioOptionName+"\" value=\""+valuePrefix+list[i].id+"\" "+selectedText+"/>";
 			}
 			
 			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
@@ -101,7 +102,6 @@ utils.prototype.createContractorOptionsList = function(contractors) {
 				li += "<span class=\""+css[type].symbol+" search-action\" ";
 				li += " data-contractorid = "+list[i].id;
 				li += " data-prefixid = "+prefixId;
-				//li + = clickFn;
 				li += ">";
 				li += inputRadio
 				li += "</span>";
@@ -122,15 +122,15 @@ utils.prototype.createAdjusterOptionsList = function(adjuster) {
 	var type			= adjuster.type;
 	var prefixId 		= adjuster.prefixId;
 	var selectId 		= adjuster.hasOwnProperty("selectId") ? adjuster.selectId : "";
+	var valuePrefix 	= adjuster.valuePrefix ? adjuster.valuePrefix+"-" : "";
 
 	for(var i =0 ; i < list.length; i++) {
 		if(excludeList.indexOf(list[i].id) == -1) {
 			
 			var inputRadio = " ";
-
 			if(type == "ownerList") {
 				var selectedText = selectId && list[i].id == selectId ? " checked = checked " : ""; 
-				inputRadio = "<input type=\"radio\" name=\""+adjuster.radioOptionName+"\" value=\""+list[i].id+"\" "+selectedText+"/>";
+				inputRadio = "<input type=\"radio\" name=\""+adjuster.radioOptionName+"\" value=\""+valuePrefix+list[i].id+"\" "+selectedText+"/>";
 			}
 			
 			var li = "<li class=\""+css[type].li+"\" id=\""+prefixId+list[i].id+"\" "+(type != "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");

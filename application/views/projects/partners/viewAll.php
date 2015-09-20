@@ -1,11 +1,11 @@
 <h2>Partners List</h2>
 <div class="partners internal-tab-as-links" onclick="projectObj._partners.showPartnersList(event)">
-	<a href="javascript:void(0);" data-option="active">Active</a>
-	<a href="javascript:void(0);" data-option="inactive">InActive</a>
+	<a href="javascript:void(0);" data-option="active" title="Click on this button to view active partners">Active</a>
+	<a href="javascript:void(0);" data-option="inactive" title="Click on this button to view in-active partners">InActive</a>
 	<?php if($account_type == "admin") { ?>
 		<!-- <a href="javascript:void(0);" data-option="deleted">Deleted</a> -->
 	<?php } ?>
-	<a href="javascript:void(0);" data-option="all">All</a>
+	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all partners">All</a>
 </div>
 <div>
 	<!-- List all the Functions from database -->

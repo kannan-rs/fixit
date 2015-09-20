@@ -1,6 +1,6 @@
 <?php
 class Model_docs extends CI_Model {
-	public function getDocsList($projectId = "", $startRecord = 0, $count= 10) {
+	public function getDocsList($projectId = "", $docId = "") {
 		$countWhereStr = " WHERE deleted = 0";
 
 		$this->db->where('deleted', '0');
@@ -8,8 +8,11 @@ class Model_docs extends CI_Model {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
 			$countWhereStr .= "  AND project_id = ".$projectId;
-		} else {
-			return [];
+		}
+
+		if(isset($docId) && !is_null($docId) && $docId != "") {
+			$this->db->where('doc_id', $docId);
+			$countWhereStr .= "  AND doc_id = ".$docId;
 		}
 
 		$this->db->select([

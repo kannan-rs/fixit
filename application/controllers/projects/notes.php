@@ -87,10 +87,19 @@ class Notes extends CI_Controller {
 
 	public function add() {
 		$this->load->model('projects/model_notes');
+		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_tasks');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
+
+		$projectId 	= $this->input->post('projectId');
+		$taskId  	= $this->input->post('taskId');
 
 		$data = array(
-			'project_id'		=> $this->input->post('projectId'),
-			'task_id'			=> $this->input->post('taskId'),
+			'project_id'		=> $projectId,
+			'task_id'			=> $taskId,
 			'notes_name'		=> $this->input->post('noteName'),
 			'notes_content'		=> $this->input->post('noteContent'),
 			'created_by'		=> $this->session->userdata('user_id'),
@@ -99,23 +108,157 @@ class Notes extends CI_Controller {
 			'updated_date'		=> date("Y-m-d H:i:s")
 		);
 
-		$insert_notes = $this->model_notes->insert($data);
+		$response = $this->model_notes->insert($data);
 
-		if($insert_notes["status"] == "success") {
-			$insert_notes["projectId"] = $this->input->post('projectId');
-			$insert_notes["taskId"] = $this->input->post('taskId');
+		if($response["status"] == "success") {
+			$response["projectId"] = $this->input->post('projectId');
+			$response["taskId"] = $this->input->post('taskId');
 		}
 
-		print_r(json_encode($insert_notes));
+		$projects = $this->model_projects->getProjectsList($projectId);
+		$project 	= count($projects) ? $projects[0] : "";
+
+		if($taskId) {
+			$tasks = $this->model_tasks->getTask($taskId);
+			$taskData = count($tasks) ? $tasks[0] : null;
+		}
+
+		$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
+		$contractorId 	= isset($project) && isset($project->contractor_id) && !empty($project->contractor_id) ? $project->contractor_id :  null;
+		$adjusterId 	= isset($project) && isset($project->adjuster_id) && !empty($project->adjuster_id) ? $project->adjuster_id :  null;
+
+		if(isset($taskData)) {
+			if($taskData->task_owner_id && strpos($taskData->task_owner_id, '-'))
+				list($ownerType, $ownerTypeId) = explode('-',  $taskData->task_owner_id);
+
+			if(isset($ownerType) && !empty($ownerType)) {
+				$contractorId 	= $ownerType == "contractor" ? $ownerTypeId : null;
+				$adjusterId 	= $ownerType == "adjuster" ? $ownerTypeId : null;
+			}
+		}
+
+		$customerData 		= null != $customerId ? $this->model_users->getUserDetailsBySno($customerId) : null;
+		$contractorsData 	= null;
+		$partnersData 		= null;
+
+		//Contractor Details
+		if($contractorId != "") {
+			$contractorIdArr = explode(",", $contractorId);
+			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			 $contractorsData = $contractorsResponse["contractors"];
+		}
+
+		// Partners Name
+		if($adjusterId != "") {
+			$partnerIdArr = explode(",", $adjusterId);
+			$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+			 $partnersData = $partnersResponse["partners"];
+		}
+
+		$notesParamsFormMail = array(
+			'response'			=> $response,
+			'projectData'		=> $project,
+			'taskData'			=> isset( $taskData ) ? $taskData : null,
+			'customerData' 		=> $customerData,
+			'contractorsData' 	=> $contractorsData,
+			'partnersData' 		=> $partnersData,
+			'mail_type' 		=> "create"
+		);
+
+		$mail_options = $this->model_mail->generateNotesMailOptions( $notesParamsFormMail );
+		
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			for($i = 0; $i < count($mail_options); $i++) {
+				$this->model_mail->sendMail( $mail_options[$i] );
+			}
+		}
+
+		print_r(json_encode($response));
 	}
 
 	public function deleteRecord() {
 		$this->load->model('projects/model_notes');
+		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_tasks');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
 
 		$noteId = $this->input->post('noteId');
 
-		$delete_task = $this->model_notes->deleteRecord($noteId);
+		$projectNotesResponse = $this->model_notes->getNotesList(null, null, $noteId, 0, 5);
+		$note 		= isset($projectNotesResponse["notes"]) && count($projectNotesResponse["notes"]) ? $projectNotesResponse["notes"][0] : null;
 
-		print_r(json_encode($delete_task));
+		$response = $this->model_notes->deleteRecord($noteId);
+
+		if(isset($note) && !empty($note)) {
+			$projectId 	= !empty($note->project_id) ? $note->project_id : null;
+			$taskId 	= !empty($note->task_id) ? $note->task_id : null;
+		
+			$projects = $this->model_projects->getProjectsList($projectId);
+			$project 	= count($projects) ? $projects[0] : "";
+
+			if($taskId) {
+				$tasks = $this->model_tasks->getTask($taskId);
+				$taskData = count($tasks) ? $tasks[0] : null;
+			}
+
+			$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
+			$contractorId 	= isset($project) && isset($project->contractor_id) && !empty($project->contractor_id) ? $project->contractor_id :  null;
+			$adjusterId 	= isset($project) && isset($project->adjuster_id) && !empty($project->adjuster_id) ? $project->adjuster_id :  null;
+
+			if(isset($taskData)) {
+				if($taskData->task_owner_id && strpos($taskData->task_owner_id, '-'))
+					list($ownerType, $ownerTypeId) = explode('-',  $taskData->task_owner_id);
+
+				if(isset($ownerType) && !empty($ownerType)) {
+					$contractorId 	= $ownerType == "contractor" ? $ownerTypeId : null;
+					$adjusterId 	= $ownerType == "adjuster" ? $ownerTypeId : null;
+				}
+			}
+
+			$customerData 		= null != $customerId ? $this->model_users->getUserDetailsBySno($customerId) : null;
+			$contractorsData 	= null;
+			$partnersData 		= null;
+
+			//Contractor Details
+			if($contractorId != "") {
+				$contractorIdArr = explode(",", $contractorId);
+				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				 $contractorsData = $contractorsResponse["contractors"];
+			}
+
+			// Partners Name
+			if($adjusterId != "") {
+				$partnerIdArr = explode(",", $adjusterId);
+				$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+				 $partnersData = $partnersResponse["partners"];
+			}
+
+			$projectParamsFormMail = array(
+				'response'			=> $response,
+				'projectData'		=> $project,
+				'taskData'			=> isset( $taskData ) ? $taskData : null,
+				'customerData' 		=> $customerData,
+				'contractorsData' 	=> $contractorsData,
+				'partnersData' 		=> $partnersData,
+				'mail_type' 		=> "delete"
+			);
+
+			$mail_options = $this->model_mail->generateNotesMailOptions( $projectParamsFormMail );
+			
+			if($this->config->item('development_mode')) {
+				$response['mail_content'] = $mail_options;
+			} else {
+				for($i = 0; $i < count($mail_options); $i++) {
+					$this->model_mail->sendMail( $mail_options[$i] );
+				}
+			}
+		}
+
+		print_r(json_encode($response));
 	}
 }

@@ -100,13 +100,14 @@ issues.prototype.createSubmit = function( openAs, popupType ) {
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
+			projectObj._issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
 				projectObj._issues.viewOne(response.insertedId, openAs, popupType);
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
-			projectObj._issues.viewAll();
+			
 
 			if(projectObj._projects.projectId) {
 				projectObj._projects.viewOne( issueProjectId, {"triggeredBy" : "issues", "taskId": issueTaskId} );
@@ -301,7 +302,7 @@ issues.prototype.updateSubmit = function( openAs, popupType ) {
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
-			projectObj._issues.viewAll();
+			projectObj._issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
 			
 			if(projectObj._projects.projectId) {
 				projectObj._projects.viewOne( issueProjectId );

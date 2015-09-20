@@ -1,12 +1,12 @@
-<h2>Projects List</h2>
+<h2>List pf Projects</h2>
 <div class="projects internal-tab-as-links" onclick="projectObj._projects.showProjectsList(event)">
-	<a href="javascript:void(0);" data-option="open">Open</a>
-	<a href="javascript:void(0);" data-option="completed">Completed</a>
+	<a href="javascript:void(0);" data-option="open" title="Click on this button to view open/active projects">Open</a>
+	<a href="javascript:void(0);" data-option="completed" title="Click on this button to view completed projects">Completed</a>
 	<?php if($account_type == "admin") { ?>
-	<a href="javascript:void(0);" data-option="deleted">Deleted</a>
+	<a href="javascript:void(0);" data-option="deleted" title="Click on this button to view deleted projects">Deleted</a>
 	<?php } ?>
-	<a href="javascript:void(0);" data-option="issues">Issue</a>
-	<a href="javascript:void(0);" data-option="all">All</a>
+	<a href="javascript:void(0);" data-option="issues" title="Click on this button to view projects with issues">Issues</a>
+	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all projects">All</a>
 </div>
 <div>
 	<!-- List all the Functions from database -->

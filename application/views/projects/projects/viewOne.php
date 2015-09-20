@@ -25,6 +25,7 @@
 <div>
 	<!-- List all the Functions from database -->
 	<input type="hidden" id="contractorIdDb" value="<?php echo $project->contractor_id;?>">
+	<input type="hidden" id="adjusterIdDb" value="<?php echo $project->adjuster_id;?>">
 
 	<!-- Project Title -->
 	<table cellspacing="0" class="viewOne projectViewOne">

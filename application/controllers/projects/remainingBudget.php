@@ -48,9 +48,16 @@ class remainingbudget extends CI_Controller {
 
 	public function add() {
 		$this->load->model('projects/model_remainingbudget');
+		$this->load->model('projects/model_projects');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
+
+		$projectId = $this->input->post('projectId');
 
 		$data = array(
-			'project_id' 	=> $this->input->post('projectId'),
+			'project_id' 	=> $projectId,
 			'date' 			=> $this->input->post('date'),
 			'descr' 		=> $this->input->post('descr'),
 			'amount' 		=> $this->input->post('amount'),
@@ -60,8 +67,8 @@ class remainingbudget extends CI_Controller {
 			'updated_on'	=> date("Y-m-d H:i:s")
 		);
 
-		$insert_rb = $this->model_remainingbudget->insert($data);
-		print_r(json_encode($insert_rb));
+		$response = $this->model_remainingbudget->insert($data);
+		print_r(json_encode($response));
 	}
 
 	public function update() {

@@ -360,11 +360,61 @@ class Projects extends CI_Controller {
 
 	public function deleteRecord() {
 		$this->load->model('projects/model_projects');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
 
-		$record = $this->input->post('projectId');
-		$delete_project = $this->model_projects->deleteRecord($record);
+		$projectId = $this->input->post('projectId');
 
-		print_r(json_encode($delete_project));	
+		// Get Porject details defore delete
+		$projects = $this->model_projects->getProjectsList($projectId);
+		$project 	= count($projects) ? $projects[0] : "";
+
+		$customerId = isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id : null;
+		$contractorId = isset($project->contractor_id) && !empty($project->contractor_id) ? $project->contractor_id : null;
+		$adjusterId = isset($project->adjuster_id) && !empty($project->adjuster_id) ? $project->adjuster_id : null;
+
+		$customerData 		= null != $customerId ? $this->model_users->getUserDetailsBySno($customerId) : null;
+		$contractorsData 	= null;
+		$partnersData 		= null;
+
+		$response = $this->model_projects->deleteRecord($projectId);
+
+		//Contractor Details
+		if($contractorId != "") {
+			$contractorIdArr = explode(",", $contractorId);
+			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			 $contractorsData = $contractorsResponse["contractors"];
+		}
+
+		// Partners Name
+		if($adjusterId != "") {
+			$partnerIdArr = explode(",", $adjusterId);
+			$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+			 $partnersData = $partnersResponse["partners"];
+		}
+
+		$projectParamsFormMail = array(
+			'response'			=> $response,
+			'projectData'		=> $project,
+			'customerData' 		=> $customerData,
+			'contractorsData' 	=> $contractorsData,
+			'partnersData' 		=> $partnersData,
+			'mail_type' 		=> "delete"
+		);
+
+		$mail_options = $this->model_mail->generateProjectMailOptions( $projectParamsFormMail );
+		
+		if($this->config->item('development_mode')) {
+			$response['mail_content'] = $mail_options;
+		} else {
+			for($i = 0; $i < count($mail_options); $i++) {
+				$this->model_mail->sendMail( $mail_options[$i] );
+			}
+		}
+
+		print_r(json_encode($response));	
 	}
 
 	public function viewOnlyBudget() {

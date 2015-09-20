@@ -11,9 +11,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 <!-- Show Links above the table -->
 <div class="tasks internal-tab-as-links" onclick="projectObj._tasks.showTaskList(event)">
-	<a href="javascript:void(0);" data-option="open">Open Tasks</a>
-	<a href="javascript:void(0);" data-option="completed">Completed Tasks</a>
-	<a href="javascript:void(0);" data-option="all">All Tasks</a>
+	<a href="javascript:void(0);" data-option="open" title="Click on this button to view open/active tasks">Open</a>
+	<a href="javascript:void(0);" data-option="completed" title="Click on this button to completed tasks">Completed</a>
+	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all tasks">All</a>
 </div>
 <?php
 }

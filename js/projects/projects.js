@@ -623,6 +623,8 @@ project.prototype.taskDelete = function(task_id, project_id) {
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
 				$("#task_"+task_id).remove();
+				$( "#popupForAll" ).dialog( "close" );
+				$( "#popupForAll2").dialog( "close" );
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}
@@ -700,7 +702,8 @@ project.prototype.addTask = function( ) {
 		success: function( response ) {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title": "Add Task"});
-			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
+			projectObj._projects.setTaskOwnerListForContractorByID( $("#contractorIdDb").val());
+			projectObj._projects.setTaskOwnerListForAdjusterByID( $("#adjusterIdDb").val());
 			
 			dateOptions = {
 				fromDateField 	: "task_start_date",
@@ -752,8 +755,10 @@ project.prototype.editTask = function(taskId) {
 		success: function( response ) {
 			$("#popupForAll").html(response);
 			projectObj._projects.openDialog({"title": "Edit Task Details"});
-			projectObj._projects.getOwnerList( $("#contractorIdDb").val() );
+			projectObj._projects.setTaskOwnerListForContractorByID( $("#contractorIdDb").val() );
+			projectObj._projects.setTaskOwnerListForAdjusterByID( $("#adjusterIdDb").val());
 			projectObj._tasks.setDropdownValue();
+			setTimeout(function() {projectObj._tasks.setOwnerOption()}, 100);
 
 			dateOptions = {
 				fromDateField 	: "task_start_date",
@@ -1311,7 +1316,10 @@ project.prototype.searchAdjusterAction = function( events ) {
 	
 }
 
-project.prototype.getOwnerList = function( records ) {
+project.prototype.setTaskOwnerListForContractorByID = function( records ) {
+	if( !records )
+		return;
+
 	$.ajax({
 		method: "POST",
 		url: "/projects/contractors/getList",
@@ -1322,14 +1330,15 @@ project.prototype.getOwnerList = function( records ) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
 				var contractors = {
-					"list" 			: response["contractors"],
-					"appendTo"		: "ownerSearchResult",
-					"type"			: "ownerList",
-					"prefixId" 		: "ownerSearch",
-					"radioOptionName" : "optionSelectedOwner"
+					"list" 				: response["contractors"],
+					"appendTo"			: "ownerSearchResult",
+					"type"				: "ownerList",
+					"prefixId" 			: "ownerSearch",
+					"radioOptionName" 	: "optionSelectedOwner",
+					"valuePrefix" 		: "contractor"
 				}
 				utilObj.createContractorOptionsList(contractors);
-				projectObj._tasks.setOwnerOption();
+				
 			} else {
 				alert(response.message);
 			}
@@ -1341,6 +1350,44 @@ project.prototype.getOwnerList = function( records ) {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
+}
+
+project.prototype.setTaskOwnerListForAdjusterByID = function( records ) {
+	if(! records )
+		return;
+
+	$.ajax({
+		method: "POST",
+		url: "/projects/partners/getList",
+		data: {
+			records : records
+		},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status.toLowerCase() == "success") {
+				response.adjusterList;
+				$("#adjusterSearchResult").children().remove();				
+
+				var adjusters = {
+					"list" 				: response["partners"],
+					"appendTo"			: "ownerSearchResult",
+					"type"				: "ownerList",
+					"prefixId" 			: "ownerSearch",
+					"radioOptionName" 	: "optionSelectedOwner",
+					"valuePrefix" 		: "adjuster"
+				}
+				utilObj.createAdjusterOptionsList(adjusters);
+			} else if(response.status.toLowerCase() == "error") {
+				alert(response.message);
+			}
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});	
 }
 
 project.prototype.viewOnlyBudget = function () {

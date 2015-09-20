@@ -25,7 +25,7 @@ class Docs extends CI_Controller {
 
 		$startRecord 		= $startRecord != "" ? $startRecord : 0;
 		
-		$projectDocsResponse 	= $this->model_docs->getDocsList($projectId, $startRecord);
+		$projectDocsResponse 	= $this->model_docs->getDocsList($projectId);
 
 		if(isset($projectDocsResponse["docs"])) {
 			for($i=0; $i < count($projectDocsResponse["docs"]); $i++) {
@@ -73,13 +73,22 @@ class Docs extends CI_Controller {
 
 	public function add() {
 		$this->load->model('projects/model_docs');
-		$insert_docs = array();
+		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_tasks');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
+
+		$response = array();
 
 		if(count($_FILES) > 0) {
 			if(is_uploaded_file($_FILES['docAttachment']['tmp_name'])) {
 
+				$projectId = $this->input->post("projectId");
+
 				$data = array(
-					'project_id' 			=> $this->input->post("projectId"),
+					'project_id' 			=> $projectId,
 					'document_name '		=> $this->input->post("docName"),
 					'document_content' 		=> addslashes(file_get_contents($_FILES['docAttachment']['tmp_name'])),
 					'att_name' 				=> $_FILES["docAttachment"]["name"],
@@ -90,14 +99,59 @@ class Docs extends CI_Controller {
 					'updated_on' 			=> date("Y-m-d H:i:s")
 				);
 
-				$insert_docs = $this->model_docs->insert($data);
+				$response = $this->model_docs->insert($data);
+
+				$projects = $this->model_projects->getProjectsList($projectId);
+				$project 	= count($projects) ? $projects[0] : "";
+
+				$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
+				$contractorId 	= isset($project) && isset($project->contractor_id) && !empty($project->contractor_id) ? $project->contractor_id :  null;
+				$adjusterId 	= isset($project) && isset($project->adjuster_id) && !empty($project->adjuster_id) ? $project->adjuster_id :  null;
+
+				$customerData 		= null != $customerId ? $this->model_users->getUserDetailsBySno($customerId) : null;
+				$contractorsData 	= null;
+				$partnersData 		= null;
+
+				//Contractor Details
+				if($contractorId != "") {
+					$contractorIdArr = explode(",", $contractorId);
+					$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+					 $contractorsData = $contractorsResponse["contractors"];
+				}
+
+				// Partners Name
+				if($adjusterId != "") {
+					$partnerIdArr = explode(",", $adjusterId);
+					$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+					 $partnersData = $partnersResponse["partners"];
+				}
+
+				$docsParamsFormMail = array(
+					'response'			=> $response,
+					'projectData'		=> $project,
+					'taskData'			=> isset( $taskData ) ? $taskData : null,
+					'customerData' 		=> $customerData,
+					'contractorsData' 	=> $contractorsData,
+					'partnersData' 		=> $partnersData,
+					'mail_type' 		=> "create"
+				);
+
+				$mail_options = $this->model_mail->generateDocsMailOptions( $docsParamsFormMail );
+				
+				if($this->config->item('development_mode')) {
+					$response['mail_content'] = $mail_options;
+				} else {
+					for($i = 0; $i < count($mail_options); $i++) {
+						$this->model_mail->sendMail( $mail_options[$i] );
+					}
+				}
 			}
 		} else {
-			$insert_docs["status"] 	= "error";
-			$insert_docs["message"] 	= "File missing.. Try again";
+			$response["status"] 	= "error";
+			$response["message"] 	= "File missing.. Try again";
 		}
 
-		print_r(json_encode($insert_docs));
+		print_r(json_encode($response));
 	}
 
 	public function downloadAttachment() {
@@ -121,14 +175,75 @@ class Docs extends CI_Controller {
 
 	public function deleteRecord() {
 		$this->load->model('projects/model_docs');
+		$this->load->model('projects/model_projects');
+		$this->load->model('projects/model_tasks');
+		$this->load->model('security/model_users');
+		$this->load->model('projects/model_contractors');
+		$this->load->model('projects/model_partners');
+		$this->load->model('mail/model_mail');
 
 		$docId = $this->input->post('docId');
-		$delete_doc = $this->model_docs->deleteRecord($docId);
+		
+		$docsResponse 	= $this->model_docs->getDocsList("", $docId);
 
-		if($delete_doc["status"] == "success") {
-			$delete_doc["docId"] = $docId;
+		$response = $this->model_docs->deleteRecord($docId);
+
+		if(isset($docsResponse["docs"])) {
+			$docs = $docsResponse['docs'][0];
+
+			$projectId = $docs->project_id;
+
+			$projects = $this->model_projects->getProjectsList($projectId);
+			$project 	= count($projects) ? $projects[0] : "";
+
+			$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
+			$contractorId 	= isset($project) && isset($project->contractor_id) && !empty($project->contractor_id) ? $project->contractor_id :  null;
+			$adjusterId 	= isset($project) && isset($project->adjuster_id) && !empty($project->adjuster_id) ? $project->adjuster_id :  null;
+
+			$customerData 		= null != $customerId ? $this->model_users->getUserDetailsBySno($customerId) : null;
+			$contractorsData 	= null;
+			$partnersData 		= null;
+
+			//Contractor Details
+			if($contractorId != "") {
+				$contractorIdArr = explode(",", $contractorId);
+				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				 $contractorsData = $contractorsResponse["contractors"];
+			}
+
+			// Partners Name
+			if($adjusterId != "") {
+				$partnerIdArr = explode(",", $adjusterId);
+				$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+				 $partnersData = $partnersResponse["partners"];
+			}
+
+			$docsParamsFormMail = array(
+				'response'			=> $response,
+				'projectData'		=> $project,
+				'taskData'			=> isset( $taskData ) ? $taskData : null,
+				'customerData' 		=> $customerData,
+				'contractorsData' 	=> $contractorsData,
+				'partnersData' 		=> $partnersData,
+				'mail_type' 		=> "delete"
+			);
+
+			$mail_options = $this->model_mail->generateDocsMailOptions( $docsParamsFormMail );
+			
+			if($this->config->item('development_mode')) {
+				$response['mail_content'] = $mail_options;
+			} else {
+				for($i = 0; $i < count($mail_options); $i++) {
+					$this->model_mail->sendMail( $mail_options[$i] );
+				}
+			}
 		}
 
-		print_r(json_encode($delete_doc));	
+
+		if($response["status"] == "success") {
+			$response["docId"] = $docId;
+		}
+
+		print_r(json_encode($response));	
 	}
 }

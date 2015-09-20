@@ -13,10 +13,10 @@ if(!$openAs || $openAs != "popup") {
 	<!-- <span class="options-icon"> -->
 		<!-- Show Links above the table -->
 		<div class="issues internal-tab-as-links" onclick="projectObj._issues.showIssuesList(event)">
-			<a href="javascript:void(0);" data-option="open">Open Issues</a>
-			<a href="javascript:void(0);" data-option="closed">Closed Issues</a>
-			<a href="javascript:void(0);" data-option="cancelled">Cancelled Issues</a>
-			<a href="javascript:void(0);" data-option="all">All Issues</a>
+			<a href="javascript:void(0);" data-option="open" title="Click on this button to view open issues">Open</a>
+			<a href="javascript:void(0);" data-option="closed" title="Click on this button to view closed issues">Closed</a>
+			<a href="javascript:void(0);" data-option="cancelled" title="Click on this button to view cancelled issues">Cancelled</a>
+			<a href="javascript:void(0);" data-option="all" title="Click on this button to view all issues">All</a>
 			<span style="float:right;" ><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="Add issues to this project"></a></span>
 		</div>
 	<!-- </span> -->

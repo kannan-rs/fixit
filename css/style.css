@@ -495,6 +495,10 @@ table {
     text-align: center; }
     table tr.heading td {
       text-transform: capitalize; }
+    table tr.heading td.cell.name {
+      text-align: left; }
+    table tr.heading td.cell.descr {
+      text-align: left; }
 
 /* misc */
 code {
@@ -890,7 +894,8 @@ a.icon-right {
   text-align: center;
   border-bottom: 1px solid #D0D0D0;
   padding-bottom: 10px;
-  margin: 0px 20px; }
+  margin: 0px 20px;
+  text-align: right; }
   .internal-tab-as-links a {
     padding: 5px;
     text-decoration: none;

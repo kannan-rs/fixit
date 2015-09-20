@@ -9,8 +9,6 @@ class Model_notes extends CI_Model {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
 			$countWhereStr .= " AND project_id = ".$projectId;
-		} else {
-			return [];
 		}
 
 		if(isset($taskId) && !is_null($taskId) && $taskId != "") {

@@ -216,35 +216,38 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_list = array();
+			$mail_list["from"]		= "admin@fixitnetworks.com";
+			$mail_list["fromName"]	= "Fixit Admin";
+			$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_list["to"] 		= "";
+			$mail_list["cc"]		= "";
+			$mail_list["bcc"]		= "";
 
 			if($customerData && is_array($customerData)) {
 				//$mail_options["customerData"] = $customerData;
 
 				for($i = 0; $i < count($customerData); $i++ ) {
 					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
-					$mail_list["from"]		= "admin@fixitnetworks.com";
-					$mail_list["fromName"]	= "Fixit Admin";
 					$mail_list["to"]		= $customerData[$i]->email;
-					$mail_list["cc"]		="";
-					$mail_list["bcc"]		= "";
-					
-					if($mail_type == "create") {
-						$mail_list["subject"]	= "New Project Created";
-					} else if ( $mail_type == "update") {
-						$mail_list["subject"]	= "Notice: Project Updated";
-					}
-
-					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
 					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
 					
-					if($mail_type == "create") {
-						$mail_list["message"] 	.= "<pNew Project with your customer details is be created successfully.</p>";
-					} else if ( $mail_type == "update") {
-						$mail_list["message"] 	.= "<p>Project with your customer details is be updated successfully.</p>";
+					switch( $mail_type ) {
+						case "create":
+							$mail_list["subject"]	= "New Project Created";
+							$mail_list["message"] 	.= "<pNew Project with your customer details is be created successfully.</p>";
+							$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+						break;
+						case "update":
+							$mail_list["subject"]	= "Notice: Project Updated";
+							$mail_list["message"] 	.= "<p>Project with your customer details is be updated successfully.</p>";
+							$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+						break;
+						case "delete":
+							$mail_list["subject"]	= "Notice: Project Deleted";
+							$mail_list["message"] 	.= "<p>Project with your customer details is be deleted successfully.</p>";
+						break;
 					}
-					
 
-					$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
 					$mail_list["message"] 	.= $mail_list["signature"];
 
 					array_push($mail_options, $mail_list);
@@ -252,33 +255,28 @@ class Model_mail extends CI_Model {
 			}
 
 			if($contractorsData && is_array($contractorsData)) {
-				//$mail_options["contractorsData"] = $contractorsData;
-
 				for($i = 0; $i < count($contractorsData); $i++ ) {
 					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
-					$mail_list["from"]		= "admin@fixitnetworks.com";
-					$mail_list["fromName"]	= "Fixit Admin";
 					$mail_list["to"]		= $contractorsData[$i]->office_email;
-					$mail_list["cc"]		="";
-					$mail_list["bcc"]		= "";
-
-					if($mail_type == "create") {
-						$mail_list["subject"]	= "Contractor : New Project Created";
-					} else if ( $mail_type == "update") {
-						$mail_list["subject"]	= "Notice: Project Updated in your contractor list";
-					}
-					
-					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
 					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
 
-					if($mail_type == "create") {
-						$mail_list["message"] 	.= "<p>New Project with your contractor company as part of that was created successfully.</p>";
-					} else if ( $mail_type == "update") {
-						$mail_list["message"] 	.= "<p>Project under your company as contractor company was updated successfully.</p>";
+					switch ( $mail_type ) {
+						case 'create':
+							$mail_list["subject"]	= "Contractor : New Project Created";
+							$mail_list["message"] 	.= "<p>New Project with your contractor company as part of that was created successfully.</p>";
+							$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+						break;
+						case 'update':
+							$mail_list["subject"]	= "Notice: Project Updated in your contractor list";
+							$mail_list["message"] 	.= "<p>Project under your company as contractor company was updated successfully.</p>";
+							$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+						break;
+						case 'delete':
+							$mail_list["subject"]	= "Notice: Project Deleted in your contractor list";
+							$mail_list["message"] 	.= "<p>Project under your company as contractor company was deleted successfully.</p>";
+						break;
 					}
-
 					
-					$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					$mail_list["message"] 	.= $mail_list["signature"];
 
 					array_push($mail_options, $mail_list);
@@ -286,32 +284,440 @@ class Model_mail extends CI_Model {
 			}
 
 			if($partnersData && is_array($partnersData)) {
-				//$mail_options["partnersData"] = $partnersData;
-
 				for($i = 0; $i < count($partnersData); $i++ ) {
 					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
-					$mail_list["from"]		= "admin@fixitnetworks.com";
-					$mail_list["fromName"]	= "Fixit Admin";
 					$mail_list["to"]		= $partnersData[$i]->work_email_id;
-					$mail_list["cc"]		="";
-					$mail_list["bcc"]		= "";
-
-					if($mail_type == "create") {
-						$mail_list["subject"]	= "Contractor : New Project Created";
-					} else if ( $mail_type == "update") {
-						$mail_list["subject"]	= "Notice: Project Updated in your partner list";
-					}
 					
-					$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
 					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
 
-					if($mail_type == "create") {
-						$mail_list["message"] 	.= "<p>New Project with your Partner company as part of that was created successfully.</p>";
-					} else if ( $mail_type == "update") {
-						$mail_list["message"] 	.= "<p>Project under your company as partner company was updated successfully.</p>";
+					switch ( $mail_type ) {
+						case 'create':
+							$mail_list["subject"]	= "Contractor : New Project Created";
+							$mail_list["message"] 	.= "<p>New Project with your Partner company as part of that was created successfully.</p>";
+						break;
+						case 'update':
+							$mail_list["subject"]	= "Notice: Project Updated in your partner list";
+							$mail_list["message"] 	.= "<p>Project under your company as partner company was updated successfully.</p>";
+						break;
+						case 'delete':
+							$mail_list["subject"]	= "Notice: Project Deleted in your partner list";
+							$mail_list["message"] 	.= "<p>Project under your company as partner company was Deleted successfully.</p>";
+						break;
 					}
+					
 
 					$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			return $mail_options;
+		}
+	}
+
+	function generateTaskMailOptions( $options ) {
+		$response 			=  $options['response'];
+		$taskData 			=  $options['taskData'];
+		$customerData 		=  $options['customerData'];
+		$contractorsData 	=  $options['contractorsData'];
+		$partnersData 		=  $options['partnersData'];
+		$mail_type 			= $options['mail_type'];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_list = array();
+			$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_list["from"]		= "admin@fixitnetworks.com";
+			$mail_list["to"]		= "";
+			$mail_list["cc"]		= "";
+			$mail_list["bcc"]		= "";
+
+			if($customerData && is_array($customerData)) {
+				for($i = 0; $i < count($customerData); $i++ ) {
+					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $customerData[$i]->email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+					
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "New Task Created";
+					 		$mail_list["message"] 	.= "<pNew Task with your customer details is be created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Task Updated";
+					 		$mail_list["message"] 	.= "<p>Task with your customer details is be updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Task Deleted";
+					 		$mail_list["message"] 	.= "<p>Task with your customer details is be deleted successfully.</p>";
+					 	break;
+					 	
+					 }
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($contractorsData && is_array($contractorsData)) {
+				for($i = 0; $i < count($contractorsData); $i++ ) {
+					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
+					$mail_list["to"]		= $contractorsData[$i]->office_email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Task Created";
+					 		$mail_list["message"] 	.= "<p>New Task with your contractor company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Task Updated in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Task under your company as contractor company was updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Task deleted in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Task under your company as contractor company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($partnersData && is_array($partnersData)) {
+				for($i = 0; $i < count($partnersData); $i++ ) {
+					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
+					$mail_list["to"]		= $partnersData[$i]->work_email_id;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Task Created";
+					 		$mail_list["message"] 	.= "<p>New Task with your Partner company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Task Updated in your partner list";
+					 		$mail_list["message"] 	.= "<p>Task under your company as partner company was updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Task deleted in your partner list";
+					 		$mail_list["message"] 	.= "<p>Task under your company as partner company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			return $mail_options;
+		}
+	}
+
+	function generateIssueMailOptions( $options ) {
+		$response 			=  $options['response'];
+		$taskData 			=  $options['taskData'];
+		$customerData 		=  $options['customerData'];
+		$contractorsData 	=  $options['contractorsData'];
+		$partnersData 		=  $options['partnersData'];
+		$mail_type 			= $options['mail_type'];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_list = array();
+			$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_list["from"]		= "admin@fixitnetworks.com";
+			$mail_list["fromName"]	= "Fixit Admin";
+
+			$mail_list["to"]		= "";
+			$mail_list["cc"]		= "";
+			$mail_list["bcc"]		= "";
+
+			if($customerData && is_array($customerData)) {
+				for($i = 0; $i < count($customerData); $i++ ) {
+					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
+					$mail_list["to"]		= $customerData[$i]->email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+					
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "New Issue Created";
+					 		$mail_list["message"] 	.= "<pNew Issue with your customer details is be created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Issue Updated";
+					 		$mail_list["message"] 	.= "<p>Issue with your customer details is be updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Issue Deleted";
+					 		$mail_list["message"] 	.= "<p>Issue with your customer details is be deleted successfully.</p>";
+					 	break;
+					 	
+					 }
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($contractorsData && is_array($contractorsData)) {
+				for($i = 0; $i < count($contractorsData); $i++ ) {
+					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
+					$mail_list["to"]		= $contractorsData[$i]->office_email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Issue Created";
+					 		$mail_list["message"] 	.= "<p>New Issue with your contractor company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Issue Updated in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Issue under your company as contractor company was updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Issue deleted in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Issue under your company as contractor company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($partnersData && is_array($partnersData)) {
+				for($i = 0; $i < count($partnersData); $i++ ) {
+					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
+					$mail_list["to"]		= $partnersData[$i]->work_email_id;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Issue Created";
+					 		$mail_list["message"] 	.= "<p>New Issue with your Partner company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'update':
+					 		$mail_list["subject"]	= "Notice: Issue Updated in your partner list";
+					 		$mail_list["message"] 	.= "<p>Issue under your company as partner company was updated successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Issue deleted in your partner list";
+					 		$mail_list["message"] 	.= "<p>Issue under your company as partner company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			return $mail_options;
+		}
+	}
+
+	function generateNotesMailOptions( $options ) {
+		$response 			=  $options['response'];
+		$taskData 			=  $options['taskData'];
+		$customerData 		=  $options['customerData'];
+		$contractorsData 	=  $options['contractorsData'];
+		$partnersData 		=  $options['partnersData'];
+		$mail_type 			= $options['mail_type'];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_list = array();
+			$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_list["from"]		= "admin@fixitnetworks.com";
+			$mail_list["to"]		= "";
+			$mail_list["cc"]		= "";
+			$mail_list["bcc"]		= "";
+
+			if($customerData && is_array($customerData)) {
+				for($i = 0; $i < count($customerData); $i++ ) {
+					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $customerData[$i]->email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+					
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "New Notes Created";
+					 		$mail_list["message"] 	.= "<pNew Notes with your customer details is be created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Notes Deleted";
+					 		$mail_list["message"] 	.= "<p>Notes with your customer details is be deleted successfully.</p>";
+					 	break;
+					 	
+					 }
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($contractorsData && is_array($contractorsData)) {
+				for($i = 0; $i < count($contractorsData); $i++ ) {
+					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
+					$mail_list["to"]		= $contractorsData[$i]->office_email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Notes Created";
+					 		$mail_list["message"] 	.= "<p>New Notes with your contractor company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Notes deleted in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Notes under your company as contractor company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($partnersData && is_array($partnersData)) {
+				for($i = 0; $i < count($partnersData); $i++ ) {
+					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
+					$mail_list["to"]		= $partnersData[$i]->work_email_id;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Notes Created";
+					 		$mail_list["message"] 	.= "<p>New Notes with your Partner company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Notes deleted in your partner list";
+					 		$mail_list["message"] 	.= "<p>Notes under your company as partner company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			return $mail_options;
+		}
+	}
+
+	function generateDocsMailOptions( $options ) {
+		$response 			=  $options['response'];
+		$taskData 			=  $options['taskData'];
+		$customerData 		=  $options['customerData'];
+		$contractorsData 	=  $options['contractorsData'];
+		$partnersData 		=  $options['partnersData'];
+		$mail_type 			= $options['mail_type'];
+
+		if($response["status"] == "success") {
+			$mail_options = array();
+			$mail_list = array();
+			$mail_list["signature"] = "<p>Thanks,<br/>Fixit Networks</p>";
+			$mail_list["from"]		= "admin@fixitnetworks.com";
+			$mail_list["to"]		= "";
+			$mail_list["cc"]		= "";
+			$mail_list["bcc"]		= "";
+
+			if($customerData && is_array($customerData)) {
+				for($i = 0; $i < count($customerData); $i++ ) {
+					$mail_list["name"] 		= $customerData[$i]->first_name." ".$customerData[$i]->last_name;
+					$mail_list["fromName"]	= "Fixit Admin";
+					$mail_list["to"]		= $customerData[$i]->email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+					
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "New Document Created";
+					 		$mail_list["message"] 	.= "<pNew Document with your customer details is be created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Document Deleted";
+					 		$mail_list["message"] 	.= "<p>Document with your customer details is be deleted successfully.</p>";
+					 	break;
+					 	
+					 }
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($contractorsData && is_array($contractorsData)) {
+				for($i = 0; $i < count($contractorsData); $i++ ) {
+					$mail_list["name"] 		= $contractorsData[$i]->name." from ".$contractorsData[$i]->company;
+					$mail_list["to"]		= $contractorsData[$i]->office_email;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Document Created";
+					 		$mail_list["message"] 	.= "<p>New Document with your contractor company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Document deleted in your contractor list";
+					 		$mail_list["message"] 	.= "<p>Document under your company as contractor company was deleted successfully.</p>";
+					 	break;
+					}
+
+					$mail_list["message"] 	.= $mail_list["signature"];
+
+					array_push($mail_options, $mail_list);
+				}
+			}
+
+			if($partnersData && is_array($partnersData)) {
+				for($i = 0; $i < count($partnersData); $i++ ) {
+					$mail_list["name"] 		= $partnersData[$i]->name." from ".$partnersData[$i]->company_name;
+					$mail_list["to"]		= $partnersData[$i]->work_email_id;
+					$mail_list["message"] 	= "<p>Dear ".$mail_list["name"]."</p>";
+
+					switch ( $mail_type ) {
+					 	case 'create':
+					 		$mail_list["subject"]	= "Contractor : New Document Created";
+					 		$mail_list["message"] 	.= "<p>New Document with your Partner company as part of that was created successfully.</p>";
+					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
+					 	break;
+					 	case 'delete':
+					 		$mail_list["subject"]	= "Notice: Document deleted in your partner list";
+					 		$mail_list["message"] 	.= "<p>Document under your company as partner company was deleted successfully.</p>";
+					 	break;
+					}
+
 					$mail_list["message"] 	.= $mail_list["signature"];
 
 					array_push($mail_options, $mail_list);

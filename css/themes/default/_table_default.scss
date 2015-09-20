@@ -54,5 +54,12 @@ table {
 		td {
 			text-transform: capitalize;
 		}
+		td.cell.name {
+			text-align: left;
+		}
+		td.cell.descr {
+			text-align: left;
+		}
+
 	}
 }
