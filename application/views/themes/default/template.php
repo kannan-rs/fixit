@@ -2,7 +2,7 @@
 <html>
 <head>
 <!-- Metadatas -->
-<title>simplecorp premium - by spyka Webmaster</title>
+<title>The Fixit Network: A marketplace for you and your resources</title>
 <!-- CSS -->
 <!-- Javascripts -->
 <script>

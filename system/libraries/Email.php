@@ -31,11 +31,19 @@ class CI_Email {
 
 	var	$useragent		= "CodeIgniter";
 	var	$mailpath		= "/usr/sbin/sendmail";	// Sendmail path
+	
+	//var	$protocol		= "smtp";	// mail/sendmail/smtp
+	//var	$smtp_host		= "mail.thefixitnetwork.com";		// SMTP Server.  Example: mail.earthlink.net
+	//var	$smtp_user		= "admin@thefixitnetwork.com";		// SMTP Username
+	//var	$smtp_pass		= "admin123";		// SMTP Password
+	//var	$smtp_port		= "465";		// SMTP Port
+
 	var	$protocol		= "mail";	// mail/sendmail/smtp
 	var	$smtp_host		= "";		// SMTP Server.  Example: mail.earthlink.net
 	var	$smtp_user		= "";		// SMTP Username
 	var	$smtp_pass		= "";		// SMTP Password
 	var	$smtp_port		= "25";		// SMTP Port
+	
 	var	$smtp_timeout	= 5;		// SMTP Timeout in seconds
 	var	$smtp_crypto	= "";		// SMTP Encryption. Can be null, tls or ssl.
 	var	$wordwrap		= TRUE;		// TRUE/FALSE  Turns word-wrap on/off
@@ -1358,6 +1366,14 @@ class CI_Email {
 	 */
 	public function send()
 	{
+		
+		$CI =& get_instance();
+		$CI->config->load('config');
+		
+		if($CI->config->item('email_testing')) {
+			echo "lib Email send--";
+		}
+
 		if ($this->_replyto_flag == FALSE)
 		{
 			$this->reply_to($this->_headers['From']);
@@ -1490,16 +1506,26 @@ class CI_Email {
 	 */
 	protected function _spool_email()
 	{
+		$CI =& get_instance();
+		$CI->config->load('config');
+
+		if($CI->config->item('email_testing')) {
+			echo "lib Email _spool_email--";
+		}
 		$this->_unwrap_specials();
 
 		switch ($this->_get_protocol())
 		{
 			case 'mail'	:
-
+					if($CI->config->item('email_testing')) {
+						echo "lib Email `case` Mail--";
+					}
 					if ( ! $this->_send_with_mail())
 					{
 						$this->_set_error_message('lang:email_send_failure_phpmail');
 						return FALSE;
+					} else {
+						return TRUE;
 					}
 			break;
 			case 'sendmail'	:
@@ -1508,6 +1534,8 @@ class CI_Email {
 					{
 						$this->_set_error_message('lang:email_send_failure_sendmail');
 						return FALSE;
+					} else {
+						return TRUE;
 					}
 			break;
 			case 'smtp'	:
@@ -1516,6 +1544,8 @@ class CI_Email {
 					{
 						$this->_set_error_message('lang:email_send_failure_smtp');
 						return FALSE;
+					} else {
+						return TRUE;
 					}
 			break;
 
@@ -1535,14 +1565,31 @@ class CI_Email {
 	 */
 	protected function _send_with_mail()
 	{
+		
+		$this->_safe_mode = TRUE;
+
+		$CI =& get_instance();
+		$CI->config->load('config');
+		
+		if($CI->config->item('email_testing')) {
+			echo "lib Email `_send_with_mail` Mail--";
+			echo "safemode--".$this->_safe_mode."--";
+		}
+		
 		if ($this->_safe_mode == TRUE)
 		{
 			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
 			{
+				if($CI->config->item('email_testing')) {
+					echo "mail not send";
+				}
 				return FALSE;
 			}
 			else
 			{
+				if($CI->config->item('email_testing')) {
+					echo "mail send success";
+				}
 				return TRUE;
 			}
 		}
@@ -1550,13 +1597,26 @@ class CI_Email {
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
+			if($CI->config->item('email_testing')) {
+				echo "_recipients--".$this->_recipients."---";
+				echo "_subject--".$this->_subject."---"; 
+				echo "_finalbody--".$this->_finalbody."---";
+				echo "_header_str--".$this->_header_str."---";
+				/*echo "-f ".$this->clean_email($this->_headers['From']))."---";*/
+			}
 
 			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
 			{
+				if($CI->config->item('email_testing')) {
+					echo "mail not send";
+				}
 				return FALSE;
 			}
 			else
 			{
+				if($CI->config->item('email_testing')) {
+					echo "mail send success";
+				}
 				return TRUE;
 			}
 		}

@@ -48,34 +48,26 @@ MOM 3ed Aug 2015
 --------
 1. Contractors and Partners need to be viewed by Admin (contractor, create contractor, partner and create partner).
 
+--------------------
 
-Email
------
-Creation of user
-Updation of user
-Deletion of user
-Create of contractor
-Update of contractor
-Deletion of contractor
-Create of Partner
-Update of Partner
-Deletion of Partner
-Create of Project
-Update of Project
-Deletion of Project
-Create of Task
-Update of Task
-Deletion of Task
-Create of Issues
-Update of Issues
-Deletion of Issues
-Create of Notes under Project
-Update of Notes under Project
-Deletion of Notes under Project
-Create of Document under Project
-Update of Document under Project
-Deletion of Document under Project
-Create of Notes Under Task
-Update of Notes Under Task
-Deletion of Notes Under Task
-User/ Contractor/Partner adding confirmation mail and activation mail.
+Please insert the website content for the site and all email confirmations.  see attached.
+Project list page - List of Projects title is mispelled
+Confirmation email should come from admin@thefixitnetwork.com...currently says admin@fixitnetworks.com
+After creating a user (non-admin account) I hit submit, the account creation form remained.  I should be taken to the project list page.  from there the user, based on if they are a new user or a new user associated with an existing project, they should be able to see 0 to many projects
+
+-- Document Attached - 
+-----------------
+
+Task for this week
+
+Done - 1. Signup Country and State pre populate
+Done - 2. Deployment in live site
+Done - 3. Password during signup.
+Done - 4. Signup confirmation page
+Done - 5. Signup verification mail and activation.
+Done - 6. Create user verification mail and activation.
+contractor / adjuster verification mail and activation.
+Done - 7. The application name should be: 'The Fixit Network'
+Done - 8. Tagline should be: 'A marketplace for you and your resources’
+
+6. Recpata.

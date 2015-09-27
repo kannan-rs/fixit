@@ -98,6 +98,42 @@ class Main extends CI_Controller {
 		$this->layouts->view();
 	}
 
+	public function activate_user()
+	{
+		// With View library
+		$this->load->library("layouts");
+		$this->load->model('security/model_users');
+
+		$this->layouts->setPage("activation_user");
+		
+		/*echo "controller--".$this->session->userdata('controller');
+		echo "<br/>";
+		echo "page--".$this->session->userdata('page');
+		echo "<br/>";
+		echo "module--".$this->session->userdata('module');
+		echo "<br/>";
+		echo "function--".$this->session->userdata('function');
+		echo "<br/>";
+		echo "record--".$this->session->userdata('record');
+		echo "<br/>";*/
+
+		$response = $this->model_users->activate_user($this->session->userdata('module'));
+
+		//($response);
+
+		//print_r($response);
+		if($response && $response["activated_user"] && count($response["activated_user"])) {
+			$email = $response["activated_user"][0]->user_name;
+			if(!is_null($email) && !empty($email)) {
+				$response["user_details"] = $this->model_users->getUserDetailsByEmail($email);
+			}
+		}
+		$params = array(
+			'response' => $response
+		);
+
+		$this->layouts->view( $params );
+	}
 
 	public function isLoggedIn() {
 		if(!$this->session->userdata("is_logged_in")) {

@@ -225,7 +225,11 @@ securityUsers.prototype.createSubmit = function( openAs, popupType, belongsToFor
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
 				alert(response.message);
-				securityObj._users.viewOne(response.insertedId, openAs, popupType, belongsToForPopup);
+				if(session.is_logged_in && session.page != "signup") {
+					securityObj._users.viewOne(response.insertedId, openAs, popupType, belongsToForPopup);
+				} else if (session.page == "signup") {
+					$(".content").html( response["createConfirmPage"] );
+				}
 			} else if(response.status.toLowerCase() == "error") {
 				alert(response.message);
 			}

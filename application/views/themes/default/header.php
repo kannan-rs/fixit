@@ -1,6 +1,6 @@
 <!-- TITLE -->
-<h1><a href="#">Fixit</a></h1>
-<h2>We will fix all your home and insurence needs</h2>
+<h1><a href="#">The Fixit Network</a></h1>
+<h2>A marketplace for you and your resources</h2>
 <?php
 if($this->session->userdata("is_logged_in")) {
 ?>

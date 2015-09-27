@@ -14,6 +14,11 @@ utils.prototype.getAndSetCountryStatus =  function(moduleId) {
 			if(response.status == "success") {
 				utilObj.state = response["state"];
 				var country = [];
+				$("#create_user_form #country").empty();
+				$('#'+moduleId+" #country").append($('<option>', {
+						    value: "",
+						    text: "--Select Country--"
+						}));
 				for(var i =0 ; i < utilObj.state.length; i++) {
 					if(country.indexOf(utilObj.state[i].country) < 0) {
 						country.push(utilObj.state[i].country);

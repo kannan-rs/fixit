@@ -40,6 +40,7 @@ class Users extends CI_controller {
 		
 		$params = array(
 			'userType' 		=> $this->session->userdata("account_type"),
+			'is_logged_in' 	=> $this->session->userdata("is_logged_in"),
 			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs,
 			'belongsTo' 	=> $belongsTo,
@@ -61,6 +62,8 @@ class Users extends CI_controller {
 		$userStatus 	= $this->input->post('userStatus');
 		$referredBy 	= $this->input->post("referredBy");
 		$referredById 	= $this->input->post("referredById");
+		$password 		= $this->input->post('password');
+		$activationKey 	= md5($emailId."-".$password);
 
 		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
@@ -94,9 +97,10 @@ class Users extends CI_controller {
 			if($inserted["status"] == "success") {
 				$loginTableUser_data = array(
 					'user_name' 			=> $emailId, 
-					'password' 				=> md5($this->input->post('password')),
+					'password' 				=> md5($password),
 					'password_hint' 		=> $this->input->post('passwordHint'),
 					'account_type' 			=> ($this->input->post('privilege') == 1 ? 'admin':'user'),
+					'activation_key' 		=> $activationKey,
 					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata("user_id"),
 					'updated_by'			=> $this->session->userdata("user_id"),
@@ -128,17 +132,33 @@ class Users extends CI_controller {
 
 		$user_details_record 	= $this->model_users->getUserDetailsBySno($inserted['record']);
 		$user_details 			= $this->model_users->getUsersList($inserted_login["record"]);	
+		
 		$userParamsFormMail = array(
 			'response'				=> $response,
 			'user_details_record'	=> $user_details_record,
-			'user_record' 			=> $user_details
+			'user_record' 			=> $user_details,
+			'activationKey' 		=> $activationKey
 		);
 		
 		$mail_options = $this->model_mail->generateCreateUserMailOptions( $userParamsFormMail );
+
 		if($this->config->item('development_mode')) {
 			$response['mail_content'] = $mail_options;
 		} else {
-			$this->model_mail->sendMail( $mail_options );
+			if($this->config->item('email_testing')) {
+				echo "In Else--";
+			}
+
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
+
+			$to      = 'kannan2k6@gmail.com';
+			$subject = 'the subject';
+			$message = 'hello';
+			$headers = 'From: admin@thefixitnetwork.com'.'\r\n' .
+			    'Reply-To: admin@thefixitnetwork.com'.'\r\n' .
+			    'X-Mailer: PHP/' . phpversion();
+
+			mail($to, $subject, $message, $headers);
 		}
 
 		/*
@@ -160,9 +180,14 @@ class Users extends CI_controller {
 			if($this->config->item('development_mode')) {
 				$response['mail_content_referred'] = $mail_options;
 			} else {
-				$this->model_mail->sendMail( $mail_options );
+				$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 			}
 		}
+
+		if(!$this->session->userdata("is_logged_in")) {
+			$response["createConfirmPage"] = $this->load->view("security/users/createConfirmationPage", "", true);
+		}
+
 		print_r(json_encode($response));
 	}
 
@@ -219,7 +244,8 @@ class Users extends CI_controller {
 			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
 			'addressFile' 		=> $addressFile,
-			'userType' 			=> $this->session->userdata("account_type")
+			'userType' 			=> $this->session->userdata("account_type"),
+			'is_logged_in' 		=> $this->session->userdata("is_logged_in")
 		);
 		
 		echo $this->load->view("security/users/inputForm", $params, true);
@@ -323,7 +349,7 @@ class Users extends CI_controller {
 		if($this->config->item('development_mode')) {
 			$response['mail_content'] = $mail_options;
 		} else {
-			$this->model_mail->sendMail( $mail_options );
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 		}
 
 		print_r(json_encode($response));
@@ -352,7 +378,7 @@ class Users extends CI_controller {
 		if($this->config->item('development_mode')) {
 			$response['mail_content'] = $mail_options;
 		} else {
-			$this->model_mail->sendMail( $mail_options );
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 		}
 
 		print_r(json_encode($response));

@@ -137,6 +137,7 @@ class Layouts
 
 		$this->layout_data['initVar'] = $this->CI->session->userdata;
 		$this->layout_data['baseUrl'] = base_url();
+		$this->layout_data['params']  = $params;
 
 		$main_content_name = null;
 		$this->layout_data['login_form'] = $this->CI->load->view("forms/login_form", $this->layout_data, true);

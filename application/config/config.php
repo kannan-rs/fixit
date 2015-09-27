@@ -16,6 +16,7 @@
 */
 $config['base_url']	= 'http://fixit.loc/';
 $config['development_mode']	= true;
+$config['email_testing']	= false;
 
 /*
 |--------------------------------------------------------------------------

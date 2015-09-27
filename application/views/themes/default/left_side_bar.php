@@ -9,7 +9,10 @@
 		$account_type 	= $this->session->userdata("account_type");
 		
 		$menuOutput = "";
-		for($menuIdx = 0; $menuIdx < count($menus[$page]); $menuIdx++) {
+
+		$menuCount = isset($menus) && isset($menus[$page]) && is_array($menus[$page]) ? count($menus[$page]) : 0;
+		
+		for($menuIdx = 0; $menuIdx < $menuCount; $menuIdx++) {
 			if(!isset($menus[$page][$menuIdx]['account_type']) || 
 				(isset($menus[$page][$menuIdx]['account_type']) && $menus[$page][$menuIdx]['account_type'] == $account_type)) {
 				$selected = ($module == $menus[$page][$menuIdx]['key']) ? "selected" : "";
@@ -17,9 +20,11 @@
 				$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus[$page][$menuIdx]['link']."\">". $menus[$page][$menuIdx]['text'] ."</a></li>";
 			}
 		}
+
+		$menuTitle = isset($menu_title) && isset($menu_title[$page]) ? $menu_title[$page] : "";
 		?>
 		<li>
-			<h4><?php echo $menu_title[$page]; ?></h4>
+			<h4><?php echo $menuTitle; ?></h4>
 			<ul class="blocklist">
 			  <?php echo $menuOutput; ?>
 			</ul>

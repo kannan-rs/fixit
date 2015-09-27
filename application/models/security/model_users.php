@@ -116,6 +116,7 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUserDetailsByEmail($email) {
+		//$this->db->flush_cache();
 		$this->db->where('email', $email);
 		$this->db->where('deleted', '0');
 
@@ -250,6 +251,40 @@ class Model_users extends CI_Model {
 			}
 		} else {
 			$response['message']	= 'Invalid User, Please try again';
+		}
+		return $response;
+	}
+
+	public function activate_user($activation_key) {
+		$response = array(
+			'status' => 'error'
+		);
+		if($activation_key && $activation_key!= "") {
+			
+			$this->db->start_cache();
+
+			$selectQueryStr = "select * from `users` where `activation_key` = '".$activation_key."'";
+			//echo $selectQueryStr;
+			$selectQuery 	= $this->db->query($selectQueryStr);
+			$selectResult 	= $selectQuery->result();
+
+			$this->db->where('activation_key', $activation_key);
+			
+			$data = array(
+				'activation_key' 				=> "active"
+			);
+			
+			if($this->db->update('users', $data)) {
+				$response['status']		= "success";
+				$response['message']	= "User Activation Successfully";
+				$response['activated_user'] = $selectResult;
+			} else {
+				$response["message"] = "Error while Activation the records";
+			}
+			$this->db->stop_cache();
+			$this->db->flush_cache();
+		} else {
+			$response['message']	= 'Invalid activation key for user, Please try again';
 		}
 		return $response;
 	}

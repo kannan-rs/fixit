@@ -171,7 +171,7 @@ class Notes extends CI_Controller {
 			$response['mail_content'] = $mail_options;
 		} else {
 			for($i = 0; $i < count($mail_options); $i++) {
-				$this->model_mail->sendMail( $mail_options[$i] );
+				$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
 			}
 		}
 
@@ -254,7 +254,7 @@ class Notes extends CI_Controller {
 				$response['mail_content'] = $mail_options;
 			} else {
 				for($i = 0; $i < count($mail_options); $i++) {
-					$this->model_mail->sendMail( $mail_options[$i] );
+					$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
 				}
 			}
 		}

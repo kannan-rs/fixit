@@ -96,9 +96,9 @@ if(!$openAs || $openAs != "popup") {
 		<div>
 			<input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="Last Name">
 		</div>
-		<?php if($userType == "admin" && $edit == false) { // only for create user ?>
+		<?php if(!isset($is_logged_in) || $is_logged_in != 1 || $edit == false) { // only for create user ?>
 		
-		<div class="label">Password</div>
+		<div class="label">Password:</div>
 		<div><input type="password" name="password" id="password" value="" placeholder="Password" required></div>
 		
 		<div class="label">Confirm Password:</div>
@@ -314,4 +314,4 @@ if(!$openAs || $openAs != "popup") {
 		</p>
 	</div>
 </form>
-<!-- Add Users Ends
+<!-- Add Users Ends -->

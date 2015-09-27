@@ -118,7 +118,7 @@ class Partners extends CI_Controller {
 		if($this->config->item('development_mode')) {
 			$response['mail_content'] = $mail_options;
 		} else {
-			$this->model_mail->sendMail( $mail_options );
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 		}
 
 		print_r(json_encode($response));
@@ -235,7 +235,7 @@ class Partners extends CI_Controller {
 		if($this->config->item('development_mode')) {
 			$response['mail_content'] = $mail_options;
 		} else {
-			$this->model_mail->sendMail( $mail_options );
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 		}
 
 		print_r(json_encode($response));

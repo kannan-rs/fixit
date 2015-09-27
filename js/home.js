@@ -48,7 +48,8 @@ $().ready(function() {
             Project         -> Load Issues                        
     */
 
-    var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : "projects"));
+    var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : (session.page == "projects" ? "projects" : ( session.page == "signup" ? "signup" : ""))));
+
     switch (module) {
         /* Security Page */
         case "users":
@@ -101,10 +102,10 @@ $().ready(function() {
         case "change_pass_form":
             homeObj._userInfo.changePassForm();
             break;
-        default:
-            break;
+        case "signup":
+            utilObj.getAndSetCountryStatus("create_user_form");
+        break;
     }
 
     $("#login_error").hide();
-
 });
