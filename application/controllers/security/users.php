@@ -12,27 +12,81 @@ class Users extends CI_controller {
 		$sub_module = $this->uri->segment(3) ? $this->uri->segment(3): "";
 		$function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
+
+		$this->session->userdata("module", $module);
+	}
+
+	private function _getAddressFile($view = '', $user_details = array())
+	{
+		$addressParams = array();
+		
+		if(isset($user_details) && count($user_details)) {
+				$addressParams['addressLine1'] 		= $user_details[0]->addr1;
+				$addressParams['addressLine2'] 		= $user_details[0]->addr2;
+				$addressParams['city'] 				= $user_details[0]->addr_city;
+				$addressParams['country'] 			= $user_details[0]->addr_country;
+				$addressParams['state']				= $user_details[0]->addr_state;
+				$addressParams['zipCode'] 			= $user_details[0]->addr_pin;
+				$addressParams['requestFrom'] 		= 'view';
+		}
+		if(isset($view) && !empty($view) && $view != 'view') {
+			$addressParams['forForm'] 		= $view;
+			unset($addressParams['requestFrom']);
+		}
+
+		return $this->load->view("forms/address", $addressParams, true);
+	}
+
+	private function _getNotificationText( $status = '', $responseType = '', $user_details = array()) {
+		$patterns = array();
+		$patterns[0] = '/#first_name#/';
+		$patterns[1] = '/#last_name#/';
+
+		$replacements = array();
+		if(count($user_details)) {
+			$replacements[1] = $user_details[0]->first_name;
+			$replacements[0] = $user_details[0]->last_name;
+		}
+
+		$statusText =  preg_replace($patterns, $replacements, $this->lang->line($status.'_user_'.$responseType));
+
+		$noticeParams = array(
+			'status' 			=> $status,
+			'statusText' 		=> $statusText
+		);
+
+		return $this->load->view("forms/notice", $noticeParams, true);
 	}
 
 	public function viewAll() {
-		$this->load->model('security/model_users');
+		include 'include_user_model.php';
+
+		$record 		= $this->input->post('userId') ? $this->input->post('userId') : "";
+		$status 		= $this->input->post('status');
+		$responseType 	= $this->input->post('responseType');
+		$noticeFile 	= '';
+
 		$users = $this->model_users->getUsersList();
 
+		if(!empty($record) && isset($status) && !empty($status) && isset($responseType) && !empty($responseType)) {
+			$actionOnUsers 			= $this->model_users->getUsersList($record);
+			$actionOnUser_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
+
+			$noticeFile = $this->_getNotificationText($status, $responseType, $actionOnUser_details);
+		}
+
 		$params = array(
-			'function'=>"view",
-			'record'=>"all",
-			'users'=>$users
+			'function'		=> "view",
+			'record' 		=> "all",
+			'users'			=> $users,
+			'noticeFile' 	=> $noticeFile
 		);
 		
 		echo $this->load->view("security/users/viewAll", $params, true);
 	}
 
 	public function createForm() {
-		$addressParams = array(
-			'forForm' 			=> "create_user_form"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->_getAddressFile('create_user_form');
 
 		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
@@ -53,11 +107,8 @@ class Users extends CI_controller {
 	}
 
 	public function add() {
-		$this->load->model('security/model_users');
-		$this->load->model('mail/model_mail');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
-
+		include 'include_user_model.php';
+		
 		$emailId 		= $this->input->post('emailId');
 		$userStatus 	= $this->input->post('userStatus');
 		$referredBy 	= $this->input->post("referredBy");
@@ -117,6 +168,60 @@ class Users extends CI_controller {
 					$response["message"] 	= "User Added Successfully";
 					$response["emailId"] 	= $emailId;
 					$response["insertedId"]	= $record;
+
+
+					$user_details_record 	= $this->model_users->getUserDetailsBySno($inserted['record']);
+					$user_details 			= $this->model_users->getUsersList($inserted_login["record"]);
+					
+					$userParamsFormMail = array(
+						'response'				=> $response,
+						'user_details_record'	=> $user_details_record,
+						'user_record' 			=> $user_details,
+						'activationKey' 		=> $activationKey,
+						'responseType' 			=> 'add',
+						'status' 				=> $response["status"]
+					);
+					
+					$mail_options = $this->model_mail->generateCreateUserMailOptions( $userParamsFormMail );
+
+						$response['mail_content'] = $mail_options;
+
+						file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "In Else--\n", FILE_APPEND | LOCK_EX);
+
+						$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
+
+					/*
+						Reference Email
+					*/
+					if(!empty($referredBy) && $referredBy != "customer") {
+						$userReferredByParamsFormMail = array(
+							'response'				=> $response,
+							'user_details_record'	=> $user_details_record,
+							'user_record' 			=> $user_details,
+							'referredBy' 			=> $referredBy
+						);
+						if($referredBy == "contractor") {
+							$userReferredByParamsFormMail['referredByDetails'] = $this->model_contractors->getContractorsList($referredById)["contractors"];
+						} else if( $referredBy == "adjuster") {
+							$userReferredByParamsFormMail['referredByDetails'] = $this->model_partners->getPartnersList($referredById)["parrtners"];
+						}
+						$mail_options = $this->model_mail->generateCreateuserReferredByMailOptions( $userReferredByParamsFormMail );
+						
+						$response['mail_content_referred'] = $mail_options;
+						
+						$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
+						
+					}
+
+					if(!$this->session->userdata("is_logged_in")) {
+						$noticeFile = $this->_getNotificationText($response["status"], 'add', $user_details_record);
+						$createConfirmPageParams = array(
+							'user_details' 	=> $user_details_record,
+							'noticeFile' 	=> $noticeFile
+						);
+						$response["createConfirmPage"] = $this->load->view("security/users/createConfirmationPage", $createConfirmPageParams, true);
+					}
+
 				} else {
 					$response["status"] 	= "error";
 					$response["message"] 	= $inserted_login["message"];		
@@ -130,72 +235,11 @@ class Users extends CI_controller {
 			$response["message"] 			= "Email ID already exist";
 		}
 
-		$user_details_record 	= $this->model_users->getUserDetailsBySno($inserted['record']);
-		$user_details 			= $this->model_users->getUsersList($inserted_login["record"]);	
-		
-		$userParamsFormMail = array(
-			'response'				=> $response,
-			'user_details_record'	=> $user_details_record,
-			'user_record' 			=> $user_details,
-			'activationKey' 		=> $activationKey
-		);
-		
-		$mail_options = $this->model_mail->generateCreateUserMailOptions( $userParamsFormMail );
-
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			if($this->config->item('email_testing')) {
-				echo "In Else--";
-			}
-
-			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-
-			$to      = 'kannan2k6@gmail.com';
-			$subject = 'the subject';
-			$message = 'hello';
-			$headers = 'From: admin@thefixitnetwork.com'.'\r\n' .
-			    'Reply-To: admin@thefixitnetwork.com'.'\r\n' .
-			    'X-Mailer: PHP/' . phpversion();
-
-			mail($to, $subject, $message, $headers);
-		}
-
-		/*
-			Reference Email
-		*/
-		if(!empty($referredBy) && $referredBy != "customer") {
-			$userReferredByParamsFormMail = array(
-				'response'				=> $response,
-				'user_details_record'	=> $user_details_record,
-				'user_record' 			=> $user_details,
-				'referredBy' 			=> $referredBy
-			);
-			if($referredBy == "contractor") {
-				$userReferredByParamsFormMail['referredByDetails'] = $this->model_contractors->getContractorsList($referredById)["contractors"];
-			} else if( $referredBy == "adjuster") {
-				$userReferredByParamsFormMail['referredByDetails'] = $this->model_partners->getPartnersList($referredById)["parrtners"];
-			}
-			$mail_options = $this->model_mail->generateCreateuserReferredByMailOptions( $userReferredByParamsFormMail );
-			if($this->config->item('development_mode')) {
-				$response['mail_content_referred'] = $mail_options;
-			} else {
-				$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-			}
-		}
-
-		if(!$this->session->userdata("is_logged_in")) {
-			$response["createConfirmPage"] = $this->load->view("security/users/createConfirmationPage", "", true);
-		}
-
 		print_r(json_encode($response));
 	}
 
 	public function editForm() {
-		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
-		$this->load->model('utils/model_form_utils');
+		include 'include_user_model.php';
 
 		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
 
@@ -224,17 +268,7 @@ class Users extends CI_controller {
 			$referredByName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
 		}
 
-		$addressParams = array(
-			'addressLine1' 		=> $user_details[0]->addr1,
-			'addressLine2' 		=> $user_details[0]->addr2,
-			'city' 				=> $user_details[0]->addr_city,
-			'country' 			=> $user_details[0]->addr_country,
-			'state'				=> $user_details[0]->addr_state,
-			'zipCode' 			=> $user_details[0]->addr_pin,
-			'forForm' 			=> "update_user_form"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->_getAddressFile('update_user_form', $user_details);
 
 		$params = array(
 			'record' 			=> $record,
@@ -252,10 +286,9 @@ class Users extends CI_controller {
 	}
 
 	public function update() {
-		$response = array();
+		include 'include_user_model.php';
 
-		$this->load->model('security/model_users');
-		$this->load->model('mail/model_mail');
+		$response = array();
 
 		$active_start_date 		= $this->input->post("activeStartDate");
 		$active_end_date 		= $this->input->post("activeEndDate");
@@ -346,18 +379,14 @@ class Users extends CI_controller {
 
 		$mail_options = $this->model_mail->generateUpdateUserMailOptions( $userParamsFormMail );
 
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-		}
+		$response['mail_content'] = $mail_options;
+		$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 
 		print_r(json_encode($response));
 	}
 
 	public function deleteRecord() {
-		$this->load->model('security/model_users');
-		$this->load->model('mail/model_mail');
+		include 'include_user_model.php';
 
 		$record = $this->input->post('userId');
 		$emailId = $this->input->post('emailId');
@@ -375,23 +404,19 @@ class Users extends CI_controller {
 
 		$mail_options = $this->model_mail->generateDeleteUserMailOptions( $userParamsFormMail );
 
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-		}
+		$response['mail_content'] = $mail_options;
+		$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 
 		print_r(json_encode($response));
 	}
 
 	public function viewOne() {
-		$this->load->model('security/model_users');
-		$this->load->model('utils/model_form_utils');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		include 'include_user_model.php';
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
 		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "home";
+		$status 		= $this->input->post('status');
+		$responseType 	= $this->input->post('responseType');
 
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
@@ -424,17 +449,11 @@ class Users extends CI_controller {
 			}
 		}
 
-		$addressParams = array(
-			'addressLine1' 		=> $user_details[0]->addr1,
-			'addressLine2' 		=> $user_details[0]->addr2,
-			'city' 				=> $user_details[0]->addr_city,
-			'country' 			=> $user_details[0]->addr_country,
-			'state'				=> $user_details[0]->addr_state,
-			'zipCode' 			=> $user_details[0]->addr_pin,
-			'requestFrom' 		=> 'view'
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->_getAddressFile('view', $user_details);
+		
+		if(isset($status) && !empty($status) && isset($responseType) && !empty($responseType)) {
+			$noticeFile = $this->_getNotificationText($status, $responseType, $user_details);
+		}
 
 		$params = array(
 			'viewFrom' 			=> $viewFrom,
@@ -445,7 +464,8 @@ class Users extends CI_controller {
 			'userType' 			=> $this->session->userdata("account_type"),
 			'addressFile' 		=> $addressFile,
 			'belongsToName' 	=> !empty($belongsToName) ? $belongsToName : "-NA-",
-			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-"
+			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-",
+			'noticeFile' 		=> isset($noticeFile) ? $noticeFile : ""
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);

@@ -48,7 +48,16 @@ issues.prototype.createForm = function( options ) {
 };
 
 issues.prototype.createValidate =  function ( openAs, popupType ) {
-	var validator = $( "#create_issue_form" ).validate();
+	var validator = $( "#create_issue_form" ).validate({
+		rules: {
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._issues.createSubmit( openAs, popupType );
@@ -240,7 +249,16 @@ issues.prototype.editForm = function( options ) {
 };
 
 issues.prototype.updateValidate = function( openAs, popupType ) {
-	var validator = $( "#update_issue_form" ).validate();
+	var validator = $( "#update_issue_form" ).validate({
+		rules: {
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._issues.updateSubmit( openAs, popupType );

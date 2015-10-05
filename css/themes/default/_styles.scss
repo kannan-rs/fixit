@@ -108,6 +108,7 @@ button {
 	font-family:Verdana, $font-family;
 	padding:5px 6px;
 	text-transform: capitalize;
+	cursor: pointer;
 }
 
 .input-radio-checkbox {
@@ -129,9 +130,9 @@ button {
 }
 
 .error {
-	color: red;
-	display: inline-block;
-	font-size: 11px;
+	/*color: red;*/
+	/*display: inline-block;*/
+	/*font-size: 11px;*/
 }
 
 fieldset {

@@ -134,17 +134,13 @@ class Layouts
 		$this->layout_data['menus'] 		= $this->menus;
 		$this->layout_data['menus_default'] = $this->menus_default;
 		$this->layout_data['menu_title'] 	= $this->menu_title;
-
-		$this->layout_data['initVar'] = $this->CI->session->userdata;
-		$this->layout_data['baseUrl'] = base_url();
-		$this->layout_data['params']  = $params;
+		$this->layout_data['initVar'] 		= $this->CI->session->userdata;
+		$this->layout_data['baseUrl'] 		= base_url();
+		$this->layout_data['params']  		= $params;
+		$this->layout_data['is_logged_in']  = $this->CI->session->userdata("is_logged_in");
+		$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
 		$main_content_name = null;
-		$this->layout_data['login_form'] = $this->CI->load->view("forms/login_form", $this->layout_data, true);
-
-		//echo "<br/>Page --> ".$this->CI->session->userdata("page");
-		//echo "<br/>Module --> ".$this->CI->session->userdata("module");
-		//echo "<br/>Logged IN --> ".$this->CI->session->userdata('is_logged_in');
 		
 		if($this->CI->session->userdata("page")) {
 			$main_content_name = $this->CI->session->userdata("page");

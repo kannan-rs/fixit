@@ -34,7 +34,13 @@ remainingbudget.prototype.getListWithForm = function( options ) {
 }
 
 remainingbudget.prototype.validate =  function ( openAs, popupType ) {
-	var validator = $( "#create_pfbudget_form" ).validate();
+	var validator = $( "#create_pfbudget_form" ).validate({
+		rules: {
+			amount : {
+				number : true
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._remainingbudget.addUpdate( openAs, popupType );

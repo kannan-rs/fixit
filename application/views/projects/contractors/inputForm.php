@@ -73,11 +73,11 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 		</div>
 		<div class="label">Office Number:</div>
 		<div>
-			<input type="number" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="Contact Phone Number" required>
+			<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="Contact Phone Number" required>
 		</div>
 		<div class="label">Mobile Number:</div>
 		<div>
-				<input type="number" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="Contact Mobile Number" required>
+				<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="Contact Mobile Number" required>
 		</div>
 		<div class="label prefMode">Prefered Mode for Contact:</div>
 		<div>

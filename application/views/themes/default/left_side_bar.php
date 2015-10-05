@@ -31,6 +31,7 @@
 		</li>
 		<?php
 	} else { // If Not logged in then following link
+	/*
 	?>
 		<li>
 			<h4>Blocklist</h4>
@@ -51,6 +52,7 @@
 		</p>
 	</li>
 	<?php
+	*/
 	}
 	?>
 </ul>

@@ -38,6 +38,48 @@ class Main extends CI_Controller {
 		$this->layouts->view();
 	}
 
+	public function overview()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("overview");
+		
+		//Render a view
+		$this->layouts->view();
+	}
+
+	public function faq()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("faq");
+		
+		//Render a view
+		$this->layouts->view();
+	}
+	public function about_us()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("about_us");
+		
+		//Render a view
+		$this->layouts->view();
+	}
+	public function contact_us()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("contact_us");
+		
+		//Render a view
+		$this->layouts->view();
+	}
+
 	public function home()
 	{
 		// With View library

@@ -194,7 +194,7 @@ if(!$openAs || $openAs != "popup") {
 		
 		<div class="label">Contact Phone Number:</div>
 		<div>
-			<input type="number" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contactPhoneNumber; ?>" placeholder="Contact Phone Number" required>
+			<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contactPhoneNumber; ?>" placeholder="Contact Phone Number" required>
 		</div>
 		
 		<div class="label notMandatory">Mobile Number:</div>
@@ -202,7 +202,7 @@ if(!$openAs || $openAs != "popup") {
 			<table  class="innerOption">
 				<tr>
 					<td colspan="2">
-						<input type="number" name="mobileNumber" id="mobileNumber" value="<?php echo $mobileNumber; ?>" placeholder="Mobile Number">
+						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo $mobileNumber; ?>" placeholder="Mobile Number">
 					</td>
 				</tr>
 				<tr>
@@ -219,7 +219,7 @@ if(!$openAs || $openAs != "popup") {
 			<table class="innerOption">
 				<tr>
 					<td colspan="2">
-						<input type="number" name="altNumber" id="altNumber" value="<?php echo $altNumber; ?>" placeholder="alternate">
+						<input type="text" name="altNumber" id="altNumber" value="<?php echo $altNumber; ?>" placeholder="alternate">
 					</td>
 				</tr>
 				<tr>

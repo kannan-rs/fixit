@@ -9,7 +9,7 @@ function securityUsers() {
 	Create User Validation
 */
 securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsTo ) {
-	$("#create_user_form").validate({
+	var validator = $("#create_user_form").validate({
 		rules: {
 			password: {
 				required: true
@@ -17,6 +17,12 @@ securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsT
 			confirmPassword: {
 				required: true,
 				equalTo: "#password"
+			},
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
 			},
 			privilege: {
 				required: {
@@ -27,6 +33,15 @@ securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsT
                     	return true;
 					}
 				}
+			},
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			},
+			altNumber : {
+				digits : true	
 			}
 		},
 		messages: {
@@ -36,9 +51,6 @@ securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsT
 		}
 	});
 
-	var validator = $( "#create_user_form" ).validate();
-
-
 	if(validator.form()) {
 
 		securityObj._users.createSubmit( openAs, popupType, belongsTo );
@@ -46,10 +58,16 @@ securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsT
 };
 
 securityUsers.prototype.updateValidate = function() {
-	$("#update_user_form").validate({
+	var validator = $("#update_user_form").validate({
 		rules: {
 			activeEndDate: {
 				greaterThanOrEqualTo: "#activeStartDate"
+			},
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
 			},
 			privilege: {
 				required: {
@@ -60,6 +78,15 @@ securityUsers.prototype.updateValidate = function() {
                     	return true;
 					}
 				}
+			},
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			},
+			altNumber : {
+				digits : true	
 			}
 		},
 		messages: {
@@ -72,18 +99,25 @@ securityUsers.prototype.updateValidate = function() {
 		}
 	});
 
-	var validator = $( "#update_user_form" ).validate();
-
 	if(validator.form()) {
 		securityObj._users.updateSubmit();
 	}
 };
 
-securityUsers.prototype.viewAll = function() {
+securityUsers.prototype.viewAll = function( options ) {
+	options 			= options || {};
+	var userId 			= options.userId;
+	var status 			= options.status;
+	var responseType 	= options.responseType;
+
 	$.ajax({
 		method: "POST",
 		url: "/security/users/viewAll",
-		data: {},
+		data: {
+			userId 			: userId,
+			status 			: status,
+			responseType 	: responseType
+		},
 		success: function( response ) {
 			$("#security_content").html(response);
 		},
@@ -224,9 +258,17 @@ securityUsers.prototype.createSubmit = function( openAs, popupType, belongsToFor
 		success: function( response ) {
 			response = $.parseJSON(response);
 			if(response.status.toLowerCase() == "success") {
-				alert(response.message);
+				//alert(response.message);
 				if(session.is_logged_in && session.page != "signup") {
-					securityObj._users.viewOne(response.insertedId, openAs, popupType, belongsToForPopup);
+					var params = {
+						userId 				: response.insertedId, 
+						openAs 				: openAs, 
+						popupType 			: popupType, 
+						belongsTo 			: belongsToForPopup,
+						status 				: "success",
+						responseType 		: "add"
+					}
+					securityObj._users.viewOne( params );
 				} else if (session.page == "signup") {
 					$(".content").html( response["createConfirmPage"] );
 				}
@@ -373,9 +415,15 @@ securityUsers.prototype.updateSubmit = function(userId) {
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
-			alert(response["message"]);
 			if(response.status.toLowerCase() == "success") {
-				securityObj._users.viewOne(userId);
+				var params = {
+					userId 				: userId, 
+					status 				: "success",
+					responseType 		: "update"
+				}
+				securityObj._users.viewOne( params );
+			} else {
+				alert(response["message"]);
 			}
 		},
 		error: function( error ) {
@@ -397,9 +445,15 @@ securityUsers.prototype.deleteRecord = function(userId, emailId) {
 		},
 		success: function( response ) {
 			response = $.parseJSON(response);
-			alert(response["message"]);
 			if(response["status"] == "success") {
-				securityObj._users.viewAll();
+				var params = {
+					userId 				: userId, 
+					status 				: "success",
+					responseType 		: "delete"
+				}
+				securityObj._users.viewAll( params );
+			} else {
+				alert(response["message"]);
 			}
 		},
 		error: function( error ) {
@@ -411,13 +465,23 @@ securityUsers.prototype.deleteRecord = function(userId, emailId) {
 	});
 };
 
-securityUsers.prototype.viewOne = function(userId, openAs, popupType, belongsTo ) {
+securityUsers.prototype.viewOne = function( options ) {
+	options 			= options || {};
+	var userId 			= options.userId;
+	var openAs 			= options.openAs;
+	var popupType 		= options.popupType;
+	var belongsTo 		= options.belongsTo;
+	var status 			= options.status;
+	var responseType 	= options.responseType;
+
 	$.ajax({
 		method: "POST",
 		url: "/security/users/viewOne",
 		data: {
-			userId 		: userId,
-			viewFrom 	: session.page
+			userId 			: userId,
+			viewFrom 		: session.page,
+			status 			: status,
+			responseType 	: responseType
 		},
 		success: function( response ) {
 			if( openAs && openAs == "popup") {

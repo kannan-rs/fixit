@@ -44,7 +44,22 @@ contractors.prototype.createForm = function( options ) {
 };
 
 contractors.prototype.createValidate =  function ( openAs, popupType ) {
-	var validator = $( "#create_contractor_form" ).validate();
+	var validator = $( "#create_contractor_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			},
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._contractors.createSubmit( openAs, popupType );
@@ -209,7 +224,22 @@ contractors.prototype.editForm = function( options ) {
 };
 
 contractors.prototype.updateValidate = function() {
-	var validator = $( "#update_contractor_form" ).validate();
+	var validator = $( "#update_contractor_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			},
+			contactPhoneNumber : {
+				digits : true	
+			},
+			mobileNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._contractors.updateSubmit();

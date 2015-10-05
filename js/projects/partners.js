@@ -44,7 +44,22 @@ partners.prototype.createForm = function( options ) {
 };
 
 partners.prototype.createValidate =  function ( openAs, popupType ) {
-	var validator = $( "#create_partner_form" ).validate();
+	var validator = $( "#create_partner_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			},
+			wNumber : {
+				digits : true	
+			},
+			pNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._partners.createSubmit( openAs, popupType );
@@ -207,7 +222,22 @@ partners.prototype.editForm = function( options ) {
 };
 
 partners.prototype.updateValidate = function() {
-	var validator = $( "#update_partner_form" ).validate();
+	var validator = $( "#update_partner_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			},
+			wNumber : {
+				digits : true	
+			},
+			pNumber : {
+				digits : true	
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._partners.updateSubmit();

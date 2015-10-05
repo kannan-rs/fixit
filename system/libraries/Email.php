@@ -32,30 +32,34 @@ class CI_Email {
 	var	$useragent		= "CodeIgniter";
 	var	$mailpath		= "/usr/sbin/sendmail";	// Sendmail path
 	
-	//var	$protocol		= "smtp";	// mail/sendmail/smtp
-	//var	$smtp_host		= "mail.thefixitnetwork.com";		// SMTP Server.  Example: mail.earthlink.net
-	//var	$smtp_user		= "admin@thefixitnetwork.com";		// SMTP Username
-	//var	$smtp_pass		= "admin123";		// SMTP Password
-	//var	$smtp_port		= "465";		// SMTP Port
+	var	$protocol		= "smtp";	// mail/sendmail/smtp
+	var	$smtp_host		= "ssl://dallas112.arvixeshared.com";		// SMTP Server.  Example: mail.earthlink.net
+	var	$smtp_user		= "admin@thefixitnetwork.com";		// SMTP Username
+	//var	$smtp_pass		= "vCI4ahJ{LeU;";		// SMTP Password for kannan@thefixitnetwork.com
+	var	$smtp_pass		= "east2west";		// SMTP Password
+	var	$smtp_port		= "465";		// SMTP Port
 
+	/*
 	var	$protocol		= "mail";	// mail/sendmail/smtp
 	var	$smtp_host		= "";		// SMTP Server.  Example: mail.earthlink.net
 	var	$smtp_user		= "";		// SMTP Username
 	var	$smtp_pass		= "";		// SMTP Password
 	var	$smtp_port		= "25";		// SMTP Port
+	*/	
 	
 	var	$smtp_timeout	= 5;		// SMTP Timeout in seconds
 	var	$smtp_crypto	= "";		// SMTP Encryption. Can be null, tls or ssl.
 	var	$wordwrap		= TRUE;		// TRUE/FALSE  Turns word-wrap on/off
 	var	$wrapchars		= "76";		// Number of characters to wrap at.
-	var	$mailtype		= "text";	// text/html  Defines email formatting
-	var	$charset		= "utf-8";	// Default char set: iso-8859-1 or us-ascii
+	var	$mailtype		= "html";	// text/html  Defines email formatting
+	//var	$charset		= "utf-8";	// Default char set: iso-8859-1 or us-ascii
+	var	$charset		= "iso-8859-1";	// Default char set: iso-8859-1 or us-ascii
 	var	$multipart		= "mixed";	// "mixed" (in the body) or "related" (separate)
 	var $alt_message	= '';		// Alternative message for HTML emails
 	var	$validate		= FALSE;	// TRUE/FALSE.  Enables email validation
 	var	$priority		= "3";		// Default priority (1 - 5)
-	var	$newline		= "\n";		// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
-	var $crlf			= "\n";		// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
+	var	$newline		= "\r\n";		// Default newline. "\r\n" or "\n" (Use "\r\n" to comply with RFC 822)
+	var $crlf			= "\r\n";		// The RFC 2045 compliant CRLF for quoted-printable is "\r\n".  Apparently some servers,
 									// even on the receiving end think they need to muck with CRLFs, so using "\n", while
 									// distasteful, is the only thing that seems to work for all environments.
 	var $send_multipart	= TRUE;		// TRUE/FALSE - Yahoo does not like multipart alternative, so this is an override.  Set to FALSE for Yahoo.
@@ -1370,9 +1374,7 @@ class CI_Email {
 		$CI =& get_instance();
 		$CI->config->load('config');
 		
-		if($CI->config->item('email_testing')) {
-			echo "lib Email send--";
-		}
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "lib Email send--\n", FILE_APPEND | LOCK_EX);
 
 		if ($this->_replyto_flag == FALSE)
 		{
@@ -1509,17 +1511,15 @@ class CI_Email {
 		$CI =& get_instance();
 		$CI->config->load('config');
 
-		if($CI->config->item('email_testing')) {
-			echo "lib Email _spool_email--";
-		}
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "lib Email _spool_email--\n", FILE_APPEND | LOCK_EX);
+		
 		$this->_unwrap_specials();
 
 		switch ($this->_get_protocol())
 		{
 			case 'mail'	:
-					if($CI->config->item('email_testing')) {
-						echo "lib Email `case` Mail--";
-					}
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "lib Email `case` Mail--\n", FILE_APPEND | LOCK_EX);
+
 					if ( ! $this->_send_with_mail())
 					{
 						$this->_set_error_message('lang:email_send_failure_phpmail');
@@ -1529,6 +1529,7 @@ class CI_Email {
 					}
 			break;
 			case 'sendmail'	:
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _spool_email - `case` sendmail\n", FILE_APPEND | LOCK_EX);
 
 					if ( ! $this->_send_with_sendmail())
 					{
@@ -1539,7 +1540,7 @@ class CI_Email {
 					}
 			break;
 			case 'smtp'	:
-
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _spool_email - `case` smtp\n", FILE_APPEND | LOCK_EX);
 					if ( ! $this->_send_with_smtp())
 					{
 						$this->_set_error_message('lang:email_send_failure_smtp');
@@ -1571,53 +1572,46 @@ class CI_Email {
 		$CI =& get_instance();
 		$CI->config->load('config');
 		
-		if($CI->config->item('email_testing')) {
-			echo "lib Email `_send_with_mail` Mail--";
-			echo "safemode--".$this->_safe_mode."--";
-		}
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "lib Email `_send_with_mail` Mail--\n"."safemode--".$this->_safe_mode."--\n", FILE_APPEND | LOCK_EX);
 		
 		if ($this->_safe_mode == TRUE)
 		{
-			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
-			{
-				if($CI->config->item('email_testing')) {
-					echo "mail not send";
+			if($CI->config->item('development_mode') == false) {
+				if ( !mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
+				{
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail not send\n", FILE_APPEND | LOCK_EX);
+					return FALSE;
 				}
-				return FALSE;
-			}
-			else
-			{
-				if($CI->config->item('email_testing')) {
-					echo "mail send success";
+				else
+				{
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail send success\n", FILE_APPEND | LOCK_EX);
+					$to      = 'kannan2k6@gmail.com';
+					$subject1 = "from Send Mail<br/>".$this->_subject;
+
+					mail($to, $subject1, $this->_finalbody, $this->_header_str);
+
+					return TRUE;
 				}
-				return TRUE;
 			}
 		}
 		else
 		{
 			// most documentation of sendmail using the "-f" flag lacks a space after it, however
 			// we've encountered servers that seem to require it to be in place.
-			if($CI->config->item('email_testing')) {
-				echo "_recipients--".$this->_recipients."---";
-				echo "_subject--".$this->_subject."---"; 
-				echo "_finalbody--".$this->_finalbody."---";
-				echo "_header_str--".$this->_header_str."---";
-				/*echo "-f ".$this->clean_email($this->_headers['From']))."---";*/
-			}
+			file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "_recipients--".$this->_recipients."---\n"."_subject--".$this->_subject."---\n"."_finalbody--".$this->_finalbody."---\n"."_header_str--".$this->_header_str."---\n", FILE_APPEND | LOCK_EX);
+			
 
-			if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
-			{
-				if($CI->config->item('email_testing')) {
-					echo "mail not send";
+			if( $CI->config->item('development_mode') == false ) {
+				if ( ! mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, "-f ".$this->clean_email($this->_headers['From'])))
+				{
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail not send\n", FILE_APPEND | LOCK_EX);
+					return FALSE;
 				}
-				return FALSE;
-			}
-			else
-			{
-				if($CI->config->item('email_testing')) {
-					echo "mail send success";
+				else
+				{
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail send success\n", FILE_APPEND | LOCK_EX);
+					return TRUE;
 				}
-				return TRUE;
 			}
 		}
 	}
@@ -1670,62 +1664,82 @@ class CI_Email {
 	 */
 	protected function _send_with_smtp()
 	{
+		$CI =& get_instance();
+		$CI->config->load('config');
+
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp\n", FILE_APPEND | LOCK_EX);
 		if ($this->smtp_host == '')
 		{
 			$this->_set_error_message('lang:email_no_hostname');
 			return FALSE;
 		}
 
-		$this->_smtp_connect();
-		$this->_smtp_authenticate();
-
-		$this->_send_command('from', $this->clean_email($this->_headers['From']));
-
-		foreach ($this->_recipients as $val)
-		{
-			$this->_send_command('to', $val);
+		if(! $CI->config->item('development_mode')) {
+			$this->_smtp_connect();
+			$this->_smtp_authenticate();
 		}
 
-		if (count($this->_cc_array) > 0)
-		{
-			foreach ($this->_cc_array as $val)
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp - connection & auth success\n", FILE_APPEND | LOCK_EX);
+
+		if(! $CI->config->item('development_mode')) {
+			$this->_send_command('from', $this->clean_email($this->_headers['From']));
+		}
+
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp - from cleanup success\n", FILE_APPEND | LOCK_EX);
+
+		if(! $CI->config->item('development_mode')) {
+			foreach ($this->_recipients as $val)
 			{
-				if ($val != "")
+				$this->_send_command('to', $val);
+			}
+
+			if (count($this->_cc_array) > 0)
+			{
+				foreach ($this->_cc_array as $val)
 				{
-					$this->_send_command('to', $val);
+					if ($val != "")
+					{
+						$this->_send_command('to', $val);
+					}
 				}
 			}
-		}
 
-		if (count($this->_bcc_array) > 0)
-		{
-			foreach ($this->_bcc_array as $val)
+			if (count($this->_bcc_array) > 0)
 			{
-				if ($val != "")
+				foreach ($this->_bcc_array as $val)
 				{
-					$this->_send_command('to', $val);
+					if ($val != "")
+					{
+						$this->_send_command('to', $val);
+					}
 				}
 			}
+
+			$this->_send_command('data');
+
+			// perform dot transformation on any lines that begin with a dot
+			$this->_send_data($this->_header_str . preg_replace('/^\./m', '..$1', $this->_finalbody));
+
+			$this->_send_data('.');
+
+			$reply = $this->_get_smtp_data();
+
+			$this->_set_error_message($reply);
 		}
 
-		$this->_send_command('data');
-
-		// perform dot transformation on any lines that begin with a dot
-		$this->_send_data($this->_header_str . preg_replace('/^\./m', '..$1', $this->_finalbody));
-
-		$this->_send_data('.');
-
-		$reply = $this->_get_smtp_data();
-
-		$this->_set_error_message($reply);
-
-		if (strncmp($reply, '250', 3) != 0)
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp - Message Sent\n", FILE_APPEND | LOCK_EX);
+		
+		if (! $CI->config->item('development_mode') && strncmp($reply, '250', 3) != 0)
 		{
 			$this->_set_error_message('lang:email_smtp_error', $reply);
+			file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp - message sent failes. Reply : ".$reply."\n", FILE_APPEND | LOCK_EX);
 			return FALSE;
 		}
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "Emaiil.php - _send_with_smtp - message sent success\n", FILE_APPEND | LOCK_EX);
 
-		$this->_send_command('quit');
+		if(!  $CI->config->item('development_mode')) {
+			$this->_send_command('quit');
+		}
 		return TRUE;
 	}
 

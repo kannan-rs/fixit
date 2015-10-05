@@ -218,12 +218,9 @@ class Projects extends CI_Controller {
 
 		$mail_options = $this->model_mail->generateProjectMailOptions( $projectParamsFormMail );
 		
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			for($i = 0; $i < count($mail_options); $i++) {
-				$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
-			}
+		$response['mail_content'] = $mail_options;
+		for($i = 0; $i < count($mail_options); $i++) {
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
 		}
 
 		print_r(json_encode($response));
@@ -347,13 +344,12 @@ class Projects extends CI_Controller {
 
 		$mail_options = $this->model_mail->generateProjectMailOptions( $projectParamsFormMail );
 		
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			for($i = 0; $i < count($mail_options); $i++) {
-				$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
-			}
+		$response['mail_content'] = $mail_options;
+		
+		for($i = 0; $i < count($mail_options); $i++) {
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
 		}
+		
 
 		print_r(json_encode($response));
 	}
@@ -406,12 +402,9 @@ class Projects extends CI_Controller {
 
 		$mail_options = $this->model_mail->generateProjectMailOptions( $projectParamsFormMail );
 		
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			for($i = 0; $i < count($mail_options); $i++) {
-				$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
-			}
+		$response['mail_content'] = $mail_options;
+		for($i = 0; $i < count($mail_options); $i++) {
+			$response["mail_error"] = $this->model_mail->sendMail( $mail_options[$i] );
 		}
 
 		print_r(json_encode($response));	

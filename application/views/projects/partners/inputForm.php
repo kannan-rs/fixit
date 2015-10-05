@@ -63,7 +63,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 
 		<div class="label">Office Number:</div>
 		<div>
-			<input type="number" name="wNumber" id="wNumber" value="<?php echo isset($work_phone) ? $work_phone : "" ;?>" placeholder="Office Phone Number" required>
+			<input type="text" name="wNumber" id="wNumber" value="<?php echo isset($work_phone) ? $work_phone : "" ;?>" placeholder="Office Phone Number" required>
 		</div>
 		<div class="label">Office Email ID:</div>
 		<div>
@@ -71,7 +71,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 		</div>
 		<div class="label">Mobile Number:</div>
 		<div>
-			<input type="number" name="pNumber" id="pNumber" value="<?php echo isset($mobile_no) ? $mobile_no : "" ;?>" placeholder="Contact Mobile Number" required>
+			<input type="text" name="pNumber" id="pNumber" value="<?php echo isset($mobile_no) ? $mobile_no : "" ;?>" placeholder="Contact Mobile Number" required>
 		</div>
 		<div class="label">Personal Email ID:</div>
 		<div>

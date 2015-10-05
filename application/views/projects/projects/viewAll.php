@@ -1,4 +1,4 @@
-<h2>List pf Projects</h2>
+<h2>List of Projects</h2>
 <div class="projects internal-tab-as-links" onclick="projectObj._projects.showProjectsList(event)">
 	<a href="javascript:void(0);" data-option="open" title="Click on this button to view open/active projects">Open</a>
 	<a href="javascript:void(0);" data-option="completed" title="Click on this button to view completed projects">Completed</a>

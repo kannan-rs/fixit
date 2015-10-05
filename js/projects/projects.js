@@ -24,7 +24,16 @@ project.prototype.viewOneAccordianList = [
 	Create Project Validation
 */
 project.prototype.createValidate =  function () {
-	var validator = $( "#create_project_form" ).validate();
+	var validator = $( "#create_project_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._projects.createSubmit();
@@ -208,7 +217,16 @@ project.prototype.editProject = function() {
 };
 
 project.prototype.updateValidate = function() {
-	var validator = $( "#update_project_form" ).validate();
+	var validator = $( "#update_project_form" ).validate({
+		rules: {
+			zipCode : {
+				required: true,
+				minlength: 5,
+				maxlength: 5,
+				digits : true
+			}
+		}
+	});
 
 	if(validator.form()) {
 		projectObj._projects.updateSubmit();

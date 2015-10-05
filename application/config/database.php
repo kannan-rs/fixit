@@ -45,7 +45,7 @@
 | the active record class
 */
 
-if(strpos(base_url(),"kannansriram.netau.net")) {
+/*if(strpos(base_url(),"kannansriram.netau.net")) {
 	$hostname = 'mysql7.000webhost.com';
 	$db_name = 'a9534979_cidemo';
 	$user_name = 'a9534979_cidemo';
@@ -55,12 +55,12 @@ if(strpos(base_url(),"kannansriram.netau.net")) {
 	$db_name = 'fixit';
 	$user_name = 'root';
 	$password = '';	
-} else {
+} else {*/
 	$hostname = 'localhost';
 	$db_name = 'fixit';
 	$user_name = 'root';
 	$password = '';	
-}
+//}
 
 $active_group = 'default';
 $active_record = TRUE;

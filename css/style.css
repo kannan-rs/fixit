@@ -85,7 +85,8 @@ button {
   color: #ffffff;
   font-family: Verdana, Arial, Helvetica, sans-serif;
   padding: 5px 6px;
-  text-transform: capitalize; }
+  text-transform: capitalize;
+  cursor: pointer; }
 
 .input-radio-checkbox, .form input[type="checkbox"], .form textarea[type="checkbox"], .form select[type="checkbox"], .form input[type="radio"], .form textarea[type="radio"], .form select[type="radio"] {
   height: 20px;
@@ -96,9 +97,9 @@ button {
   text-align: right; }
 
 .error {
-  color: red;
-  display: inline-block;
-  font-size: 11px; }
+  /*color: red;*/
+  /*display: inline-block;*/
+  /*font-size: 11px;*/ }
 
 fieldset {
   border: none;
@@ -695,6 +696,9 @@ span.inner_accordion {
 /* Page Links */
 .create-link {
   margin-bottom: 20px; }
+
+.error {
+  color: red; }
 
 .size-12 {
   font-size: 12px; }

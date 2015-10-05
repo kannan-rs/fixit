@@ -1,5 +1,8 @@
 <div class="create-link"><a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a></div>
 <h2>View All Users</h2>
+
+<?php echo $noticeFile; ?>
+
 <div>
 	<!-- List all the users from database -->
 	<table cellspacing="0">

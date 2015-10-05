@@ -43,11 +43,11 @@
 		</div>
 		<div class="label">Office Number:</div>
 		<div>
-			<input type="number" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contractor->office_ph;?>" placeholder="Contact Phone Number" required>
+			<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contractor->office_ph;?>" placeholder="Contact Phone Number" required>
 		</div>
 		<div class="label">Mobile Number:</div>
 		<div>
-				<input type="number" name="mobileNumber" id="mobileNumber" value="<?php echo $contractor->mobile_ph;?>" placeholder="Contact Mobile Number" required>
+				<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo $contractor->mobile_ph;?>" placeholder="Contact Mobile Number" required>
 		</div>
 		<div class="label prefMode">Prefered Mode for Contact:</div>
 		<div>

@@ -58,16 +58,21 @@ After creating a user (non-admin account) I hit submit, the account creation for
 -- Document Attached - 
 -----------------
 
-Task for this week
-
-Done - 1. Signup Country and State pre populate
-Done - 2. Deployment in live site
-Done - 3. Password during signup.
-Done - 4. Signup confirmation page
-Done - 5. Signup verification mail and activation.
-Done - 6. Create user verification mail and activation.
 contractor / adjuster verification mail and activation.
-Done - 7. The application name should be: 'The Fixit Network'
-Done - 8. Tagline should be: 'A marketplace for you and your resources’
 
 6. Recpata.
+
+
+Task for this week.
+-------------------
+Support ticket raised - 1. Outgoing email error
+Done - 2. Error handling - while signup and user creation
+Done - 3. Number increment need to be removed
+5. Website conternt changes
+Done - Status Message for users creation, update, delete (inbternalization)
+Done - User Create email template as per Michael (Internalization)
+Done - Top menu based on login status
+Done - Registraction page text changed.
+Done - Error handline for already exist email ID.
+
+. Login provide error if email id isn not present.

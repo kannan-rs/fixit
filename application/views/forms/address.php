@@ -52,6 +52,6 @@
 <div>
 	<?php 
 		if($requestFrom == "view") { echo $zipCode; } else { ?>
-	<input type="number" name="zipCode" id="zipCode" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" required>
+	<input type="text" name="zipCode" id="zipCode" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" required>
 	<?php } ?>
 </div>

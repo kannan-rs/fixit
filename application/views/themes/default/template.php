@@ -12,8 +12,9 @@ session = <?php print_r(json_encode($initVar)); ?>;
 
 <?php 
 	echo $includes; 
-	$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-700";
-	$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
+	//$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-700";
+	$main_content_css = "column-700";
+	//$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
 ?>
 </head>
 <body>
@@ -31,10 +32,16 @@ session = <?php print_r(json_encode($initVar)); ?>;
 
 	<!-- Main Content Section for all application actions -->
 	<section>
+		<?php
+		if($this->session->userdata("is_logged_in")) {
+		?>
 		<div class="sidebar column-220 column-left">	
 			<!-- Left Side Bar and left navigation -->
 			<?php echo $left_side_bar; ?>
 		</div>
+		<?php
+		}
+		?>
 		<div class="content <?php echo $main_content_css; ?> column-left inner-column">	
 			<!-- Main Content -->
 			<?php echo $main_content; ?>

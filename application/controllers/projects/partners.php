@@ -115,11 +115,8 @@ class Partners extends CI_Controller {
 
 		$mail_options = $this->model_mail->generateCreatePartnerCompanyMailOptions( $partnerCompanyParamsFormMail );
 		
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-		}
+		$response['mail_content'] = $mail_options;
+		$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 
 		print_r(json_encode($response));
 	}
@@ -232,11 +229,8 @@ class Partners extends CI_Controller {
 
 		$mail_options = $this->model_mail->generateUpdatePartnerCompanyMailOptions( $partnerCompanyParamsFormMail );
 		
-		if($this->config->item('development_mode')) {
-			$response['mail_content'] = $mail_options;
-		} else {
-			$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
-		}
+		$response['mail_content'] = $mail_options;
+		$response["mail_error"] = $this->model_mail->sendMail( $mail_options );
 
 		print_r(json_encode($response));
 	}

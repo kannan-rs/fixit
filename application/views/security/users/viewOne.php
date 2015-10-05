@@ -13,8 +13,10 @@
 		<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">Edit Details</a>
 	<?php } ?>
 </div>
-
 <?php echo $heading; ?>
+
+<?php echo $noticeFile; ?>
+
 <form>
 	<div class='form'>
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details->sno; ?>">
