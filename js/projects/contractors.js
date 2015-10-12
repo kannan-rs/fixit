@@ -2,6 +2,94 @@ function contractors() {
 	
 }
 
+
+contractors.prototype.errorMessage = function () {
+	return {
+		name : {
+			required : _lang.english.errorMessage.contractorForm.name 
+		},
+		company : {
+			required : _lang.english.errorMessage.contractorForm.company 
+		},
+		type : {
+			required : _lang.english.errorMessage.contractorForm.type 
+		},
+		license : {
+			required : _lang.english.errorMessage.contractorForm.license 
+		},
+		bbb : {
+			required : _lang.english.errorMessage.contractorForm.bbb 
+		},
+		status : {
+			required : _lang.english.errorMessage.contractorForm.status 
+		},
+		addressLine1 : {
+			required : _lang.english.errorMessage.contractorForm.addressLine1
+		},
+		addressLine2 : {
+			required : _lang.english.errorMessage.contractorForm.addressLine2
+		},
+		city : {
+			required : _lang.english.errorMessage.contractorForm.city
+		},
+		country : {
+			required : _lang.english.errorMessage.contractorForm.country
+		},
+		state : {
+			required : _lang.english.errorMessage.contractorForm.state
+		},
+		zipCode : {
+			required 	: _lang.english.errorMessage.contractorForm.zipCode,
+			minlength	: _lang.english.errorMessage.contractorForm.zipCode,
+			maxlength	: _lang.english.errorMessage.contractorForm.zipCode,
+			digits 		: _lang.english.errorMessage.contractorForm.zipCode
+		},
+		emailId : {
+			required : _lang.english.errorMessage.contractorForm.emailId 
+		},
+		contactPhoneNumber : {
+			required 	: _lang.english.errorMessage.contractorForm.contactPhoneNumber,
+			digits		: _lang.english.errorMessage.contractorForm.contactPhoneNumber,
+		},
+		mobileNumber : {
+			required 	: _lang.english.errorMessage.contractorForm.mobileNumber, 
+			digits		: _lang.english.errorMessage.contractorForm.mobileNumber
+		},
+		prefContactEmailId : {
+			required : _lang.english.errorMessage.contractorForm.prefContactEmailId 
+		},
+		prefContactofficeNumber : {
+			required : _lang.english.errorMessage.contractorForm.prefContactofficeNumber 
+		},
+		prefContactMobileNumber : {
+			required : _lang.english.errorMessage.contractorForm.prefContactMobileNumber 
+		},
+		websiteURL : {
+			required : _lang.english.errorMessage.contractorForm.websiteURL 
+		},
+		serviceZip : {
+			required : _lang.english.errorMessage.contractorForm.serviceZip 
+		}
+	};
+}
+
+contractors.prototype.validationRules = function() {
+	return {
+		zipCode : {
+			required: true,
+			minlength: 5,
+			maxlength: 5,
+			digits : true
+		},
+		contactPhoneNumber : {
+			digits : true	
+		},
+		mobileNumber : {
+			digits : true	
+		}
+	};
+}
+
 contractors.prototype.createForm = function( options ) {
 
 	event.stopPropagation();
@@ -45,20 +133,8 @@ contractors.prototype.createForm = function( options ) {
 
 contractors.prototype.createValidate =  function ( openAs, popupType ) {
 	var validator = $( "#create_contractor_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -225,20 +301,8 @@ contractors.prototype.editForm = function( options ) {
 
 contractors.prototype.updateValidate = function() {
 	var validator = $( "#update_contractor_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {

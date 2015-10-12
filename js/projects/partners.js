@@ -2,6 +2,93 @@ function partners() {
 	
 }
 
+partners.prototype.errorMessage = function () {
+	return {
+		name : {
+			required: _lang.english.errorMessage.partnerForm.name
+		},
+		company : {
+			required: _lang.english.errorMessage.partnerForm.company
+		},
+		type : {
+			required: _lang.english.errorMessage.partnerForm.type
+		},
+		license : {
+			required: _lang.english.errorMessage.partnerForm.license
+		},
+		status : {
+			required: _lang.english.errorMessage.partnerForm.status
+		},
+		addressLine1 : {
+			required: _lang.english.errorMessage.partnerForm.addressLine1
+		},
+		addressLine2 : {
+			required: _lang.english.errorMessage.partnerForm.addressLine2
+		},
+		city : {
+			required: _lang.english.errorMessage.partnerForm.city
+		},
+		country : {
+			required: _lang.english.errorMessage.partnerForm.country
+		},
+		state : {
+			required: _lang.english.errorMessage.partnerForm.state
+		},
+		zipCode : {
+			required: _lang.english.errorMessage.partnerForm.zipCode,
+			minlength: _lang.english.errorMessage.partnerForm.zipCode,
+			maxlength: _lang.english.errorMessage.partnerForm.zipCode,
+			digits : _lang.english.errorMessage.partnerForm.zipCode
+		},
+		wNumber : {
+			required: _lang.english.errorMessage.partnerForm.wNumber,
+			digits : _lang.english.errorMessage.partnerForm.wNumber
+		},
+		wEmailId : {
+			required: _lang.english.errorMessage.partnerForm.wEmailId
+		},
+		pNumber : {
+			required: _lang.english.errorMessage.partnerForm.pNumber,
+			digits : _lang.english.errorMessage.partnerForm.pNumber
+		},
+		pEmailId : {
+			required: _lang.english.errorMessage.partnerForm.pEmailId
+		},
+		prefwNumber : {
+			required: _lang.english.errorMessage.partnerForm.prefwNumber
+		},
+		prefwEmailId : {
+			required: _lang.english.errorMessage.partnerForm.prefwEmailId
+		},
+		prefmNumber : {
+			required: _lang.english.errorMessage.partnerForm.prefmNumber
+		},
+		prefwEmailId : {
+			required: _lang.english.errorMessage.partnerForm.prefwEmailId
+		},
+		websiteURL : {
+			required: _lang.english.errorMessage.partnerForm.websiteURL
+		}
+	};
+}
+
+partners.prototype.validationRules = function() {
+	return {
+		zipCode : {
+			required: true,
+			minlength: 5,
+			maxlength: 5,
+			digits : true
+		},
+		wNumber : {
+			digits : true	
+		},
+		pNumber : {
+			digits : true	
+		}
+	}
+}
+
 partners.prototype.createForm = function( options ) {
 
 	event.stopPropagation();
@@ -45,20 +132,8 @@ partners.prototype.createForm = function( options ) {
 
 partners.prototype.createValidate =  function ( openAs, popupType ) {
 	var validator = $( "#create_partner_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			wNumber : {
-				digits : true	
-			},
-			pNumber : {
-				digits : true	
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -223,20 +298,8 @@ partners.prototype.editForm = function( options ) {
 
 partners.prototype.updateValidate = function() {
 	var validator = $( "#update_partner_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			wNumber : {
-				digits : true	
-			},
-			pNumber : {
-				digits : true	
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {

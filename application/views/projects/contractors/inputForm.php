@@ -34,85 +34,118 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 	<input type="hidden" id='contractorId' value="<?php echo isset($id) ? $id : ""; ?>" />
 	<input type="hidden" name="statusDb" id="statusDb" value="<?php echo isset($status) ? $status : ""; ?>">
 	<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo isset($prefer) ? $prefer : ""; ?>" />
-	<div class='form'>
-		<div class="label">Name:</div>
-		<div>
-			<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required placeholder="Contractor Name">
-		</div>
-		<div class="label">Company:</div>
-		<div>
-			<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required placeholder="Company Name">
-		</div>
-		<div class="label">Type</div>
-		<div>
-			<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" placeholder="Contractor Type" required>
-		</div>
-		<div class="label">License</div>
-		<div>
-			<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" placeholder="Contractor License" required>
-		</div>
-		<div class="label">BBB</div>
-		<div>
-			<input type="text" name="bbb" id="bbb" value="<?php echo isset($bbb) ? $bbb : "";?>" placeholder="BBB" required>
-		</div>
-		<div class="label">Status</div>
-		<div>
-			<select name="status" id="status" required>
-				<option>--Select Status--</option>
-				<option value="active">Active</option>
-				<option value="inactive">Inactive</option>
-			</select>
-		</div>
+	<table class='form'>
+		<tbody>
+			<tr>
+				<td class="label">Name:</td>
+				<td>
+					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required placeholder="Contractor Name">
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Company:</td>
+				<td>
+					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required placeholder="Company Name">
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Type</td>
+				<td>
+					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" placeholder="Contractor Type" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">License</td>
+				<td>
+					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" placeholder="Contractor License" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">BBB</td>
+				<td>
+					<input type="text" name="bbb" id="bbb" value="<?php echo isset($bbb) ? $bbb : "";?>" placeholder="BBB" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Status</td>
+				<td>
+					<select name="status" id="status" required>
+						<option>--Select Status--</option>
+						<option value="active">Active</option>
+						<option value="inactive">Inactive</option>
+					</select>
+				</td>
+			</tr>
 
-		<?php
-			echo $addressFile;
-		?>
-		<div class="label">Office Email ID:</div>
-		<div>
-			<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" placeholder="Email ID" required>
-		</div>
-		<div class="label">Office Number:</div>
-		<div>
-			<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="Contact Phone Number" required>
-		</div>
-		<div class="label">Mobile Number:</div>
-		<div>
-				<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="Contact Mobile Number" required>
-		</div>
-		<div class="label prefMode">Prefered Mode for Contact:</div>
-		<div>
-			<table class="innerOption">
-				<tr>
-					<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
-					<td>Email</td>
-					<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber"></td>
-					<td>Office Phone</td>
-					<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber"></td>
-					<td>Mobile Number</td>
-				</tr>
-			</table>
-		</div>
-		<div class="label">Website URL:</div>
-		<div>
-			<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="Website URL" required>
-		</div>
-		<div class="label">Zip codes of Available Service Area:</div>
-		<div>
-			<textarea name="serviceZip" id="serviceZip" class="small-textarea" required><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
-		</div>
-		<p class="button-panel">
-			<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $prefix;?> Contractor</button>
 			<?php
-			if($openAs == "popup") {
+				echo $addressFile;
 			?>
-			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
-			<?php
-			} else {
-			?>
-			<button type="reset" id="resetButton" onclick="">Reset</button>
-			<?php	
-			}
-			?>
-		</p>
-	</div>
+			<tr>
+				<td class="label">Office Email ID:</td>
+				<td>
+					<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" placeholder="Email ID" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Office Number:</td>
+				<td>
+					<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="Contact Phone Number" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Mobile Number:</td>
+				<td>
+						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="Contact Mobile Number" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label prefMode">Prefered Mode for Contact:</td>
+				<td>
+					<table class="innerOption">
+						<tr>
+							<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
+							<td>Email</td>
+							<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber"></td>
+							<td>Office Phone</td>
+							<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber"></td>
+							<td>Mobile Number</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Website URL:</td>
+				<td>
+					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="Website URL" required>
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Zip codes of Available Service Area:</td>
+				<td>
+					<textarea name="serviceZip" id="serviceZip" class="small-textarea" required><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p class="button-panel">
+						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $prefix;?> Contractor</button>
+						<?php
+						if($openAs == "popup") {
+						?>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+						<?php
+						} else {
+						?>
+						<button type="reset" id="resetButton" onclick="">Reset</button>
+						<?php	
+						}
+						?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $this->lang->line('mandatory_field_text'); ?></td>
+			</tr>
+		</tbody>
+	</table>
 </form>
