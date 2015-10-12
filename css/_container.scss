@@ -14,7 +14,7 @@
 
 .label {
 	width: 150px;
-	display: inline-block;
+	/*display: inline-block;*/
 	vertical-align: top;
 	text-transform: capitalize;
 }
@@ -264,9 +264,9 @@ textarea.small-textarea {
   }
 
 .adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul {
-	margin-top: -10px;
-	position: absolute;
-	margin-left: 200px;
+	margin-top: -12px;
+	/*position: absolute;
+	margin-left: 200px;*/
 }
 
 .adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company {

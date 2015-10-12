@@ -96,7 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array('status_message', 'email_template');
+$autoload['language'] = array('status_message', 'email_template', 'misc');
 
 
 /*

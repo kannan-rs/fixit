@@ -101,6 +101,14 @@ button {
   /*display: inline-block;*/
   /*font-size: 11px;*/ }
 
+div.form-error {
+  color: red;
+  font-size: 11px;
+  margin-top: 2px; }
+
+input.form-error, textarea.form-error, select.form-error {
+  border-color: red !important; }
+
 fieldset {
   border: none;
   border-top: 1px solid #dddddd;
@@ -358,11 +366,11 @@ ul.servicelist {
 .form > div {
   margin-bottom: 10px; }
 
-.form .label {
+div.form .label {
   float: left;
   width: 200px;
   clear: both; }
-.form textarea {
+div.form textarea {
   width: 375px !important;
   height: 150px !important;
   width: 200px;
@@ -371,14 +379,14 @@ ul.servicelist {
   border-radius: 2px;
   border-width: 1px;
   border-color: #D0D0D0; }
-.form input, .form textarea, .form select {
+div.form input, div.form textarea, div.form select {
   width: 200px;
   height: 20px;
   padding: 2px;
   border-radius: 2px;
   border-width: 1px;
   border-color: #D0D0D0; }
-.form input.address, .form textarea.address, .form select.address {
+div.form input.address, div.form textarea.address, div.form select.address {
   width: 300px; }
 
 .create-link {
@@ -500,6 +508,29 @@ table {
       text-align: left; }
     table tr.heading td.cell.descr {
       text-align: left; }
+
+table.form td {
+  border-bottom: 0px solid #eFeFeF; }
+table.form .label {
+  width: 200px; }
+table.form textarea {
+  width: 375px !important;
+  height: 150px !important;
+  width: 200px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #D0D0D0; }
+table.form input, table.form textarea, table.form select {
+  width: 200px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #D0D0D0; }
+table.form input.address, table.form textarea.address, table.form select.address {
+  width: 300px; }
 
 /* misc */
 code {
@@ -631,7 +662,7 @@ table.innerOption {
 
 .label {
   width: 150px;
-  display: inline-block;
+  /*display: inline-block;*/
   vertical-align: top;
   text-transform: capitalize; }
 
@@ -837,9 +868,9 @@ textarea.small-textarea {
   color: inherit; }
 
 .adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul {
-  margin-top: -10px;
-  position: absolute;
-  margin-left: 200px; }
+  margin-top: -12px;
+  /*position: absolute;
+  margin-left: 200px;*/ }
 
 .adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company {
   color: #D2B9B9; }

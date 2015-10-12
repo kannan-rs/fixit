@@ -5,50 +5,152 @@ function securityUsers() {
 
 };
 
+
+securityUsers.prototype.validationRules = function() {
+	return {
+		password: {
+			required: true
+		},
+		confirmPassword: {
+			required: true,
+			equalTo: "#password"
+		},
+		zipCode : {
+			required: true,
+			minlength: 5,
+			maxlength: 5,
+			digits : true
+		},
+		privilege: {
+			required: {
+				depends: function(element) {
+					if('' == $('#privilege').val()){
+                        $('#privilege').val('');
+                	}
+                	return true;
+				}
+			}
+		},
+		contactPhoneNumber : {
+			digits : true
+		},
+		mobileNumber : {
+			digits : true
+		},
+		altNumber : {
+			digits : true
+		}
+	};
+}
+
+securityUsers.prototype.errorMessage = function() {
+	return {
+		firstName : {
+			required : _lang.english.errorMessage.signupForm.firstName
+		},
+		lastName : {
+			required : _lang.english.errorMessage.signupForm.lastName
+		},
+		password : {
+			required : _lang.english.errorMessage.signupForm.password
+		},
+		confirmPassword : {
+			required : _lang.english.errorMessage.signupForm.confirmPassword,
+			equalTo : _lang.english.errorMessage.signupForm.confirmPassword
+		},
+		passwordHint : {
+			required : _lang.english.errorMessage.signupForm.passwordHint
+		},
+		belongsTo : {
+			required : _lang.english.errorMessage.signupForm.belongsTo
+		},
+		contractorZipCode : {
+			required : _lang.english.errorMessage.signupForm.contractorZipCode
+		},
+		partnerCompanyName : {
+			required : _lang.english.errorMessage.signupForm.partnerCompanyName
+		},
+		userStatus : {
+			required : _lang.english.errorMessage.signupForm.userStatus
+		},
+		activeStartDate : {
+			required : _lang.english.errorMessage.signupForm.activeStartDate
+		},
+		activeEndDate : {
+			required : _lang.english.errorMessage.signupForm.activeEndDate
+		},
+		emailId : {
+			required : _lang.english.errorMessage.signupForm.emailId
+		},
+		contactPhoneNumber : {
+			required : _lang.english.errorMessage.signupForm.contactPhoneNumber
+		},
+		mobileNumber : {
+			required : _lang.english.errorMessage.signupForm.mobileNumber
+		},
+		primaryMobileNumber : {
+			required : _lang.english.errorMessage.signupForm.primaryMobileNumber
+		},
+		altNumber : {
+			required : _lang.english.errorMessage.signupForm.altNumber
+		},
+		addressLine1 : {
+			required : _lang.english.errorMessage.signupForm.addressLine1
+		},
+		addressLine2 : {
+			required : _lang.english.errorMessage.signupForm.addressLine2
+		},
+		city : {
+			required : _lang.english.errorMessage.signupForm.city
+		},
+		country : {
+			required : _lang.english.errorMessage.signupForm.country
+		},
+		state : {
+			required : _lang.english.errorMessage.signupForm.state
+		},
+		zipCode : {
+			required : _lang.english.errorMessage.signupForm.zipCode,
+			minlength : _lang.english.errorMessage.signupForm.zipCode,
+			maxlength : _lang.english.errorMessage.signupForm.zipCode,
+			digits : _lang.english.errorMessage.signupForm.zipCode
+		},
+		prefContactEmailId : {
+			required : _lang.english.errorMessage.signupForm.prefContactEmailId
+		},
+		prefContactContactPhoneNumber : {
+			required : _lang.english.errorMessage.signupForm.prefContactContactPhoneNumber
+		},
+		prefContactMobileNumber : {
+			required : _lang.english.errorMessage.signupForm.prefContactMobileNumber
+		},
+		prefContactAltNumber : {
+			required : _lang.english.errorMessage.signupForm.prefContactAltNumber
+		},
+		referredBy : {
+			required : _lang.english.errorMessage.signupForm.referredBy
+		},
+		referredBycontractorZipCode : {
+			required : _lang.english.errorMessage.signupForm.referredBycontractorZipCode
+		},
+		referredBypartnerCompanyName : {
+			required : _lang.english.errorMessage.signupForm.referredBypartnerCompanyName
+		},
+		privilege: {
+			required: "Please select any privilege"
+		},
+		password: {
+			required: "Password need to have minimum of 6 characters and max of 32 characters"
+		}
+	}
+}
 /**
 	Create User Validation
 */
 securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsTo ) {
 	var validator = $("#create_user_form").validate({
-		rules: {
-			password: {
-				required: true
-			},
-			confirmPassword: {
-				required: true,
-				equalTo: "#password"
-			},
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			privilege: {
-				required: {
-					depends: function(element) {
-						if('' == $('#privilege').val()){
-	                        $('#privilege').val('');
-                    	}
-                    	return true;
-					}
-				}
-			},
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			},
-			altNumber : {
-				digits : true	
-			}
-		},
-		messages: {
-			privilege: {
-				required: "Please select any privilege"
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -59,44 +161,8 @@ securityUsers.prototype.createValidate =  function ( openAs, popupType, belongsT
 
 securityUsers.prototype.updateValidate = function() {
 	var validator = $("#update_user_form").validate({
-		rules: {
-			activeEndDate: {
-				greaterThanOrEqualTo: "#activeStartDate"
-			},
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			},
-			privilege: {
-				required: {
-					depends: function(element) {
-						if('' == $('#privilege').val()){
-	                        $('#privilege').val('');
-                    	}
-                    	return true;
-					}
-				}
-			},
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			},
-			altNumber : {
-				digits : true	
-			}
-		},
-		messages: {
-			privilege: {
-				required: "Please select an option from the list"
-			},
-			activeEndDate: {
-				greaterThanOrEqualTo: "End Date need to be greater that start date"
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {

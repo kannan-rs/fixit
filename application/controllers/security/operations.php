@@ -33,7 +33,7 @@ class Operations extends CI_Controller {
 			'record'=>""
 		);
 
-		echo $this->load->view("security/operations/createForm", $params, true);
+		echo $this->load->view("security/operations/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -72,7 +72,7 @@ class Operations extends CI_Controller {
 			'operations'=>$operations
 		);
 		
-		echo $this->load->view("security/operations/editForm", $params, true);
+		echo $this->load->view("security/operations/inputForm", $params, true);
 	}
 
 	public function update() {

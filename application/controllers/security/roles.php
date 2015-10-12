@@ -33,7 +33,7 @@ class Roles extends CI_Controller {
 			'record'=>""
 		);
 
-		echo $this->load->view("security/roles/createForm", $params, true);
+		echo $this->load->view("security/roles/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -71,7 +71,7 @@ class Roles extends CI_Controller {
 			'roles'=>$roles
 		);
 		
-		echo $this->load->view("security/roles/editForm", $params, true);
+		echo $this->load->view("security/roles/inputForm", $params, true);
 	}
 
 	public function update() {

@@ -4,23 +4,46 @@ function securityRoles() {
 /**
  	Roles functions
 */
-securityRoles.prototype.createValidate = function() {
-	$("#create_role_form").validate({
-		rules: {
-			roleId: {
-				required: true
-			},
-			roleName: {
-				required: true
-			},
-			roleDescr: {
-				required: true
-			}
+
+securityRoles.prototype.errorMessage = function () {
+	return {
+		roleId: {
+			required:  _lang.english.errorMessage.roleForm.roleId,
+			maxlength:  _lang.english.errorMessage.operationForm.roleId,
+			minlength:  _lang.english.errorMessage.operationForm.roleId,
+			digits:  _lang.english.errorMessage.operationForm.roleId
+		},
+		roleName: {
+			required: _lang.english.errorMessage.roleForm.roleName
+		},
+		roleDescr: {
+			required: _lang.english.errorMessage.roleForm.roleDescr
 		}
+	};
+}
+
+securityRoles.prototype.validationRules = function() {
+	return {
+		roleId: {
+			required: true,
+			maxlength:5,
+			minlength:5,
+			digits:true
+		},
+		roleName: {
+			required: true
+		},
+		roleDescr: {
+			required: true
+		}
+	};
+}
+
+securityRoles.prototype.createValidate = function() {
+	var validator = $("#create_role_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#create_role_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._roles.createSubmit();
@@ -28,23 +51,11 @@ securityRoles.prototype.createValidate = function() {
 }
 
 securityRoles.prototype.updateValidate = function() {
-	$("#update_role_form").validate({
-		rules: {
-			roleId: {
-				required: true
-			},
-			roleName: {
-				required: true
-			},
-			roleDescr: {
-				required: true
-			}
-		}
+	var validator = $("#update_role_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#update_role_form" ).validate();
-
-
+	
 	if(validator.form()) {
 		securityObj._roles.updateSubmit();
 	}

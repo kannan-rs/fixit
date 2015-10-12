@@ -63,3 +63,23 @@ table {
 
 	}
 }
+
+table.form {
+	td {
+		border-bottom:0px solid #eFeFeF;
+	}
+	.label {
+		width : 200px;
+	}
+	textarea {
+		width: 375px !important;
+		height: 150px !important;
+		@include formInput();
+	}
+	input {
+		@include formInput();
+	}
+	input.address {
+		width:300px;
+	}
+}

@@ -66,13 +66,60 @@ contractor / adjuster verification mail and activation.
 Task for this week.
 -------------------
 Support ticket raised - 1. Outgoing email error
-Done - 2. Error handling - while signup and user creation
-Done - 3. Number increment need to be removed
 5. Website conternt changes
-Done - Status Message for users creation, update, delete (inbternalization)
-Done - User Create email template as per Michael (Internalization)
-Done - Top menu based on login status
-Done - Registraction page text changed.
-Done - Error handline for already exist email ID.
-
 . Login provide error if email id isn not present.
+
+------------------
+1. * @ bottom mention that * id mandatory.
+2. Change the border of the box to red if there is an error. After validation if it is right then back to normal.
+3. In place of error, provide example notes on which format that particular field need to be. This need to be displayed only if user entered wrong value. Else no need to display.
+
+
+Done list for week - 6th to 12th Oct 2015
+-----------------------------------------
+1. Validation done in a different way, to provide all the message in one Go for anny error
+	- Signup
+	- Uer add/Update by admin,
+	- User info update by self,
+	- Operations,
+	- Roles,
+	- Functions,
+	- Data Filters
+	- Projects
+	- tasks
+2. Adding Mandaitory field message below every input form
+	- Signup
+	- Uer add/Update by admin,
+	- User info update by self,
+	- Operations
+	- Roles,
+	- Functions,
+	- Data Filters
+	- Projects
+	- tasks
+3. Internationalization of error text message
+	- Signup
+	- Uer add/Update by admin,
+	- User info update by self,
+	- Operations
+	- Roles,
+	- Functions,
+	- Data Filters
+	- Projects
+	- tasks
+4. Internationalization of other messages
+	- Mandaitory text
+5. Code merge for Create and Edit form
+	- Role
+	- Operation,
+	- Functions,
+	- Data Filters
+	- tasks
+6. Taken out validation Rules and validation messages as seperate function to avoid duplication
+	- Signup, Users add/edit, Personal info edit
+	- Roles
+	- Operations,
+	- Functions
+	- Data Filters
+	- Projects
+	- tasks

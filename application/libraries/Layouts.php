@@ -19,6 +19,7 @@ class Layouts
 			"js/themes/default/layouts.js",
 			"js/submit.js",
 			"js/utils/utils.js",
+			"js/utils/messages.js",
 			"js/security/users.js",
 			"js/security/operations.js",
 			"js/security/roles.js",

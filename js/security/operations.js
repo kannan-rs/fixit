@@ -4,30 +4,53 @@ function securityOperations() {
 /**
  	Operations functions
 */
-securityOperations.prototype.createValidate = function() {
-	$("#create_operation_form").validate({
-		rules: {
-			operationId: {
-				required: true
-			},
-			operationName: {
-				required: true
-			},
-			operationDescr: {
-				required: {
-					depends: function(element) {
-						if('' == $('#ope_descr').val()){
-	                        $('#ope_descr').val('');
-                    	}
-                    	return true;
-					}
+
+securityOperations.prototype.errorMessage = function () {
+	return {
+		operationId: {
+			required:  _lang.english.errorMessage.operationForm.operationId,
+			maxlength:  _lang.english.errorMessage.operationForm.operationId,
+			minlength:  _lang.english.errorMessage.operationForm.operationId,
+			digits:  _lang.english.errorMessage.operationForm.operationId
+		},
+		operationName: {
+			required: _lang.english.errorMessage.operationForm.operationName
+		},
+		operationDescr: {
+			required: _lang.english.errorMessage.operationForm.operationDescr
+		}
+	};
+}
+
+securityOperations.prototype.validationRules = function() {
+	return {
+		operationId: {
+			required: true,
+			maxlength:5,
+			minlength:5,
+			digits:true
+		},
+		operationName: {
+			required: true
+		},
+		operationDescr: {
+			required: {
+				depends: function(element) {
+					if('' == $('#ope_descr').val()){
+                        $('#ope_descr').val('');
+                	}
+                	return true;
 				}
 			}
 		}
+	}
+}
+
+securityOperations.prototype.createValidate = function() {
+	var validator = $("#create_operation_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#create_operation_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._operations.createSubmit();
@@ -35,29 +58,10 @@ securityOperations.prototype.createValidate = function() {
 }
 
 securityOperations.prototype.updateValidate = function() {
-	$("#update_operation_form").validate({
-		rules: {
-			operationId: {
-				required: true
-			},
-			operationName: {
-				required: true
-			},
-			operationDescr: {
-				required: {
-					depends: function(element) {
-						if('' == $('#ope_descr').val()){
-	                        $('#ope_descr').val('');
-                    	}
-                    	return true;
-					}
-				}
-			}
-		}
+	var validator = $("#update_operation_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#update_operation_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._operations.updateSubmit();

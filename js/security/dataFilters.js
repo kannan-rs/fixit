@@ -4,23 +4,45 @@ function securityDataFilters() {
 /**
  	DataFilters Tab related functions
 */
-securityDataFilters.prototype.createValidate = function() {
-	$("#create_dataFilter_form").validate({
-		rules: {
-			dataFilterId: {
-				required: true
-			},
-			dataFilterName: {
-				required: true
-			},
-			dataFilterDescr: {
-				required: true
-			}
+securityDataFilters.prototype.errorMessage = function () {
+	return {
+		dataFilterId: {
+			required:  _lang.english.errorMessage.dataFilterForm.dataFilterId,
+			maxlength:  _lang.english.errorMessage.dataFilterForm.dataFilterId,
+			minlength:  _lang.english.errorMessage.dataFilterForm.dataFilterId,
+			digits:  _lang.english.errorMessage.dataFilterForm.dataFilterId
+		},
+		dataFilterName: {
+			required: _lang.english.errorMessage.dataFilterForm.dataFilterName
+		},
+		dataFilterDescr: {
+			required: _lang.english.errorMessage.dataFilterForm.dataFilterDescr
 		}
+	};
+}
+
+securityDataFilters.prototype.validationRules = function() {
+	return {
+		dataFilterId: {
+			required: true,
+			maxlength:5,
+			minlength:5,
+			digits:true
+		},
+		dataFilterName: {
+			required: true
+		},
+		dataFilterDescr: {
+			required: true
+		}
+	}
+}
+
+securityDataFilters.prototype.createValidate = function() {
+	var validator = $("#create_dataFilter_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#create_dataFilter_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._dataFilters.createSubmit();
@@ -28,22 +50,10 @@ securityDataFilters.prototype.createValidate = function() {
 }
 
 securityDataFilters.prototype.updateValidate = function() {
-	$("#update_dataFilter_form").validate({
-		rules: {
-			dataFilterId: {
-				required: true
-			},
-			dataFilterName: {
-				required: true
-			},
-			dataFilterDescr: {
-				required: true
-			}
-		}
+	var validator = $("#update_dataFilter_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#update_dataFilter_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._dataFilters.updateSubmit();

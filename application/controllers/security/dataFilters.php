@@ -33,7 +33,7 @@ class DataFilters extends CI_Controller {
 			'record'=>""
 		);
 
-		echo $this->load->view("security/dataFilters/createForm", $params, true);
+		echo $this->load->view("security/dataFilters/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -71,7 +71,7 @@ class DataFilters extends CI_Controller {
 			'dataFilters'=>$dataFilters
 		);
 		
-		echo $this->load->view("security/dataFilters/editForm", $params, true);
+		echo $this->load->view("security/dataFilters/inputForm", $params, true);
 	}
 
 	public function update() {

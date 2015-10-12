@@ -4,23 +4,46 @@ function securityFunctions() {
 /**
  	Functions Tab related functions
 */
-securityFunctions.prototype.createValidate = function() {
-	$("#create_function_form").validate({
-		rules: {
-			functionId: {
-				required: true
-			},
-			functionName: {
-				required: true
-			},
-			functionDescr: {
-				required: true
-			}
+
+securityFunctions.prototype.errorMessage = function () {
+	return {
+		functionId: {
+			required:  _lang.english.errorMessage.functionForm.functionId,
+			maxlength:  _lang.english.errorMessage.functionForm.functionId,
+			minlength:  _lang.english.errorMessage.functionForm.functionId,
+			digits:  _lang.english.errorMessage.functionForm.functionId
+		},
+		functionName: {
+			required: _lang.english.errorMessage.functionForm.functionName
+		},
+		functionDescr: {
+			required: _lang.english.errorMessage.functionForm.functionDescr
 		}
+	};
+}
+
+securityFunctions.prototype.validationRules = function() {
+	return {
+		functionId: {
+			required: true,
+			maxlength:5,
+			minlength:5,
+			digits:true
+		},
+		functionName: {
+			required: true
+		},
+		functionDescr: {
+			required: true
+		}
+	}
+}
+
+securityFunctions.prototype.createValidate = function() {
+	var validator = $("#create_function_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#create_function_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._functions.createSubmit();
@@ -28,22 +51,10 @@ securityFunctions.prototype.createValidate = function() {
 }
 
 securityFunctions.prototype.updateValidate = function() {
-	$("#update_function_form").validate({
-		rules: {
-			functionId: {
-				required: true
-			},
-			functionName: {
-				required: true
-			},
-			functionDescr: {
-				required: true
-			}
-		}
+	var validator = $("#update_function_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#update_function_form" ).validate();
-
 
 	if(validator.form()) {
 		securityObj._functions.updateSubmit();

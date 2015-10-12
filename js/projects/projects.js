@@ -23,16 +23,105 @@ project.prototype.viewOneAccordianList = [
 /**
 	Create Project Validation
 */
+
+project.prototype.errorMessage = function () {
+	return {
+		projectTitle : {
+			required: _lang.english.errorMessage.projectForm.projectTitle
+		},
+		description : {
+			required: _lang.english.errorMessage.projectForm.description
+		},
+		project_type : {
+			required: _lang.english.errorMessage.projectForm.project_type
+		},
+		project_status : {
+			required: _lang.english.errorMessage.projectForm.project_status
+		},
+		start_date : {
+			required: _lang.english.errorMessage.projectForm.start_date
+		},
+		end_date : {
+			required: _lang.english.errorMessage.projectForm.end_date
+		},
+		addressLine1 : {
+			required: _lang.english.errorMessage.projectForm.addressLine1
+		},
+		addressLine2 : {
+			required: _lang.english.errorMessage.projectForm.addressLine2
+		},
+		city : {
+			required: _lang.english.errorMessage.projectForm.city
+		},
+		country : {
+			required: _lang.english.errorMessage.projectForm.country
+		},
+		state : {
+			required: _lang.english.errorMessage.projectForm.state
+		},
+		zipCode : {
+			required: _lang.english.errorMessage.projectForm.zipCode
+		},
+		contractorSearchSelected : {
+			required: _lang.english.errorMessage.projectForm.contractorSearchSelected
+		},
+		contractorZipCode : {
+			required: _lang.english.errorMessage.projectForm.contractorZipCode
+		},
+		contractorSearchResult : {
+			required: _lang.english.errorMessage.projectForm.contractorSearchResult
+		},
+		project_budget : {
+			required: _lang.english.errorMessage.projectForm.project_budget
+		},
+		lend_amount : {
+			required: _lang.english.errorMessage.projectForm.lend_amount
+		},
+		project_lender : {
+			required: _lang.english.errorMessage.projectForm.project_lender
+		},
+		deductible : {
+			required: _lang.english.errorMessage.projectForm.deductible
+		},
+		property_owner_id : {
+			required: _lang.english.errorMessage.projectForm.property_owner_id
+		},
+		searchCustomerName : {
+			required: _lang.english.errorMessage.projectForm.searchCustomerName
+		},
+		customerNameList : {
+			required: _lang.english.errorMessage.projectForm.customerNameList
+		},
+		adjusterSearchSelected : {
+			required: _lang.english.errorMessage.projectForm.adjusterSearchSelected
+		},
+		searchAdjusterName : {
+			required: _lang.english.errorMessage.projectForm.searchAdjusterName
+		},
+		adjusterSearchResult : {
+			required: _lang.english.errorMessage.projectForm.adjusterSearchResult
+		},
+		associated_claim_num : {
+			required: _lang.english.errorMessage.projectForm.associated_claim_num
+		}
+	};
+}
+
+project.prototype.validationRules = function() {
+	return {
+		zipCode : {
+			required: true,
+			minlength: 5,
+			maxlength: 5,
+			digits : true
+		}
+	}
+}
+
 project.prototype.createValidate =  function () {
 	var validator = $( "#create_project_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -218,14 +307,8 @@ project.prototype.editProject = function() {
 
 project.prototype.updateValidate = function() {
 	var validator = $( "#update_project_form" ).validate({
-		rules: {
-			zipCode : {
-				required: true,
-				minlength: 5,
-				maxlength: 5,
-				digits : true
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {

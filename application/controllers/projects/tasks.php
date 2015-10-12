@@ -109,7 +109,7 @@ class Tasks extends CI_Controller {
 			'viewFor' 			=> $viewFor,
 		);
 
-		echo $this->load->view("projects/tasks/createForm", $params, true);
+		echo $this->load->view("projects/tasks/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -239,7 +239,7 @@ class Tasks extends CI_Controller {
 			'viewFor' 			=> $viewFor
 		);
 		
-		echo $this->load->view("projects/tasks/editForm", $params, true);
+		echo $this->load->view("projects/tasks/inputForm", $params, true);
 	}
 
 	public function update() {

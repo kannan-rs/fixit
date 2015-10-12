@@ -53,22 +53,48 @@ task.prototype.createForm = function( projectId ) {
 };
 */
 
-task.prototype.createValidate =  function ( viewFor ) {
-	$("#create_task_form").validate({
-		rules: {
-			task_end_date: {
-				greaterThanOrEqualTo: "#task_start_date"
-			}
+task.prototype.errorMessage = function () {
+	return {
+		task_name : {
+			required : _lang.english.errorMessage.taskForm.task_name
 		},
-		messages: {
-			task_end_date: {
-				greaterThanOrEqualTo: "End Date need to be greater that start date"
-			}
+		task_desc : {
+			required : _lang.english.errorMessage.taskForm.task_desc
+		},
+		task_start_date : {
+			required : _lang.english.errorMessage.taskForm.task_start_date
+		},
+		task_end_date : {
+			required : _lang.english.errorMessage.taskForm.task_end_date
+		},
+		task_status : {
+			required : _lang.english.errorMessage.taskForm.task_status
+		},
+		task_percent_complete : {
+			required : _lang.english.errorMessage.taskForm.task_percent_complete
+		},
+		task_dependency : {
+			required : _lang.english.errorMessage.taskForm.task_dependency
+		},
+		task_trade_type : {
+			required : _lang.english.errorMessage.taskForm.task_trade_type
 		}
+	};
+}
+
+task.prototype.validationRules = function() {
+	return {
+		task_end_date: {
+			greaterThanOrEqualTo: "#task_start_date"
+		}
+	}
+}
+
+task.prototype.createValidate =  function ( viewFor ) {
+	var validator = $("#create_task_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-
-	var validator = $( "#create_task_form" ).validate();
-
 
 	if(validator.form()) {
 		if(!viewFor) {
@@ -147,20 +173,10 @@ task.prototype.createValidate =  function ( viewFor ) {
 };*/
 
 task.prototype.updateValidate = function( viewFor ) {
-	$("#update_task_form").validate({
-		rules: {
-			task_end_date: {
-				greaterThanOrEqualTo: "#task_start_date"
-			}
-		},
-		messages: {
-			task_end_date: {
-				greaterThanOrEqualTo: "End Date need to be greater that start date"
-			}
-		}
+	var validator = $("#update_task_form").validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
-	
-	var validator = $( "#update_task_form" ).validate();
 
 	if(validator.form()) {
 		if(!viewFor) {
