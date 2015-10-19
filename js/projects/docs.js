@@ -5,6 +5,27 @@ function docs() {
 
 };
 
+docs.prototype.validationRules = function() {
+	return {
+		docName : {
+			required : true
+		},
+		docAttachment : {
+			required : true
+		}
+	}
+}
+
+docs.prototype.errorMessage = function() {
+	return {
+		docName : {
+			required : _lang.english.errorMessage.projectDocsForm.docName 
+		},
+		docAttachment : {
+			required : _lang.english.errorMessage.projectDocsForm.docAttachment 
+		}
+	}
+}
 
 docs.prototype.projectDetails = function( projectId ) {
 	if($(".projectDetails").length) {
@@ -90,7 +111,10 @@ docs.prototype.createForm = function(projectId) {
 };
 
 docs.prototype.createValidate = function() {
-	var validator = $( "#create_project_doc_form" ).validate();
+	var validator = $( "#create_project_doc_form" ).validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
+	});
 
 	if(validator.form()) {
 		return true;

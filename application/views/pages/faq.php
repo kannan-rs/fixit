@@ -1,4 +1,5 @@
-<h3>Frequently Asked Questions:</h3>
+<p>&nbsp;</p>
+<h2>Frequently Asked Questions:</h2>
 <p>
 	<div>
 		<b>Q</b>: Is the application free for customers?

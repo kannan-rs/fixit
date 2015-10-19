@@ -360,34 +360,36 @@ ul.servicelist {
   scrollammount: 5;
   /*+normal css*/ }
 
-.form {
-  margin: 20px; }
-
+/*.form {
+	
+}*/
 .form > div {
   margin-bottom: 10px; }
 
-div.form .label {
-  float: left;
-  width: 200px;
-  clear: both; }
-div.form textarea {
-  width: 375px !important;
-  height: 150px !important;
-  width: 200px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 2px;
-  border-width: 1px;
-  border-color: #D0D0D0; }
-div.form input, div.form textarea, div.form select {
-  width: 200px;
-  height: 20px;
-  padding: 2px;
-  border-radius: 2px;
-  border-width: 1px;
-  border-color: #D0D0D0; }
-div.form input.address, div.form textarea.address, div.form select.address {
-  width: 300px; }
+div.form {
+  margin: 20px; }
+  div.form .label {
+    float: left;
+    width: 200px;
+    clear: both; }
+  div.form textarea {
+    width: 375px !important;
+    height: 150px !important;
+    width: 200px;
+    height: 20px;
+    padding: 2px;
+    border-radius: 2px;
+    border-width: 1px;
+    border-color: #D0D0D0; }
+  div.form input, div.form textarea, div.form select {
+    width: 200px;
+    height: 20px;
+    padding: 2px;
+    border-radius: 2px;
+    border-width: 1px;
+    border-color: #D0D0D0; }
+  div.form input.address, div.form textarea.address, div.form select.address {
+    width: 300px; }
 
 .create-link {
   text-align: right; }
@@ -417,25 +419,19 @@ div.wrapper {
 
 /*** HEADER ***/
 header {
-  padding: 15px 10px;
+  padding: 5px 5px;
   margin: 0 auto;
   background-color: #FFFFFF;
   border-top: 4px solid #326A85;
   border-bottom: 4px solid #326A85;
   margin-bottom: 10px; }
-  header h1 {
-    float: left;
-    padding-bottom: 0; }
-  header h2 {
-    float: left;
-    /*padding-top:20px;
-    padding-left:$defaultPadding;*/
-    /*font-size:0.75em;*/ }
   header .logged_in {
     float: right; }
     header .logged_in .logged-in-as {
       display: inherit;
       font-size: 12px; }
+  header .captionText {
+    font-size: 17px; }
 
 /*** NAVIGATION ***/
 nav {
@@ -531,6 +527,10 @@ table.form input, table.form textarea, table.form select {
   border-color: #D0D0D0; }
 table.form input.address, table.form textarea.address, table.form select.address {
   width: 300px; }
+table.form select {
+  height: 26px;
+  line-height: 26px;
+  width: 206px; }
 
 /* misc */
 code {

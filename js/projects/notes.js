@@ -5,6 +5,21 @@ function note() {
 
 };
 
+note.prototype.validationRules = function() {
+	return {
+		noteContent : {
+			required : true
+		}
+	}
+};
+
+note.prototype.errorMessage = function() {
+	return {
+		noteContent : {
+			required : _lang.english.errorMessage.projectNotes.noteContent
+		}
+	}
+};
 
 note.prototype.projectDetails = function( projectId ) {
 	if($(".projectDetails").length) {
@@ -99,7 +114,10 @@ note.prototype.createForm = function(projectId, taskId) {
 };
 
 note.prototype.createValidate = function( viewFor ) {
-	var validator = $( "#create_project_note_form" ).validate();
+	var validator = $( "#create_project_note_form" ).validate({
+		rules 		: this.validationRules(),
+		messages 	: this.errorMessage()
+	});
 
 	if(validator.form()) {
 		if(!viewFor) {

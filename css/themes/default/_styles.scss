@@ -464,15 +464,17 @@ behaviour: scroll;
 scrollammount: 5;
 /*+normal css*/
 }
-.form {
-	margin:20px;
-}
+
+/*.form {
+	
+}*/
 
 .form>div {
 	margin-bottom: $defaultMargin;
 }
 
 div.form {
+	margin:20px;
 	.label {
 		float:left;
 		width : 200px;

@@ -69,12 +69,6 @@ Support ticket raised - 1. Outgoing email error
 5. Website conternt changes
 . Login provide error if email id isn not present.
 
-------------------
-1. * @ bottom mention that * id mandatory.
-2. Change the border of the box to red if there is an error. After validation if it is right then back to normal.
-3. In place of error, provide example notes on which format that particular field need to be. This need to be displayed only if user entered wrong value. Else no need to display.
-
-
 Done list for week - 6th to 12th Oct 2015
 -----------------------------------------
 1. Validation done in a different way, to provide all the message in one Go for anny error
@@ -89,6 +83,14 @@ Done list for week - 6th to 12th Oct 2015
 	- tasks
 	- contractors
 	- Partner
+
+	20th Oct 2015
+	-------------
+		- Docs Upload
+		- Issues
+		- Notes
+		- remaining Budget
+
 2. Adding Mandaitory field message below every input form
 	- Signup
 	- Uer add/Update by admin,
@@ -101,6 +103,14 @@ Done list for week - 6th to 12th Oct 2015
 	- tasks
 	- contractors
 	- Partner
+
+	20th Oct 2015
+	-------------
+		- Docs Upload
+		- Issues
+		- Notes
+		- remaining Budget
+
 3. Internationalization of error text message
 	- Signup
 	- Uer add/Update by admin,
@@ -113,14 +123,24 @@ Done list for week - 6th to 12th Oct 2015
 	- tasks
 	- contractors
 	- Partner
+
+	20th Oct 2015
+	-------------
+		- Docs Upload
+		- Issues
+		- Notes
+		- remaining Budget
+
 4. Internationalization of other messages
 	- Mandaitory text
+
 5. Code merge for Create and Edit form
 	- Role
 	- Operation,
 	- Functions,
 	- Data Filters
 	- tasks
+
 6. Taken out validation Rules and validation messages as seperate function to avoid duplication
 	- Signup, Users add/edit, Personal info edit
 	- Roles
@@ -131,3 +151,47 @@ Done list for week - 6th to 12th Oct 2015
 	- tasks
 	- contractors
 	- Partner
+
+	20th Oct 2015
+	-------------
+		- Docs Upload
+		- Issues
+		- Notes
+		- remaining Budget
+
+
+MOM-10/13/2015
+--------------
+	1. Add Zip code API to get 
+	2. Put the file in .net site
+	3. Add form validation other missing forms
+	4. Sent file to Michael
+
+Work for this week.
+------------------
+	Done - 1. Remaining forms : Single form for edit and create. Validation Rules 
+	Done - 2. Add Zip code in table and use it for all the tables.
+	3. Email Template Addition
+	4. Website content modification as per maichales feedback
+	Done - 5. Deploy .net site
+	Done - 6. Emailed the error text message file.
+
+Michael Notes : 14th october 2015
+---------------------------------
+	Done - Move the home page text down 1 or 2 lines
+		Add the overview section…Michael
+		Add About us details…Michael
+	Done - Add contact us details, email only ‘support@thefixitnetwork.net’
+	Done - Support@thefixitnetwork.net email ID is created. password: "support.4fixit"
+	Done - The application will help you…make the text bold
+	Done - The application will help you…move down another line
+	Done - Frequently Asked Questions:…should be bold
+	Done - Frequently Asked Questions:…move down another line
+		News section needs to have construction feeds…Michael (DIY, etc.)
+		Google Ads in the grey section
+	Done - Add the logo and tag line
+
+Mallik
+	I try to create Contractor and partner, both missing last name. Also, how do they get user id/pwd ?
+	Michael,  Isn't user sign up screen should be same as create contractor or create partner screen ?
+>> Can we remove the name from the contractor and partner creation. Company name is is th right term to use.

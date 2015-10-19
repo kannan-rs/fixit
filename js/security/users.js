@@ -227,6 +227,7 @@ securityUsers.prototype.createForm = function( options ) {
 			securityObj._users.showBelongsToOption();
 			securityObj._users.showreferredByOption();
 			utilObj.getAndSetCountryStatus("create_user_form");
+			utilObj.getPostalCodeList("create_user_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -374,6 +375,7 @@ securityUsers.prototype.editUser = function(userId) {
 			securityObj._users.showBelongsToOption();
 			securityObj._users.showreferredByOption();
 			utilObj.getAndSetCountryStatus("update_user_form");
+			utilObj.getPostalCodeList("update_user_form");
 
 			dateOptions = {
 				fromDateField 	: "activeStartDate",
@@ -659,20 +661,24 @@ securityUsers.prototype.showBelongsToOption = function( ) {
 	
 	// Hide all search container by default
 	$(".contractor-search").hide();
+	$(".contractor-result").hide();
 	$("#contractorList").hide();
-	$("#selectedContractorDB").hide();
+	$("#selectedContractorDb").hide();
 
 	$(".adjuster-search").hide();
+	$(".adjuster-result").hide();
 	$("#adjusterList").hide();
 	$("#selectedAdjusterDB").hide();
 
 	if( belongsTo == "contractor") {
 		$(".contractor-search").show();
-		$("#selectedContractorDB").show();
+		$("#selectedContractorDb").show();
 
 		if($("#contractorList li").length) {
+			$(".contractor-result").show();
 			$("#contractorList").show();
 		} else {
+			$(".contractor-result").hide();
 			$("#contractorList").hide();
 		}
 	} else if(belongsTo == "adjuster") {
@@ -681,8 +687,10 @@ securityUsers.prototype.showBelongsToOption = function( ) {
 
 		if($("#adjusterList li").length) {
 			$("#adjusterList").show();
+			$(".adjuster-result").show();
 		} else {
 			$("#adjusterList").hide();
+			$(".adjuster-result").hide();
 		}
 	}
 }
@@ -693,19 +701,23 @@ securityUsers.prototype.showreferredByOption = function( ) {
 	// Hide all search container by default
 	$(".referredBycontractor-search").hide();
 	$("#referredBycontractorList").hide();
-	$("#referredByselectedContractorDB").hide();
+	$(".referredBycontractor-result").hide();
+	$("#referredByselectedContractorDb").hide();
 
 	$(".referredByadjuster-search").hide();
 	$("#referredByadjusterList").hide();
+	$(".referredByadjuster-result").hide();
 	$("#referredByselectedAdjusterDB").hide();
 
 	if( referredBy == "contractor") {
 		$(".referredBycontractor-search").show();
-		$("#referredByselectedContractorDB").show();
+		$("#referredByselectedContractorDb").show();
 
 		if($("#referredBycontractorList li").length) {
+			$(".referredBycontractor-result").show();
 			$("#referredBycontractorList").show();
 		} else {
+			$(".referredBycontractor-result").hide();
 			$("#referredBycontractorList").hide();
 		}
 	} else if(referredBy == "adjuster") {
@@ -713,8 +725,10 @@ securityUsers.prototype.showreferredByOption = function( ) {
 		$("#referredByselectedAdjusterDB").show();
 
 		if($("#referredByadjusterList li").length) {
+			$(".referredByadjuster-result").show();
 			$("#referredByadjusterList").show();
 		} else {
+			$(".referredByadjuster-result").hide();
 			$("#referredByadjusterList").hide();
 		}
 	}
@@ -744,6 +758,7 @@ securityUsers.prototype.getContractorListUsingZip = function( prefix ) {
 						li += "</li>";
 					$('#'+prefix+'contractorList').append(li);
 				}
+				$("."+prefix+"contractor-result").show();
 				$("#"+prefix+"contractorList").show();
 			} else {
 				alert(response.message);
@@ -779,6 +794,7 @@ securityUsers.prototype.getAdjusterByCompanyName = function( prefix ) {
 						li += "</li>";
 					$('#'+prefix+'adjusterList').append(li);
 				}
+				$("."+prefix+"adjuster-result").show();
 				$("#"+prefix+"adjusterList").show();
 			} else {
 				alert(response.message);

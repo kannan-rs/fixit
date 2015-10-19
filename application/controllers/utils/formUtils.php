@@ -58,4 +58,19 @@ class formUtils extends CI_Controller {
 		}
 		print_r(json_encode($response));
 	}
+
+	public function getPostalCodeList() {
+		$this->load->model('utils/model_form_utils');
+
+		$state = $this->model_form_utils->getPostalCodeList();
+
+		$response["status"] = "error";
+		if($state) {
+			$response["status"] = "success";
+			$response["postalCode"] = $state;
+		} else {
+			$response["message"] = "Error while fetching state details";
+		}
+		print_r(json_encode($response));
+	}
 }

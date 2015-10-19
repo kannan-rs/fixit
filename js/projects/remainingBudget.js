@@ -1,6 +1,35 @@
 function remainingbudget() {
 }
 
+rules: {
+			amount : {
+				number : true
+			}
+		}
+
+remainingbudget.prototype.validationRules = function() {
+	return {
+		amount : {
+			number : true
+		}
+	}
+};
+
+remainingbudget.prototype.errorMessage = function() {
+	return {
+		amount : {
+			required 	: _lang.english.errorMessage.budgetForm.amount,
+			number 		: _lang.english.errorMessage.budgetForm.amount
+		},
+		descr : {
+			required : _lang.english.errorMessage.budgetForm.descr
+		},
+		date : {
+			required : _lang.english.errorMessage.budgetForm.date
+		}
+	}
+};
+
 remainingbudget.prototype.getListWithForm = function( options ) {
 	event.stopPropagation();
 	
@@ -34,12 +63,9 @@ remainingbudget.prototype.getListWithForm = function( options ) {
 }
 
 remainingbudget.prototype.validate =  function ( openAs, popupType ) {
-	var validator = $( "#create_pfbudget_form" ).validate({
-		rules: {
-			amount : {
-				number : true
-			}
-		}
+	var validator = $( "#create_budget_form" ).validate({
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -48,7 +74,7 @@ remainingbudget.prototype.validate =  function ( openAs, popupType ) {
 };
 
 remainingbudget.prototype.addUpdate = function( openAs, popupType ) {
-	var idPrefix 				= "#create_pfbudget_form ";
+	var idPrefix 				= "#create_budget_form ";
 	var budgetId 				= $(idPrefix+"#budgetId").val();
 	var date 					= utilObj.toMySqlDateFormat($(idPrefix+"#date").val());
 	var descr 					= $(idPrefix+"#descr").val();

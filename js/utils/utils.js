@@ -3,8 +3,11 @@ function utils() {
 }
 
 utils.prototype.state = [];
+utils.prototype.postalCodeMap = {};
+utils.prototype.moduleId = "";
 
 utils.prototype.getAndSetCountryStatus =  function(moduleId) {
+	utilObj.moduleId = moduleId;
 	$.ajax({
 		method: "POST",
 		url: "/utils/formUtils/getCountryStatus",
@@ -14,7 +17,7 @@ utils.prototype.getAndSetCountryStatus =  function(moduleId) {
 			if(response.status == "success") {
 				utilObj.state = response["state"];
 				var country = [];
-				$("#create_user_form #country").empty();
+				$("#"+moduleId+" #country").empty();
 				$('#'+moduleId+" #country").append($('<option>', {
 						    value: "",
 						    text: "--Select Country--"
@@ -41,6 +44,47 @@ utils.prototype.getAndSetCountryStatus =  function(moduleId) {
 	.fail(function ( failedObj ) {
 		fail_error = failedObj;
 	});
+}
+
+utils.prototype.getPostalCodeList =  function(moduleId) {
+	utilObj.moduleId = moduleId;
+	$.ajax({
+		method: "POST",
+		url: "/utils/formUtils/getPostalCodeList",
+		data: {},
+		success: function( response ) {
+			response = $.parseJSON(response);
+			if(response.status == "success") {
+				utilObj.postalCodeMap = {};
+				utilObj.postalCode = response["postalCode"];
+				$("#"+moduleId+" #zipcode_list").empty();
+				for(var i =0 ; i < utilObj.postalCode.length; i++) {
+					utilObj.postalCodeMap[utilObj.postalCode[i].zipcode] = utilObj.postalCode[i];
+					$('#'+moduleId+" #zipcode_list").append($('<option>', {
+					    value: utilObj.postalCode[i].zipcode,
+					    text: utilObj.postalCode[i].zipcode
+					}));
+				}
+			} else {
+				alert(response.message);
+			}
+			utilObj.setCountryStateOfDb( moduleId );
+		},
+		error: function( error ) {
+			error = error;
+		}
+	})
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}
+
+utils.prototype.setPostalCodeDetails = function() {
+	var postalCode = $("#"+utilObj.moduleId+" #zipCode").val();
+	if(utilObj.postalCodeMap[postalCode]) {
+		$("#"+utilObj.moduleId+" #city").val(utilObj.postalCodeMap[postalCode]["city"]);
+		$("#"+utilObj.moduleId+" #state").val(utilObj.postalCodeMap[postalCode]["state_abbreviation"]);
+	}
 }
 
 utils.prototype.populateState = function( country, moduleId ) {

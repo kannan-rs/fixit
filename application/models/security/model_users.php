@@ -7,6 +7,7 @@ class Model_users extends CI_Model {
 		$this->db->where('password', $password);
 		$this->db->where('status', '1');
 		$this->db->where('deleted', '0');
+		$this->db->where('activation_key', 'active');
 
 		$query = $this->db->get('users');
 		$result = $query->result();
@@ -269,9 +270,11 @@ class Model_users extends CI_Model {
 			$selectResult 	= $selectQuery->result();
 
 			$this->db->where('activation_key', $activation_key);
+			$this->db->where('status', '0');
 			
 			$data = array(
-				'activation_key' 				=> "active"
+				'activation_key' 	=> "active",
+				'status' 			=> '1'
 			);
 			
 			if($this->db->update('users', $data)) {

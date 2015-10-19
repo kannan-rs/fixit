@@ -20,34 +20,49 @@
 ?>
 <!-- Create From Remaining Budget -->
 <h3><?php echo $header; ?> Budget</h3>
-<form id="create_pfbudget_form" name="create_contractor_form" class="inputForm">
-	<div class='form'>
-		<input type="hidden" id="budgetId" value="<?php echo $budgetId; ?>">
-		<div class="label">Description:</div>
-		<div>
-			<textarea name="descr" id="descr" class="small-textarea" required><?php echo $descr; ?></textarea>
-		</div>
-		
-		<div class="label">amount</div>
-		<div>
-			<input type="text" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="Paid Amount" required>
-		</div>
+<form id="create_budget_form" name="create_contractor_form" class="inputForm">
+	<input type="hidden" id="budgetId" value="<?php echo $budgetId; ?>">
+	<table class='form'>
+		<tbody>
+			<tr>
+				<td class="label">Description:</td>
+				<td>
+					<textarea name="descr" id="descr" class="small-textarea" required><?php echo $descr; ?></textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="label">amount</td>
+				<td>
+					<input type="text" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="Paid Amount" required>
+				</td>
+			</tr>
 
-		<div class="label">Date:</div>
-		<div>
-			<input type="text" name="date" id="date" value="<?php echo $date; ?>" required placeholder="Payment Date">
-		</div>
+			<tr>
+				<td class="label">Date:</td>
+				<td>
+					<input type="text" name="date" id="date" value="<?php echo $date; ?>" required placeholder="Payment Date">
+				</td>
+			</tr>
 
-		<p class="button-panel">
-			<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $header; ?> Budget</button>
-			<?php
-			if($header == "Update") {
-			?>
-			<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})">Add New Budget</button>
-			<?php
-			}
-			?>
-			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
-		</p>
-	</div>
+			<tr>
+				<td colspan="2">
+					<p class="button-panel">
+						<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $header; ?> Budget</button>
+						<?php
+						if($header == "Update") {
+						?>
+						<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})">Add New Budget</button>
+						<?php
+						}
+						?>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $this->lang->line('mandatory_field_text'); ?></td>
+			</tr>
+		</tbody>
+	</table>
 </form>

@@ -1,5 +1,8 @@
 <!-- CONTENT -->
 <p>
+&nbsp;
+</p>
+<p>
 	Have you ever started a construction project with a plan in your head that included a predetermined budget, 
 	timeline and an image of what your home or office would look like when the work concluded. 
 	Exciting thoughts are streaming through your head...
@@ -21,7 +24,8 @@
 	reduce the unnecessary phone calls regarding and emails regarding what's next and the status of the overall project schedule.
 </p>
 
-<h3>The application will help you:</h3>
+<p>&nbsp;</p>
+<h2>The application will help you:</h2>
 <ul>
 	<li>Organize your project in one location for your team </li>
 	<li>Detail out the project plans</li>

@@ -125,7 +125,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label">User Belongs To:</td>
 				<td>
 					<?php if($edit == false && $belongsTo != "") { // Create User from project by selecting contractor or adjuster ?>
-					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsTo" value="<?php echo $belongsTo; ?>"></div>
+					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
 					<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption()" <?php } ?> required>
@@ -139,7 +139,7 @@ if(!$openAs || $openAs != "popup") {
 					
 					if(!empty($belongsTo)) {
 						if( $belongsTo == "contractor") {
-							echo "<span id=\"selectedContractorDB\">Contractor:".$belongsToName."</span>";
+							echo "<span id=\"selectedContractorDb\">Contractor:".$belongsToName."</span>";
 						} else if ($belongsTo == "adjuster") {
 							echo "<span id=\"selectedAdjusterDB\">Adjuster:".$belongsToName."</span>";
 						}
@@ -149,51 +149,43 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php if($userType == "admin") { ?>
 			<!-- Contractor Search and search results -->
-			<tr>
-				<td colspan="2">
-					<DIV class="contractor-search">
-						<div class="label notMandatory">Search Contractor By Zip Code and Select</div>
-						<div>
-							<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
-							<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
-						</div>
-						<div class="contractor-result">
-							<DIV class="label notMandatory">&nbsp;</DIV>
-							<DIV>
-								<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
-							</DIV>
-						</div>
-					</DIV>
+			<tr class="contractor-search">
+				<td class="label notMandatory">Search Contractor By Zip Code and Select</td>
+				<td>
+					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
+				</td>
+			</tr>
+			<tr class="contractor-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
 				</td>
 			</tr>
 
 			<!-- Adjuster Search and search results -->
-			<tr>
-				<td colspan="2">
-					<DIV class="adjuster-search">
-						<div class="label notMandatory">Search Adjuster By Company Name and Select</div>
-						<div>
-							<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="adjuster Company Name">
-							<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
-						</div>
-						<div class="adjuster-result">
-							<DIV class="label notMandatory">&nbsp;</DIV>
-							<DIV>
-								<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
-							</DIV>
-						</div>
-					</DIV>
+			<tr class="adjuster-search">
+				<td class="label notMandatory">Search Adjuster By Company Name and Select</td>
+				<td>
+					<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="adjuster Company Name">
+					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
+				</td>
+			</tr>
+			<tr class="adjuster-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
 				</td>
 			</tr>
 			
 			<tr>
 				<td class="label">User Status:</td>
 				<td>
-						<select name="userStatus" id="userStatus" required>
-							<option value="">--Select Status--</option>
-							<option value="active">Active</option>
-							<option value="inactive">Inactive</option>
-						</select>
+					<select name="userStatus" id="userStatus" required>
+						<option value="">--Select Status--</option>
+						<option value="active">Active</option>
+						<option value="inactive">Inactive</option>
+					</select>
 				</td>
 			</tr>
 			<?php } ?>
@@ -303,7 +295,7 @@ if(!$openAs || $openAs != "popup") {
 						<?php
 						if(!empty($referredBy)) {
 							if( $referredBy == "contractor") {
-								echo "<span id=\"referredToselectedContractorDB\">Contractor:".$referredByName."</span>";
+								echo "<span id=\"referredToselectedContractorDb\">Contractor:".$referredByName."</span>";
 							} else if ($referredBy == "adjuster") {
 								echo "<span id=\"referredToselectedAdjusterDB\">Adjuster:".$referredByName."</span>";
 							}
@@ -313,40 +305,32 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 
 			<!-- Contractor Search and search results -->
-			<tr>
-				<td colspan="2">
-					<DIV class="referredBycontractor-search">
-						<div class="label notMandatory">Search Contractor By Zip Code and Select</div>
-						<div>
-							<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="Zip Code for search">
-							<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('referredBy')"></span>
-						</div>
-						<div class="contractor-result">
-							<DIV class="label notMandatory">&nbsp;</DIV>
-							<DIV>
-								<ul id="referredBycontractorList" name="referredBycontractorList" class="connectedSortable owner-search-result users"></ul>
-							</DIV>
-						</div>
-					</DIV>
+			<tr class="referredBycontractor-search">
+				<td class="label notMandatory">Search Contractor By Zip Code and Select</td>
+				<td>
+					<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="Zip Code for search">
+					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('referredBy')"></span>
+				</td>
+			</tr>
+			<tr class="referredBycontractor-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="referredBycontractorList" name="referredBycontractorList" class="connectedSortable owner-search-result users"></ul>
 				</td>
 			</tr>
 
 			<!-- Adjuster Search and search results -->
-			<tr>
-				<td colspan="2">
-					<DIV class="referredByadjuster-search">
-						<div class="label notMandatory">Search Adjuster By Company Name and Select</div>
-						<div>
-							<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="Adjuster Company Name">
-							<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('referredBy')"></span>
-						</div>
-						<div class="referredByadjuster-result">
-							<DIV class="label notMandatory">&nbsp;</DIV>
-							<DIV>
-								<ul id="referredByadjusterList" name="referredByadjusterList" class="connectedSortable owner-search-result users"></ul>
-							</DIV>
-						</div>
-					</DIV>
+			<tr class="referredByadjuster-search">
+				<td class="label notMandatory">Search Adjuster By Company Name and Select</td>
+				<td>
+					<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="Adjuster Company Name">
+					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('referredBy')"></span>
+				</td>
+			</tr>
+			<tr class="referredByadjuster-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="referredByadjusterList" name="referredByadjusterList" class="connectedSortable owner-search-result users"></ul>
 				</td>
 			</tr>
 			<?php } ?>

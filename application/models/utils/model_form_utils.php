@@ -15,6 +15,21 @@ class Model_form_utils extends CI_Model {
 		return $state;
 	}
 
+	public function getPostalCodeList( $zipcode = "") {
+		if(isset($zipcode) && !is_null($zipcode) && $zipcode != "") {
+			$this->db->where('zipcode', $zipcode);	
+		}
+		
+		$this->db->select(["zipcode", "city", "state", "state_abbreviation", "county"]);
+		$this->db->distinct();
+
+		$query = $this->db->from('postal_codes')->get();
+		
+		$state = $query->result();
+		
+		return $state;
+	}
+
 	public function getCustomerList( $record = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('sno', $record);	

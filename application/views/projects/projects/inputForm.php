@@ -136,7 +136,7 @@
 			?>
 
 			<!-- Project Contractor Search and Adding -->
-			
+			<!-- List of added contractor from the serach result-->
 			<tr class="contractor-search-selected">
 				<td class="label"><?php echo $contractorLable; ?></td>
 				<td>
@@ -151,9 +151,9 @@
 					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingServiceZip('')"></span>
 				</td>
 			</tr>
-			<tr>
-				<td  class="label notMandatory">&nbsp;</td>
-				<td class="contractor-search-result">
+			<tr class="contractor-search-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
 					<ul id="contractorSearchResult" class="connectedSortable" onclick="projectObj._projects.searchContractorAction()"></ul>
 				</td>
 			</tr>
@@ -217,9 +217,9 @@
 					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" onkeyup="projectObj._projects.showCustomerListInDropDown()">
 				</td>
 			</tr>
-			<tr>
+			<tr class="customer-search-result">
 			<td  class="label notMandatory">&nbsp;</td>
-				<td class="customer-search-result">
+				<td>
 					<ul id="customerNameList" class="connectedSortable"></ul>
 				</td>
 			</tr>
@@ -245,9 +245,9 @@
 					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getAdjusterListUsingNameCompany()"></span>
 				</td>
 			</tr>
-			<tr>
+			<tr class="adjuster-search-result">
 				<td  class="label notMandatory">&nbsp;</td>
-				<td class="adjuster-search-result">
+				<td>
 					<ul id="adjusterSearchResult" class="connectedSortable" onclick="projectObj._projects.searchAdjusterAction()"></ul>
 				</td>
 			</tr>

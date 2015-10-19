@@ -31,12 +31,25 @@
 	</td>
 </tr>
 <tr>
+	<td><div class="label">Zip Code:</div></td>
+	<td>
+		<div>
+			<?php 
+				if($requestFrom == "view") { echo $zipCode; } else { ?>
+			<input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" onblur="utilObj.setPostalCodeDetails()" required>
+			<datalist id="zipcode_list"></datalist>
+			<?php } ?>
+		</div>
+	</td>
+</tr>
+<tr>
 	<td><div class="label">City:</div></td>
 	<td>
 		<div>
 			<?php 
 				if($requestFrom == "view") { echo $city; } else { ?>
-			<input type="text" name="city" id="city" value="<?php echo $city; ?>" placeholder="City" required>
+			<input type="text" name="city" id="city" value="<?php echo $city; ?>" list="city_list" placeholder="City" required>
+			<datalist id="city_list"></datalist>
 			<?php } ?>
 		</div>
 	</td>
@@ -65,17 +78,6 @@
 			<select name="state" id="state" required>
 				<option value="">--Select State--</option>
 			</select>
-			<?php } ?>
-		</div>
-	</td>
-</tr>
-<tr>
-	<td><div class="label">Zip Code:</div></td>
-	<td>
-		<div>
-			<?php 
-				if($requestFrom == "view") { echo $zipCode; } else { ?>
-			<input type="text" name="zipCode" id="zipCode" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" required>
 			<?php } ?>
 		</div>
 	</td>

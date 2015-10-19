@@ -121,6 +121,7 @@ contractors.prototype.createForm = function( options ) {
 			projectObj._projects.setMandatoryFields();
 			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("create_contractor_form");
+			utilObj.getPostalCodeList("create_contractor_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -288,6 +289,7 @@ contractors.prototype.editForm = function( options ) {
 			projectObj._contractors.setPrefContact();
 			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("update_contractor_form");
+			utilObj.getPostalCodeList("update_contractor_form");
 
 		},
 		error: function( error ) {

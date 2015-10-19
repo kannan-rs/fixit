@@ -120,6 +120,7 @@ partners.prototype.createForm = function( options ) {
 			projectObj._projects.setMandatoryFields();
 			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("create_partner_form");
+			utilObj.getPostalCodeList("create_partner_form");
 		},
 		error: function( error ) {
 			error = error;
@@ -285,6 +286,7 @@ partners.prototype.editForm = function( options ) {
 			projectObj._partners.setPrefContact();
 			utilObj.setStatus("status", "statusDb");
 			utilObj.getAndSetCountryStatus("update_partner_form");
+			utilObj.getPostalCodeList("update_partner_form");
 
 		},
 		error: function( error ) {

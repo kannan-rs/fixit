@@ -168,6 +168,7 @@ project.prototype.createForm = function() {
 			utilObj.setCustomerDataList();
 			utilObj.setAdjusterDataList();
 			utilObj.getAndSetCountryStatus("create_project_form");
+			utilObj.getPostalCodeList("create_project_form");
 			utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {
@@ -294,6 +295,7 @@ project.prototype.editProject = function() {
 			utilObj.setCustomerDataList();
 			utilObj.setAdjusterDataList();
 			utilObj.getAndSetCountryStatus("update_project_form");
+			utilObj.getPostalCodeList("update_project_form");
 			utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
 		},
 		error: function( error ) {

@@ -1,26 +1,42 @@
 <!-- Add Function Start -->
 <!-- <h2>Attach Document</h3>-->
 <form id="create_project_doc_form" name="create_project_doc_form" class="inputForm" enctype="multipart/form-data">
-	<div class='form'>
-		<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
-		<div class="label">Document Name:</div>
-		<div>
-			<input type="text" name="docName" id="docName" value="" required>
-		</div>
-		<div class="label">Choose Document:</div>
-		<div>
-			<input type="file" name="docAttachment" id="docAttachment" required value="" />
-		</div>
-		<p class="button-panel">
-			<button type="submit" id="create_project_doc_submit">Upload Document</button>
-			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
-		</p>
-		<div id="notification"></div>
-	</div>
+	<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
+	<table class='form'>
+		<tbody>
+			<tr>
+				<td class="label">Document Name:</td>
+				<td>
+					<input type="text" name="docName" id="docName" value="">
+				</td>
+			</tr>
+			<tr>
+				<td class="label">Choose Document:</td>
+				<td>
+					<input type="file" name="docAttachment" id="docAttachment" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p class="button-panel">
+						<button type="submit" id="create_project_doc_submit">Upload Document</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $this->lang->line('mandatory_field_text'); ?></td>
+			</tr>
+			<!-- <div id="notification"></div> -->
+		</tbody>
+	</table>
 </form>
 <script>
 $("#create_project_doc_form").on('submit',(function(e) {
 	e.preventDefault();
+
+	if(!projectObj._docs.createValidate())
+		return false;
 	
 	$.ajax({
     	url: "/projects/docs/add",

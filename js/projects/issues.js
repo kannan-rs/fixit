@@ -1,6 +1,82 @@
 function issues() {	
 };
 
+issues.prototype.validationRules = function() {
+	return {
+		issueName : {
+			required : true
+		},
+		issueDescr : {
+			required : true
+		},
+		assignedToUserType : {
+			required : false
+		},
+		issueAssignedToCustomer : {
+			required : true
+		},
+		issueContractorResult : {
+			required : false
+		},
+		issueAdjusterResult : {
+			required : false
+		},
+		issueFromdate : {
+			required : true
+		},
+		issueStatus : {
+			required : true
+		},
+		issueNotes : {
+			required : true
+		},
+		contactPhoneNumber : {
+			digits : true	
+		},
+		mobileNumber : {
+			digits : true	
+		}
+	};
+};
+
+issues.prototype.errorMessage = function() {
+	return {
+		issueName : {
+			required : _lang.english.errorMessage.issueForm.issueName
+		},
+		issueDescr : {
+			required : _lang.english.errorMessage.issueForm.issueDescr
+		},
+		assignedToUserType : {
+			required : _lang.english.errorMessage.issueForm.assignedToUserType
+		},
+		issueAssignedToCustomer : {
+			required : _lang.english.errorMessage.issueForm.issueAssignedToCustomer
+		},
+		issueContractorResult : {
+			required : _lang.english.errorMessage.issueForm.issueContractorResult
+		},
+		issueAdjusterResult : {
+			required : _lang.english.errorMessage.issueForm.issueAdjusterResult
+		},
+		issueFromdate : {
+			required : _lang.english.errorMessage.issueForm.issueFromdate
+		},
+		issueStatus : {
+			required : _lang.english.errorMessage.issueForm.issueStatus
+		},
+		issueNotes : {
+			required : _lang.english.errorMessage.issueForm.issueNotes
+		},
+		contactPhoneNumber : {
+			digits : _lang.english.errorMessage.issueForm.contactPhoneNumber
+		},
+		mobileNumber : {
+			digits : _lang.english.errorMessage.issueForm.mobileNumber
+		}
+	};
+};
+
 issues.prototype.createForm = function( options ) {
 
 	event.stopPropagation();
@@ -49,14 +125,8 @@ issues.prototype.createForm = function( options ) {
 
 issues.prototype.createValidate =  function ( openAs, popupType ) {
 	var validator = $( "#create_issue_form" ).validate({
-		rules: {
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			}
-		}
+		rules: this.validationRules(),
+		messages: this.errorMessage()
 	});
 
 	if(validator.form()) {
@@ -250,14 +320,8 @@ issues.prototype.editForm = function( options ) {
 
 issues.prototype.updateValidate = function( openAs, popupType ) {
 	var validator = $( "#update_issue_form" ).validate({
-		rules: {
-			contactPhoneNumber : {
-				digits : true	
-			},
-			mobileNumber : {
-				digits : true	
-			}
-		}
+		rules 		: this.validationRules(),
+		messages 	: this.errorMessage()
 	});
 
 	if(validator.form()) {

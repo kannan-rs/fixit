@@ -1,6 +1,10 @@
 <!-- TITLE -->
-<h1><a href="#">The Fixit Network</a></h1>
-<h2>A marketplace for you and your resources</h2>
+<div class="logo">
+	<a href="#"><img src="/images/logo.jpg" class="logo"></a>
+	<br/>
+	<span class="captionText">A marketplace for you and your resources</span>
+</div>
+
 <?php
 if($this->session->userdata("is_logged_in")) {
 ?>

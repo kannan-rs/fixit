@@ -7,22 +7,35 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 }
 ?>
 <form id="create_project_note_form" name="create_project_note_form" class="inputForm">
-	<div class='form'>
-		<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
-		<input type="hidden" name="taskId" id="taskId" value="<?php echo $taskId; ?>" />
-		<!--
-		<div class="label">Note Name:</div>
-		<div>
-			<input type="text" name="noteName" id="noteName" value="" required>
-		</div>
-		-->
-		<div class="label">Notes Content:</div>
-		<div>
-			<textarea type="text" name="noteContent" id="noteContent" rows="10" cols="70" required></textarea>
-		</div>
-		<p class="button-panel">
-			<button type="button" id="create_project_note_submit" onclick="<?php echo $createFn; ?>">Add Notes</button>
-			<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
-		</p>
-	</div>
+	<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
+	<input type="hidden" name="taskId" id="taskId" value="<?php echo $taskId; ?>" />
+	<table class='form'>
+		<tbody>
+			<!--
+			<tr>
+				<td class="label">Note Name:</td>
+				<td>
+					<input type="text" name="noteName" id="noteName" value="" required>
+				</td>
+			</tr>
+			-->
+			<tr>
+				<td class="label">Notes Content:</td>
+				<td>
+					<textarea type="text" name="noteContent" id="noteContent" rows="10" cols="70" required></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p class="button-panel">
+						<button type="button" id="create_project_note_submit" onclick="<?php echo $createFn; ?>">Add Notes</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><?php echo $this->lang->line('mandatory_field_text'); ?></td>
+			</tr>
+		</tbody>
+	</table>
 </form>
