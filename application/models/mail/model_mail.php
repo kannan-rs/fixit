@@ -12,8 +12,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			
 			$mail_options = array();
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= $this->lang->line('email_from_name_html');
+			//$mail_options["from"]		= $smtp_user;
+			//$mail_options["fromName"]	= $this->lang->line('email_from_name_html');
 			$mail_options["to"]			= $user_record[0]->user_name;
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -63,8 +63,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $mailNmae;
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $mailToEmail;
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -89,8 +89,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= "User";
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin";
 			$mail_options["to"]			= $mailToEmail;
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -113,8 +113,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $user_details_record[0]->first_name." ".$user_details_record[0]->last_name;
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $user_record[0]->user_name;
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -135,8 +135,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $contractorData["name"]." for Company ".$contractorData["company"];
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $contractorData["office_email"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -158,8 +158,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $contractorData["name"]." for Company ".$contractorData["company"];
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $contractorData["office_email"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -182,8 +182,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $partnerData["name"]." for Company ".$partnerData["company_name"];
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $partnerData["work_email_id"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -205,8 +205,8 @@ class Model_mail extends CI_Model {
 		if($response["status"] == "success") {
 			$mail_options = array();
 			$mail_options["name"] 		= $partnerData["name"]." for Company ".$partnerData["company_name"];
-			$mail_options["from"]		= "admin@thefixitnetwork.com";
-			$mail_options["fromName"]	= "Fixit Admin:";
+			//$mail_options["from"]		= "admin@thefixitnetwork.com";
+			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $partnerData["work_email_id"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
@@ -747,46 +747,55 @@ class Model_mail extends CI_Model {
 	public function sendMail( $options = array() ) {
 		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "in send mail--\n", FILE_APPEND | LOCK_EX);
 
-		$from 		= $options["from"];
-		$fromName	= $options["fromName"];
-		$to 		= $options["to"];
-		$subject 	= $options["subject"];
-		$message 	= $options["message"];
-
-		$this->email->clear(TRUE);
-
-	    $this->email->from($from, $fromName);
-	    $this->email->to($to);
-	    $this->email->reply_to($from, $fromName);
-	    $this->email->subject($subject);
-	    $this->email->message($message);
-	    $this->email->set_mailtype('html');
-	    /*
-	    	// Default headers for mail
-		    $this->_set_header('X-Sender', $this->clean_email($this->_headers['From']));
-			$this->_set_header('X-Mailer', $this->useragent);
-			$this->_set_header('X-Priority', $this->_priorities[$this->priority - 1]);
-			$this->_set_header('Message-ID', $this->_get_message_id());
-			$this->_set_header('Mime-Version', '1.0');
-			if(multipart false) {
-				Content-Type: text/html; charset=
-				Content-Transfer-Encoding: quoted-printable
-			}
-			if(multipart true) {
-				Content-Type: multipart/alternative; boundary=
-				Content-Type: text/plain; charset=
-				Content-Transfer-Encoding:
-				Content-Type: text/html; charset=
-				Content-Transfer-Encoding: quoted-printable
-			}
-		*/
-	    //$this->email->send();
-
-	   	if ( ! $this->email->send()) {
-			return "Email not sent \n".$this->email->print_debugger();
-		} else {
-			return "success";
+		if(strpos(base_url(),"kannansriram.netau.net")) {
+			$config = Array(
+			    'protocol' => 'mail',
+			    'smtp_host' => '',
+			    'smtp_port' => '',
+			    'smtp_user' => '',
+			    'smtp_pass' => ''
+			);
+		} elseif (strpos(base_url(),"thefixitnetwork.net")) {
+			$config = Array(
+			    'protocol' => 'smtp',
+			    'smtp_host' => 'ssl://dallas112.arvixeshared.com',
+			    'smtp_port' => 465,
+			    'smtp_user' => 'admin@thefixitnetwork.net',
+			    'smtp_pass' => 'east2west'
+			);
+		} elseif (strpos(base_url(),"thefixitnetwork.com")) {
+			$config = Array(
+			    'protocol' => 'smtp',
+			    'smtp_host' => 'ssl://dallas112.arvixeshared.com',
+			    'smtp_port' => 465,
+			    'smtp_user' => 'admin@thefixitnetwork.com',
+			    'smtp_pass' => 'east2west'
+			);
 		}
 
+		if(isset($config)) {
+			$this->email->initilize();
+
+			$from 		= $config["smtp_user"];
+			$fromName	= $this->lang->line('email_from_name_html');
+			$to 		= $options["to"];
+			$subject 	= $options["subject"];
+			$message 	= $options["message"];
+
+			$this->email->clear(TRUE);
+
+		    $this->email->from($from, $fromName);
+		    $this->email->to($to);
+		    $this->email->reply_to($from, $fromName);
+		    $this->email->subject($subject);
+		    $this->email->message($message);
+		    $this->email->set_mailtype('html');
+
+		   	if ( ! $this->email->send()) {
+				return "Email not sent \n".$this->email->print_debugger();
+			} else {
+				return "success";
+			}
+		}
 	}
 }

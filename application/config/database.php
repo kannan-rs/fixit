@@ -45,7 +45,11 @@
 | the active record class
 */
 
-/*if(strpos(base_url(),"kannansriram.netau.net")) {
+$hostname = 'localhost';
+$db_name = 'fixit';
+$user_name = 'root';
+$password = '';
+if(strpos(base_url(),"kannansriram.netau.net")) {
 	$hostname = 'mysql7.000webhost.com';
 	$db_name = 'a9534979_cidemo';
 	$user_name = 'a9534979_cidemo';
@@ -54,13 +58,23 @@
 	$hostname = 'localhost';
 	$db_name = 'fixit';
 	$user_name = 'root';
-	$password = '';	
-} else {*/
+	$password = '';
+} elseif (strpos(base_url(),"dev.thefixitnetwork.net")) {
 	$hostname = 'localhost';
-	$db_name = 'fixit';
-	$user_name = 'root';
-	$password = '';	
-//}
+	$db_name = 'thefix8_devdb';
+	$user_name = 'thefix8_devuser';
+	$password = 'Th3f1x1t9@55';	
+} elseif (strpos(base_url(),"thefixitnetwork.net")) {
+	$hostname = 'localhost';
+	$db_name = 'thefix8_f1x1ts36v1ce';
+	$user_name = 'thefix8_webapp';
+	$password = 'M@ll1km1ch@3lk@nn@n';	
+} elseif (strpos(base_url(),"thefixitnetwork.com")) {
+	$hostname = 'localhost';
+	$db_name = 'fixitnet_app';
+	$user_name = 'fixitnet';
+	$password = 'M@k31tc0mpl3x';	
+}
 
 $active_group = 'default';
 $active_record = TRUE;

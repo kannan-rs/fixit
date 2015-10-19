@@ -72,88 +72,24 @@ Support ticket raised - 1. Outgoing email error
 Done list for week - 6th to 12th Oct 2015
 -----------------------------------------
 1. Validation done in a different way, to provide all the message in one Go for anny error
-	- Signup
-	- Uer add/Update by admin,
-	- User info update by self,
-	- Operations,
-	- Roles,
-	- Functions,
-	- Data Filters
-	- Projects
-	- tasks
-	- contractors
-	- Partner
-
-	20th Oct 2015
-	-------------
 		- Docs Upload
 		- Issues
 		- Notes
 		- remaining Budget
 
 2. Adding Mandaitory field message below every input form
-	- Signup
-	- Uer add/Update by admin,
-	- User info update by self,
-	- Operations
-	- Roles,
-	- Functions,
-	- Data Filters
-	- Projects
-	- tasks
-	- contractors
-	- Partner
-
-	20th Oct 2015
-	-------------
 		- Docs Upload
 		- Issues
 		- Notes
 		- remaining Budget
 
 3. Internationalization of error text message
-	- Signup
-	- Uer add/Update by admin,
-	- User info update by self,
-	- Operations
-	- Roles,
-	- Functions,
-	- Data Filters
-	- Projects
-	- tasks
-	- contractors
-	- Partner
-
-	20th Oct 2015
-	-------------
 		- Docs Upload
 		- Issues
 		- Notes
 		- remaining Budget
 
-4. Internationalization of other messages
-	- Mandaitory text
-
-5. Code merge for Create and Edit form
-	- Role
-	- Operation,
-	- Functions,
-	- Data Filters
-	- tasks
-
 6. Taken out validation Rules and validation messages as seperate function to avoid duplication
-	- Signup, Users add/edit, Personal info edit
-	- Roles
-	- Operations,
-	- Functions
-	- Data Filters
-	- Projects
-	- tasks
-	- contractors
-	- Partner
-
-	20th Oct 2015
-	-------------
 		- Docs Upload
 		- Issues
 		- Notes
@@ -172,7 +108,7 @@ Work for this week.
 	Done - 1. Remaining forms : Single form for edit and create. Validation Rules 
 	Done - 2. Add Zip code in table and use it for all the tables.
 	3. Email Template Addition
-	4. Website content modification as per maichales feedback
+	Done - 4. Website content modification as per maichales feedback
 	Done - 5. Deploy .net site
 	Done - 6. Emailed the error text message file.
 

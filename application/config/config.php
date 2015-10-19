@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://fixit.loc/';
+$config['base_url']		= 'http://fixit.loc/';
 $config['development_mode']	= true;
 $config['email_testing']	= true;
 
