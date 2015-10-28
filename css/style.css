@@ -141,7 +141,8 @@ a, a:visited {
 
 /*** CONTENT STYLES ***/
 div.content {
-  color: #555555; }
+  color: #555555;
+  min-height: 550px; }
   div.content li {
     padding: 5px 0; }
 
@@ -412,26 +413,52 @@ div.form {
 div.wrapper {
   width: 960px;
   margin: 0px auto;
-  padding: 10px;
-  border-right: 10px solid #8D8A77;
-  border-left: 10px solid #8D8A77;
+  padding: 5px 10px 5px 10px;
+  border-right: 5px solid #8D8A77;
+  border-left: 5px solid #8D8A77;
   background-color: #ffffff; }
 
 /*** HEADER ***/
 header {
-  padding: 5px 5px;
+  /* padding:$defaultPadding - 5px $defaultPadding - 5px; */
   margin: 0 auto;
   background-color: #FFFFFF;
-  border-top: 4px solid #326A85;
-  border-bottom: 4px solid #326A85;
-  margin-bottom: 10px; }
+  /*border-top:4px solid #326A85;*/
+  border-bottom: 2px solid #326A85;
+  /*margin-bottom:$defaultMargin;*/ }
   header .logged_in {
     float: right; }
     header .logged_in .logged-in-as {
       display: inherit;
       font-size: 12px; }
+  header .logo {
+    float: left;
+    margin-bottom: 5px; }
+    header .logo .logo-img {
+      width: 140px; }
+  header .login_form {
+    float: right; }
+    header .login_form table {
+      margin: 0px; }
+      header .login_form table td {
+        border: 0px;
+        padding: 2px 0px; }
+    header .login_form p {
+      padding: 0px 10px 0px 10px !important;
+      margin: 0px; }
+    header .login_form p.error {
+      padding: 0px 10px 0px 10px !important;
+      margin: 0px; }
+    header .login_form .login-image {
+      padding-left: 10px;
+      vertical-align: middle; }
+    header .login_form .button-panel a.signup {
+      font-size: 12px;
+      text-decoration: underline; }
+    header .login_form input, header .login_form textarea, header .login_form select {
+      padding: 2px; }
   header .captionText {
-    font-size: 17px; }
+    font-size: 11px; }
 
 /*** NAVIGATION ***/
 nav {
@@ -451,7 +478,7 @@ nav {
         float: left;
         font-family: "Trebuchet MS", Verdana, Arial;
         font-weight: bold;
-        padding: 15px;
+        padding: 15px 15px;
         text-transform: uppercase;
         text-decoration: none; }
       nav ul li a:hover {
@@ -461,7 +488,9 @@ nav {
 nav ul li.current a,
 nav ul li.current a:visited,
 nav ul li.current a:hover {
-  text-decoration: underline; }
+  /*text-decoration:underline;*/
+  color: #FFFFFF;
+  background-color: #326A85; }
 
 /* default tables */
 table {
@@ -618,6 +647,9 @@ div.column-640 {
 div.column-700 {
   width: 700px; }
 
+div.column-940 {
+  width: 940px; }
+
 /* floats */
 div.column-left {
   float: left;
@@ -649,8 +681,26 @@ table.innerOption {
   table.innerOption input[type="radio"], table.innerOption textarea[type="radio"], table.innerOption select[type="radio"] {
     margin: 5px 0px 5px 0px; }
 
-.login-form {
-  padding: 10px 10px 0px 10px; }
+.login-form, .forgotpass-form {
+  padding: 0px 10px 0px 10px;
+  margin-top: 50px; }
+  .login-form table, .forgotpass-form table {
+    width: 50%;
+    margin: 0 auto;
+    border: 1px solid #eFeFeF;
+    border-radius: 4px;
+    padding: 10px; }
+    .login-form table td, .forgotpass-form table td {
+      border: 0px;
+      vertical-align: middle; }
+      .login-form table td input, .login-form table td textarea, .login-form table td select, .forgotpass-form table td input, .forgotpass-form table td textarea, .forgotpass-form table td select {
+        height: 30px;
+        width: 220px; }
+      .login-form table td button, .forgotpass-form table td button {
+        float: right;
+        margin: 10px; }
+    .login-form table td.extralinks, .forgotpass-form table td.extralinks {
+      text-align: right; }
 
 .section {
   border-bottom: 1px solid #D3D3D3;
@@ -673,11 +723,9 @@ table.innerOption {
   margin-bottom: 10px;
   margin-right: 10px; }
 
-.button-panel a.signup {
-  font-size: 13px;
-  float: left;
-  margin-left: 10px;
-  text-decoration: underline; }
+a.signup {
+  font-size: 12px;
+  text-decoration: underline !important; }
 
 .inputForm .label.notMandatory:after {
   content: ""; }

@@ -18,8 +18,11 @@ $is_logged_in = (isset($is_logged_in) && $is_logged_in === 1) ? 1 : 0;
 	for($menuIdx = 0; $menuIdx < count($menus); $menuIdx++) {
 		$selected = "";
 
-		if( preg_replace('/\s+/', '', strtolower($menus[$menuIdx]["text"])) == $page) {
+		if( strpos(preg_replace('/\s+/', '', strtolower($menus[$menuIdx]["link"])), $page) ) {
 			$selected = 'current';
+		}
+		if( ($page == "home" || $page == "signup")  && strpos(preg_replace('/\s+/', '', strtolower($menus[$menuIdx]["link"])), "index")) {
+			$selected = 'current';	
 		}
 		
 		if($menus[$menuIdx]['is_logged_in'] === 'all' || $menus[$menuIdx]['is_logged_in'] === $is_logged_in)

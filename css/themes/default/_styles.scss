@@ -192,6 +192,7 @@ a {
 /*** CONTENT STYLES ***/
 div.content {
 	color:$text-color;
+	min-height : 550px;
     li {
         padding:5px 0;
     }

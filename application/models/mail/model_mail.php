@@ -758,10 +758,10 @@ class Model_mail extends CI_Model {
 		} elseif (strpos(base_url(),"thefixitnetwork.net")) {
 			$config = Array(
 			    'protocol' => 'smtp',
-			    'smtp_host' => 'ssl://dallas112.arvixeshared.com',
+			    'smtp_host' => 'ssl://secure179.inmotionhosting.com',
 			    'smtp_port' => 465,
 			    'smtp_user' => 'admin@thefixitnetwork.net',
-			    'smtp_pass' => 'east2west'
+			    'smtp_pass' => 'Adm1n@f1x1t'
 			);
 		} elseif (strpos(base_url(),"thefixitnetwork.com")) {
 			$config = Array(
@@ -774,7 +774,8 @@ class Model_mail extends CI_Model {
 		}
 
 		if(isset($config)) {
-			$this->email->initilize();
+			
+			$this->email->initialize( $config );
 
 			$from 		= $config["smtp_user"];
 			$fromName	= $this->lang->line('email_from_name_html');

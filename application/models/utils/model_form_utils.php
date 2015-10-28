@@ -30,6 +30,38 @@ class Model_form_utils extends CI_Model {
 		return $state;
 	}
 
+	public function getMatchCityList( $city = "") {
+		if(isset($city) && !is_null($city) && $city != "") {
+			$this->db->like('city', $city);	
+		}
+		
+		$this->db->select(["city"]);
+		$this->db->distinct();
+		$this->db->order_by("city", "asc");
+
+		$query = $this->db->from('postal_codes')->get();
+		
+		$state = $query->result();
+		
+		return $state;
+	}
+
+	public function getPostalDetailsByCity( $city = "") {
+		if(isset($city) && !is_null($city) && $city != "") {
+			$this->db->where('city', $city);	
+		}
+		
+		$this->db->select(["zipcode", "state_abbreviation"]);
+		$this->db->distinct();
+		$this->db->order_by("zipcode", "asc");
+
+		$query = $this->db->from('postal_codes')->get();
+		
+		$state = $query->result();
+		
+		return $state;
+	}
+
 	public function getCustomerList( $record = "") {
 		if(isset($record) && !is_null($record) && $record != "") {
 			$this->db->where('sno', $record);	

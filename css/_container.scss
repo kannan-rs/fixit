@@ -1,5 +1,33 @@
-.login-form {
-	padding: $defaultPadding $defaultPadding 0px $defaultPadding;
+.login-form, .forgotpass-form {
+	padding: 0px $defaultPadding 0px $defaultPadding;
+	margin-top: 50px;
+
+	table {
+		width: 50%;
+		margin: 0 auto;
+		border: 1px solid #eFeFeF;
+		border-radius: 4px;
+		padding: 10px;
+
+		td {
+			border : 0px;
+			vertical-align: middle;
+
+			input {
+				height : 30px;
+				width : 220px;
+			}
+
+			button {
+				float: right;
+				margin: 10px;
+			}
+		}
+
+		td.extralinks {
+			text-align: right;
+		}
+	}
 }
 
 .section {
@@ -29,12 +57,11 @@
 }
 
 .button-panel {
-	a.signup {
-		font-size: 13px;
-		float: left;
-		margin-left: $defaultMargin;
-		text-decoration: underline;
-	}
+}
+
+a.signup {
+	font-size: 12px;
+	text-decoration: underline !important;
 }
 
 .inputForm {

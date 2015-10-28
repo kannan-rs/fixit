@@ -1,3 +1,3 @@
 /*$().ready(function() {
-	$("#login_error").hide();
+    $("#login_error").hide();
 });*/

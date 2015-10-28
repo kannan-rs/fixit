@@ -126,6 +126,12 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				</td>
 			</tr>
 			<tr>
+				<td class="label notMandatory">Assign Default Contractor</td>
+				<td>
+					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" placeholder="Email ID of default contractor" onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<p class="button-panel">
 						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $prefix;?> Contractor</button>

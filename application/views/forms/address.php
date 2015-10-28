@@ -31,39 +31,13 @@
 	</td>
 </tr>
 <tr>
-	<td><div class="label">Zip Code:</div></td>
-	<td>
-		<div>
-			<?php 
-				if($requestFrom == "view") { echo $zipCode; } else { ?>
-			<input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" onblur="utilObj.setPostalCodeDetails()" required>
-			<datalist id="zipcode_list"></datalist>
-			<?php } ?>
-		</div>
-	</td>
-</tr>
-<tr>
 	<td><div class="label">City:</div></td>
 	<td>
 		<div>
 			<?php 
 				if($requestFrom == "view") { echo $city; } else { ?>
-			<input type="text" name="city" id="city" value="<?php echo $city; ?>" list="city_list" placeholder="City" required>
+			<input type="text" name="city" id="city" value="<?php echo $city; ?>" list="city_list" placeholder="City" onkeyup="utilObj.getAndSetMatchCity(this.value)" onblur="utilObj.setAddressByCity()" required>
 			<datalist id="city_list"></datalist>
-			<?php } ?>
-		</div>
-	</td>
-</tr>
-<tr>
-	<td><DIV class="label">Country:</DIV></td>
-	<td>
-		<div>
-			<?php 
-				if($requestFrom == "view") { echo $country; } else { ?>
-			<input type="hidden" name="countryDbVal" id="countryDbVal" value="<?php echo $country;?>">
-			<select name="country" id="country" onchange="utilObj.populateState(this.value, '<?php echo $forForm; ?>');" required>
-				<option>--Select Country--</option>
-			</select>
 			<?php } ?>
 		</div>
 	</td>
@@ -77,6 +51,34 @@
 			<input type="hidden" name="stateDbVal" id="stateDbVal" value="<?php echo $state;?>" >
 			<select name="state" id="state" required>
 				<option value="">--Select State--</option>
+			</select>
+			<?php } ?>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td><div class="label">Zip Code:</div></td>
+	<td>
+		<div>
+			<?php 
+				if($requestFrom == "view") { echo $zipCode; } else { ?>
+			<!-- <input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" onblur="utilObj.setPostalCodeDetails()" required> -->
+			<input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" required>
+			<datalist id="zipcode_list"></datalist>
+			<?php } ?>
+		</div>
+	</td>
+</tr>
+
+<tr>
+	<td><DIV class="label">Country:</DIV></td>
+	<td>
+		<div>
+			<?php 
+				if($requestFrom == "view") { echo $country; } else { ?>
+			<input type="hidden" name="countryDbVal" id="countryDbVal" value="<?php echo $country;?>">
+			<select name="country" id="country" onchange="utilObj.populateState(this.value, '<?php echo $forForm; ?>');" required>
+				<option>--Select Country--</option>
 			</select>
 			<?php } ?>
 		</div>

@@ -45,6 +45,24 @@ class Validation extends CI_Controller {
 		}
 	}*/
 
+	public function forgotPass()
+	{
+		$response = array();
+
+		$email = $this->input->post('login_email');
+
+		$this->load->model('security/model_users');
+
+		if(!$this->model_users->forgotPass($email)) {
+			$response["status"] = "error";
+			$response["message"] = "Error while resetting password. Try after some time";
+		} else {
+			$response["status"] = "Success";
+			$response["message"] = "Reset password link is sent to registered email address";
+		}
+		print_r(json_encode($response));
+	}
+
 	public function signup() {
 		$response = array();
 

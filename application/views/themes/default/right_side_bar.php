@@ -1,9 +1,14 @@
 <?php 
-	if(!$this->session->userdata("is_logged_in") && $page != "signup") {
+	if(!$this->session->userdata("is_logged_in") && $page != "signup" && $page != "login") {
 ?>
 	<!-- SIDEBAR -->
 	<aside>
-		<?php echo $login_form; ?>
+		<?php /* echo $login_form;*/ ?>
+		<!-- <ul>
+			<li>
+				<a class="signup" href="<?php echo $baseUrl; ?>main/signup">Click here</a> for registering youself to "thefixitnetwork".
+			</li>
+		</ul> -->
 		<ul>	
 			<li>
 				<h4>News</h4>

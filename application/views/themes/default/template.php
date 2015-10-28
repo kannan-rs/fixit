@@ -13,7 +13,7 @@ session = <?php print_r(json_encode($initVar)); ?>;
 <?php 
 	echo $includes; 
 	//$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-700";
-	$main_content_css = $this->session->userdata("page") == "signup" ? "" : "column-700";
+	$main_content_css = $this->session->userdata("page") == "signup" || $this->session->userdata("page") == "login" || $this->session->userdata("page") == "forgotpass"? "column-940" : "column-700";
 	//$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
 ?>
 </head>
@@ -35,10 +35,10 @@ session = <?php print_r(json_encode($initVar)); ?>;
 		<?php
 		if($this->session->userdata("is_logged_in")) {
 		?>
-		<div class="sidebar column-220 column-left">	
-			<!-- Left Side Bar and left navigation -->
-			<?php echo $left_side_bar; ?>
-		</div>
+			<div class="sidebar column-220 column-left">	
+				<!-- Left Side Bar and left navigation -->
+				<?php echo $left_side_bar; ?>
+			</div>
 		<?php
 		}
 		?>
@@ -47,9 +47,15 @@ session = <?php print_r(json_encode($initVar)); ?>;
 			<?php echo $main_content; ?>
 		</div>
 		<!-- Right Side menus -->
-		<div class="sidebar column-220 column-right">	
-			<?php echo $right_side_bar; ?>
-		</div>
+		<?php
+		if(!$this->session->userdata("is_logged_in") && $this->session->userdata("page") != "login" && $this->session->userdata("page") != "signup" && $this->session->userdata("page") != "forgotpass") {
+		?>
+			<div class="sidebar column-220 column-right">	
+				<?php echo $right_side_bar; ?>
+			</div>
+		<?php
+		}
+		?>
 	</section>
 	
 	<!-- Footer -->

@@ -140,6 +140,26 @@ class Main extends CI_Controller {
 		$this->layouts->view();
 	}
 
+	public function login()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("login");
+		//Render a view
+		$this->layouts->view();
+	}
+
+	public function forgotpass()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		$this->layouts->setPage("forgotpass");
+		//Render a view
+		$this->layouts->view();
+	}
+
 	public function activate_user()
 	{
 		// With View library

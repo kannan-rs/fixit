@@ -1,11 +1,11 @@
 /*** HEADER ***/
 header {
-	padding:$defaultPadding - 5px $defaultPadding - 5px;
+	/* padding:$defaultPadding - 5px $defaultPadding - 5px; */
 	margin:0 auto;
 	background-color:#FFFFFF;
-	border-top:4px solid #326A85;
-	border-bottom:4px solid #326A85;
-	margin-bottom:$defaultMargin;
+	/*border-top:4px solid #326A85;*/
+	border-bottom:2px solid #326A85;
+	/*margin-bottom:$defaultMargin;*/
 
 	.logged_in {
 		float: right;
@@ -17,9 +17,54 @@ header {
 	}
 
 	.logo {
+		float : left;
+		margin-bottom : 5px;
+
+		.logo-img {
+			width : 140px;
+		}
+	}
+
+	.login_form {
+		float : right;
+
+		table {
+			margin : 0px;
+
+			td {
+				border : 0px;
+				padding: 2px 0px;
+			}
+		}
+
+		p {
+			padding: 0px 10px 0px 10px !important;
+			margin: 0px;
+		}
+
+		p.error {
+			padding: 0px 10px 0px 10px !important;
+			margin: 0px;
+		}
+
+		.login-image {
+			padding-left : 10px;
+			vertical-align: middle;
+		}
+
+		.button-panel {
+			a.signup {
+				font-size: 12px;
+				text-decoration: underline;
+			}
+		}
+
+		input {
+			padding : 2px;
+		}
 	}
 
 	.captionText {
-		font-size : 17px;
+		font-size : 11px;
 	}
 }

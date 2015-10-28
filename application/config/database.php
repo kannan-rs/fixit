@@ -54,6 +54,11 @@ if(strpos(base_url(),"kannansriram.netau.net")) {
 	$db_name = 'a9534979_cidemo';
 	$user_name = 'a9534979_cidemo';
 	$password = 'password1';
+} elseif (strpos(base_url(),"fixit-kannansriram.orgfree.com")) {
+	$hostname = 'localhost';
+	$db_name = '971309';
+	$user_name = '971309';
+	$password = 'kannan123';
 } elseif (strpos(base_url(),"codeignaiter.loc")) {
 	$hostname = 'localhost';
 	$db_name = 'fixit';
@@ -63,7 +68,7 @@ if(strpos(base_url(),"kannansriram.netau.net")) {
 	$hostname = 'localhost';
 	$db_name = 'thefix8_devdb';
 	$user_name = 'thefix8_devuser';
-	$password = 'Th3f1x1t9@55';	
+	$password = 'H{cgWW;sz%fH';	
 } elseif (strpos(base_url(),"thefixitnetwork.net")) {
 	$hostname = 'localhost';
 	$db_name = 'thefix8_f1x1ts36v1ce';

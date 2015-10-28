@@ -73,4 +73,46 @@ class formUtils extends CI_Controller {
 		}
 		print_r(json_encode($response));
 	}
+
+	public function getMatchCityList() {
+		$this->load->model('utils/model_form_utils');
+
+		$cityStr 	= $this->input->post('cityStr');
+
+		if(isset($cityStr) && $cityStr != "") {
+			$state = $this->model_form_utils->getMatchCityList( $cityStr );
+		} else {
+			$state = array();
+		}
+
+		$response["status"] = "error";
+		if(isset($state)) {
+			$response["status"] = "success";
+			$response["cityList"] = $state;
+		} else {
+			$response["message"] = "Error while fetching state details";
+		}
+		print_r(json_encode($response));
+	}
+
+	public function getPostalDetailsByCity() {
+		$this->load->model('utils/model_form_utils');
+
+		$cityStr 	= $this->input->post('cityStr');
+
+		if(isset($cityStr) && $cityStr != "") {
+			$state = $this->model_form_utils->getPostalDetailsByCity( $cityStr );
+		} else {
+			$state = array();
+		}
+
+		$response["status"] = "error";
+		if(isset($state)) {
+			$response["status"] = "success";
+			$response["postalDetails"] = $state;
+		} else {
+			$response["message"] = "Error while fetching state details";
+		}
+		print_r(json_encode($response));
+	}
 }

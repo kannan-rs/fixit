@@ -2,8 +2,8 @@
 div.wrapper {
 	width:960px;
 	margin:0px auto;
-	padding:$defaultPadding;
-	border-right:10px solid #8D8A77;
-	border-left:10px solid #8D8A77;
+	padding:5px $defaultPadding 5px $defaultPadding;
+	border-right:5px solid #8D8A77;
+	border-left:5px solid #8D8A77;
 	background-color:#ffffff;
 }

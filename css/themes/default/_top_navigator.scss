@@ -19,7 +19,7 @@ nav {
 				float:left;
 				font-family:"Trebuchet MS", Verdana, Arial;
 				font-weight:bold;
-				padding:15px;
+				padding:15px 15px;
 				text-transform:uppercase;
 				text-decoration:none;
 			}
@@ -35,5 +35,8 @@ nav {
 nav ul li.current a,
 nav ul li.current a:visited,
 nav ul li.current a:hover {
-	text-decoration:underline;
+	/*text-decoration:underline;*/
+	color: #FFFFFF;
+	background-color : #326A85;
+
 }

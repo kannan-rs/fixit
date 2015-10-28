@@ -10,6 +10,14 @@ home.prototype.loginValidate = function() {
     }
 }
 
+home.prototype.forgotPassValidate = function() {
+    var validator = $("#forgotpass_form").validate();
+
+    if (validator.form()) {
+        submit.forgotPassSubmit();
+    }
+}
+
 home.prototype.signupValidate = function() {
     $("#signup_user_form").validate({
         rules: {
@@ -33,7 +41,7 @@ home.prototype.signupValidate = function() {
 
 $().ready(function() {
     homeObj = new home();
-    utilObj = new utils();
+    utilObj = _utils;
     projectObj = new projects();
     securityObj = new security();
     homeObj = new home();
@@ -104,9 +112,11 @@ $().ready(function() {
             break;
         case "signup":
             utilObj.getAndSetCountryStatus("create_user_form");
-            utilObj.getPostalCodeList("create_user_form");
+            //utilObj.getPostalCodeList("("create_user_form");
         break;
     }
 
     $("#login_error").hide();
+    $("#forgotpass_error").hide();
+    $("#forgotpass_success").hide();
 });

@@ -1,6 +1,6 @@
 <!-- TITLE -->
 <div class="logo">
-	<a href="#"><img src="/images/logo.jpg" class="logo"></a>
+	<a href="#"><img src="<?php echo $baseUrl; ?>/images/logo.jpg" class="logo-img"></a>
 	<br/>
 	<span class="captionText">A marketplace for you and your resources</span>
 </div>
@@ -18,6 +18,28 @@ if($this->session->userdata("is_logged_in")) {
 			</span>
 	</div>
 <?php
+} else {
+	if ($page != "signup" && $page != "login" && $page != "forgotpass") {
+?>
+	<div class="login_form">
+	<?php //echo $login_form; ?>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						Existing User? <a class="signup" href="<?php echo $baseUrl; ?>main/login">Sign in </a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						New to Fixit? <a class="signup" href="<?php echo $baseUrl; ?>main/signup">Signup</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+<?php
+	}
 }
 ?>
 <div class="clear"></div>
