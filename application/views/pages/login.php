@@ -9,18 +9,18 @@
 				</tr>
 				<tr>
 					<td class="label">
-						user Name :
+						<?php echo $this->lang->line_arr('login->input_form->login_email'); ?> :
 					</td>
 					<td>
-						<input type=email id="login_email" name="login_email" placeholder="Email Id" required />
+						<input type=email id="login_email" name="login_email" placeholder="<?php echo $this->lang->line_arr('login->input_form->login_email_ph'); ?> Id" required />
 					</td>
 				</tr>
 				<tr>
 					<td class="label">
-						Password :
+						<?php echo $this->lang->line_arr('login->input_form->login_password'); ?> :
 					</td>
 					<td>
-						<input type=password id="login_password" name="login_password" placeholder="Password" required />
+						<input type=password id="login_password" name="login_password" placeholder="<?php echo $this->lang->line_arr('login->input_form->login_password_ph'); ?>" required />
 						<!-- <img src="/images/blue_go_button.gif" class="login-image" onclick="homeObj.loginValidate()"> -->
 					</td>
 				</tr>

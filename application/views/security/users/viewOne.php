@@ -24,47 +24,47 @@
 		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details->contact_pref; ?>">
 		<input type="hidden" name="viewonly" value="true">
 		
-		<div class='label'>Privilege</div>
+		<div class='label'><?php echo $this->lang->line_arr('user->details_view->privilege'); ?></div>
 		<div class="capitalize"><?php echo $users->account_type; ?></div>
 		
-		<div class="label">First Name:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->firstName'); ?></div>
 		<div class="capitalize"><?php echo $user_details->first_name; ?></div>
 		
-		<div class="label">Last Name:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->lastName'); ?></div>
 		<div class="capitalize"><?php echo $user_details->last_name; ?></div>
 		
-		<div class="label">User Belongs To:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->belongsTo'); ?></div>
 		<div class="capitalize"><?php echo !empty($user_details->belongs_to) ? $user_details->belongs_to : "-NA-"; ?></div>
 		<?php 
 			if($user_details->belongs_to == "contractor") { 
 		?>
-			<div class="label">Contractor Company:</div>
+			<div class="label"><?php echo $this->lang->line_arr('user->details_view->contractor'); ?></div>
 			<div class="capitalize"><?php echo $belongsToName; ?></div>
 		<?php 
 			} else if($user_details->belongs_to == "adjuster") {
 		?>
-			<div class="label">Adjuster Company:</div>
+			<div class="label"><?php echo $this->lang->line_arr('user->details_view->adjuster'); ?></div>
 			<div class="capitalize"><?php echo $belongsToName; ?></div>
 		<?php
 			}
 		?>
 		
-		<div class="label">User Status:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->userStatus'); ?></div>
 		<div class="capitalize"><?php echo $user_details->status; ?></div>
 		
-		<div class="label">Active Start Date:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->activeStartDate'); ?></div>
 		<div><?php echo explode(" ",$user_details->active_start_date)[0]; ?></div>
 		
-		<div class="label">Active End Date:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->activeEndDate'); ?></div>
 		<div><?php echo explode(" ",$user_details->active_end_date)[0]; ?></div>	
 		
-		<div class="label">Email ID:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->email'); ?></div>
 		<div><?php echo $user_details->email; ?></div>
 		
-		<div class="label">Contact Phone Number:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->contactPhoneNumber'); ?></div>
 		<div><?php echo $user_details->contact_ph1; ?></div>
 		
-		<div class="label">Mobile Number:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->mobileNumber'); ?></div>
 		<div>
 			<table  class="innerOption">
 				<tr>
@@ -79,7 +79,7 @@
 			</table>
 		</div>
 		
-		<div class="label">Alternate Number:</div>
+		<div class="label"><?php echo $this->lang->line_arr('user->details_view->altNumber'); ?></div>
 		<div>
 			<table class="innerOption">
 				<tr>

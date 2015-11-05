@@ -37,6 +37,7 @@
 	<li>Manage multiple projects concurrently</li>
 	<li>Export the Project details to Excel for reporting purposes</li>
 </ul>
+
 <!-- <p class="note">This a bog standard note which can be used to highlight content to the user</p>
 <p class="note warning">This is a "warning" note - basically it's yellow!</p>
 <p class="note error">An error note to the user</p>

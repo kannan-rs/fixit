@@ -24,16 +24,16 @@ $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Function Id</td>
-				<td><input type="text" name="functionId" id="functionId" value="<?php echo $fn_id; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('function->input_form->functionId'); ?></td>
+				<td><input type="text" name="functionId" id="functionId" value="<?php echo $fn_id; ?>"  placeholder="<?php echo $this->lang->line_arr('function->input_form->functionId_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Function Name</td>
-				<td><input type="text" name="functionName" id="functionName" value="<?php echo $fn_name; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('function->input_form->functionName'); ?></td>
+				<td><input type="text" name="functionName" id="functionName" value="<?php echo $fn_name; ?>"  placeholder="<?php echo $this->lang->line_arr('function->input_form->functionName_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Function Description</td>
-				<td><textarea rows="6" cols="30" name="functionDescr" id="functionDescr"><?php echo $fn_descr; ?></textarea></td>
+				<td class="label"><?php echo $this->lang->line_arr('function->input_form->functionDescr'); ?></td>
+				<td><textarea rows="6" cols="30" name="functionDescr" id="functionDescr" placeholder="<?php echo $this->lang->line_arr('function->input_form->functionDescr_ph'); ?>" ><?php echo $fn_descr; ?></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2">

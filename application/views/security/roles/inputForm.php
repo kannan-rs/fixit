@@ -23,18 +23,18 @@ $role_desc 	= isset($individualRole) ? $individualRole->role_desc : "";
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Role Id</td>
+				<td class="label"><?php echo $this->lang->line_arr('role->input_form->roleId'); ?></td>
 				<td>
-					<input type="text" name="roleId" id="roleId" value="<?php echo $role_id; ?>" required>
+					<input type="text" name="roleId" id="roleId" value="<?php echo $role_id; ?>" placeholder="<?php echo $this->lang->line_arr('role->input_form->roleId_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Role Name</td>
-				<td><input type="text" name="roleName" id="roleName" value="<?php echo $role_name; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('role->input_form->roleName'); ?></td>
+				<td><input type="text" name="roleName" id="roleName" value="<?php echo $role_name; ?>" placeholder="<?php echo $this->lang->line_arr('role->input_form->roleName_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Role Description</td>
-				<td><textarea rows="6" cols="30" name="roleDescr" id="roleDescr"><?php echo $role_desc; ?></textarea></td>
+				<td class="label"><?php echo $this->lang->line_arr('role->input_form->roleDescr'); ?></td>
+				<td><textarea rows="6" cols="30" name="roleDescr" id="roleDescr" placeholder="<?php echo $this->lang->line_arr('role->input_form->roleDescr_ph'); ?>"><?php echo $role_desc; ?></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2">

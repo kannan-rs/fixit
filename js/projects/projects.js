@@ -1127,9 +1127,12 @@ project.prototype.getContractorDetails = function( records ) {
                     "list"             : response["contractors"],
                     "appendTo"        : "contractorSearchSelected",
                     "type"            : "selectedList",
-                    "prefixId"         : "contractorSearch"
+                    "prefixId"         : "contractorSearch",
+                    "dataIdentifier"    : "contractor",
+                    "dispStrKey"        : "company"
                 }
-                utilObj.createContractorOptionsList(contractors);
+                utilObj.createDropDownOptionsList(contractors);
+
                 projectObj._projects.selectedContractor = []; 
                 $("#contractorSearchSelected li").each(
                     function() {
@@ -1210,9 +1213,12 @@ project.prototype.getContractorListUsingServiceZip = function( prefix ) {
                     "type"            : "searchList",
                     "excludeList"     : projectObj._projects.selectedContractor,
                     "prefixId"         : "contractorSearch",
-                    "actionButton"    : "plus"
+                    "actionButton"    : "plus",
+                    "dataIdentifier"    : "contractor",
+                    "dispStrKey"        : "company"
                 }
-                utilObj.createContractorOptionsList(contractors);
+                utilObj.createDropDownOptionsList(contractors);
+
                 //$('#contractorSearchResult li .ui-icon').hide();
 
                 projectObj._projects.showContractorDetails('all');
@@ -1329,9 +1335,12 @@ project.prototype.getAdjusterListUsingNameCompany = function( prefix ) {
                     "type"            : "searchList",
                     "excludeList"     : projectObj._projects.selectedAdjuster,
                     "prefixId"         : "adjusterSearch",
-                    "actionButton"    : "plus"
+                    "actionButton"    : "plus",
+                    "dataIdentifier"    : "adjuster",
+                    "dispStrKey"        : "company_name"
                 }
-                utilObj.createAdjusterOptionsList(adjusters);
+                utilObj.createDropDownOptionsList(adjusters);
+
                 projectObj._projects.showAdjusterDetails('all');
             
             
@@ -1362,9 +1371,12 @@ project.prototype.getAdjusterDetails = function( records ) {
                     "list"             : response["partners"],
                     "appendTo"        : "adjusterSearchSelected",
                     "type"            : "selectedList",
-                    "prefixId"         : "adjusterSearch"
+                    "prefixId"         : "adjusterSearch",
+                    "dataIdentifier"    : "adjuster",
+                    "dispStrKey"        : "company_name"
                 }
-                utilObj.createAdjusterOptionsList( adjusters );
+                utilObj.createDropDownOptionsList(adjusters);
+
                 projectObj._projects.selectedAdjuster = []; 
                 $("#adjusterSearchSelected li").each(
                     function() {
@@ -1438,9 +1450,11 @@ project.prototype.setTaskOwnerListForContractorByID = function( records ) {
                     "type"                : "ownerList",
                     "prefixId"             : "ownerSearch",
                     "radioOptionName"     : "optionSelectedOwner",
-                    "valuePrefix"         : "contractor"
+                    "valuePrefix"         : "contractor",
+                    "dataIdentifier"    : "contractor",
+                    "dispStrKey"        : "company"
                 }
-                utilObj.createContractorOptionsList(contractors);
+                utilObj.createDropDownOptionsList(contractors);
                 
             } else {
                 alert(response.message);
@@ -1477,9 +1491,12 @@ project.prototype.setTaskOwnerListForAdjusterByID = function( records ) {
                     "type"                : "ownerList",
                     "prefixId"             : "ownerSearch",
                     "radioOptionName"     : "optionSelectedOwner",
-                    "valuePrefix"         : "adjuster"
+                    "valuePrefix"         : "adjuster",
+                    "dataIdentifier"    : "adjuster",
+                    "dispStrKey"        : "company_name"
                 }
-                utilObj.createAdjusterOptionsList(adjusters);
+                utilObj.createDropDownOptionsList(adjusters);
+
             } else if(response.status.toLowerCase() == "error") {
                 alert(response.message);
             }

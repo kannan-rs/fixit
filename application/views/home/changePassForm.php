@@ -1,16 +1,28 @@
 <h2>Change Password</h2>
-<form id="update_password_form" name="update_password_form">
-	<div class='form'>
-		<input type="hidden" id='email' value="<?php echo $user_details[0]->user_name; ?>" />
-		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
-		<div class="label">Password</div>
-		<div><input type="password" name="password" id="password" value="" placeholder="Password" required></div>
-		<div class="label">Confirm Password:</div>
-		<div><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Confirm Password" required></div>
-		<div class="label">Password Hint:</div>
-		<div><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="Password Hint"></div>
-		<p class="button-panel">
-			<button type="button" id="signup_user_submit" onclick="homeObj._userInfo.updatePasswordValidate()">Update</button>
-		</p>
-	</div>
+<form id="update_password_form" name="update_password_form" class="inputForm">
+	<input type="hidden" id='email' value="<?php echo $user_details[0]->user_name; ?>" />
+	<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
+	<table class='form'>
+		<tbody>
+			<tr>
+				<td class="label"><?php echo $this->lang->line_arr('change_password->input_form->password'); ?></td>
+				<td><input type="password" name="password" id="password" value="" placeholder="<?php echo $this->lang->line_arr('change_password->input_form->password_ph'); ?>" required></td>
+			</tr>
+			<tr>
+				<td class="label"><?php echo $this->lang->line_arr('change_password->input_form->confirmPassword'); ?></td>
+				<td><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="<?php echo $this->lang->line_arr('change_password->input_form->confirmPassword_ph'); ?>" required></td>
+			</tr>
+			<tr>
+				<td class="label"><?php echo $this->lang->line_arr('change_password->input_form->passwordHint'); ?></td>
+				<td><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="<?php echo $this->lang->line_arr('change_password->input_form->passwordHint_ph'); ?>"></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p class="button-panel">
+						<button type="button" id="signup_user_submit" onclick="homeObj._userInfo.updatePasswordValidate()">Update</button>
+					</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </form>

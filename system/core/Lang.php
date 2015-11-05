@@ -154,6 +154,56 @@ class CI_Lang {
 		return $value;
 	}
 
+	/**
+	 * Fetch a single line of text from the language array
+	 *
+	 * @access	public
+	 * @param	string	$line	the language line
+	 * @return	string
+	 */
+	function line_arr($line = '')
+	{
+		//echo $line."<br/>";
+		if($line != '') {
+			list($module, $form, $field) = explode("->", $line);
+
+			//echo $module."<br/>".$form."<br/>".$field."<br/>";
+
+			if(isset($module)) {
+				//echo "module<br/>";
+				if(isset($this->language[$module]) && isset($form)) {
+					//echo "fomr<br/>";
+					if(isset($this->language[$module][$form]) && isset($field)) {
+						//echo "field<br/>";
+						if(isset($this->language[$module][$form][$field])) {
+							//echo "lang for field present";
+							$value = !isset($this->language[$module][$form][$field]) ? FALSE : $this->language[$module][$form][$field];
+						} else {
+							$value = FALSE;
+						}
+					} else {
+						//echo "No field<br/>";
+						$value = !isset($this->language[$module][$form]) ? FALSE : $this->language[$module][$form];
+					}
+				} else {
+					//echo "No fomr<br/>";
+					$value = !isset($this->language[$module]) ? FALSE : $this->language[$module];
+				}
+			} else {
+				//echo "No module<br/>";
+				$value == FALSE;
+			}
+		}
+
+		// Because killer robots like unicorns!
+		if ($value === FALSE)
+		{
+			log_message('error', 'Could not find the language line "'.$line.'"');
+		}
+
+		return $value;
+	}
+
 }
 // END Language Class
 

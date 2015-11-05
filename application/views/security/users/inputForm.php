@@ -81,10 +81,10 @@ if(!$openAs || $openAs != "popup") {
 		<tbody>
 			<?php if($userType == "admin" && ($edit == false || ($edit == true && $viewFrom == "security"))) { ?>
 			<tr>
-				<td class="label">Privilege:</td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->privilege'); ?></td>
 				<td>
 					<select name="privilege" id="privilege">
-						<option value="">--Select Privilege--</option>
+						<option value=""><?php echo $this->lang->line_arr('user->input_form->privilege_option_0'); ?></option>
 						<option value="1">Admin</option>
 						<option value="2">User</option>
 					</select>
@@ -92,29 +92,30 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 			<tr>
-				<td class="label">First Name:</td>
-				<td><input type="text" name="firstName" id="firstName" value="<?php echo $firstName; ?>" placeholder="First Name" required></td>
+				<!-- <td class="label">First Name:</td> -->
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->firstName'); ?></td>
+				<td><input type="text" name="firstName" id="firstName" value="<?php echo $firstName; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->firstName_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Last Name:</td>
-				<td><input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="Last Name"></td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->lastName'); ?></td>
+				<td><input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->lastName_ph'); ?>"></td>
 			</tr>
 			
 			
 			<?php if(!isset($is_logged_in) || $is_logged_in != 1 || $edit == false) { // only for create user ?>
 				<tr>
-					<td class="label">Password:</td>
-					<td><input type="password" name="password" id="password" value="" placeholder="Password" required></td>
+					<td class="label"><?php echo $this->lang->line_arr('user->input_form->password'); ?></td>
+					<td><input type="password" name="password" id="password" value="" placeholder="<?php echo $this->lang->line_arr('user->input_form->password_ph'); ?>" required></td>
 				</tr>
 				
 				<tr>
-					<td class="label">Confirm Password:</td>
-					<td><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="Confirm Password" required></td>
+					<td class="label"><?php echo $this->lang->line_arr('user->input_form->confirmPassword'); ?></td>
+					<td><input type="password" name="confirmPassword" id="confirmPassword" value="" placeholder="<?php echo $this->lang->line_arr('user->input_form->confirmPassword_ph'); ?>" required></td>
 				</tr>
 				
 				<tr>
-					<td class="label notMandatory">Password Hint:</td>
-					<td><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="Password Hint"></td>
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->passwordHint'); ?></td>
+					<td><input type="text" name="passwordHint" id="passwordHint" value="" placeholder="<?php echo $this->lang->line_arr('user->input_form->passwordHint_ph'); ?>"></td>
 				</tr>
 			<?php
 			}
@@ -122,14 +123,14 @@ if(!$openAs || $openAs != "popup") {
 
 
 			<tr>
-				<td class="label">User Belongs To:</td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->belongsTo'); ?></td>
 				<td>
 					<?php if($edit == false && $belongsTo != "") { // Create User from project by selecting contractor or adjuster ?>
 					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
 					<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption()" <?php } ?> required>
-						<option value="">--Select Belongs To--</option>
+						<option value=""><?php echo $this->lang->line_arr('user->input_form->belongsTo_option_0'); ?></option>
 						<option value="customer">Customer</option>
 						<option value="contractor">Contractor</option>
 						<option value="adjuster">Adjuster</option>
@@ -150,9 +151,9 @@ if(!$openAs || $openAs != "popup") {
 			<?php if($userType == "admin") { ?>
 			<!-- Contractor Search and search results -->
 			<tr class="contractor-search">
-				<td class="label notMandatory">Search Contractor By Zip Code and Select</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
 				<td>
-					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->contractorZipCode_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
 				</td>
 			</tr>
@@ -165,9 +166,9 @@ if(!$openAs || $openAs != "popup") {
 
 			<!-- Adjuster Search and search results -->
 			<tr class="adjuster-search">
-				<td class="label notMandatory">Search Adjuster By Company Name and Select</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->partnerCompanyName'); ?></td>
 				<td>
-					<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="adjuster Company Name">
+					<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->partnerCompanyName_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
 				</td>
 			</tr>
@@ -179,10 +180,10 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			
 			<tr>
-				<td class="label">User Status:</td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->userStatus'); ?></td>
 				<td>
 					<select name="userStatus" id="userStatus" required>
-						<option value="">--Select Status--</option>
+						<option value=""><?php echo $this->lang->line_arr('user->input_form->userStatus_option_0'); ?></option>
 						<option value="active">Active</option>
 						<option value="inactive">Inactive</option>
 					</select>
@@ -192,86 +193,86 @@ if(!$openAs || $openAs != "popup") {
 
 			<?php if($edit == true && $userType == "admin"  && $viewFrom == "security") { ?>
 			<tr>
-				<td class="label notMandatory">Active Start Date:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->activeStartDate'); ?></td>
 				<td>
-						<input type="text" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$activeStartDate)[0]; ?>" placeholder="Active Start Date">
+						<input type="text" name="activeStartDate" id="activeStartDate" value="<?php echo explode(" ",$activeStartDate)[0]; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->activeStartDate_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Active End Date:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->activeEndDate'); ?></td>
 				<td>
-						<input type="text" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$activeEndDate)[0]; ?>" placeholder="Active End Date">
+						<input type="text" name="activeEndDate" id="activeEndDate" value="<?php echo explode(" ",$activeEndDate)[0]; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->activeEndDate_ph'); ?>">
 				</td>
 			</tr>
 			<?php } ?>
 			
 			<tr>
-				<td class="label">Email ID:</td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->emailId'); ?></td>
 				<td>
-						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="Email ID" <?php echo $edit == true ? "disabled" : ""; ?> required>
+						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->emailId_ph'); ?>" <?php echo $edit == true ? "disabled" : ""; ?> required>
 				</td>
 			</tr>
 			
 			<tr>
-				<td class="label">Contact Phone Number:</td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->contactPhoneNumber'); ?></td>
 				<td>
-						<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contactPhoneNumber; ?>" placeholder="Contact Phone Number" required>
+						<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo $contactPhoneNumber; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->contactPhoneNumber_ph'); ?>" required>
 				</td>
 			</tr>
 			
 			<tr>
-				<td class="label notMandatory">Mobile Number:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->mobileNumber'); ?></td>
 				<td>
 						<table  class="innerOption">
 							<tr>
 								<td colspan="2">
-									<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo $mobileNumber; ?>" placeholder="Mobile Number">
+									<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo $mobileNumber; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->mobileNumber_ph'); ?>">
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile">
 								</td>
-								<td><span>Set as Primary Contact Number</span></td>
+								<td><span><?php echo $this->lang->line_arr('user->input_form->primaryContact'); ?></span></td>
 							</tr>
 						</table>
 				</td>
 			</tr>
 
 			<tr>
-				<td class="label notMandatory">Alternate Number:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->altNumber'); ?></td>
 				<td>
 						<table class="innerOption">
 							<tr>
 								<td colspan="2">
-									<input type="text" name="altNumber" id="altNumber" value="<?php echo $altNumber; ?>" placeholder="alternate">
+									<input type="text" name="altNumber" id="altNumber" value="<?php echo $altNumber; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->altNumber_ph'); ?>">
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate">
 								</td>
-								<td><span>Set as Primary Contact Number</span></td>
+								<td><span><?php echo $this->lang->line_arr('user->input_form->primaryContact'); ?></span></td>
 							</tr>
 						</table>
 				</td>
 			</tr>
 
 			<tr>
-				<td class="label prefMode notMandatory">Prefered Mode for Contact:</td>
+				<td class="label prefMode notMandatory"><?php echo $this->lang->line_arr('user->input_form->prefMode'); ?></td>
 				<td>
 						<table class="innerOption">
 							<tr>
 								<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
-								<td>Email</td>
+								<td><?php echo $this->lang->line_arr('user->input_form->prefContactEmailId'); ?></td>
 								<td><input type="checkbox" name="prefContact" id="prefContactContactPhoneNumber" value="contactPhoneNumber"></td>
-								<td>Home Phone</td>
+								<td><?php echo $this->lang->line_arr('user->input_form->prefContactContactPhoneNumber'); ?></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber"></td>
-								<td>Mobile Number</td>
+								<td><?php echo $this->lang->line_arr('user->input_form->prefContactMobileNumber'); ?></td>
 								<td><input type="checkbox" name="prefContact" id="prefContactAltNumber" value="altNumber"></td>
-								<td>Alternate Number</td>
+								<td><?php echo $this->lang->line_arr('user->input_form->prefContactAltNumber'); ?></td>
 							</tr>
 						</table>
 				</td>
@@ -284,10 +285,10 @@ if(!$openAs || $openAs != "popup") {
 			<?php if(!empty($userType)) { // Referr to will be applicable only when admin creates ?>
 			<!-- Refers too -->
 			<tr>
-				<td class="label notMandatory">User Referred By:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBy'); ?></td>
 				<td>
 						<select name="referredBy" id="referredBy" onchange="securityObj._users.showreferredByOption()">
-							<option value="">--Select Referred By--</option>
+							<option value=""><?php echo $this->lang->line_arr('user->input_form->referredBy_option_0'); ?></option>
 							<option value="customer">Customer</option>
 							<option value="contractor">Contractor</option>
 							<option value="adjuster">Adjuster</option>
@@ -306,9 +307,9 @@ if(!$openAs || $openAs != "popup") {
 
 			<!-- Contractor Search and search results -->
 			<tr class="referredBycontractor-search">
-				<td class="label notMandatory">Search Contractor By Zip Code and Select</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode'); ?></td>
 				<td>
-					<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="Zip Code for search">
+					<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('referredBy')"></span>
 				</td>
 			</tr>
@@ -321,9 +322,9 @@ if(!$openAs || $openAs != "popup") {
 
 			<!-- Adjuster Search and search results -->
 			<tr class="referredByadjuster-search">
-				<td class="label notMandatory">Search Adjuster By Company Name and Select</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName'); ?></td>
 				<td>
-					<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="Adjuster Company Name">
+					<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('referredBy')"></span>
 				</td>
 			</tr>

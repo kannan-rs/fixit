@@ -707,6 +707,7 @@ var _users = (function () {
             }
         },
         getContractorListUsingZip: function( prefix ) {
+            var self = this;
             $('#'+prefix+'contractorList').children().remove();
             if($("#"+prefix+"contractorZipCode").val().trim() == "") {
                 return;
@@ -720,17 +721,13 @@ var _users = (function () {
                 success: function( response ) {
                     response = $.parseJSON(response);
                     if(response.status == "success") {
-                        contractors = response["contractors"];
-                        for(var i =0 ; i < contractors.length; i++) {
-                            var li = "<li class=\"ui-state-highlight\" id=\""+contractors[i].id+"\">";
-                                li += "<div>"+contractors[i].name+"</div>";
-                                li += "<div class=\"company\">"+contractors[i].company+"</div>";
-                                li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+"optionSelectedOwner\" value=\""+contractors[i].id+"\" /></span>";
-                                li += "</li>";
-                            $('#'+prefix+'contractorList').append(li);
-                        }
-                        $("."+prefix+"contractor-result").show();
-                        $("#"+prefix+"contractorList").show();
+                        contractors = { 
+                            list: response["contractors"],
+                            dispStrKey: "company",
+                            prefix: prefix,
+                            idPrefix : "contractor"
+                        };
+                        self.generateLiSingleSelectionDD( contractors );
                     } else {
                         alert(response.message);
                     }
@@ -746,6 +743,7 @@ var _users = (function () {
         getAdjusterByCompanyName: function( prefix ) {
             $('#'+prefix+'adjusterList').children().remove();
             if($("#"+prefix+"partnerCompanyName").val().trim() == "") return;
+            var self = this;
             $.ajax({
                 method: "POST",
                 url: "/projects/partners/getPartnerByCompanyName",
@@ -755,17 +753,13 @@ var _users = (function () {
                 success: function( response ) {
                     response = $.parseJSON(response);
                     if(response.status == "success") {
-                        partners = response["partners"];
-                        for(var i =0 ; i < partners.length; i++) {
-                            var li = "<li class=\"ui-state-highlight\" id=\""+partners[i].id+"\">";
-                                li += "<div>"+partners[i].company_name+"</div>";
-                                li += "<div class=\"company\">"+partners[i].name+"</div>";
-                                li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+"optionSelectedAdjuster\" value=\""+partners[i].id+"\" /></span>";
-                                li += "</li>";
-                            $('#'+prefix+'adjusterList').append(li);
-                        }
-                        $("."+prefix+"adjuster-result").show();
-                        $("#"+prefix+"adjusterList").show();
+                        partners = {
+                            list: response["partners"],
+                            "dispStrKey": "name",
+                            prefix: prefix,
+                            idPrefix : "adjuster"
+                        };
+                        self.generateLiSingleSelectionDD( partners );
                     } else {
                         alert(response.message);
                     }
@@ -777,6 +771,23 @@ var _users = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
+        },
+        generateLiSingleSelectionDD: function (options) {
+            var list = options.list;
+            var dispStrKey = options.dispStrKey;
+            var prefix = options.prefix;
+            var idPrefix = options.idPrefix;
+            for(var i =0 ; i < list.length; i++) {
+                var li = "<li class=\"ui-state-highlight\" id=\""+list[i].id+"\">";
+                    li += "<div>"+list[i].name+"</div>";
+                    li += "<div class=\"company\">"+list[i][dispStrKey]+"</div>";
+                    li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+"optionSelectedOwner\" value=\""+list[i].id+"\" /></span>";
+                    li += "</li>";
+                $('#'+prefix+idPrefix+'List').append(li);
+            }
+
+            $("."+prefix+idPrefix+"-result").show();
+            $("#"+prefix+idPrefix+"List").show();
         }
     }
 })();

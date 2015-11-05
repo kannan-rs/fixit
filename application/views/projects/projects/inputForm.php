@@ -73,26 +73,26 @@
 		<tbody>
 			<!-- Project title -->
 			<tr>
-				<td class="label">Project Title:</td>
+				<td class="label"><?php echo $this->lang->line_arr('projects->input_form->projectTitle'); ?></td>
 				<td>
-					<input type="text" name="projectTitle" id="projectTitle" value="<?php echo $projectTitle; ?>" required>
+					<input type="text" name="projectTitle" id="projectTitle" value="<?php echo $projectTitle; ?>" placeholder="<?php echo $this->lang->line_arr('projects->input_form->projectTitle'); ?>" required>
 				</td>
 			</tr>
 
 			<!-- Project Description -->
 			<tr>
-				<td class="label">Description:</td>
+				<td class="label"><?php echo $this->lang->line_arr('projects->input_form->description'); ?>:</td>
 				<td>
-					<textarea type="text" name="description" id="description" rows="10" cols="70" required><?php echo $description; ?></textarea>
+					<textarea type="text" name="description" id="description" rows="10" cols="70" placeholder="<?php echo $this->lang->line_arr('projects->input_form->description'); ?>" required><?php echo $description; ?></textarea>
 				</td>
 			</tr>
 
 			<!-- Project Type -->
 			<tr>
-				<td class="label notMandatory">Project Type</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_type'); ?></td>
 				<td>
 					<select name="project_type" id="project_type">
-					<option value="">--Select Project Type--</option>
+					<option value=""><?php echo $this->lang->line_arr('projects->input_form->project_type_option_0'); ?></option>
 					<option value="commercial">Commercial</option>
 					<option value="personal">Personal</option>
 					</select>
@@ -101,10 +101,10 @@
 
 			<!-- Project Status -->
 			<tr>
-				<td class="label notMandatory">Project Status</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_status'); ?></td>
 				<td>
 					<select name="project_status" id="project_status">
-						<option value="">--Select Project Status--</option>
+						<option value=""><?php echo $this->lang->line_arr('projects->input_form->project_status_option_0'); ?></option>
 						<option value="project created">Project Created</option>
 						<option value="not assigned">Not Assigned</option>
 						<option value="assigned to contractor">Assigned to Contractor</option>
@@ -116,17 +116,17 @@
 
 			<!-- Project Start Date -->
 			<tr>
-				<td class="label notMandatory">Project Start Date</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->start_date'); ?></td>
 				<td>
-					<input type="text" name="start_date" id="start_date" value="<?php echo $start_date; ?>">
+					<input type="text" name="start_date" id="start_date" placeholder="<?php echo $this->lang->line_arr('projects->input_form->start_date_ph'); ?>" value="<?php echo $start_date; ?>">
 				</td>
 			</tr>
 
 			<!-- Project End Date -->
 			<tr>
-				<td class="label notMandatory">Project End Date</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->end_date'); ?></td>
 				<td>
-					<input type="text" name="end_date" id="end_date" value="<?php echo $end_date; ?>">
+					<input type="text" name="end_date" id="end_date" placeholder="<?php echo $this->lang->line_arr('projects->input_form->end_date_ph'); ?>" value="<?php echo $end_date; ?>">
 				</td>
 			</tr>
 
@@ -145,9 +145,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Search Contractor By Zip Code</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
 				<td>
-					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="Zip Code for search">
+					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingServiceZip('')"></span>
 				</td>
 			</tr>
@@ -166,25 +166,25 @@
 
 			<!-- Project Budget -->
 			<tr>
-				<td class="label notMandatory">Project Budget</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_budget'); ?></td>
 				<td>
-					<input type="text" name="project_budget" id="project_budget" value="<?php echo $project_budget; ?>" >
+					<input type="text" name="project_budget" id="project_budget" placeholder="<?php echo $this->lang->line_arr('projects->input_form->project_budget_ph'); ?>" value="<?php echo $project_budget; ?>" >
 				</td>
 			</tr>
 
 			<!-- Project Loan Amount -->
 			<tr>
-				<td class="label notMandatory">Loan Amount</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->lend_amount'); ?></td>
 				<td>
-					<input type="text" name="lend_amount" id="lend_amount" value="<?php echo $lend_amount; ?>">
+					<input type="text" name="lend_amount" id="lend_amount" placeholder="<?php echo $this->lang->line_arr('projects->input_form->lend_amount_ph'); ?>" value="<?php echo $lend_amount; ?>">
 				</td>
 			</tr>
 
 			<!-- Project Lender -->
 			<tr>
-				<td class="label notMandatory">Project Lender</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_lender'); ?></td>
 				<td>
-					<input type="text" name="project_lender" id="project_lender" value="<?php echo $project_lender; ?>">
+					<input type="text" name="project_lender" id="project_lender" placeholder="<?php echo $this->lang->line_arr('projects->input_form->project_lender_ph'); ?>" value="<?php echo $project_lender; ?>">
 				</td>
 			</tr>
 
@@ -193,9 +193,9 @@
 				?>
 			<!-- Project Deductible -->
 			<tr>
-				<td class="label notMandatory">Deductible</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->deductible'); ?></td>
 				<td>
-					<input type="text" name="deductible" id="deductible" value="<?php echo $deductible; ?>">
+					<input type="text" name="deductible" id="deductible" placeholder="<?php echo $this->lang->line_arr('projects->input_form->deductible_ph'); ?>" value="<?php echo $deductible; ?>">
 				</td>
 			</tr>
 				<?php
@@ -204,17 +204,17 @@
 
 			<!-- Project Owner ID -->
 			<tr>
-				<td class="label notMandatory">Property Owner ID</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->property_owner_id'); ?></td>
 				<td>
-					<input type="text" name="property_owner_id" id="property_owner_id" value="<?php echo $property_owner_id; ?>">
+					<input type="text" name="property_owner_id" id="property_owner_id" placeholder="<?php echo $this->lang->line_arr('projects->input_form->property_owner_id_ph'); ?>" value="<?php echo $property_owner_id; ?>">
 				</td>
 			</tr>
 
 			<!-- Project Customer Name Search and Adding -->
 			<tr>
-				<td class="label notMandatory">Customer Name</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchCustomerName'); ?></td>
 				<td>
-					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" onkeyup="projectObj._projects.showCustomerListInDropDown()">
+					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" onkeyup="projectObj._projects.showCustomerListInDropDown()">
 				</td>
 			</tr>
 			<tr class="customer-search-result">
@@ -239,9 +239,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Search Adjuster By Name or Company Name</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName'); ?></td>
 				<td>
-					<input type="text" name="searchAdjusterName" id="searchAdjusterName" value="" list="adjusterDataList">
+					<input type="text" name="searchAdjusterName" id="searchAdjusterName" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName_ph'); ?>" value="" list="adjusterDataList">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getAdjusterListUsingNameCompany()"></span>
 				</td>
 			</tr>
@@ -260,9 +260,9 @@
 
 			<!-- Project Associate Claim Number -->
 			<tr>
-				<td class="label notMandatory">Associated Claim Number</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->associated_claim_num'); ?></td>
 				<td>
-					<input type="text" name="associated_claim_num" id="associated_claim_num" value="<?php echo $associated_claim_num; ?>">
+					<input type="text" name="associated_claim_num" id="associated_claim_num" placeholder="<?php echo $this->lang->line_arr('projects->input_form->associated_claim_num_ph'); ?>" value="<?php echo $associated_claim_num; ?>">
 				</td>
 			</tr>
 				

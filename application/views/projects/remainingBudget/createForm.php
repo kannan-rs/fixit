@@ -25,23 +25,23 @@
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Description:</td>
+				<td class="label"><?php echo $this->lang->line_arr('budget->input_form->descr'); ?>:</td>
 				<td>
-					<textarea name="descr" id="descr" class="small-textarea" required><?php echo $descr; ?></textarea>
+					<textarea name="descr" id="descr" class="small-textarea" placeholder="<?php echo $this->lang->line_arr('budget->input_form->descr_ph'); ?>" required><?php echo $descr; ?></textarea>
 				</td>
 			</tr>
 			
 			<tr>
-				<td class="label">amount</td>
+				<td class="label"><?php echo $this->lang->line_arr('budget->input_form->amount'); ?></td>
 				<td>
-					<input type="text" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="Paid Amount" required>
+					<input type="text" name="amount" id="amount" value="<?php echo $amount; ?>" placeholder="<?php echo $this->lang->line_arr('budget->input_form->amount_ph'); ?>" required>
 				</td>
 			</tr>
 
 			<tr>
-				<td class="label">Date:</td>
+				<td class="label"><?php echo $this->lang->line_arr('budget->input_form->date'); ?>:</td>
 				<td>
-					<input type="text" name="date" id="date" value="<?php echo $date; ?>" required placeholder="Payment Date">
+					<input type="text" name="date" id="date" value="<?php echo $date; ?>" required placeholder="<?php echo $this->lang->line_arr('budget->input_form->date_ph'); ?>">
 				</td>
 			</tr>
 

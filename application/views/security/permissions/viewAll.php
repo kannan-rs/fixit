@@ -1,13 +1,13 @@
-<h2>Permissions</h3>
+<h2>Permissions</h2>
 <div class="permissions">
 	<p class="note error"></p>
 	<p class="note success"></p>
 	<section class="section">
-		<h3>Users</h3>
-		<label class="label">Select Users</label>
+		<h3><?php echo $this->lang->line_arr('permission->header->user'); ?></h3>
+		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->user'); ?></label>
 		<section class="dataSection">
 			<select id="users" onchange="securityObj._permissions.getPermissions()">
-				<option value="0">--Select Users--</option>
+				<option value="0"><?php echo $this->lang->line_arr('permission->input_form->user_option_0'); ?></option>
 				<?php
 					for($uIdx = 0; $uIdx < count($data["users"]); $uIdx++) {
 						echo "<option value=\"".$data["users"][$uIdx]->sno."\" data_user_type=\"".$data["users"][$uIdx]->account_type."\">".$data["users"][$uIdx]->user_name."</option>";
@@ -18,8 +18,8 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3>Role</h3>
-		<label class="label">Select Roles</label>
+		<h3><?php echo $this->lang->line_arr('permission->header->role'); ?></h3>
+		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->role'); ?></label>
 		<section class="dataSection">
 			<?php
 				for( $rIdx = 0; $rIdx < count($data["roles"]); $rIdx++) {
@@ -29,8 +29,8 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3>Operations</h3>
-		<label class="label">Select Operations</label>
+		<h3><?php echo $this->lang->line_arr('permission->header->operation'); ?></h3>
+		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->operation'); ?></label>
 		<section class="dataSection">
 			<?php
 				for( $oIdx = 0; $oIdx < count($data["operations"]); $oIdx++) {
@@ -41,8 +41,8 @@
 	</section>
 	</section>
 	<section class="section">
-		<h3>Functions</h3>
-		<label class="label">Select Functions</label>
+		<h3><?php echo $this->lang->line_arr('permission->header->function'); ?></h3>
+		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->function'); ?></label>
 		<section class="dataSection">
 			<?php
 				for( $fIdx = 0; $fIdx < count($data["functions"]); $fIdx++) {
@@ -52,8 +52,8 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3>Data Filters</h3>
-		<label class="label">Select Data Filters</label>
+		<h3><?php echo $this->lang->line_arr('permission->header->data_filter'); ?></h3>
+		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->data_filter'); ?></label>
 		<section class="dataSection">
 			<?php
 				for( $dIdx = 0; $dIdx < count($data["dataFilters"]); $dIdx++) {

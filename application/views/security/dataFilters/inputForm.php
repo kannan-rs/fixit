@@ -25,16 +25,16 @@ $data_filter_descr 	= isset($individualDataFilter) ? $individualDataFilter->data
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Data Filter Id</td>
-				<td><input type="text" name="dataFilterId" id="dataFilterId" value="<?php echo $data_filter_id; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('data_filter->input_form->dataFilterId'); ?></td>
+				<td><input type="text" name="dataFilterId" id="dataFilterId" value="<?php echo $data_filter_id; ?>" placeholder="<?php echo $this->lang->line_arr('data_filter->input_form->dataFilterId_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Data Filter Name</td>
-				<td><input type="text" name="dataFilterName" id="dataFilterName" value="<?php echo $data_filter_name; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('data_filter->input_form->dataFilterName'); ?></td>
+				<td><input type="text" name="dataFilterName" id="dataFilterName" value="<?php echo $data_filter_name; ?>" placeholder="<?php echo $this->lang->line_arr('data_filter->input_form->dataFilterName_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Data Filter Description</td>
-				<td><textarea rows="6" cols="30" name="dataFilterDescr" id="dataFilterDescr"><?php echo $data_filter_descr; ?></textarea></td>
+				<td class="label"><?php echo $this->lang->line_arr('data_filter->input_form->dataFilterDescr'); ?></td>
+				<td><textarea rows="6" cols="30" name="dataFilterDescr" id="dataFilterDescr" placeholder="<?php echo $this->lang->line_arr('data_filter->input_form->dataFilterDescr_ph'); ?>"><?php echo $data_filter_descr; ?></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2">

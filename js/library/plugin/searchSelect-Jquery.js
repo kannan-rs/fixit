@@ -8,6 +8,9 @@
       this.element.hide();
       this._createAutocomplete();
       this._createShowAllButton();
+      if(this.element[0].id === "city") {
+        this._addCityEventsToInput();
+      }
     },
 
     _createAutocomplete: function() {
@@ -18,6 +21,7 @@
         .appendTo( this.wrapper )
         .val( value )
         .attr( "title", "" )
+        .attr( "id", this.element[0].id+"_jqDD" )
         .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
         .autocomplete({
           delay: 0,
@@ -71,6 +75,17 @@
           // Pass empty string as value to search for, displaying all results
           input.autocomplete( "search", "" );
         });
+    },
+
+    _addCityEventsToInput: function() {
+        $( this.input ).on({
+          keyup : function() { 
+            utilObj.getAndSetMatchCity(this.value)
+          },
+          blur : function() {
+            utilObj.setAddressByCity()
+          }
+        })
     },
 
     _source: function( request, response ) {

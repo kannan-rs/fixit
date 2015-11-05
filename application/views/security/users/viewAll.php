@@ -10,10 +10,10 @@
 	<?php
 		if(count($users) > 0) {
 			echo "<tr class='heading'>";
-			echo "<td class='cell'>User Name</td>";
-			echo "<td class='cell'>Belongs To</td>";
-			echo "<td class='cell'>Privilege</td>";
-			echo "<td class='cell'>Actions</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->user_name')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->belongs_to')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->privilege')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->actions')."</td>";
 			echo "</tr>";
 		}
 

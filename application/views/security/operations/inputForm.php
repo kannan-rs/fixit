@@ -22,14 +22,14 @@ $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Operation Id</td>
-				<td><input type="text" name="operationId" id="operationId" value="<?php echo $ope_id; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('operation->input_form->operationId'); ?></td>
+				<td><input type="text" name="operationId" id="operationId" value="<?php echo $ope_id; ?>" placeholder = "<?php echo $this->lang->line_arr('operation->input_form->operationId_ph'); ?>" required></td>
 			<tr>
-				<td class="label">Operation Name</td>
-				<td><input type="text" name="operationName" id="operationName" value="<?php echo $ope_name; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('operation->input_form->operationName'); ?></td>
+				<td><input type="text" name="operationName" id="operationName" value="<?php echo $ope_name; ?>" placeholder = "<?php echo $this->lang->line_arr('operation->input_form->operationName_ph'); ?>" required></td>
 			<tr>
-				<td class="label">Operation Description</td>
-				<td><textarea rows="6" cols="30" name="operationDescr" id="operationDescr"><?php echo $ope_desc; ?></textarea></td>
+				<td class="label"><?php echo $this->lang->line_arr('operation->input_form->operationDescr'); ?></td>
+				<td><textarea rows="6" cols="30" name="operationDescr" id="operationDescr"placeholder = "<?php echo $this->lang->line_arr('operation->input_form->operationDescr_ph'); ?>" ><?php echo $ope_desc; ?></textarea></td>
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">

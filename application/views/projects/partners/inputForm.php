@@ -33,34 +33,34 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Partner Name:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->name'); ?>:</td>
 				<td>
-					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "" ;?>" required placeholder="Partner Name">
+					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "" ;?>" required placeholder="<?php echo $this->lang->line_arr('partner->input_form->name_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Company Name:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->company'); ?>:</td>
 				<td>
-					<input type="text" name="company" id="company" value="<?php echo isset($company_name) ? $company_name : "" ;?>" required placeholder="Company Name">
+					<input type="text" name="company" id="company" value="<?php echo isset($company_name) ? $company_name : "" ;?>" required placeholder="<?php echo $this->lang->line_arr('partner->input_form->company_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Type</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->type'); ?></td>
 				<td>
-					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "" ;?>" placeholder="Partner Type" required>
+					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->type_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">License</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->license'); ?></td>
 				<td>
-					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "" ;?>" placeholder="Partner License" required>
+					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->license_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Status</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->status'); ?></td>
 				<td>
 					<select name="status" id="status" required>
-						<option>--Select Status--</option>
+						<option><?php echo $this->lang->line_arr('partner->input_form->status_option_0'); ?></option>
 						<option value="active">Active</option>
 						<option value="inactive">Inactive</option>
 					</select>
@@ -72,53 +72,53 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			?>
 
 			<tr>
-				<td class="label">Office Number:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->wNumber'); ?>:</td>
 				<td>
-					<input type="text" name="wNumber" id="wNumber" value="<?php echo isset($work_phone) ? $work_phone : "" ;?>" placeholder="Office Phone Number" required>
+					<input type="text" name="wNumber" id="wNumber" value="<?php echo isset($work_phone) ? $work_phone : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->wNumber_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Office Email ID:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->wEmailId'); ?>:</td>
 				<td>
-					<input type="email" name="wEmailId" id="wEmailId" value="<?php echo isset($work_email_id) ? $work_email_id : "" ;?>" placeholder="Office Email ID" required>
+					<input type="email" name="wEmailId" id="wEmailId" value="<?php echo isset($work_email_id) ? $work_email_id : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->wEmailId_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Mobile Number:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->pNumber'); ?>:</td>
 				<td>
-					<input type="text" name="pNumber" id="pNumber" value="<?php echo isset($mobile_no) ? $mobile_no : "" ;?>" placeholder="Contact Mobile Number" required>
+					<input type="text" name="pNumber" id="pNumber" value="<?php echo isset($mobile_no) ? $mobile_no : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->pNumber_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Personal Email ID:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->pEmailId'); ?></td>
 				<td>
-					<input type="email" name="pEmailId" id="pEmailId" value="<?php echo isset($personal_email_id) ? $personal_email_id : "" ; ?>" placeholder="Personal Email ID" required>
+					<input type="email" name="pEmailId" id="pEmailId" value="<?php echo isset($personal_email_id) ? $personal_email_id : "" ; ?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->pEmailId_ph'); ?>" required>
 				</td>
 			</tr>
 
 			<tr>
-				<td class="label prefMode">Prefered Mode for Contact:</td>
+				<td class="label prefMode"><?php echo $this->lang->line_arr('partner->input_form->prefMode'); ?></td>
 				<td>
 					<table class="innerOption">
 						<tr>
 							<td><input type="checkbox" name="prefContact" id="prefwNumber" value="wNumber"></td>
-							<td>Office Phone Number</td>
+							<td><?php echo $this->lang->line_arr('partner->input_form->prefwNumber'); ?></td>
 							<td><input type="checkbox" name="prefContact" id="prefwEmailId" value="wEmailId"></td>
-							<td>Office Email ID</td>
+							<td><?php echo $this->lang->line_arr('partner->input_form->prefwEmailId'); ?></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="prefContact" id="prefmNumber" value="mNumber"></td>
-							<td>Personal Mobile Number</td>
+							<td><?php echo $this->lang->line_arr('partner->input_form->prefmNumber'); ?></td>
 							<td><input type="checkbox" name="prefContact" id="prefwEmailId" value="pEmailId"></td>
-							<td>Personal Email ID</td>
+							<td><?php echo $this->lang->line_arr('partner->input_form->prefwEmailId'); ?></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Website URL:</td>
+				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->websiteURL'); ?>:</td>
 				<td>
-					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "" ;?>" placeholder="Website URL" required>
+					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "" ;?>" placeholder="<?php echo $this->lang->line_arr('partner->input_form->websiteURL_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>

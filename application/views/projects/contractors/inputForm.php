@@ -37,40 +37,40 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Name:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->name'); ?>:</td>
 				<td>
-					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required placeholder="Contractor Name">
+					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required placeholder="<?php echo $this->lang->line_arr('contractor->input_form->name_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Company:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->company'); ?>:</td>
 				<td>
-					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required placeholder="Company Name">
+					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required placeholder="<?php echo $this->lang->line_arr('contractor->input_form->company_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Type</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->type'); ?></td>
 				<td>
-					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" placeholder="Contractor Type" required>
+					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->type_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">License</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->license'); ?></td>
 				<td>
-					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" placeholder="Contractor License" required>
+					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->license_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">BBB</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->bbb'); ?></td>
 				<td>
-					<input type="text" name="bbb" id="bbb" value="<?php echo isset($bbb) ? $bbb : "";?>" placeholder="BBB" required>
+					<input type="text" name="bbb" id="bbb" value="<?php echo isset($bbb) ? $bbb : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->bbb_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Status</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->status'); ?></td>
 				<td>
 					<select name="status" id="status" required>
-						<option>--Select Status--</option>
+						<option><?php echo $this->lang->line_arr('contractor->input_form->status_option_0')?></option>
 						<option value="active">Active</option>
 						<option value="inactive">Inactive</option>
 					</select>
@@ -81,54 +81,54 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				echo $addressFile;
 			?>
 			<tr>
-				<td class="label">Office Email ID:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->emailId'); ?>:</td>
 				<td>
-					<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" placeholder="Email ID" required>
+					<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->emailId_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Office Number:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->contactPhoneNumber'); ?>:</td>
 				<td>
-					<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="Contact Phone Number" required>
+					<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->contactPhoneNumber_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Mobile Number:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->mobileNumber'); ?>:</td>
 				<td>
-						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="Contact Mobile Number" required>
+						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->mobileNumber_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label prefMode">Prefered Mode for Contact:</td>
+				<td class="label prefMode"><?php echo $this->lang->line_arr('contractor->input_form->prefMode'); ?>:</td>
 				<td>
 					<table class="innerOption">
 						<tr>
 							<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
-							<td>Email</td>
+							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactEmailId'); ?></td>
 							<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber"></td>
-							<td>Office Phone</td>
+							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactofficeNumber'); ?></td>
 							<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber"></td>
-							<td>Mobile Number</td>
+							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactMobileNumber'); ?></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Website URL:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->websiteURL'); ?>:</td>
 				<td>
-					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="Website URL" required>
+					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->websiteURL_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Zip codes of Available Service Area:</td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->serviceZip'); ?>:</td>
 				<td>
-					<textarea name="serviceZip" id="serviceZip" class="small-textarea" required><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
+					<textarea name="serviceZip" id="serviceZip" class="small-textarea" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->serviceZip_ph'); ?>" required><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
 				</td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Assign Default Contractor</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
 				<td>
-					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" placeholder="Email ID of default contractor" onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
+					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
 				</td>
 			</tr>
 			<tr>

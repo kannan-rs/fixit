@@ -10,6 +10,7 @@ var _utils = (function () {
         postalCodeMap : {},
         moduleId : "",
         getAndSetCountryStatus: function (moduleId) {
+            $( "#"+moduleId+" #city" ).combobox();
             utilObj.moduleId = moduleId;
             $.ajax({
                 method: "POST",
@@ -98,7 +99,7 @@ var _utils = (function () {
                             searchCityList = {};
                             searchCityList = response.cityList;
                             //$("#" + moduleId + " #city_list").empty();
-                            $("#city_list").empty();
+                            $("#city").empty();
                             for (i = 0; i < searchCityList.length; i += 1) {
                                 
                                 /*if (!cityListMap[searchCityList[i].city]) {
@@ -109,7 +110,7 @@ var _utils = (function () {
                                 
                                 //$('#' + moduleId + " #city_list").append($('<option>', {
                                 
-                                $("#city_list").append($('<option>', {
+                                $("#city").append($('<option>', {
                                     'value': searchCityList[i].city,
                                     "text": searchCityList[i].city
                                 }));
@@ -210,22 +211,42 @@ var _utils = (function () {
                 setTimeout(function () {$("#" + moduleId + " #state").val(state);}, 10);
             }
         },
-        createContractorOptionsList: function (contractors) {
-            var excludeList = !contractors.excludeList ? [] : contractors.excludeList;
+
+        /*
+            Create Option list dropdown for Customer / Adjuster / Contractor
+            Based on options sent to this functions
+                1. Create LI based on the options sent to this function
+                2. Show [+] / [-] options based on options
+                3. Allow Drag and Drop based on option
+                4. Click [+] to add, if [+] is shown
+                5. Click [-] to remove, if [-] is shown
+                6. Click to select and add its value to the text box and add it ID to the hidden value for further usage
+        */
+        createDropDownOptionsList: function (options) {
+            var excludeList = !options.excludeList ? [] : options.excludeList;
             var css = {
                 selectedList: {li: "ui-state-highlight", symbol: "ui-icon ui-icon-minus"},
                 searchList: {li: "ui-state-default", symbol: "ui-icon ui-icon-plus"},
                 ownerList: {li: "ui-state-default", symbol: ""}
             };
-            var list = contractors.list;
-            var type = contractors.type;
-            var prefixId = contractors.prefixId;
-            var selectId = contractors.hasOwnProperty("selectId") ? contractors.selectId : "";
-            var valuePrefix = contractors.valuePrefix ? contractors.valuePrefix + "-" : "";
+            var list = options.list || [] ;
+            var type = options.type || "";
+            var prefixId = options.prefixId || "";
+            var dataIdentifier = options.dataIdentifier || "";
+            var selectId = options.selectId || "";
+            var valuePrefix = options.valuePrefix ? options.valuePrefix + "-" : "";
+            var dispStrKey = options.dispStrKey || "";
+            var radioOptionName = options.radioOptionName || "";
+            var appendTo = options.appendTo || "";
+            var functionName = options.functionName || "";
             var i = 0;
             var inputRadio = null;
             var selectedText = null;
             var li = null;
+
+            var dBVal = $("#" + options.dbEntryId).val();
+            var clickParamsObj = null;
+            var clickParams = null;
 
             for (i = 0; i < list.length; i += 1) {
                 if (excludeList.indexOf(list[i].id) === -1) {
@@ -233,66 +254,73 @@ var _utils = (function () {
                     inputRadio = " ";
                     if (type === "ownerList") {
                         selectedText = (selectId && list[i].id === selectId) ? " checked = checked " : "";
-                        inputRadio = "<input type=\"radio\" name=\"" + contractors.radioOptionName + "\" value=\"" + valuePrefix + list[i].id + "\" " + selectedText + "/>";
+                        inputRadio = "<input type=\"radio\" name=\"" + radioOptionName + "\" value=\"" + valuePrefix + list[i].id + "\" " + selectedText + "/>";
                     }
 
-                    li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
-                    li += " data-contractorid = " + list[i].id;
-                    li += ">";
-                    li += "<div>"  + list[i].company + "</div>";
-                    li += "<div class=\"company\">" + list[i].city + ", " + list[i].state + "</div>";
-                    li += "<span class=\"" + css[type].symbol + " search-action\" ";
-                    li += " data-contractorid = " + list[i].id;
-                    li += " data-prefixid = " + prefixId;
-                    li += ">";
-                    li += inputRadio;
-                    li += "</span>";
+                    
+                    if(type == "searchList") {
+                        clickParamsObj = {
+                            searchBoxId: appendTo,
+                            first_name: list[i].first_name,
+                            last_name: list[i].last_name,
+                            searchId: list[i].sno,
+                            email: list[i].email
+                        };
+                        if (dBVal === list[i].sno) {
+                            $("#" + options.searchBoxId).val(list[i].first_name + " " + list[i].last_name);
+                        }
+                        clickParams = JSON.stringify(clickParamsObj);
+                    }
+
+                     
+                    if(type == "searchList") {
+                        li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
+                        li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
+                        li += "<div class=\"second\">" + list[i].email + "</div>";
+                    } else {
+                        li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
+                        li += " data-"+dataIdentifier+"id = " + list[i].id;
+                        li += ">";
+                        li += "<div>" + list[i][dispStrKey] + "</div>";
+                        li += "<div class=\"company\">" + list[i].city + ", " + list[i].state + "</div>";
+                        li += "<span class=\"" + css[type].symbol + " search-action\" ";
+                        li += " data-"+dataIdentifier+"id = " + list[i].id;
+                        li += " data-prefixid = " + prefixId;
+                        li += ">";
+                        li += inputRadio;
+                        li += "</span>";
+                    }
                     li += "</li>";
-                    $('#' + contractors.appendTo).append(li);
+                    $('#' + appendTo).append(li);
                 }
             }
-        },
-        createAdjusterOptionsList: function (adjuster) {
-            var excludeList = !adjuster.excludeList ? [] : adjuster.excludeList;
-            var css = {
-                selectedList: {li: "ui-state-highlight", symbol: "ui-icon ui-icon-minus"},
-                searchList: {li: "ui-state-default", symbol: "ui-icon ui-icon-plus"},
-                ownerList: {li: "ui-state-default", symbol: ""}
-            };
-            var list = adjuster.list;
-            var type = adjuster.type;
-            var prefixId = adjuster.prefixId;
-            var selectId = adjuster.hasOwnProperty("selectId") ? adjuster.selectId : "";
-            var valuePrefix = adjuster.valuePrefix ? adjuster.valuePrefix + "-" : "";
-            var i = 0;
-            var inputRadio = null;
-            var li = null;
-            var selectedText = null;
+
+            /*
+            var dBVal = $("#" + searchList.dbEntryId).val();
+            var clickParamsObj = null;
+            var clickParams = null;
 
             for (i = 0; i < list.length; i += 1) {
                 if (excludeList.indexOf(list[i].id) === -1) {
-
-                    inputRadio = " ";
-                    if (type === "ownerList") {
-                        selectedText = (selectId && list[i].id === selectId) ? " checked = checked " : "";
-                        inputRadio = "<input type=\"radio\" name=\"" + adjuster.radioOptionName + "\" value=\"" + valuePrefix + list[i].id + "\" " + selectedText + "/>";
+                    clickParamsObj = {
+                        searchBoxId: appendTo,
+                        first_name: list[i].first_name,
+                        last_name: list[i].last_name,
+                        searchId: list[i].sno,
+                        email: list[i].email
+                    };
+                    if (dBVal === list[i].sno) {
+                        $("#" + searchList.searchBoxId).val(list[i].first_name + " " + list[i].last_name);
                     }
-
-                    li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
-                    li += " data-adjusterid = " + list[i].id;
-                    li += ">";
-                    li += "<div>" + list[i].company_name + "</div>";
-                    li += "<div class=\"company\">" + list[i].city + ", " + list[i].state + "</div>";
-                    li += "<span class=\"" + css[type].symbol + " search-action\" ";
-                    li += " data-adjusterid = " + list[i].id;
-                    li += " data-prefixid = " + prefixId;
-                    li += ">";
-                    li += inputRadio;
-                    li += "</span>";
+                    clickParams = JSON.stringify(clickParamsObj);
+                    li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
+                    li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
+                    li += "<div class=\"second\">" + list[i].email + "</div>";
                     li += "</li>";
-                    $('#' + adjuster.appendTo).append(li);
+                    $('#' + appendTo).append(li);
                 }
             }
+            */
         },
 
         getCustomerList: function () {
@@ -332,7 +360,7 @@ var _utils = (function () {
                 dbEntryId: "customer_id"
             };
 
-            this.setSearchList(searchList);
+            this.createDropDownOptionsList(searchList);
         },
         setAdjusterDataList: function () {
             var response = this.getAdjusterList();
@@ -351,44 +379,7 @@ var _utils = (function () {
                 dbEntryId: "adjuster_id"
             };
 
-            this.setSearchList(searchList);
-        },
-        setSearchList: function (searchList) {
-            var excludeList = !searchList.excludeList ? [] : searchList.excludeList;
-            var css = {
-                searchList: {li: "ui-state-default"}
-            };
-            var list = searchList.list;
-            var type = searchList.type;
-            var appendTo = searchList.appendTo;
-            var functionName = searchList.functionName;
-
-            var dBVal = $("#" + searchList.dbEntryId).val();
-            var i = 0;
-            var clickParamsObj = null;
-            var clickParams = null;
-            var li = null;
-
-            for (i = 0; i < list.length; i += 1) {
-                if (excludeList.indexOf(list[i].id) === -1) {
-                    clickParamsObj = {
-                        searchBoxId: appendTo,
-                        first_name: list[i].first_name,
-                        last_name: list[i].last_name,
-                        searchId: list[i].sno,
-                        email: list[i].email
-                    };
-                    if (dBVal === list[i].sno) {
-                        $("#" + searchList.searchBoxId).val(list[i].first_name + " " + list[i].last_name);
-                    }
-                    clickParams = JSON.stringify(clickParamsObj);
-                    li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
-                    li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
-                    li += "<div class=\"second\">" + list[i].email + "</div>";
-                    li += "</li>";
-                    $('#' + appendTo).append(li);
-                }
-            }
+            this.createDropDownOptionsList(searchList);
         },
         setAsDateFields: function (options) {
             $("#" + options.dateField).datepicker({

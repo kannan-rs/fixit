@@ -20,9 +20,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			</tr>
 			-->
 			<tr>
-				<td class="label">Notes Content:</td>
+				<td class="label"><?php echo $this->lang->line_arr('notes->input_form->noteContent'); ?>:</td>
 				<td>
-					<textarea type="text" name="noteContent" id="noteContent" rows="10" cols="70" required></textarea>
+					<textarea type="text" name="noteContent" id="noteContent" rows="10" cols="70" placeholder="<?php echo $this->lang->line_arr('notes->input_form->noteContent_ph'); ?>" required></textarea>
 				</td>
 			</tr>
 			<tr>

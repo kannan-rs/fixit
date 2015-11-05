@@ -5,15 +5,15 @@
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Document Name:</td>
+				<td class="label"><?php echo $this->lang->line_arr('docs->input_form->docName'); ?>:</td>
 				<td>
-					<input type="text" name="docName" id="docName" value="">
+					<input type="text" name="docName" id="docName" placeholder="<?php echo $this->lang->line_arr('docs->input_form->docName_ph'); ?>" value="">
 				</td>
 			</tr>
 			<tr>
-				<td class="label">Choose Document:</td>
+				<td class="label"><?php echo $this->lang->line_arr('docs->input_form->docAttachment'); ?>:</td>
 				<td>
-					<input type="file" name="docAttachment" id="docAttachment" value="" />
+					<input type="file" name="docAttachment" id="docAttachment" placeholder="<?php echo $this->lang->line_arr('docs->input_form->docName_ph'); ?>" value="" />
 				</td>
 			</tr>
 			<tr>

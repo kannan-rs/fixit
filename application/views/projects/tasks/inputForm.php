@@ -44,27 +44,27 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 	<table class='form'>
 		<tbody>
 			<tr>
-				<td class="label">Task Title:</td>
-				<td><input type="text" name="task_name" id="task_name" value="<?php echo $task_name; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_name'); ?></td>
+				<td><input type="text" name="task_name" id="task_name" value="<?php echo $task_name; ?>" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_name_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Description</td>
-				<td><textarea rows="6" cols="30" name="task_desc" id="task_desc" required><?php echo $task_desc; ?></textarea></td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_desc'); ?></td>
+				<td><textarea rows="6" cols="30" name="task_desc" id="task_desc" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_desc_ph'); ?>" required><?php echo $task_desc; ?></textarea></td>
 			</tr>
 			<tr>
-				<td class="label">Start Date:</td>
-				<td><input type="text" name="task_start_date" id="task_start_date" value="<?php echo $task_start_date_for_view; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_start_date'); ?></td>
+				<td><input type="text" name="task_start_date" id="task_start_date" value="<?php echo $task_start_date_for_view; ?>" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_start_date_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">End Date:</td>
-				<td><input type="text" name="task_end_date" id="task_end_date" value="<?php echo $task_end_date_for_view; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_end_date'); ?></td>
+				<td><input type="text" name="task_end_date" id="task_end_date" value="<?php echo $task_end_date_for_view; ?>" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_end_date_ph'); ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label">Status:</td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_status'); ?>:</td>
 				<td>
 					<input type="hidden" name="db_task_status" id="db_task_status" value="<?php echo $task_status; ?>">
 					<select name="task_status" id="task_status"  onchange="projectObj._tasks.setPercentage(this.value)" required>
-						<option value="">--Select Task Status--</option>
+						<option value=""><?php echo $this->lang->line_arr('tasks->input_form->task_status_option_0'); ?></option>
 						<option value="task created">Task Created</option>
 						<option value="not assigned">Not Assigned</option>
 						<option value="assigned to contractor">Assigned to Contractor</option>
@@ -74,23 +74,23 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 				</td>
 			</tr>
 			<tr>
-				<td class="label">% Complete:</td>
-				<td><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" defaultValue="<?php echo $task_percent_complete; ?>" value="<?php echo $task_percent_complete; ?>" required></td>
+				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_percent_complete'); ?>:</td>
+				<td><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_percent_complete_ph'); ?>" defaultValue="<?php echo $task_percent_complete; ?>" value="<?php echo $task_percent_complete; ?>" required></td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Choose Owner:</td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('tasks->input_form->taskOwnerId'); ?></td>
 				<td>
 					<input type="hidden" name="taskOwnerIdDb" id="taskOwnerIdDb" value="<?php echo $task_owner_id; ?>">
 					<ul id="ownerSearchResult" class="connectedSortable owner-search-result"></ul>
 				</td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Dependency:</td>
-				<td><input type="text" name="task_dependency" id="task_dependency" value="<?php echo $task_dependency; ?>"></td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('tasks->input_form->task_dependency'); ?>:</td>
+				<td><input type="text" name="task_dependency" id="task_dependency" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_dependency_ph'); ?>" value="<?php echo $task_dependency; ?>"></td>
 			</tr>
 			<tr>
-				<td class="label notMandatory">Trade Type:</td>
-				<td><input type="text" name="task_trade_type" id="task_trade_type" value="<?php echo $task_trade_type; ?>"></td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('tasks->input_form->task_trade_type'); ?>:</td>
+				<td><input type="text" name="task_trade_type" id="task_trade_type" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_trade_type_ph'); ?>" value="<?php echo $task_trade_type; ?>"></td>
 			</tr>
 			<tr>
 				<td colspan="2">

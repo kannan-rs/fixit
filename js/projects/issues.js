@@ -473,28 +473,32 @@ issues.prototype.setAssignees = function ( response ) {
         "appendTo"            : "issueContractorResult",
         "type"                : "ownerList",
         "prefixId"             : "issueContractor",
-        "radioOptionName"     : "issueRadioContractorSelected"
+        "radioOptionName"     : "issueRadioContractorSelected",
+        "dataIdentifier"    : "contractor",
+        "dispStrKey"        : "company"
     }
 
     if(assignedToUserDB != "" && assignedToUserTypeDB == "contractor") {
         contractors.selectId = assignedToUserDB;
     }
 
-    utilObj.createContractorOptionsList(contractors);
+    utilObj.createDropDownOptionsList(contractors);
 
     var adjusters = {
         "list"                 : response["adjusterDetails"],
         "appendTo"            : "issueAdjusterResult",
         "type"                : "ownerList",
         "prefixId"             : "issueAdjuster",
-        "radioOptionName"     : "issueRadioAdjusterSelected"
+        "radioOptionName"     : "issueRadioAdjusterSelected",
+        "dataIdentifier"    : "adjuster",
+        "dispStrKey"        : "company_name"
     }
 
     if(assignedToUserDB != "" && assignedToUserTypeDB == "adjuster") {
         adjusters.selectId = assignedToUserDB;
     }
 
-    utilObj.createAdjusterOptionsList(adjusters);
+    utilObj.createDropDownOptionsList(adjusters);
 
     if(response["customerDetails"]) {
         $("#issueAssignedToCustomer").val(response["customerDetails"][0]["first_name"]+" "+response["customerDetails"][0]["last_name"]);

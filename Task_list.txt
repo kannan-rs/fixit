@@ -1,73 +1,62 @@
-Pending List
-
 Emails 
-6. When the system to send the emails to the customer, adjuster, contractor...
-Done --	6.1 Customer account creation - email confirmation sent to customers. To contractor when applicable.  To adjuster when applicable.
-name and user belongs to this adjuster. As of now will go with email ID search for users.
+	6. When the system to send the emails to the customer, adjuster, contractor...
+	Done --	6.1 Customer account creation - email confirmation sent to customers. To contractor when applicable.  To adjuster when applicable.
+	name and user belongs to this adjuster. As of now will go with email ID search for users.
 
-	6.2 Contractor account creation - email confirmation sent to contractor.  To customer when applicable.
-	6.3 Customer creates task and assigned to customer - customer, assigned contractor receives the confirmation email
-	6.4 Customer Task is updated, contractor and customer receives confirmation email on updated task
-	6.5 Contractor creates task and assigns to contractor - customer and contractor receives confirmation email
-	6.6 Contractor task is updated, customer and contractor receives email update
+		6.2 Contractor account creation - email confirmation sent to contractor.  To customer when applicable.
+		6.3 Customer creates task and assigned to customer - customer, assigned contractor receives the confirmation email
+		6.4 Customer Task is updated, contractor and customer receives confirmation email on updated task
+		6.5 Contractor creates task and assigns to contractor - customer and contractor receives confirmation email
+		6.6 Contractor task is updated, customer and contractor receives email update
 
 
-Email template for all different scenario. with examples. (Action item on Michael)
---Belongs to need to have an option to add multiple adjusted for a company. This functionality will be same as contractor.
---Refer to will be a new column in create user. Its a drop-down same as belongs to. 
-Refer to contractor search with zip code and user belongs to contractor search. 
-Refer to adjuster search by company name and user belongs to this adjuster. 
-As of now will go with email ID search for users.
+	Email template for all different scenario. with examples. (Action item on Michael)
+	--Belongs to need to have an option to add multiple adjusted for a company. This functionality will be same as contractor.
+	--Refer to will be a new column in create user. Its a drop-down same as belongs to. 
+	Refer to contractor search with zip code and user belongs to contractor search. 
+	Refer to adjuster search by company name and user belongs to this adjuster. 
+	As of now will go with email ID search for users.
 
-Unable to add a new contractor, new tasks or new documents from the project details page for an existing project.  Add symbol only expands and contracts the content in the sections.
-·         Issue log section needs to be added to the project details page that is formatted similar to task section.  Column names to include: Name/Description/date opened/Status/Resolved details/Date closed.  Section should reside above the Notes section and below the Task section.
+	Unable to add a new contractor, new tasks or new documents from the project details page for an existing project.  Add symbol only expands and contracts the content in the sections.
+	·         Issue log section needs to be added to the project details page that is formatted similar to task section.  Column names to include: Name/Description/date opened/Status/Resolved details/Date closed.  Section should reside above the Notes section and below the Task section.
 
 Mallik's Feedback
 -----------------
-following are common to others (where ver you see same fields)  in addition to contractor :
--- 4) phone validation 
-( http://stackoverflow.com/questions/13628995/form-validation-email-telephone-number)
--- 5) entering zipcodes, should be  valid numbers 
+	following are common to others (where ver you see same fields)  in addition to contractor :
+	-- 4) phone validation 
+	( http://stackoverflow.com/questions/13628995/form-validation-email-telephone-number)
+	-- 5) entering zipcodes, should be  valid numbers 
 
 MOM 3ed Aug 2015
 -----------------
-1. Merging contractor and adjuster into single table with name company and company type should define (contractor / adjuster / customer etc...) (Later)
-8. Validate email address that is available.
-9. we need to have drop down on contractor types (Electr, Plumber, general, Automobile, Mechanic, etc..)
-12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.
+	1. Merging contractor and adjuster into single table with name company and company type should define (contractor / adjuster / customer etc...) (Later)
+	8. Validate email address that is available.
+	9. we need to have drop down on contractor types (Electr, Plumber, general, Automobile, Mechanic, etc..)
+	12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.
 
 24/8/2015
 ---------
-- 1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
-- 2. This contact point will receive mails when the contractor company is choosen for a project.
-3. Contractor Project view will have an option to add multiple contractor users to a project belongs to their contractor company. Same for Partners as well.
-4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
-5. Same user will be listed for task assignment as well.
+	- 1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
+	- 2. This contact point will receive mails when the contractor company is choosen for a project.
+	3. Contractor Project view will have an option to add multiple contractor users to a project belongs to their contractor company. Same for Partners as well.
+	4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
+	5. Same user will be listed for task assignment as well.
 
 9/8/2015
 --------
-1. Contractors and Partners need to be viewed by Admin (contractor, create contractor, partner and create partner).
+	1. Contractors and Partners need to be viewed by Admin (contractor, create contractor, partner and create partner).
 
---------------------
-
-Please insert the website content for the site and all email confirmations.  see attached.
-Project list page - List of Projects title is mispelled
-Confirmation email should come from admin@thefixitnetwork.com...currently says admin@fixitnetworks.com
-After creating a user (non-admin account) I hit submit, the account creation form remained.  I should be taken to the project list page.  from there the user, based on if they are a new user or a new user associated with an existing project, they should be able to see 0 to many projects
+	Please insert the website content for the site and all email confirmations.  see attached.
+	Project list page - List of Projects title is mispelled
+	Confirmation email should come from admin@thefixitnetwork.com...currently says admin@fixitnetworks.com
+	After creating a user (non-admin account) I hit submit, the account creation form remained.  I should be taken to the project list page.  from there the user, based on if they are a new user or a new user associated with an existing project, they should be able to see 0 to many projects
 
 -- Document Attached - 
 -----------------
 
-contractor / adjuster verification mail and activation.
+	contractor / adjuster verification mail and activation.
 
-6. Recpata.
-
-
-Task for this week.
--------------------
-Support ticket raised - 1. Outgoing email error
-5. Website conternt changes
-. Login provide error if email id isn not present.
+	6. Recpata.
 
 Work for this week.
 ------------------
@@ -75,50 +64,38 @@ Work for this week.
 
 Michael Notes : 14th october 2015
 ---------------------------------
-		Add the overview section…Michael
-		Add About us details…Michael
-		News section needs to have construction feeds…Michael (DIY, etc.)
-		Google Ads in the grey section
+	Add the overview section…Michael
+	Add About us details…Michael
+	News section needs to have construction feeds…Michael (DIY, etc.)
+	Google Ads in the grey section
 
 Mallik
-	I try to create Contractor and partner, both missing last name. Also, how do they get user id/pwd ?
-	Michael,  Isn't user sign up screen should be same as create contractor or create partner screen ?
->> Can we remove the name from the contractor and partner creation. Company name is is th right term to use.
+		I try to create Contractor and partner, both missing last name. Also, how do they get user id/pwd ?
+		Michael,  Isn't user sign up screen should be same as create contractor or create partner screen ?
+	>> Can we remove the name from the contractor and partner creation. Company name is is th right term to use.
 
 Michael Notes : 20th October
 ---------------------------
-Smaller logo, reduce it by 60%
-Can we remove the line above the logo?
-Can we move the ‘logged in as admin….’  To the same level as the top portion of the logo?
-Can we separate the tagline from the logo by adding in another return?
-Can we make the logo tagline bold text?  Capital M in marketplace
-Export to .csv file did not work
-
-
-MOM - 20th Oct 2015
--------------------
-1. Address search by City name, min 3 char.
-2. A1, A2, city, stat, Zip, country
-3. Move the login above.
-4. Other changes as per discussion 
-
-This week done list
--------------------
-1. Cleared live database and given it for testing.
-2. Modified CSS for header, 
-3. Moved login page onto the header
-4. Corrected navigation and hieglited the selected navigation link
-5. Modified the security module files and util file to work with singletone pattern
-6. Address order changed as follows Address Line 1, Address Line 2, city, stat, Zip, country
-7. Removed initial load of all zip codes as it was 4.5MB data Which causes loading issue
-8. Added search by city on entering 3 characters. Set zipcode list based on city selection. If one zip code is present then zip and state is pre-filled.
-9. Show login form if page is not signup form.
-10. Error Message updated.
-
+	Can we move the ‘logged in as admin….’  To the same level as the top portion of the logo?
+	Can we make the logo tagline bold text?  Capital M in marketplace
+	Export to .csv file did not work
 
 MOM-27th Oct 2015
 -----------------
-Safari support
-Text changes to Michael
-Tearms and conditions during signup
-Reset the state and pincode if we change the city
+	Safari support >> Testing needed for all areas
+	Text changes to Michael 
+	-- Tearms and conditions during signup
+	-- Reset the state and pincode if we change the city
+
+Work for this week
+	City loading is modified in all address form
+	Added support for safari browser. and tested all the functionalities
+	Sent text changes to michael
+
+MOM 03ed Nov 2015
+-----------------
+1. Address validation to select proper state and zipcode from databased and not allow user to enter on his own.
+2. In IE, Activation link is not working. (Need to debug)
+3. Comment out pref mode of contact section from user create/edit/view
+4. Work on feedbacks.
+5. contractor default users.

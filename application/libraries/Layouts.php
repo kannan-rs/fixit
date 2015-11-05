@@ -183,11 +183,7 @@ class Layouts
 				$addressFile 							= $this->CI->load->view("forms/address", $addressParams, true);
 				$this->layout_data['addressFile']		= $addressFile;
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/inputForm", $this->layout_data, true);
-			} /*else if ($this->layout_data['main_content_name'] == "login") {
-				$this->layout_data["userType"] 			= $this->CI->session->userdata("account_type");
-
-				$this->layout_data['main_content']		= $this->CI->load->view("page/users/inputForm", $this->layout_data, true);
-			}*/ else {
+			} else {
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
 			}
 		}
