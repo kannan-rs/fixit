@@ -1,9 +1,9 @@
-<h2>Permissions</h2>
+<h2><?php echo $this->lang->line_arr('permission->headers->title'); ?></h2>
 <div class="permissions">
 	<p class="note error"></p>
 	<p class="note success"></p>
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->header->user'); ?></h3>
+		<h3><?php echo $this->lang->line_arr('permission->headers->user'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->user'); ?></label>
 		<section class="dataSection">
 			<select id="users" onchange="securityObj._permissions.getPermissions()">
@@ -18,7 +18,7 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->header->role'); ?></h3>
+		<h3><?php echo $this->lang->line_arr('permission->headers->role'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->role'); ?></label>
 		<section class="dataSection">
 			<?php
@@ -29,7 +29,7 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->header->operation'); ?></h3>
+		<h3><?php echo $this->lang->line_arr('permission->headers->operation'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->operation'); ?></label>
 		<section class="dataSection">
 			<?php
@@ -41,7 +41,7 @@
 	</section>
 	</section>
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->header->function'); ?></h3>
+		<h3><?php echo $this->lang->line_arr('permission->headers->function'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->function'); ?></label>
 		<section class="dataSection">
 			<?php
@@ -52,7 +52,7 @@
 		</section>
 	</section>
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->header->data_filter'); ?></h3>
+		<h3><?php echo $this->lang->line_arr('permission->headers->data_filter'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->data_filter'); ?></label>
 		<section class="dataSection">
 			<?php
@@ -71,7 +71,7 @@
 	-->
 	<section>
 		<p class="button-panel">
-			<button type="button" id="permission_submit" onclick="securityObj._permissions.setPermissions()">Set Permissions</button>
+			<button type="button" id="permission_submit" onclick="securityObj._permissions.setPermissions()"><?php echo $this->lang->line_arr('permission->buttons_links->set'); ?></button>
 		</p>
 	</section>
 </div>

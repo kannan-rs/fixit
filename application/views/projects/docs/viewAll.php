@@ -21,7 +21,7 @@ if(count($project_docs) > 0) {
 			if($accountType == "admin") {
 			?>
 			<td class="table-action">
-				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Document"></a></span>
+				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('docs->buttons_links->delete_title'); ?>"></a></span>
 				<!--<a onclick="projectObj._docs.delete('<?php echo $project_docs[$i]->doc_id; ?>')">Delete</a></td>-->
 			<?php
 			}

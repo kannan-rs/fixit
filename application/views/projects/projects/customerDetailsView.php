@@ -13,19 +13,19 @@
 	$contactPref 		= $customer->contact_pref ? $customer->contact_pref : "--Not Provided--";
 
 ?>
-<h3><span class="inner_accordion">Customer Details</span></h3>
+<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->customer_details'); ?></span></h3>
 <div>
 	<table cellspacing="0" class="viewOne projectViewOne">
 		<tr>
-			<td class='cell label'>First Name</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->first_name'); ?></td>
 			<td class='cell' ><?php echo $firstName; ?></td>
 		</tr>
 		<tr>
-			<td class='cell label'>Last Name</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->last_name'); ?></td>
 			<td class='cell' ><?php echo $lastName; ?></td>
 		</tr>
 		<tr>
-			<td class='cell label'>Address</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->address'); ?></td>
 			<td class='cell' >
 				<div><?php echo $address1; ?></div>
 				<div><?php echo $address2; ?></div>
@@ -33,22 +33,22 @@
 			</td>
 		</tr>
 		<tr>
-			<td class='cell label'>Phone</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->phone'); ?></td>
 			<td class='cell' ><?php echo $phone; ?></td>
 		</tr>
 		<tr>
-			<td class='cell label'>Mobile</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->mobile'); ?></td>
 			<td class='cell' >
 				<div><?php echo $mobile; ?></div>
-				<div>Alternate No : <?php echo $altNo; ?></div>
+				<div><?php echo $this->lang->line_arr('projects->details_view_customer->alternate_no'); ?> : <?php echo $altNo; ?></div>
 			</td>
 		</tr>
 		<tr>
-			<td class='cell label'>Email</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->email'); ?></td>
 			<td class='cell' ><?php echo $email; ?></td>
 		</tr>
 		<tr>
-			<td class='cell label'>Contact Pref</td>
+			<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_customer->contact_pref'); ?></td>
 			<td class='cell' ><?php echo $contactPref; ?></td>
 		</tr>
 	</table>

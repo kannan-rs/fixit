@@ -1,3 +1,4 @@
+<!-- Need to be removed -->
 <!-- Login form -->
 <!-- <ul>
 	<li>

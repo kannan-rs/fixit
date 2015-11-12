@@ -37,10 +37,10 @@
 	if(!$openAs || $openAs != "popup") {
 ?>
 <div class="header-options">
-	<h2>Issue Details</h2>
+	<h2><?php echo $this->lang->line_arr('issues->headers->view_one'); ?></h2>
 	<span class="options-icon">
-		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Issue"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Issue"></a></span>	
+		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('issues->details_view->edit_single_issue_title'); ?>"></a></span>
+		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('issues->details_view->delete_title'); ?>"></a></span>	
 	</span>
 </div>
 <?php
@@ -50,39 +50,39 @@
 <form>
 	<div class='form'>
 	<!-- List all the Functions from database -->
-			<div class='label'>Issue Name:</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_name'); ?>:</div>
 			<div class="capitalize"><?php echo $issues->issue_name; ?></div>
 
-			<div class='label'>Issue Description:</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_description'); ?>:</div>
 			<div class="capitalize"><?php echo $issues->issue_desc; ?></div>
 
 			<div class='label'>Assigned to Type</div>
 			<div class="capitalize"><?php echo $issues->assigned_to_user_type; ?></div>
 
 			<?php if(!empty($issues->assigned_to_user_type)) { ?>
-			<div class='label'>Assigned to <?php echo $issues->assigned_to_user_type; ?></div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->assigned_to'); ?> <?php echo $issues->assigned_to_user_type; ?></div>
 			<div class="capitalize"><?php echo $assignedToUser; ?></div>
 			<?php } ?>
 
-			<div class='label'>Issue From Date</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_from_date'); ?></div>
 			<div><?php echo $issues->issue_from_date_for_view; ?></div>
 
-			<div class='label'>Assigned Date</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->assigned_date'); ?></div>
 			<div><?php echo $issues->assigned_date_for_view; ?></div>
 
-			<div class='label'>Issue Status</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_status'); ?></div>
 			<div><?php echo $issues->status; ?></div>
 
-			<div class='label'>Issue Notes</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_notes'); ?></div>
 			<div><?php echo $issues->notes; ?></div>
 
-			<div class='label'>Created By</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->created_by'); ?></div>
 			<div><?php echo $issues->created_by_name; ?></div>
-			<div class='label'>Created On</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->created_on'); ?></div>
 			<div><?php echo $issues->created_on_for_view; ?></div>
-			<div class='label'>Updated By</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->updated_by'); ?></div>
 			<div><?php echo $issues->updated_by_name; ?></div>
-			<div class='label'>Updated On</div>
+			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->updated_on'); ?></div>
 			<div><?php echo $issues->updated_on_for_view; ?></div>
 
 	</div>

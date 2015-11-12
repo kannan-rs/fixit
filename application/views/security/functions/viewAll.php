@@ -1,5 +1,9 @@
-<div class="create-link"><a href="javascript:void(0);" onclick="securityObj._functions.createForm()">Create Function</a></div>
-<h2>View All Functions</h2>
+<div class="create-link">
+	<a href="javascript:void(0);" onclick="securityObj._functions.createForm()">
+		<?php echo $this->lang->line_arr('function->buttons_links->create'); ?>
+	</a>
+</div>
+<h2><?php echo $this->lang->line_arr('function->headers->view_all'); ?></h2>
 <div>
 	<!-- List all the Functions from database -->
 	<table cellspacing="0">
@@ -7,17 +11,16 @@
 	<?php
 		if(count($functions) > 0) {
 			echo "<tr class='heading'>";
-			echo "<td class='cell'>Sno</td>";
-			echo "<td class='cell'>Function ID</td>";
-			echo "<td class='cell'>Function Name</td>";
-			echo "<td class='cell'>Function Descr</td>";
-			echo "<td class='cell'>Action</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->sno')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionId')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionName')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionDescr')."</td>";
+			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->action')."</td>";
 			echo "</tr>";
 		}
 
 		for($i = 0; $i < count($functions); $i++) { 
-			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "securityObj._functions.deleteRecord(".$functions[$i]->sno.")" : "";
+			$deleteFn = "securityObj._functions.deleteRecord(".$functions[$i]->sno.")";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell number'>";
@@ -26,8 +29,8 @@
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_name ."</td>";
 			echo "<td>".$functions[$i]->fn_descr."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"securityObj._functions.editFunction('".$functions[$i]->sno."')\">Edit</a></span>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$deleteText."</a></span></td>";
+			echo "<span><a href=\"javascript:void(0);\" onclick=\"securityObj._functions.editFunction('".$functions[$i]->sno."')\">".$this->lang->line_arr('function->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('function->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}
 	?>

@@ -4,7 +4,7 @@ $createFn 		= "projectObj._issues.createForm(".$createFnOptions.")";
 $headerText = "";
 
 if(!$openAs || $openAs != "popup") {
-	$headerText = "Issues List";
+	$headerText = $this->lang->line_arr('issues->headers->view_all');
 }
 ?>
 
@@ -13,11 +13,11 @@ if(!$openAs || $openAs != "popup") {
 	<!-- <span class="options-icon"> -->
 		<!-- Show Links above the table -->
 		<div class="issues internal-tab-as-links" onclick="projectObj._issues.showIssuesList(event)">
-			<a href="javascript:void(0);" data-option="open" title="Click on this button to view open issues">Open</a>
-			<a href="javascript:void(0);" data-option="closed" title="Click on this button to view closed issues">Closed</a>
-			<a href="javascript:void(0);" data-option="cancelled" title="Click on this button to view cancelled issues">Cancelled</a>
-			<a href="javascript:void(0);" data-option="all" title="Click on this button to view all issues">All</a>
-			<span style="float:right;" ><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="Add issues to this project"></a></span>
+			<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('issues->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->open'); ?></a>
+			<a href="javascript:void(0);" data-option="closed" title="<?php echo $this->lang->line_arr('issues->buttons_links->closed_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->closed'); ?></a>
+			<a href="javascript:void(0);" data-option="cancelled" title="<?php echo $this->lang->line_arr('issues->buttons_links->cancelled_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->cancelled'); ?></a>
+			<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('issues->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->all'); ?></a>
+			<span style="float:right;" ><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="<?php echo $this->lang->line_arr('issues->buttons_links->add_issues_title'); ?>"></a></span>
 		</div>
 	<!-- </span> -->
 </div>
@@ -28,9 +28,9 @@ if(!$openAs || $openAs != "popup") {
 	?>
 	<table cellspacing="0" class="issues-table-list">
 		<tr class='heading'>
-			<td class='cell text'>Issue Name</td>
-			<td class='cell text'>Issue Status</td>
-			<td class='cell date'>Issue From Date</td>
+			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->issue_name'); ?></td>
+			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->issue_status'); ?></td>
+			<td class='cell date'><?php echo $this->lang->line_arr('issues->summary_table->issue_from_date'); ?></td>
 			<td class='cell action'></td>
 		</tr>
 	<?php
@@ -53,7 +53,7 @@ if(!$openAs || $openAs != "popup") {
 			<td class="cell capitalize date"><?php echo $issue->issue_from_date; ?></td>
 			<td class='cell table-action'>
 				<span>
-					<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $issueEditFn; ?>" title="Edit Issues"><span class="size-9"></a>
+					<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $issueEditFn; ?>" title="<?php echo $this->lang->line_arr('issues->buttons_links->edit_issue_title'); ?>"><span class="size-9"></a>
 				</span>
 			</td>
 		</tr>

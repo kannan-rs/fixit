@@ -1,10 +1,10 @@
 <div id="projectBudgetList">
 	<table>
 	<tr>
-		<td class="cell">Paid Date</td>
-		<td class="cell percentage">Amount</td>
-		<td class="cell">Description</td>
-		<td class="cell">Action</td>
+		<td class="cell"><?php echo $this->lang->line_arr('budget->summary_table->paid_date'); ?></td>
+		<td class="cell percentage"><?php echo $this->lang->line_arr('budget->summary_table->amount'); ?></td>
+		<td class="cell"><?php echo $this->lang->line_arr('budget->summary_table->description'); ?></td>
+		<td class="cell"><?php echo $this->lang->line_arr('budget->summary_table->action'); ?></td>
 	</tr>
 	<?php
 	for($i = 0; $i < count($budgetList); $i++) {
@@ -16,11 +16,11 @@
 		<td class="cell table-action">
 			<span>
 				<span>
-					<a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" title="Edit Paid Budget"></a>
+					<a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->edit_budget_title'); ?>"></a>
 				</span>
 			</span>
 			<span>
-				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" title="Delete Paid Budget"></a>
+				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->delete_budget_title'); ?>"></a>
 			</span>
 		</td>
 	</tr>

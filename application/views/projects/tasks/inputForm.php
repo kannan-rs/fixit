@@ -2,7 +2,6 @@
 	//Edit Individual
 $edit = false;
 $prefix = "create";
-$headerText = "Create Task";
 $createFn = "projectObj._tasks.createValidate('".$viewFor."')";
 $updateFn = "projectObj._tasks.updateValidate('".$viewFor."')";
 
@@ -10,7 +9,6 @@ if(isset($tasks) && count($tasks)) {
 	$i = 0;
 	$edit = true;
 	$prefix = "update";
-	$headerText = "Edit Task";
 	$individualTask = $tasks[0];
 }
 
@@ -33,7 +31,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 	<div class="create-link"><?php echo $internalLink; ?></div>
 	<?php echo $projectNameDescr; ?>
-	<h2><?php echo $headerText; ?></h2>
+	<h2><?php echo $this->lang->line_arr('tasks->headers->'.$prefix); ?><?php echo $headerText; ?></h2>
 <?php
 }
 ?>
@@ -95,8 +93,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_task_submit" onclick="projectObj._tasks.<?php echo $prefix; ?>Validate('<?php echo $viewFor; ?>')"><?php echo $prefix; ?> Task</button>
-						<button type="button" onclick="projectObj._projects.closeDialog()">Cancel</button>
+						<button type="button" id="<?php echo $prefix; ?>_task_submit" onclick="projectObj._tasks.<?php echo $prefix; ?>Validate('<?php echo $viewFor; ?>')"><?php echo $this->lang->line_arr('tasks->buttons_links->'.$prefix); ?></button>
+						<button type="button" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 					</p>
 				</td>
 			</tr>

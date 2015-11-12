@@ -27,12 +27,20 @@ if($this->session->userdata("is_logged_in")) {
 			<tbody>
 				<tr>
 					<td>
-						Existing User? <a class="signup" href="<?php echo $baseUrl; ?>main/login">Sign in </a>
+					<?php
+						$start = "<a class=\"signup\" href=\"".$baseUrl."main/login\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('headers->existing_user'));
+					?>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						New to Fixit? <a class="signup" href="<?php echo $baseUrl; ?>main/signup">Signup</a>
+					<?php
+						$start = "<a class=\"signup\" href=\"".$baseUrl."main/signup\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('headers->new_user'));
+					?>
 					</td>
 				</tr>
 			</tbody>

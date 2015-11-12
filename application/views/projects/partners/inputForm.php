@@ -23,7 +23,7 @@
 ?>
 <?php
 if(!$edit && (!$openAs || $openAs != "popup")) {
-	echo "<h2>".$prefix." Partner</h2>";
+	echo "<h2>".$this->lang->line_arr('partner->headers->'.$prefix)."</h2>";
 }
 ?>
 <form id="<?php echo $prefix ?>_partner_form" name="<?php echo $prefix ?>_partner_form" class="inputForm">
@@ -96,7 +96,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				</td>
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td class="label prefMode"><?php echo $this->lang->line_arr('partner->input_form->prefMode'); ?></td>
 				<td>
 					<table class="innerOption">
@@ -114,7 +114,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 						</tr>
 					</table>
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->websiteURL'); ?>:</td>
 				<td>
@@ -124,15 +124,15 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="create_partner_submit" onclick="projectObj._partners.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $prefix; ?> Partner</button>
+						<button type="button" id="create_partner_submit" onclick="projectObj._partners.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('partner->buttons_links->'.$prefix); ?></button>
 						<?php
 							if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php
 						} else {
 						?>
-						<button type="reset" id="resetButton" onclick="">Reset</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
 						<?php	
 						}
 						?>

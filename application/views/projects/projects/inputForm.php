@@ -57,7 +57,7 @@
 
 <!-- Title for the Page -->
 <?php if(isset($header) && !empty($header)) { ?>
-<h2>Create Project</h2>
+<h2><?php echo $this->lang->line_arr('projects->headers->create'); ?></h2>
 <?php } ?>
 
 <form id="<?php echo $prefix; ?>_project_form" name="<?php echo $prefix; ?>_project_form" class="inputForm">
@@ -160,7 +160,11 @@
 			<tr>
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					Do you want to add new contractor? <a href="javascript:void(0);" onclick="projectObj._contractors.createForm({'openAs': 'popup', 'popupType' : '2'})">Click Here</a>.
+					<?php
+						$start = "<a href=\"javascript:void(0);\" onclick=\"projectObj._contractors.createForm({'openAs': 'popup', 'popupType' : '2'})\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
+					?>
 				</td>
 			</tr>
 
@@ -226,7 +230,11 @@
 			<tr>
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					Do you want to add new customer? <a href="javascript:void(0);" onclick="securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})">Click Here</a>.
+					<?php
+						$start = "<a href=\"javascript:void(0);\" onclick=\"securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_customer'));
+					?>
 				</td>
 			</tr>
 
@@ -254,7 +262,11 @@
 			<tr>
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					Do you want to add new adjuster? <a href="javascript:void(0);" onclick="securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})">Click Here</a>.
+					<?php
+						$start = "<a href=\"javascript:void(0);\" onclick=\"securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_adjuster'));
+					?>
 				</td>
 			</tr>
 
@@ -273,15 +285,15 @@
 				?>
 			
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_project_submit" onclick="projectObj._projects.createValidate()">Create Project</button>
-						<button type="reset" id="resetButton" onclick="">Clear</button>
+						<button type="button" id="<?php echo $prefix; ?>_project_submit" onclick="projectObj._projects.createValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->create'); ?></button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->clear'); ?></button>
 					</p>
 				<?php
 				} else {
 				?>
 				<p class="button-panel">
-					<button type="button" id="update_project_submit" onclick="projectObj._projects.updateValidate()">Update Project</button>
-					<button type="button" onclick="projectObj._projects.closeDialog()">Cancel</button>
+					<button type="button" id="update_project_submit" onclick="projectObj._projects.updateValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->update'); ?></button>
+					<button type="button" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 				</p>
 				<?php
 				}

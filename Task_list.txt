@@ -82,15 +82,9 @@ Michael Notes : 20th October
 
 MOM-27th Oct 2015
 -----------------
-	Safari support >> Testing needed for all areas
 	Text changes to Michael 
 	-- Tearms and conditions during signup
 	-- Reset the state and pincode if we change the city
-
-Work for this week
-	City loading is modified in all address form
-	Added support for safari browser. and tested all the functionalities
-	Sent text changes to michael
 
 MOM 03ed Nov 2015
 -----------------
@@ -99,3 +93,30 @@ MOM 03ed Nov 2015
 3. Comment out pref mode of contact section from user create/edit/view
 4. Work on feedbacks.
 5. contractor default users.
+
+Work for this week
+	1. Adding all the view text to the localization
+		Added Comments
+		Input, View All, Detailed View
+			> User,
+			> Function,
+			> Data filters
+			> Operations
+			> Roles
+		Input, View All, Detailes View
+			> Contractor
+			> Docs, no need for view all and details view
+			> Issues
+			> Notes, No need for details view. only View all is available
+			> Partner
+			> Projects
+			> Remaining Budget
+			> Tasks
+		Remaining rext
+			Buttons, Headers, all links
+
+		Tested
+		(9)
+	2. Pref Mode commented out and code adjusted for that.
+	3. IE activation is working
+	4. 

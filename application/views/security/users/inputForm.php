@@ -8,17 +8,17 @@ if(isset($users) && count($users)) {
 	$user_details = $user_details[0];
 
 	if($viewFrom == "security") { 
-		$heading = "Edit Users";
+		$heading = $this->lang->line_arr('user->headers->admin_edit');
 	} else {
-		$heading = "Edit Personal Details";
+		$heading = $this->lang->line_arr('user->headers->self_edit');
 	}
 	$buttonText 	= "Update User";
 } else {
 	if($userType == "admin") { 
-		$heading 		= "Create User";
+		$heading 		= $this->lang->line_arr('user->headers->admin_create');
 		$buttonText 	= "Create User";
 	} else { 
-		$heading 		= "Enroll to Fixit";
+		$heading 		= $this->lang->line_arr('user->headers->enroll');
 		$buttonText 	= "Signup";
 	}
 }
@@ -207,9 +207,9 @@ if(!$openAs || $openAs != "popup") {
 			<?php } ?>
 			
 			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('user->input_form->emailId'); ?></td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->email'); ?></td>
 				<td>
-						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->emailId_ph'); ?>" <?php echo $edit == true ? "disabled" : ""; ?> required>
+						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->email_ph'); ?>" <?php echo $edit == true ? "disabled" : ""; ?> required>
 				</td>
 			</tr>
 			
@@ -258,7 +258,7 @@ if(!$openAs || $openAs != "popup") {
 				</td>
 			</tr>
 
-			<tr>
+			<!-- <tr>
 				<td class="label prefMode notMandatory"><?php echo $this->lang->line_arr('user->input_form->prefMode'); ?></td>
 				<td>
 						<table class="innerOption">
@@ -276,7 +276,7 @@ if(!$openAs || $openAs != "popup") {
 							</tr>
 						</table>
 				</td>
-			</tr>
+			</tr> -->
 			
 			<?php
 				echo $addressFile;
@@ -341,9 +341,9 @@ if(!$openAs || $openAs != "popup") {
 					<p class="button-panel">
 						<button type="button" id="create_user_submit" onclick="securityObj._users.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>', '<?php echo $belongsTo; ?>')"><?php echo $buttonText; ?></button>
 						<?php if(!$openAs || $openAs != "popup") { ?>
-						<button type="reset" id="resetButton" onclick="">Reset</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
 						<?php } else { ?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php } ?>
 					</p>
 				</td>

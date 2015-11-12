@@ -1,12 +1,12 @@
-<h2>List of Projects</h2>
+<h2><?php echo $this->lang->line_arr('projects->headers->view_all'); ?></h2>
 <div class="projects internal-tab-as-links" onclick="projectObj._projects.showProjectsList(event)">
-	<a href="javascript:void(0);" data-option="open" title="Click on this button to view open/active projects">Open</a>
-	<a href="javascript:void(0);" data-option="completed" title="Click on this button to view completed projects">Completed</a>
+	<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->open'); ?></a>
+	<a href="javascript:void(0);" data-option="completed" title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?></a>
 	<?php if($account_type == "admin") { ?>
-	<a href="javascript:void(0);" data-option="deleted" title="Click on this button to view deleted projects">Deleted</a>
+	<a href="javascript:void(0);" data-option="deleted" title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?></a>
 	<?php } ?>
-	<a href="javascript:void(0);" data-option="issues" title="Click on this button to view projects with issues">Issues</a>
-	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all projects">All</a>
+	<a href="javascript:void(0);" data-option="issues" title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?></a>
+	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->all'); ?></a>
 </div>
 <div>
 	<!-- List all the Functions from database -->
@@ -16,10 +16,10 @@
 		if(count($projects) > 0) {
 	?>
 			<tr class='heading'>
-			<td class='cell'>Project Name</td>
-			<td class='cell'>% Complete</td>
-			<td class='cell'>Start Date</td>
-			<td class='cell'>End Date</td>
+			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->project_name'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->complete'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->start_date'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->end_date'); ?></td>
 			<td class='cell'></td>
 			</tr>
 	<?php
@@ -49,7 +49,7 @@
 				<td class='cell table-action'>
 				<span>
 				<?php if($issueCount) { ?>
-					<a class="step fi-alert size-21 red" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues"><span class="size-9"><?php echo $issueCount; ?></span></a>
+					<a class="step fi-alert size-21 red" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>"><span class="size-9"><?php echo $issueCount; ?></span></a>
 				<?php } ?>
 				</span>
 				</td>

@@ -1,12 +1,10 @@
 <?php
 $edit = false;
 $prefix = "create";
-$headerText = "Create";
 
 if(isset($operations) && count($operations)) {
 	$edit = true;
 	$prefix = "update";
-	$headerText = "Edit";
 	$individualOperation = $operations[0];
 }
 
@@ -16,7 +14,7 @@ $ope_name 	= isset($individualOperation) ? $individualOperation->ope_name : "";
 $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 ?>
 
-<h2><?php echo $headerText; ?> Operation</h2>
+<h2><?php echo $this->lang->line_arr('operation->headers->'.$prefix); ?></h2>
 <form id="<?php echo $prefix; ?>_operation_form" name="<?php echo $prefix; ?>_operation_form" class="inputForm">
 	<input type="hidden" id='ope_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>
@@ -33,7 +31,7 @@ $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_operation_submit" onclick="securityObj._operations.<?php echo $prefix; ?>Validate()"><?php echo $prefix; ?> Operation</button>
+						<button type="button" id="<?php echo $prefix; ?>_operation_submit" onclick="securityObj._operations.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('operation->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

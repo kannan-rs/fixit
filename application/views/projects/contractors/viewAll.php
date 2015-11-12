@@ -1,11 +1,19 @@
-<h2>Contractors List</h2>
+<h2><?php echo $this->lang->line_arr('contractor->headers->view_all'); ?></h2>
 <div class="contractors internal-tab-as-links" onclick="projectObj._contractors.showContractorsList(event)">
-	<a href="javascript:void(0);" data-option="active" title="Click on this button to view active contractors">Active</a>
-	<a href="javascript:void(0);" data-option="inactive" title="Click on this button to view in-active contractors">InActive</a>
+	<a href="javascript:void(0);" data-option="active" title="<?php echo $this->lang->line_arr('contractor->buttons_links->active_hover_text'); ?>">
+		<?php echo $this->lang->line_arr('contractor->buttons_links->active'); ?>
+	</a>
+	<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('contractor->buttons_links->in_active_hover_text'); ?>">
+		<?php echo $this->lang->line_arr('contractor->buttons_links->in_active'); ?>
+	</a>
 	<?php if($account_type == "admin") { ?>
-		<!-- <a href="javascript:void(0);" data-option="deleted">Deleted</a> -->
+		<!-- <a href="javascript:void(0);" data-option="deleted">
+			<?php echo $this->lang->line_arr('contractor->buttons_links->deleted'); ?>
+		</a> -->
 	<?php } ?>
-	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all contractors">All</a>
+	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('contractor->buttons_links->all_hover_text'); ?>">
+		<?php echo $this->lang->line_arr('contractor->buttons_links->all'); ?>
+	</a>
 </div>
 <div>
 	<!-- List all the Functions from database -->
@@ -15,10 +23,10 @@
 		if(count($contractors) > 0) {
 	?>
 			<tr class='heading'>
-			<td class='cell'>contractor Name</td>
-			<td class='cell'>Company</td>
-			<td class='cell'>Type</td>
-			<td class='cell'>Status</td>
+			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->contractor_name'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->company'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->type'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->status'); ?></td>
 			</tr>
 	<?php
 		}

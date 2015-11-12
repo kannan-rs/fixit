@@ -1,13 +1,11 @@
 <?php
 $edit = false;
 $prefix = "create";
-$headerText = "Create Function";
 
 if(isset($functions) && count($functions)) {
 	$i = 0;
 	$edit = true;
 	$prefix = "update";
-	$headerText = "Edit Function";
 	$individualFunction = $functions[0];
 }
 
@@ -17,7 +15,7 @@ $fn_name 	= isset($individualFunction) ? $individualFunction->fn_name : "";
 $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 
 ?>
-<h2><?php echo $headerText; ?></h2>
+<h2><?php echo $this->lang->line_arr('function->headers->'.$prefix); ?></h2>
 <form id="<?php echo $prefix; ?>_function_form" name="<?php echo $prefix; ?>_function_form" class="inputForm">
 	<input type="hidden" id='function_sno' value="<?php echo $sno; ?>" />
 	
@@ -38,7 +36,7 @@ $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_function_submit" onclick="securityObj._functions.<?php echo $prefix; ?>Validate()"><?php echo $prefix; ?> Function</button>
+						<button type="button" id="<?php echo $prefix; ?>_function_submit" onclick="securityObj._functions.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('function->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

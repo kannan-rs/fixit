@@ -9,7 +9,7 @@ if($params && isset($params["response"]["activated_user"])) {
 <?php
 if( !empty($userName)) {
 ?>
-	<h3>Account Activation Successful</h3>
+	<h3><?php echo $this->lang->line_arr('activation->headers->successful'); ?></h3>
 	<p>Dear <?php echo $userName; ?>, </p>
 	<p>
 		Your account is been activated successfully. Please login to see the further information.
@@ -17,7 +17,7 @@ if( !empty($userName)) {
 <?php
 } else {
 ?>
-	<h3>Account Activation failed</h3>
+	<h3><?php echo $this->lang->line_arr('activation->headers->failed'); ?></h3>
 	<p>Dear User, </p>
 	<p>Your account activation with fixit networks failed. Following might be the reasons for failure.</p>
 	<p>1. Activation key expired</p>

@@ -4,21 +4,21 @@
 			<tbody>
 				<tr>
 					<td colspan="2">
-						<h2>Password Retrive Form</h2>
+						<h2><?php echo $this->lang->line_arr('forgot_password->headers->title'); ?></h2>
 					</td>
 				</tr>
 				<tr>
 					<td class="label">
-						user Name :
+						<?php echo $this->lang->line_arr('forgot_password->input_form->user_name'); ?> :
 					</td>
 					<td>
-						<input type=email id="login_email" name="login_email" placeholder="Email Id" required />
+						<input type=email id="login_email" name="login_email" placeholder="<?php echo $this->lang->line_arr('forgot_password->input_form->user_name_ph'); ?>" required />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<button type="reset" id="resetButton" onclick="">Reset</button>
-						<button class="formbutton" type="button" onclick="homeObj.forgotPassValidate()">Retrive Password</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
+						<button class="formbutton" type="button" onclick="homeObj.forgotPassValidate()"><?php echo $this->lang->line_arr('forgot_password->buttons_links->retrive'); ?></button>
 					</td>
 				</tr>
 				<tr>

@@ -339,6 +339,7 @@ var _users = (function () {
             });
         },
         editUser: function(userId) {
+            var dateOptions;
             $.ajax({
                 method: "POST",
                 url: "/security/users/editForm",

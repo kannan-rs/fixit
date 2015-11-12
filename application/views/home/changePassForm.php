@@ -1,4 +1,4 @@
-<h2>Change Password</h2>
+<h2><?php echo $this->lang->line_arr('change_password->headers->title'); ?></h2>
 <form id="update_password_form" name="update_password_form" class="inputForm">
 	<input type="hidden" id='email' value="<?php echo $user_details[0]->user_name; ?>" />
 	<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">
@@ -19,7 +19,8 @@
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="signup_user_submit" onclick="homeObj._userInfo.updatePasswordValidate()">Update</button>
+						<button type="button" id="signup_user_submit" onclick="homeObj._userInfo.updatePasswordValidate()"><?php echo $this->lang->line_arr('change_password->buttons_links->
+update'); ?></button>
 					</p>
 				</td>
 			</tr>

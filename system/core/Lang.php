@@ -165,15 +165,15 @@ class CI_Lang {
 	{
 		//echo $line."<br/>";
 		if($line != '') {
-			list($module, $form, $field) = explode("->", $line);
+			list($module, $form, $field) = array_pad(explode("->", $line), 3, null);
 
 			//echo $module."<br/>".$form."<br/>".$field."<br/>";
 
-			if(isset($module)) {
+			if(!empty($module)) {
 				//echo "module<br/>";
-				if(isset($this->language[$module]) && isset($form)) {
+				if(isset($this->language[$module]) && !empty($form)) {
 					//echo "fomr<br/>";
-					if(isset($this->language[$module][$form]) && isset($field)) {
+					if(isset($this->language[$module][$form]) && !empty($field)) {
 						//echo "field<br/>";
 						if(isset($this->language[$module][$form][$field])) {
 							//echo "lang for field present";

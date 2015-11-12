@@ -1,5 +1,4 @@
 <!-- Add Function Start -->
-<!-- <h2>Attach Document</h3>-->
 <form id="create_project_doc_form" name="create_project_doc_form" class="inputForm" enctype="multipart/form-data">
 	<input type="hidden" name="projectId" id="projectId" value="<?php echo $projectId; ?>" />
 	<table class='form'>
@@ -19,8 +18,8 @@
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="submit" id="create_project_doc_submit">Upload Document</button>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()">Cancel</button>
+						<button type="submit" id="create_project_doc_submit"><?php echo $this->lang->line_arr('docs->buttons_links->upload'); ?></button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 					</p>
 				</td>
 			</tr>

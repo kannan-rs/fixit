@@ -4,7 +4,7 @@
 			<tbody>
 				<tr>
 					<td colspan="2">
-						<h2>Login Form</h2>
+						<h2><?php echo $this->lang->line_arr('login->headers->title'); ?></h2>
 					</td>
 				</tr>
 				<tr>
@@ -26,8 +26,8 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-						<button type="reset" id="resetButton" onclick="">Reset</button>
-						<button class="formbutton" type="button" onclick="homeObj.loginValidate()">Login</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
+						<button class="formbutton" type="button" onclick="homeObj.loginValidate()"><?php echo $this->lang->line_arr('login->buttons_links->login'); ?></button>
 					</td>
 				</tr>
 				<tr>
@@ -37,12 +37,20 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="extralinks">
-						New to thefixitnetwork <a class="signup" href="<?php echo $baseUrl; ?>main/signup">Click here</a> to register
+					<?php
+						$start = "<a class=\"signup\" href=\"".$baseUrl.">main/signup\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('login->buttons_links->new_customer'));
+					?>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" class="extralinks">
-						Forgot Password <a class="signup" href="<?php echo $baseUrl; ?>main/forgotpass">Click here</a> to retrive
+					<?php
+						$start = "<a class=\"signup\" href=\"".$baseUrl.">main/forgotpass\">";
+						$end = "</a>";
+						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('login->buttons_links->forgot_pass'));
+					?>
 					</td>
 				</tr>
 			</tbody>

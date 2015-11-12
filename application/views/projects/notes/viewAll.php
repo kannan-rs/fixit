@@ -7,7 +7,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<?php echo $internalLink; ?>
 	</div>
 	<?php echo $projectNameDescr; ?>
- 	<h2>Notes</h2>
+ 	<h2><?php echo $this->lang->line_arr('notes->headers->view_all'); ?></h2>
  <?php
  }
 
@@ -39,7 +39,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<tr id="notes_<?php echo $project_notes[$i]->notes_id; ?>">
 			<td class='cell' colspan="3">
 				<?php echo $project_notes[$i]->notes_content; ?> 
-				<i>Created By: <?php echo $project_notes[$i]->created_by_name; ?> on 
+				<i><?php echo $this->lang->line_arr('notes->summary_table->created_by'); ?>: <?php echo $project_notes[$i]->created_by_name; ?> on 
 					<?php echo $project_notes[$i]->created_date_for_view; ?>
 				</i>
 			</td>

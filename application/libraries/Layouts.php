@@ -71,7 +71,7 @@ class Layouts
 			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
 			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractor'),
 			array('text' => 'Partners', 'link'=> '/main/projects/partners', 'key' => 'partners'),
-			array('text' => 'Create Partner', 'link'=> '/main/projects/create_partner', 'key' => 'create_partners')
+			array('text' => 'Create Partner', 'link'=> '/main/projects/create_partner', 'key' => 'create_partner')
 		)
 	);
 
@@ -139,7 +139,7 @@ class Layouts
 		$this->layout_data['baseUrl'] 		= base_url();
 		$this->layout_data['params']  		= $params;
 		$this->layout_data['is_logged_in']  = $this->CI->session->userdata("is_logged_in");
-		$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
+		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
 		$main_content_name = null;
 		

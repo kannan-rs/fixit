@@ -2,15 +2,19 @@
 		$users 			= $users[0];
 		$user_details 	= $user_details[0];
 
-		$heading = $viewFrom == "security" ? "View User Details" : "Personal Details";
+		$heading = $viewFrom == "security" ? $this->lang->line_arr('user->headers->admin_view_one') : $this->lang->line_arr('user->headers->view_one');
 		$heading = $viewFrom == "projects" ? "" : $heading;
 		$heading = $heading != "" ? "<h2>".$heading."</h2>" : $heading;
 ?>
 <div class="create-link">
 	<?php if($viewFrom == "security") { ?>
-	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">Create User</a>
+	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">
+		<?php echo $this->lang->line_arr('user->buttons_links->create'); ?>
+	</a>
 	<?php } else if($viewFrom == "") { ?>
-		<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">Edit Details</a>
+		<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">
+			<?php echo $this->lang->line_arr('user->buttons_links->edit_details'); ?>
+		</a>
 	<?php } ?>
 </div>
 <?php echo $heading; ?>
@@ -74,7 +78,7 @@
 					<td>
 						<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">
 					</td>
-					<td><span>Primary Contact Number</span></td>
+					<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
 				</tr>
 			</table>
 		</div>
@@ -89,28 +93,28 @@
 					<td>
 						<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">
 					</td>
-					<td><span>Primary Contact Number</span></td>
+					<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
 				</tr>
 			</table>
 		</div>
 		
-		<div class="label prefMode">Prefered Mode for Contact:</div>
+		<!-- <div class="label prefMode"><?php echo $this->lang->line_arr('user->details_view->prefMode'); ?></div>
 		<div>
 			<table class="innerOption">
 				<tr>
 					<td id="emailIdcheckbox"><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled="disabled"></td>
-					<td id="emailIdcheckboxlabel">Email</td>
+					<td id="emailIdcheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_email'); ?></td>
 					<td id="contactPhoneNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactContactPhoneNumber" value="contactPhoneNumber" disabled="disabled"></td>
-					<td id="contactPhoneNumbercheckboxlabel">Home Phone</td>
+					<td id="contactPhoneNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_home_phone'); ?></td>
 				</tr>
 				<tr>
 					<td id="mobileNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled="disabled"></td>
-					<td id="mobileNumbercheckboxlabel">Mobile Number</td>
+					<td id="mobileNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_mobile_number'); ?></td>
 					<td id="altNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactAltNumber" value="altNumber" disabled="disabled"></td>
-					<td id="altNumbercheckboxlabel">Alternate Number</td>
+					<td id="altNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_alt_number'); ?></td>
 				</tr>
 			</table>
-		</div>
+		</div> -->
 		
 		<?php
 			echo $addressFile;

@@ -26,7 +26,7 @@
 
 <?php
 if(!$edit && (!$openAs || $openAs != "popup")) {
-	echo "<h2>".$prefix." Contractor</h2>";
+	echo "<h2>".$this->lang->line_arr('contractor->headers->'.$prefix)."</h2>";
 }
 ?>
 
@@ -98,7 +98,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->mobileNumber_ph'); ?>" required>
 				</td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td class="label prefMode"><?php echo $this->lang->line_arr('contractor->input_form->prefMode'); ?>:</td>
 				<td>
 					<table class="innerOption">
@@ -112,7 +112,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 						</tr>
 					</table>
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->websiteURL'); ?>:</td>
 				<td>
@@ -134,15 +134,15 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $prefix;?> Contractor</button>
+						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?></button>
 						<?php
 						if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php
 						} else {
 						?>
-						<button type="reset" id="resetButton" onclick="">Reset</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
 						<?php	
 						}
 						?>

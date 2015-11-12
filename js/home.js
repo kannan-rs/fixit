@@ -10,6 +10,7 @@ home.prototype.loginValidate = function() {
     }
 }
 
+
 home.prototype.forgotPassValidate = function() {
     var validator = $("#forgotpass_form").validate();
 

@@ -14,7 +14,7 @@ $headerText = "";
 $prefix = $issueId ? "update" : "create";
 
 if(!$openAs || $openAs != "popup") {
-	$headerText = $issueId != "" ? "Edit Issue" : "Create Issue";
+	$headerText = $issueId != "" ? $this->lang->line_arr('issues->headers->eidt') : $this->lang->line_arr('issues->headers->create');
 }
 
 
@@ -125,11 +125,11 @@ if(!empty($headerText)) {
 						<?php
 						if($issueId != "") {
 						?>
-						<button type="button" id="update_issue_submit" onclick="projectObj._issues.updateValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Update Issue</button>
+						<button type="button" id="update_issue_submit" onclick="projectObj._issues.updateValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('issues->buttons_links->update'); ?></button>
 						<?php
 						} else {
 						?>
-						<button type="button" id="create_issue_submit" onclick="projectObj._issues.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">Create Issue</button>
+						<button type="button" id="create_issue_submit" onclick="projectObj._issues.createValidate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('issues->buttons_links->create'); ?></button>
 						<?php
 						}
 						?>
@@ -137,11 +137,11 @@ if(!empty($headerText)) {
 						<?php
 						if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">Cancel</button>
+						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php
 						} else {
 						?>
-						<button type="reset" id="resetButton" onclick="">Clear</button>
+						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->clear'); ?></button>
 						<?php	
 						}
 						?>

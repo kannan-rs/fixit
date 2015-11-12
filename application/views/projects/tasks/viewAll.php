@@ -5,15 +5,15 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<?php echo $internalLink; ?>
 	</div>
 	<?php echo $projectNameDescr; ?>
-	<h2>Tasks List</h2>
+	<h2><?php echo $this->lang->line_arr('tasks->headers->view_all'); ?></h2>
 <?php
 } else {
 ?>
 <!-- Show Links above the table -->
 <div class="tasks internal-tab-as-links" onclick="projectObj._tasks.showTaskList(event)">
-	<a href="javascript:void(0);" data-option="open" title="Click on this button to view open/active tasks">Open</a>
-	<a href="javascript:void(0);" data-option="completed" title="Click on this button to completed tasks">Completed</a>
-	<a href="javascript:void(0);" data-option="all" title="Click on this button to view all tasks">All</a>
+	<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('tasks->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->open'); ?></a>
+	<a href="javascript:void(0);" data-option="completed" title="<?php echo $this->lang->line_arr('tasks->buttons_links->completed_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->completed'); ?></a>
+	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('tasks->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->all'); ?></a>
 </div>
 <?php
 }
@@ -28,12 +28,12 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 ?>
 		<tr class='heading'>
 			<!--<td class='cell'>Sno</td>-->
-			<td class='cell name'>Task Name</td>
-			<td class='cell descr'>Description</td>
-			<td class='cell'>Owner</td>
-			<td class='cell'>% Complete</td>
-			<td class='cell'>Start Date</td>
-			<td class='cell'>End Date</td>
+			<td class='cell name'><?php echo $this->lang->line_arr('tasks->summary_table->task_name'); ?></td>
+			<td class='cell descr'><?php echo $this->lang->line_arr('tasks->summary_table->description'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('tasks->summary_table->owner'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('tasks->summary_table->complete'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('tasks->summary_table->start_date'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('tasks->summary_table->end_date'); ?></td>
 			<td class='cell'></td>
 		</tr>
 <?php
@@ -83,11 +83,11 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<td class='cell date'><?php echo  $stard_date; ?></td>
 			<td class='cell date'><?php echo  $end_date; ?></td>
 			<td class='cell table-action'>
-				<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="<?php echo $notesFn?>" title="Notes For Task"></a></span>
+				<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="<?php echo $notesFn?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->notes_task_title'); ?>"></a></span>
 				<!-- <span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
 				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span> -->
 				<span>
-					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="Project Issues">
+					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->project_issue_title'); ?>">
 						<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
 					</a>
 				</span>
