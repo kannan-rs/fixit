@@ -111,6 +111,7 @@ class Contractors extends CI_Controller {
 	public function viewOne() {
 		$this->load->model('projects/model_contractors');
 		$this->load->model('security/model_users');
+		$this->load->model('utils/model_form_utils');
 
 		$contractorId 			= $this->input->post('contractorId');
 		$openAs		 			= $this->input->post('openAs');
@@ -123,12 +124,14 @@ class Contractors extends CI_Controller {
 			$contractors[$i]->updated_by_name = $this->model_users->getUsersList($contractors[$i]->updated_by)[0]->user_name;
 		}
 
+		$stateText = !empty($contractors[0]->state) ? $this->model_form_utils->getCountryStatus($contractors[0]->state)[0]->name : "";
+
 		$addressParams = array(
 			'addressLine1' 		=> $contractors[0]->address1,
 			'addressLine2' 		=> $contractors[0]->address2,
 			'city' 				=> $contractors[0]->city,
 			'country' 			=> $contractors[0]->country,
-			'state'				=> $contractors[0]->state,
+			'state'				=> $stateText,
 			'zipCode' 			=> $contractors[0]->pin_code,
 			'requestFrom' 		=> 'view'
 		);

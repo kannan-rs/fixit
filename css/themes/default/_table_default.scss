@@ -87,4 +87,21 @@ table.form {
 		line-height : 26px;
 		width: 206px;
 	}
+	.signupTC {
+		* {
+			margin:0px;
+			padding:0px;
+			width : auto;
+		}
+		input[type="checkbox"] {
+			width: 20px;
+			margin-left: 10px;
+		}
+		.error {
+			display: none;
+			td {
+				padding-left: 10px;
+			}
+		}
+	}
 }

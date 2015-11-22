@@ -119,12 +119,18 @@ project.prototype.validationRules = function() {
 }
 
 project.prototype.createValidate =  function () {
+    var cityError = false;
     var validator = $( "#create_project_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
 
-    if(validator.form()) {
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
+
+    if(validator) {
         projectObj._projects.createSubmit();
     }
 };
@@ -168,7 +174,6 @@ project.prototype.createForm = function() {
             utilObj.setCustomerDataList();
             utilObj.setAdjusterDataList();
             utilObj.getAndSetCountryStatus("create_project_form");
-            //utilObj.getPostalCodeList("("create_project_form");
             utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
         },
         error: function( error ) {
@@ -295,7 +300,8 @@ project.prototype.editProject = function() {
             utilObj.setCustomerDataList();
             utilObj.setAdjusterDataList();
             utilObj.getAndSetCountryStatus("update_project_form");
-            //utilObj.getPostalCodeList("("update_project_form");
+            _utils.setAddressByCity();
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
             utilObj.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
         },
         error: function( error ) {
@@ -308,10 +314,16 @@ project.prototype.editProject = function() {
 };
 
 project.prototype.updateValidate = function() {
+    var cityError = false;
     var validator = $( "#update_project_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
+
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
 
     if(validator.form()) {
         projectObj._projects.updateSubmit();

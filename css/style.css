@@ -106,7 +106,7 @@ div.form-error {
   font-size: 11px;
   margin-top: 2px; }
 
-input.form-error, textarea.form-error, select.form-error {
+input.form-error, textarea.form-error, select.form-error, a.form-error {
   border-color: red !important; }
 
 fieldset {
@@ -560,6 +560,17 @@ table.form select {
   height: 26px;
   line-height: 26px;
   width: 206px; }
+table.form .signupTC * {
+  margin: 0px;
+  padding: 0px;
+  width: auto; }
+table.form .signupTC input[type="checkbox"], table.form .signupTC textarea[type="checkbox"], table.form .signupTC select[type="checkbox"] {
+  width: 20px;
+  margin-left: 10px; }
+table.form .signupTC .error {
+  display: none; }
+  table.form .signupTC .error td {
+    padding-left: 10px; }
 
 /* misc */
 code {
@@ -987,5 +998,9 @@ a.icon-right {
     border: 1px solid #E0E0E0; }
   .internal-tab-as-links > a.active {
     background-color: #E0E0E0; }
+
+.connectedSortable {
+  position: absolute;
+  margin-top: -20px; }
 
 /*# sourceMappingURL=style.css.map */

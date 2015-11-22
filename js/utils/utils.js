@@ -3,122 +3,44 @@ var _utils = (function () {
     'use strict';
     var searchCityStr = null;
     var searchCityList = null;
-    //var cityListMap = {};
-    var postalCodeByCity = null;
+    //var postalCodeByCity = null;
+    var _states = null;
+    var _countries = null;
     return {
-        state : [],
-        postalCodeMap : {},
-        moduleId : "",
+        //state : [],
+        //postalCodeMap : {},
+        /*
+            To Identify Each form Seperately, This need to be the ID of form for which current operation need to take place
+        */
+        moduleId : '',
+        /*
+            Function    : getAndSetCountryStatus
+            Description : get country and state from database and set it in localstorage
+        */
         getAndSetCountryStatus: function (moduleId) {
-            $( "#"+moduleId+" #city" ).combobox();
-            utilObj.moduleId = moduleId;
-            $.ajax({
-                method: "POST",
-                url: "/utils/formUtils/getCountryStatus",
-                data: {},
-                success: function (response) {
-                    response = $.parseJSON(response);
-                    var country = [];
-                    var i = 0;
-                    if (response.status === "success") {
-                        utilObj.state = response.state;
+            var self = this;
+            $( '#'+moduleId+' #city' ).combobox();
+            _utils.moduleId = moduleId;
 
-                        $("#" + moduleId + " #country").empty();
-                        $('#' + moduleId + " #country").append($('<option>', {
-                            'value': "",
-                            "text": "--Select Country--"
-                        }));
-                        for (i = 0; i < utilObj.state.length; i += 1) {
-                            if (country.indexOf(utilObj.state[i].country) < 0) {
-                                country.push(utilObj.state[i].country);
-                                $('#' + moduleId + " #country").append($('<option>', {
-                                    'value': utilObj.state[i].country,
-                                    "text": utilObj.state[i].country
-                                }));
-                            }
+            _states = _states || this.getStatesFromLS();
+            _countries = _countries || this.getCountriesFromLS();
 
-                        }
-                    } else {
-                        alert(response.message);
-                    }
-                    utilObj.setCountryStateOfDb(moduleId);
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
-        },
-        getPostalCodeList: function (moduleId) {
-            var i = 0;
-            utilObj.moduleId = moduleId;
-            $.ajax({
-                method: "POST",
-                url: "/utils/formUtils/getPostalCodeList",
-                data: {},
-                success: function (response) {
-                    response = $.parseJSON(response);
-                    if (response.status === "success") {
-                        utilObj.postalCodeMap = {};
-                        utilObj.postalCode = response.postalCode;
-                        $("#" + moduleId + " #zipcode_list").empty();
-                        for (i = 0; i < utilObj.postalCode.length; i += 1) {
-                            utilObj.postalCodeMap[utilObj.postalCode[i].zipcode] = utilObj.postalCode[i];
-                            $('#' + moduleId + " #zipcode_list").append($('<option>', {
-                                'value': utilObj.postalCode[i].zipcode,
-                                "text": utilObj.postalCode[i].zipcode
-                            }));
-                        }
-                    } else {
-                        alert(response.message);
-                    }
-                    utilObj.setCountryStateOfDb(moduleId);
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
-        },
-        getAndSetMatchCity: function (value) {
-            var i = 0;
-            if(value && value.length >2 && (!searchCityList || value.substr(0,3) !== searchCityStr.substr(0,3))) {
-                searchCityStr = value;
-                //utilObj.moduleId = moduleId;
+            if(!_states || !_countries) {
                 $.ajax({
-                    method: "POST",
-                    url: "/utils/formUtils/getMatchCityList",
-                    data: {
-                        cityStr: searchCityStr
-                    },
+                    method: 'POST',
+                    url: '/utils/formUtils/getCountryStatus',
+                    data: {},
+                     async: false,
                     success: function (response) {
                         response = $.parseJSON(response);
-                        if (response.status === "success") {
-                            searchCityList = {};
-                            searchCityList = response.cityList;
-                            //$("#" + moduleId + " #city_list").empty();
-                            $("#city").empty();
-                            for (i = 0; i < searchCityList.length; i += 1) {
-                                
-                                /*if (!cityListMap[searchCityList[i].city]) {
-                                    cityListMap[searchCityList[i].city] = new Array();
-                                }
-
-                                cityListMap[searchCityList[i].city].push(searchCityList[i]);*/
-                                
-                                //$('#' + moduleId + " #city_list").append($('<option>', {
-                                
-                                $("#city").append($('<option>', {
-                                    'value': searchCityList[i].city,
-                                    "text": searchCityList[i].city
-                                }));
-                            }
+                        var country = [];
+                        var i = 0;
+                        if (response.status === 'success') {
+                            self.setStateToLS(response.state);
+                            self.setCountryToLS();
                         } else {
                             alert(response.message);
                         }
-                        //utilObj.setCountryStateOfDb(moduleId);
                     },
                     error: function (error) {
                         error = error;
@@ -127,88 +49,271 @@ var _utils = (function () {
                     fail_error = failedObj;
                 });
             }
+            self.populateCountryOption(moduleId);
+            _utils.setCountryStateOfDb(moduleId);
         },
-        setPostalCodeDetails: function () {
-            var postalCode = $("#" + utilObj.moduleId + " #zipCode").val();
-            if (utilObj.postalCodeMap[postalCode]) {
-                $("#" + utilObj.moduleId + " #city").val(utilObj.postalCodeMap[postalCode].city);
-                $("#" + utilObj.moduleId + " #state").val(utilObj.postalCodeMap[postalCode].state_abbreviation);
+        setStateToLS : function( states ) {
+            if (Storage) {
+                localStorage.setItem('states', JSON.stringify(states));
             }
+            _states = states;
         },
-        setAddressByCity: function() {
-            var city = $("#city").val();
-            var i = 0;
-
-            if (city !== "") {
-                //utilObj.moduleId = moduleId;
-                $.ajax({
-                    method: "POST",
-                    url: "/utils/formUtils/getPostalDetailsByCity",
-                    data: {
-                        cityStr: city
-                    },
-                    success: function (response) {
-                        response = $.parseJSON(response);
-                        if (response.status === "success") {
-                            postalCodeByCity = {};
-                            postalCodeByCity = response.postalDetails;
-                            //$("#" + moduleId + " #city_list").empty();
-
-                            $("#zipcode_list").empty();
-                            for (i = 0; i < postalCodeByCity.length; i += 1) {
-                                $("#zipcode_list").append($('<option>', {
-                                    'value': postalCodeByCity[i].zipcode,
-                                    "text": postalCodeByCity[i].zipcode
-                                }));
-                            }
-                            if (postalCodeByCity.length == 1) {
-                                $("#zipCode").val(postalCodeByCity[0].zipcode);
-                                $("#state").val(postalCodeByCity[0].state_abbreviation)
-                            }
-                        } else {
-                            alert(response.message);
-                        }
-                        //utilObj.setCountryStateOfDb(moduleId);
-                    },
-                    error: function (error) {
-                        error = error;
+        setCountryToLS : function () {
+            var i;
+            if(_states) {
+                _countries = [];
+                for (i = 0; i < _states.length; i += 1) {
+                    if (_countries.indexOf(_states[i].country) < 0) {
+                        _countries.push(_states[i].country);
                     }
-                }).fail(function (failedObj) {
-                    fail_error = failedObj;
-                });   
+                }
+            }
+            if(Storage) {
+                 localStorage.setItem('countries', JSON.stringify(_countries));
             }
         },
-        populateState: function (country, moduleId) {
-            var i = 0;
-            $('#' + moduleId + " #state").html("");
-
-            $('#' + moduleId + " #state").append($('<option>', {
-                'value': "",
-                "text": "--Select State--"
+        getStatesFromLS: function() {
+            var states = null;
+            if(Storage) {
+                states = JSON.parse(localStorage.getItem('states'));
+            }
+            return states;
+        },
+        getCountriesFromLS: function() {
+            var countries = null;
+            if(Storage) {
+                countries = JSON.parse(localStorage.getItem('countries'));
+            }
+            return countries;
+        },
+        populateCountryOption : function( moduleId ) {
+            var i;
+            $('#' + moduleId + ' #country').empty();
+            $('#' + moduleId + ' #country').append($('<option>', {
+                'value': '',
+                'text': '--Select Country--'
             }));
-
-            for (i = 0; i < utilObj.state.length; i += 1) {
-                if (utilObj.state[i].country === country) {
-                    $('#' + moduleId + " #state").append($('<option>', {
-                        'value': utilObj.state[i].abbreviation,
-                        "text": utilObj.state[i].name,
-                        class: utilObj.state[i].country
+            for (i = 0; i < _countries.length; i += 1) {
+                if(_countries[i].toLocaleLowerCase() == 'usa') {
+                    $('#' + moduleId + ' #country').append($('<option>', {
+                        'value': _countries[i],
+                        'text': _countries[i]
                     }));
                 }
             }
         },
-        setCountryStateOfDb: function (moduleId) {
-            var country = $("#countryDbVal").val();
-            var state = $("#stateDbVal").val();
+        getAndSetMatchCity: function (value, from) {
+            var i = 0;
+            var city = null;
+            var self = this;
+            if(value && value.length > 2 && (!searchCityList || value.substr(0,3) !== searchCityStr.substr(0,3))) {
+                searchCityStr = value.substr(0,3);
+                searchCityList = this.getCityFromLS(searchCityStr);
+                //_utils.moduleId = moduleId;
 
-            if (!country) {
-                country = $($("#" + moduleId + " #country").children()[1]).val();
+                if(!searchCityList) {
+                    //this.populateCityOption(searchCityList);
+                //} else {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/utils/formUtils/getMatchCityList',
+                        data: {
+                            cityStr: searchCityStr
+                        },
+                        success: function (response) {
+                            response = $.parseJSON(response);
+                            if (response.status === 'success') {
+                                searchCityList = {};
+                                searchCityList = response.cityList;
+                                self.setCityToLS(searchCityStr, searchCityList);
+                                
+                                self.populateCityOption(searchCityList);
+                            } else {
+                                alert(response.message);
+                            }
+                            //_utils.setCountryStateOfDb(moduleId);
+                        },
+                        error: function (error) {
+                            error = error;
+                        }
+                    }).fail(function (failedObj) {
+                        fail_error = failedObj;
+                    });
+                }
+                this.populateCityOption(searchCityList, from);
+            }
+        },
+        populateCityOption: function(searchCityList ,from) {
+            var i;
+            var uniqueCity = [];
+            //$('#' + moduleId + ' #city_list').empty();
+
+            $('#city').empty();
+            for (i = 0; i < searchCityList.length; i += 1) {
+                //$('#' + moduleId + ' #city_list').append($('<option>', {
+                if(uniqueCity.indexOf(searchCityList[i].city) < 0) {
+                    uniqueCity.push(searchCityList[i].city);
+                    $('#city').append($('<option>', {
+                        'value': searchCityList[i].city,
+                        'text': searchCityList[i].city
+                    }));
+                }
+            }
+            
+            if(!from || from != 'edit') {
+                $("a[title='Show All Items']").trigger('click'); 
+                $('#city_jqDD').focus();
+            }
+        },
+        getCityFromLS: function(cityStr) {
+            var cityList = null;
+            if (Storage && cityStr) {
+                cityStr = cityStr.toLocaleLowerCase();
+                var city = JSON.parse(localStorage.getItem('city'));
+                cityList = city && city[cityStr.substr(0,3)] ? city[cityStr.substr(0,3)] : null;
+            }
+             return cityList;
+        },
+        setCityToLS: function(cityStr, cityList) {
+            if (Storage && cityStr) {
+                cityStr = cityStr.toLocaleLowerCase();
+                var city = JSON.parse(localStorage.getItem('city')) || {};
+                city[cityStr.substr(0,3)] = city ?  cityList : null;
+                localStorage.setItem('city', JSON.stringify(city));
+            }
+        },
+        /*setPostalCodeDetails: function () {
+            var postalCode = $('#' + _utils.moduleId + ' #zipCode').val();
+            if (_utils.postalCodeMap[postalCode]) {
+                $('#' + _utils.moduleId + ' #city').val(_utils.postalCodeMap[postalCode].city);
+                $('#' + _utils.moduleId + ' #state').val(_utils.postalCodeMap[postalCode].state_abbreviation);
+            }
+        },*/
+        setAddressByCity: function() {
+            var city = $('#city').val();
+            var postalList = null;
+            var i = 0;
+
+            if (city !== '') {
+                postalList = this.getPostalDetailsByCity( city );
             }
 
-            $("#" + moduleId + " #country").val(country).trigger("change");
+            this.populateStateOption({'postalList' : postalList, 'country' : $('#country').val()});
+            this.populateZipCodeOption({'postalList' : postalList, 'country' : $('#country').val()});
+        },
+        getPostalDetailsByCity: function( city ) {
+            var i;
+            var cityList = null;
+            var subCityList = null;
+            if(city) {
+                city = city.toLocaleLowerCase();
+                cityList = this.getCityFromLS(city);
+                if( cityList ) {
+                    subCityList = [];
+                    for( i = 0; i < cityList.length; i++) {
+                        if(cityList[i].city.toLocaleLowerCase() == city) {
+                            subCityList.push(cityList[i]);
+                        }
+                    }
+                }
+            }
+            return subCityList;
+        },
+        getZipCodeFromCity : function ( postalList ) {
+            var i = 0;
+            var zipList = null;
+            if(postalList && $.isArray(postalList)) {
+                zipList = [];
+                for( i=0; i < postalList.length; i++) {
+                    zipList.push( postalList[i].zipcode);
+                }
+            }
+            return $.unique(zipList);
+        },
+        getStateAbrFromCity : function ( postalList ) {
+            var i = 0;
+            var stateAbr = null;
+            if(postalList && $.isArray(postalList)) {
+                stateAbr = [];
+                for( i=0; i < postalList.length; i++) {
+                    stateAbr.push( postalList[i].state_abbreviation);
+                }
+            }
+            return $.unique(stateAbr);
+        },
+        populateStateOption: function ( options ) {
+            var i = 0;
+            var country = options.country;
+            var moduleId = options.moduleId;
+            var postalList = options.postalList;
+            var stateAbrList = this.getStateAbrFromCity( postalList );
+
+            /*$('#' + moduleId + ' #state').html('');
+            $('#' + moduleId + ' #state').append($('<option>', {
+                'value': '',
+                'text': '--Select State--'
+            }));*/
+            $('#state').html('');
+            $('#state').append($('<option>', {
+                'value': '',
+                'text': '--Select State--'
+            }));
+
+            for (i = 0; i < _states.length; i += 1) {
+                if (_states[i].country === country && (!stateAbrList || stateAbrList.indexOf(_states[i].abbreviation) != -1)) {
+                    //$('#' + moduleId + ' #state').append($('<option>', {
+                    $('#state').append($('<option>', {
+                        'value': _states[i].abbreviation,
+                        'text': _states[i].name,
+                        class: country
+                    }));
+                }
+            }
+
+            if($.isArray(stateAbrList) && stateAbrList.length == 1) {
+                $('#state').val(stateAbrList[0]);
+                $('#state').focusout();
+            }
+        },
+        populateZipCodeOption: function ( options ) {
+            var i = 0;
+            var country = options.country;
+            var moduleId = options.moduleId;
+            var postalList = options.postalList;
+            var zipList = this.getZipCodeFromCity( postalList );
+
+            $('#zipCode').html('');
+            $('#zipCode').append($('<option>', {
+                'value': '',
+                'text': '--Select Zipcode--'
+            }));
+
+            if ($.isArray(zipList)) {
+                for (i = 0; i < zipList.length; i += 1) {
+                    $('#zipCode').append($('<option>', {
+                        'value': zipList[i],
+                        'text': zipList[i]
+                    }));
+                }
+                
+                if (zipList.length == 1) {
+                    $('#zipCode').val(zipList[0]);
+                    $('#zipCode').focusout();
+                }
+            }
+        },
+        setCountryStateOfDb: function (moduleId) {
+            var country = $('#countryDbVal').val();
+            var state = $('#stateDbVal').val();
+
+            if (!country) {
+                country = $($('#' + moduleId + ' #country').children()[1]).val();
+            }
+
+            $('#' + moduleId + ' #country').val(country).trigger('change');
 
             if (state) {
-                setTimeout(function () {$("#" + moduleId + " #state").val(state);}, 10);
+                setTimeout(function () {$('#' + moduleId + ' #state').val(state);}, 10);
             }
         },
 
@@ -476,6 +581,18 @@ var _utils = (function () {
             } else {
                 $("#" + statusDD).val("customer");
             }
+        },
+        cityFormValidation: function() {
+            var error = false;
+            if(!$("#city").val()) {
+                $($("#city_jqDD").addClass("form-error").next()).addClass("form-error");
+                $("#cityError").addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
+                error = true;
+            }
+            return error;
+        },
+        setAddressEditVal: function() {
+
         }
     };
 })();

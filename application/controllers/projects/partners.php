@@ -124,6 +124,7 @@ class Partners extends CI_Controller {
 	public function viewOne() {
 		$this->load->model('projects/model_partners');
 		$this->load->model('security/model_users');
+		$this->load->model('utils/model_form_utils');
 
 		$partnerId 			= $this->input->post('partnerId');
 		$openAs		 			= $this->input->post('openAs');
@@ -136,12 +137,14 @@ class Partners extends CI_Controller {
 			$partners[$i]->updated_by_name = $this->model_users->getUsersList($partners[$i]->updated_by)[0]->user_name;
 		}
 
+		$stateText = !empty($partners[0]->state) ? $this->model_form_utils->getCountryStatus($partners[0]->state)[0]->name : "";
+
 		$addressParams = array(
 			'addressLine1' 		=> $partners[0]->address1,
 			'addressLine2' 		=> $partners[0]->address2,
 			'city' 				=> $partners[0]->city,
 			'country' 			=> $partners[0]->country,
-			'state'				=> $partners[0]->state,
+			'state'				=> $stateText,
 			'zipCode' 			=> $partners[0]->zip_code,
 			'requestFrom' 		=> 'view'
 		);

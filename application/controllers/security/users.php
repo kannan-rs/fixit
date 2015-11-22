@@ -18,14 +18,17 @@ class Users extends CI_controller {
 
 	private function _getAddressFile($view = '', $user_details = array())
 	{
+		$this->load->model('utils/model_form_utils');
 		$addressParams = array();
 		
 		if(isset($user_details) && count($user_details)) {
+				$stateText = !empty($user_details[0]->addr_state) ? $this->model_form_utils->getCountryStatus($user_details[0]->addr_state)[0]->name : "";
+
 				$addressParams['addressLine1'] 		= $user_details[0]->addr1;
 				$addressParams['addressLine2'] 		= $user_details[0]->addr2;
 				$addressParams['city'] 				= $user_details[0]->addr_city;
 				$addressParams['country'] 			= $user_details[0]->addr_country;
-				$addressParams['state']				= $user_details[0]->addr_state;
+				$addressParams['state']				=  $view == 'view' ? $stateText : $user_details[0]->addr_state;
 				$addressParams['zipCode'] 			= $user_details[0]->addr_pin;
 				$addressParams['requestFrom'] 		= 'view';
 		}
@@ -114,9 +117,17 @@ class Users extends CI_controller {
 		$referredBy 	= $this->input->post("referredBy");
 		$referredById 	= $this->input->post("referredById");
 		$password 		= $this->input->post('password');
+		$tc 			= $this->input->post('tc');
 		$activationKey 	= md5($emailId."-".$password);
 
-		if(!$this->model_users->getUserSnoViaEmail($emailId)) {
+		if(!$this->session->userdata("user_id") && (!isset($tc) || empty($tc))) {
+			$response["status"] 			= "error";
+			$response["message"] 			= "Please accept terms and condition";
+			print_r(json_encode($response));
+			exit();
+		}
+
+		if($emailId && !$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
 				'first_name' 			=> $this->input->post('firstName'),
 				'last_name' 			=> $this->input->post('lastName'), 

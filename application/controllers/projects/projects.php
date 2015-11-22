@@ -438,6 +438,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_issues');
 		$this->load->model('projects/model_partners');
 		$this->load->model('projects/model_remainingbudget');
+		$this->load->model('utils/model_form_utils');
 
 		$projectId = $this->input->post('projectId');
 		$projects = $this->model_projects->getProjectsList($projectId);
@@ -521,12 +522,13 @@ class Projects extends CI_Controller {
 		/*
 			Address Output
 		*/
+		$stateText = !empty($project->addr_state) ? $this->model_form_utils->getCountryStatus($project->addr_state)[0]->name : "";
 		$addressParams = array(
 			'addressLine1' 		=> $project->addr1,
 			'addressLine2' 		=> $project->addr2,
 			'city' 				=> $project->addr_city,
 			'country' 			=> $project->addr_country,
-			'state'				=> $project->addr_state,
+			'state'				=> $stateText,
 			'zipCode' 			=> $project->addr_pin,
 			'requestFrom' 		=> 'view'
 		);

@@ -47,6 +47,10 @@
 						<input type="text" name="city" id="city" value="<?php echo $city; ?>" list="city_list" placeholder="City" onkeyup="utilObj.getAndSetMatchCity(this.value)" onblur="utilObj.setAddressByCity()" required>
 					-->
 					<select name="city" id="city" onkeyup="utilObj.getAndSetMatchCity(this.value)" onblur="utilObj.setAddressByCity()" required>
+						<option value=""><?php echo $this->lang->line_arr('address->input_form->city_option_0'); ?></option>
+						<?php if(!empty($city)) { ?>
+							<option value="<?php echo $city ?>"><?php echo $city ?></option>
+						<?php } ?>
 					</select>					
 			<?php } ?>
 		</div>
@@ -77,8 +81,12 @@
 					echo $zipCode; 
 				} else { ?>
 					<!-- <input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="Zip Code" onblur="utilObj.setPostalCodeDetails()" required> -->
-					<input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="<?php echo $this->lang->line_arr('address->input_form->zipCode_ph'); ?>" required>
-					<datalist id="zipcode_list"></datalist>
+					<!-- <input type="text" name="zipCode" id="zipCode" list="zipcode_list" value="<?php echo $zipCode;?>" maxlength='5' placeholder="<?php echo $this->lang->line_arr('address->input_form->zipCode_ph'); ?>" required> -->
+					<!--<datalist id="zipcode_list"></datalist>-->
+					<input type="hidden" name="zipcodeDbVal" id="zipcodeDbVal" value="<?php echo $zipCode;?>">
+					<select name="zipCode" id="zipCode" required>
+						<option><?php echo $this->lang->line_arr('address->input_form->zipcode_option_0'); ?></option>
+					</select>
 			<?php } ?>
 		</div>
 	</td>
@@ -93,7 +101,8 @@
 					echo $country; 
 				} else { ?>
 					<input type="hidden" name="countryDbVal" id="countryDbVal" value="<?php echo $country;?>">
-					<select name="country" id="country" onchange="utilObj.populateState(this.value, '<?php echo $forForm; ?>');" required>
+					<!-- <select name="country" id="country" onchange="utilObj.populateStateOption({'country': this.value, 'moduleId' : '<?php echo $forForm; ?>'});" required> -->
+					<select name="country" id="country" required>
 						<option><?php echo $this->lang->line_arr('address->input_form->country_option_0'); ?></option>
 					</select>
 			<?php } ?>

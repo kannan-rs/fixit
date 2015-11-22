@@ -113,7 +113,6 @@ $().ready(function() {
             break;
         case "signup":
             utilObj.getAndSetCountryStatus("create_user_form");
-            //utilObj.getPostalCodeList("("create_user_form");
         break;
     }
 

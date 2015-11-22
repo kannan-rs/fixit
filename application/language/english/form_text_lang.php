@@ -62,6 +62,8 @@ $lang['user'] = array(
 		"referredBy" 					=> "User Referred By:",
 		"referredBycontractorZipCode" 	=> "Search Contractor By Zip Code and Select",
 		"referredBypartnerCompanyName" 	=> "Search Adjuster By Company Name and Select",
+		"tc" 							=> "I agree to the Fixit Network ##replace1## Terms and Condition ##replace2## and ##replace3## Privacy Policy ##replace4##",
+		"tc_error" 						=> "You must agree to the Fixit Network's Terms of Conditions and Privacy Policy, in order to use our services.",
 
 		/*
 			Place holder for text input element in Create/Edit form
@@ -1279,8 +1281,10 @@ $lang["address"] = array(
 			Dropdown's Default 1st text,
 			this text will be shown if no option is selected in Dropdown under Create/Edit form
 		*/
+		"state_option_0" => "--Select Ciry--",
 		"state_option_0" => "--Select State--",
-		"country_option_0" => "--Select Country--"
+		"country_option_0" => "--Select Country--",
+		"zipcode_option_0" => "--Select Zipcode--",
 	),
 	
 	/*

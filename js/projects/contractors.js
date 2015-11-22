@@ -121,7 +121,6 @@ contractors.prototype.createForm = function( options ) {
             projectObj._projects.setMandatoryFields();
             utilObj.setStatus("status", "statusDb");
             utilObj.getAndSetCountryStatus("create_contractor_form");
-            //utilObj.getPostalCodeList("("create_contractor_form");
         },
         error: function( error ) {
             error = error;
@@ -133,12 +132,18 @@ contractors.prototype.createForm = function( options ) {
 };
 
 contractors.prototype.createValidate =  function ( openAs, popupType ) {
+    var cityError = false;
     var validator = $( "#create_contractor_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
 
-    if(validator.form()) {
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
+
+    if(validator) {
         projectObj._contractors.createSubmit( openAs, popupType );
     }
 };
@@ -289,7 +294,8 @@ contractors.prototype.editForm = function( options ) {
             projectObj._contractors.setPrefContact();
             utilObj.setStatus("status", "statusDb");
             utilObj.getAndSetCountryStatus("update_contractor_form");
-            //utilObj.getPostalCodeList("("update_contractor_form");
+            _utils.setAddressByCity();
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
 
         },
         error: function( error ) {
@@ -302,12 +308,18 @@ contractors.prototype.editForm = function( options ) {
 };
 
 contractors.prototype.updateValidate = function() {
+    var cityError = false;
     var validator = $( "#update_contractor_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
 
-    if(validator.form()) {
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
+
+    if(validator) {
         projectObj._contractors.updateSubmit();
     }
 };

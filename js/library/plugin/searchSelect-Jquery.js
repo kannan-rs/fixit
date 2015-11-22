@@ -10,6 +10,11 @@
       this._createShowAllButton();
       if(this.element[0].id === "city") {
         this._addCityEventsToInput();
+
+        var cityDbVal = $("#cityDbVal").val();
+        $( this.input ).attr("placeholder", "Enter first 3 letter of the city").val(cityDbVal);
+        $("#city").val(cityDbVal);
+        this._createError({id : "cityError", "text" : ""});
       }
     },
 
@@ -48,7 +53,7 @@
       var input = this.input,
         wasOpen = false;
 
-      $( "<a>" )
+      this.a = $( "<a>" )
         .attr( "tabIndex", -1 )
         .attr( "title", "Show All Items" )
         .tooltip()
@@ -75,15 +80,30 @@
           // Pass empty string as value to search for, displaying all results
           input.autocomplete( "search", "" );
         });
-    },
 
+        var height = $(this.a).prev().outerHeight() - $(this.a).css("border-width").substr(0,1) * 2;
+        $(this.a).css({'height' : height+"px"});
+    },
+    _createError: function( options ) {
+      $( "<div>" ).css({"clear" : "both"})
+        .appendTo( this.wrapper);
+      $("<div>").attr("id", options.id).addClass(options.class).text(options.text).css({"display": "none"}).appendTo(this.wrapper);
+    },
     _addCityEventsToInput: function() {
         $( this.input ).on({
           keyup : function() { 
-            utilObj.getAndSetMatchCity(this.value)
+              $(this).removeClass("form-error").next().removeClass("form-error");
+              $("#cityError").css({"display" : "none"}).removeClass("form-error");
+              utilObj.getAndSetMatchCity(this.value);
           },
           blur : function() {
-            utilObj.setAddressByCity()
+            if(this.value != $("#city").val()) {
+                $("#city").val("");
+            } else {
+              $(this).removeClass("form-error").next().removeClass("form-error");
+              $("#cityError").css({"display" : "none"}).removeClass("form-error");
+              utilObj.setAddressByCity();
+            }
           }
         })
     },

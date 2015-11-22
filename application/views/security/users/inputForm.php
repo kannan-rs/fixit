@@ -335,6 +335,32 @@ if(!$openAs || $openAs != "popup") {
 				</td>
 			</tr>
 			<?php } ?>
+
+			<?php if($prefix == "create" && $userType == "") { ?>
+			<tr class="signupTC">
+				<td></td>
+				<td>
+					<table>
+						<tr>
+							<td>
+								<input id="termsCondition" name="termsCondition" type="checkbox" onclick="securityObj._users.tcChecked()" />
+							</td>
+							<td>
+							<?php
+								$tc_start = "<a target=\"_blank\" href=\"<?php echo base_url(); ?>\">";
+								$pp_start = "<a target=\"_blank\" href=\"<?php echo base_url(); ?>\">";
+								$end = "</a>";
+								echo str_replace(["##replace1##", "##replace2##", '##replace3##', '##replace4##'], [$tc_start, $end, $pp_start, $end], $this->lang->line_arr('user->input_form->tc'));
+							?>
+							</td>
+						</tr>
+						<tr id="tcError" class="error">
+							<td colspan="2"><?php echo $this->lang->line_arr('user->input_form->tc_error'); ?></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<?php } ?>
 			
 			<tr>
 				<td colspan="2">

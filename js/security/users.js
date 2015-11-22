@@ -15,8 +15,8 @@ var _users = (function () {
                 },
                 zipCode : {
                     required: true,
-                    minlength: 5,
-                    maxlength: 5,
+                    //minlength: 5,
+                    //maxlength: 5,
                     digits : true
                 },
                 privilege: {
@@ -139,23 +139,42 @@ var _users = (function () {
             };
         },
         createValidate: function ( openAs, popupType, belongsTo ) {
+            var isTcError = false;
+            var cityError = false;
             var validator = $("#create_user_form").validate({
                 rules: this.validationRules(),
                 messages: this.errorMessage()
-            });
+            }).form();
 
-            if(validator.form()) {
+            if(!session.account_type && !$("#termsCondition").prop("checked")) {
+                $("#tcError").show();
+                isTcError = true;
+            }
 
+            cityError = _utils.cityFormValidation();
+
+            if(isTcError || cityError) {
+                return false;
+            }
+
+            if( validator ) {
                 securityObj._users.createSubmit( openAs, popupType, belongsTo );
             }
         },
         updateValidate: function() {
+            var cityError = false;
             var validator = $("#update_user_form").validate({
                 rules: this.validationRules(),
                 messages: this.errorMessage()
-            });
+            }).form();
 
-            if(validator.form()) {
+            cityError = _utils.cityFormValidation();
+
+            if(cityError) {
+                return false;
+            }
+
+            if(validator) {
                 securityObj._users.updateSubmit();
             }
         },
@@ -211,11 +230,10 @@ var _users = (function () {
                         }
                     }
                     //securityObj._users.setStatus();
-                    utilObj.setStatus("userStatus", "userStatusDb");
+                    _utils.setStatus("userStatus", "userStatusDb");
                     securityObj._users.showBelongsToOption();
                     securityObj._users.showreferredByOption();
-                    utilObj.getAndSetCountryStatus("create_user_form");
-                    //utilObj.getPostalCodeList("("create_user_form");
+                    _utils.getAndSetCountryStatus("create_user_form");
                 },
                 error: function( error ) {
                     error = error;
@@ -250,6 +268,7 @@ var _users = (function () {
             var state                 = $(idPrefix+"#state").val();
             var country             = $(idPrefix+"#country").val();
             var zipCode                = $(idPrefix+"#zipCode").val();
+            var tc                  = $(idPrefix+"#termsCondition").prop("checked");
 
             $(idPrefix+"input[name=prefContact]:checked").each(
                 function() {
@@ -286,28 +305,29 @@ var _users = (function () {
                 method: "POST",
                 url: "/security/users/add",
                 data: {
-                    privilege             : privilege,
-                    firstName             : firstName,
-                    lastName             : lastName,
-                    password             : password,
-                    passwordHint         : passwordHint,
-                    belongsTo             : belongsTo,
-                    referredBy             : referredBy,
+                    privilege           : privilege,
+                    firstName           : firstName,
+                    lastName            : lastName,
+                    password            : password,
+                    passwordHint        : passwordHint,
+                    belongsTo           : belongsTo,
+                    referredBy          : referredBy,
                     belongsToId         : belongsToId,
-                    referredById         : referredById,
-                    userStatus             : userStatus,
+                    referredById        : referredById,
+                    userStatus          : userStatus,
                     emailId             : emailId,
-                    contactPhoneNumber     : contactPhoneNumber,
-                    mobileNumber         : mobileNumber,
-                    altNumber             : altNumber,
-                    primaryContact         : primaryContact,
+                    contactPhoneNumber  : contactPhoneNumber,
+                    mobileNumber        : mobileNumber,
+                    altNumber           : altNumber,
+                    primaryContact      : primaryContact,
                     prefContact         : prefContact,
-                    addressLine1         : addressLine1,
-                    addressLine2         : addressLine2,
-                    city                 : city,
-                    state                 : state,
+                    addressLine1        : addressLine1,
+                    addressLine2        : addressLine2,
+                    city                : city,
+                    state               : state,
                     country             : country,
-                    zipCode             : zipCode
+                    zipCode             : zipCode,
+                    tc                  : tc
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
@@ -356,19 +376,21 @@ var _users = (function () {
                     securityObj._users.setBelongsTo();
                     securityObj._users.setPrivilege();
                     //securityObj._users.setStatus();
-                    utilObj.setStatus("userStatus", "userStatusDb");
+                    _utils.setStatus("userStatus", "userStatusDb");
                     securityObj._users.setreferredBy();
 
                     securityObj._users.showBelongsToOption();
                     securityObj._users.showreferredByOption();
-                    utilObj.getAndSetCountryStatus("update_user_form");
-                    //utilObj.getPostalCodeList("("update_user_form");
+                    _utils.getAndSetCountryStatus("update_user_form");
+                    //_utils.setAddressEditVal();
+                    _utils.setAddressByCity();
+                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
 
                     dateOptions = {
                         fromDateField     : "activeStartDate",
                         toDateField        : "activeEndDate"
                     }
-                    utilObj.setAsDateRangeFields(dateOptions);
+                    _utils.setAsDateRangeFields(dateOptions);
                 },
                 error: function( error ) {
                     error = error;
@@ -386,8 +408,8 @@ var _users = (function () {
             var firstName             = $(idPrefix+"#firstName").val();
             var lastName             = $(idPrefix+"#lastName").val();
             var belongsTo             = $(idPrefix+"#belongsTo").val();
-            var activeStartDate     = $(idPrefix+"#activeStartDate").length ? utilObj.toMySqlDateFormat($("#activeStartDate").val()) : "";
-            var activeEndDate         = $(idPrefix+"#activeEndDate").length ? utilObj.toMySqlDateFormat($("#activeEndDate").val()) : "";
+            var activeStartDate     = $(idPrefix+"#activeStartDate").length ? _utils.toMySqlDateFormat($("#activeStartDate").val()) : "";
+            var activeEndDate         = $(idPrefix+"#activeEndDate").length ? _utils.toMySqlDateFormat($("#activeEndDate").val()) : "";
             var belongsToId         = "";
             var userStatus             = $(idPrefix+"#userStatus").val();
             var contactPhoneNumber     = $(idPrefix+"#contactPhoneNumber").val();
@@ -789,6 +811,11 @@ var _users = (function () {
 
             $("."+prefix+idPrefix+"-result").show();
             $("#"+prefix+idPrefix+"List").show();
+        },
+        tcChecked: function() {
+            if($("#termsCondition").prop("checked")) {
+                $("#tcError").hide();
+            }
         }
     }
 })();

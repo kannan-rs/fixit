@@ -15,28 +15,13 @@ class Model_form_utils extends CI_Model {
 		return $state;
 	}
 
-	public function getPostalCodeList( $zipcode = "") {
-		if(isset($zipcode) && !is_null($zipcode) && $zipcode != "") {
-			$this->db->where('zipcode', $zipcode);	
-		}
-		
-		$this->db->select(["zipcode", "city", "state", "state_abbreviation", "county"]);
-		$this->db->distinct();
-
-		$query = $this->db->from('postal_codes')->get();
-		
-		$state = $query->result();
-		
-		return $state;
-	}
-
 	public function getMatchCityList( $city = "") {
 		if(isset($city) && !is_null($city) && $city != "") {
-			$this->db->like('city', $city);	
+			$this->db->like('city', $city, "after");
 		}
 		
-		$this->db->select(["city"]);
-		$this->db->distinct();
+		$this->db->select(["zipcode", "city", "state_abbreviation"]);
+		//$this->db->distinct();
 		$this->db->order_by("city", "asc");
 
 		$query = $this->db->from('postal_codes')->get();

@@ -120,7 +120,6 @@ partners.prototype.createForm = function( options ) {
             projectObj._projects.setMandatoryFields();
             utilObj.setStatus("status", "statusDb");
             utilObj.getAndSetCountryStatus("create_partner_form");
-            //utilObj.getPostalCodeList("("create_partner_form");
         },
         error: function( error ) {
             error = error;
@@ -132,12 +131,18 @@ partners.prototype.createForm = function( options ) {
 };
 
 partners.prototype.createValidate =  function ( openAs, popupType ) {
+    var cityError = false;
     var validator = $( "#create_partner_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
 
-    if(validator.form()) {
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
+
+    if(validator) {
         projectObj._partners.createSubmit( openAs, popupType );
     }
 };
@@ -286,7 +291,8 @@ partners.prototype.editForm = function( options ) {
             projectObj._partners.setPrefContact();
             utilObj.setStatus("status", "statusDb");
             utilObj.getAndSetCountryStatus("update_partner_form");
-            //utilObj.getPostalCodeList("("update_partner_form");
+            _utils.setAddressByCity();
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
 
         },
         error: function( error ) {
@@ -299,12 +305,18 @@ partners.prototype.editForm = function( options ) {
 };
 
 partners.prototype.updateValidate = function() {
+    var cityError = false;
     var validator = $( "#update_partner_form" ).validate({
         rules: this.validationRules(),
         messages: this.errorMessage()
-    });
+    }).form();
 
-    if(validator.form()) {
+    cityError = _utils.cityFormValidation();
+    if(cityError) {
+        return false;
+    }
+
+    if(validator) {
         projectObj._partners.updateSubmit();
     }
 };

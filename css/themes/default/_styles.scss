@@ -141,7 +141,7 @@ div.form-error {
 	margin-top : 2px;
 }
 
-input.form-error {
+input.form-error, a.form-error {
 	border-color: red !important;
 }
 
@@ -491,7 +491,7 @@ div.form {
 	}
 	input.address {
 		width:300px;
-	}
+	} 
 }
 
 .create-link {
