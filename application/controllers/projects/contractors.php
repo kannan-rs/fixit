@@ -68,7 +68,7 @@ class Contractors extends CI_Controller {
 		$this->load->model('mail/model_mail');
 
 		$data = array(
-			'name' 				=> $this->input->post('name'),
+			//'name' 				=> $this->input->post('name'),
 			'company' 			=> $this->input->post('company'),
 			'type' 				=> $this->input->post('type'),
 			'license' 			=> $this->input->post('license'),
@@ -189,7 +189,7 @@ class Contractors extends CI_Controller {
 		$contractorId 			= $this->input->post('contractorId');
 
 		$data = array(
-			'name' 				=> $this->input->post('name'),
+			//'name' 				=> $this->input->post('name'),
 			'company' 			=> $this->input->post('company'),
 			'type' 				=> $this->input->post('type'),
 			'license' 			=> $this->input->post('license'),

@@ -22,7 +22,8 @@ var _permissions = (function () {
         getPermissions: function () {
             var user_id = $("#users").val();
 
-            user_type = $("#users").find(":selected").attr("data_user_type");
+            var user_type = $("#users").find(":selected").attr("data_user_type");
+            var responseObj = null;
             $("#user_type").text("'" + user_type + "'");
             $(".user_type_as").show();
 
@@ -63,7 +64,7 @@ var _permissions = (function () {
             var role_selected = "";
             var df_selected = "";
             //var user_sno = "";
-            //var role_sno = "";
+            var role_sno = "";
             var op_sno = "";
             var fn_sno = "";
             var df_sno = "";
@@ -71,6 +72,8 @@ var _permissions = (function () {
             var opIdx;
             var fnIdx;
             var dfIdx;
+            var responseObj = null;
+            
             user_id = $("#users").val();
 
             if (user_id === 0) {
@@ -195,6 +198,7 @@ var _permissions = (function () {
             var opIdx;
             var fnIdx;
             var dfIdx;
+            var role_selected = null;
 
             data = data[0];
             //$("#print_api").text(JSON.stringify(data)).show();

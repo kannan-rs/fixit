@@ -17,3 +17,7 @@ div.inner-column { padding:0 $defaultPadding; }
 
 /* text */
 div.text-padding { padding:0 5px; }
+
+.normal-text {
+	text-transform: none;
+}

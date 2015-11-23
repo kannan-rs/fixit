@@ -36,16 +36,18 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 	<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo isset($prefer) ? $prefer : ""; ?>" />
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->name'); ?>:</td>
 				<td>
-					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required placeholder="<?php echo $this->lang->line_arr('contractor->input_form->name_ph'); ?>">
+					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->name_ph'); ?>">
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->company'); ?>:</td>
 				<td>
-					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required placeholder="<?php echo $this->lang->line_arr('contractor->input_form->company_ph'); ?>">
+					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->company_ph'); ?>">
 				</td>
 			</tr>
 			<tr>
@@ -114,6 +116,20 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				</td>
 			</tr> -->
 			<tr>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
+				<td>
+					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" 
+						onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
+				</td>
+			</tr>
+			<tr class="default-user-search-result">
+			<td  class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="contractorUserList" class="connectedSortable dropdown"></ul>
+				</td>
+			</tr>
+			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->websiteURL'); ?>:</td>
 				<td>
 					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->websiteURL_ph'); ?>" required>
@@ -123,12 +139,6 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->serviceZip'); ?>:</td>
 				<td>
 					<textarea name="serviceZip" id="serviceZip" class="small-textarea" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->serviceZip_ph'); ?>" required><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
-				<td>
-					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
 				</td>
 			</tr>
 			<tr>

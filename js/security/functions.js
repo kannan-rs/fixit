@@ -93,9 +93,9 @@ var _functions = (function () {
         },
 
         createSubmit: function () {
-            function_id = $("#functionId").val();
-            function_name = $("#functionName").val();
-            function_desc = $("#functionDescr").val();
+            var function_id = $("#functionId").val();
+            var function_name = $("#functionName").val();
+            var function_desc = $("#functionDescr").val();
 
             $.ajax({
                 method: "POST",
@@ -139,10 +139,10 @@ var _functions = (function () {
         },
 
         updateSubmit: function () {
-            function_id = $("#functionId").val();
-            function_name = $("#functionName").val();
-            function_desc = $("#functionDescr").val();
-            function_sno =  $("#function_sno").val();
+            var function_id = $("#functionId").val();
+            var function_name = $("#functionName").val();
+            var function_desc = $("#functionDescr").val();
+            var function_sno =  $("#function_sno").val();
 
             $.ajax({
                 method: "POST",

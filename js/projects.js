@@ -1,14 +1,14 @@
 //Projects JS
 function projects() {
 
-    this._issues             = new issues();
-    this._projects             = new project();
-    this._tasks             = new task();
-    this._notes             = new note();
-    this._docs                 = new docs();
-    this._contractors        = new contractors();        // Contractors
-    this._partners            = new partners();            // Partners
-    this._remainingbudget     = new remainingbudget();
+    this._issues = _issues;
+    this._projects = _projects;
+    this._tasks = _tasks;
+    this._notes = _notes;
+    this._docs = _docs;
+    this._contractors = _contractors;        // Contractors
+    this._partners = _partners;            // Partners
+    this._remainingbudget = _remainingbudget;
 };
 
 projects.prototype.clearRest = function(excludeList) {

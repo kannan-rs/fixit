@@ -731,6 +731,7 @@ var _users = (function () {
         },
         getContractorListUsingZip: function( prefix ) {
             var self = this;
+            var contractors = null;
             $('#'+prefix+'contractorList').children().remove();
             if($("#"+prefix+"contractorZipCode").val().trim() == "") {
                 return;
@@ -764,6 +765,7 @@ var _users = (function () {
             });
         },
         getAdjusterByCompanyName: function( prefix ) {
+            var partners = null;
             $('#'+prefix+'adjusterList').children().remove();
             if($("#"+prefix+"partnerCompanyName").val().trim() == "") return;
             var self = this;

@@ -10,16 +10,36 @@
 	$exportFn 		= "projectObj._projects.exportCSV('".$projectId."')";
 ?>
 <div class="header-options">
-	<h2><?php echo $this->lang->line_arr('projects->headers->view_one'); ?></h2>
+	<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('projects->headers->view_one'); ?></h2>
+	<span class="options-icon left-icon-list">
+		<span class="ui-accordion-header-icon ui-icon ui-icon-plus expand-all" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->expand_all'); ?>" 
+			onclick="_projects.viewOnlyExpandAll()"></span>
+		<span class="ui-accordion-header-icon ui-icon ui-icon-minus collapse-all" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->collapse_all'); ?>" 
+			onclick="_projects.viewOnlyCollapseAll()"></span>
+	</span>
 	<span class="options-icon">
 		<span>
 			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>">
 				<span class="size-9"><?php echo $issueCount; ?></span>
 			</a>
 		</span>
-		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->edit_project'); ?>"></a></span>
-		<span><a  class="step fi-page-csv size-21" href="javascript:void(0);" onclick="<?php echo $exportFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->export_csv'); ?>"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->delete_project'); ?>"></a></span>
+		<span>
+			<a class="step fi-page-edit size-21" href="javascript:void(0);" 
+				onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->edit_project'); ?>">
+			</a>
+		</span>
+		<span>
+			<a class="step fi-page-csv size-21" href="javascript:void(0);" 
+				onclick="<?php echo $exportFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->export_csv'); ?>">
+			</a>
+		</span>
+		<span>
+			<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
+				onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->delete_project'); ?>">
+			</a>
+		</span>
 	</span>
 </div>
 <div>

@@ -20,8 +20,8 @@
 <form>
 	<div class='form'>
 	<!-- List all the Functions from database -->
-			<div class='label'><?php echo $this->lang->line_arr('contractor->details_view->name'); ?>:</div>
-			<div class="capitalize"><?php echo $contractor->name; ?></div>
+			<!-- <div class='label'><?php echo $this->lang->line_arr('contractor->details_view->name'); ?>:</div>
+			<div class="capitalize"><?php echo $contractor->name; ?></div> -->
 			<div class='label'><?php echo $this->lang->line_arr('contractor->details_view->company'); ?></div>
 			<div class="capitalize"><?php echo $contractor->company; ?></div>
 			<div class='label'><?php echo $this->lang->line_arr('contractor->details_view->type'); ?></div>

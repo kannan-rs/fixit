@@ -89,9 +89,9 @@ var _roles = (function () {
             });
         },
         createSubmit: function () {
-            role_id = $("#roleId").val();
-            role_name = $("#roleName").val();
-            role_desc = $("#roleDescr").val();
+            var role_id = $("#roleId").val();
+            var role_name = $("#roleName").val();
+            var role_desc = $("#roleDescr").val();
 
             $.ajax({
                 method: "POST",
@@ -131,10 +131,10 @@ var _roles = (function () {
             });
         },
         updateSubmit: function () {
-            role_id = $("#roleId").val();
-            role_name = $("#roleName").val();
-            role_desc = $("#roleDescr").val();
-            role_sno =  $("#role_sno").val();
+            var role_id = $("#roleId").val();
+            var role_name = $("#roleName").val();
+            var role_desc = $("#roleDescr").val();
+            var role_sno =  $("#role_sno").val();
 
             $.ajax({
                 method: "POST",

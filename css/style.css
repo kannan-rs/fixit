@@ -427,7 +427,8 @@ header {
   border-bottom: 2px solid #326A85;
   /*margin-bottom:$defaultMargin;*/ }
   header .logged_in {
-    float: right; }
+    float: right;
+    margin-top: 25px; }
     header .logged_in .logged-in-as {
       display: inherit;
       font-size: 12px; }
@@ -437,6 +438,7 @@ header {
     header .logo .logo-img {
       width: 140px; }
   header .login_form {
+    margin-top: 25px;
     float: right; }
     header .login_form table {
       margin: 0px; }
@@ -458,7 +460,8 @@ header {
     header .login_form input, header .login_form textarea, header .login_form select {
       padding: 2px; }
   header .captionText {
-    font-size: 11px; }
+    font-size: 11px;
+    text-transform: capitalize; }
 
 /*** NAVIGATION ***/
 nav {
@@ -678,6 +681,9 @@ div.inner-column {
 div.text-padding {
   padding: 0 5px; }
 
+.normal-text {
+  text-transform: none; }
+
 .prefMode {
   padding-top: 20px; }
 
@@ -855,13 +861,28 @@ a.accordion-icon, a.accordion-icon:visited {
 a.accordion-icon:hover {
   color: #2B5B78; }
 
-.header-options h2 {
-  float: left; }
-.header-options .options-icon {
-  float: right; }
-  .header-options .options-icon a {
-    text-decoration: none;
-    margin: 0px 5px 0px 5px; }
+.header-options {
+  border: 0px; }
+  .header-options h2 {
+    float: left; }
+  .header-options .ui-icon {
+    background-image: url("/images/jquery/ui-icons_ef8c08_256x240.png"); }
+  .header-options .options-icon {
+    float: right; }
+    .header-options .options-icon a {
+      text-decoration: none;
+      margin: 0px 5px 0px 5px; }
+  .header-options .left-icon-list {
+    float: left; }
+    .header-options .left-icon-list span {
+      margin-left: 10px; }
+  .header-options .expand-all, .header-options .collapse-all {
+    float: left;
+    border-width: 1px;
+    border-color: #eb8f00;
+    border-style: dotted;
+    border-radius: 5px;
+    cursor: pointer; }
 
 .contractorDetails {
   border: 1px solid #D3D3D3;
@@ -905,11 +926,12 @@ textarea.small-textarea {
   background-color: #EEEEEE; }
 
 .owner-search-result {
-  max-height: none;
-  float: none; }
+  /*max-height: none;
+  float : none;*/ }
 
 .owner-search-result.users {
-  max-height: 150px; }
+  /*max-height: 150px;*/
+  margin-top: -20px; }
 
 .issue-contractor-for-project-result ul li,
 .adjuster-search-result ul li,
@@ -1000,6 +1022,10 @@ a.icon-right {
     background-color: #E0E0E0; }
 
 .connectedSortable {
+  /*position: absolute;*/
+  /*margin-top: -20px;*/ }
+
+.connectedSortable.dropdown {
   position: absolute;
   margin-top: -20px; }
 

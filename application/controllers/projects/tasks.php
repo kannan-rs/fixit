@@ -26,7 +26,10 @@ class Tasks extends CI_Controller {
 		$viewFor 	= $this->input->post('viewFor');
 		$viewFor = $viewFor ? $viewFor : "";
 
-		$project 			= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$project 			= $this->model_projects->getProjectsList($projectParams);
 		$customerDetails 	= $this->model_users->getUserDetailsBySno($project[0]->customer_id);
 		$customerName 		= isset($customerDetails) && count($customerDetails) ? $customerDetails[0]->first_name." ".$customerDetails[0]->last_name : "-NA-";
 
@@ -86,7 +89,10 @@ class Tasks extends CI_Controller {
 		$projectId = $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
 
-		$parent_record = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$parent_record = $this->model_projects->getProjectsList($projectParams);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -149,7 +155,10 @@ class Tasks extends CI_Controller {
 		$response = $this->model_tasks->insert($data);
 		
 		/* Project Details */
-		$projects 	= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
 		$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
@@ -214,7 +223,10 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 
 		$projectId 		= $tasks[0]->project_id;
-		$parent_record 	= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$parent_record 	= $this->model_projects->getProjectsList($projectParams);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -278,7 +290,10 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 		$taskData = count($tasks) ? $tasks[0] : null;
 
-		$projects 	= $this->model_projects->getProjectsList($taskData->project_id);
+		$projectParams = array(
+			'projectId' => [$taskData->project_id]
+		);
+		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
 		$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
@@ -347,7 +362,10 @@ class Tasks extends CI_Controller {
 		if($ownerId && strpos($ownerId, '-'))
 			list($ownerType, $ownerTypeId) = explode('-', $ownerId);
 
-		$projects 	= $this->model_projects->getProjectsList($taskData->project_id);
+		$projectParams = array(
+			'projectId' => [$taskData->project_id]
+		);
+		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
 		$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
@@ -430,7 +448,10 @@ class Tasks extends CI_Controller {
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 
-		$parent_record 	= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$parent_record 	= $this->model_projects->getProjectsList($projectParams);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,

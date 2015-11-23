@@ -24,7 +24,7 @@ var _operations = (function () {
             return {
                 operationId: {
                     required: true,
-                    maxlength: 5,
+                   maxlength: 5,
                     minlength: 5,
                     digits: true
                 },
@@ -94,9 +94,9 @@ var _operations = (function () {
             });
         },
         createSubmit: function () {
-            ope_id = $("#operationId").val();
-            ope_name = $("#operationName").val();
-            ope_desc = $("#operationDescr").val();
+            var ope_id = $("#operationId").val();
+            var ope_name = $("#operationName").val();
+            var ope_desc = $("#operationDescr").val();
 
             $.ajax({
                 method: "POST",
@@ -138,10 +138,10 @@ var _operations = (function () {
             });
         },
         updateSubmit: function () {
-            ope_id = $("#operationId").val();
-            ope_name = $("#operationName").val();
-            ope_desc = $("#operationDescr").val();
-            ope_sno =  $("#ope_sno").val();
+            var ope_id = $("#operationId").val();
+            var ope_name = $("#operationName").val();
+            var ope_desc = $("#operationDescr").val();
+            var ope_sno =  $("#ope_sno").val();
 
             $.ajax({
                 method: "POST",

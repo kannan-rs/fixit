@@ -15,7 +15,7 @@
 		if(count($partners) > 0) {
 	?>
 			<tr class='heading'>
-			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->partner_name'); ?></td>
+			<!--<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->partner_name'); ?></td>-->
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->company'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->type'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->status'); ?></td>
@@ -31,11 +31,11 @@
 			$cssStatus = $partner->status == "inactive" ? "inactive" : "active";
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
-				<td class='cell capitalize'>
+				<!-- <td class='cell capitalize'>
 					<a href="javascript:void(0);" onclick="projectObj._partners.viewOne('<?php echo $partners[$i]->id; ?>')">
 						<?php echo $partner->name; ?>
 					</a>
-				</td>
+				</td> -->
 				<td class="cell capitalize"><?php echo $partner->company_name; ?></td>
 				<td class="cell capitalize"><?php echo $partner->type; ?></td>
 				<td class="cell capitalize"><?php echo $partner->status; ?></td>

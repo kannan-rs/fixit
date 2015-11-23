@@ -34,7 +34,11 @@ class Docs extends CI_Controller {
 			}
 		}
 
-		$project 			= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+
+		$project 			= $this->model_projects->getProjectsList($projectParams);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -101,7 +105,11 @@ class Docs extends CI_Controller {
 
 				$response = $this->model_docs->insert($data);
 
-				$projects = $this->model_projects->getProjectsList($projectId);
+				$projectParams = array(
+					'projectId' => [$projectId]
+				);
+
+				$projects = $this->model_projects->getProjectsList($projectParams);
 				$project 	= count($projects) ? $projects[0] : "";
 
 				$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;
@@ -190,7 +198,11 @@ class Docs extends CI_Controller {
 
 			$projectId = $docs->project_id;
 
-			$projects = $this->model_projects->getProjectsList($projectId);
+			$projectParams = array(
+				'projectId' => [$projectId]
+			);
+
+			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";
 
 			$customerId 	= isset($project) && isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id :  null;

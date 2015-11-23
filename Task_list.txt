@@ -12,27 +12,19 @@ Emails
 
 	Email template for all different scenario. with examples. (Action item on Michael)
 	--Belongs to need to have an option to add multiple adjusted for a company. This functionality will be same as contractor.
-	--Refer to will be a new column in create user. Its a drop-down same as belongs to. 
-	Refer to contractor search with zip code and user belongs to contractor search. 
-	Refer to adjuster search by company name and user belongs to this adjuster. 
-	As of now will go with email ID search for users.
 
-	Unable to add a new contractor, new tasks or new documents from the project details page for an existing project.  Add symbol only expands and contracts the content in the sections.
-	·         Issue log section needs to be added to the project details page that is formatted similar to task section.  Column names to include: Name/Description/date opened/Status/Resolved details/Date closed.  Section should reside above the Notes section and below the Task section.
 
 Mallik's Feedback
 -----------------
 	following are common to others (where ver you see same fields)  in addition to contractor :
 	-- 4) phone validation 
 	( http://stackoverflow.com/questions/13628995/form-validation-email-telephone-number)
-	-- 5) entering zipcodes, should be  valid numbers 
 
 MOM 3ed Aug 2015
 -----------------
 	1. Merging contractor and adjuster into single table with name company and company type should define (contractor / adjuster / customer etc...) (Later)
 	8. Validate email address that is available.
 	9. we need to have drop down on contractor types (Electr, Plumber, general, Automobile, Mechanic, etc..)
-	12. Will have inactive and active links in projects. Inactive will list all the inactive projects. Active will list all the active projects.
 
 24/8/2015
 ---------
@@ -45,17 +37,11 @@ MOM 3ed Aug 2015
 9/8/2015
 --------
 	1. Contractors and Partners need to be viewed by Admin (contractor, create contractor, partner and create partner).
-
 	Please insert the website content for the site and all email confirmations.  see attached.
-	Project list page - List of Projects title is mispelled
-	Confirmation email should come from admin@thefixitnetwork.com...currently says admin@fixitnetworks.com
-	After creating a user (non-admin account) I hit submit, the account creation form remained.  I should be taken to the project list page.  from there the user, based on if they are a new user or a new user associated with an existing project, they should be able to see 0 to many projects
 
 -- Document Attached - 
 -----------------
-
 	contractor / adjuster verification mail and activation.
-
 	6. Recpata.
 
 Work for this week.
@@ -72,25 +58,35 @@ Michael Notes : 14th october 2015
 Mallik
 		I try to create Contractor and partner, both missing last name. Also, how do they get user id/pwd ?
 		Michael,  Isn't user sign up screen should be same as create contractor or create partner screen ?
-	>> Can we remove the name from the contractor and partner creation. Company name is is th right term to use.
-
-Michael Notes : 20th October
----------------------------
-	Can we move the ‘logged in as admin….’  To the same level as the top portion of the logo?
-	Can we make the logo tagline bold text?  Capital M in marketplace
-	Export to .csv file did not work
-
-MOM-27th Oct 2015
------------------
-	-- Tearms and conditions during signup
 
 MOM 03ed Nov 2015
 -----------------
-1. Address validation to select proper state and zipcode from databased and not allow user to enter on his own.
 4. Work on feedbacks.
 5. contractor default users.
 
+3. Contractor to add/edit default contractor contact 
+	- Searchable text
+	- Search the contractor users by email ID to whome contractor company is not assigned
+	- List down all the contractor
+	- Select the user and assign it to that contractor company.
+	- mark the changes in both the table for mapping.
+4. Adjuster to add/edit default adjuster contact
+
 Work for this week
 ------------------
--- Done-- 1. Signup form Terms and conditions (3)
-2. Address reset and other issues
+	Error Corrected :
+		1. Contractor listing, Adjuster listing after search was given undefined, which is corrected
+		2. Contractor search list, adjuster search list and customer search list is shown as dropdown
+		3. Contractor selected list and adjuster selected list was shown as prefetched list without floating
+		4. Remaining budget button was not displayed properly. which is fixed
+		5. Removed prototype model and used single tone model for all project Javascript files.
+		6. Notes created by and date in next line
+		7. Notes desc order, recent 1st
+
+	Expand all and collapse all for project view only
+	List project of customer for which he is assigned to and he created..
+
+	-- Can we remove the name from the contractor and partner creation. Company name is is th right term to use.
+	-- Can we move the ‘logged in as admin….’  To the same level as the top portion of the logo?
+	-- Can we make the logo tagline bold text?  Capital M in marketplace
+	-- Export to .csv file did not work

@@ -154,7 +154,7 @@
 			<tr class="contractor-search-result">
 				<td class="label notMandatory">&nbsp;</td>
 				<td>
-					<ul id="contractorSearchResult" class="connectedSortable" onclick="projectObj._projects.searchContractorAction()"></ul>
+					<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="projectObj._projects.searchContractorAction()"></ul>
 				</td>
 			</tr>
 			<tr>
@@ -218,13 +218,15 @@
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchCustomerName'); ?></td>
 				<td>
-					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" onkeyup="projectObj._projects.showCustomerListInDropDown()">
+					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
+						placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
+						onkeyup="projectObj._projects.showCustomerListInDropDown()">
 				</td>
 			</tr>
 			<tr class="customer-search-result">
 			<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					<ul id="customerNameList" class="connectedSortable"></ul>
+					<ul id="customerNameList" class="connectedSortable dropdown"></ul>
 				</td>
 			</tr>
 			<tr>
@@ -256,7 +258,7 @@
 			<tr class="adjuster-search-result">
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					<ul id="adjusterSearchResult" class="connectedSortable" onclick="projectObj._projects.searchAdjusterAction()"></ul>
+					<ul id="adjusterSearchResult" class="connectedSortable dropdown" onclick="projectObj._projects.searchAdjusterAction()"></ul>
 				</td>
 			</tr>
 			<tr>

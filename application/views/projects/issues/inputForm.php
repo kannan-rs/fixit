@@ -66,14 +66,15 @@ if(!empty($headerText)) {
 			<tr id="assignedToUserCustomer">
 				<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueAssignedToCustomer'); ?></td>
 				<td>
-					<input type="text" name="issueAssignedToCustomer" id="issueAssignedToCustomer" value="" required placeholder="<?php echo $this->lang->line_arr('issues->input_form->issueAssignedToCustomer_ph'); ?>" disabled>
+					<input type="text" name="issueAssignedToCustomer" id="issueAssignedToCustomer" value="" 
+						required placeholder="<?php echo $this->lang->line_arr('issues->input_form->issueAssignedToCustomer_ph'); ?>" disabled>
 				</td>
 			</tr>
 
 			<!-- Project Contractor Search and Adding -->
 			<tr class="issue-contractor-for-project-result" id="assignedToUserContractor">
 				<!-- <div class="issue-contractor-for-project"> -->
-					<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueContractorResult'); ?></td>
+				<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueContractorResult'); ?></td>
 				<!-- </div> -->
 
 				<td>

@@ -13,7 +13,7 @@ if(isset($tasks) && count($tasks)) {
 }
 
 $task_id 					= isset($individualTask) ? $individualTask->task_id : "";
-$project_id 				= isset($individualTask) ? $individualTask->project_id : "";
+$project_id 				= isset($individualTask) ? $individualTask->project_id : $projectId;
 $task_name 					= isset($individualTask) ? $individualTask->task_name : "";
 $task_desc 					= isset($individualTask) ? $individualTask->task_desc : "";
 $task_start_date_for_view 	= isset($individualTask) ? $individualTask->task_start_date_for_view : "";

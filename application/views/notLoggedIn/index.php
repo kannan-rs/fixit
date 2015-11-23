@@ -24,8 +24,8 @@
 	reduce the unnecessary phone calls regarding and emails regarding what's next and the status of the overall project schedule.
 </p>
 
-<p>&nbsp;</p>
-<h2>The application will help you:</h2>
+<p></p>
+<h2 class="normal-text">The application will help you</h2>
 <ul>
 	<li>Organize your project in one location for your team </li>
 	<li>Detail out the project plans</li>

@@ -23,7 +23,7 @@
 		if(count($contractors) > 0) {
 	?>
 			<tr class='heading'>
-			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->contractor_name'); ?></td>
+			<!-- <td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->contractor_name'); ?></td> -->
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->company'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->type'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->status'); ?></td>
@@ -39,11 +39,11 @@
 			$cssStatus = $contractor->status == "inactive" ? "inactive" : "active";
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
-				<td class='cell capitalize'>
+				<!-- <td class='cell capitalize'>
 					<a href="javascript:void(0);" onclick="projectObj._contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
 						<?php echo $contractor->name; ?>
 					</a>
-				</td>
+				</td> -->
 				<td class="cell capitalize"><?php echo $contractor->name; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->company; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->type; ?></td>

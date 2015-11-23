@@ -40,7 +40,10 @@ class Notes extends CI_Controller {
 			$projectNotesResponse["notes"][$i]->updated_by_name = $this->model_users->getUsersList($projectNotesResponse["notes"][$i]->updated_by)[0]->user_name;
 		}
 
-		$project 			= $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$project 			= $this->model_projects->getProjectsList($projectParams);
 
 		$paramsNameDescr 	= array(
 			'projectId' 		=> $projectId,
@@ -115,7 +118,10 @@ class Notes extends CI_Controller {
 			$response["taskId"] = $this->input->post('taskId');
 		}
 
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
 
 		if($taskId) {
@@ -195,7 +201,10 @@ class Notes extends CI_Controller {
 			$projectId 	= !empty($note->project_id) ? $note->project_id : null;
 			$taskId 	= !empty($note->task_id) ? $note->task_id : null;
 		
-			$projects = $this->model_projects->getProjectsList($projectId);
+			$projectParams = array(
+				'projectId' => [$projectId]
+			);
+			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";
 
 			if($taskId) {

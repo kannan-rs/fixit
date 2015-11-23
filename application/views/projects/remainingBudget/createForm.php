@@ -48,15 +48,24 @@
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('budget->buttons_links->'.$prefix); ?></button>
+							<button type="button" id="create_pfbudget_submit" 
+								onclick="projectObj._remainingbudget.validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')">
+								<?php echo $this->lang->line_arr('budget->buttons_links->'.strtolower($prefix)); ?>
+							</button>
 						<?php
 						if($prefix == "Update") {
 						?>
-						<button type="button" id="create_pfbudget_submit" onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})"><?php echo $this->lang->line_arr('budget->buttons_links->add_new'); ?></button>
+							<button type="button" id="create_pfbudget_submit" 
+								onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})">
+									<?php echo $this->lang->line_arr('budget->buttons_links->add_new'); ?>
+							</button>
 						<?php
 						}
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+							<button type="button" id="cancelButton" 
+								onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">
+								<?php echo $this->lang->line_arr('buttons->cancel'); ?>
+							</button>
 					</p>
 				</td>
 			</tr>

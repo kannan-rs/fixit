@@ -32,12 +32,13 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 	<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo isset($contact_pref) ? $contact_pref : "" ; ?>" />
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->name'); ?>:</td>
 				<td>
-					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "" ;?>" required placeholder="<?php echo $this->lang->line_arr('partner->input_form->name_ph'); ?>">
+					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "" ;?>" required 
+					placeholder="<?php echo $this->lang->line_arr('partner->input_form->name_ph'); ?>">
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('partner->input_form->company'); ?>:</td>
 				<td>

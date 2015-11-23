@@ -28,7 +28,7 @@ class Model_notes extends CI_Model {
 				"created_date",
 				"updated_date"
 			]);
-		$this->db->order_by("created_date", "asc");
+		$this->db->order_by("created_date", "desc");
 		$query = $this->db->from('project_notes')->get();
 		$notesResult = $query->result();
 

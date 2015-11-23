@@ -94,7 +94,7 @@
           keyup : function() { 
               $(this).removeClass("form-error").next().removeClass("form-error");
               $("#cityError").css({"display" : "none"}).removeClass("form-error");
-              utilObj.getAndSetMatchCity(this.value);
+              _utils.getAndSetMatchCity(this.value);
           },
           blur : function() {
             if(this.value != $("#city").val()) {
@@ -102,7 +102,7 @@
             } else {
               $(this).removeClass("form-error").next().removeClass("form-error");
               $("#cityError").css({"display" : "none"}).removeClass("form-error");
-              utilObj.setAddressByCity();
+              _utils.setAddressByCity();
             }
           }
         })

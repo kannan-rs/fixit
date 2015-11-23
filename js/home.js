@@ -42,10 +42,9 @@ home.prototype.signupValidate = function() {
 
 $().ready(function() {
     homeObj = new home();
-    utilObj = _utils;
+    //_utils = _utils;
     projectObj = new projects();
     securityObj = new security();
-    homeObj = new home();
 
     /*
         Set Module to lode
@@ -112,7 +111,7 @@ $().ready(function() {
             homeObj._userInfo.changePassForm();
             break;
         case "signup":
-            utilObj.getAndSetCountryStatus("create_user_form");
+            _utils.getAndSetCountryStatus("create_user_form");
         break;
     }
 

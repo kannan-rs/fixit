@@ -597,7 +597,9 @@ $lang["projects"] = array (
 		"add_task_title" => "Add a Task",
 		"add_note_title" => "Add a Note",
 		"add_docs_title" => "Add a Document",
-		"add_contractor_title" => "Add a Contractor"
+		"add_contractor_title" => "Add a Contractor",
+		"expand_all" => "Expand All",
+		"collapse_all" => "Collapse All"
 	)
 );
 

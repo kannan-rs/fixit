@@ -83,7 +83,7 @@ class Partners extends CI_Controller {
 		$this->load->model('mail/model_mail');
 
 		$data = array(
-			'name' 				=> $this->input->post('name'),
+			//'name' 				=> $this->input->post('name'),
 			'company_name' 		=> $this->input->post('company'),
 			'type' 				=> $this->input->post('type'),
 			'license' 			=> $this->input->post('license'),
@@ -202,7 +202,7 @@ class Partners extends CI_Controller {
 		$partnerId 			= $this->input->post('partnerId');
 
 		$data = array(
-			'name' 				=> $this->input->post('name'),
+			//'name' 				=> $this->input->post('name'),
 			'company_name' 		=> $this->input->post('company'),
 			'type' 				=> $this->input->post('type'),
 			'license' 			=> $this->input->post('license'),

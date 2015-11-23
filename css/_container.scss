@@ -205,8 +205,13 @@ a.accordion-icon:hover {
 }
 
 .header-options {
+	border:0px;
+	
 	h2 {
 		float:left;
+	}
+	.ui-icon {
+		background-image: url("/images/jquery/ui-icons_ef8c08_256x240.png");
 	}
 	.options-icon {
 		float: right;
@@ -215,6 +220,20 @@ a.accordion-icon:hover {
 			text-decoration: none;
 			margin: 0px 5px 0px 5px;
 		}
+	}
+	.left-icon-list {
+		float:left;
+		span {
+			margin-left : 10px;
+		}
+	}
+	.expand-all, .collapse-all {
+		float: left;
+		border-width: 1px;
+		border-color: #eb8f00;
+		border-style: dotted;
+		border-radius: 5px;
+		cursor: pointer;
 	}
 }
 
@@ -266,12 +285,13 @@ textarea.small-textarea {
   }
  
  .owner-search-result {
- 	max-height: none;
- 	float : none;
+ 	/*max-height: none;
+ 	float : none;*/
  }
  
  .owner-search-result.users {
- 	max-height: 150px;
+ 	/*max-height: 150px;*/
+ 	margin-top: -20px;
  }
 
 .issue-contractor-for-project-result ul li, 
@@ -384,6 +404,11 @@ a.icon-right {
 }
 
 .connectedSortable {
+	/*position: absolute;*/
+	/*margin-top: -20px;*/
+}
+
+.connectedSortable.dropdown {
 	position: absolute;
-	margin-top: -20px;
+	margin-top: -20px
 }

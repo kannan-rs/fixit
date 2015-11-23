@@ -154,7 +154,10 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->insert($data);
 
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
 
 		$tasks = $this->model_tasks->getTask($taskId);
@@ -312,7 +315,10 @@ class Issues extends CI_Controller {
 		$issue 			= isset($issuesResponse["issues"]) && is_array($issuesResponse["issues"]) && count($issuesResponse["issues"]) ? $issuesResponse["issues"][0] : null;
 
 		if($issue) {
-			$projects = $this->model_projects->getProjectsList($issue->project_id);
+			$projectParams = array(
+				'projectId' => [$issue->project_id]
+			);
+			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";
 
 			$tasks = $this->model_tasks->getTask($issue->task_id);
@@ -383,7 +389,10 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->deleteRecord($issueId);
 
-		$projects = $this->model_projects->getProjectsList($issue->project_id);
+		$projectParams = array(
+			'projectId' => [$issue->project_id]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
 
 		$tasks = $this->model_tasks->getTask($issue->task_id);

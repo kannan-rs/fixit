@@ -24,8 +24,40 @@ class Projects extends CI_Controller {
 	public function viewAll() {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_issues');
+		$this->load->model('security/model_users');
+		$projectList = "";
+
+		//print_r($this->session->userdata);
+		$account_type = $this->session->userdata('account_type');
+		$user_id = $this->session->userdata('user_id');
+		$email = $this->session->userdata('email');
+
+		$projectParams = array(
+			'account_type' => $account_type,
+			'user_details_id' => $this->model_users->getUserDetailsSnoViaEmail($email),
+			'user_id' => $user_id,
+			'email' => $email
+		);
+
+		$projectListArr = array();
+		//print_r($projectParams);
+		if($account_type == "user") {
+			$projectList = $this->model_projects->getProjectIds($projectParams);
+			for($i = 0; $i < count($projectList); $i++) {
+				array_push($projectListArr, $projectList[$i]->proj_id);
+			}
+		} else if($account_type != "admin") {
+			//$projectList = 
+		}
+
+		//echo "projectListArr ->";
+		//print_r($projectListArr); 
+
+		$projectParams["projectId"] = $projectListArr;
+
+		//print_r($projectParams);
 		
-		$projects = $this->model_projects->getProjectsList();
+		$projects = $this->model_projects->getProjectsList( $projectParams );
 
 		for($i = 0; $i < count($projects); $i++) {
 			$start_date = "";
@@ -81,7 +113,10 @@ class Projects extends CI_Controller {
 			"status" 	=> "error"
 		);
 
-		$projects = $this->model_projects->getProjectsList( $projectId );
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList( $projectParams );
 
 		if(count($projects)) {
 			$customerId = $projects[0]->customer_id;
@@ -234,7 +269,10 @@ class Projects extends CI_Controller {
 
 		$record = $this->input->post('projectId');
 
-		$projects = $this->model_projects->getProjectsList($record);
+		$projectParams = array(
+			'projectId' => [$record]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["tasks", "project notes", "documents"],
@@ -364,7 +402,10 @@ class Projects extends CI_Controller {
 		$projectId = $this->input->post('projectId');
 
 		// Get Porject details defore delete
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
 
 		$customerId = isset($project->customer_id) && !empty($project->customer_id) ? $project->customer_id : null;
@@ -415,7 +456,10 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 
 		$projectId = $this->input->post('projectId');
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 
 		$project 	= count($projects) ? $projects[0] : "";
 
@@ -441,7 +485,10 @@ class Projects extends CI_Controller {
 		$this->load->model('utils/model_form_utils');
 
 		$projectId = $this->input->post('projectId');
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 
 		$project 	= count($projects) ? $projects[0] : "";
 
@@ -559,7 +606,17 @@ class Projects extends CI_Controller {
 	}
 
 	public function exportCSV() {
-		$projectId = $this->session->userdata("function");
+		$this->load->helper('url');
+		//$controller = $this->uri->segment(1);
+		//$page = $this->uri->segment(2);
+		//$module = $this->uri->segment(3) ? $this->uri->segment(3): "";
+		//$sub_module = $this->uri->segment(3) ? $this->uri->segment(3): "";
+		$function = $this->uri->segment(4) ? $this->uri->segment(4): "";
+		//$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
+
+		//echo $controller.",".$page.",".$module .",".$sub_module.",".$function.",".$record;
+
+		$projectId = $function;
 		/*print_r($this->session->all_userdata());*/
 
 		if(!isset($projectId) || empty($projectId)) {
@@ -576,7 +633,10 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_partners');
 		$this->load->model('projects/model_remainingbudget');
 
-		$projects = $this->model_projects->getProjectsList($projectId);
+		$projectParams = array(
+			'projectId' => [$projectId]
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
 
 		$project 	= count($projects) ? $projects[0] : "";
 

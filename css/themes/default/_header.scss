@@ -9,6 +9,7 @@ header {
 
 	.logged_in {
 		float: right;
+		margin-top: 25px;
 
 		.logged-in-as {
 			display: inherit;
@@ -26,6 +27,7 @@ header {
 	}
 
 	.login_form {
+		margin-top: 25px;
 		float : right;
 
 		table {
@@ -66,5 +68,6 @@ header {
 
 	.captionText {
 		font-size : 11px;
+		text-transform: capitalize
 	}
 }

@@ -13,11 +13,32 @@ if(!$openAs || $openAs != "popup") {
 	<!-- <span class="options-icon"> -->
 		<!-- Show Links above the table -->
 		<div class="issues internal-tab-as-links" onclick="projectObj._issues.showIssuesList(event)">
-			<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('issues->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->open'); ?></a>
-			<a href="javascript:void(0);" data-option="closed" title="<?php echo $this->lang->line_arr('issues->buttons_links->closed_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->closed'); ?></a>
-			<a href="javascript:void(0);" data-option="cancelled" title="<?php echo $this->lang->line_arr('issues->buttons_links->cancelled_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->cancelled'); ?></a>
-			<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('issues->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('issues->buttons_links->all'); ?></a>
-			<span style="float:right;" ><a  class="step fi-page-add size-21" href="javascript:void(0);" onclick="<?php echo $createFn; ?>" title="<?php echo $this->lang->line_arr('issues->buttons_links->add_issues_title'); ?>"></a></span>
+			<a href="javascript:void(0);" data-option="open" 
+				title="<?php echo $this->lang->line_arr('issues->buttons_links->open_title'); ?>">
+				<?php echo $this->lang->line_arr('issues->buttons_links->open'); ?>
+			</a>
+			
+			<a href="javascript:void(0);" data-option="closed" 
+				title="<?php echo $this->lang->line_arr('issues->buttons_links->closed_title'); ?>">
+				<?php echo $this->lang->line_arr('issues->buttons_links->closed'); ?>
+			</a>
+
+			<a href="javascript:void(0);" data-option="cancelled" 
+				title="<?php echo $this->lang->line_arr('issues->buttons_links->cancelled_title'); ?>">
+				<?php echo $this->lang->line_arr('issues->buttons_links->cancelled'); ?>
+			</a>
+
+			<a href="javascript:void(0);" data-option="all" 
+				title="<?php echo $this->lang->line_arr('issues->buttons_links->all_title'); ?>">
+				<?php echo $this->lang->line_arr('issues->buttons_links->all'); ?>
+			</a>
+
+			<span style="float:right;" >
+				<a  class="step fi-page-add size-21" href="javascript:void(0);" 
+					onclick="<?php echo $createFn; ?>" 
+					title="<?php echo $this->lang->line_arr('issues->buttons_links->add_issues_title'); ?>">
+				</a>
+			</span>
 		</div>
 	<!-- </span> -->
 </div>

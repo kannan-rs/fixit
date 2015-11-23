@@ -149,14 +149,16 @@ var _utils = (function () {
             //$('#' + moduleId + ' #city_list').empty();
 
             $('#city').empty();
-            for (i = 0; i < searchCityList.length; i += 1) {
-                //$('#' + moduleId + ' #city_list').append($('<option>', {
-                if(uniqueCity.indexOf(searchCityList[i].city) < 0) {
-                    uniqueCity.push(searchCityList[i].city);
-                    $('#city').append($('<option>', {
-                        'value': searchCityList[i].city,
-                        'text': searchCityList[i].city
-                    }));
+            if(searchCityList) {
+                for (i = 0; i < searchCityList.length; i += 1) {
+                    //$('#' + moduleId + ' #city_list').append($('<option>', {
+                    if(uniqueCity.indexOf(searchCityList[i].city) < 0) {
+                        uniqueCity.push(searchCityList[i].city);
+                        $('#city').append($('<option>', {
+                            'value': searchCityList[i].city,
+                            'text': searchCityList[i].city
+                        }));
+                    }
                 }
             }
             
@@ -228,7 +230,7 @@ var _utils = (function () {
                     zipList.push( postalList[i].zipcode);
                 }
             }
-            return $.unique(zipList);
+            return zipList ? $.unique(zipList) : [];
         },
         getStateAbrFromCity : function ( postalList ) {
             var i = 0;
@@ -239,7 +241,7 @@ var _utils = (function () {
                     stateAbr.push( postalList[i].state_abbreviation);
                 }
             }
-            return $.unique(stateAbr);
+            return stateAbr ? $.unique(stateAbr) : [];
         },
         populateStateOption: function ( options ) {
             var i = 0;
@@ -363,11 +365,11 @@ var _utils = (function () {
                     }
 
                     
-                    if(type == "searchList") {
+                    if(dataIdentifier == "customer") {
                         clickParamsObj = {
                             searchBoxId: appendTo,
-                            first_name: list[i].first_name,
-                            last_name: list[i].last_name,
+                            first_name: list[i].first_name || "",
+                            last_name: list[i].last_name  || "",
                             searchId: list[i].sno,
                             email: list[i].email
                         };
@@ -378,12 +380,13 @@ var _utils = (function () {
                     }
 
                      
-                    if(type == "searchList") {
+                    if(dataIdentifier == "customer") {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
                         li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
                         li += "<div class=\"second\">" + list[i].email + "</div>";
                     } else {
-                        li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
+                        li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + 
+                            (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
                         li += " data-"+dataIdentifier+"id = " + list[i].id;
                         li += ">";
                         li += "<div>" + list[i][dispStrKey] + "</div>";
@@ -462,7 +465,8 @@ var _utils = (function () {
                 type: "searchList",
                 functionName: "projectObj._projects.setCustomerId",
                 searchBoxId: "searchCustomerName",
-                dbEntryId: "customer_id"
+                dbEntryId: "customer_id",
+                dataIdentifier    : "customer",
             };
 
             this.createDropDownOptionsList(searchList);
@@ -481,7 +485,9 @@ var _utils = (function () {
                 type: "searchList",
                 functionName: "projectObj._projects.setAdjusterId",
                 searchBoxId: "searchAdjusterName",
-                dbEntryId: "adjuster_id"
+                dbEntryId: "adjuster_id",
+                dispStrKey: "company_name",
+                dataIdentifier    : "adjuster"
             };
 
             this.createDropDownOptionsList(searchList);

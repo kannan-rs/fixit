@@ -93,9 +93,9 @@ var _dataFilters = (function () {
         },
 
         createSubmit: function () {
-            dataFilter_id = $("#dataFilterId").val();
-            dataFilter_name = $("#dataFilterName").val();
-            dataFilter_desc = $("#dataFilterDescr").val();
+            var dataFilter_id = $("#dataFilterId").val();
+            var dataFilter_name = $("#dataFilterName").val();
+            var dataFilter_desc = $("#dataFilterDescr").val();
 
             $.ajax({
                 method: "POST",
@@ -139,10 +139,10 @@ var _dataFilters = (function () {
         },
 
         updateSubmit: function () {
-            dataFilter_id = $("#dataFilterId").val();
-            dataFilter_name = $("#dataFilterName").val();
-            dataFilter_desc = $("#dataFilterDescr").val();
-            dataFilter_sno =  $("#dataFilter_sno").val();
+            var dataFilter_id = $("#dataFilterId").val();
+            var dataFilter_name = $("#dataFilterName").val();
+            var dataFilter_desc = $("#dataFilterDescr").val();
+            var dataFilter_sno =  $("#dataFilter_sno").val();
 
             $.ajax({
                 method: "POST",

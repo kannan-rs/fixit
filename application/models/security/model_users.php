@@ -70,6 +70,25 @@ class Model_users extends CI_Model {
 		}
 	}
 
+	public function getUserDetailsSnoViaEmail($email = '') {
+		if($email != '') {
+			$this->db->where('email', $email);
+			$this->db->where('deleted', '0');
+
+			$query = $this->db->get('user_details');
+
+			if($query->num_rows() == 1) {
+				if($user_row = $query->result()) {
+					return $user_row[0]->sno;
+				}
+			} else {
+				return false;
+			}	
+		} else {
+			return false;
+		}
+	}
+
 	public function getUsersList($params = "", $from_db = "users") {
 		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.account_type, ";
 		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
