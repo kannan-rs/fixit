@@ -1,5 +1,5 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="securityObj._roles.createForm()">
+	<a href="javascript:void(0);" onclick="_roles.createForm()">
 		<?php echo $this->lang->line_arr('role->buttons_links->create'); ?>
 	</a>
 </div>

@@ -36,7 +36,7 @@ $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_function_submit" onclick="securityObj._functions.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('function->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_function_submit" onclick="_functions.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('function->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

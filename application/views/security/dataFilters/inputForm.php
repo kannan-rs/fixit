@@ -37,7 +37,7 @@ $data_filter_descr 	= isset($individualDataFilter) ? $individualDataFilter->data
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_dataFilter_submit" onclick="securityObj._dataFilters.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('data_filter->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_dataFilter_submit" onclick="_dataFilters.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('data_filter->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

@@ -120,7 +120,7 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 				<td>
 					<input type="email" id="searchForDefaultContractor" name="searchForDefaultContractor" 
 						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" 
-						onkeyup="projectObj._contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
+						onkeyup="_contractors.searchUserByEmail({ emailid : this.value, belongsTo : 'contractor', 'assignment' : 'not_assigned'})">
 				</td>
 			</tr>
 			<tr class="default-user-search-result">
@@ -144,11 +144,11 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="projectObj._contractors.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="_contractors.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?></button>
 						<?php
 						if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="cancelButton" onclick="_projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php
 						} else {
 						?>

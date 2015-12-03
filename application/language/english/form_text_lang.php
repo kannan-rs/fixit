@@ -404,13 +404,20 @@ $lang["permission"] = array(
 			Dropdown's Default 1st text,
 			this text will be shown if no option is selected in Dropdown under Create/Edit form
 		*/
-		"user_option_0" => "--Select Users--"
+		"user_option_0" => "--Select User --",
+		"role_option_0" => "--Select Role --",
+		"function_option_0" => "--Select Function --"
 	),
 	/*
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"set" => "Set Permissions"
+		"set" => "Set Permissions",
+		"default_title" => "Default Role based Permissions",
+		"default" => "Default",
+		"user_permission_title" => "Specific User nased Permissions",
+		"user_permission" => "Users"
+
 	)
 );
 

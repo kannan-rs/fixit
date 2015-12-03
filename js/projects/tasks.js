@@ -48,7 +48,7 @@ var _tasks = (function () {
             });
 
             if(validator.form()) {
-                projectObj._projects.taskCreateSubmit();
+                _projects.taskCreateSubmit();
             }
         },
 
@@ -59,7 +59,7 @@ var _tasks = (function () {
             });
 
             if(validator.form()) {
-                projectObj._projects.taskUpdateSubmit();
+                _projects.taskUpdateSubmit();
             }
         },
 

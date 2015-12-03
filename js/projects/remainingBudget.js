@@ -38,13 +38,13 @@ var _remainingbudget = (function () {
                 data: {
                     openAs: openAs,
                     popupType: popupType,
-                    projectId: projectObj._projects.projectId,
+                    projectId: _projects.projectId,
                     budgetId: budgetId
                 },
                 success: function (response) {
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
-                        projectObj._projects.openDialog({title: "Paid From Budget"}, popupType);
+                        _projects.openDialog({title: "Paid From Budget"}, popupType);
                         _utils.setAsDateFields({dateField: "date"});
                     }
                 },
@@ -63,7 +63,7 @@ var _remainingbudget = (function () {
             });
 
             if (validator.form()) {
-                projectObj._remainingbudget.addUpdate(openAs, popupType);
+                _remainingbudget.addUpdate(openAs, popupType);
             }
         },
 
@@ -85,15 +85,15 @@ var _remainingbudget = (function () {
                     date: date,
                     descr: descr,
                     amount: amount,
-                    projectId: projectObj._projects.projectId,
+                    projectId: _projects.projectId,
                     budgetId: budgetId
                 },
                 success: function (response) {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        projectObj._remainingbudget.getListWithForm({openAs: openAs, popupType: popupType});
-                        projectObj._projects.viewOnlyBudget();
+                        _remainingbudget.getListWithForm({openAs: openAs, popupType: popupType});
+                        _projects.viewOnlyBudget();
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -107,7 +107,7 @@ var _remainingbudget = (function () {
         },
 
         editRecordForm: function (budgetId) {
-            projectObj._remainingbudget.getListWithForm({openAs: "popup", popupType: "2", budgetId: budgetId});
+            _remainingbudget.getListWithForm({openAs: "popup", popupType: "2", budgetId: budgetId});
         },
 
         deleteRecord: function (budgetId) {
@@ -122,8 +122,8 @@ var _remainingbudget = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
-                        projectObj._remainingbudget.getListWithForm({openAs: "popup", popupType: "2"});
-                        projectObj._projects.viewOnlyBudget();
+                        _remainingbudget.getListWithForm({openAs: "popup", popupType: "2"});
+                        _projects.viewOnlyBudget();
                     }
                 },
                 error: function (error) {

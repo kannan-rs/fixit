@@ -5,7 +5,7 @@
 				<lable class="label">Project Name</lable>
 			</td>
 			<td>
-				<a href="javascript:void(0);" onclick="projectObj._projects.viewOne('<?php echo $projectId; ?>');">'<?php echo $projectName; ?></a>'
+				<a href="javascript:void(0);" onclick="_projects.viewOne('<?php echo $projectId; ?>');">'<?php echo $projectName; ?></a>'
 			</td>
 		</tr>
 		<tr>

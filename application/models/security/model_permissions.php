@@ -24,8 +24,52 @@ class Model_permissions extends CI_Model {
 		return $output;
 	}
 
-	public function getUserPermission() {
-		$this->db->where('user_id', $this->input->post("user_id"));
+	public function getDefaultPermission( $options ) {
+
+		$user_id = $options["user_id"];
+		$role_id = $options["role_id"];
+		$type = $options["type"];
+
+		$this->db->where('user_id', "");
+		
+		$permissions_query 		= $this->db->get('permissions');
+
+		$permissions 			= $permissions_query->result();
+		return $permissions;
+	}
+
+	public function getPermissionsById( $options ) {
+		if($options["permissionId"] && $options["permissionId"] != "") {
+			$this->db->where('sno', $options["permissionId"]);
+			$permissions_query 		= $this->db->get('permissions');
+			$permissions 			= $permissions_query->result();
+			return $permissions;
+		} else {
+			return [];
+		}
+	}
+
+	public function getUserPermission( $options) {
+
+		$user_id = $options["user_id"];
+		$role_id = $options["role_id"];
+		$function_id = $options["function_id"];
+		$type = $options["type"];
+
+		if($type != 'default' && $user_id != "") {
+			$this->db->where('user_id', $user_id);	
+		} else {
+			$this->db->where('user_id', '');
+		}
+
+		if($type == 'default' && $role_id != "") {
+			$this->db->where('role_id', $role_id);	
+		}
+
+		if($function_id != "") {
+			$this->db->where('function_id', $function_id);	
+		}
+		
 		$permissions_query 		= $this->db->get('permissions');
 
 		$permissions 			= $permissions_query->result();
@@ -34,32 +78,83 @@ class Model_permissions extends CI_Model {
 
 	public function setUserPermission() {
 		$this->db->where('user_id', $this->input->post("user_id"));
-		$get_query 		= $this->db->get('permissions');
-
-		$get 			= $get_query->result();
+		$type = $this->input->post('type');
+		$user_id = $this->input->post('user_id');
+		$role_id = $this->input->post('role_id');
+		$op_id = $this->input->post('op_sno');
+		$function_id = $this->input->post('fn_id');
+		$data_filter_id = $this->input->post('df_sno');
+		$permission_id = $this->input->post("permissionId");
 
 		$data = array(
-			   'role_id' => $this->input->post('role_id'),
-			   'op_id' => $this->input->post('op_id'),
-			   'function_id' => $this->input->post('fn_id'),
-			   'data_filter_id' => $this->input->post('df_id')
+			'user_id' => $this->input->post('user_id'),
+			'role_id' => $this->input->post('role_id'),
+			'op_id' => $this->input->post('op_sno'),
+			'function_id' => $this->input->post('fn_id'),
+			'data_filter_id' => $this->input->post('df_sno')
 		);
 
-		if(count($get)) {
-			$this->db->where('user_id', $this->input->post("user_id"));
+		if($permission_id != "") {
+			$this->db->where('sno', $permission_id);
+		} else if($type == "default" && $user_id == "") {
+			$this->db->where('role_id', $role_id);
+			$this->db->where('user_id', "");
+		} else if($type != "default" && $user_id != "") {
+			$this->db->where('role_id', $role_id);
+			$this->db->where('user_id', $user_id);
+		}
+
+		if($function_id != "") {
+			$this->db->where("function_id", $function_id);
+		}
+
+		$get_query 		= $this->db->get('permissions');
+		$get 			= $get_query->result();
+		$count = count($get);
+
+		$response = array(
+			"status" => "success"
+		);
+		if( $count > 1) {
+			$response["status"] = "error";
+			$response["message"] = "Something is wrong while updating permission, please try proper combination";
+		} else if( $count == 1 ) {
+			$sno = $get[0]->sno;
+			$this->db->where('sno', $sno);
 			if($this->db->update("permissions", $data)) {
-				return "updated";
+				$response["action"] = "updated";
 			} else {
-				return $this->db->_error_message();
+				$response["status"] = "error";
+				$response["message"] = $this->db->_error_message();
 			}
 		} else {
-			$data["user_id"] = $this->input->post('user_id');
 			if($this->db->insert("permissions", $data)) {
-				return "inserted";
+				$response["action"] = "inserted";
 			} else {
-				return $this->db->_error_message();
+				$response["status"] = "error";
+				$response["message"] = $this->db->_error_message();
 			}
 		}
+
+		return $response;
+	}
+
+	public function deleteRecord() {
+		$permission_id = $this->input->post("permissionId");
+
+		$response = array(
+			"status" => "error"
+		);
+
+		if($permission_id && $permission_id != "") {
+			$this->db->where('sno', $permission_id);
+			if($this->db->delete("permissions")) {
+				$response["status"] = "success";
+				$response["action"] = "deleteed";
+			} 
+		}
+
+		return $response;
 	}
 }
 ?>

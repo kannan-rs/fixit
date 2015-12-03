@@ -158,7 +158,7 @@ var _users = (function () {
             }
 
             if( validator ) {
-                securityObj._users.createSubmit( openAs, popupType, belongsTo );
+                _users.createSubmit( openAs, popupType, belongsTo );
             }
         },
         updateValidate: function() {
@@ -175,7 +175,7 @@ var _users = (function () {
             }
 
             if(validator) {
-                securityObj._users.updateSubmit();
+                _users.updateSubmit();
             }
         },
         viewAll: function( options ) {
@@ -224,15 +224,15 @@ var _users = (function () {
                     } else {
                         $("#popupForAll"+popupType).html( response );
                         if(belongsTo == "adjuster") {
-                            projectObj._projects.openDialog({"title" : "Add Adjuster"}, popupType);
+                            _projects.openDialog({"title" : "Add Adjuster"}, popupType);
                         } else if(belongsTo == "customer") {
-                            projectObj._projects.openDialog({"title" : "Add Customer"}, popupType);
+                            _projects.openDialog({"title" : "Add Customer"}, popupType);
                         }
                     }
-                    //securityObj._users.setStatus();
+                    //_users.setStatus();
                     _utils.setStatus("userStatus", "userStatusDb");
-                    securityObj._users.showBelongsToOption();
-                    securityObj._users.showreferredByOption();
+                    _users.showBelongsToOption();
+                    _users.showreferredByOption();
                     _utils.getAndSetCountryStatus("create_user_form");
                 },
                 error: function( error ) {
@@ -342,7 +342,7 @@ var _users = (function () {
                                 status                 : "success",
                                 responseType         : "add"
                             }
-                            securityObj._users.viewOne( params );
+                            _users.viewOne( params );
                         } else if (session.page == "signup") {
                             $(".content").html( response["createConfirmPage"] );
                         }
@@ -371,16 +371,16 @@ var _users = (function () {
                         $("#security_content").html(response);
                     }
 
-                    securityObj._users.setPrimaryContact();
-                    securityObj._users.setPrefContact();
-                    securityObj._users.setBelongsTo();
-                    securityObj._users.setPrivilege();
-                    //securityObj._users.setStatus();
+                    _users.setPrimaryContact();
+                    _users.setPrefContact();
+                    _users.setBelongsTo();
+                    _users.setPrivilege();
+                    //_users.setStatus();
                     _utils.setStatus("userStatus", "userStatusDb");
-                    securityObj._users.setreferredBy();
+                    _users.setreferredBy();
 
-                    securityObj._users.showBelongsToOption();
-                    securityObj._users.showreferredByOption();
+                    _users.showBelongsToOption();
+                    _users.showreferredByOption();
                     _utils.getAndSetCountryStatus("update_user_form");
                     //_utils.setAddressEditVal();
                     _utils.setAddressByCity();
@@ -496,7 +496,7 @@ var _users = (function () {
                             status                 : "success",
                             responseType         : "update"
                         }
-                        securityObj._users.viewOne( params );
+                        _users.viewOne( params );
                     } else {
                         alert(response["message"]);
                     }
@@ -525,7 +525,7 @@ var _users = (function () {
                             status                 : "success",
                             responseType         : "delete"
                         }
-                        securityObj._users.viewAll( params );
+                        _users.viewAll( params );
                     } else {
                         alert(response["message"]);
                     }
@@ -563,7 +563,7 @@ var _users = (function () {
                         title = belongsTo == "adjuster" ? "Adjuster" : title;
                         title = belongsTo == "customer" ? "Customer" : title;
 
-                        projectObj._projects.openDialog({"title" : title+" Details"}, popupType);
+                        _projects.openDialog({"title" : title+" Details"}, popupType);
                     } else {
                         if(session.page == "home") {
                             $("#index_content").html(response);
@@ -572,10 +572,10 @@ var _users = (function () {
                         }
                     }
 
-                    securityObj._users.setPrimaryContact();
-                    securityObj._users.setPrefContact();
-                    securityObj._users.hideUnsetPrimaryContact();
-                    securityObj._users.hideUnsetPrefContact();
+                    _users.setPrimaryContact();
+                    _users.setPrefContact();
+                    _users.hideUnsetPrimaryContact();
+                    _users.hideUnsetPrefContact();
                 },
                 error: function( error ) {
                     error = error;

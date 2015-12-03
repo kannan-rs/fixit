@@ -1,13 +1,13 @@
 <?php
-	$editFn 	= "projectObj._projects.editProject('".$projectId."')";
-	$deleteFn 	= "projectObj._projects.deleteRecord('".$projectId."')";
+	$editFn 	= "_projects.editProject('".$projectId."')";
+	$deleteFn 	= "_projects.deleteRecord('".$projectId."')";
 	
 	$issueCount 	= $project->issueCount ? $project->issueCount : "";
 
 	$issueFnOptions = "{'projectId' :".$projectId.", 'openAs' : 'popup', 'popupType' : '' }";
-	$issueFn 		= "projectObj._issues.viewAll(".$issueFnOptions.")";
+	$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
 
-	$exportFn 		= "projectObj._projects.exportCSV('".$projectId."')";
+	$exportFn 		= "_projects.exportCSV('".$projectId."')";
 ?>
 <div class="header-options">
 	<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('projects->headers->view_one'); ?></h2>
@@ -88,7 +88,7 @@
 		<!-- Project Budget -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->budget'); ?></span>
-			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="projectObj._remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
+			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="_remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
 		</h3>
 		<div id= "viewOneProjectBudget">
 		<?php echo $projectBudgetFile; ?>
@@ -100,21 +100,21 @@
 		<!-- Project Contractor Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._contractors.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_contractors.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
 		</h3>
 		<div>
 			<div id="contractor_accordion" class="accordion">
 				<?php
-				if(count($contractors)) {
+				if(count($contractors) && is_array($contractors)) {
 					for($i = 0; $i < count($contractors); $i++) {
 				?>
-				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_name'); ?>: <?php echo $contractors[$i]->name; ?></span></h3>
+				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_name'); ?>: <?php echo $contractors[$i]->company; ?></span></h3>
 				<div>
 					<table cellspacing="0" class="viewOne projectViewOne">
-						<tr>
+						<!-- <tr>
 							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->name'); ?></td>
 							<td class='cell' ><?php echo $contractors[$i]->name; ?></td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->company'); ?></td>
 							<td class='cell' ><?php echo $contractors[$i]->company; ?></td>
@@ -155,21 +155,21 @@
 		<!-- Project Adjuster Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partners_details'); ?></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._partners.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_project_title'); ?>"></a>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_partners.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_project_title'); ?>"></a>
 		</h3>
 		<div>
 			<div id="partner_accordion" class="accordion">
 				<?php
-				if(count($partners)) {
+				if(count($partners) && is_array($partners)) {
 					for($i = 0; $i < count($partners); $i++) {
 				?>
-				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partner_name'); ?>: <?php echo $partners[$i]->name; ?></span></h3>
+				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partner_name'); ?>: <?php echo $partners[$i]->company_name; ?></span></h3>
 				<div>
 					<table cellspacing="0" class="viewOne projectViewOne">
-						<tr>
+						<!-- <tr>
 							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->name'); ?></td>
 							<td class='cell' ><?php echo $partners[$i]->name; ?></td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->company'); ?></td>
 							<td class='cell' ><?php echo $partners[$i]->company_name; ?></td>
@@ -214,21 +214,21 @@
 		<!-- Project Task List table -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->tasks_list'); ?><span id="taskCountDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addTask();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_task_title'); ?>"></a>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addTask();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_task_title'); ?>"></a>
 		</h3>
 		<div class="project_section" id="task_content"></div>
 
 		<!-- Project Notes List table -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->notes'); ?><span id="notesCountForProjectDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addProjectNote();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addProjectNote();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
 		</h3>
 		<div class="project_section" id="note_content"></div>
 
 		<!-- Project Docs List table -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->documents'); ?><span id="docsCountDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="projectObj._projects.addDocumentForm();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_docs_title'); ?>"></a>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addDocumentForm();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_docs_title'); ?>"></a>
 		</h3>
 		<div class="project_section" id="attachment_content"></div>
 

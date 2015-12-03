@@ -1,5 +1,5 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="securityObj._functions.createForm()">
+	<a href="javascript:void(0);" onclick="_functions.createForm()">
 		<?php echo $this->lang->line_arr('function->buttons_links->create'); ?>
 	</a>
 </div>

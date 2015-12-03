@@ -10,7 +10,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 } else {
 ?>
 <!-- Show Links above the table -->
-<div class="tasks internal-tab-as-links" onclick="projectObj._tasks.showTaskList(event)">
+<div class="tasks internal-tab-as-links" onclick="_tasks.showTaskList(event)">
 	<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('tasks->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->open'); ?></a>
 	<a href="javascript:void(0);" data-option="completed" title="<?php echo $this->lang->line_arr('tasks->buttons_links->completed_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->completed'); ?></a>
 	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('tasks->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('tasks->buttons_links->all'); ?></a>
@@ -54,19 +54,19 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 
 		$issueCount 	= $tasks[$i]->issueCount;
 		$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
-		$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
+		$issueFn = "_issues.viewAll(".$issueFnOptions.")";
 		
-		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.deleteRecord" : "projectObj._projects.taskDelete";
+		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "_tasks.deleteRecord" : "_projects.taskDelete";
 		$deleteFn  .= "(".$taskId.",".$projectId.")";
 
-		$viewOneFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.viewOne" : "projectObj._projects.taskViewOne";
+		$viewOneFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "_tasks.viewOne" : "_projects.taskViewOne";
 		$viewOneFn .= "('".$taskId."')";
 
-		$editFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "projectObj._tasks.editTask" : "projectObj._projects.editTask";
+		$editFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "_tasks.editTask" : "_projects.editTask";
 		$editFn    .= "('".$taskId."')";
 
-		$notesFn 		= "projectObj._projects.getTaskNotesList('".$taskId."',0, 5);";
-		//$notesCreateFn = "projectObj._projects.addTaskNote('".$taskId."');";
+		$notesFn 		= "_projects.getTaskNotesList('".$taskId."',0, 5);";
+		//$notesCreateFn = "_projects.addTaskNote('".$taskId."');";
 		
 		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
 ?>

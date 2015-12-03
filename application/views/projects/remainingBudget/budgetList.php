@@ -16,11 +16,11 @@
 		<td class="cell table-action">
 			<span>
 				<span>
-					<a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->edit_budget_title'); ?>"></a>
+					<a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo "_remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->edit_budget_title'); ?>"></a>
 				</span>
 			</span>
 			<span>
-				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo "projectObj._remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->delete_budget_title'); ?>"></a>
+				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo "_remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->delete_budget_title'); ?>"></a>
 			</span>
 		</td>
 	</tr>

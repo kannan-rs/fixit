@@ -87,8 +87,8 @@ var _issues = (function() {
             var taskId         = options && options.taskId ? options.taskId : "";
 
             if(!openAs) {
-                projectObj.clearRest();
-                projectObj.toggleAccordiance("issues", "new");
+                _projects.clearRest();
+                _projects.toggleAccordiance("issues", "new");
             }
             
             $.ajax({
@@ -103,7 +103,7 @@ var _issues = (function() {
                 success: function( response ) {
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
-                        projectObj._projects.openDialog({"title" : "Add Issue"}, popupType);
+                        _projects.openDialog({"title" : "Add Issue"}, popupType);
                     } else {
                         $("#issue_content").html(response);
                     }
@@ -111,8 +111,8 @@ var _issues = (function() {
                     _utils.setAsDateFields({"dateField": "issueFromdate"})
                     _utils.setIssueStatus("issueStatus", "issueStatusDb");
                     _utils.setIssueAssignedTo("assignedToUserType", "assignedToUserTypeDB");
-                    projectObj._issues.showAssignedToOptions();
-                    projectObj._issues.getAndListAssignees( projectId );
+                    _issues.showAssignedToOptions();
+                    _issues.getAndListAssignees( projectId );
                 },
                 error: function( error ) {
                     error = error;
@@ -130,7 +130,7 @@ var _issues = (function() {
             });
 
             if(validator.form()) {
-                projectObj._issues.createSubmit( openAs, popupType );
+                _issues.createSubmit( openAs, popupType );
             }
         },
 
@@ -179,19 +179,19 @@ var _issues = (function() {
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
-                    projectObj._issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
+                    _issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
-                        projectObj._issues.viewOne(response.insertedId, openAs, popupType);
+                        _issues.viewOne(response.insertedId, openAs, popupType);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
                     
 
-                    if(projectObj._projects.projectId) {
-                        projectObj._projects.viewOne( issueProjectId, {"triggeredBy" : "issues", "taskId": issueTaskId} );
+                    if(_projects.projectId) {
+                        _projects.viewOne( issueProjectId, {"triggeredBy" : "issues", "taskId": issueTaskId} );
                     } else {
-                        projectObj._projects.viewAll();    
+                        _projects.viewAll();    
                     }
                 },
                 error: function( error ) {
@@ -219,7 +219,7 @@ var _issues = (function() {
                 success: function( response ) {
                     if( openAs && openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
-                        projectObj._projects.openDialog({"title" : "Issue Details"}, popupType);
+                        _projects.openDialog({"title" : "Issue Details"}, popupType);
                     } else {
                         $("#issue_content").html(response);
                     }
@@ -262,11 +262,11 @@ var _issues = (function() {
                 success: function( response ) {
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
-                        projectObj._projects.openDialog({"title" : "Issues"}, popupType);
+                        _projects.openDialog({"title" : "Issues"}, popupType);
                     } else {
                         $("#issue_content").html(response);
                     }
-                    projectObj._issues.showIssuesList();
+                    _issues.showIssuesList();
                 },
                 error: function( error ) {
                     error = error;
@@ -298,7 +298,7 @@ var _issues = (function() {
                 success: function( response ) {
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html(response);
-                        projectObj._projects.openDialog({"title" : "Edit Issue"}, popupType);
+                        _projects.openDialog({"title" : "Edit Issue"}, popupType);
                     } else {
                         $("#issue_content").html(response);
                     }
@@ -306,8 +306,8 @@ var _issues = (function() {
                     _utils.setAsDateFields({"dateField": "issueFromdate"})
                     _utils.setIssueStatus("issueStatus", "issueStatusDb");
                     _utils.setIssueAssignedTo("assignedToUserType", "assignedToUserTypeDB");
-                    projectObj._issues.showAssignedToOptions();
-                    projectObj._issues.getAndListAssignees( projectId );
+                    _issues.showAssignedToOptions();
+                    _issues.getAndListAssignees( projectId );
                 },
                 error: function( error ) {
                     error = error;
@@ -325,7 +325,7 @@ var _issues = (function() {
             });
 
             if(validator.form()) {
-                projectObj._issues.updateSubmit( openAs, popupType );
+                _issues.updateSubmit( openAs, popupType );
             }
         },
 
@@ -380,16 +380,16 @@ var _issues = (function() {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
-                        projectObj._issues.viewOne(response.updatedId, openAs, popupType);
+                        _issues.viewOne(response.updatedId, openAs, popupType);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
-                    projectObj._issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
+                    _issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
                     
-                    if(projectObj._projects.projectId) {
-                        projectObj._projects.viewOne( issueProjectId );
+                    if(_projects.projectId) {
+                        _projects.viewOne( issueProjectId );
                     } else {
-                        projectObj._projects.viewAll();    
+                        _projects.viewAll();    
                     } 
                 },
                 error: function( error ) {
@@ -407,13 +407,13 @@ var _issues = (function() {
                 method: "POST",
                 url: "/projects/issues/deleteRecord",
                 data: {
-                    issueId: projectObj._issues.issueId
+                    issueId: _issues.issueId
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
-                        projectObj._issues.viewAll();
+                        _issues.viewAll();
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
@@ -450,7 +450,7 @@ var _issues = (function() {
                 success: function( response ) {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
-                        projectObj._issues.setAssignees( response );
+                        _issues.setAssignees( response );
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }

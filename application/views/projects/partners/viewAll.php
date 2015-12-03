@@ -1,5 +1,5 @@
 <h2><?php echo $this->lang->line_arr('partner->headers->view_all'); ?></h2>
-<div class="partners internal-tab-as-links" onclick="projectObj._partners.showPartnersList(event)">
+<div class="partners internal-tab-as-links" onclick="_partners.showPartnersList(event)">
 	<a href="javascript:void(0);" data-option="active" title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?></a>
 	<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?></a>
 	<?php if($account_type == "admin") { ?>
@@ -26,13 +26,13 @@
 		for($i = 0; $i < count($partners); $i++) { 
 			$partner = $partners[$i];
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "projectObj._partners.deleteRecord(".$partner->id.")" : "";
+			$deleteFn = $deleteText ? "_partners.deleteRecord(".$partner->id.")" : "";
 
 			$cssStatus = $partner->status == "inactive" ? "inactive" : "active";
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
 				<!-- <td class='cell capitalize'>
-					<a href="javascript:void(0);" onclick="projectObj._partners.viewOne('<?php echo $partners[$i]->id; ?>')">
+					<a href="javascript:void(0);" onclick="_partners.viewOne('<?php echo $partners[$i]->id; ?>')">
 						<?php echo $partner->name; ?>
 					</a>
 				</td> -->

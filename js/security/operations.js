@@ -50,7 +50,7 @@ var _operations = (function () {
             });
 
             if (validator.form()) {
-                securityObj._operations.createSubmit();
+                _operations.createSubmit();
             }
         },
         updateValidate: function () {
@@ -60,7 +60,7 @@ var _operations = (function () {
             });
 
             if (validator.form()) {
-                securityObj._operations.updateSubmit();
+                _operations.updateSubmit();
             }
         },
         viewAll: function () {
@@ -110,7 +110,7 @@ var _operations = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        securityObj._operations.viewOne(response.insertedId);
+                        _operations.viewOne(response.insertedId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -156,7 +156,7 @@ var _operations = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
-                        securityObj._operations.viewOne(response.updatedId);
+                        _operations.viewOne(response.updatedId);
                     }
                 },
                 error: function (error) {
@@ -177,7 +177,7 @@ var _operations = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._operations.viewAll();
+                        _operations.viewAll();
                     }
                 },
                 error: function (error) {

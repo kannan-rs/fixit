@@ -37,7 +37,7 @@ $role_desc 	= isset($individualRole) ? $individualRole->role_desc : "";
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_role_submit" onclick="securityObj._roles.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('role->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_role_submit" onclick="_roles.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('role->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

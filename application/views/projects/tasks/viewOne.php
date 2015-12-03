@@ -2,12 +2,12 @@
 $taskId = $tasks[0]->task_id;
 $projectId = $tasks[0]->project_id;
 
-$deleteFn 	= "projectObj._projects.taskDelete(".$taskId.",".$projectId.")";
-$editFn 	= "projectObj._projects.editTask('".$taskId."')";
+$deleteFn 	= "_projects.taskDelete(".$taskId.",".$projectId.")";
+$editFn 	= "_projects.editTask('".$taskId."')";
 
 $issueCount 	= $tasks[0]->issueCount;
 $issueFnOptions = "{'projectId' :".$tasks[0]->project_id.", 'taskId' : ".$tasks[0]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
-$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
+$issueFn = "_issues.viewAll(".$issueFnOptions.")";
 ?>
 	<div class="header-options">
 	<span class="options-icon">

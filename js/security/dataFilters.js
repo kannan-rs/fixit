@@ -45,7 +45,7 @@ var _dataFilters = (function () {
             });
 
             if (validator.form()) {
-                securityObj._dataFilters.createSubmit();
+                _dataFilters.createSubmit();
             }
         },
 
@@ -56,7 +56,7 @@ var _dataFilters = (function () {
             });
 
             if (validator.form()) {
-                securityObj._dataFilters.updateSubmit();
+                _dataFilters.updateSubmit();
             }
         },
 
@@ -109,7 +109,7 @@ var _dataFilters = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        securityObj._dataFilters.viewOne(response.insertedId);
+                        _dataFilters.viewOne(response.insertedId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -157,7 +157,7 @@ var _dataFilters = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
-                        securityObj._dataFilters.viewOne(response.updatedId);
+                        _dataFilters.viewOne(response.updatedId);
                     }
                 },
                 error: function (error) {
@@ -179,7 +179,7 @@ var _dataFilters = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._dataFilters.viewAll();
+                        _dataFilters.viewAll();
                     }
                 },
                 error: function (error) {

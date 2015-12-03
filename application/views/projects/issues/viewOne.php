@@ -1,6 +1,6 @@
 <?php
-	$editFn 		= "projectObj._issuess.editForm({'openAs':'popup', 'popupType' : 2})";
-	$deleteFn 		= "projectObj._issuess.deleteRecord('".$issueId."')";
+	$editFn 		= "_issuess.editForm({'openAs':'popup', 'popupType' : 2})";
+	$deleteFn 		= "_issuess.deleteRecord('".$issueId."')";
 	$issues			= $issues && count($issues) ? $issues[0] : [];
 
 	if(count($issues) == 0) {

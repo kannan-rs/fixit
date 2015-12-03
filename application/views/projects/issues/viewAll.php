@@ -1,6 +1,6 @@
 <?php
 $createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
-$createFn 		= "projectObj._issues.createForm(".$createFnOptions.")";
+$createFn 		= "_issues.createForm(".$createFnOptions.")";
 $headerText = "";
 
 if(!$openAs || $openAs != "popup") {
@@ -12,7 +12,7 @@ if(!$openAs || $openAs != "popup") {
 	<?php echo $headerText ? "<h2>".$headerText."</h2>" : ""; ?> 
 	<!-- <span class="options-icon"> -->
 		<!-- Show Links above the table -->
-		<div class="issues internal-tab-as-links" onclick="projectObj._issues.showIssuesList(event)">
+		<div class="issues internal-tab-as-links" onclick="_issues.showIssuesList(event)">
 			<a href="javascript:void(0);" data-option="open" 
 				title="<?php echo $this->lang->line_arr('issues->buttons_links->open_title'); ?>">
 				<?php echo $this->lang->line_arr('issues->buttons_links->open'); ?>
@@ -58,15 +58,15 @@ if(!$openAs || $openAs != "popup") {
 	for($i = 0; $i < count($issues); $i++) { 
 		$issue = $issues[$i];
 		$deleteText = "Delete";
-		$deleteFn = $deleteText ? "projectObj._issues.deleteRecord(".$issue->issue_id.")" : "";
+		$deleteFn = $deleteText ? "_issues.deleteRecord(".$issue->issue_id.")" : "";
 		$editFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."', 'issueId' : ".$issue->issue_id."}";
-		$issueEditFn	= "projectObj._issues.editForm(".$editFnOptions.")";
+		$issueEditFn	= "_issues.editForm(".$editFnOptions.")";
 
 		$cssStatus = ($issue->status == "open" || $issue->status == "inProgress") ? "open" : $issue->status;
 	?>
 		<tr class='row viewAll <?php echo $cssStatus; ?>'>
 			<td class='cell capitalize'>
-				<a href="javascript:void(0);" onclick="projectObj._issues.viewOne('<?php echo $issues[$i]->issue_id; ?>')">
+				<a href="javascript:void(0);" onclick="_issues.viewOne('<?php echo $issues[$i]->issue_id; ?>')">
 					<?php echo $issue->issue_name; ?>
 				</a>
 			</td>

@@ -1,0 +1,20 @@
+Function
+	Project
+		Task
+		Issues
+		Notes
+		Documents
+	Customer
+	Service Provider
+		Service Provider Admin Screen
+	Adjuster
+	Personal info
+	Claims
+		Notes
+		Docs
+		Tasks
+
+Data Filter
+	All
+	Self
+	Company (his company)

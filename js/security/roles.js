@@ -43,7 +43,7 @@ var _roles = (function () {
             });
 
             if (validator.form()) {
-                securityObj._roles.createSubmit();
+                _roles.createSubmit();
             }
         },
 
@@ -54,7 +54,7 @@ var _roles = (function () {
             });
 
             if (validator.form()) {
-                securityObj._roles.updateSubmit();
+                _roles.updateSubmit();
             }
         },
 
@@ -105,7 +105,7 @@ var _roles = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._roles.viewOne(response.insertedId);
+                        _roles.viewOne(response.insertedId);
                     }
                 },
                 error: function (error) {
@@ -149,7 +149,7 @@ var _roles = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._roles.viewOne(response.updatedId);
+                        _roles.viewOne(response.updatedId);
                     }
                 },
                 error: function (error) {
@@ -171,7 +171,7 @@ var _roles = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._roles.viewAll();
+                        _roles.viewAll();
                     }
                 },
                 error: function (error) {

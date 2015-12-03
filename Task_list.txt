@@ -90,3 +90,26 @@ Work for this week
 	-- Can we move the ‘logged in as admin….’  To the same level as the top portion of the logo?
 	-- Can we make the logo tagline bold text?  Capital M in marketplace
 	-- Export to .csv file did not work
+	-- All modules are tested for basic errors.
+
+
+	Admin (Fixit Admin)
+	Customer, we can treate him as a company as well, while signup if the user selects himself as customer, whill show a company text box. If he enters a company name, then we need to add both company record and user record. Na relation shim need to be maintainer.
+		-> Project what he created or what he is assigned as customer
+		-> Create project (Later)
+			-> Will allow the user to enter the company name, description and email ID.
+			-> Automatic email will be sent to adjuster/contractor
+			-> Information of the contractor/adjuster will be sent to fixit email.
+			-> Fixit admin need to add the contractor or adjuster company initially.
+			-> after adding, Fixit will send a mail back says that your contractor company/adjuster company added successfully.
+			-> After that they can add a user to manage their details and projects related to them.
+
+			--> Form Now will hide the options.
+
+	Adjuster, it company and many user associated to it
+		-> Projects he is assigned to, and projects which are assoicated to his company.
+		-> Create project
+
+	Service Provider (has two users roles, 1. Service provider admin, 2. Service provider user)
+		-> Projects he is assigned to, and projects which are assoicated to his company.
+		-> Create project

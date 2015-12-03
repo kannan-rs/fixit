@@ -1,5 +1,5 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="securityObj._dataFilters.createForm()">
+	<a href="javascript:void(0);" onclick="_dataFilters.createForm()">
 		<?php echo $this->lang->line_arr('data_filter->buttons_links->create'); ?>
 	</a>
 </div>

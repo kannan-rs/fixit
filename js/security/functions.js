@@ -45,7 +45,7 @@ var _functions = (function () {
             });
 
             if (validator.form()) {
-                securityObj._functions.createSubmit();
+                _functions.createSubmit();
             }
         },
 
@@ -56,7 +56,7 @@ var _functions = (function () {
             });
 
             if (validator.form()) {
-                securityObj._functions.updateSubmit();
+                _functions.updateSubmit();
             }
         },
 
@@ -109,7 +109,7 @@ var _functions = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        securityObj._functions.viewOne(response.insertedId);
+                        _functions.viewOne(response.insertedId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -157,7 +157,7 @@ var _functions = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
-                        securityObj._functions.viewOne(response.updatedId);
+                        _functions.viewOne(response.updatedId);
                     }
                 },
                 error: function (error) {
@@ -179,7 +179,7 @@ var _functions = (function () {
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
-                        securityObj._functions.viewAll();
+                        _functions.viewAll();
                     }
                 },
                 error: function (error) {

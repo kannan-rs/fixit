@@ -1,5 +1,5 @@
 <div class="create-link">
-	<a href="javascript:void(0);" onclick="securityObj._operations.createForm()">
+	<a href="javascript:void(0);" onclick="_operations.createForm()">
 		<?php echo $this->lang->line_arr('operation->buttons_links->create'); ?>
 	</a>
 </div>
@@ -20,16 +20,16 @@
 		}
 
 		for($i = 0; $i < count($operations); $i++) { 
-			$deleteFn = "securityObj._operations.deleteRecord(".$operations[$i]->sno.")";
+			$deleteFn = "_operations.deleteRecord(".$operations[$i]->sno.")";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
 			echo "<td class='cell number'>";
-			echo "<a href=\"javascript:void(0);\" onclick=\"securityObj._operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_id;
+			echo "<a href=\"javascript:void(0);\" onclick=\"_operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_id;
 			echo "</td>";
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"securityObj._operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_name ."</td>";
+			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_name ."</td>";
 			echo "<td>".$operations[$i]->ope_desc."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"securityObj._operations.editOperation('".$operations[$i]->sno."')\">".$this->lang->line_arr('operation->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"javascript:void(0);\" onclick=\"_operations.editOperation('".$operations[$i]->sno."')\">".$this->lang->line_arr('operation->buttons_links->edit')."</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('operation->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}

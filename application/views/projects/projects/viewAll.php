@@ -1,12 +1,27 @@
 <h2><?php echo $this->lang->line_arr('projects->headers->view_all'); ?></h2>
-<div class="projects internal-tab-as-links" onclick="projectObj._projects.showProjectsList(event)">
-	<a href="javascript:void(0);" data-option="open" title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->open'); ?></a>
-	<a href="javascript:void(0);" data-option="completed" title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?></a>
+<div class="projects internal-tab-as-links" onclick="_projects.showProjectsList(event)">
+	<a href="javascript:void(0);" data-option="open" 
+		title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>">
+			<?php echo $this->lang->line_arr('projects->buttons_links->open'); ?>
+	</a>
+	<a href="javascript:void(0);" data-option="completed" 
+		title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
+			<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
+	</a>
 	<?php if($account_type == "admin") { ?>
-	<a href="javascript:void(0);" data-option="deleted" title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?></a>
+	<a href="javascript:void(0);" data-option="deleted" 
+		title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
+			<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+	</a>
 	<?php } ?>
-	<a href="javascript:void(0);" data-option="issues" title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?></a>
-	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('projects->buttons_links->all'); ?></a>
+	<a href="javascript:void(0);" data-option="issues" 
+		title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
+			<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
+		</a>
+	<a href="javascript:void(0);" data-option="all" 
+		title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
+			<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
+	</a>
 </div>
 <div>
 	<!-- List all the Functions from database -->
@@ -27,19 +42,19 @@
 
 		for($i = 0; $i < count($projects); $i++) {
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "projectObj._projects.deleteRecord(".$projects[$i]->proj_id.")" : "";
+			$deleteFn = $deleteText ? "_projects.deleteRecord(".$projects[$i]->proj_id.")" : "";
 			
 			$issueCount 	= $projects[$i]->issueCount;
 			$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
 
-			$issueFn = "projectObj._issues.viewAll(".$issueFnOptions.")";
+			$issueFn = "_issues.viewAll(".$issueFnOptions.")";
 
 			$cssStatus = $projects[$i]->project_status == "completed" || $projects[$i]->percentage == "100" ? "completed" : "open";
 			$cssStatus = $projects[$i]->deleted ? "deleted" : $cssStatus;
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo $issueCount ? "issues" : ""; ?>'>
 				<td class='cell'>
-					<a href="javascript:void(0);" onclick="projectObj._projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
+					<a href="javascript:void(0);" onclick="_projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
 						<?php echo $projects[$i]->project_name; ?>
 					</a>
 				</td>

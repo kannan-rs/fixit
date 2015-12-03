@@ -386,7 +386,7 @@ var _utils = (function () {
                         li += "<div class=\"second\">" + list[i].email + "</div>";
                     } else {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + 
-                            (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"projectObj._projects.drag(event)\"" : "");
+                            (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"_projects.drag(event)\"" : "");
                         li += " data-"+dataIdentifier+"id = " + list[i].id;
                         li += ">";
                         li += "<div>" + list[i][dispStrKey] + "</div>";
@@ -463,7 +463,7 @@ var _utils = (function () {
                 excludeList: [],
                 appendTo: "customerNameList",
                 type: "searchList",
-                functionName: "projectObj._projects.setCustomerId",
+                functionName: "_projects.setCustomerId",
                 searchBoxId: "searchCustomerName",
                 dbEntryId: "customer_id",
                 dataIdentifier    : "customer",
@@ -483,7 +483,7 @@ var _utils = (function () {
                 excludeList: [],
                 appendTo: "adjusterNameList",
                 type: "searchList",
-                functionName: "projectObj._projects.setAdjusterId",
+                functionName: "_projects.setAdjusterId",
                 searchBoxId: "searchAdjusterName",
                 dbEntryId: "adjuster_id",
                 dispStrKey: "company_name",

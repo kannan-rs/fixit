@@ -36,7 +36,7 @@ class Tasks extends CI_Controller {
 
 		$tasksResponse 	= $this->model_tasks->getTasksList($projectId);
 
-		$contractorIds 			= explode(",", $project[0]->contractor_id);
+		$contractorIds 			= $project[0]->contractor_id ? explode(",", $project[0]->contractor_id) : "";
 		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
 		$contractorDB 			= $contractorsResponse["contractors"];
 

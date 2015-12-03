@@ -19,7 +19,7 @@
 				<td colspan="2">
 					<p class="button-panel">
 						<button type="submit" id="create_project_doc_submit"><?php echo $this->lang->line_arr('docs->buttons_links->upload'); ?></button>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="cancelButton" onclick="_projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 					</p>
 				</td>
 			</tr>
@@ -34,7 +34,7 @@
 $("#create_project_doc_form").on('submit',(function(e) {
 	e.preventDefault();
 
-	if(!projectObj._docs.createValidate())
+	if(!_docs.createValidate())
 		return false;
 	
 	$.ajax({
@@ -48,7 +48,7 @@ $("#create_project_doc_form").on('submit',(function(e) {
 			response = $.parseJSON(response);
 			if(response.status == "success") {
 				$(".ui-button").trigger("click");
-				projectObj._projects.getProjectDocumentList();
+				_projects.getProjectDocumentList();
 			}
 			alert(response.message);
 			

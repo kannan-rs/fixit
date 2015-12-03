@@ -140,7 +140,7 @@
 			<tr class="contractor-search-selected">
 				<td class="label"><?php echo $contractorLable; ?></td>
 				<td>
-					<ul id="contractorSearchSelected" class="connectedSortable" onclick="projectObj._projects.searchContractorAction()">
+					<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction()">
 					</ul>
 				</td>
 			</tr>
@@ -148,20 +148,20 @@
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
 				<td>
 					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getContractorListUsingServiceZip('')"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
 				</td>
 			</tr>
 			<tr class="contractor-search-result">
 				<td class="label notMandatory">&nbsp;</td>
 				<td>
-					<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="projectObj._projects.searchContractorAction()"></ul>
+					<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction()"></ul>
 				</td>
 			</tr>
 			<tr>
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
 					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"projectObj._contractors.createForm({'openAs': 'popup', 'popupType' : '2'})\">";
+						$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm({'openAs': 'popup', 'popupType' : '2'})\">";
 						$end = "</a>";
 						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
 					?>
@@ -220,7 +220,7 @@
 				<td>
 					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
 						placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
-						onkeyup="projectObj._projects.showCustomerListInDropDown()">
+						onkeyup="_projects.showCustomerListInDropDown()">
 				</td>
 			</tr>
 			<tr class="customer-search-result">
@@ -233,7 +233,7 @@
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
 					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})\">";
+						$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})\">";
 						$end = "</a>";
 						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_customer'));
 					?>
@@ -244,7 +244,7 @@
 			<tr class="adjuster-search-selected">
 				<td class="label"><?php echo $adjusterLable; ?></td>
 				<td>
-					<ul id="adjusterSearchSelected" class="connectedSortable" onclick="projectObj._projects.searchAdjusterAction()">
+					<ul id="adjusterSearchSelected" class="connectedSortable" onclick="_projects.searchAdjusterAction()">
 					</ul>
 				</td>
 			</tr>
@@ -252,20 +252,20 @@
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName'); ?></td>
 				<td>
 					<input type="text" name="searchAdjusterName" id="searchAdjusterName" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName_ph'); ?>" value="" list="adjusterDataList">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="projectObj._projects.getAdjusterListUsingNameCompany()"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getAdjusterListUsingNameCompany()"></span>
 				</td>
 			</tr>
 			<tr class="adjuster-search-result">
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
-					<ul id="adjusterSearchResult" class="connectedSortable dropdown" onclick="projectObj._projects.searchAdjusterAction()"></ul>
+					<ul id="adjusterSearchResult" class="connectedSortable dropdown" onclick="_projects.searchAdjusterAction()"></ul>
 				</td>
 			</tr>
 			<tr>
 				<td  class="label notMandatory">&nbsp;</td>
 				<td>
 					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"securityObj._users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})\">";
+						$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})\">";
 						$end = "</a>";
 						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_adjuster'));
 					?>
@@ -287,15 +287,15 @@
 				?>
 			
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_project_submit" onclick="projectObj._projects.createValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->create'); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_project_submit" onclick="_projects.createValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->create'); ?></button>
 						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->clear'); ?></button>
 					</p>
 				<?php
 				} else {
 				?>
 				<p class="button-panel">
-					<button type="button" id="update_project_submit" onclick="projectObj._projects.updateValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->update'); ?></button>
-					<button type="button" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+					<button type="button" id="update_project_submit" onclick="_projects.updateValidate()"><?php echo $this->lang->line_arr('projects->buttons_links->update'); ?></button>
+					<button type="button" onclick="_projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 				</p>
 				<?php
 				}

@@ -1,4 +1,14 @@
 <h2><?php echo $this->lang->line_arr('permission->headers->title'); ?></h2>
+<div class="permission internal-tab-as-links" onclick="_projects.showProjectsList(event)">
+	<a href="javascript:void(0);" data-option="default" 
+		title="<?php echo $this->lang->line_arr('permission->buttons_links->default_title'); ?>">
+			<?php echo $this->lang->line_arr('permission->buttons_links->default'); ?>
+	</a>
+	<a href="javascript:void(0);" data-option="userPermission" 
+		title="<?php echo $this->lang->line_arr('permission->buttons_links->user_permission_title'); ?>">
+			<?php echo $this->lang->line_arr('permission->buttons_links->user_permission'); ?>
+	</a>
+</div>
 <div class="permissions">
 	<p class="note error"></p>
 	<p class="note success"></p>
@@ -6,7 +16,7 @@
 		<h3><?php echo $this->lang->line_arr('permission->headers->user'); ?></h3>
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->user'); ?></label>
 		<section class="dataSection">
-			<select id="users" onchange="securityObj._permissions.getPermissions()">
+			<select id="users" onchange="_permissions.getPermissions()">
 				<option value="0"><?php echo $this->lang->line_arr('permission->input_form->user_option_0'); ?></option>
 				<?php
 					for($uIdx = 0; $uIdx < count($data["users"]); $uIdx++) {
@@ -71,7 +81,7 @@
 	-->
 	<section>
 		<p class="button-panel">
-			<button type="button" id="permission_submit" onclick="securityObj._permissions.setPermissions()"><?php echo $this->lang->line_arr('permission->buttons_links->set'); ?></button>
+			<button type="button" id="permission_submit" onclick="_permissions.setPermissions()"><?php echo $this->lang->line_arr('permission->buttons_links->set'); ?></button>
 		</p>
 	</section>
 </div>

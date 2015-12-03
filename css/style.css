@@ -4,8 +4,8 @@
   font-size: 12px; }
 
 body {
-  background: #9A9786;
-  margin: 0 auto;
+  background: #9A9786 !important;
+  margin: 0 auto !important;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: #555555; }
@@ -724,7 +724,7 @@ table.innerOption {
   padding-bottom: 10px;
   margin-bottom: 10px; }
 
-.user_type_as {
+.user_type_as, .role_type_as {
   /*display: none;*/ }
 
 .label {
@@ -1015,7 +1015,8 @@ a.icon-right {
   .internal-tab-as-links a {
     padding: 5px;
     text-decoration: none;
-    border-radius: 4px; }
+    border-radius: 4px;
+    margin: 0px 3px; }
   .internal-tab-as-links > a {
     border: 1px solid #E0E0E0; }
   .internal-tab-as-links > a.active {

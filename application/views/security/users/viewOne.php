@@ -8,7 +8,7 @@
 ?>
 <div class="create-link">
 	<?php if($viewFrom == "security") { ?>
-	<a href="javascript:void(0);" onclick="securityObj._users.createForm()">
+	<a href="javascript:void(0);" onclick="_users.createForm()">
 		<?php echo $this->lang->line_arr('user->buttons_links->create'); ?>
 	</a>
 	<?php } else if($viewFrom == "") { ?>

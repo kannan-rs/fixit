@@ -31,7 +31,7 @@ $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_operation_submit" onclick="securityObj._operations.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('operation->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_operation_submit" onclick="_operations.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('operation->buttons_links->'.$prefix); ?></button>
 					</p>
 				</td>
 			</tr>

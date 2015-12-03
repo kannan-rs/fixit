@@ -51,8 +51,8 @@ var _docs = (function () {
 
         viewAll: function (projectId) {
             var fail_error = null;
-            projectObj.resetCounter("docs");
-            //projectObj.clearRest(["attachment_list", "new_attachment"]);
+            _projects.resetCounter("docs");
+            //_projects.clearRest(["attachment_list", "new_attachment"]);
             this.createForm(projectId);
 
             this.docsListStartRecord = this.docsListStartRecord || 0;
@@ -63,17 +63,17 @@ var _docs = (function () {
                     url: "/projects/docs/viewAll",
                     data: {
                         projectId: projectId,
-                        startRecord: projectObj._docs.docsListStartRecord
+                        startRecord: _docs.docsListStartRecord
                     },
                     success: function (response) {
                         if (response.length) {
-                            if (projectObj._docs.docsListStartRecord === 0) {
+                            if (_docs.docsListStartRecord === 0) {
                                 $("#attachment_list").html(response);
                             } else {
                                 $("#attachment_list").append(response);
                             }
-                            projectObj._docs.docsRequestSent = projectObj._docs.docsListStartRecord;
-                            projectObj._docs.docsListStartRecord += 10;
+                            _docs.docsRequestSent = _docs.docsListStartRecord;
+                            _docs.docsListStartRecord += 10;
                         }
                     },
                     error: function (error) {
@@ -134,7 +134,7 @@ var _docs = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        projectObj._docs.removeDoc(response.docId);
+                        _docs.removeDoc(response.docId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }

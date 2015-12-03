@@ -36,7 +36,7 @@
 	margin-bottom: $defaultMargin;
 }
 
-.user_type_as {
+.user_type_as, .role_type_as {
 	/*display: none;*/
 }
 
@@ -392,6 +392,7 @@ a.icon-right {
 		padding: 5px;
 		text-decoration: none;
 		border-radius: 4px;
+		margin: 0px 3px;
 	}
 
 	> a {

@@ -44,8 +44,8 @@ var _notes = (function () {
         },
 
         viewAll: function (projectId, taskId, noteId) {
-            projectObj.resetCounter("notes");
-            //projectObj.clearRest(["note_content", "new_note_content"]);
+            _projects.resetCounter("notes");
+            //_projects.clearRest(["note_content", "new_note_content"]);
             this.createForm(projectId, taskId);
 
             this.noteListStartRecord = this.noteListStartRecord || 0;
@@ -61,20 +61,20 @@ var _notes = (function () {
                         projectId: projectId,
                         taskId: taskId,
                         noteId: noteId,
-                        startRecord: projectObj._notes.noteListStartRecord,
-                        count: projectObj._notes.noteListCount
+                        startRecord: _notes.noteListStartRecord,
+                        count: _notes.noteListCount
                     },
                     success: function (response) {
                         if (response.length) {
                             $("#notesCount").remove();
-                            if (projectObj._notes.noteListStartRecord === 0) {
+                            if (_notes.noteListStartRecord === 0) {
                                 $("#note_content").html(response);
                             } else {
                                 $("#note_list_table").append(response);
                             }
 
-                            projectObj._notes.noteRequestSent = projectObj._notes.noteListStartRecord;
-                            projectObj._notes.noteListStartRecord += 5;
+                            _notes.noteRequestSent = _notes.noteListStartRecord;
+                            _notes.noteListStartRecord += 5;
                         }
                     },
                     error: function (error) {
@@ -118,9 +118,9 @@ var _notes = (function () {
 
             if (validator.form()) {
                 if (!viewFor) {
-                    projectObj._notes.createSubmit();
+                    _notes.createSubmit();
                 } else {
-                    projectObj._projects.noteCreateSubmit();
+                    _projects.noteCreateSubmit();
                 }
             }
         },
@@ -144,7 +144,7 @@ var _notes = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        projectObj._notes.viewAll(response.projectId, response.taskId, response.insertedId);
+                        _notes.viewAll(response.projectId, response.taskId, response.insertedId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }

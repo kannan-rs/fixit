@@ -129,7 +129,7 @@ if(!$openAs || $openAs != "popup") {
 					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
-					<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="securityObj._users.showBelongsToOption()" <?php } ?> required>
+					<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
 						<option value=""><?php echo $this->lang->line_arr('user->input_form->belongsTo_option_0'); ?></option>
 						<option value="customer">Customer</option>
 						<option value="contractor">Contractor</option>
@@ -154,7 +154,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
 				<td>
 					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->contractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('')"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('')"></span>
 				</td>
 			</tr>
 			<tr class="contractor-result">
@@ -169,7 +169,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->partnerCompanyName'); ?></td>
 				<td>
 					<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->partnerCompanyName_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('')"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('')"></span>
 				</td>
 			</tr>
 			<tr class="adjuster-result">
@@ -287,7 +287,7 @@ if(!$openAs || $openAs != "popup") {
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBy'); ?></td>
 				<td>
-						<select name="referredBy" id="referredBy" onchange="securityObj._users.showreferredByOption()">
+						<select name="referredBy" id="referredBy" onchange="_users.showreferredByOption()">
 							<option value=""><?php echo $this->lang->line_arr('user->input_form->referredBy_option_0'); ?></option>
 							<option value="customer">Customer</option>
 							<option value="contractor">Contractor</option>
@@ -310,7 +310,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode'); ?></td>
 				<td>
 					<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getContractorListUsingZip('referredBy')"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('referredBy')"></span>
 				</td>
 			</tr>
 			<tr class="referredBycontractor-result">
@@ -325,7 +325,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName'); ?></td>
 				<td>
 					<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="securityObj._users.getAdjusterByCompanyName('referredBy')"></span>
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('referredBy')"></span>
 				</td>
 			</tr>
 			<tr class="referredByadjuster-result">
@@ -343,7 +343,7 @@ if(!$openAs || $openAs != "popup") {
 					<table>
 						<tr>
 							<td>
-								<input id="termsCondition" name="termsCondition" type="checkbox" onclick="securityObj._users.tcChecked()" />
+								<input id="termsCondition" name="termsCondition" type="checkbox" onclick="_users.tcChecked()" />
 							</td>
 							<td>
 							<?php
@@ -365,11 +365,11 @@ if(!$openAs || $openAs != "popup") {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="create_user_submit" onclick="securityObj._users.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>', '<?php echo $belongsTo; ?>')"><?php echo $buttonText; ?></button>
+						<button type="button" id="create_user_submit" onclick="_users.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>', '<?php echo $belongsTo; ?>')"><?php echo $buttonText; ?></button>
 						<?php if(!$openAs || $openAs != "popup") { ?>
 						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
 						<?php } else { ?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="cancelButton" onclick="_projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php } ?>
 					</p>
 				</td>

@@ -23,6 +23,46 @@ var _projects = (function () {
         /**
             Create Project Validation
         */
+        clearRest: function(excludeList) {
+            //var containers = ["project_content", "task_content", "note_content", "attachment_content", "popupForAll", "contractor_content"];
+            var containers = ["project_content", "popupForAll", "contractor_content"];
+
+            for(var i=0; i < containers.length; i++) {
+                if(!excludeList || !$.isArray(excludeList) || excludeList.indexOf(containers[i]) == -1) {
+                    $("#"+containers[i]).html("");
+                }
+            }
+        },
+
+        resetCounter: function( module ) {
+            switch (module) {
+                case "docs":
+                    this.resetNoteCounter();
+                break;
+                case "notes":
+                    this.resetDocsCounter();
+                break;
+                default:
+                break;
+            }
+        },
+
+        resetNoteCounter: function() {
+            _notes.noteRequestSent             = 0;
+            _notes.noteListStartRecord         = 0;
+        },
+
+        resetDocsCounter: function() {
+            _docs.docsListStartRecord            = 0;
+            _docs.docsRequestSent                = 0;
+        },
+
+        toggleAccordiance: function(page, module) {
+            $("#project_section_accordion").hide();
+            if(page == "project" && module == "viewOne") {
+                $("#project_section_accordion").show();
+            }
+        },
 
         errorMessage: function () {
             return {
@@ -138,10 +178,10 @@ var _projects = (function () {
         viewAll: function () {
             var fail_error = null;
             var self = this;
-            projectObj.resetCounter("docs");
-            projectObj.resetCounter("notes");
-            projectObj.clearRest();
-            projectObj.toggleAccordiance("project", "viewAll");
+            _projects.resetCounter("docs");
+            _projects.resetCounter("notes");
+            _projects.clearRest();
+            _projects.toggleAccordiance("project", "viewAll");
 
             $.ajax({
                 method: "POST",
@@ -162,8 +202,8 @@ var _projects = (function () {
         createForm: function () {
             var self = this;
             var fail_error = null;
-            projectObj.clearRest();
-            projectObj.toggleAccordiance("project", "create_project");
+            _projects.clearRest();
+            _projects.toggleAccordiance("project", "create_project");
             $.ajax({
                 method: "POST",
                 url: "/projects/projects/createForm",
@@ -466,8 +506,8 @@ var _projects = (function () {
         viewOne: function (projectId, options) {
             this.projectId = projectId;
             var self = this;
-            projectObj.clearRest();
-            projectObj.toggleAccordiance("project", "viewOne");
+            _projects.clearRest();
+            _projects.toggleAccordiance("project", "viewOne");
 
             var triggeredBy = (options && options.viewTriggeredBy) ? options.viewTriggeredBy : "";
 
@@ -556,7 +596,7 @@ var _projects = (function () {
                     taskCount = (taskCount !== "" || taskCount > 0) ? " (" + taskCount + ")" : 0;
                     $("#taskCountDisplay").html(taskCount);
 
-                    projectObj._tasks.showTaskList();
+                    _tasks.showTaskList();
                 },
                 error: function (error) {
                     error = error;
@@ -579,8 +619,8 @@ var _projects = (function () {
                     projectId: self.projectId,
                     taskId: taskId,
                     noteId: noteId,
-                    startRecord: projectObj._notes.noteListStartRecord,
-                    count: projectObj._notes.noteListCount,
+                    startRecord: _notes.noteListStartRecord,
+                    count: _notes.noteListCount,
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
@@ -588,8 +628,8 @@ var _projects = (function () {
                         $("#notesCount").remove();
                         $("#note_content").html(response);
 
-                        projectObj._notes.noteRequestSent = projectObj._notes.noteListStartRecord;
-                        projectObj._notes.noteListStartRecord += 5;
+                        _notes.noteRequestSent = _notes.noteListStartRecord;
+                        _notes.noteListStartRecord += 5;
 
                         var noteCount = $("#notesCountForProject").val();
                         noteCount = (noteCount !== "" || noteCount > 0) ? " (" + noteCount + ")" : 0;
@@ -616,7 +656,7 @@ var _projects = (function () {
                     taskId: taskId,
                     noteId: noteId,
                     startRecord: 0,
-                    count: projectObj._notes.noteListCount,
+                    count: _notes.noteListCount,
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
@@ -663,7 +703,7 @@ var _projects = (function () {
                 url: "/projects/docs/viewAll",
                 data: {
                     projectId: self.projectId,
-                    startRecord: projectObj._docs.docsListStartRecord
+                    startRecord: _docs.docsListStartRecord
                 },
                 success: function (response) {
                     if (response.length) {
@@ -890,8 +930,8 @@ var _projects = (function () {
                     self.openDialog({title: "Edit Task Details"});
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
                     self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
-                    projectObj._tasks.setDropdownValue();
-                    setTimeout(function () {projectObj._tasks.setOwnerOption();}, 100);
+                    _tasks.setDropdownValue();
+                    setTimeout(function () {_tasks.setOwnerOption();}, 100);
 
                     dateOptions = {
                         fromDateField: "task_start_date",
@@ -1619,3 +1659,101 @@ var _projects = (function () {
         }
     };
 })();
+
+window.onscroll = function() {
+    if($("#note_content").text().length) {
+        /*
+        var content_height = $(document).height();
+        var content_scroll_pos = $(window).scrollTop();
+        var percentage_value = content_scroll_pos * 100 / content_height;
+        
+        if(percentage_value > 50) {
+            var projectId = $("#projectId").val();
+            _notes.viewAll(projectId);
+        }
+        */
+    } else if($("#attachment_list").text().length) {
+/*        var content_height = $(document).height();
+        var content_scroll_pos = $(window).scrollTop();
+        var percentage_value = content_scroll_pos * 100 / content_height;
+        
+        if(percentage_value > 20) {
+            var projectId = $("#projectId").val();
+            _docs.viewAll( projectId );
+        }
+*/    }
+}
+
+
+$(document).on("click", function(e) {
+    if (e && e.target && 
+        (e.target.id == "contractorSearchResult" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "contractorSearchResult" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorSearchResult")
+                )
+            )
+        )
+    )
+        return;
+
+    if (e && e.target && 
+        (e.target.id == "contractorSearchSelected" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "contractorSearchSelected" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorSearchSelected")
+                )
+            )
+        )
+    )
+        return;
+
+    if (e && e.target && 
+        (e.target.id == "adjusterSearchResult" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "adjusterSearchResult" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterSearchResult")
+                )
+            )
+        )
+    )
+        return;
+
+    if (e && e.target && 
+        (e.target.id == "adjusterSearchSelected" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "adjusterSearchSelected" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "adjusterSearchSelected")
+                )
+            )
+        )
+    )
+        return;
+
+    if (e && e.target && 
+        (e.target.id == "customerNameList" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "customerNameList" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "customerNameList")
+                )
+            )
+        )
+    )
+        return;
+
+    if (e && e.target && 
+        (e.target.id == "partnerNameList" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "partnerNameList" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "partnerNameList")
+                )
+            )
+        )
+    )
+        return;
+
+    $(".contractor-search-result").hide();
+    $(".adjuster-search-result").hide();
+    $(".customer-search-result").hide();
+    $(".partner-search-result").hide();
+});

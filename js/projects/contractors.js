@@ -97,8 +97,8 @@ var _contractors = (function () {
             var projectId     = options && options.projectId ? options.projectId : "";
 
             if(!openAs) {
-                projectObj.clearRest();
-                projectObj.toggleAccordiance("contractors", "new");
+                _projects.clearRest();
+                _projects.toggleAccordiance("contractors", "new");
             }
             
             $.ajax({
@@ -112,11 +112,11 @@ var _contractors = (function () {
                 success: function( response ) {
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
-                        projectObj._projects.openDialog({"title" : "Add Contractor"}, popupType);
+                        _projects.openDialog({"title" : "Add Contractor"}, popupType);
                     } else{
                         $("#contractor_content").html(response);
                     }
-                    //projectObj._projects.setMandatoryFields();
+                    //_projects.setMandatoryFields();
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("create_contractor_form");
                 },
@@ -142,7 +142,7 @@ var _contractors = (function () {
             }
 
             if(validator) {
-                projectObj._contractors.createSubmit( openAs, popupType );
+                _contractors.createSubmit( openAs, popupType );
             }
         },
 
@@ -202,7 +202,7 @@ var _contractors = (function () {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
-                        projectObj._contractors.viewOne(response.insertedId, openAs, popupType);
+                        _contractors.viewOne(response.insertedId, openAs, popupType);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
@@ -220,28 +220,28 @@ var _contractors = (function () {
             this.contractorId     = contractorId;
             popupType             = popupType ? popupType : "";
             if(!openAs || openAs != "popup") {
-                projectObj.clearRest();
-                projectObj.toggleAccordiance("contractors", "viewOne");
+                _projects.clearRest();
+                _projects.toggleAccordiance("contractors", "viewOne");
             }
             
             $.ajax({
                 method: "POST",
                 url: "/projects/contractors/viewOne",
                 data: {
-                    contractorId     : projectObj._contractors.contractorId,
+                    contractorId     : _contractors.contractorId,
                     openAs             : openAs,
                     popupType         : popupType
                 },
                 success: function( response ) {
                     if( openAs && openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
-                        projectObj._projects.openDialog({"title" : "Contractor Details"}, popupType);
-                        projectObj._projects.updateContractorSelectionList();
-                        projectObj._projects.setContractorDetails();
+                        _projects.openDialog({"title" : "Contractor Details"}, popupType);
+                        _projects.updateContractorSelectionList();
+                        _projects.setContractorDetails();
                     } else {
                         $("#contractor_content").html(response);
                     }
-                    projectObj._contractors.setPrefContact();
+                    _contractors.setPrefContact();
                 },
                 error: function( error ) {
                     error = error;
@@ -253,8 +253,8 @@ var _contractors = (function () {
         },
 
         viewAll: function() {
-            projectObj.clearRest();
-            projectObj.toggleAccordiance("contractors", "viewAll");
+            _projects.clearRest();
+            _projects.toggleAccordiance("contractors", "viewAll");
 
             $.ajax({
                 method: "POST",
@@ -262,7 +262,7 @@ var _contractors = (function () {
                 data: {},
                 success: function( response ) {
                     $("#contractor_content").html(response);
-                    projectObj._contractors.showContractorsList();
+                    _contractors.showContractorsList();
                 },
                 error: function( error ) {
                     error = error;
@@ -281,15 +281,15 @@ var _contractors = (function () {
                 method: "POST",
                 url: "/projects/contractors/editForm",
                 data: {
-                    'contractorId' : projectObj._contractors.contractorId,
+                    'contractorId' : _contractors.contractorId,
                     'openAs'         : openAs,
                     'popupType'     : popupType
                     
                 },
                 success: function( response ) {
                     $("#popupForAll"+popupType).html(response);
-                    projectObj._projects.openDialog({"title" : "Edit Contractor"}, popupType);
-                    projectObj._contractors.setPrefContact();
+                    _projects.openDialog({"title" : "Edit Contractor"}, popupType);
+                    _contractors.setPrefContact();
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("update_contractor_form");
                     _utils.setAddressByCity();
@@ -318,7 +318,7 @@ var _contractors = (function () {
             }
 
             if(validator) {
-                projectObj._contractors.updateSubmit();
+                _contractors.updateSubmit();
             }
         },
 
@@ -379,7 +379,7 @@ var _contractors = (function () {
                     if(response.status.toLowerCase() == "success") {
                         $(".ui-button").trigger("click");
                         alert(response.message);
-                        projectObj._contractors.viewOne(response.updatedId);
+                        _contractors.viewOne(response.updatedId);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
@@ -399,13 +399,13 @@ var _contractors = (function () {
                 method: "POST",
                 url: "/projects/contractors/deleteRecord",
                 data: {
-                    contractorId: projectObj._contractors.contractorId
+                    contractorId: _contractors.contractorId
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
-                        projectObj._contractors.viewAll();
+                        _contractors.viewAll();
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }

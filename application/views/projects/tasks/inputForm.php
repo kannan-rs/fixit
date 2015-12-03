@@ -2,8 +2,8 @@
 	//Edit Individual
 $edit = false;
 $prefix = "create";
-$createFn = "projectObj._tasks.createValidate('".$viewFor."')";
-$updateFn = "projectObj._tasks.updateValidate('".$viewFor."')";
+$createFn = "_tasks.createValidate('".$viewFor."')";
+$updateFn = "_tasks.updateValidate('".$viewFor."')";
 
 if(isset($tasks) && count($tasks)) {
 	$i = 0;
@@ -61,7 +61,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_status'); ?>:</td>
 				<td>
 					<input type="hidden" name="db_task_status" id="db_task_status" value="<?php echo $task_status; ?>">
-					<select name="task_status" id="task_status"  onchange="projectObj._tasks.setPercentage(this.value)" required>
+					<select name="task_status" id="task_status"  onchange="_tasks.setPercentage(this.value)" required>
 						<option value=""><?php echo $this->lang->line_arr('tasks->input_form->task_status_option_0'); ?></option>
 						<option value="task created">Task Created</option>
 						<option value="not assigned">Not Assigned</option>
@@ -73,7 +73,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			</tr>
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('tasks->input_form->task_percent_complete'); ?>:</td>
-				<td><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="projectObj._tasks.percentageChange(this.value)" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_percent_complete_ph'); ?>" defaultValue="<?php echo $task_percent_complete; ?>" value="<?php echo $task_percent_complete; ?>" required></td>
+				<td><input type="text" name="task_percent_complete" id="task_percent_complete" onchange="_tasks.percentageChange(this.value)" placeholder="<?php echo $this->lang->line_arr('tasks->input_form->task_percent_complete_ph'); ?>" defaultValue="<?php echo $task_percent_complete; ?>" value="<?php echo $task_percent_complete; ?>" required></td>
 			</tr>
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('tasks->input_form->taskOwnerId'); ?></td>
@@ -93,8 +93,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_task_submit" onclick="projectObj._tasks.<?php echo $prefix; ?>Validate('<?php echo $viewFor; ?>')"><?php echo $this->lang->line_arr('tasks->buttons_links->'.$prefix); ?></button>
-						<button type="button" onclick="projectObj._projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_task_submit" onclick="_tasks.<?php echo $prefix; ?>Validate('<?php echo $viewFor; ?>')"><?php echo $this->lang->line_arr('tasks->buttons_links->'.$prefix); ?></button>
+						<button type="button" onclick="_projects.closeDialog()"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 					</p>
 				</td>
 			</tr>

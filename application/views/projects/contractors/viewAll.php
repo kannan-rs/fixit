@@ -1,5 +1,5 @@
 <h2><?php echo $this->lang->line_arr('contractor->headers->view_all'); ?></h2>
-<div class="contractors internal-tab-as-links" onclick="projectObj._contractors.showContractorsList(event)">
+<div class="contractors internal-tab-as-links" onclick="_contractors.showContractorsList(event)">
 	<a href="javascript:void(0);" data-option="active" title="<?php echo $this->lang->line_arr('contractor->buttons_links->active_hover_text'); ?>">
 		<?php echo $this->lang->line_arr('contractor->buttons_links->active'); ?>
 	</a>
@@ -34,13 +34,13 @@
 		for($i = 0; $i < count($contractors); $i++) { 
 			$contractor = $contractors[$i];
 			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "projectObj._contractors.deleteRecord(".$contractor->id.")" : "";
+			$deleteFn = $deleteText ? "_contractors.deleteRecord(".$contractor->id.")" : "";
 
 			$cssStatus = $contractor->status == "inactive" ? "inactive" : "active";
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
 				<!-- <td class='cell capitalize'>
-					<a href="javascript:void(0);" onclick="projectObj._contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
+					<a href="javascript:void(0);" onclick="_contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
 						<?php echo $contractor->name; ?>
 					</a>
 				</td> -->

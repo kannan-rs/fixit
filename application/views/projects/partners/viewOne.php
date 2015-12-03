@@ -1,6 +1,6 @@
 <?php
-	$editFn 		= "projectObj._partners.editForm({'openAs':'popup', 'popupType' : 2})";
-	$deleteFn 		= "projectObj._partners.deleteRecord('".$partnerId."')";
+	$editFn 		= "_partners.editForm({'openAs':'popup', 'popupType' : 2})";
+	$deleteFn 		= "_partners.deleteRecord('".$partnerId."')";
 	$partner		= $partners[0];
 ?>
 <?php

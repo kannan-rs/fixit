@@ -94,8 +94,8 @@ var _partners = (function () {
             var projectId = (options && options.projectId) ? options.projectId : "";
 
             if (!openAs) {
-                projectObj.clearRest();
-                projectObj.toggleAccordiance("partners", "new");
+                _projects.clearRest();
+                _projects.toggleAccordiance("partners", "new");
             }
 
             $.ajax({
@@ -109,11 +109,11 @@ var _partners = (function () {
                 success: function (response) {
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
-                        projectObj._projects.openDialog({title: "Add Partner"}, popupType);
+                        _projects.openDialog({title: "Add Partner"}, popupType);
                     } else {
                         $("#partner_content").html(response);
                     }
-                    //projectObj._projects.setMandatoryFields();
+                    //_projects.setMandatoryFields();
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("create_partner_form");
                 },
@@ -138,7 +138,7 @@ var _partners = (function () {
             }
 
             if (validator) {
-                projectObj._partners.createSubmit(openAs, popupType);
+                _partners.createSubmit(openAs, popupType);
             }
         },
 
@@ -197,7 +197,7 @@ var _partners = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        projectObj._partners.viewOne(response.insertedId, openAs, popupType);
+                        _partners.viewOne(response.insertedId, openAs, popupType);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -215,28 +215,28 @@ var _partners = (function () {
             this.partnerId = partnerId;
             popupType = popupType || "";
             if (!openAs || openAs !== "popup") {
-                projectObj.clearRest();
-                projectObj.toggleAccordiance("partners", "viewOne");
+                _projects.clearRest();
+                _projects.toggleAccordiance("partners", "viewOne");
             }
 
             $.ajax({
                 method: "POST",
                 url: "/projects/partners/viewOne",
                 data: {
-                    partnerId: projectObj._partners.partnerId,
+                    partnerId: _partners.partnerId,
                     openAs: openAs,
                     popupType: popupType
                 },
                 success: function (response) {
                     if (openAs && openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
-                        projectObj._projects.openDialog({title: "Partner Details"}, popupType);
-                        projectObj._projects.updatePartnerSelectionList();
-                        projectObj._projects.setPartnerDetails();
+                        _projects.openDialog({title: "Partner Details"}, popupType);
+                        _projects.updatePartnerSelectionList();
+                        _projects.setPartnerDetails();
                     } else {
                         $("#partner_content").html(response);
                     }
-                    projectObj._partners.setPrefContact();
+                    _partners.setPrefContact();
                 },
                 error: function (error) {
                     error = error;
@@ -248,8 +248,8 @@ var _partners = (function () {
 
         viewAll: function () {
             var fail_error = null;
-            projectObj.clearRest();
-            projectObj.toggleAccordiance("partners", "viewAll");
+            _projects.clearRest();
+            _projects.toggleAccordiance("partners", "viewAll");
 
             $.ajax({
                 method: "POST",
@@ -257,7 +257,7 @@ var _partners = (function () {
                 data: {},
                 success: function (response) {
                     $("#partner_content").html(response);
-                    projectObj._partners.showPartnersList();
+                    _partners.showPartnersList();
                 },
                 error: function (error) {
                     error = error;
@@ -276,14 +276,14 @@ var _partners = (function () {
                 method: "POST",
                 url: "/projects/partners/editForm",
                 data: {
-                    partnerId : projectObj._partners.partnerId,
+                    partnerId : _partners.partnerId,
                     openAs: openAs,
                     popupType: popupType
                 },
                 success: function (response) {
                     $("#popupForAll" + popupType).html(response);
-                    projectObj._projects.openDialog({title: "Edit Partner"}, popupType);
-                    projectObj._partners.setPrefContact();
+                    _projects.openDialog({title: "Edit Partner"}, popupType);
+                    _partners.setPrefContact();
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("update_partner_form");
                     _utils.setAddressByCity();
@@ -311,7 +311,7 @@ var _partners = (function () {
             }
 
             if (validator) {
-                projectObj._partners.updateSubmit();
+                _partners.updateSubmit();
             }
         },
 
@@ -371,7 +371,7 @@ var _partners = (function () {
                     if (response.status.toLowerCase() === "success") {
                         $(".ui-button").trigger("click");
                         alert(response.message);
-                        projectObj._partners.viewOne(response.updatedId);
+                        _partners.viewOne(response.updatedId);
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }
@@ -391,13 +391,13 @@ var _partners = (function () {
                 method: "POST",
                 url: "/projects/partners/deleteRecord",
                 data: {
-                    partnerId: projectObj._partners.partnerId
+                    partnerId: _partners.partnerId
                 },
                 success: function (response) {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        projectObj._partners.viewAll();
+                        _partners.viewAll();
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }

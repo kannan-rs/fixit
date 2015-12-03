@@ -125,11 +125,11 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="create_partner_submit" onclick="projectObj._partners.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('partner->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="create_partner_submit" onclick="_partners.<?php echo $prefix; ?>Validate('<?php echo $openAs; ?>', '<?php echo $popupType;?>')"><?php echo $this->lang->line_arr('partner->buttons_links->'.$prefix); ?></button>
 						<?php
 							if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="projectObj._projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="cancelButton" onclick="_projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
 						<?php
 						} else {
 						?>
