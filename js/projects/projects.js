@@ -593,7 +593,7 @@ var _projects = (function () {
                 success: function (response) {
                     $("#task_content").html(response);
                     var taskCount = $("#tasksCount").val();
-                    taskCount = (taskCount !== "" || taskCount > 0) ? " (" + taskCount + ")" : 0;
+                    taskCount = (taskCount && taskCount !== "" || taskCount > 0) ? " (" + taskCount + ")" : '';
                     $("#taskCountDisplay").html(taskCount);
 
                     _tasks.showTaskList();
@@ -632,7 +632,7 @@ var _projects = (function () {
                         _notes.noteListStartRecord += 5;
 
                         var noteCount = $("#notesCountForProject").val();
-                        noteCount = (noteCount !== "" || noteCount > 0) ? " (" + noteCount + ")" : 0;
+                        noteCount = (noteCount && noteCount !== "" || noteCount > 0) ? " (" + noteCount + ")" : '';
                         $("#notesCountForProjectDisplay").html(noteCount);
                     }
                 },
@@ -710,7 +710,7 @@ var _projects = (function () {
                         $("#attachment_content").html(response);
 
                         var docsCount = $("#docsCount").val();
-                        docsCount = (docsCount !== "" || docsCount > 0) ? " (" + docsCount + ")" : 0;
+                        docsCount = (docsCount && docsCount !== "" || docsCount > 0) ? " (" + docsCount + ")" : '';
                         $("#docsCountDisplay").html(docsCount);
                     }
                 },

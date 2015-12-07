@@ -6,15 +6,15 @@
 		$controller 	= $this->session->userdata("controller");
 		$page 			= $this->session->userdata("page");
 		$module			= $this->session->userdata("module");
-		$account_type 	= $this->session->userdata("account_type");
+		$role_id 		= $this->session->userdata("role_id");
 		
 		$menuOutput = "";
 
 		$menuCount = isset($menus) && isset($menus[$page]) && is_array($menus[$page]) ? count($menus[$page]) : 0;
 		
 		for($menuIdx = 0; $menuIdx < $menuCount; $menuIdx++) {
-			if(!isset($menus[$page][$menuIdx]['account_type']) || 
-				(isset($menus[$page][$menuIdx]['account_type']) && $menus[$page][$menuIdx]['account_type'] == $account_type)) {
+			if(!isset($menus[$page][$menuIdx]['role_id']) || 
+				(isset($menus[$page][$menuIdx]['role_id']) && $menus[$page][$menuIdx]['role_id'] == $role_id)) {
 				$selected = ($module == $menus[$page][$menuIdx]['key']) ? "selected" : "";
 				$selected = ($selected == "" && $module == "" && $menus_default[$page] == $menus[$page][$menuIdx]['key']) ? "selected" : $selected; 
 				$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus[$page][$menuIdx]['link']."\">". $menus[$page][$menuIdx]['text'] ."</a></li>";

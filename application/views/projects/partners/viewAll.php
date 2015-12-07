@@ -2,7 +2,7 @@
 <div class="partners internal-tab-as-links" onclick="_partners.showPartnersList(event)">
 	<a href="javascript:void(0);" data-option="active" title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?></a>
 	<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?></a>
-	<?php if($account_type == "admin") { ?>
+	<?php if($role_id == "admin") { ?>
 		<!-- <a href="javascript:void(0);" data-option="deleted"><?php echo $this->lang->line_arr('partner->buttons_links->delete'); ?></a> -->
 	<?php } ?>
 	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('partner->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->all'); ?></a>

@@ -4,10 +4,10 @@
 		title="<?php echo $this->lang->line_arr('permission->buttons_links->default_title'); ?>">
 			<?php echo $this->lang->line_arr('permission->buttons_links->default'); ?>
 	</a>
-	<a href="javascript:void(0);" data-option="user" 
+	<!-- <a href="javascript:void(0);" data-option="user" 
 		title="<?php echo $this->lang->line_arr('permission->buttons_links->user_permission_title'); ?>">
 			<?php echo $this->lang->line_arr('permission->buttons_links->user_permission'); ?>
-	</a>
+	</a> -->
 </div>
 <p class="note error"></p>
 <p class="note success"></p>
@@ -25,7 +25,7 @@
 				<option value=""><?php echo $this->lang->line_arr('permission->input_form->user_option_0'); ?></option>
 				<?php
 					for($uIdx = 0; $uIdx < count($data["users"]); $uIdx++) {
-						echo "<option value=\"".$data["users"][$uIdx]->sno."\" data_user_type=\"".$data["users"][$uIdx]->account_type."\">".$data["users"][$uIdx]->user_name."</option>";
+						echo "<option value=\"".$data["users"][$uIdx]->sno."\" data_user_type=\"".$data["users"][$uIdx]->role_id."\">".$data["users"][$uIdx]->user_name."</option>";
 					}
 				?>
 			</select>

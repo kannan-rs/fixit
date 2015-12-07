@@ -1,9 +1,9 @@
 <?php 
-$edit = false;
+$createOrEdit = "create";
 $prefix = "create";
 
 if(isset($users) && count($users)) {
-	$edit 	= true;
+	$createOrEdit 	= "edit";
 	$prefix = "update";
 	$user_details = $user_details[0];
 
@@ -59,10 +59,10 @@ if(!$openAs || $openAs != "popup") {
 ?>
 <form id="<?php echo $prefix; ?>_user_form" name="<?php echo $prefix; ?>_user_form" class="inputForm">
 	<?php
-	if($edit) {
+	if($createOrEdit == "edit") {
 	?>
 		<input type="hidden" id='userId' value="<?php echo $users[0]->sno; ?>" />
-		<input type="hidden" id='privilege_db_val' value="<?php echo $users[0]->account_type; ?>" />
+		<input type="hidden" id='privilege_db_val' value="<?php echo $users[0]->role_id; ?>" />
 		
 		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details_sno; ?>">
 		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $dbPrimaryContact; ?>">
@@ -79,14 +79,19 @@ if(!$openAs || $openAs != "popup") {
 	?>
 	<table class='form'>
 		<tbody>
-			<?php if($userType == "admin" && ($edit == false || ($edit == true && $viewFrom == "security"))) { ?>
+			<?php if($userType == "admin" && ($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))) { ?>
 			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('user->input_form->privilege'); ?></td>
+				<td class="label"><?php echo $this->lang->line_arr('user->input_form->role'); ?></td>
 				<td>
 					<select name="privilege" id="privilege">
-						<option value=""><?php echo $this->lang->line_arr('user->input_form->privilege_option_0'); ?></option>
-						<option value="1">Admin</option>
-						<option value="2">User</option>
+						<option value="0"><?php echo $this->lang->line_arr('user->input_form->role_option_0'); ?></option>
+						<?php
+						if($roles && count($roles)) {
+							for($i = 0; $i < count($roles); $i++) {
+								echo "<option value='".$roles[$i]->sno."'>".$roles[$i]->role_name."</option>";
+							}
+						}
+						?>
 					</select>
 				</td>
 			</tr>
@@ -102,7 +107,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			
 			
-			<?php if(!isset($is_logged_in) || $is_logged_in != 1 || $edit == false) { // only for create user ?>
+			<?php if(!isset($is_logged_in) || $is_logged_in != 1 || $createOrEdit == "create") { // only for create user ?>
 				<tr>
 					<td class="label"><?php echo $this->lang->line_arr('user->input_form->password'); ?></td>
 					<td><input type="password" name="password" id="password" value="" placeholder="<?php echo $this->lang->line_arr('user->input_form->password_ph'); ?>" required></td>
@@ -125,7 +130,7 @@ if(!$openAs || $openAs != "popup") {
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->belongsTo'); ?></td>
 				<td>
-					<?php if($edit == false && $belongsTo != "") { // Create User from project by selecting contractor or adjuster ?>
+					<?php if($createOrEdit == "create" && $belongsTo != "") { // Create User from project by selecting contractor or adjuster ?>
 					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
@@ -191,7 +196,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 
-			<?php if($edit == true && $userType == "admin"  && $viewFrom == "security") { ?>
+			<?php if($createOrEdit == "edit" && $userType == "admin"  && $viewFrom == "security") { ?>
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->activeStartDate'); ?></td>
 				<td>
@@ -209,7 +214,7 @@ if(!$openAs || $openAs != "popup") {
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->email'); ?></td>
 				<td>
-						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->email_ph'); ?>" <?php echo $edit == true ? "disabled" : ""; ?> required>
+						<input type="email" name="emailId" id="emailId" value="<?php echo $emailId; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->email_ph'); ?>" <?php echo $createOrEdit == "edit" ? "disabled" : ""; ?> required>
 				</td>
 			</tr>
 			

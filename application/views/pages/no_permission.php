@@ -1,0 +1,1 @@
+You Dont have permission to view <?php echo $page_disp_string; ?>

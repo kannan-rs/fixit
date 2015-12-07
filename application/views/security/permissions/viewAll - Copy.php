@@ -20,7 +20,7 @@
 				<option value="0"><?php echo $this->lang->line_arr('permission->input_form->user_option_0'); ?></option>
 				<?php
 					for($uIdx = 0; $uIdx < count($data["users"]); $uIdx++) {
-						echo "<option value=\"".$data["users"][$uIdx]->sno."\" data_user_type=\"".$data["users"][$uIdx]->account_type."\">".$data["users"][$uIdx]->user_name."</option>";
+						echo "<option value=\"".$data["users"][$uIdx]->sno."\" data_user_type=\"".$data["users"][$uIdx]->role_id."\">".$data["users"][$uIdx]->user_name."</option>";
 					}
 				?>
 			</select>

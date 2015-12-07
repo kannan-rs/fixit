@@ -21,42 +21,84 @@ class Projects extends CI_Controller {
 		echo $record."<br/>";*/
 	}
 
+	public function getRoleAndDisplayStr() {
+		$this->load->model('security/model_roles');
+
+		$role_id = $this->session->userdata('role_id');
+		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
+		
+		return array($role_id, $role_disp_name);
+	}
+
 	public function viewAll() {
+		/* Including Required Modules */
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
-		$projectList = "";
+		
+		/* Including Required Library */
+		$this->load->library("permissions");
 
-		//print_r($this->session->userdata);
-		$account_type = $this->session->userdata('account_type');
-		$user_id = $this->session->userdata('user_id');
-		$email = $this->session->userdata('email');
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+		//print_r($projectPermission);
 
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $projectPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Project List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		/* Parameter For issues permissions */
+		$permissionParams['function_name'] = 'issues';
+		/* Get Possible Tasks > Permissions for logged in User by user role_id */
+		$issuesPermission = $this->permissions->getPermissions($permissionParams);
+
+		$projectList 	= "";
+
+		$user_id 		= $this->session->userdata('user_id'); /* Get user ID for logged in User from session */
+		$email 			= $this->session->userdata('email'); /* Get Email ID for logged in User from session */
+
+		/* Project Params to get the list of project with permissions */
 		$projectParams = array(
-			'account_type' => $account_type,
-			'user_details_id' => $this->model_users->getUserDetailsSnoViaEmail($email),
-			'user_id' => $user_id,
-			'email' => $email
+			'role_disp_name' 		=> $role_disp_name,
+			'user_details_id' 		=> $this->model_users->getUserDetailsSnoViaEmail($email),
+			'user_id' 				=> $user_id,
+			'email' 				=> $email,
+			'projectPermission' 	=> $projectPermission
 		);
 
 		$projectListArr = array();
 		//print_r($projectParams);
-		if($account_type == "user") {
+		
+		/* If logged in User dont have 'all' permission in data filter, then get the project ID's list that user has access */
+		if( !in_array('all', $projectPermission['data_filter']) ) {
 			$projectList = $this->model_projects->getProjectIds($projectParams);
 			for($i = 0; $i < count($projectList); $i++) {
 				array_push($projectListArr, $projectList[$i]->proj_id);
 			}
-		} else if($account_type != "admin") {
-			//$projectList = 
 		}
 
 		//echo "projectListArr ->";
-		//print_r($projectListArr); 
-
+		//print_r($projectListArr);
+		/* Set the list of project ID's to projectParams, that logged in user has access to */
 		$projectParams["projectId"] = $projectListArr;
-
 		//print_r($projectParams);
 		
+		/* Get the list of Projects that logged in user has access to, from Database > projects > table to display */
 		$projects = $this->model_projects->getProjectsList( $projectParams );
 
 		for($i = 0; $i < count($projects); $i++) {
@@ -82,16 +124,21 @@ class Projects extends CI_Controller {
 			$projects[$i]->start_date 	= $start_date;
 			$projects[$i]->end_date 		= $end_date;
 
-			$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
-			$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+			if(in_array('view', $issuesPermission)) {
+				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
+				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
-			$projects[$i]->issueCount = $issueCount;
+				$projects[$i]->issueCount = $issueCount;
+			}
 
 		}
 
 		$params = array(
-			'projects' => $projects,
-			'account_type' => $this->session->userdata('account_type')
+			'projects' 			=> $projects,
+			'role_id' 			=> $this->session->userdata('role_id'),
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission' => $projectPermission,
+			'issuesPermission'	=> $issuesPermission
 		);
 		
 		echo $this->load->view("projects/projects/viewAll", $params, true);
@@ -99,6 +146,22 @@ class Projects extends CI_Controller {
 
 	public function getAssignees() {
 		$projectId 			= $this->input->post('projectId');
+
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
@@ -114,7 +177,9 @@ class Projects extends CI_Controller {
 		);
 
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList( $projectParams );
 
@@ -133,7 +198,7 @@ class Projects extends CI_Controller {
 				if(count($customerDetails)) {
 					$assigneeDetails["customerDetails"] = $customerDetails;
 					$assigneeDetails["customerDetails"]["user_sno"] = $userDetails[0]->sno;
-					$assigneeDetails["customerDetails"]["account_type"] = $userDetails[0]->account_type;
+					$assigneeDetails["customerDetails"]["role_id"] = $userDetails[0]->role_id;
 					$assigneeDetails["customerDetails"]["account_status"] = $userDetails[0]->status;
 				}
 			}
@@ -157,6 +222,31 @@ class Projects extends CI_Controller {
 	public function createForm() {
 		$this->load->model('security/model_users');
 
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $projectPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Creating Projects"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$addressParams = array(
 			'forForm' 			=> "create_project_form"
 		);
@@ -166,7 +256,7 @@ class Projects extends CI_Controller {
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
 			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('account_type')
+			'userType' 		=> $this->session->userdata('role_id')
 		);
 
 		echo $this->load->view("projects/projects/inputForm", $params, true);
@@ -266,11 +356,37 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
 
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('update', $projectPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Creating Projects"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 
 		$record = $this->input->post('projectId');
 
 		$projectParams = array(
-			'projectId' => [$record]
+			'projectId' 		=> [$record],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission' => $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 
@@ -295,7 +411,7 @@ class Projects extends CI_Controller {
 			'projects' 			=>$projects,
 			'users' 			=> $this->model_users->getUsersList(),
 			'internalLink' 		=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
-			'userType' 			=> $this->session->userdata('account_type'),
+			'userType' 			=> $this->session->userdata('role_id'),
 			'addressFile' 		=> $addressFile,
 		);
 		
@@ -393,6 +509,22 @@ class Projects extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_contractors');
@@ -403,7 +535,9 @@ class Projects extends CI_Controller {
 
 		// Get Porject details defore delete
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission' => $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
@@ -452,12 +586,31 @@ class Projects extends CI_Controller {
 	}
 
 	public function viewOnlyBudget() {
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_remainingbudget');
 
 		$projectId = $this->input->post('projectId');
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 
@@ -467,13 +620,14 @@ class Projects extends CI_Controller {
 
 		$budgetParams = array(
 			'project'		=> $project,
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 		);
 
 		echo  $this->load->view("projects/projects/projectBudget", $budgetParams, true);
 	}
 
 	public function viewOne() {
+		/* Including Required Modules */
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -484,9 +638,98 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 		$this->load->model('utils/model_form_utils');
 
+		/* Including Required Library */
+		$this->load->library("permissions");
+
 		$projectId = $this->input->post('projectId');
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $projectPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Project Details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		/* Parameter For issues permissions */
+		$permissionParams['function_name'] = 'issues';
+		/* Get Possible Tasks > Permissions for logged in User by user role_id */
+		$issuesPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For Tasks permissions */
+		$permissionParams['function_name'] = 'tasks';
+		/* Get Possible Tasks > Permissions for logged in User by user role_id */
+		$tasksPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For docs permissions */
+		$permissionParams['function_name'] = 'docs';
+		/* Get Possible Docs > Permissions for logged in User by user role_id */
+		$docsPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For notes permissions */
+		$permissionParams['function_name'] = 'notes';
+		/* Get Possible Notes > Permissions for logged in User by user role_id */
+		$notesPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For Budget permissions */
+		$permissionParams['function_name'] = 'budget';
+		/* Get Possible Budget > Permissions for logged in User by user role_id */
+		$budgetPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For Customer permissions */
+		$permissionParams['function_name'] = 'customer';
+		/* Get Possible Customer > Permissions for logged in User by user role_id */
+		$customerPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For Service Provider permissions */
+		$permissionParams['function_name'] = 'service provider';
+		/* Get Possible Service Provider > Permissions for logged in User by user role_id */
+		$contractorPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* Parameter For Adjuster permissions */
+		$permissionParams['function_name'] = 'adjuster';
+		/* Get Possible Adjuster > Permissions for logged in User by user role_id */
+		$adjusterPermission = $this->permissions->getPermissions($permissionParams);
+
+		/*
+		echo "<br/>Project Permissions ->";
+		print_r($projectPermission);
+		echo "<br/>Issues Permissions ->";
+		print_r($issuesPermission);
+		echo "<br/>Tasks Permissions ->";
+		print_r($tasksPermission);
+		echo "<br/>Docs Permissions ->";
+		print_r($docsPermission);
+		echo "<br/>Notes Permissions ->";
+		print_r($notesPermission);
+		echo "<br/>Budget Permissions ->";
+		print_r($budgetPermission);
+		echo "<br/>Customer Permissions ->";
+		print_r($customerPermission);
+		echo "<br/>Contractor / Service provider Permissions ->";
+		print_r($contractorPermission);
+		echo "<br/>Adjuster Permissions ->";
+		print_r($adjusterPermission);
+		*/
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId'			=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 
@@ -523,39 +766,72 @@ class Projects extends CI_Controller {
 
 		// Contractor Name
 		$project->contractorName = "-- Not Provided --";
-		if($project->contractor_id != "") {
-			$contractorIdArr = explode(",", $project->contractor_id);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
-			 $contractors = $contractorsResponse["contractors"];
+
+		if(!in_array('view', $contractorPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Assigned Contractor Details"
+			);
+			$contractorFile =  $this->load->view("pages/no_permission", $no_permission_options, true);
+		} else {
+			if($project->contractor_id != "") {
+				$contractorIdArr = explode(",", $project->contractor_id);
+				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				 $contractors = $contractorsResponse["contractors"];
+			}
+			$contractorParams = array(
+				"contractors"				=> $contractors
+			);
+			$contractorFile 		= $this->load->view("projects/projects/contractorDetailsView", $contractorParams, true);
 		}
 
 		// Partners Name
 		$project->partnerName = "-- Not Provided --";
-		if($project->adjuster_id != "") {
-			$partnerIdArr = explode(",", $project->adjuster_id);
-			$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
-			 $partners = $partnersResponse["partners"];
+
+		if(!in_array('view', $adjusterPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Assigned Adjuster Details"
+			);
+			$adjusterFile =  $this->load->view("pages/no_permission", $no_permission_options, true);
+		} else {
+			if($project->adjuster_id != "") {
+				$partnerIdArr = explode(",", $project->adjuster_id);
+				$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);
+				$partners = $partnersResponse["partners"];
+			}
+			$adjusterParams = array(
+				"partners"				=> $partners
+			);
+			$adjusterFile 		= $this->load->view("projects/projects/adjusterDetailsView", $adjusterParams, true);
 		}
+		
 
 		//Paid From budget
 		$project->paid_from_budget = $this->model_remainingbudget->getPaidBudgetSum($project->proj_id);
 
 		$internalLinkParams = array(
 			"internalLinkArr" 		=> ["update project", "delete project"],
-			"projectId" 			=> $projectId
+			"projectId" 			=> $projectId,
+			'projectPermission'		=> $projectPermission,
 		);
 
 		/*
 			Customer Output
 		*/
-		$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
-		$customer 	= count($customers) ? $customers[0] : "";
-		
-		if($customer) {
-			$customerParams = array(
-				"customer"			=> $customer
+		if(!in_array('view', $customerPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Assigned Customer Details"
 			);
-			$customerFile 		= $this->load->view("projects/projects/customerDetailsView", $customerParams, true);
+			$customerFile =  $this->load->view("pages/no_permission", $no_permission_options, true);
+		} else {
+			$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
+			$customer 	= count($customers) ? $customers[0] : "";
+			
+			if($customer) {
+				$customerParams = array(
+					"customer"				=> $customer
+				);
+				$customerFile 		= $this->load->view("projects/projects/customerDetailsView", $customerParams, true);
+			}
 		}
 
 		/*
@@ -577,30 +853,50 @@ class Projects extends CI_Controller {
 			'country' 			=> $project->addr_country,
 			'state'				=> $stateText,
 			'zipCode' 			=> $project->addr_pin,
-			'requestFrom' 		=> 'view'
+			'requestFrom' 		=> 'view',
 		);
 		//$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		/*
 			Budget List
 		*/
-		$budgetParams = array(
-			'project'		=> $project,
-			'userType' 		=> $this->session->userdata('account_type'),
-		);
+		if(in_array('view', $budgetPermission['operation'])) {
+			$budgetParams = array(
+				'project'		=> $project,
+				'userType' 		=> $this->session->userdata('role_id'),
+			);
+			$project_budget_file = $this->load->view("projects/projects/projectBudget.php", $budgetParams, true);
+		} else {
+			$no_permission_options = array(
+				'page_disp_string' => "Budget List"
+			);
+			$project_budget_file = $this->load->view("pages/no_permission", $no_permission_options, true);
+		}
 
 		/*
 			Final Project ViewOnly template output
 		*/
 		$params = array(
-			'project'			=> $project,
-			'userType' 			=> $this->session->userdata('account_type'),
-			'projectId' 		=> $projectId,
-			'contractors' 		=> $contractors,
-			'partners' 			=> $partners,
-			'customerFile' 		=> $customerFile,
-			'addressFile' 		=> $this->load->view("forms/address", $addressParams, true),
-			'projectBudgetFile' =>  $this->load->view("projects/projects/projectBudget.php", $budgetParams, true)
+			'project'				=> $project,
+			'role_id'				=> $role_id,
+			'userType' 				=> $role_disp_name,
+			'projectId' 			=> $projectId,
+			'contractors' 			=> $contractors,
+			'partners' 				=> $partners,
+			'customerFile' 			=> $customerFile,
+			'contractorFile' 		=> $contractorFile,
+			'adjusterFile'			=> $adjusterFile,
+			'addressFile' 			=> $this->load->view("forms/address", $addressParams, true),
+			'projectBudgetFile' 	=> $project_budget_file,
+			'projectPermission'		=> $projectPermission,
+			'issuesPermission'		=> $issuesPermission,
+			'tasksPermission'		=> $tasksPermission,
+			'docsPermission'		=> $docsPermission,
+			'notesPermission'		=> $notesPermission,
+			'budgetPermission'		=> $budgetPermission,
+			'customerPermission'	=> $customerPermission,
+			'contractorPermission'	=> $contractorPermission,
+			'adjusterPermission'	=> $adjusterPermission
 		);
 		echo $this->load->view("projects/projects/viewOne", $params, true);
 	}
@@ -624,6 +920,22 @@ class Projects extends CI_Controller {
 			return;
 		}
 
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'projects',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -634,7 +946,10 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
+
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 

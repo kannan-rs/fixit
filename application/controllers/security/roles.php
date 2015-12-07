@@ -26,6 +26,24 @@ class Roles extends CI_Controller {
 		
 		echo $this->load->view("security/roles/viewAll", $params, true);
 	}
+
+	public function getRoleList() {
+		$this->load->model('security/model_roles');
+		$roles = $this->model_roles->getRolesList();
+
+		$response = array(
+			"status" => "error",
+		);
+
+		if($roles) {
+			$response["status"] 	= "success";
+			$response["roles"] 		= $roles;
+		} else {
+			$response["message"] 	= "Error while fetching roles data";
+		}
+		
+		print(json_encode($response));
+	}
 	
 	public function createForm() {
 		$params = array(

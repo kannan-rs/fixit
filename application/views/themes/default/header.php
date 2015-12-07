@@ -13,7 +13,7 @@ if($this->session->userdata("is_logged_in")) {
 				Logged in as <?php echo $this->session->userdata("email") ?> 
 			</span>
 			<span class="logged-in-as">
-				Privilege as <b><i><?php echo $this->session->userdata("account_type") ?></i></b>
+				Role as <b><i><?php echo $role_disp_name ?></i></b>
 				<a href='<?php echo base_url(); ?>main/logout'>Logout</a>
 			</span>
 	</div>

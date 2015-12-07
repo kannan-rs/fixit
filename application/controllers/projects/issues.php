@@ -14,6 +14,15 @@ class Issues extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
+	public function getRoleAndDisplayStr() {
+		$this->load->model('security/model_roles');
+
+		$role_id 		= $this->session->userdata('role_id');
+		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
+
+		return array($role_id, $role_disp_name);
+	}
+
 	public function viewAll() {
 		$this->load->model('projects/model_issues');
 
@@ -42,7 +51,7 @@ class Issues extends CI_Controller {
 		$taskId 	= $this->input->post('taskId') ? $this->input->post('taskId') : "";
 		
 		$params = array(
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'openAs' 		=> $openAs,
 			'popupType' 	=> $popupType,
 			'projectId' 	=> $projectId,
@@ -81,7 +90,7 @@ class Issues extends CI_Controller {
 						if(count($customerDetails)) {
 							$assigneeDetails["customerDetails"] = $customerDetails;
 							$assigneeDetails["customerDetails"]["user_sno"] = $userDetails[0]->sno;
-							$assigneeDetails["customerDetails"]["account_type"] = $userDetails[0]->account_type;
+							$assigneeDetails["customerDetails"]["role_id"] = $userDetails[0]->role_id;
 							$assigneeDetails["customerDetails"]["account_status"] = $userDetails[0]->status;
 						}
 					}
@@ -103,7 +112,7 @@ class Issues extends CI_Controller {
 
 		$params = array(
 			'issues'			=> $issues,
-			'userType' 			=> $this->session->userdata('account_type'),
+			'userType' 			=> $this->session->userdata('role_id'),
 			'issueId' 			=> $issueId,
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
@@ -154,8 +163,11 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->insert($data);
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
@@ -240,7 +252,7 @@ class Issues extends CI_Controller {
 						if(count($customerDetails)) {
 							$assigneeDetails["customerDetails"] = $customerDetails;
 							$assigneeDetails["customerDetails"]["user_sno"] = $userDetails[0]->sno;
-							$assigneeDetails["customerDetails"]["account_type"] = $userDetails[0]->account_type;
+							$assigneeDetails["customerDetails"]["role_id"] = $userDetails[0]->role_id;
 							$assigneeDetails["customerDetails"]["account_status"] = $userDetails[0]->status;
 						}
 					}
@@ -262,7 +274,7 @@ class Issues extends CI_Controller {
 
 		$params = array(
 			'issues'			=> $issues,
-			'userType' 			=> $this->session->userdata('account_type'),
+			'userType' 			=> $this->session->userdata('role_id'),
 			'issueId' 			=> $issueId,
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
@@ -314,9 +326,12 @@ class Issues extends CI_Controller {
 		$issuesResponse = $this->model_issues->getIssuesList(array('records' => $issueId, 'status' => 'all'));
 		$issue 			= isset($issuesResponse["issues"]) && is_array($issuesResponse["issues"]) && count($issuesResponse["issues"]) ? $issuesResponse["issues"][0] : null;
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 		if($issue) {
 			$projectParams = array(
-				'projectId' => [$issue->project_id]
+				'projectId' 		=> [$issue->project_id],
+				'role_disp_name' 	=> $role_disp_name
 			);
 			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";
@@ -389,8 +404,11 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->deleteRecord($issueId);
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 		$projectParams = array(
-			'projectId' => [$issue->project_id]
+			'projectId' 		=> [$issue->project_id],
+			'role_disp_name' 	=> $role_disp_name
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";

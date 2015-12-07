@@ -16,13 +16,13 @@ class Validation extends CI_Controller {
 			$response["message"] = "Incorrect Username / Password";
 		} else {
 
-			$account_type = $this->model_users->getAccountType($email, $password);
+			$role_id = $this->model_users->getAccountType($email, $password);
 			$user_id = $this->model_users->getUserId($email, $password);
 			
 			$data = array(
 				'email' => $email,
 				'is_logged_in'=> 1,
-				'account_type' => $account_type,
+				'role_id' => $role_id,
 				'user_id' => $user_id
 			);
 
@@ -127,7 +127,7 @@ class Validation extends CI_Controller {
 					'user_name' => $emailId, 
 					'password' => md5($password),
 					'password_hint' => $passwordHint,
-					'account_type' => '',
+					'role_id' => '',
 					'status' => 1
 				);
 

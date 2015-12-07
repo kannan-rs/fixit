@@ -38,6 +38,7 @@ $lang['user'] = array(
 				6. After Login > projects > Edit project > Add new customer
 		*/
 		"privilege" 					=> "Privilege",
+		"role"							=> "Role",
 		"firstName" 					=> "First Name",
 		"lastName" 						=> "Last Name",
 		"password" 						=> "Password",
@@ -89,6 +90,7 @@ $lang['user'] = array(
 			this text will be shown if no option is selected in Dropdown under Create/Edit form
 		*/
 		"privilege_option_0" 	=> "--Select Privilege--",
+		"role_option_0" 	=> "--Select Role--",
 		"belongsTo_option_0" 	=> "--Select Belongs To--",
 		"userStatus_option_0" 	=> "--Select Status--",
 		"referredBy_option_0" 	=> "--Select Referred By--"
@@ -101,13 +103,15 @@ $lang['user'] = array(
 		"user_name" 	=> "User Name",
 		"belongs_to" 	=> "Belongs To",
 		"privilege" 	=> "Privilege",
-		"actions" 		=> "Actions"
+		"actions" 		=> "Actions",
+		'role' 			=> "Role"
 	),
 
 	/*
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
+		"role" 					=> "Role",
 		"privilege" 			=> "Privilege",
 		"firstName" 			=> "First Name",
 		"lastName" 				=> "Last Name",

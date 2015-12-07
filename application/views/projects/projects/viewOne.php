@@ -1,11 +1,17 @@
 <?php
-	$editFn 	= "_projects.editProject('".$projectId."')";
-	$deleteFn 	= "_projects.deleteRecord('".$projectId."')";
+	if(in_array('update', $projectPermission['operation'])) {
+		$editFn 	= "_projects.editProject('".$projectId."')";
+	}
+	if(in_array('delete', $projectPermission['operation'])) {
+		$deleteFn 	= "_projects.deleteRecord('".$projectId."')";
+	}
 	
-	$issueCount 	= $project->issueCount ? $project->issueCount : "";
+	if(in_array('view', $issuesPermission['operation'])) {
+		$issueCount 	= $project->issueCount ? $project->issueCount : "";
 
-	$issueFnOptions = "{'projectId' :".$projectId.", 'openAs' : 'popup', 'popupType' : '' }";
-	$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
+		$issueFnOptions = "{'projectId' :".$projectId.", 'openAs' : 'popup', 'popupType' : '' }";
+		$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
+	}
 
 	$exportFn 		= "_projects.exportCSV('".$projectId."')";
 ?>
@@ -20,26 +26,34 @@
 			onclick="_projects.viewOnlyCollapseAll()"></span>
 	</span>
 	<span class="options-icon">
+		<?php if(in_array('view', $issuesPermission['operation'])) { ?>
 		<span>
-			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>">
+			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" 
+				href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>">
 				<span class="size-9"><?php echo $issueCount; ?></span>
 			</a>
 		</span>
+		<?php } ?>
+		<?php if(in_array('update', $projectPermission['operation'])) { ?>
 		<span>
 			<a class="step fi-page-edit size-21" href="javascript:void(0);" 
 				onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->edit_project'); ?>">
 			</a>
 		</span>
+		<?php } ?>
 		<span>
 			<a class="step fi-page-csv size-21" href="javascript:void(0);" 
 				onclick="<?php echo $exportFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->export_csv'); ?>">
 			</a>
 		</span>
+		<?php if(in_array('delete', $projectPermission['operation'])) { ?>
 		<span>
 			<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
 				onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->delete_project'); ?>">
 			</a>
 		</span>
+		<?php } ?>
 	</span>
 </div>
 <div>
@@ -88,147 +102,94 @@
 		<!-- Project Budget -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->budget'); ?></span>
-			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="_remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
+			<?php if(in_array('update', $budgetPermission['operation']) || 
+				in_array('create', $budgetPermission['operation'])) { ?>
+			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" 
+			onclick="_remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div id= "viewOneProjectBudget">
 		<?php echo $projectBudgetFile; ?>
 		</div>
 		
 		<!-- Project Customer Details -->
+		<h3>
+			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->customer_details'); ?></span>
+		</h3>
+		<div>
 		<?php echo $customerFile; ?>
-		
+		</div>
 		<!-- Project Contractor Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_contractors.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
+			<?php if(in_array('create', $contractorPermission['operation'])) { ?>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+				href="javascript:void(0);"  
+				onclick="_contractors.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div>
-			<div id="contractor_accordion" class="accordion">
-				<?php
-				if(count($contractors) && is_array($contractors)) {
-					for($i = 0; $i < count($contractors); $i++) {
-				?>
-				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_name'); ?>: <?php echo $contractors[$i]->company; ?></span></h3>
-				<div>
-					<table cellspacing="0" class="viewOne projectViewOne">
-						<!-- <tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->name'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->name; ?></td>
-						</tr> -->
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->company'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->company; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->prefered_contact_mode'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->prefer; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->contact_office_email'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->office_email; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->contact_office_number'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->office_ph; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->contact_mobile_number'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->mobile_ph; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->address'); ?></td>
-							<td class='cell' ><?php echo $contractors[$i]->address1.",<br/>".$contractors[$i]->address2.",<br/>".$contractors[$i]->city.",<br/>".$contractors[$i]->state.",<br/>".$contractors[$i]->country.",<br/>".$contractors[$i]->pin_code; ?></td>
-						</tr>
-					</table>
-				</div>
-				<?php
-					}
-				} else {
-				?>
-					<span><?php echo $this->lang->line_arr('projects->details_view_contractor->yet_to_assign'); ?></span>
-				<?php
-				}
-				?>
-			</div>
+			<?php echo $contractorFile ?>
 		</div>
 
 		<!-- Project Adjuster Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partners_details'); ?></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_partners.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_project_title'); ?>"></a>
+			<?php if(in_array('create', $adjusterPermission['operation'])) { ?>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+			href="javascript:void(0);"  
+			onclick="_partners.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->add_project_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div>
-			<div id="partner_accordion" class="accordion">
-				<?php
-				if(count($partners) && is_array($partners)) {
-					for($i = 0; $i < count($partners); $i++) {
-				?>
-				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partner_name'); ?>: <?php echo $partners[$i]->company_name; ?></span></h3>
-				<div>
-					<table cellspacing="0" class="viewOne projectViewOne">
-						<!-- <tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->name'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->name; ?></td>
-						</tr> -->
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->company'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->company_name; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->prefered_contact_mode'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->contact_pref; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->contact_office_email'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->work_email_id; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->contact_office_number'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->work_phone; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->contact_personal_email'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->personal_email_id; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->contact_mobile_number'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->mobile_no; ?></td>
-						</tr>
-						<tr>
-							<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_partner->address'); ?></td>
-							<td class='cell' ><?php echo $partners[$i]->address1.",<br/>".$partners[$i]->address2.",<br/>".$partners[$i]->city.",<br/>".$partners[$i]->state.",<br/>".$partners[$i]->country.",<br/>".$partners[$i]->zip_code; ?></td>
-						</tr>
-					</table>
-				</div>
-				<?php
-					}
-				} else {
-				?>
-					<span><?php echo $this->lang->line_arr('projects->details_view_partner->yet_to_assign'); ?></span>
-				<?php
-				}
-				?>
-			</div>
+			<?php echo $adjusterFile ?>
 		</div>
 
 		<!-- Project Task List table -->
 		<h3>
-			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->tasks_list'); ?><span id="taskCountDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addTask();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_task_title'); ?>"></a>
+			<span class="inner_accordion">
+				<?php echo $this->lang->line_arr('projects->headers->tasks_list'); ?>
+				<span id="taskCountDisplay"></span>
+			</span>
+			<?php if(in_array('create', $tasksPermission['operation'])) { ?>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+			href="javascript:void(0);"  
+			onclick="_projects.addTask();" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->add_task_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div class="project_section" id="task_content"></div>
 
 		<!-- Project Notes List table -->
 		<h3>
-			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->notes'); ?><span id="notesCountForProjectDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addProjectNote();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
+			<span class="inner_accordion">
+				<?php echo $this->lang->line_arr('projects->headers->notes'); ?>
+				<span id="notesCountForProjectDisplay"></span>
+			</span>
+			<?php if(in_array('create', $notesPermission['operation'])) { ?>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+				href="javascript:void(0);" 
+				onclick="_projects.addProjectNote();" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div class="project_section" id="note_content"></div>
 
 		<!-- Project Docs List table -->
 		<h3>
-			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->documents'); ?><span id="docsCountDisplay"></span></span>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);"  onclick="_projects.addDocumentForm();" title="<?php echo $this->lang->line_arr('projects->buttons_links->add_docs_title'); ?>"></a>
+			<span class="inner_accordion">
+				<?php echo $this->lang->line_arr('projects->headers->documents'); ?>
+				<span id="docsCountDisplay"></span>
+			</span>
+			<?php if(in_array('create', $docsPermission['operation'])) { ?>
+			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+				href="javascript:void(0);"  
+				onclick="_projects.addDocumentForm();" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_docs_title'); ?>"></a>
+			<?php } ?>
 		</h3>
 		<div class="project_section" id="attachment_content"></div>
 

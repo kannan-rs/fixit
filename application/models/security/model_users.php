@@ -31,7 +31,7 @@ class Model_users extends CI_Model {
 
 		if($query->num_rows() == 1) {
 			if($user_row = $query->result()) {
-				return $user_row[0]->account_type;
+				return $user_row[0]->role_id;
 			}
 		}
 	}
@@ -90,7 +90,7 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUsersList($params = "", $from_db = "users") {
-		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.account_type, ";
+		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, ";
 		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
 		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
 

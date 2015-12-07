@@ -17,13 +17,15 @@ class Permissions extends CI_Controller {
 	public function getComponentInfo() {
 		$this->load->model('security/model_permissions');
 
-		$data = $this->model_permissions->getAllList();
+		$getParams = array(
+			"dataFor" => "all"
+		);
+		$data = $this->model_permissions->getAllList( $getParams );
 		
 		$response = array(
 			'status' => "success",
 			'data' => $data
 		);
-
 		print_r(json_encode($response));
 	}
 
@@ -35,7 +37,8 @@ class Permissions extends CI_Controller {
 	
 		$getParams = array(
 			'type' => $type,
-			'permissionId' => $permissionId
+			'permissionId' => $permissionId,
+			'dataFor' => "all"
 		);
 
 		$data = $this->model_permissions->getAllList($getParams);
@@ -60,7 +63,8 @@ class Permissions extends CI_Controller {
 		$type = $this->input->post('type');
 	
 		$getParams = array(
-			'type' => $type
+			'type' => $type,
+			'dataFor' => "all"
 		);
 
 		$data = $this->model_permissions->getAllList($getParams);
@@ -108,6 +112,7 @@ class Permissions extends CI_Controller {
 
 		$user_id = $this->input->post('user_id');
 		$role_id = $this->input->post('role_id');
+
 		$function_id = $this->input->post('function_id');
 		$type = $this->input->post('type');
 

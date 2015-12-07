@@ -49,7 +49,7 @@ class Partners extends CI_Controller {
 
 		$params = array(
 			'partners'=>$partnersResponse["partners"],
-			'account_type' => $this->session->userdata('account_type')
+			'role_id' => $this->session->userdata('role_id')
 		);
 		
 		echo $this->load->view("projects/partners/viewAll", $params, true);
@@ -69,7 +69,7 @@ class Partners extends CI_Controller {
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'openAs' 		=> $openAs,
 			'addressFile' 	=> $addressFile,
 			'popupType' 	=> $popupType
@@ -153,7 +153,7 @@ class Partners extends CI_Controller {
 
 		$params = array(
 			'partners'		=> $partners,
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'partnerId' 	=> $partnerId,
 			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs
@@ -187,7 +187,7 @@ class Partners extends CI_Controller {
 		$params = array(
 			'partners' 	=> $partners,
 			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'openAs' 		=> $openAs,
 			'popupType' 	=> $popupType
 		);

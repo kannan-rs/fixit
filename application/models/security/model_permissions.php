@@ -1,18 +1,20 @@
 <?php
 
 class Model_permissions extends CI_Model {
-	public function getAllList( $params = "") {
-		$users_query 		= $this->db->get('users');
-		$roles_query 		= $this->db->get('roles');
-		$operations_query 	= $this->db->get('operations');
-		$functions_query 	= $this->db->get('functions');
-		$dataFilters_query 	= $this->db->get('data_filters');
+	public function getAllList( $params = array()) {
+		$dataForArr 		= explode(",", $params["dataFor"]);
 
-		$users 			= $users_query->result();
-		$roles 			= $roles_query->result();
-		$operations 	= $operations_query->result();
-		$functions 		= $functions_query->result();
-		$dataFilters 	= $dataFilters_query->result();
+		$users_query 		= in_array("all", $dataForArr) || in_array("users", $dataForArr) ? $this->db->get('users') : null;
+		$roles_query 		= in_array("all", $dataForArr) || in_array("roles", $dataForArr) ? $this->db->get('roles') : null;
+		$operations_query 	= in_array("all", $dataForArr) || in_array("operations", $dataForArr) ? $this->db->get('operations') : null;
+		$functions_query 	= in_array("all", $dataForArr) || in_array("functions", $dataForArr) ? $this->db->get('functions') : null;
+		$dataFilters_query 	= in_array("all", $dataForArr) || in_array("datafilters", $dataForArr) ? $this->db->get('data_filters') : null;
+
+		$users 			= $users_query ? $users_query->result() : null;
+		$roles 			= $roles_query ? $roles_query->result() : null;
+		$operations 	= $operations_query ? $operations_query->result() : null;
+		$functions 		= $functions_query ? $functions_query->result() : null;
+		$dataFilters 	= $dataFilters_query ? $dataFilters_query->result() : null;
 
 		$output = array( 
 			'users' 		=> $users,

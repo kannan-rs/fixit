@@ -14,10 +14,45 @@ class Docs extends CI_Controller {
 		$this->function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$this->record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
+
+	public function getRoleAndDisplayStr() {
+		$this->load->model('security/model_roles');
+		
+		$role_id 		= $this->session->userdata('role_id');
+		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
+
+		return array($role_id, $role_disp_name);
+
+	}
 	
 	public function viewAll() {
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'docs',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$docsPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $docsPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Document List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('projects/model_docs');
 		$this->load->model('security/model_users');
+		$this->load->model('security/model_roles');
 		$this->load->model('projects/model_projects');
 
 		$projectId 			= $this->input->post('projectId');
@@ -34,8 +69,11 @@ class Docs extends CI_Controller {
 			}
 		}
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name
 		);
 
 		$project 			= $this->model_projects->getProjectsList($projectParams);
@@ -44,7 +82,7 @@ class Docs extends CI_Controller {
 			'projectId' 		=> $projectId,
 			'projectName' 		=> $project[0]->project_name,
 			'projectDescr' 		=> $project[0]->project_descr,
-			'accountType' 		=> $this->session->userdata('account_type')
+			'accountType' 		=> $this->session->userdata('role_id')
 		);
 
 		$internalLinkParams = array(
@@ -105,8 +143,11 @@ class Docs extends CI_Controller {
 
 				$response = $this->model_docs->insert($data);
 
+				list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 				$projectParams = array(
-					'projectId' => [$projectId]
+					'projectId' 		=> [$projectId],
+					'role_disp_name' 	=> $role_disp_name
 				);
 
 				$projects = $this->model_projects->getProjectsList($projectParams);
@@ -193,13 +234,16 @@ class Docs extends CI_Controller {
 
 		$response = $this->model_docs->deleteRecord($docId);
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 		if(isset($docsResponse["docs"])) {
 			$docs = $docsResponse['docs'][0];
 
 			$projectId = $docs->project_id;
 
 			$projectParams = array(
-				'projectId' => [$projectId]
+				'projectId' 		=> [$projectId],
+				'role_disp_name' 	=> $role_disp_name
 			);
 
 			$projects = $this->model_projects->getProjectsList($projectParams);

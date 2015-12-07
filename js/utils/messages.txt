@@ -7,7 +7,7 @@ var _lang = {
         */
         "errorMessage" : {
             "signupForm" : {
-                "privilege"                     : "Please select user privilege to create a user", /* Drop Down : Choosen only by admin : To set the privilege*/
+                "privilege"                     : "Please select user role to create a user", /* Drop Down : Choosen only by admin : To set the privilege*/
                 "firstName"                     : "First Name should contain minimum of 4 characters",
                 "lastName"                         : "Last Name should contain minimum of 4 characters",
                 "password"                         : "Password should contain minimum of 6 characters and Maximum of 15 characters",

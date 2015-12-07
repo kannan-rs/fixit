@@ -40,7 +40,8 @@ class Users extends CI_controller {
 		return $this->load->view("forms/address", $addressParams, true);
 	}
 
-	private function _getNotificationText( $status = '', $responseType = '', $user_details = array()) {
+	private function _getNotificationText( $status = '', $responseType = '', $user_details = array()) 
+	{
 		$patterns = array();
 		$patterns[0] = '/#first_name#/';
 		$patterns[1] = '/#last_name#/';
@@ -61,8 +62,15 @@ class Users extends CI_controller {
 		return $this->load->view("forms/notice", $noticeParams, true);
 	}
 
-	public function viewAll() {
+	public function viewAll() 
+	{
 		include 'include_user_model.php';
+		$this->load->model('security/model_permissions');
+
+		$getParams = array(
+			"dataFor" => "roles"
+		);
+		$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : "";
 		$status 		= $this->input->post('status');
@@ -88,7 +96,15 @@ class Users extends CI_controller {
 		echo $this->load->view("security/users/viewAll", $params, true);
 	}
 
-	public function createForm() {
+	public function createForm() 
+	{
+		$this->load->model('security/model_permissions');
+
+		$getParams = array(
+			"dataFor" => "roles"
+		);
+		$roles = $this->model_permissions->getAllList($getParams)["roles"];
+
 		$addressFile = $this->_getAddressFile('create_user_form');
 
 		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -96,14 +112,15 @@ class Users extends CI_controller {
 		$belongsTo 		= $this->input->post('belongsTo') ? $this->input->post('belongsTo') : "";
 		
 		$params = array(
-			'userType' 		=> $this->session->userdata("account_type"),
+			'userType' 		=> $this->session->userdata("role_id"),
 			'is_logged_in' 	=> $this->session->userdata("is_logged_in"),
 			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs,
 			'belongsTo' 	=> $belongsTo,
 			'popupType' 	=> $popupType,
 			'belongsToName' => "-NA-",
-			'referredByName'=> "-NA-"
+			'referredByName'=> "-NA-",
+			'roles'			=> $roles
 		);
 
 		echo $this->load->view("security/users/inputForm", $params, true);
@@ -161,7 +178,7 @@ class Users extends CI_controller {
 					'user_name' 			=> $emailId, 
 					'password' 				=> md5($password),
 					'password_hint' 		=> $this->input->post('passwordHint'),
-					'account_type' 			=> ($this->input->post('privilege') == 1 ? 'admin':'user'),
+					'role_id' 			=> $this->input->post('privilege'),
 					'activation_key' 		=> $activationKey,
 					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata("user_id"),
@@ -251,6 +268,12 @@ class Users extends CI_controller {
 
 	public function editForm() {
 		include 'include_user_model.php';
+		$this->load->model('security/model_permissions');
+
+		$getParams = array(
+			"dataFor" => "roles"
+		);
+		$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
 		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
 
@@ -289,8 +312,9 @@ class Users extends CI_controller {
 			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
 			'addressFile' 		=> $addressFile,
-			'userType' 			=> $this->session->userdata("account_type"),
-			'is_logged_in' 		=> $this->session->userdata("is_logged_in")
+			'userType' 			=> $this->session->userdata("role_id"),
+			'is_logged_in' 		=> $this->session->userdata("is_logged_in"),
+			'roles'				=> $roles
 		);
 		
 		echo $this->load->view("security/users/inputForm", $params, true);
@@ -367,7 +391,7 @@ class Users extends CI_controller {
 		$update_data = array();
 
 		if($privilege != "") {
-			$update_data['account_type'] = $privilege == 1 ? 'admin':'user';
+			$update_data['role_id'] = $privilege;
 			$update = $this->model_users->updateUserTable($update_data, $user_record);
 		} else {
 			$update["status"] = "success";
@@ -472,7 +496,7 @@ class Users extends CI_controller {
 			'users'				=> $users,
 			'user_details' 		=> $user_details,
 			'state' 			=> $stateDetails,
-			'userType' 			=> $this->session->userdata("account_type"),
+			'userType' 			=> $this->session->userdata("role_id"),
 			'addressFile' 		=> $addressFile,
 			'belongsToName' 	=> !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-",

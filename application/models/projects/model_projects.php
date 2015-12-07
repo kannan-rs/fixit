@@ -3,21 +3,13 @@
 class Model_projects extends CI_Model {
 	
 	public function getProjectsList( $projectParams ) {
-		if($this->session->userdata('account_type') != "admin") {
+		if($projectParams['role_disp_name'] != "admin") {
 			$this->db->where('deleted', '0');
-			//$projectIds = implode(",", $projectParams["projectId"]);
-			//$this->db->where_in("proj_id", $projectIds);
+		}
+
+		if(!in_array('all', $projectParams['projectPermission']['data_filter'])) {
 			$this->db->where_in("proj_id", $projectParams["projectId"]);
 		}
-		
-		/*if(isset($record) && !is_null($record) && $record != "") {
-			$this->db->where('proj_id', $record);	
-		}*/
-		/*
-		if($this->session->userdata("account_type") != "admin") {
-			$this->db->where('owner', $this->session->userdata('user_id'));
-		}
-		*/
 
 		$this->db->select([
 				"*",
@@ -32,39 +24,41 @@ class Model_projects extends CI_Model {
 		
 		$projects = $query->result();
 
-		//print_r($this->db);
 		return $projects;
 	}
 
 	public function getProjectIds( $projectParams ) {
-		if($this->session->userdata('account_type') != "admin") {
+		/*if($projectParams['role_disp_name'] != "admin") {
 			//$this->db->where('deleted', '0');
 		} else {
 			return "";
+		}*/
+		
+		if(!in_array('all', $projectParams["projectPermission"]["data_filter"] )) {
+			if( $projectParams['role_disp_name'] == "customer" ) {
+				$this->db->where('customer_id', $projectParams["user_details_id"]);
+
+			} else if( $projectParams['role_disp_name'] == "contractor" ) {
+				$this->db->or_where('contractor_id', $projectParams["user_details_id"]);
+				$this->db->or_like('contractor_id', $projectParams["user_details_id"].",", "right");
+				$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"], "left");
+				$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"].",");
+				$this->db->or_like('created_by', $projectParams["user_id"]);
+
+			} else if( $projectParams['role_disp_name'] == "adjuster" ) {
+				$this->db->or_where('adjuster_id', $projectParams["user_details_id"]);
+				$this->db->or_like('adjuster_id', $projectParams["user_details_id"].",", "right");
+				$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"], "left");
+				$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"].",");
+			}
 		}
 
-		if( $projectParams["account_type"] == "user" ) {
-			$this->db->where('customer_id', $projectParams["user_details_id"]);
-		} else if( $projectParams["account_type"] == "contractor" ) {
-			$this->db->or_where('contractor_id', $projectParams["user_details_id"]);
-			$this->db->or_like('contractor_id', $projectParams["user_details_id"].",", "right");
-			$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"], "left");
-			$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"].",");
-			$this->db->or_like('created_by', $projectParams["user_id"]);
-		} else if( $projectParams["account_type"] == "adjuster" ) {
-			$this->db->or_where('adjuster_id', $projectParams["user_details_id"]);
-			$this->db->or_like('adjuster_id', $projectParams["user_details_id"].",", "right");
-			$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"], "left");
-			$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"].",");
-		}
 		$this->db->or_where('created_by', $projectParams["user_id"]);
 
 		$this->db->select([
 				'proj_id'
 			]);
 		$query = $this->db->from('project')->get();
-
-		//print_r($this->db);
 		
 		$projects = $query->result();
 

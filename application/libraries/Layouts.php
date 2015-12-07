@@ -90,6 +90,15 @@ class Layouts
 		'projects' 	=> "Project Management"
 	);
 
+	private function getRoleAndDisplayStr() {
+		$this->CI->load->model('security/model_roles');
+
+		$role_id = $this->CI->session->userdata('role_id');
+		$role_disp_name = strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name);
+		
+		return array($role_id, $role_disp_name);
+	}
+
 	public function __construct() {
 		$this->CI =& get_instance();
 	}
@@ -139,6 +148,12 @@ class Layouts
 		$this->layout_data['baseUrl'] 		= base_url();
 		$this->layout_data['params']  		= $params;
 		$this->layout_data['is_logged_in']  = $this->CI->session->userdata("is_logged_in");
+
+		if($this->layout_data['is_logged_in']) {
+			list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+			$this->layout_data['role_id'] 			= $role_id;
+			$this->layout_data['role_disp_name'] 	= $role_disp_name;
+		}
 		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
 		$main_content_name = null;
@@ -175,7 +190,7 @@ class Layouts
 			//echo "---".$this->CI->session->userdata("userType")."---<br/>";
 			//print_r($this->layout_data);
 			if($this->layout_data['main_content_name'] == "signup") {
-				$this->layout_data["userType"] 			= $this->CI->session->userdata("account_type");
+				$this->layout_data["userType"] 			= $this->CI->session->userdata("role_id");
 
 				$addressParams = array(
 					'forForm' 		=> "create_user_form"

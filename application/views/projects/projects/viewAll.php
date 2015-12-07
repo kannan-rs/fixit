@@ -8,17 +8,21 @@
 		title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
 			<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
 	</a>
-	<?php if($account_type == "admin") { ?>
-	<a href="javascript:void(0);" data-option="deleted" 
-		title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
-			<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
-	</a>
+
+	<?php if($role_disp_name == "admin") { ?>
+		
+		<a href="javascript:void(0);" data-option="deleted" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
+				<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+		</a>
+
 	<?php } ?>
+	
 	<a href="javascript:void(0);" data-option="issues" 
 		title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
 			<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
-		</a>
-	<a href="javascript:void(0);" data-option="all" 
+	</a>
+	<a href="javascript:void(0);" data-option="all"
 		title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
 			<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
 	</a>
@@ -41,13 +45,8 @@
 		}
 
 		for($i = 0; $i < count($projects); $i++) {
-			$deleteText = "Delete";
-			$deleteFn = $deleteText ? "_projects.deleteRecord(".$projects[$i]->proj_id.")" : "";
-			
-			$issueCount 	= $projects[$i]->issueCount;
-			$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
-
-			$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+			/*$deleteText = "Delete";
+			$deleteFn = $deleteText ? "_projects.deleteRecord(".$projects[$i]->proj_id.")" : "";*/
 
 			$cssStatus = $projects[$i]->project_status == "completed" || $projects[$i]->percentage == "100" ? "completed" : "open";
 			$cssStatus = $projects[$i]->deleted ? "deleted" : $cssStatus;
@@ -63,9 +62,19 @@
 				<td class="cell date"><?php echo $projects[$i]->end_date; ?></td>
 				<td class='cell table-action'>
 				<span>
-				<?php if($issueCount) { ?>
-					<a class="step fi-alert size-21 red" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>"><span class="size-9"><?php echo $issueCount; ?></span></a>
-				<?php } ?>
+				<?php 
+				if(in_array('view', $issuesPermission)) {
+					$issueCount 	= $projects[$i]->issueCount;
+					$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
+					$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+
+					if($issueCount) { ?>
+						<a class="step fi-alert size-21 red" href="javascript:void(0);" 
+							onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->project_issue_title'); ?>">
+							<span class="size-9"><?php echo $issueCount; ?></span></a>
+				<?php 
+					}
+				} ?>
 				</span>
 				</td>
 			</tr>

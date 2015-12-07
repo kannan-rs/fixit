@@ -28,8 +28,8 @@
 		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details->contact_pref; ?>">
 		<input type="hidden" name="viewonly" value="true">
 		
-		<div class='label'><?php echo $this->lang->line_arr('user->details_view->privilege'); ?></div>
-		<div class="capitalize"><?php echo $users->account_type; ?></div>
+		<div class='label'><?php echo $this->lang->line_arr('user->details_view->role'); ?></div>
+		<div class="capitalize role_id"><?php echo $users->role_id; ?></div>
 		
 		<div class="label"><?php echo $this->lang->line_arr('user->details_view->firstName'); ?></div>
 		<div class="capitalize"><?php echo $user_details->first_name; ?></div>

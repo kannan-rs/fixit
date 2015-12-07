@@ -14,8 +14,43 @@ class Tasks extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
+	public function getRoleAndDisplayStr() {
+		$this->load->model('security/model_roles');
+
+		$role_id = $this->session->userdata('role_id');
+		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
+		
+		return array($role_id, $role_disp_name);
+	}
+
 	public function viewAll() {
 		$contractors = array();
+
+		/* Including Required Library */
+		$this->load->library("permissions");
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		
+		/* Parameter For Project Permissions */
+		$permissionParams = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'function_name'				=> 'tasks',
+			'get_allowed_permissions' 	=> true
+		);
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$tasksPermission = $this->permissions->getPermissions($permissionParams);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $tasksPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Task List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_tasks');
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_contractors');
@@ -26,8 +61,14 @@ class Tasks extends CI_Controller {
 		$viewFor 	= $this->input->post('viewFor');
 		$viewFor = $viewFor ? $viewFor : "";
 
+		$permissionParams['function_name'] = 'projects';
+		/* Get Possible Project > Permissions for logged in User by user role_id */
+		$projectPermission = $this->permissions->getPermissions($permissionParams);
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$project 			= $this->model_projects->getProjectsList($projectParams);
 		$customerDetails 	= $this->model_users->getUserDetailsBySno($project[0]->customer_id);
@@ -89,8 +130,11 @@ class Tasks extends CI_Controller {
 		$projectId = $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
 
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name
 		);
 		$parent_record = $this->model_projects->getProjectsList($projectParams);
 
@@ -153,10 +197,13 @@ class Tasks extends CI_Controller {
 		);
 
 		$response = $this->model_tasks->insert($data);
+
+		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
 		
 		/* Project Details */
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name' 	=> $role_disp_name
 		);
 		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;

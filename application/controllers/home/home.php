@@ -30,14 +30,15 @@ class home extends CI_Controller {
 	}
 
 	public function updatePassword() {
+		/* Including Required Modules */
+		$this->load->model('security/model_users');
+
 		$response = array();
 
 		$record 		= $this->input->post('sno'); 
 		$password 		= $this->input->post('password'); 
 		$passwordHint 	= $this->input->post('passwordHint');
 		$email 			= $this->input->post('email');
-		
-		$this->load->model('security/model_users');
 
 		$update_data = array(
 			'password' => md5($password),

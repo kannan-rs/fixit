@@ -3,6 +3,66 @@
 */
 var _users = (function () {
     "use strict";
+
+    var rolesDb = null;
+    var rolesBySno = [];
+    
+    if(session && session.role_id && session.role_id == 'admin') {
+        preset();
+    }
+    
+    function preset() {
+        getRole();
+    };
+
+    function setViewBasics() {
+        
+        $(".role_id").each(
+            function( index, element ){
+               var roleId = $(this).text();
+               var roleText = rolesBySno[roleId] ? rolesBySno[roleId].role_name : "Customer";
+               $(this).text(roleText);
+
+               if(roleText == "Admin") {
+                    $($($(".table-action").eq(index)).children()[1]).remove();
+                }
+            }
+        );
+    }
+
+    function getRole() {
+        var responseArr = null;
+        $.ajax({
+            method: "POST",
+            url: "/security/roles/getRoleList",
+            async : false,
+            data: {},
+            success: function( response ) {
+                responseArr = JSON.parse(response);
+                if(responseArr.status == "success") {
+                    rolesDb = responseArr.roles;
+                    mapRoleToId();
+                } else {
+                    alert(responseArr.message);
+                }
+            },
+            error: function( error ) {
+                error = error;
+            }
+        })
+        .fail(function ( failedObj ) {
+            fail_error = failedObj;
+        });
+    };
+
+    function mapRoleToId() {
+        var i;
+        for (i = 0; i < rolesDb.length; i++) {
+            rolesBySno[rolesDb[i].sno] = rolesDb[i];
+        }
+        console.log(rolesBySno);
+    };
+
     return {
         validationRules: function() {
             return {
@@ -146,7 +206,7 @@ var _users = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            if(!session.account_type && !$("#termsCondition").prop("checked")) {
+            if(!session.role_id && !$("#termsCondition").prop("checked")) {
                 $("#tcError").show();
                 isTcError = true;
             }
@@ -194,6 +254,7 @@ var _users = (function () {
                 },
                 success: function( response ) {
                     $("#security_content").html(response);
+                    setViewBasics();
                 },
                 error: function( error ) {
                     error = error;
@@ -572,6 +633,7 @@ var _users = (function () {
                         }
                     }
 
+                    setViewBasics();
                     _users.setPrimaryContact();
                     _users.setPrefContact();
                     _users.hideUnsetPrimaryContact();
@@ -619,11 +681,8 @@ var _users = (function () {
         },
         setPrivilege: function() {
             if($("#privilege_db_val").length) {
-                if($("#privilege_db_val").val() == "admin") {
-                    $("#privilege").val("1");
-                } else if($("#privilege_db_val").val() == "user") {
-                    $("#privilege").val("2")
-                }
+                var roleId = rolesBySno[$("#privilege_db_val").val()] ? rolesBySno[$("#privilege_db_val").val()].sno : "0";
+                $("#privilege").val(roleId);
             }
         },
         hideUnsetPrimaryContact: function() {

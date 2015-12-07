@@ -34,7 +34,7 @@ class Contractors extends CI_Controller {
 
 		$params = array(
 			'contractors'=>$contractorsResponse["contractors"],
-			'account_type' => $this->session->userdata('account_type')
+			'role_id' => $this->session->userdata('role_id')
 		);
 		
 		echo $this->load->view("projects/contractors/viewAll", $params, true);
@@ -54,7 +54,7 @@ class Contractors extends CI_Controller {
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'openAs' 		=> $openAs,
 			'addressFile' 	=> $addressFile,
 			'popupType' 	=> $popupType
@@ -140,7 +140,7 @@ class Contractors extends CI_Controller {
 
 		$params = array(
 			'contractors'	=> $contractors,
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'contractorId' 	=> $contractorId,
 			'addressFile' 	=> $addressFile,
 			'openAs' 		=> $openAs
@@ -174,7 +174,7 @@ class Contractors extends CI_Controller {
 		$params = array(
 			'contractors' 	=> $contractors,
 			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('account_type'),
+			'userType' 		=> $this->session->userdata('role_id'),
 			'openAs' 		=> $openAs,
 			'popupType' 	=> $popupType
 		);
