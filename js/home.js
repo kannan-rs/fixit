@@ -1,5 +1,5 @@
 var homeObj = (function () {
-    'use strict';
+    //'use strict';
     return {
         loginValidate: function() {
             var validator = $("#login_form").validate();

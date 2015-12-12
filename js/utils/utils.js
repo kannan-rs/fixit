@@ -1,6 +1,6 @@
 /* Utils JS */
 var _utils = (function () {
-    'use strict';
+    //'use strict';
     var searchCityStr = null;
     var searchCityList = null;
     //var postalCodeByCity = null;

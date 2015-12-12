@@ -1,7 +1,11 @@
 <h2><?php echo $this->lang->line_arr('partner->headers->view_all'); ?></h2>
 <div class="partners internal-tab-as-links" onclick="_partners.showPartnersList(event)">
-	<a href="javascript:void(0);" data-option="active" title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?></a>
-	<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?></a>
+	<a href="javascript:void(0);" data-option="active" 
+		title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?>
+	</a>
+	<a href="javascript:void(0);" data-option="inactive" 
+		title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?>
+	</a>
 	<?php if($role_id == "admin") { ?>
 		<!-- <a href="javascript:void(0);" data-option="deleted"><?php echo $this->lang->line_arr('partner->buttons_links->delete'); ?></a> -->
 	<?php } ?>
@@ -36,7 +40,10 @@
 						<?php echo $partner->name; ?>
 					</a>
 				</td> -->
-				<td class="cell capitalize"><?php echo $partner->company_name; ?></td>
+				<td class="cell capitalize">
+					<a href="javascript:void(0);" onclick="_partners.viewOne('<?php echo $partners[$i]->id; ?>')">
+						<?php echo $partner->company_name; ?></td>
+					</a>
 				<td class="cell capitalize"><?php echo $partner->type; ?></td>
 				<td class="cell capitalize"><?php echo $partner->status; ?></td>
 			</tr>

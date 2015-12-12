@@ -6,7 +6,7 @@
 	$date 		= "";
 	$budgetId 	= "";
 
-	if($updateBudget && count($updateBudget) == 1) {
+	if(in_array('update', $budgetPermission['operation']) && isset($updateBudget) && count($updateBudget) == 1) {
 		//$update = true;
 		$updateBudget = $updateBudget[0];
 
@@ -53,10 +53,10 @@
 								<?php echo $this->lang->line_arr('budget->buttons_links->'.strtolower($prefix)); ?>
 							</button>
 						<?php
-						if($prefix == "Update") {
+						if(in_array('update', $budgetPermission['operation']) && $prefix == "Update") {
 						?>
 							<button type="button" id="create_pfbudget_submit" 
-								onclick="_remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})">
+								onclick="_remainingbudget.getListWithForm(event, {'openAs': 'popup', 'popupType' : '2'})">
 									<?php echo $this->lang->line_arr('budget->buttons_links->add_new'); ?>
 							</button>
 						<?php

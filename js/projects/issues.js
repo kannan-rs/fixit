@@ -77,9 +77,11 @@ var _issues = (function() {
             };
         },
 
-        createForm: function( options ) {
+        createForm: function(event, options) {
 
-            event.stopPropagation();
+             if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
             
             var openAs         = options && options.openAs ? options.openAs : "";
             var popupType     = options && options.popupType ? options.popupType : "";

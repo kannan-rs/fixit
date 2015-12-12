@@ -1,6 +1,5 @@
 <?php
-
-class Permissions {
+class Permissions_lib {
 
 	private $CI;
 	private $user_id;
@@ -47,21 +46,35 @@ class Permissions {
 	private function getRoleIdByName( $role_name ) {
 		$role_id = "";
 		$this->CI->load->model("security/model_roles");
-		$role_resp = $this->CI->model_role->getRolesListByName("Customer");
+		$role_resp = $this->CI->model_roles->getRolesListByName("Customer");
 		if($role_resp) {
 			$role_id = $role_resp[0]->role_id;
 		}
 		return $role_id;
 	}
 
-	private function _getPermissions() {
+	private function _getPermissionOption( $modules = '') {
+		$role_id = $this->CI->session->userdata('role_id');
 		
+		/* Parameter For Project Permissions */
+		$params = array(
+			'type' 						=> 'default',
+			'role_id' 					=> $role_id,
+			'get_allowed_permissions' 	=> true,
+			'function_name'				=> $modules
+		);
+		return $params;
+	}
+
+	private function _getPermissions() {
 		$this->CI->load->model('security/model_permissions');
 
 		$response = array(
 			'status' => "success",
 			'data' => []
 		);
+		/*echo $this->type."<br/>";
+		echo $this->role_id."<br/>";*/
 
 		if($this->type != "" && $this->role_id != "") {
 			//echo "In Get Permission<br/>";
@@ -86,6 +99,15 @@ class Permissions {
 		return $response;
 	}
 
+	public function getRoleAndDisplayStr() {
+		$this->CI->load->model('security/model_roles');
+
+		$role_id = $this->CI->session->userdata('role_id');
+		$role_disp_name = strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name);
+		
+		return array($role_id, $role_disp_name);
+	}
+
 	/*
 		params : array object
 		{
@@ -97,7 +119,12 @@ class Permissions {
 			[-optional-] 	"get_allowed_permissions" => "all"
 		}
 	*/
-	public function getPermissions( $options ) {
+	public function getPermissions( $modules = "" ) {
+		//echo $modules."<br/>";
+		$options = $this->_getPermissionOption( $modules );
+		/*print_r($options);
+		echo "<br/>";*/
+
 		$this->CI->load->model('security/model_permissions');
 		/*
 			Take required data and convert it into usable SNO array format
@@ -136,6 +163,7 @@ class Permissions {
 			Get Permission list from "database > permission > table" for selected user by role
 		*/
 		$permissionResp = $this->_getPermissions();
+		//print_r($permissionResp);
 
 		if($permissionResp["status"] == "error") {
 			return $final_permission;

@@ -1,6 +1,6 @@
 //Security JS
 /*var securityObj = (function () {
-    'use strict';
+    //'use strict';
     return {
         //_users : _users,
         //_operations: _operations,

@@ -1,6 +1,6 @@
 /* Form AJAX submit */
 var submit = (function () {
-    'use strict';
+    //'use strict';
 
     var error = null;
     var fail_error = null;

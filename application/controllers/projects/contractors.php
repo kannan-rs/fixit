@@ -27,8 +27,18 @@ class Contractors extends CI_Controller {
 	}
 
 	public function viewAll() {
-		$this->load->model('projects/model_contractors');
+		//Contractor > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $contractorPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Contractor List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 
+		$this->load->model('projects/model_contractors');
 		
 		$contractorsResponse = $this->model_contractors->getContractorsList();
 
@@ -41,6 +51,17 @@ class Contractors extends CI_Controller {
 	}
 	
 	public function createForm() {
+		//Contractor > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $contractorPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Create Contractor"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('security/model_users');
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -109,22 +130,38 @@ class Contractors extends CI_Controller {
 	}
 
 	public function viewOne() {
+		//Contractor > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $contractorPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Contractor details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_contractors');
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
 
 		$contractorId 			= $this->input->post('contractorId');
 		$openAs		 			= $this->input->post('openAs');
+
 		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorId);
 
 		$contractors = $contractorsResponse["contractors"];
+
 		
 		for($i=0; $i < count($contractors); $i++) {
 			$contractors[$i]->created_by_name = $this->model_users->getUsersList($contractors[$i]->created_by)[0]->user_name;
 			$contractors[$i]->updated_by_name = $this->model_users->getUsersList($contractors[$i]->updated_by)[0]->user_name;
 		}
 
-		$stateText = !empty($contractors[0]->state) ? $this->model_form_utils->getCountryStatus($contractors[0]->state)[0]->name : "";
+		$stateFromDb = $this->model_form_utils->getCountryStatus($contractors[0]->state);
+		
+		$stateName = count($stateFromDb) ? $stateFromDb[0]->name: "";
+		$stateText = !empty($contractors[0]->state) ? $stateName : "";
 
 		$addressParams = array(
 			'addressLine1' 		=> $contractors[0]->address1,
@@ -139,17 +176,28 @@ class Contractors extends CI_Controller {
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		$params = array(
-			'contractors'	=> $contractors,
-			'userType' 		=> $this->session->userdata('role_id'),
-			'contractorId' 	=> $contractorId,
-			'addressFile' 	=> $addressFile,
-			'openAs' 		=> $openAs
+			'contractors'			=> $contractors,
+			'userType' 				=> $this->session->userdata('role_id'),
+			'contractorId' 			=> $contractorId,
+			'addressFile' 			=> $addressFile,
+			'openAs' 				=> $openAs,
+			'contractorPermission'	=> $contractorPermission
 		);
 		
 		echo $this->load->view("projects/contractors/viewOne", $params, true);
 	}
 
 	public function editForm() {
+		//Contractor > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('update', $contractorPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Update Contractor"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('projects/model_contractors');
 
 		$contractorId = $this->input->post('contractorId');

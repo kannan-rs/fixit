@@ -1,6 +1,11 @@
 <!-- SIDEBAR -->
 <ul>	
 	<?php
+	/*print_r($projectPermission);
+echo "<br/>";
+print_r($contractorPermission);
+echo "<br/>";
+print_r($adjusterPermission);*/
 	if($this->session->userdata("is_logged_in")) {
 		
 		$controller 	= $this->session->userdata("controller");
@@ -11,14 +16,42 @@
 		$menuOutput = "";
 
 		$menuCount = isset($menus) && isset($menus[$page]) && is_array($menus[$page]) ? count($menus[$page]) : 0;
+
+		$leftMenus = $menus[$page];
 		
 		for($menuIdx = 0; $menuIdx < $menuCount; $menuIdx++) {
-			if(!isset($menus[$page][$menuIdx]['role_id']) || 
-				(isset($menus[$page][$menuIdx]['role_id']) && $menus[$page][$menuIdx]['role_id'] == $role_id)) {
-				$selected = ($module == $menus[$page][$menuIdx]['key']) ? "selected" : "";
-				$selected = ($selected == "" && $module == "" && $menus_default[$page] == $menus[$page][$menuIdx]['key']) ? "selected" : $selected; 
-				$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$menus[$page][$menuIdx]['link']."\">". $menus[$page][$menuIdx]['text'] ."</a></li>";
+			$leftLoopMenu = $leftMenus[$menuIdx];
+			if(isset($leftLoopMenu['role_id'])) {
+				echo "role ID->".$leftLoopMenu['role_id']."<br/>";
 			}
+
+			if(isset($leftLoopMenu['dependency'])) {
+				$dependency = $leftLoopMenu['dependency'];
+				if(isset($dependency['roles_by_name']) && isset($role_disp_name) && !in_array($role_disp_name, $dependency['roles_by_name'])) {
+					continue;
+				}
+
+				if(isset($dependency['permissions']) && isset($dependency['operation'])) {
+					$permissionKey 		= $dependency['permissions'];
+					$allowedPermission 	= $$permissionKey;
+					$operation 			= $dependency['operation'];
+					$showMenu 			= false;
+
+					for($opIx = 0; $opIx < count($operation); $opIx++) {
+						if(in_array($operation[$opIx], $allowedPermission['operation'])) {
+							$showMenu = true;
+							break;
+						}
+					}
+					if(!$showMenu) {
+						continue;
+					}
+				}
+			}
+
+			$selected = ($module == $leftLoopMenu['key']) ? "selected" : "";
+			$selected = ($selected == "" && $module == "" && $menus_default[$page] == $leftLoopMenu['key']) ? "selected" : $selected; 
+			$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$leftLoopMenu['link']."\">". $leftLoopMenu['text'] ."</a></li>";
 		}
 
 		$menuTitle = isset($menu_title) && isset($menu_title[$page]) ? $menu_title[$page] : "";

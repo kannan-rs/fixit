@@ -43,7 +43,7 @@ class Permissions extends CI_Controller {
 
 		$data = $this->model_permissions->getAllList($getParams);
 
-		$permission = $permissionId ? $this->model_permissions->getPermissionsById( $getParams ) : [];
+		$permission = $permissionId ? $this->model_permissions_lib->getPermissionsById( $getParams ) : [];
 
 		$viewParams = array(
 			'function'=>"view",

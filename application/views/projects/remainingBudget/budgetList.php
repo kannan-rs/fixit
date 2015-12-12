@@ -14,14 +14,29 @@
 		<td class="cell dollers"><div>$<?php echo number_format($budgetList[$i]->amount, 2, '.', ','); ?></div></td>
 		<td class="cell"><?php echo $budgetList[$i]->descr; ?></td>
 		<td class="cell table-action">
-			<span>
+			<?php 
+			if(in_array('update', $budgetPermission['operation'])) { 
+			?>
 				<span>
-					<a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo "_remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->edit_budget_title'); ?>"></a>
+					<a  class="step fi-page-edit size-21" href="javascript:void(0);" 
+						onclick="<?php echo "_remainingbudget.editRecordForm('".$budgetList[$i]->sno."')"; ?>" 
+						title="<?php echo $this->lang->line_arr('budget->buttons_links->edit_budget_title'); ?>">
+					</a>
 				</span>
-			</span>
+			<?php 
+			}
+			if(in_array('delete', $budgetPermission['operation'])) { 
+			?>
 			<span>
-				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo "_remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" title="<?php echo $this->lang->line_arr('budget->buttons_links->delete_budget_title'); ?>"></a>
+				<a class="step fi-deleteRow size-21 red delete" 
+					href="javascript:void(0);" 
+					onclick="<?php echo "_remainingbudget.deleteRecord('".$budgetList[$i]->sno."')"; ?>" 
+					title="<?php echo $this->lang->line_arr('budget->buttons_links->delete_budget_title'); ?>">
+				</a>
 			</span>
+			<?php
+			}
+			?>
 		</td>
 	</tr>
 	<?php

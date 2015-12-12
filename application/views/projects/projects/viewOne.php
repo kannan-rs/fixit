@@ -13,7 +13,9 @@
 		$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
 	}
 
-	$exportFn 		= "_projects.exportCSV('".$projectId."')";
+	if(in_array('export', $issuesPermission['operation'])) {
+		$exportFn 		= "_projects.exportCSV('".$projectId."')";
+	}
 ?>
 <div class="header-options">
 	<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('projects->headers->view_one'); ?></h2>
@@ -26,7 +28,9 @@
 			onclick="_projects.viewOnlyCollapseAll()"></span>
 	</span>
 	<span class="options-icon">
-		<?php if(in_array('view', $issuesPermission['operation'])) { ?>
+		<?php
+		if(in_array('view', $issuesPermission['operation'])) { 
+		?>
 		<span>
 			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" 
 				href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" 
@@ -34,26 +38,36 @@
 				<span class="size-9"><?php echo $issueCount; ?></span>
 			</a>
 		</span>
-		<?php } ?>
-		<?php if(in_array('update', $projectPermission['operation'])) { ?>
+		<?php
+		}
+		if(in_array('update', $projectPermission['operation'])) {
+		?>
 		<span>
 			<a class="step fi-page-edit size-21" href="javascript:void(0);" 
 				onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->edit_project'); ?>">
 			</a>
 		</span>
-		<?php } ?>
+		<?php
+		} 
+		if(in_array('export', $issuesPermission['operation'])) {
+		?>
 		<span>
 			<a class="step fi-page-csv size-21" href="javascript:void(0);" 
 				onclick="<?php echo $exportFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->export_csv'); ?>">
 			</a>
 		</span>
-		<?php if(in_array('delete', $projectPermission['operation'])) { ?>
+		<?php 
+		}
+		if(in_array('delete', $projectPermission['operation'])) {
+		?>
 		<span>
 			<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
 				onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('projects->buttons_links->delete_project'); ?>">
 			</a>
 		</span>
-		<?php } ?>
+		<?php
+		}
+		?>
 	</span>
 </div>
 <div>
@@ -105,7 +119,7 @@
 			<?php if(in_array('update', $budgetPermission['operation']) || 
 				in_array('create', $budgetPermission['operation'])) { ?>
 			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" 
-			onclick="_remainingbudget.getListWithForm({'openAs': 'popup', 'popupType' : '2'})" 
+			onclick="_remainingbudget.getListWithForm(event, {'openAs': 'popup', 'popupType' : '2'})" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
 			<?php } ?>
 		</h3>
@@ -126,7 +140,7 @@
 			<?php if(in_array('create', $contractorPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
-				onclick="_contractors.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
+				onclick="_contractors.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
 			<?php } ?>
 		</h3>
@@ -140,7 +154,7 @@
 			<?php if(in_array('create', $adjusterPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 			href="javascript:void(0);"  
-			onclick="_partners.createForm({'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
+			onclick="_partners.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->add_project_title'); ?>"></a>
 			<?php } ?>
 		</h3>
@@ -157,7 +171,7 @@
 			<?php if(in_array('create', $tasksPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 			href="javascript:void(0);"  
-			onclick="_projects.addTask();" 
+			onclick="_projects.addTask(event);" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->add_task_title'); ?>"></a>
 			<?php } ?>
 		</h3>
@@ -172,7 +186,7 @@
 			<?php if(in_array('create', $notesPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);" 
-				onclick="_projects.addProjectNote();" 
+				onclick="_projects.addProjectNote(evnet);" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
 			<?php } ?>
 		</h3>
@@ -187,7 +201,7 @@
 			<?php if(in_array('create', $docsPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
-				onclick="_projects.addDocumentForm();" 
+				onclick="_projects.addDocumentForm(event);" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_docs_title'); ?>"></a>
 			<?php } ?>
 		</h3>

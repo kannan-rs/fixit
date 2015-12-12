@@ -2,7 +2,7 @@
      Functions Tab related functions
 */
 var _functions = (function () {
-    'use strict';
+    //'use strict';
     return {
         errorMessage: function () {
             return {

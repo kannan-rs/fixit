@@ -14,33 +14,9 @@ class Tasks extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
-	public function getRoleAndDisplayStr() {
-		$this->load->model('security/model_roles');
-
-		$role_id = $this->session->userdata('role_id');
-		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
-		
-		return array($role_id, $role_disp_name);
-	}
-
 	public function viewAll() {
-		$contractors = array();
-
-		/* Including Required Library */
-		$this->load->library("permissions");
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
-		
-		/* Parameter For Project Permissions */
-		$permissionParams = array(
-			'type' 						=> 'default',
-			'role_id' 					=> $role_id,
-			'function_name'				=> 'tasks',
-			'get_allowed_permissions' 	=> true
-		);
-		/* Get Possible Project > Permissions for logged in User by user role_id */
-		$tasksPermission = $this->permissions->getPermissions($permissionParams);
+		//Project > Permissions for logged in User by role_id
+		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array('view', $tasksPermission['operation'])) {
@@ -57,13 +33,16 @@ class Tasks extends CI_Controller {
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_issues');
 
+		$contractors = array();
 		$projectId 	= $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
 		$viewFor = $viewFor ? $viewFor : "";
 
-		$permissionParams['function_name'] = 'projects';
-		/* Get Possible Project > Permissions for logged in User by user role_id */
-		$projectPermission = $this->permissions->getPermissions($permissionParams);
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
@@ -108,6 +87,11 @@ class Tasks extends CI_Controller {
 		$projectNameDescr 		= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE) : "";
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission = $this->permissions_lib->getPermissions('issues');
+		//Notes > Permissions for logged in User by role_id
+		$notesPermission 		= $this->permissions_lib->getPermissions( 'notes');
+
 		$params = array(
 			'tasks' 			=> isset($tasksResponse["tasks"]) ? $tasksResponse["tasks"] : [],
 			'count' 			=> $tasksResponse["count"],
@@ -117,24 +101,41 @@ class Tasks extends CI_Controller {
 			'internalLink' 		=> $internalLink,
 			'contractors' 		=> $contractors,
 			'project_details'	=> $project,
-			'customerName' 		=> $customerName
+			'customerName' 		=> $customerName,
+			'issuesPermission'	=> $issuesPermission,
+			'notesPermission'	=> $notesPermission
 		);
 		
 		echo $this->load->view("projects/tasks/viewAll", $params, true);
 	}
 	
 	public function createForm() {
+		//Project > Permissions for logged in User by role_id
+		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $tasksPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Create task"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
 
 		$projectId = $this->input->post('projectId');
 		$viewFor 	= $this->input->post('viewFor');
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$parent_record = $this->model_projects->getProjectsList($projectParams);
 
@@ -157,6 +158,7 @@ class Tasks extends CI_Controller {
 			'projectNameDescr' 	=> $projectNameDescr,
 			'internalLink' 		=> $internalLink,
 			'viewFor' 			=> $viewFor,
+			'tasksPermission'	=> $tasksPermission
 		);
 
 		echo $this->load->view("projects/tasks/inputForm", $params, true);
@@ -198,13 +200,17 @@ class Tasks extends CI_Controller {
 
 		$response = $this->model_tasks->insert($data);
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 		
 		/* Project Details */
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission' => $projectPermission
 		);
+
 		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
@@ -257,6 +263,18 @@ class Tasks extends CI_Controller {
 
 
 	public function editForm() {
+		//Project > Permissions for logged in User by role_id
+		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('update', $tasksPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "update task"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
@@ -270,8 +288,15 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 
 		$projectId 		= $tasks[0]->project_id;
+
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name'	=> $role_disp_name,
+			'projectPermission' => $projectPermission
 		);
 		$parent_record 	= $this->model_projects->getProjectsList($projectParams);
 
@@ -337,9 +362,16 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 		$taskData = count($tasks) ? $tasks[0] : null;
 
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
+
 		$projectParams = array(
-			'projectId' => [$taskData->project_id]
+			'projectId' 		=> [$taskData->project_id],
+			'role_disp_name'	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
+
 		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
@@ -409,9 +441,16 @@ class Tasks extends CI_Controller {
 		if($ownerId && strpos($ownerId, '-'))
 			list($ownerType, $ownerTypeId) = explode('-', $ownerId);
 
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
+
 		$projectParams = array(
-			'projectId' => [$taskData->project_id]
+			'projectId' 		=> [$taskData->project_id],
+			'role_disp_name'	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
+
 		$projects 	= $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : null;
 
@@ -465,6 +504,18 @@ class Tasks extends CI_Controller {
 	}
 
 	public function viewOne() {
+		//Project > Permissions for logged in User by role_id
+		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $tasksPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Task List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
@@ -478,7 +529,10 @@ class Tasks extends CI_Controller {
 
 		$tasks = $this->model_tasks->getTask($record);
 
-		if (isset($tasks)) {
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission = $this->permissions_lib->getPermissions('issues');
+
+		if (in_array('view', $issuesPermission['operation']) && isset($tasks)) {
 			for($i = 0; $i < count($tasks); $i++) {
 				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $tasks[$i]->project_id, 'taskId' => $tasks[$i]->task_id, 'status' => 'open'));
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
@@ -489,14 +543,25 @@ class Tasks extends CI_Controller {
 
 		$projectId 		= $tasks[0]->project_id;
 
-		$contractorIds 	= explode(",", $tasks[0]->task_owner_id);
-		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
-		$contractors 	= $contractorsResponse["contractors"];
+		//Contractor > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+
+		if(in_array('view', $contractorPermission['operation'])) {
+			$contractorIds 	= explode(",", $tasks[0]->task_owner_id);
+			$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+			$contractors 	= $contractorsResponse["contractors"];
+		}
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
+
 		$projectParams = array(
-			'projectId' => [$projectId]
+			'projectId' 		=> [$projectId],
+			'role_disp_name'	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$parent_record 	= $this->model_projects->getProjectsList($projectParams);
 
@@ -523,7 +588,11 @@ class Tasks extends CI_Controller {
 			'projectNameDescr' 		=> $projectNameDescr,
 			'internalLink' 			=> $internalLink,
 			'viewFor' 				=> $viewFor,
-			'contractors' 			=> $contractors
+			'contractors' 			=> $contractors,
+			'projectPermission'		=> $projectPermission,
+			'issuesPermission'		=> $issuesPermission,
+			'contractorPermission'	=> $contractorPermission,
+			'tasksPermission'		=> $tasksPermission
 		);
 		
 		echo $this->load->view("projects/tasks/viewOne", $params, true);

@@ -13,32 +13,10 @@ class Notes extends CI_Controller {
 		$function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
-
-	public function getRoleAndDisplayStr() {
-		$this->load->model('security/model_roles');
-
-		$role_id 		= $this->session->userdata('role_id');
-		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
-		
-		return array($role_id, $role_disp_name);
-	}
 	
-	public function viewAll() {
-		/* Including Required Library */
-		$this->load->library("permissions");
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
-		
-		/* Parameter For Project Permissions */
-		$permissionParams = array(
-			'type' 						=> 'default',
-			'role_id' 					=> $role_id,
-			'function_name'				=> 'notes',
-			'get_allowed_permissions' 	=> true
-		);
-		/* Get Possible Project > Permissions for logged in User by user role_id */
-		$notesPermission = $this->permissions->getPermissions($permissionParams);
+	public function viewAll() {		
+		//Project > Permissions for logged in User by role_id
+		$notesPermission = $this->permissions_lib->getPermissions('notes');
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array('view', $notesPermission['operation'])) {
@@ -48,6 +26,10 @@ class Notes extends CI_Controller {
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
 
 		$this->load->model('projects/model_notes');
 		$this->load->model('security/model_users');
@@ -74,11 +56,14 @@ class Notes extends CI_Controller {
 			$projectNotesResponse["notes"][$i]->updated_by_name = $this->model_users->getUsersList($projectNotesResponse["notes"][$i]->updated_by)[0]->user_name;
 		}
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission' => $projectPermission
 		);
 		$project 			= $this->model_projects->getProjectsList($projectParams);
 
@@ -111,6 +96,18 @@ class Notes extends CI_Controller {
 	}
 	
 	public function createForm() {
+		//Project > Permissions for logged in User by role_id
+		$notesPermission = $this->permissions_lib->getPermissions('notes');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $notesPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Create Notes"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$projectId			= $this->input->post('projectId');
 		$taskId				= $this->input->post('taskId');
 		$viewFor 			= $this->input->post('viewFor');
@@ -155,11 +152,14 @@ class Notes extends CI_Controller {
 			$response["taskId"] = $this->input->post('taskId');
 		}
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
@@ -241,11 +241,14 @@ class Notes extends CI_Controller {
 			$projectId 	= !empty($note->project_id) ? $note->project_id : null;
 			$taskId 	= !empty($note->task_id) ? $note->task_id : null;
 
-			list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+			//Project > Permissions for logged in User by role_id
+			$projectPermission = $this->permissions_lib->getPermissions('projects');
 		
 			$projectParams = array(
 				'projectId' 		=> [$projectId],
-				'role_disp_name' 	=> $role_disp_name
+				'role_disp_name' 	=> $role_disp_name,
+				'projectPermission'	=> $projectPermission
 			);
 			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";

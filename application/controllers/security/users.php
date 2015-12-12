@@ -98,6 +98,7 @@ class Users extends CI_controller {
 
 	public function createForm() 
 	{
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		$this->load->model('security/model_permissions');
 
 		$getParams = array(
@@ -112,15 +113,16 @@ class Users extends CI_controller {
 		$belongsTo 		= $this->input->post('belongsTo') ? $this->input->post('belongsTo') : "";
 		
 		$params = array(
-			'userType' 		=> $this->session->userdata("role_id"),
-			'is_logged_in' 	=> $this->session->userdata("is_logged_in"),
-			'addressFile' 	=> $addressFile,
-			'openAs' 		=> $openAs,
-			'belongsTo' 	=> $belongsTo,
-			'popupType' 	=> $popupType,
-			'belongsToName' => "-NA-",
-			'referredByName'=> "-NA-",
-			'roles'			=> $roles
+			'role_id'			=> $role_id,
+			'role_disp_name' 	=> $role_disp_name,
+			'is_logged_in' 		=> $this->session->userdata("is_logged_in"),
+			'addressFile' 		=> $addressFile,
+			'openAs' 			=> $openAs,
+			'belongsTo' 		=> $belongsTo,
+			'popupType' 		=> $popupType,
+			'belongsToName' 	=> "-NA-",
+			'referredByName'	=> "-NA-",
+			'roles'				=> $roles
 		);
 
 		echo $this->load->view("security/users/inputForm", $params, true);
@@ -178,7 +180,7 @@ class Users extends CI_controller {
 					'user_name' 			=> $emailId, 
 					'password' 				=> md5($password),
 					'password_hint' 		=> $this->input->post('passwordHint'),
-					'role_id' 			=> $this->input->post('privilege'),
+					'role_id' 				=> $this->input->post('privilege'),
 					'activation_key' 		=> $activationKey,
 					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata("user_id"),
@@ -267,6 +269,7 @@ class Users extends CI_controller {
 	}
 
 	public function editForm() {
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		include 'include_user_model.php';
 		$this->load->model('security/model_permissions');
 
@@ -312,9 +315,10 @@ class Users extends CI_controller {
 			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
 			'addressFile' 		=> $addressFile,
-			'userType' 			=> $this->session->userdata("role_id"),
+			'role_id' 			=> $role_id,
+			'role_disp_name'	=> $role_disp_name,
 			'is_logged_in' 		=> $this->session->userdata("is_logged_in"),
-			'roles'				=> $roles
+			'roles'				=> $roles,
 		);
 		
 		echo $this->load->view("security/users/inputForm", $params, true);

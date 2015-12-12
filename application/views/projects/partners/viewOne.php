@@ -1,6 +1,4 @@
 <?php
-	$editFn 		= "_partners.editForm({'openAs':'popup', 'popupType' : 2})";
-	$deleteFn 		= "_partners.deleteRecord('".$partnerId."')";
 	$partner		= $partners[0];
 ?>
 <?php
@@ -9,8 +7,28 @@
 <div class="header-options">
 	<h2><?php echo $this->lang->line_arr('partner->headers->view_one'); ?></h2>
 	<span class="options-icon">
-		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('partner->details_view->edit_title'); ?>"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('partner->details_view->delete_title'); ?>"></a></span>	
+		<?php 
+		if(in_array('update', $adjusterPermission['operation'])) {
+			$editFn 		= "_partners.editForm({'openAs':'popup', 'popupType' : 2})";
+		?>
+			<span>
+				<a class="step fi-page-edit size-21" href="javascript:void(0);" 
+					onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('partner->details_view->edit_title'); ?>">
+				</a>
+			</span>
+		<?php
+		}
+		if(in_array('delete', $adjusterPermission['operation'])) {
+			$deleteFn 		= "_partners.deleteRecord('".$partnerId."')";
+		?>
+			<span>
+				<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
+					onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('partner->details_view->delete_title'); ?>">
+				</a>
+			</span>
+		<?php
+		}
+		?>	
 	</span>
 </div>
 <?php

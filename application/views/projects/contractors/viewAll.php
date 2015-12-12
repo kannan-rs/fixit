@@ -44,7 +44,10 @@
 						<?php echo $contractor->name; ?>
 					</a>
 				</td> -->
-				<td class="cell capitalize"><?php echo $contractor->name; ?></td>
+				<td class="cell capitalize">
+					<a href="javascript:void(0);" onclick="_contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
+						<?php echo $contractor->name; ?></td>
+					</a>
 				<td class="cell capitalize"><?php echo $contractor->company; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->type; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->status; ?></td>

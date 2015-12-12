@@ -52,26 +52,133 @@ class Layouts
 
 	private $menus = array(
 		'security'=> array(
-			array('text'=> 'Users', 'link'=> '/main/security/users', 'key'=> 'users'),
-			array('text'=> 'Roles', 'link'=> '/main/security/roles', 'key'=> 'roles'),
-			array('text'=> 'Operations', 'link'=> '/main/security/operations', 'key'=> 'operations'),
-			array('text'=> 'Functions', 'link'=> '/main/security/functions', 'key'=> 'functions'),
-			array('text'=> 'Data Filters', 'link'=> '/main/security/data_filters', 'key'=> 'data_filters'),
-			array('text'=> 'Permissions', 'link'=> '/main/security/permissions', 'key'=> 'permissions'),
+			array(
+				'text'=> 'Users', 
+				'link'=> '/main/security/users', 
+				'key'=> 'users',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			),
+			array(
+				'text'=> 'Roles', 
+				'link'=> '/main/security/roles', 
+				'key'=> 'roles',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			),
+			array(
+				'text'=> 'Operations', 
+				'link'=> '/main/security/operations', 
+				'key'=> 'operations',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			),
+			array(
+				'text'=> 'Functions', 
+				'link'=> '/main/security/functions', 
+				'key'=> 'functions',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			),
+			array(
+				'text'=> 'Data Filters', 
+				'link'=> '/main/security/data_filters', 
+				'key'=> 'data_filters',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			),
+			array(
+				'text'=> 'Permissions', 
+				'link'=> '/main/security/permissions', 
+				'key'=> 'permissions',
+				'dependency'	=> array(
+					'roles_by_name'	=> array('admin')
+				)
+			)
 		),
 		'home' => array(
-			array('text' => 'View My Details', 'link'=> '/main/home/view_my_details', 'key' => 'view_my_details'),
-			array('text' => 'Change Password', 'link'=> '/main/home/change_pass_form', 'key' => 'change_pass_form')
+			array(
+				'text' => 'View My Details', 
+				'link'=> '/main/home/view_my_details', 
+				'key' => 'view_my_details'
+			),
+			array(
+				'text' => 'Change Password', 
+				'link'=> '/main/home/change_pass_form', 
+				'key' => 'change_pass_form'
+			)
 		),
 		'projects' => array(
-			//array('text' => 'Issues', 'link'=> '/main/projects/issues', 'key' => 'issues'),
-			//array('text' => 'Create Issue', 'link'=> '/main/projects/create_issue', 'key' => 'create_issue'),
-			array('text' => 'Projects', 'link'=> '/main/projects/projects', 'key' => 'projects'),
-			array('text' => 'Create Project', 'link'=> '/main/projects/create_project', 'key' => 'create_project'),
-			array('text' => 'Contractors', 'link'=> '/main/projects/contractors', 'key' => 'contractors'),
-			array('text' => 'Create Contractor', 'link'=> '/main/projects/create_contractor', 'key' => 'create_contractor'),
-			array('text' => 'Partners', 'link'=> '/main/projects/partners', 'key' => 'partners'),
-			array('text' => 'Create Partner', 'link'=> '/main/projects/create_partner', 'key' => 'create_partner')
+			/*array(
+				'text' => 'Issues', 
+				'link'=> '/main/projects/issues', 
+				'key' => 'issues'
+			),
+			array(
+				'text' => 'Create Issue', 
+				'link'=> '/main/projects/create_issue', 
+				'key' => 'create_issue'
+			),*/
+			array(
+				'text' => 'Projects', 
+				'link'=> '/main/projects/projects', 
+				'key' => 'projects',
+				'dependency'	=> array(
+					'permissions'	=> 'projectPermission',
+					'operation'		=> array('view')
+				)
+
+			),
+			array(
+				'text' => 'Create Project', 
+				'link'=> '/main/projects/create_project', 
+				'key' => 'create_project',
+				'dependency'	=> array(
+					'permissions'	=> 'projectPermission',
+					'operation'		=> array('create')
+				)
+			),
+			array(
+				'text' => 'Contractors', 
+				'link'=> '/main/projects/contractors', 
+				'key' => 'contractors',
+				'dependency'	=> array(
+					'permissions'	=> 'contractorPermission',
+					'operation'		=> array('view')
+				)
+			),
+			array(
+				'text' => 'Create Contractor', 
+				'link'=> '/main/projects/create_contractor', 
+				'key' => 'create_contractor',
+				'dependency'	=> array(
+					'permissions'	=> 'contractorPermission',
+					'operation'		=> array('create')
+				)
+			),
+			array(
+				'text' => 'Partners', 
+				'link'=> '/main/projects/partners', 
+				'key' => 'partners',
+				'dependency'	=> array(
+					'permissions'	=> 'adjusterPermission',
+					'operation'		=> array('view')
+				)
+			),
+			array(
+				'text' => 'Create Partner', 
+				'link'=> '/main/projects/create_partner', 
+				'key' => 'create_partner',
+				'dependency'	=> array(
+					'permissions'	=> 'adjusterPermission',
+					'operation'		=> array('create')
+				)
+			)
 		)
 	);
 
@@ -89,15 +196,6 @@ class Layouts
 		'home' 		=> "Personal Details",
 		'projects' 	=> "Project Management"
 	);
-
-	private function getRoleAndDisplayStr() {
-		$this->CI->load->model('security/model_roles');
-
-		$role_id = $this->CI->session->userdata('role_id');
-		$role_disp_name = strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name);
-		
-		return array($role_id, $role_disp_name);
-	}
 
 	public function __construct() {
 		$this->CI =& get_instance();
@@ -150,9 +248,12 @@ class Layouts
 		$this->layout_data['is_logged_in']  = $this->CI->session->userdata("is_logged_in");
 
 		if($this->layout_data['is_logged_in']) {
-			list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
 			$this->layout_data['role_id'] 			= $role_id;
 			$this->layout_data['role_disp_name'] 	= $role_disp_name;
+			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
+			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
+			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
 		}
 		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 

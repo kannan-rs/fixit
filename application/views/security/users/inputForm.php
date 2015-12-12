@@ -14,7 +14,7 @@ if(isset($users) && count($users)) {
 	}
 	$buttonText 	= "Update User";
 } else {
-	if($userType == "admin") { 
+	if($role_disp_name == "admin") { 
 		$heading 		= $this->lang->line_arr('user->headers->admin_create');
 		$buttonText 	= "Create User";
 	} else { 
@@ -79,7 +79,7 @@ if(!$openAs || $openAs != "popup") {
 	?>
 	<table class='form'>
 		<tbody>
-			<?php if($userType == "admin" && ($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))) { ?>
+			<?php if($role_disp_name == "admin" && ($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))) { ?>
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->role'); ?></td>
 				<td>
@@ -134,7 +134,7 @@ if(!$openAs || $openAs != "popup") {
 					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
-					<select name="belongsTo" id="belongsTo" <?php if($userType == "admin") { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
+					<select name="belongsTo" id="belongsTo" <?php if($role_disp_name == "admin") { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
 						<option value=""><?php echo $this->lang->line_arr('user->input_form->belongsTo_option_0'); ?></option>
 						<option value="customer">Customer</option>
 						<option value="contractor">Contractor</option>
@@ -153,7 +153,7 @@ if(!$openAs || $openAs != "popup") {
 					?>
 				</td>
 			</tr>
-			<?php if($userType == "admin") { ?>
+			<?php if($role_disp_name == "admin") { ?>
 			<!-- Contractor Search and search results -->
 			<tr class="contractor-search">
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
@@ -196,7 +196,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 
-			<?php if($createOrEdit == "edit" && $userType == "admin"  && $viewFrom == "security") { ?>
+			<?php if($createOrEdit == "edit" && $role_disp_name == "admin"  && $viewFrom == "security") { ?>
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->activeStartDate'); ?></td>
 				<td>
@@ -287,7 +287,7 @@ if(!$openAs || $openAs != "popup") {
 				echo $addressFile;
 			?>
 
-			<?php if(!empty($userType)) { // Referr to will be applicable only when admin creates ?>
+			<?php if(!empty($role_disp_name)) { // Referr to will be applicable only when admin creates ?>
 			<!-- Refers too -->
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBy'); ?></td>
@@ -341,7 +341,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 
-			<?php if($prefix == "create" && $userType == "") { ?>
+			<?php if($prefix == "create" && $role_disp_name == "") { ?>
 			<tr class="signupTC">
 				<td></td>
 				<td>

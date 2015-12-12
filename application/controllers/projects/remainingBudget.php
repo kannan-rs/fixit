@@ -15,7 +15,18 @@ class remainingbudget extends CI_Controller {
 	}
 
 	public function getListWithForm() {
-		
+		//Budget > Permissions for logged in User by role_id
+		$budgetPermission 		= $this->permissions_lib->getPermissions('budget');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $budgetPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "budget list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$projectId 		= $this->input->post("projectId");
 		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
@@ -25,20 +36,38 @@ class remainingbudget extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 		$rbResponse = $this->model_remainingbudget->getList( $projectId );
 
-		if($budgetId != "") {
+		if(in_array('update', $budgetPermission['operation']) && $budgetId != "") {
 			$updateBudget = $this->model_remainingbudget->getBudgetById( $budgetId )["paidFromBudget"];
+		} else if( $budgetId != "" ) {
+			$no_permission_options = array(
+				'page_disp_string' => "update Budget"
+			);
+			$inputForm = $this->load->view("pages/no_permission", $no_permission_options, true);
 		}
 
-		$inputFormParams = array(
-			'openAs' 		=> $openAs,
-			'popupType' 	=> $popupType,
-			'updateBudget'	=> $updateBudget
-		);
+		if(in_array('create', $budgetPermission['operation']) || in_array('update', $budgetPermission['operation'])) {
+			$inputFormParams = array(
+				'openAs' 			=> $openAs,
+				'popupType' 		=> $popupType,
+				'budgetPermission'	=> $budgetPermission
+			);
 
-		$inputForm = $this->load->view("projects/remainingbudget/createForm", $inputFormParams, true);
+			if($budgetId != "" && $updateBudget) {
+				$inputFormParams['updateBudget'] = $updateBudget;
+			}
+			if(!isset($inputForm)) {
+				$inputForm = $this->load->view("projects/remainingbudget/createForm", $inputFormParams, true);
+			}
+		} else {
+			$no_permission_options = array(
+				'page_disp_string' => "create/update budget"
+			);
+			$inputForm = $this->load->view("pages/no_permission", $no_permission_options, true);
+		}
 
 		$listParams = array(
-			'budgetList' 	=> $rbResponse['paidFromBudget']
+			'budgetList' 		=> $rbResponse['paidFromBudget'],
+			'budgetPermission'	=> $budgetPermission
 		);
 
 		$listData = $this->load->view("projects/remainingbudget/budgetList", $listParams, true);

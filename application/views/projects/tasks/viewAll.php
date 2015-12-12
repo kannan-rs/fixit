@@ -52,9 +52,11 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 
 		$rowCSS 		= $taskStatus == "completed" ? "completed" : "open";
 
-		$issueCount 	= $tasks[$i]->issueCount;
-		$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
-		$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+		if(in_array('view', $issuesPermission['operation'])) {
+			$issueCount 	= $tasks[$i]->issueCount;
+			$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
+			$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+		}
 		
 		$deleteFn 	= ($viewFor == "" || $viewFor != "projectViewOne") ? "_tasks.deleteRecord" : "_projects.taskDelete";
 		$deleteFn  .= "(".$taskId.",".$projectId.")";
@@ -83,14 +85,27 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<td class='cell date'><?php echo  $stard_date; ?></td>
 			<td class='cell date'><?php echo  $end_date; ?></td>
 			<td class='cell table-action'>
-				<span><a class="step fi-clipboard-notes size-21" href="javascript:void(0);" onclick="<?php echo $notesFn?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->notes_task_title'); ?>"></a></span>
+			<?php if(in_array('view', $notesPermission['operation'])) { ?>
+				<span>
+					<a class="step fi-clipboard-notes size-21" 
+						href="javascript:void(0);" 
+						onclick="<?php echo $notesFn?>" 
+						title="<?php echo $this->lang->line_arr('tasks->buttons_links->notes_task_title'); ?>">
+					</a>
+				</span>
+			<?php } ?>
 				<!-- <span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
 				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span> -->
+				<?php if(in_array('view', $issuesPermission['operation'])) { ?>
 				<span>
-					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->project_issue_title'); ?>">
+					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" 
+						href="javascript:void(0);" 
+						onclick="<?php echo $issueFn; ?>" 
+						title="<?php echo $this->lang->line_arr('tasks->buttons_links->project_issue_title'); ?>">
 						<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
 					</a>
 				</span>
+				<?php } ?>
 			</td>
 		</tr>
 <?php

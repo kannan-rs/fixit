@@ -1,5 +1,5 @@
 var _permissions = (function () {
-    'use strict';
+    //'use strict';
     var component = null;
     var compBySno = {};
     var compById = {};

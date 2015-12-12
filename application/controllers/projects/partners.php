@@ -42,8 +42,19 @@ class Partners extends CI_Controller {
 	}
 
 	public function viewAll() {
-		$this->load->model('projects/model_partners');
+		//Project > Permissions for logged in User by role_id
+		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
 
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $adjusterPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "partner list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$this->load->model('projects/model_partners');
 		
 		$partnersResponse = $this->model_partners->getPartnersList();
 
@@ -56,6 +67,18 @@ class Partners extends CI_Controller {
 	}
 	
 	public function createForm() {
+		//Project > Permissions for logged in User by role_id
+		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $adjusterPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "create partner"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('security/model_users');
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -122,6 +145,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function viewOne() {
+		//Project > Permissions for logged in User by role_id
+		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $adjusterPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "create partner"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_partners');
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
@@ -152,17 +187,30 @@ class Partners extends CI_Controller {
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		$params = array(
-			'partners'		=> $partners,
-			'userType' 		=> $this->session->userdata('role_id'),
-			'partnerId' 	=> $partnerId,
-			'addressFile' 	=> $addressFile,
-			'openAs' 		=> $openAs
+			'partners'				=> $partners,
+			'userType' 				=> $this->session->userdata('role_id'),
+			'partnerId' 			=> $partnerId,
+			'addressFile' 			=> $addressFile,
+			'openAs' 				=> $openAs,
+			'adjusterPermission'	=> $adjusterPermission
 		);
 		
 		echo $this->load->view("projects/partners/viewOne", $params, true);
 	}
 
 	public function editForm() {
+		//Project > Permissions for logged in User by role_id
+		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('update', $adjusterPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "create partner"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_partners');
 
 		$partnerId = $this->input->post('partnerId');

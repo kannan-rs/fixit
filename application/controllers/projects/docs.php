@@ -14,33 +14,13 @@ class Docs extends CI_Controller {
 		$this->function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$this->record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
-
-	public function getRoleAndDisplayStr() {
-		$this->load->model('security/model_roles');
-		
-		$role_id 		= $this->session->userdata('role_id');
-		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
-
-		return array($role_id, $role_disp_name);
-
-	}
 	
 	public function viewAll() {
-		/* Including Required Library */
-		$this->load->library("permissions");
-
 		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
-		/* Parameter For Project Permissions */
-		$permissionParams = array(
-			'type' 						=> 'default',
-			'role_id' 					=> $role_id,
-			'function_name'				=> 'docs',
-			'get_allowed_permissions' 	=> true
-		);
-		/* Get Possible Project > Permissions for logged in User by user role_id */
-		$docsPermission = $this->permissions->getPermissions($permissionParams);
+		//Project > Permissions for logged in User by role_id
+		$docsPermission = $this->permissions_lib->getPermissions('docs');
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array('view', $docsPermission['operation'])) {
@@ -50,6 +30,7 @@ class Docs extends CI_Controller {
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
+
 		$this->load->model('projects/model_docs');
 		$this->load->model('security/model_users');
 		$this->load->model('security/model_roles');
@@ -69,11 +50,14 @@ class Docs extends CI_Controller {
 			}
 		}
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 		
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 
 		$project 			= $this->model_projects->getProjectsList($projectParams);
@@ -103,6 +87,18 @@ class Docs extends CI_Controller {
 	}
 	
 	public function createForm() {
+		//Project > Permissions for logged in User by role_id
+		$docsPermission = $this->permissions_lib->getPermissions('docs');
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $docsPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Create Document"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$projectId			= $this->input->post('projectId');
 		$params = array(
 			'function'		=>"createFormNotes",
@@ -143,11 +139,14 @@ class Docs extends CI_Controller {
 
 				$response = $this->model_docs->insert($data);
 
-				list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+				list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+				//Project > Permissions for logged in User by role_id
+				$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 				$projectParams = array(
 					'projectId' 		=> [$projectId],
-					'role_disp_name' 	=> $role_disp_name
+					'role_disp_name' 	=> $role_disp_name,
+					'projectPermission'	=> $projectPermission
 				);
 
 				$projects = $this->model_projects->getProjectsList($projectParams);
@@ -234,7 +233,9 @@ class Docs extends CI_Controller {
 
 		$response = $this->model_docs->deleteRecord($docId);
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		if(isset($docsResponse["docs"])) {
 			$docs = $docsResponse['docs'][0];
@@ -243,7 +244,8 @@ class Docs extends CI_Controller {
 
 			$projectParams = array(
 				'projectId' 		=> [$projectId],
-				'role_disp_name' 	=> $role_disp_name
+				'role_disp_name' 	=> $role_disp_name,
+				'projectPermission'	=> $projectPermission
 			);
 
 			$projects = $this->model_projects->getProjectsList($projectParams);

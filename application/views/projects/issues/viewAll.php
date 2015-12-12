@@ -1,6 +1,4 @@
 <?php
-$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
-$createFn 		= "_issues.createForm(".$createFnOptions.")";
 $headerText = "";
 
 if(!$openAs || $openAs != "popup") {
@@ -33,12 +31,18 @@ if(!$openAs || $openAs != "popup") {
 				<?php echo $this->lang->line_arr('issues->buttons_links->all'); ?>
 			</a>
 
+			<?php
+				if(in_array('create', $issuesPermission)) {
+					$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
+					$createFn 		= "_issues.createForm(event, ".$createFnOptions.")";
+			?>
 			<span style="float:right;" >
 				<a  class="step fi-page-add size-21" href="javascript:void(0);" 
 					onclick="<?php echo $createFn; ?>" 
 					title="<?php echo $this->lang->line_arr('issues->buttons_links->add_issues_title'); ?>">
 				</a>
 			</span>
+			<?php } ?>
 		</div>
 	<!-- </span> -->
 </div>
@@ -73,9 +77,19 @@ if(!$openAs || $openAs != "popup") {
 			<td class="cell capitalize"><?php echo $issue->status; ?></td>
 			<td class="cell capitalize date"><?php echo $issue->issue_from_date; ?></td>
 			<td class='cell table-action'>
+			<?php
+			if(in_array('update', $issuesPermission['operation'])) {
+			?>
 				<span>
-					<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $issueEditFn; ?>" title="<?php echo $this->lang->line_arr('issues->buttons_links->edit_issue_title'); ?>"><span class="size-9"></a>
+					<a class="step fi-page-edit size-21" href="javascript:void(0);" 
+						onclick="<?php echo $issueEditFn; ?>" 
+						title="<?php echo $this->lang->line_arr('issues->buttons_links->edit_issue_title'); ?>">
+						<span class="size-9">
+					</a>
 				</span>
+			<?php
+			}
+			?>
 			</td>
 		</tr>
 	<?php

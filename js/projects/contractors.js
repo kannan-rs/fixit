@@ -1,5 +1,4 @@
 var _contractors = (function () {
-    "use strict";
     return {
         errorMessage: function () {
             return {
@@ -88,9 +87,11 @@ var _contractors = (function () {
             };
         },
 
-        createForm: function( options ) {
-
-            event.stopPropagation();
+        createForm: function(event, options ) {
+            
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
             
             var openAs         = options && options.openAs ? options.openAs : "";
             var popupType     = options && options.popupType ? options.popupType : "";
@@ -395,6 +396,11 @@ var _contractors = (function () {
         },
 
         deleteRecord: function() {
+            var deleteConfim = confirm("Do you want to delete this service provider company");
+            if (!deleteConfim) {
+                return;
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/projects/contractors/deleteRecord",

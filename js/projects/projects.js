@@ -722,10 +722,14 @@ var _projects = (function () {
             });
         },
 
-        addDocumentForm: function () {
+        addDocumentForm: function ( event ) {
             var fail_error = null;
             var self = this;
-            event.stopPropagation();
+            
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/projects/docs/createForm",
@@ -857,11 +861,15 @@ var _projects = (function () {
             });
         },
 
-        addTask: function () {
+        addTask: function ( event ) {
             var fail_error = null;
             var dateOptions = null;
             var self = this;
-            event.stopPropagation();
+            
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/projects/tasks/createForm",
@@ -889,10 +897,12 @@ var _projects = (function () {
             });
         },
 
-        addProjectNote: function () {
+        addProjectNote: function ( event ) {
             var fail_error = null;
             var self = this;
-            event.stopPropagation();
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
 
             $.ajax({
                 method: "POST",

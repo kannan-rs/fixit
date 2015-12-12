@@ -1,5 +1,5 @@
 var _userInfo = (function () {
-    'use strict';
+    //'use strict';
     return {
         getUserData: function() {
             _users.viewOne();

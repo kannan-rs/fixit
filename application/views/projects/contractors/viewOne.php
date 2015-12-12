@@ -1,6 +1,4 @@
 <?php
-	$editFn 		= "_contractors.editForm({'openAs':'popup', 'popupType' : 2})";
-	$deleteFn 		= "_contractors.deleteRecord('".$contractorId."')";
 	$contractor		= $contractors[0];
 ?>
 <?php
@@ -9,8 +7,30 @@
 <div class="header-options">
 	<h2><?php echo $this->lang->line_arr('contractor->headers->view_one'); ?></h2>
 	<span class="options-icon">
-		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('contractor->buttons_links->edit_hover_text'); ?>"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('contractor->buttons_links->delete_hover_text'); ?>"></a></span>	
+		<?php 
+		if(in_array('update', $contractorPermission['operation'])) {
+			$editFn 		= "_contractors.editForm({'openAs':'popup', 'popupType' : 2})";
+		?>
+		<span>
+			<a class="step fi-page-edit size-21" href="javascript:void(0);" 
+				onclick="<?php echo $editFn; ?>" 
+				title="<?php echo $this->lang->line_arr('contractor->buttons_links->edit_hover_text'); ?>">
+			</a>
+		</span>
+		<?php
+		}
+		if(in_array('delete', $contractorPermission['operation'])) {
+			$deleteFn 		= "_contractors.deleteRecord('".$contractorId."')";
+		?>
+		<span>
+			<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
+				onclick="<?php echo $deleteFn; ?>" 
+				title="<?php echo $this->lang->line_arr('contractor->buttons_links->delete_hover_text'); ?>">
+			</a>
+		</span>	
+		<?php
+		}
+		?>
 	</span>
 </div>
 <?php

@@ -85,9 +85,12 @@ var _partners = (function () {
             };
         },
 
-        createForm: function (options) {
+        createForm: function (event, options) {
             var fail_error = null;
-            event.stopPropagation();
+            
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
 
             var openAs = (options && options.openAs) ? options.openAs : "";
             var popupType = (options && options.popupType) ? options.popupType : "";
@@ -386,6 +389,10 @@ var _partners = (function () {
         },
 
         deleteRecord: function () {
+            var deleteConfim = confirm("Do you want to delete this insurance company");
+            if (!deleteConfim) {
+                return;
+            }
             var fail_error = null;
             $.ajax({
                 method: "POST",

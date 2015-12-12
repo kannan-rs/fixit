@@ -2,27 +2,60 @@
 $taskId = $tasks[0]->task_id;
 $projectId = $tasks[0]->project_id;
 
-$deleteFn 	= "_projects.taskDelete(".$taskId.",".$projectId.")";
-$editFn 	= "_projects.editTask('".$taskId."')";
-
-$issueCount 	= $tasks[0]->issueCount;
-$issueFnOptions = "{'projectId' :".$tasks[0]->project_id.", 'taskId' : ".$tasks[0]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
-$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+if(in_array('view', $issuesPermission['operation'])) {
+	
+}
 ?>
 	<div class="header-options">
 	<span class="options-icon">
 	<!-- <table>
 		<tr>
 			<td class="cell table-action right"> -->
-		<?php if(count($tasks) > 0) { ?>
-		<span><a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->edit_title'); ?>"></a></span>
-		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->delete_title'); ?>"></a></span>
-		<span>
-			<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" href="javascript:void(0);" onclick="<?php echo $issueFn; ?>" title="<?php echo $this->lang->line_arr('tasks->buttons_links->project_issue_title'); ?>">
-				<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
-			</a>
-		</span>
-		<?php } ?>
+		<?php 
+		if(count($tasks) > 0) { ?>
+			<?php 
+			if(in_array('update', $tasksPermission['operation'])) { 
+				$editFn 	= "_projects.editTask('".$taskId."')";
+			?>
+			<span>
+				<a class="step fi-page-edit size-21" 
+					href="javascript:void(0);" 
+					onclick="<?php echo $editFn; ?>" 
+					title="<?php echo $this->lang->line_arr('tasks->buttons_links->edit_title'); ?>">
+				</a>
+			</span>
+			<?php 
+			}
+
+			if(in_array('delete', $tasksPermission['operation'])) { 
+				$deleteFn 	= "_projects.taskDelete(".$taskId.",".$projectId.")";
+			?>
+			<span>
+				<a  class="step fi-deleteRow size-21 red delete" 
+					href="javascript:void(0);" 
+					onclick="<?php echo $deleteFn; ?>" 
+					title="<?php echo $this->lang->line_arr('tasks->buttons_links->delete_title'); ?>">
+				</a>
+			</span>
+			<?php 
+			}
+
+			if(in_array('view', $issuesPermission['operation'])) { 
+				$issueCount 	= $tasks[0]->issueCount;
+				$issueFnOptions = "{'projectId' :".$projectId.", 'taskId' : ".$taskId.", 'openAs' : 'popup', 'popupType' : '' }";
+				$issueFn = "_issues.viewAll(".$issueFnOptions.")";
+			?>
+			<span>
+				<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" 
+					href="javascript:void(0);" 
+					onclick="<?php echo $issueFn; ?>" 
+					title="<?php echo $this->lang->line_arr('tasks->buttons_links->project_issue_title'); ?>">
+					<span class="size-9"><?php echo $issueCount ? $issueCount : ""; ?></span>
+				</a>
+			</span>
+			<?php 
+			}
+		} ?>
 			<!-- </td>
 		</tr>
 	</table> -->

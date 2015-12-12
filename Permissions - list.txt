@@ -19,37 +19,48 @@ Data Filter
 	Self
 	Company (his company)
 
+Permission Module
+-----------------
+Need to checking the permissions for all modules in action time while affecting database.
+
+
+Service Provide admin
+	->
+
+Portal for service provide list (search by zip)
+Portal for discount coupons, ads, guest login to do search.
+
+S1: Trades and sub trades need to be entered by Fixit admin
+S2: SP Admin expites, service provided admin can select multiple trade and multiple sub trade
+s3: SP Admin details,
+
+
+Remove BBB
+By default status will be active
+Logo
+Assign default User to be added/edited by admin
+
+Trades and sub trades as 2nd input screen
+Discount
+	Select trade, sub trade is optional, zip code is optional, Discount (% or $), Gif image, start and end date of zip.
+
+Testomonial.
+	Customer Name,
+	Comments,
+	* rating
+
+
 Work for this week
 ------------------
--- Adding List of permission as dropdown in user create and edit
-	>> 3hrs
-
-Permission Module Plan
-(Done) 1. Getting permission from DB based on user logged in >> 3hrs
-(Done) 2. Convert it into API > 2hr
-(Done) 3. Function to reply based on the Role, function, operation and data filter > 2hrs
-4. Adding it as part of every Module
-	4.1. Applying in Menu level
-	> 1.5 hrs
-	4.2. Apply in functions modules project, tasks, Notes, docs and Apply it to the action buttins in every function modules
-		(Done) Listing Projects Table View
-		(Done) Full view of single project
-		(Done) Create, Update and Delete function for project
-		(Done) all task list view
-		Task individual view
-		Create, Update and Delete function for task
-		(Done) Notes list for projects and tasks
-		Create and delete of notes for project and task
-		(Done) Docs view
-		(Done) Upload of docs
-
-	Checking the permissions for above mentioned in both render time an action time while affecting database.
-	8 to 10hrs
-
-Overall timings is 16 to 18hrs. By this week we will have permission check for Project, task, Notes and docs module.
-If time permits I will try to accomidate Issues and Budget permission.
-
-(Done) Project view contractor Listing and adding with permission
-(Done) Project view Adjuster Listing and adding with permission
-(Done) Project view customer details with permission
+(Done) Adding List of permission as dropdown in user create and edit
 (Done) Showing of Create Project Page with permissions
+(Done) Added permission for internal create and edit form
+(Done) Permissions for Budget add, update, delete
+(Done) Permission Task individual view, create, edit, delete
+(Done) Permission Issues individual view, create, edit, delete
+(Done) Permission for Notes view, create, delete
+(Done) Permission for Top and left menu
+(Done) Permissions for Contractor View, add, update, delete
+(Done) Permissions for partner View, add, update, delete
+(Done) Applied permission for all function buttons in project, contractor and partner.
+(Done) added additional confirmation for deleting contractor and adjuster

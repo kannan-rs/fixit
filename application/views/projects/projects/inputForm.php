@@ -135,38 +135,51 @@
 				echo $addressFile;
 			?>
 
-			<!-- Project Contractor Search and Adding -->
-			<!-- List of added contractor from the serach result-->
-			<tr class="contractor-search-selected">
-				<td class="label"><?php echo $contractorLable; ?></td>
-				<td>
-					<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction()">
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
-				<td>
-					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
-				</td>
-			</tr>
-			<tr class="contractor-search-result">
-				<td class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction()"></ul>
-				</td>
-			</tr>
-			<tr>
-				<td  class="label notMandatory">&nbsp;</td>
-				<td>
-					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm({'openAs': 'popup', 'popupType' : '2'})\">";
-						$end = "</a>";
-						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
-					?>
-				</td>
-			</tr>
+			<?php
+			if(in_array('view', $contractorPermission['operation'])) {
+			?>
+				<!-- Project Contractor Search and Adding -->
+				<!-- List of added contractor from the serach result-->
+				<tr class="contractor-search-selected">
+					<td class="label"><?php echo $contractorLable; ?></td>
+					<td>
+						<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction()">
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
+					<td>
+						<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
+					</td>
+				</tr>
+				<tr class="contractor-search-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction()"></ul>
+					</td>
+				</tr>
+
+				<?php 
+				if(in_array('create', $contractorPermission['operation'])) {
+				?>
+					<tr>
+						<td  class="label notMandatory">&nbsp;</td>
+						<td>
+							<?php
+								$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm(event, {'openAs': 'popup', 'popupType' : '2'})\">";
+								$end = "</a>";
+								echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
+							?>
+						</td>
+					</tr>
+				<?php
+				}
+				?>
+			<?php
+			}
+			?>
 
 			<!-- Project Budget -->
 			<tr>
@@ -193,7 +206,7 @@
 			</tr>
 
 				<?php
-				if($userType == "admin") {
+				if($role_disp_name == "admin") {
 				?>
 			<!-- Project Deductible -->
 			<tr>
@@ -214,63 +227,88 @@
 				</td>
 			</tr>
 
-			<!-- Project Customer Name Search and Adding -->
-			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchCustomerName'); ?></td>
-				<td>
-					<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
-						placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
-						onkeyup="_projects.showCustomerListInDropDown()">
-				</td>
-			</tr>
-			<tr class="customer-search-result">
-			<td  class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="customerNameList" class="connectedSortable dropdown"></ul>
-				</td>
-			</tr>
-			<tr>
+			<?php
+			if(in_array('view', $customerPermission['operation'])) {
+			?>
+				<!-- Project Customer Name Search and Adding -->
+				<tr>
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchCustomerName'); ?></td>
+					<td>
+						<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
+							placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
+							onkeyup="_projects.showCustomerListInDropDown()">
+					</td>
+				</tr>
+				<tr class="customer-search-result">
 				<td  class="label notMandatory">&nbsp;</td>
-				<td>
-					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})\">";
-						$end = "</a>";
-						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_customer'));
-					?>
-				</td>
-			</tr>
+					<td>
+						<ul id="customerNameList" class="connectedSortable dropdown"></ul>
+					</td>
+				</tr>
 
-			<!-- Project Adjuster Search and Adding -->
-			<tr class="adjuster-search-selected">
-				<td class="label"><?php echo $adjusterLable; ?></td>
-				<td>
-					<ul id="adjusterSearchSelected" class="connectedSortable" onclick="_projects.searchAdjusterAction()">
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName'); ?></td>
-				<td>
-					<input type="text" name="searchAdjusterName" id="searchAdjusterName" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName_ph'); ?>" value="" list="adjusterDataList">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getAdjusterListUsingNameCompany()"></span>
-				</td>
-			</tr>
-			<tr class="adjuster-search-result">
-				<td  class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="adjusterSearchResult" class="connectedSortable dropdown" onclick="_projects.searchAdjusterAction()"></ul>
-				</td>
-			</tr>
-			<tr>
-				<td  class="label notMandatory">&nbsp;</td>
-				<td>
-					<?php
-						$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})\">";
-						$end = "</a>";
-						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_adjuster'));
-					?>
-				</td>
-			</tr>
+				<?php
+				if(in_array('create', $customerPermission['operation']) && count($customerPermission['data_filter']) > 1) {
+				?>
+				<tr>
+					<td  class="label notMandatory">&nbsp;</td>
+					<td>
+						<?php
+							$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'customer', requestFrom:'projects'})\">";
+							$end = "</a>";
+							echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_customer'));
+						?>
+					</td>
+				</tr>
+				<?php
+				}
+			?>
+			<?php
+			}
+			?>
+
+			<?php
+			if(in_array('view', $adjusterPermission['operation'])) {
+			?>
+				<!-- Project Adjuster Search and Adding -->
+				<tr class="adjuster-search-selected">
+					<td class="label"><?php echo $adjusterLable; ?></td>
+					<td>
+						<ul id="adjusterSearchSelected" class="connectedSortable" onclick="_projects.searchAdjusterAction()">
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName'); ?></td>
+					<td>
+						<input type="text" name="searchAdjusterName" id="searchAdjusterName" placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchAdjusterName_ph'); ?>" value="" list="adjusterDataList">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getAdjusterListUsingNameCompany()"></span>
+					</td>
+				</tr>
+				<tr class="adjuster-search-result">
+					<td  class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="adjusterSearchResult" class="connectedSortable dropdown" onclick="_projects.searchAdjusterAction()"></ul>
+					</td>
+				</tr>
+				<?php 
+				if(in_array('create', $adjusterPermission['operation'])) {
+				?>
+				<tr>
+					<td  class="label notMandatory">&nbsp;</td>
+					<td>
+						<?php
+							$start = "<a href=\"javascript:void(0);\" onclick=\"_users.createForm({'openAs': 'popup', 'popupType' : '2', 'belongsTo':'adjuster', requestFrom:'projects'})\">";
+							$end = "</a>";
+							echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_adjuster'));
+						?>
+					</td>
+				</tr>
+				<?php
+				}
+				?>
+			<?php
+			}
+			?>
 
 			<!-- Project Associate Claim Number -->
 			<tr>

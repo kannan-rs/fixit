@@ -134,7 +134,7 @@ class Model_mail extends CI_Model {
 
 		if($response["status"] == "success") {
 			$mail_options = array();
-			$mail_options["name"] 		= $contractorData["name"]." for Company ".$contractorData["company"];
+			$mail_options["name"] 		= $contractorData["company"];
 			//$mail_options["from"]		= "admin@thefixitnetwork.com";
 			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $contractorData["office_email"];
@@ -157,7 +157,7 @@ class Model_mail extends CI_Model {
 
 		if($response["status"] == "success") {
 			$mail_options = array();
-			$mail_options["name"] 		= $contractorData["name"]." for Company ".$contractorData["company"];
+			$mail_options["name"] 		= $contractorData["company"];
 			//$mail_options["from"]		= "admin@thefixitnetwork.com";
 			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $contractorData["office_email"];
@@ -181,7 +181,7 @@ class Model_mail extends CI_Model {
 
 		if($response["status"] == "success") {
 			$mail_options = array();
-			$mail_options["name"] 		= $partnerData["name"]." for Company ".$partnerData["company_name"];
+			$mail_options["name"] 		= $partnerData["company_name"];
 			//$mail_options["from"]		= "admin@thefixitnetwork.com";
 			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $partnerData["work_email_id"];
@@ -204,7 +204,7 @@ class Model_mail extends CI_Model {
 
 		if($response["status"] == "success") {
 			$mail_options = array();
-			$mail_options["name"] 		= $partnerData["name"]." for Company ".$partnerData["company_name"];
+			$mail_options["name"] 		= $partnerData["company_name"];
 			//$mail_options["from"]		= "admin@thefixitnetwork.com";
 			//$mail_options["fromName"]	= "Fixit Admin:";
 			$mail_options["to"]			= $partnerData["work_email_id"];

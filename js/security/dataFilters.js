@@ -2,7 +2,7 @@
      DataFilters Tab related functions
 */
 var _dataFilters = (function () {
-    'use strict';
+    //'use strict';
     return {
         errorMessage: function () {
             return {

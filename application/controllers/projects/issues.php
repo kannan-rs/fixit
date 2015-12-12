@@ -14,16 +14,18 @@ class Issues extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
-	public function getRoleAndDisplayStr() {
-		$this->load->model('security/model_roles');
-
-		$role_id 		= $this->session->userdata('role_id');
-		$role_disp_name = strtolower($this->model_roles->getRolesList($role_id)[0]->role_name);
-
-		return array($role_id, $role_disp_name);
-	}
-
 	public function viewAll() {
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $issuesPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Issues List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_issues');
 
 		$openAs		 			= $this->input->post('openAs');
@@ -34,17 +36,29 @@ class Issues extends CI_Controller {
 		$issuesResponse = $this->model_issues->getIssuesList( array('records' => '', 'projectId' => $projectId, 'taskId' => $taskId, 'status' => 'all') );
 
 		$params = array(
-			'issues'	=>$issuesResponse["issues"],
-			'openAs' 	=> $openAs,
-			'popupType' => $popupType,
-			'projectId' => $projectId,
-			"taskId" 	=> $taskId
+			'issues'			=>$issuesResponse["issues"],
+			'openAs' 			=> $openAs,
+			'popupType' 		=> $popupType,
+			'projectId' 		=> $projectId,
+			'taskId' 			=> $taskId,
+			'issuesPermission'	=> $issuesPermission
 		);
 		
 		echo $this->load->view("projects/issues/viewAll", $params, true);
 	}
 	
 	public function createForm() {
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('create', $issuesPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Create Issues"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 		$projectId 	= $this->input->post('projectId') ? $this->input->post('projectId') : "";
@@ -64,6 +78,17 @@ class Issues extends CI_Controller {
 
 
 	public function editForm() {
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('update', $issuesPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "update issue"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_contractors');
@@ -163,12 +188,16 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->insert($data);
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
+
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
 
@@ -224,6 +253,17 @@ class Issues extends CI_Controller {
 	}
 
 	public function viewOne() {
+		//Issues > Permissions for logged in User by role_id
+		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		/* If User dont have view permission load No permission page */
+		if(!in_array('view', $issuesPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Issue details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_contractors');
@@ -326,13 +366,18 @@ class Issues extends CI_Controller {
 		$issuesResponse = $this->model_issues->getIssuesList(array('records' => $issueId, 'status' => 'all'));
 		$issue 			= isset($issuesResponse["issues"]) && is_array($issuesResponse["issues"]) && count($issuesResponse["issues"]) ? $issuesResponse["issues"][0] : null;
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		if($issue) {
+			//Project > Permissions for logged in User by role_id
+			$projectPermission = $this->permissions_lib->getPermissions('projects');
+
 			$projectParams = array(
 				'projectId' 		=> [$issue->project_id],
-				'role_disp_name' 	=> $role_disp_name
+				'role_disp_name' 	=> $role_disp_name,
+				'projectPermission'	=> $projectPermission
 			);
+
 			$projects = $this->model_projects->getProjectsList($projectParams);
 			$project 	= count($projects) ? $projects[0] : "";
 
@@ -404,11 +449,14 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->deleteRecord($issueId);
 
-		list($role_id, $role_disp_name) = $this->getRoleAndDisplayStr();
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//Project > Permissions for logged in User by role_id
+		$projectPermission = $this->permissions_lib->getPermissions('projects');
 
 		$projectParams = array(
 			'projectId' 		=> [$issue->project_id],
-			'role_disp_name' 	=> $role_disp_name
+			'role_disp_name' 	=> $role_disp_name,
+			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
 		$project 	= count($projects) ? $projects[0] : "";
