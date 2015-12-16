@@ -328,6 +328,22 @@ var _utils = (function () {
                 4. Click [+] to add, if [+] is shown
                 5. Click [-] to remove, if [-] is shown
                 6. Click to select and add its value to the text box and add it ID to the hidden value for further usage
+
+                options {
+                    list            : <List of customer / Contractor / Adjuster>
+                    type            : ownerList or Not
+                    prefixId        : <LI> ID Prefix
+                    dataIdentifier  : What type of data it is (Customer / Contractor / Adjuster )
+                    selectId        : For Edit form, Show already selected Owner
+                    valuePrefix     : Value Prefix for Radio button, to make it unique
+                    dispStrKey      : Database Key for customer/adjuster table, used to show as display string in <li> top (Contractor/Adjuster)
+                    radioOptionName : NAME of radio button, when type="ownerList"
+                    appendTo        : ID of <UL> where all the created <li> using list loop to be added
+                    functionName    : FUNCTION NAME - Function to be called when the user clicked on <li> created to show user name and mail ID
+                    excludeList     : <list of customer / contractor / adjuster > from the list provided
+                    dbEntryId       : For Edit form, already selected user from database
+                    searchBoxId     : ID of input box in which user is providing input for search
+                }
         */
         createDropDownOptionsList: function (options) {
             var excludeList = !options.excludeList ? [] : options.excludeList;
@@ -402,40 +418,14 @@ var _utils = (function () {
                     $('#' + appendTo).append(li);
                 }
             }
-
-            /*
-            var dBVal = $("#" + searchList.dbEntryId).val();
-            var clickParamsObj = null;
-            var clickParams = null;
-
-            for (i = 0; i < list.length; i += 1) {
-                if (excludeList.indexOf(list[i].id) === -1) {
-                    clickParamsObj = {
-                        searchBoxId: appendTo,
-                        first_name: list[i].first_name,
-                        last_name: list[i].last_name,
-                        searchId: list[i].sno,
-                        email: list[i].email
-                    };
-                    if (dBVal === list[i].sno) {
-                        $("#" + searchList.searchBoxId).val(list[i].first_name + " " + list[i].last_name);
-                    }
-                    clickParams = JSON.stringify(clickParamsObj);
-                    li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
-                    li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
-                    li += "<div class=\"second\">" + list[i].email + "</div>";
-                    li += "</li>";
-                    $('#' + appendTo).append(li);
-                }
-            }
-            */
         },
 
-        getCustomerList: function () {
+        getCustomerList: function ( data ) {
+            data = data && data instanceof Object ? data : {};
             var customer = $.ajax({
                 method: "POST",
                 url: "/utils/formUtils/getCustomerList",
-                data: {},
+                data: data,
                 async: false
             }).responseText;
             return customer;
@@ -590,7 +580,7 @@ var _utils = (function () {
         },
         cityFormValidation: function() {
             var error = false;
-            if(!$("#city").val()) {
+            if(!$("#city").val() && $("#city").attr("required")) {
                 $($("#city_jqDD").addClass("form-error").next()).addClass("form-error");
                 $("#cityError").addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
                 error = true;

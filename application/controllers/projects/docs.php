@@ -80,7 +80,7 @@ class Docs extends CI_Controller {
 			'startRecord'		=> $startRecord,
 			'projectId' 		=> $projectId,
 			'projectNameDescr' 	=> $this->load->view("projects/projectNameDescr", $paramsNameDescr, TRUE),
-			'internalLink' 	=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
+			'internalLink' 		=> $this->load->view("projects/internalLinks", $internalLinkParams, TRUE)
 		);
 		
 		echo $this->load->view("projects/docs/viewAll", $params, true);

@@ -30,17 +30,20 @@ class formUtils extends CI_Controller {
 	}
 
 	public function getCustomerList() {
+		$emailId 	= $this->input->post('emailId');
+		$belongsTo	= $this->input->post('belongsTo');
+		$assignment	= $this->input->post('assignment');
+
+		$requestData = array(
+			"emailId"		=> $emailId,
+			"belongsTo"		=> $belongsTo,
+			"assignment"	=> $assignment,
+		);
+
 		$this->load->model('utils/model_form_utils');
 
-		$customer = $this->model_form_utils->getCustomerList();
+		$response = $this->model_form_utils->getCustomerList( $requestData );
 
-		$response["status"] = "error";
-		if($customer) {
-			$response["status"] = "success";
-			$response["customer"] = $customer;
-		} else {
-			$response["message"] = "Error while fetching customer details";
-		}
 		print_r(json_encode($response));
 	}
 

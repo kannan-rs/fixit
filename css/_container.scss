@@ -268,7 +268,8 @@ textarea.small-textarea {
 .contractor-search-selected ul, 
 .adjuster-search-result ul, 
 .adjuster-search-selected ul,
-.issue-adjuster-for-project-result ul, 
+.issue-adjuster-for-project-result ul,
+.default-user-search-result ul,
 .owner-search-result {
     border: 1px solid #D0D0D0;
     width: 220px;
@@ -302,6 +303,7 @@ textarea.small-textarea {
 .adjuster-search-result ul li, 
 .adjuster-search-selected ul li,
 .issue-adjuster-for-project-result ul li,
+.default-user-search-result ul li,
 .owner-search-result li {
     margin: 0px 2px 5px 2px;
     padding: 5px;
@@ -310,13 +312,13 @@ textarea.small-textarea {
     color: inherit;
   }
 
-.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul {
+.adjuster-search-result ul, .customer-search-result ul, .contractor-search-result ul,  .default-user-search-result ul {
 	margin-top: -12px;
 	/*position: absolute;
 	margin-left: 200px;*/
 }
 
-.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company {
+.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
 	color: #D2B9B9;
 }
 
@@ -412,4 +414,44 @@ a.icon-right {
 .connectedSortable.dropdown {
 	position: absolute;
 	margin-top: -20px
+}
+
+.page-tabs {
+	border:0px;
+	background: none;
+}
+.page-tabs>ul {
+    /*background: #FAC87F !important;*/
+    background: #FFFFFF !important;
+    border: 1px solid #e78f08;
+
+    .ui-state-default {
+    	background: none;
+    }
+
+   	.ui-tabs-active {
+   		border-bottom:1px solid #FFFFFF;
+   	}
+}
+
+#tradesList {
+	.red {
+		color: red !important;
+	}
+	.accordion-icon {
+		margin-left: 10px;
+	}
+
+	.viewOne {
+		a {
+			text-decoration : none;
+			display : none;
+		}
+
+		tr.active {
+			a {
+				display : block;
+			}
+		}
+	}
 }

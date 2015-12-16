@@ -619,10 +619,12 @@ $lang["contractor"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" => "Create Contractor",
-		"update" => "Update Contractor",
-		"view_all" => "Contractors List",
-		"view_one" => "Contractor Details"
+		"create" 		=> "Create Contractor",
+		"update" 		=> "Update Contractor",
+		"view_all" 		=> "Contractors List",
+		"view_one" 		=> "Contractor Details",
+		"trends_list"	=> "Trends & Sub Trends List",
+		"discount_list"	=> "Discount List"
 	),
 	/*
 		Create and edit form text
@@ -636,37 +638,41 @@ $lang["contractor"] = array(
 				3. After Login 	> Projects > Create Project > Add New Contractor
 				4. After Login 	> Projects > Edit Project > Add New Contractor
 		*/
-		"name" => "Name",
-		"company" => "Company",
-		"type" => "Type",
-		"license" => "License",
-		"bbb" => "BBB",
-		"status" => "Status",
-		"emailId" => "Office Email ID",
-		"contactPhoneNumber" => "Office Number",
-		"mobileNumber" => "Mobile Number",
-		"prefMode" => "Prefered Mode for Contact",
-		"prefContactEmailId" => "Email",
-		"prefContactofficeNumber" => "Office Phone",
-		"prefContactMobileNumber" => "Mobile Number",
-		"websiteURL" => "Website URL",
-		"serviceZip" => "Zip codes of Available Service Area",
-		"searchForDefaultContractor" => "Assign Default Contractor",
+		"name" 							=> "Name",
+		"company" 						=> "Company",
+		"type" 							=> "Type",
+		"license" 						=> "License",
+		"bbb" 							=> "BBB",
+		"status" 						=> "Status",
+		"emailId" 						=> "Office Email ID",
+		"contactPhoneNumber" 			=> "Office Number",
+		"mobileNumber" 					=> "Mobile Number",
+		"prefMode" 						=> "Prefered Mode for Contact",
+		"prefContactEmailId" 			=> "Email",
+		"prefContactofficeNumber" 		=> "Office Phone",
+		"prefContactMobileNumber" 		=> "Mobile Number",
+		"websiteURL" 					=> "Website URL",
+		"serviceZip" 					=> "Zip codes of Available Service Area",
+		"searchForDefaultContractor" 	=> "Assign Service Provider Admin",
+		"trade_name"					=> "Trade Name",
+		"sub_trade_name"				=> "Sub Trade Name",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"name_ph" => "Contractor Name",
-		"company_ph" => "Company Name",
-		"type_ph" => "Contractor Type",
-		"license_ph" => "Contractor License",
-		"bbb_ph" => "BBB",
-		"emailId_ph" => "Email ID",
-		"contactPhoneNumber_ph" => "Contact Phone Number",
-		"mobileNumber_ph" => "Contact Mobile Number",
-		"websiteURL_ph" => "Website URL",
-		"serviceZip_ph" => "Zip codes of Available Service Area",
-		"searchForDefaultContractor_ph" => "Email ID of default contractor",
+		"name_ph" 							=> "Contractor Name",
+		"company_ph" 						=> "Company Name",
+		"type_ph" 							=> "Contractor Type",
+		"license_ph" 						=> "Contractor License",
+		"bbb_ph" 							=> "BBB",
+		"emailId_ph" 						=> "Email ID",
+		"contactPhoneNumber_ph" 			=> "Contact Phone Number",
+		"mobileNumber_ph" 					=> "Contact Mobile Number",
+		"websiteURL_ph" 					=> "Website URL",
+		"serviceZip_ph" 					=> "Zip codes of Available Service Area",
+		"searchForDefaultContractor_ph" 	=> "Email ID of default contractor",
+		"trade_name_ph"						=> "Trade Name",
+		"sub_trade_name_ph"					=> "Sub Trade Name",
 
 		/*
 			Dropdown's Default 1st text,
@@ -679,51 +685,59 @@ $lang["contractor"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"contractor_name" => "contractor Name",
-		"company" => "Company",
-		"type" => "Type",
-		"status" => "Status"
+		"contractor_name" 	=> "contractor Name",
+		"company" 			=> "Company",
+		"type" 				=> "Type",
+		"status" 			=> "Status"
 	),
 
 	/*
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
-		"name" => "Name",
-		"company" => "Company",
-		"type" => "Type",
-		"license" => "License",
-		"bbb" => "BBB",
-		"dtatus" => "Status",
-		"office_email_id" => "Office Email ID",
-		"office_number" => "Office Number",
-		"mobile_number" => "Mobile Number",
-		"prefered_mode" => "Prefered Mode for Contact",
-		"email" => "Email",
-		"office_phone" => "Office Phone",
-		"mobile_number" => "Mobile Number",
-		"webSite_url" => "WebSite URL",
-		"serive_provided" => "Service Provided in Zip code",
-		"created_by" => "Created By",
-		"created_on" => "Created On",
-		"updated_by" => "Updated By",
-		"updated_on" => "Updated On"
+		"name" 						=> "Name",
+		"company" 					=> "Company",
+		"default_contract_user"		=> "Service Provider Admin",
+		"type" 						=> "Type",
+		"license" 					=> "License",
+		"bbb" 						=> "BBB",
+		"dtatus" 					=> "Status",
+		"office_email_id" 			=> "Office Email ID",
+		"office_number" 			=> "Office Number",
+		"mobile_number" 			=> "Mobile Number",
+		"prefered_mode" 			=> "Prefered Mode for Contact",
+		"email" 					=> "Email",
+		"office_phone" 				=> "Office Phone",
+		"mobile_number" 			=> "Mobile Number",
+		"webSite_url" 				=> "WebSite URL",
+		"serive_provided" 			=> "Service Provided in Zip code",
+		"created_by" 				=> "Created By",
+		"created_on" 				=> "Created On",
+		"updated_by" 				=> "Updated By",
+		"updated_on" 				=> "Updated On"
 	),
 	/*
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" => "Create Contractor",
-		"update" => "Update Contractor",
-		"active" => "Active",
-		"in_active" => "InActive",
-		"deleted" => "Deleted",
-		"all" => "All",
-		"active_hover_text" => "Click on this button to view active contractors",
-		"in_active_hover_text" => "Click on this button to view in-active contractors",
-		"all_hover_text" => "Click on this button to view all contractors",
-		"edit_hover_text" => "Edit Contractor",
-		"delete_hover_text" => "Delete Contractor"
+		"create" 				=> "Create Contractor",
+		"update" 				=> "Update Contractor",
+		"active" 				=> "Active",
+		"in_active" 			=> "InActive",
+		"deleted" 				=> "Deleted",
+		"all" 					=> "All",
+		"active_hover_text" 	=> "Click on this button to view active contractors",
+		"in_active_hover_text" 	=> "Click on this button to view in-active contractors",
+		"all_hover_text" 		=> "Click on this button to view all contractors",
+		"edit_hover_text" 		=> "Edit Contractor",
+		"delete_hover_text" 	=> "Delete Contractor",
+		"add_main_trade"		=> "Add New Main Trade",
+		"create_trade"			=> "Create Trade",
+		"update_trade"			=> "Update Trade",
+		"add_sub_trade"			=> "Add Sub Trade",
+		"create_sub_trade"		=> "Create Sub Trade",
+		"update_sub_trade"		=> "Update Sub Trade",
+		"add_discount"			=> "Add Discount"
 	)
 );
 

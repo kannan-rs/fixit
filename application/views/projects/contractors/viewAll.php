@@ -6,7 +6,7 @@
 	<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('contractor->buttons_links->in_active_hover_text'); ?>">
 		<?php echo $this->lang->line_arr('contractor->buttons_links->in_active'); ?>
 	</a>
-	<?php if($role_id == "admin") { ?>
+	<?php if($role_disp_name == "admin") { ?>
 		<!-- <a href="javascript:void(0);" data-option="deleted">
 			<?php echo $this->lang->line_arr('contractor->buttons_links->deleted'); ?>
 		</a> -->
@@ -46,9 +46,9 @@
 				</td> -->
 				<td class="cell capitalize">
 					<a href="javascript:void(0);" onclick="_contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
-						<?php echo $contractor->name; ?></td>
+						<?php echo $contractor->company; ?></td>
 					</a>
-				<td class="cell capitalize"><?php echo $contractor->company; ?></td>
+				</td>
 				<td class="cell capitalize"><?php echo $contractor->type; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->status; ?></td>
 			</tr>

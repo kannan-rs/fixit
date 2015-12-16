@@ -1704,8 +1704,9 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
 
     if (e && e.target && 
         (e.target.id == "contractorSearchSelected" || 
@@ -1715,8 +1716,9 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
 
     if (e && e.target && 
         (e.target.id == "adjusterSearchResult" || 
@@ -1726,8 +1728,9 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
 
     if (e && e.target && 
         (e.target.id == "adjusterSearchSelected" || 
@@ -1737,8 +1740,9 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
 
     if (e && e.target && 
         (e.target.id == "customerNameList" || 
@@ -1748,8 +1752,9 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
 
     if (e && e.target && 
         (e.target.id == "partnerNameList" || 
@@ -1759,11 +1764,27 @@ $(document).on("click", function(e) {
                 )
             )
         )
-    )
+    ) {
         return;
+    }
+
+    if (e && e.target && 
+        (e.target.id == "contractorUserList" || 
+            (e.target.parentElement && 
+                (e.target.parentElement.id == "contractorUserList" || 
+                    (e.target.parentElement.parentElement && e.target.parentElement.parentElement.id == "contractorUserList")
+                )
+            )
+        )
+    ) {
+        return;
+    }
 
     $(".contractor-search-result").hide();
     $(".adjuster-search-result").hide();
     $(".customer-search-result").hide();
     $(".partner-search-result").hide();
+    $(".partner-search-result").hide();
+    $(".default-user-search-result").hide();
+    $(".contractorUserList").hide();
 });

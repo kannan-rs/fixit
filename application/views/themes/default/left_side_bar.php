@@ -57,7 +57,7 @@ print_r($adjusterPermission);*/
 		$menuTitle = isset($menu_title) && isset($menu_title[$page]) ? $menu_title[$page] : "";
 		?>
 		<li>
-			<h4><?php echo $menuTitle; ?></h4>
+			<!-- <h4><?php echo $menuTitle; ?></h4> -->
 			<ul class="blocklist">
 			  <?php echo $menuOutput; ?>
 			</ul>

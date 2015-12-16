@@ -132,7 +132,6 @@ class Layouts
 					'permissions'	=> 'projectPermission',
 					'operation'		=> array('view')
 				)
-
 			),
 			array(
 				'text' => 'Create Project', 

@@ -118,4 +118,148 @@ class Model_contractors extends CI_Model {
 		}
 		return $response;
 	}
+
+	public function getTradesList( $options = array()) {
+		
+		$contractorId 	= $options["contractorId"];
+		$trade_id 		= isset($options["trade_id"]) ? $options["trade_id"] : "";
+
+		$response = array('status' => "error");
+
+		if(empty($contractorId)) {
+			$response["message"] = "Please provide contractor ID";
+			return $response;
+		}
+
+		$this->db->where('trade_belongs_to_contractor_id', $contractorId);
+		$this->db->where('is_deleted', 0);
+
+		if(isset($trade_id) && !empty($trade_id)) {
+			$this->db->where('trade_id', $trade_id);
+		}
+
+		if(isset($trade_parent) && !empty($trade_parent)) {
+			$this->db->where('trade_parent', $trade_parent);
+		}
+		
+		$this->db->select([
+			"*", 
+			"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+			"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+			"created_on",
+			"updated_on"
+		]);
+
+		$query = $this->db->from('trades')->get();
+
+		if($this->db->_error_number() == 0) {
+			$response["status"] 		= "success";
+			$response["tradesList"] 	= $query->result();
+		} else {
+			$response["errorCode"] 		= $this->db->_error_number();
+			$response["errorMessage"] 	= $this->db->_error_message();
+		}
+
+		return $response;
+	}
+
+	public function insertTrade($data) {
+		$response = array();
+		if($this->db->insert('trades', $data)) {
+			$response['status'] 		= 'success';
+			$response['insertedId']	= $this->db->insert_id();
+			$response['message']		= "Trade Inserted Successfully";
+		} else {
+			$response['status'] 		= 'error';
+			$response['message']		= $this->db->_error_message();
+		}
+		return $response;
+	}
+
+	public function updateTrade( $options ) {
+		$response = array(
+			'status' => 'error'
+		);
+		
+		$data 			= $options["data"];
+		$trade_id 		= $options["trade_id"];
+		$contractor_id 	= $options["contractor_id"];
+		$main_trade_id 	= $options["main_trade_id"];
+
+		if(isset($trade_id) && $trade_id != "" && isset($contractor_id) && $contractor_id != "") {
+			$this->db->where('trade_id', $trade_id);
+			$this->db->where('trade_belongs_to_contractor_id', $contractor_id);
+		
+			if($this->db->update('trades', $data)) {
+				$response['status']		= 'success';
+				$response['message']	= 'Trade updated Successfully';
+				$response['updatedId']	= $trade_id;
+			} else {
+				$response["message"] = "Error while updating the trade";
+			}	
+		} else {
+			$response['message']	= 'Invalid trade update, Please try again';
+		}
+		return $response;
+	}
+
+	public function deleteTradeRecord( $options ) {
+		$response = array(
+			'status' => 'error'
+		);
+
+		$contractor_id	= $options["contractor_id"];
+		$trade_id		= $options["trade_id"];
+
+		if(isset($contractor_id) && $contractor_id != "" && isset($trade_id) && $trade_id != "") {
+			$this->db->where('trade_id', $trade_id);
+			$this->db->where('trade_belongs_to_contractor_id', $contractor_id);
+
+			$data = array(
+				'is_deleted' 				=> 1
+			);
+			
+			if($this->db->update('trades', $data)) {
+				$response['status']		= "success";
+				$response['message']	= "Trade Deleted Successfully";
+			} else {
+				$response["message"] = "Error while deleting the trade";
+			}
+		} else {
+			$response['message']	= 'Invalid contractor or trade, Please try again';
+		}
+		return $response;
+	}
+
+	public function getDiscountList( $options ) {
+		$response = array(
+			'status' => 'error'
+		);
+		$contractor_id	= $options["contractor_id"];
+
+		if(isset($contractor_id) && $contractor_id != "") {
+			$this->db->where('discount_for_contractor_id', $contractor_id);
+
+			$this->db->select([
+				"*", 
+				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+				"created_on",
+				"updated_on"
+			]);
+
+			$query = $this->db->from('contractor_discount')->get();
+
+			if($this->db->_error_number() == 0) {
+				$response["status"] 		= "success";
+				$response["discountList"] 	= $query->result();
+			} else {
+				$response["errorCode"] 		= $this->db->_error_number();
+				$response["errorMessage"] 	= $this->db->_error_message();
+			}
+		} else {
+			$response['message']	= 'Invalid contractor, Please try again';
+		}
+		return $response;
+	}
 }

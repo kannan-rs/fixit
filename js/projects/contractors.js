@@ -1,4 +1,200 @@
 var _contractors = (function () {
+
+    var tradeMappedList = {
+        parents  : [],
+        childs  : {}
+    };
+
+    function formInitialSettings(forForm, options, response) {
+        var openAs         = options && options.openAs ? options.openAs : "";
+        var popupType     = options && options.popupType ? options.popupType : "";
+
+        if(openAs == "popup") {
+            $("#popupForAll"+popupType).html( response );
+            var prefixStr = forForm == "create" ? "Add" : "Edit";
+            _projects.openDialog({"title" : prefixStr+" Contractor"}, popupType);
+        } else if(forForm == "create") {
+            $("#contractor_content").html(response);
+        }
+
+        _utils.setStatus("status", "statusDb");
+        _utils.getAndSetCountryStatus(forForm+"_contractor_form");
+
+        if(forForm == "update") {
+            _contractors.setPrefContact();
+            _utils.setAddressByCity();
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
+        }
+
+        $(".default-user-search-result").hide();
+    };
+
+    function mapTradeData( tradeDbList ) {
+        tradeMappedList = {
+            parents  : [],
+            childs  : {}
+        };
+        if(tradeDbList) {
+            for(var i = 0; i < tradeDbList.length; i++) {
+                var trade = tradeDbList[i];
+                if(trade.trade_parent == "0") {
+                    tradeMappedList.parents.push(trade);
+                     tradeMappedList.childs[trade.trade_id] = [];
+                }
+            }
+
+            for(var i = 0; i < tradeDbList.length; i++) {
+                var trade = tradeDbList[i];
+                if(trade.trade_parent != "0" && tradeMappedList.childs[trade.trade_parent]) {
+                    tradeMappedList.childs[trade.trade_parent].push(trade);
+                }
+            }
+        }
+    }
+
+    function getTradeList( renderTrade ) {
+        $.ajax({
+            method: "POST",
+            url: "/projects/contractors/getTradesList",
+            async: false,
+            data: {
+                contractorId     : _contractors.contractorId
+            },
+            success: function( response ) {
+                response = $.parseJSON(response);
+                if( response.status == "success") {
+                    mapTradeData(response.tradesList);
+                    if(renderTrade) {
+                        displayTradesList();
+                    }
+                } else {
+                    alert("Error while fetching Trades and Sub trades");
+                }
+            },
+            error: function( error ) {
+                error = error;
+            }
+        })
+        .fail(function ( failedObj ) {
+            fail_error = failedObj;
+        });
+    };
+
+    function displayTradesList() {
+        var tradesEle = $("#tradesList");
+
+        var htmlContent = "No Tradess or Sub Tradess Found";
+        //generateInternalLink("createTrade");
+        if(tradeMappedList.parents.length) {
+            htmlContent = "<div id=\"accordion\" class=\"accordion\">";
+            for(var i = 0; i < tradeMappedList.parents.length; i++) {
+                var trends = tradeMappedList.parents[i];
+                htmlContent += "<h3><span class=\"inner_accordion\">"+trends.trade_name+"</span>";
+                
+                htmlContent += "<a class=\"step fi-deleteRow size-21 accordion-icon icon-right red delete\" ";
+                htmlContent += "href=\"javascript:void(0);\"  ";
+                htmlContent += "onclick=\"_contractors.deleteMainTradesForm(event, "+trends.trade_id+");\" ";
+                htmlContent += "title=\"Delete Main Trade\"></a>";
+                
+                htmlContent += "<a class=\"step fi-page-edit size-21 accordion-icon icon-right\" ";
+                htmlContent += "href=\"javascript:void(0);\"  ";
+                htmlContent += "onclick=\"_contractors.editMainTradesForm(event, "+trends.trade_id+", '"+trends.trade_name+"');\" ";
+                htmlContent += "title=\"Edit Main Trade\"></a>";
+
+                htmlContent += "<a class=\"step fi-page-add size-21 accordion-icon icon-right\" ";
+                htmlContent += "href=\"javascript:void(0);\"  ";
+                htmlContent += "onclick=\"_contractors.addSubTradesForm(event, "+trends.trade_id+", '"+trends.trade_name+"');\" ";
+                htmlContent += "title=\"Add Sub Trade\"></a>";
+
+                htmlContent += "</h3>";
+
+                htmlContent += "<table cellspacing=\"0\" class=\"viewOne\">";
+                
+                var childs = tradeMappedList.childs[trends.trade_id];
+                if(childs && childs.length) {
+                    for(var j = 0; j < childs.length; j++) {
+                        htmlContent += "<tr>";
+                        htmlContent += "<td class='cell'>";
+                        htmlContent += "<span>"+childs[j].trade_name+"</span>";
+                        htmlContent += "<a class=\"step fi-deleteRow size-21 accordion-icon icon-right red delete\" ";
+                        htmlContent += "href=\"javascript:void(0);\"  ";
+                        htmlContent += "onclick=\"_contractors.deleteSubTradesForm(event, "+childs[j].trade_id+", "+childs[j].trade_parent+");\" ";
+                        htmlContent += "title=\"Delete Main Trade\"></a>";
+                        
+                        htmlContent += "<a class=\"step fi-page-edit size-21 accordion-icon icon-right\" ";
+                        htmlContent += "href=\"javascript:void(0);\"  ";
+                        htmlContent += "onclick=\"_contractors.editSubTradesForm(event, "+childs[j].trade_id+", '"+childs[j].trade_name+"' , "+childs[j].trade_parent+");\" ";
+                        htmlContent += "title=\"Edit Main Trade\"></a>";
+                        htmlContent += "</td>";
+                        htmlContent += "</tr>";
+                    }
+                } else {
+                    htmlContent += "<tr>";
+                    htmlContent += "<td class='cell'> No sub trades available</td>";
+                    htmlContent += "</tr>";
+                }
+                htmlContent += "</table>";
+
+            }
+            htmlContent += "</div>";
+
+        }
+        $(tradesEle).html(htmlContent);
+
+        $("#tradesList .viewOne tr").bind( "mouseenter mouseleave", function() {
+            $( this ).toggleClass( "active" );
+        });
+
+        $("#accordion").accordion(
+            {
+                collapsible: true,
+                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
+                active: 0
+            }
+       );
+    };
+
+    function showDiscountList() {
+        $.ajax({
+            method: "POST",
+            url: "/projects/contractors/showDiscountList",
+            data: {
+                contractor_id     : _contractors.contractorId
+            },
+            success: function( response ) {
+                $("#discountList").html( response );
+            },
+            error: function( error ) {
+                error = error;
+            }
+        })
+        .fail(function ( failedObj ) {
+            fail_error = failedObj;
+        });
+    }
+
+    function populateMainTradeInDiscount() {
+        var htmlContent = "<option>-- Select Main Trade --</option>";
+        if(tradeMappedList.parents.length) {
+            for(var i = 0; i < tradeMappedList.parents.length; i++) {
+                var trade = tradeMappedList.parents[i];
+                htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
+            }
+        }
+        $("#discount_for_main_trade").html(htmlContent);
+    }
+
+    function _populateSubTradeInDiscount( mainTradeId ) {
+        var htmlContent = "<option>-- Select Sub Trade --</option>";
+        if(tradeMappedList.childs[mainTradeId].length) {
+            for(var i = 0; i < tradeMappedList.childs[mainTradeId].length; i++) {
+                var trade = tradeMappedList.childs[mainTradeId][i];
+                htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
+            }
+        }
+        $("#discount_for_sub_trade").html(htmlContent);
+    }
+
     return {
         errorMessage: function () {
             return {
@@ -88,7 +284,6 @@ var _contractors = (function () {
         },
 
         createForm: function(event, options ) {
-            
             if(typeof(event) != 'undefined') {
                 event.stopPropagation();
             }
@@ -111,15 +306,7 @@ var _contractors = (function () {
                     projectId     : projectId
                 },
                 success: function( response ) {
-                    if(openAs == "popup") {
-                        $("#popupForAll"+popupType).html( response );
-                        _projects.openDialog({"title" : "Add Contractor"}, popupType);
-                    } else{
-                        $("#contractor_content").html(response);
-                    }
-                    //_projects.setMandatoryFields();
-                    _utils.setStatus("status", "statusDb");
-                    _utils.getAndSetCountryStatus("create_contractor_form");
+                    formInitialSettings("create", options, response);
                 },
                 error: function( error ) {
                     error = error;
@@ -153,8 +340,8 @@ var _contractors = (function () {
             var company                 = $(idPrefix+"#company").val();
             var type                     = $(idPrefix+"#type").val();
             var license                 = $(idPrefix+"#license").val();
-            var bbb                     = $(idPrefix+"#bbb").val();
-            var status                     = $(idPrefix+"#status").val();
+            //var bbb                     = $(idPrefix+"#bbb").val() || "";
+            var status                  = $(idPrefix+"#status").val() || "active";
             var addressLine1             = $(idPrefix+"#addressLine1").val();
             var addressLine2             = $(idPrefix+"#addressLine2").val();
             var city                     = $(idPrefix+"#city").val();
@@ -167,6 +354,7 @@ var _contractors = (function () {
             var prefContact             = "";
             var websiteURL                 = $(idPrefix+"#websiteURL").val();
             var serviceZip                = $(idPrefix+"#serviceZip").val();
+            var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
 
             $(idPrefix+"input[name=prefContact]:checked").each(
                 function() {
@@ -182,7 +370,7 @@ var _contractors = (function () {
                     company                 : company,
                     type                     : type,
                     license                 : license,
-                    bbb                     : bbb,
+                    //bbb                     : bbb,
                     status                     : status,
                     addressLine1             : addressLine1,
                     addressLine2             : addressLine2,
@@ -197,7 +385,8 @@ var _contractors = (function () {
                     websiteURL                 : websiteURL,
                     serviceZip                 : serviceZip,
                     openAs                     : openAs,
-                    popupType                 : popupType
+                    popupType                 : popupType,
+                    db_default_user_id      : db_default_user_id
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
@@ -241,6 +430,9 @@ var _contractors = (function () {
                         _projects.setContractorDetails();
                     } else {
                         $("#contractor_content").html(response);
+                        $(function() {
+                            $( "#contractor_tabs" ).tabs();
+                        });
                     }
                     _contractors.setPrefContact();
                 },
@@ -288,14 +480,7 @@ var _contractors = (function () {
                     
                 },
                 success: function( response ) {
-                    $("#popupForAll"+popupType).html(response);
-                    _projects.openDialog({"title" : "Edit Contractor"}, popupType);
-                    _contractors.setPrefContact();
-                    _utils.setStatus("status", "statusDb");
-                    _utils.getAndSetCountryStatus("update_contractor_form");
-                    _utils.setAddressByCity();
-                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
-
+                    formInitialSettings("update", options, response);
                 },
                 error: function( error ) {
                     error = error;
@@ -324,26 +509,27 @@ var _contractors = (function () {
         },
 
         updateSubmit: function() {
-            var idPrefix                 = "#update_contractor_form ";
+            var idPrefix                = "#update_contractor_form ";
             var contractorId            = $(idPrefix+"#contractorId").val();
-            //var name                     = $(idPrefix+"#name").val();
+            //var name                  = $(idPrefix+"#name").val();
             var company                 = $(idPrefix+"#company").val();
-            var type                     = $(idPrefix+"#type").val();
+            var type                    = $(idPrefix+"#type").val();
             var license                 = $(idPrefix+"#license").val();
-            var bbb                     = $(idPrefix+"#bbb").val();
-            var status                     = $(idPrefix+"#status").val();
-            var addressLine1             = $(idPrefix+"#addressLine1").val();
-            var addressLine2             = $(idPrefix+"#addressLine2").val();
-            var city                     = $(idPrefix+"#city").val();
-            var state                     = $(idPrefix+"#state").val();
+            //var bbb                     = $(idPrefix+"#bbb").val();
+            var status                  = $(idPrefix+"#status").val() || "active";
+            var addressLine1            = $(idPrefix+"#addressLine1").val();
+            var addressLine2            = $(idPrefix+"#addressLine2").val();
+            var city                    = $(idPrefix+"#city").val();
+            var state                   = $(idPrefix+"#state").val();
             var country                 = $(idPrefix+"#country").val();
             var zipCode                 = $(idPrefix+"#zipCode").val();
             var emailId                 = $(idPrefix+"#emailId").val();
-            var contactPhoneNumber         = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber             = $(idPrefix+"#mobileNumber").val();
+            var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
+            var mobileNumber            = $(idPrefix+"#mobileNumber").val();
             var prefContact             = "";
-            var websiteURL                 = $(idPrefix+"#websiteURL").val();
-            var serviceZip                 = $(idPrefix+"#serviceZip").val();
+            var websiteURL              = $(idPrefix+"#websiteURL").val();
+            var serviceZip              = $(idPrefix+"#serviceZip").val();
+            var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
 
             $(idPrefix+"input[name=prefContact]:checked").each(
                 function() {
@@ -360,7 +546,7 @@ var _contractors = (function () {
                     company                 : company,
                     type                     : type,
                     license                 : license,
-                    bbb                     : bbb,
+                    //bbb                     : bbb,
                     status                     : status,
                     addressLine1             : addressLine1,
                     addressLine2             : addressLine2,
@@ -373,7 +559,8 @@ var _contractors = (function () {
                     mobileNumber             : mobileNumber,
                     prefContact             : prefContact,
                     websiteURL                 : websiteURL,
-                    serviceZip                 : serviceZip
+                    serviceZip                 : serviceZip,
+                    db_default_user_id      : db_default_user_id
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
@@ -459,7 +646,509 @@ var _contractors = (function () {
         },
 
         searchUserByEmail: function (params) {
-            console.log(params);
-        }
+            var emailId     = params.emailId;
+            if( !emailId || emailId.length < 3 ) {
+                return;
+            }
+
+            var requestParams = {
+                emailId     : emailId,
+                belongsTo   : 'contractor|empty',
+                assignment  : 'not assigned'
+            }
+
+            var response = _utils.getCustomerList( requestParams );
+
+            var responseObj = $.parseJSON(response);
+            var customer = [];
+            $("#contractorUserList").html("");
+            if (responseObj.status === "success") {
+                
+                customer = responseObj.customer;
+                if(customer.length) {
+                    var searchList = {
+                        list: customer,
+                        excludeList: [],
+                        appendTo: "contractorUserList",
+                        type: "searchList",
+                        functionName: "_contractors.setSelectedDefaultUserId",
+                        searchBoxId: "searchForDefaultContractor",
+                        dbEntryId: "db_default_user_id",
+                        dataIdentifier    : "customer",
+                    };
+
+                    _utils.createDropDownOptionsList(searchList);
+                    $(".default-user-search-result").show();
+                    $(".contractorUserList").show();
+                }
+            } else {
+                $(".default-user-search-result").hide();
+                $(".contractorUserList").hide();
+            }
+        },
+
+        setSelectedDefaultUserId: function (event, element, options) {
+            $("#searchForDefaultContractor").val(options.first_name + " " + options.last_name);
+            $("#db_default_user_id").val(options.searchId);
+            $(".default-user-search-result").hide();
+            $(".contractorUserList").hide();
+        },
+
+        showTradeList: function() {
+            getTradeList( true );
+        },
+
+        addNewMainTrendsForm : function() {
+           $.ajax({
+                method: "POST",
+                url: "/projects/contractors/createFormMainTrades",
+                data: {},
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Add New Main Trades"});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        createTradeValidate : function() {
+            var validator = $( "#contractor_create_trade_form" ).validate(
+                {
+                    rules: {
+                        trade_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        trade_name : {
+                            required : "Please provide Trades name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.createTradeSubmit();
+            }
+        },
+
+        createTradeSubmit: function() {
+            var newTrades = $("#trade_name").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/addMainTrades",
+                data: {
+                    trade_name      : newTrades,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTradeList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        editMainTradesForm: function( event, mainTradeId, dispString ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateFormMainTrades",
+                data: {
+                    trade_id        : mainTradeId,
+                    contractorId    : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Edit Main Trades \""+dispString+"\""});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        updateTradeValidate : function() {
+            var validator = $( "#contractor_update_trade_form" ).validate(
+                {
+                    rules: {
+                        trade_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        trade_name : {
+                            required : "Please provide Trades name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.updateTradeSubmit();
+            }
+        },
+
+        updateTradeSubmit: function() {
+            var trade_name  = $("#trade_name").val();
+            var trade_id    = $("#trade_id_db_value").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateMainTrades",
+                data: {
+                    trade_name     : trade_name,
+                    trade_id        : trade_id,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTradeList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        deleteMainTradesForm: function(event, trade_id) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/deleteMainTrades",
+                data: {
+                    trade_id        : trade_id,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON( response );
+                    if(response.status == "success") {
+                        alert(response.message);
+                        _contractors.showTradeList();
+                    } else if( response.status == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        addSubTradesForm: function(event, main_trade_id, main_trade_name) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/createSubTradesForm",
+                data: {
+                    main_trade_id       : main_trade_id,
+                    main_trade_name     : main_trade_name,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Add Sub Trades \""+main_trade_name+"\""});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        createSubTradeValidate : function() {
+            var validator = $( "#contractor_create_sub_trade_form" ).validate(
+                {
+                    rules: {
+                        sub_trade_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        sub_trade_name : {
+                            required : "Please provide Sub Trades name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.createSubTradeSubmit();
+            }
+        },
+
+        createSubTradeSubmit: function() {
+            var sub_trade_name  = $("#sub_trade_name").val();
+            var main_trade_id   = $("#main_trade_id_db_value").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/addSubTrades",
+                data: {
+                    main_trade_id       : main_trade_id,
+                    sub_trade_name      : sub_trade_name,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTradeList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        editSubTradesForm: function( event, subTradeId, dispString, mainTradeId ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateFormSubTrades",
+                data: {
+                    sub_trade_id    : subTradeId,
+                    main_trade_id   : mainTradeId,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Edit Sub Trades \""+dispString+"\""});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        updateSubTradeValidate : function() {
+            var validator = $( "#contractor_update_sub_trade_form" ).validate(
+                {
+                    rules: {
+                        sub_trade_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        sub_trade_name : {
+                            required : "Please provide Trades name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.updateSubTradeSubmit();
+            }
+        },
+
+        updateSubTradeSubmit: function() {
+            var sub_trade_name      = $("#sub_trade_name").val();
+            var sub_trade_id        = $("#sub_trade_id_db_value").val();
+            var main_trade_id       = $("#main_trade_id_db_value").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateSubTrades",
+                data: {
+                    sub_trade_name      : sub_trade_name,
+                    sub_trade_id        : sub_trade_id,
+                    main_trade_id       : main_trade_id,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTradeList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        deleteSubTradesForm: function(event, sub_trade_id, main_trade_id ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/deleteSubTrades",
+                data: {
+                    sub_trade_id    : sub_trade_id,
+                    main_trade_id   : main_trade_id,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON( response );
+                    if(response.status == "success") {
+                        alert(response.message);
+                        _contractors.showTradeList();
+                    } else if( response.status == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        showDiscountInitialPage: function() {
+            getTradeList();
+            showDiscountList();
+            populateMainTradeInDiscount();
+        },
+
+        populateSubTradeInDiscount: function( mainTradeId ) {
+            _populateSubTradeInDiscount( mainTradeId );
+        },
+
+        addDiscountForm: function(event) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/createSubTradesForm",
+                data: {
+                    main_trade_id       : main_trade_id,
+                    main_trade_name     : main_trade_name,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Add Sub Trades \""+main_trade_name+"\""});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        /*createSubTradeValidate : function() {
+            var validator = $( "#contractor_create_sub_trade_form" ).validate(
+                {
+                    rules: {
+                        sub_trade_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        sub_trade_name : {
+                            required : "Please provide Sub Trades name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.createSubTradeSubmit();
+            }
+        },
+
+        createSubTradeSubmit: function() {
+            var sub_trade_name  = $("#sub_trade_name").val();
+            var main_trade_id   = $("#main_trade_id_db_value").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/addSubTrades",
+                data: {
+                    main_trade_id       : main_trade_id,
+                    sub_trade_name      : sub_trade_name,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTradeList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },*/
+
     }
 })();

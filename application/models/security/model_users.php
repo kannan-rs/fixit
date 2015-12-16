@@ -91,7 +91,7 @@ class Model_users extends CI_Model {
 
 	public function getUsersList($params = "", $from_db = "users") {
 		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, ";
-		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to ";
+		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name ";
 		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
 
 		if($params && $params != "" && $params != 0) {
@@ -105,6 +105,24 @@ class Model_users extends CI_Model {
 		$query = $this->db->query($queryStr);
 		$users = $query->result();
 		return $users;
+	}
+
+	public function getUserDisplayName($params = "") {
+		if(!empty($params) && $params != 0) {
+			$queryStr 	= "SELECT users.user_name, user_details.first_name, user_details.last_name ";
+			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
+			$queryStr .= " AND users.sno = ".$params;
+			
+			$query = $this->db->query($queryStr);
+
+			//echo $this->db->last_query();
+			$users = $query->result();
+
+			if($users && count($users)) {
+				return $users[0]->first_name." ".$users[0]->last_name." (".$users[0]->user_name.")";
+			}
+		}
+		return "--No Name--";
 	}
 
 	public function insertUserDetails($params) {
