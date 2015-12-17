@@ -21,7 +21,7 @@
 		$website_url 					= $contractor->website_url;
 		$service_area 					= $contractor->service_area;
 		$default_contact_user_id		= $contractor->default_contact_user_id;
-		$default_contact_user_disp_str	=$contractor->default_contact_user_disp_str;
+		$default_contact_user_disp_str	= isset($contractor->default_contact_user_disp_str) ? $contractor->default_contact_user_disp_str : "";
 
 	}
 

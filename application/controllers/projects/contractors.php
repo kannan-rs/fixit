@@ -323,7 +323,7 @@ class Contractors extends CI_Controller {
 		$contractorId = $this->input->post("contractorId");
 
 		$params = array(
-			"contractorId" => $contractorId
+			"contractor_id" => $contractorId
 		);
 
 		$tradesList = $this->model_contractors->getTradesList( $params );
@@ -367,7 +367,7 @@ class Contractors extends CI_Controller {
 
 		$params = array(
 			"trade_id" 		=> $trade_id,
-			"contractorId" 	=> $contractorId
+			"contractor_id" 	=> $contractorId
 
 		);
 
@@ -467,7 +467,7 @@ class Contractors extends CI_Controller {
 		$getParams = array(
 			"trade_id"			=> $this->input->post("sub_trade_id"),
 			"trade_parent"		=> $this->input->post("main_trade_id"),
-			"contractorId"		=> $this->input->post("contractor_id")
+			"contractor_id"		=> $this->input->post("contractor_id")
 		);
 
 		$response = $this->model_contractors->getTradesList( $getParams );
@@ -532,6 +532,11 @@ class Contractors extends CI_Controller {
 			"contractor_id" => $contractor_id
 		);
 
+		/* Get Trades */
+		$tradesListResponse = $this->model_contractors->getTradesList( $getParams );
+		$tradesList 		= $this->convertTradesDBToId($tradesListResponse["tradesList"]);
+
+		/* Get Discount List */
 		$response = $this->model_contractors->getDiscountList($getParams);
 
 		$params = array(
@@ -539,6 +544,7 @@ class Contractors extends CI_Controller {
 			"main_trade_id"		=> $this->input->post("main_trade_id"),
 			"contractor_id"		=> $contractor_id,
 			"trade_name"		=> $this->input->post("trade_name"),
+			"tradesList"		=> $tradesList
 		);
 
 		if($response["status"] == "success") {
@@ -546,6 +552,172 @@ class Contractors extends CI_Controller {
 		}
 
 		echo $this->load->view("projects/contractors/discountView", $params, true);
+	}
 
+	public function createDiscountForm() {
+		$this->load->model('projects/model_contractors');
+
+		$main_trade_id 	= $this->input->post("main_trade_id");
+		$contractor_id 	= $this->input->post("contractor_id");
+		$sub_trade_id 	= $this->input->post("sub_trade_id");
+
+		$main_trade_id = $main_trade_id == "0" || $main_trade_id == 0 ? "" : $main_trade_id;
+		$sub_trade_id = $sub_trade_id == "0" || $sub_trade_id == 0 ? "" : $sub_trade_id;
+
+		$params = array(
+			"main_trade_id"		=> $main_trade_id,
+			"contractor_id"		=> $contractor_id,
+			"sub_trade_id"		=> $sub_trade_id
+		);
+
+		/* Get Main Trade List */
+		$getParams = array(
+			"trade_id"			=> $main_trade_id,
+			"contractor_id"		=> $contractor_id
+		);
+
+		$response = $this->model_contractors->getTradesList( $getParams );
+
+		if($response["status"] == "success") {
+			$params['mainTradesList'] = $response["tradesList"];
+		}
+
+		/* Get Sub Trade List */
+		$getParams = array(
+			"trade_id"			=> $sub_trade_id,
+			"trade_parent"		=> $main_trade_id,
+			"contractor_id"		=> $contractor_id
+		);
+
+		$response = $this->model_contractors->getTradesList( $getParams );
+
+		if($response["status"] == "success") {
+			$params['subTradesList'] = $response["tradesList"];
+		}
+
+		echo $this->load->view("projects/contractors/inputFormDiscount", $params, true);
+	}
+
+	public function addDiscount() {
+		$this->load->model('projects/model_contractors');
+
+		$main_trade_id 			= $this->input->post("main_trade_id");
+		$sub_trade_id 			= $this->input->post("sub_trade_id");
+		$discount_name 			= $this->input->post("discount_name");
+		$discount_descr 		= $this->input->post("discount_descr");
+		$discount_for_zip 		= $this->input->post("discount_for_zip");
+		$discount_from_date 	= $this->input->post("discount_from_date");
+		$discount_to_date 		= $this->input->post("discount_to_date");
+		$contractor_id 			= $this->input->post("contractor_id");
+		$discount_type			= $this->input->post("discount_type");
+		$discount_value			= $this->input->post("discount_value");
+
+		$data = array(
+			'discount_name' 				=> $discount_name,
+			'discount_descr'				=> $discount_descr,
+			'discount_for_contractor_id'	=> $contractor_id,
+			'discount_for_trade_id' 		=> $main_trade_id,
+			'discount_for_sub_trade_id'		=> $sub_trade_id,
+			'discount_for_zip'				=> $discount_for_zip,
+			'discount_type'					=> $discount_type,
+			'discount_value'				=> $discount_value,
+			'discount_from_date'			=> $discount_from_date,
+			'discount_to_date'				=> $discount_to_date,
+			'created_by'					=> $this->session->userdata('user_id'),
+			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_on'					=> date("Y-m-d H:i:s"),
+			'updated_on'					=> date("Y-m-d H:i:s")
+		);
+
+		$response = $this->model_contractors->insertDiscount($data);
+
+		print_r(json_encode($response));
+	}
+
+	public function convertTradesDBToId($tradeFromDb) {
+		$tradesList = array();
+		for($i = 0; $i < count($tradeFromDb); $i++) {
+			$tradesList[$tradeFromDb[$i]->trade_id] = $tradeFromDb[$i];
+		}
+		return $tradesList;
+	}
+
+	public function editDiscountForm() {
+		$this->load->model('projects/model_contractors');
+
+		$contractor_id	= $this->input->post("contractor_id");
+		$discount_id	= $this->input->post("discount_id");
+
+		$getParams = array(
+			"contractor_id" => $contractor_id,
+			'discount_id'	=> $discount_id
+		);
+
+		/* Get Discount List */
+		$response = $this->model_contractors->getDiscountList($getParams);
+
+		if($response["status"] == "success") {
+			$params['discountList'] = $response["discountList"];
+		}
+
+		echo $this->load->view("projects/contractors/inputFormDiscount", $params, true);
+	}
+
+	public function updateDiscount() {
+		$this->load->model('projects/model_contractors');
+
+		$discount_id 			= $this->input->post("discount_id");
+		$main_trade_id 			= $this->input->post("main_trade_id");
+		$sub_trade_id 			= $this->input->post("sub_trade_id");
+		$discount_name 			= $this->input->post("discount_name");
+		$discount_descr 		= $this->input->post("discount_descr");
+		$discount_for_zip 		= $this->input->post("discount_for_zip");
+		$discount_from_date 	= $this->input->post("discount_from_date");
+		$discount_to_date 		= $this->input->post("discount_to_date");
+		$contractor_id 			= $this->input->post("contractor_id");
+		$discount_type			= $this->input->post("discount_type");
+		$discount_value			= $this->input->post("discount_value");
+
+		$data = array(
+			'discount_name' 				=> $discount_name,
+			'discount_descr'				=> $discount_descr,
+			//'discount_for_contractor_id'	=> $contractor_id,
+			'discount_for_trade_id' 		=> $main_trade_id,
+			'discount_for_sub_trade_id'		=> $sub_trade_id,
+			'discount_for_zip'				=> $discount_for_zip,
+			'discount_type'					=> $discount_type,
+			'discount_value'				=> $discount_value,
+			'discount_from_date'			=> $discount_from_date,
+			'discount_to_date'				=> $discount_to_date,
+			'created_by'					=> $this->session->userdata('user_id'),
+			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_on'					=> date("Y-m-d H:i:s"),
+			'updated_on'					=> date("Y-m-d H:i:s")
+		);
+
+		$params = array(
+			'data'				=> $data,
+			'discount_id'		=> $discount_id,
+			'contractor_id'		=> $contractor_id
+		);
+
+		$response = $this->model_contractors->updateDiscount($params);
+
+		print_r(json_encode($response));
+	}
+
+	public function deleteDiscount() {
+		$this->load->model('projects/model_contractors');
+
+		$discount_id 			= $this->input->post("discount_id");
+		$contractor_id 			= $this->input->post("contractor_id");
+
+		$params = array(
+			"contractor_id"		=> $contractor_id,
+			"discount_id"		=> $discount_id
+		);
+
+		$response = $this->model_contractors->deleteDiscount($params);
+		print_r(json_encode($response));
 	}
 }

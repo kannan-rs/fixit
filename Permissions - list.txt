@@ -75,8 +75,6 @@ Service Provider Module
 (Done) 5. Status will be active by default
 (Done) 6. Status will be shown only for admin.
 
-Working On
-----------
 (Done) 1. Assign default user for the contractor, only by admin
 (Done) 	> Create textbox, with search icon
 (Done) 	> Get list of users, who are associated with the company and users who are belongs to contractor without company
@@ -87,9 +85,12 @@ Working On
 (Done) -> Trade/ Create, Update, delete
 (Done) -> Subtrade/ Selection of trade, create, update and delete sub trade.
 (Done) -> Map sub trade with main trades
-4. Discount Page
-	Trade and Sub trade dropdown.
-	Zip code optional
-	List discount based on selection.
-	Create / Edit / Delete discount
+(Done) 4. Discount Page
+(Done)	Trade and Sub trade dropdown.
+(done)	Zip code optional
 
+(done)	Create / Edit / Delete discount
+
+Working On
+----------
+List discount based on selection.

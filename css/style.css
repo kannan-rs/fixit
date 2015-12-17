@@ -1055,4 +1055,7 @@ a.icon-right {
 #tradesList .viewOne tr.active a {
   display: block; }
 
+.discount-table-list .red {
+  color: red !important; }
+
 /*# sourceMappingURL=style.css.map */

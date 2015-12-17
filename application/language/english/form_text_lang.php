@@ -656,6 +656,12 @@ $lang["contractor"] = array(
 		"searchForDefaultContractor" 	=> "Assign Service Provider Admin",
 		"trade_name"					=> "Trade Name",
 		"sub_trade_name"				=> "Sub Trade Name",
+		"discount_name"					=> "Discount Name",
+		"discount_descr"				=> "Discount Description",
+		"discount_for_zip"				=> "Discount For Zip Codes",
+		"discount_from_date"			=> "Discount Starting Date",
+		"discount_to_date"				=> "Discount Ending Date",
+		"discount_value"				=> "Discount Amount",
 
 		/*
 			Place holder for text input element in Create/Edit form
@@ -673,12 +679,20 @@ $lang["contractor"] = array(
 		"searchForDefaultContractor_ph" 	=> "Email ID of default contractor",
 		"trade_name_ph"						=> "Trade Name",
 		"sub_trade_name_ph"					=> "Sub Trade Name",
+		"discount_name_ph"					=> "Discount Name",
+		"discount_descr_ph"					=> "Discount Description",
+		"discount_for_zip_ph"				=> "Discount For Zip Codes",
+		"discount_from_date_ph"				=> "Discount Starting Date",
+		"discount_to_date_ph"				=> "Discount Ending Date",
+		"discount_value_ph"					=> "Discount Value",
 
 		/*
 			Dropdown's Default 1st text,
 			this text will be shown if no option is selected in Dropdown under Create/Edit form
 		*/
-		"status_option_0" => "--Select Status--",
+		"status_option_0" 		=> "--Select Status--",
+		"main_trade_option_0" 	=>"-- Select Main Trade --",
+		"sub_trade_option_0" 	=>"-- Select Sub Trade --"
 	),
 	
 	/*
@@ -737,7 +751,11 @@ $lang["contractor"] = array(
 		"add_sub_trade"			=> "Add Sub Trade",
 		"create_sub_trade"		=> "Create Sub Trade",
 		"update_sub_trade"		=> "Update Sub Trade",
-		"add_discount"			=> "Add Discount"
+		"add_discount"			=> "Add Discount",
+		"edit_discount"			=> "Edit Discount",
+		"create_discount"		=> "Create Discount",
+		"update_discount"		=> "Update Discount",
+		"delete_discount"		=> "Delete Discount"
 	)
 );
 

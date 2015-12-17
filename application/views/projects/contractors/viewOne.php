@@ -161,13 +161,13 @@ if(!$openAs || $openAs != "popup") {
 	<div id="tabs_contractor_discounts">
 		<div class="header-options">
 			<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('contractor->headers->discount_list'); ?></h2>
-			<span class="options-icon">
+			<!-- <span class="options-icon">
 				<span>
 					<a class="step fi-page-add size-21" href="javascript:void(0);" 
 						onclick="_contractors.addDiscountForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_discount'); ?>">
 					</a>
 				</span>
-			</span>
+			</span> -->
 		</div>
 		<div style="clear:both"></div>
 		<div id="discountFilters">
@@ -176,17 +176,29 @@ if(!$openAs || $openAs != "popup") {
 					<td>Main Trade</td>
 					<td>
 						<select id="discount_for_main_trade" onchange="_contractors.populateSubTradeInDiscount( this.value );">
-							<option>-- Select Main Trade --</option>
+							<option value="0">-- Select Main Trade --</option>
 						</select>
 					</td>
 					<td>Sub Trade</td>
 					<td>
 						<select id="discount_for_sub_trade">
-							<option>-- Select Sub Trade --</option>
-						</select></td>
+							<option value="0">-- Select Sub Trade --</option>
+						</select>
+					</td>
+					<td>
+						<div class="header-options">
+						<span class="options-icon">
+							<span>
+								<a class="step fi-page-add size-21" href="javascript:void(0);" 
+									onclick="_contractors.addDiscountForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_discount'); ?>">
+								</a>
+							</span>
+						</span>
+						</div>
+					</td>
 				</tr>
 				<tr>
-					<td colspan="4">
+					<td colspan="5">
 						Select main trade and sub trade to filter the discount list or to add new discount
 					</td>
 				</tr>

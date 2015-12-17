@@ -173,26 +173,35 @@ var _contractors = (function () {
         });
     }
 
-    function populateMainTradeInDiscount() {
-        var htmlContent = "<option>-- Select Main Trade --</option>";
+    function populateMainTradeInDiscount( ddId ) {
+        var htmlContent = "<option value=\"0\">-- Select Main Trade --</option>";
         if(tradeMappedList.parents.length) {
             for(var i = 0; i < tradeMappedList.parents.length; i++) {
                 var trade = tradeMappedList.parents[i];
                 htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
             }
         }
-        $("#discount_for_main_trade").html(htmlContent);
+
+        if( !ddId || ddId == "") {
+            ddId = "discount_for_main_trade";
+        }
+        $("#"+ddId ).html(htmlContent);
     }
 
-    function _populateSubTradeInDiscount( mainTradeId ) {
-        var htmlContent = "<option>-- Select Sub Trade --</option>";
-        if(tradeMappedList.childs[mainTradeId].length) {
+    function _populateSubTradeInDiscount( mainTradeId, ddId ) {
+        var htmlContent = "<option value=\"0\">-- Select Sub Trade --</option>";
+        if(mainTradeId && mainTradeId != "0" && tradeMappedList.childs[mainTradeId].length) {
             for(var i = 0; i < tradeMappedList.childs[mainTradeId].length; i++) {
                 var trade = tradeMappedList.childs[mainTradeId][i];
                 htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
             }
         }
-        $("#discount_for_sub_trade").html(htmlContent);
+
+        if( !ddId || ddId == "") {
+            ddId = "discount_for_sub_trade";
+        }
+
+        $("#"+ddId).html(htmlContent);
     }
 
     return {
@@ -848,6 +857,11 @@ var _contractors = (function () {
                 event.stopPropagation();
             }
 
+             var deleteConfim = confirm("Do you want to delete this Trade");
+            if (!deleteConfim) {
+                return;
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/projects/contractors/deleteMainTrades",
@@ -1036,6 +1050,11 @@ var _contractors = (function () {
                 event.stopPropagation();
             }
 
+             var deleteConfim = confirm("Do you want to delete this trade");
+            if (!deleteConfim) {
+                return;
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/projects/contractors/deleteSubTrades",
@@ -1068,8 +1087,8 @@ var _contractors = (function () {
             populateMainTradeInDiscount();
         },
 
-        populateSubTradeInDiscount: function( mainTradeId ) {
-            _populateSubTradeInDiscount( mainTradeId );
+        populateSubTradeInDiscount: function( mainTradeId, ddId ) {
+            _populateSubTradeInDiscount( mainTradeId, ddId );
         },
 
         addDiscountForm: function(event) {
@@ -1077,17 +1096,31 @@ var _contractors = (function () {
                 event.stopPropagation();
             }
 
+            var main_trade_id   = $("#discount_for_main_trade").val();
+            var sub_trade_id    = $("#discount_for_sub_trade").val();
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/createSubTradesForm",
+                url: "/projects/contractors/createDiscountForm",
                 data: {
                     main_trade_id       : main_trade_id,
-                    main_trade_name     : main_trade_name,
+                    sub_trade_id        : sub_trade_id,
                     contractor_id       : _contractors.contractorId
                 },
                 success: function( response ) {
                     $("#popupForAll").html( response );
-                    _projects.openDialog({"title" : "Add Sub Trades \""+main_trade_name+"\""});
+                    _projects.openDialog({"title" : "Add Discount Form"});
+                    populateMainTradeInDiscount("input_discount_for_main_trade");
+                    if(main_trade_id) {
+                        $("#input_discount_for_main_trade").val(main_trade_id);
+                        $("#input_discount_for_main_trade").trigger("change");
+                    }
+                   if(sub_trade_id) {
+                        setTimeout(function(){
+                            $("#input_discount_for_sub_trade").val(sub_trade_id);
+                        } ,500);
+                    }
+                    _utils.setAsDateFields( {dateField : "discount_from_date"} );
+                    _utils.setAsDateFields( {dateField : "discount_to_date"} );
                 },
                 error: function( error ) {
                     error = error;
@@ -1098,37 +1131,58 @@ var _contractors = (function () {
             }); 
         },
 
-        /*createSubTradeValidate : function() {
-            var validator = $( "#contractor_create_sub_trade_form" ).validate(
+        createDiscountValidate : function() {
+            var validator = $( "#create_discount_contractor_form" ).validate(
                 {
                     rules: {
-                        sub_trade_name : {
+                        discount_value : {
+                            required : true
+                        },
+                        discount_name : {
                             required : true
                         }
                     },
                     messages: {
-                        sub_trade_name : {
-                            required : "Please provide Sub Trades name"
+                        discount_value : {
+                            required : "Please provide discount value"
+                        },
+                        discount_name : {
+                            required: "Please provide discount name"
                         }
                     }
                 }
             ).form();
 
             if(validator) {
-                _contractors.createSubTradeSubmit();
+                _contractors.createDiscountSubmit();
             }
         },
 
-        createSubTradeSubmit: function() {
-            var sub_trade_name  = $("#sub_trade_name").val();
-            var main_trade_id   = $("#main_trade_id_db_value").val();
+        createDiscountSubmit: function() {
+            var main_trade_id       = $("#input_discount_for_main_trade").val();
+            var sub_trade_id        = $("#input_discount_for_sub_trade").val();
+            var discount_name       = $("#discount_name").val();
+            var discount_descr      = $("#discount_descr").val();
+            var discount_for_zip    = $("#discount_for_zip").val();
+            var discount_type       = $('#create_discount_contractor_form input[name=discount_type]:checked').val();
+            var discount_value      = $("#discount_value").val();
+            var discount_from_date  = _utils.toMySqlDateFormat($("#discount_from_date").val());
+            var discount_to_date    = _utils.toMySqlDateFormat($("#discount_to_date").val());
 
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/addSubTrades",
+                url: "/projects/contractors/addDiscount",
                 data: {
                     main_trade_id       : main_trade_id,
-                    sub_trade_name      : sub_trade_name,
+                    sub_trade_id        : sub_trade_id,
+                    discount_name       : discount_name,
+                    discount_descr      : discount_descr,
+                    discount_for_zip    : discount_for_zip,
+                    discount_type       : discount_type,
+                    discount_value      : discount_value,
+                    discount_from_date  : discount_from_date,
+                    discount_to_date    : discount_to_date,
+
                     contractor_id       : _contractors.contractorId
                 },
                 success: function( response ) {
@@ -1136,7 +1190,7 @@ var _contractors = (function () {
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
                         $("#popupForAll").dialog("close");
-                        _contractors.showTradeList();
+                        showDiscountList();
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
@@ -1148,7 +1202,161 @@ var _contractors = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
-        },*/
+        },
+
+        editDiscountForm: function( event, discountId ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            //var main_trade_id   = $("#discount_for_main_trade").val();
+            //var sub_trade_id    = $("#discount_for_sub_trade").val();
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/editDiscountForm",
+                data: {
+                    //main_trade_id       : main_trade_id,
+                    //sub_trade_id        : sub_trade_id,
+                    contractor_id       : _contractors.contractorId,
+                    discount_id         : discountId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Edit Discount Form"});
+                    populateMainTradeInDiscount("input_discount_for_main_trade");
+                    
+                    var main_trade_id = $("#selectedMainTradeId").val();
+                    if(main_trade_id && main_trade_id != "" && main_trade_id != "0") {
+                        $("#input_discount_for_main_trade").val(main_trade_id);
+                        $("#input_discount_for_main_trade").trigger("change");
+                    }
+
+                    var sub_trade_id = $("#selectedSubTradeId").val();
+                   if(sub_trade_id && sub_trade_id != "" && sub_trade_id != "0") {
+                        setTimeout(function(){
+                            $("#input_discount_for_sub_trade").val(sub_trade_id);
+                        } ,500);
+                    }
+                    _utils.setAsDateFields( {dateField : "discount_from_date"} );
+                    _utils.setAsDateFields( {dateField : "discount_to_date"} );
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        updateDiscountValidate: function() {
+            var validator = $( "#update_discount_contractor_form" ).validate(
+                {
+                    rules: {
+                        discount_value : {
+                            required : true
+                        },
+                        discount_name : {
+                            required : true
+                        }
+                    },
+                    messages: {
+                        discount_value : {
+                            required : "Please provide discount value"
+                        },
+                        discount_name : {
+                            required: "Please provide discount name"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.updateDiscountSubmit();
+            }
+        },
+
+        updateDiscountSubmit: function() {
+            var discount_id         = $("#dbDiscountId").val();
+            var main_trade_id       = $("#input_discount_for_main_trade").val();
+            var sub_trade_id        = $("#input_discount_for_sub_trade").val();
+            var discount_name       = $("#discount_name").val();
+            var discount_descr      = $("#discount_descr").val();
+            var discount_for_zip    = $("#discount_for_zip").val();
+            var discount_type       = $('#update_discount_contractor_form input[name=discount_type]:checked').val();
+            var discount_value      = $("#discount_value").val();
+            var discount_from_date  = _utils.toMySqlDateFormat($("#discount_from_date").val());
+            var discount_to_date    = _utils.toMySqlDateFormat($("#discount_to_date").val());
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateDiscount",
+                data: {
+                    discount_id         : discount_id,
+                    main_trade_id       : main_trade_id,
+                    sub_trade_id        : sub_trade_id,
+                    discount_name       : discount_name,
+                    discount_descr      : discount_descr,
+                    discount_for_zip    : discount_for_zip,
+                    discount_type       : discount_type,
+                    discount_value      : discount_value,
+                    discount_from_date  : discount_from_date,
+                    discount_to_date    : discount_to_date,
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        showDiscountList();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        deleteDiscount :  function( event, discount_id ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+             var deleteConfim = confirm("Do you want to delete this discount");
+            if (!deleteConfim) {
+                return;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/deleteDiscount",
+                data: {
+                    discount_id     : discount_id,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON( response );
+                    if(response.status == "success") {
+                        alert(response.message);
+                         showDiscountList();
+                    } else if( response.status == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        }
 
     }
 })();
