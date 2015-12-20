@@ -35,62 +35,24 @@ S2: SP Admin expites, service provided admin can select multiple trade and multi
 s3: SP Admin details,
 
 
-Remove BBB
-By default status will be active
-Logo
-Assign default User to be added/edited by admin
-
-Trades and sub trades as 2nd input screen
-Discount
-	Select trade, sub trade is optional, zip code is optional, Discount (% or $), Gif image, start and end date of zip.
-
-Testomonial.
-	Customer Name,
-	Comments,
-	* rating
-
-
-Work for this week
-------------------
-(Done) Adding List of permission as dropdown in user create and edit
-(Done) Showing of Create Project Page with permissions
-(Done) Added permission for internal create and edit form
-(Done) Permissions for Budget add, update, delete
-(Done) Permission Task individual view, create, edit, delete
-(Done) Permission Issues individual view, create, edit, delete
-(Done) Permission for Notes view, create, delete
-(Done) Permission for Top and left menu
-(Done) Permissions for Contractor View, add, update, delete
-(Done) Permissions for partner View, add, update, delete
-(Done) Applied permission for all function buttons in project, contractor and partner.
-(Done) added additional confirmation for deleting contractor and adjuster
---------------------------
-
-Service Provider Module
------------------------
-(Done) 1. Removed mandatory condition for remaining fields other than company while adding service provider company for admin
-(Done) 2. Changed viewonly from div to table
-(Done) 3. Got user display name by users.sno used to display created by and updated by
-(Done) 4. Removed BBB from create/update and view
-(Done) 5. Status will be active by default
-(Done) 6. Status will be shown only for admin.
-
-(Done) 1. Assign default user for the contractor, only by admin
-(Done) 	> Create textbox, with search icon
-(Done) 	> Get list of users, who are associated with the company and users who are belongs to contractor without company
-(Done) 	> Add this user ID as admin user for the contractor company.
-(Done) 	> This need to be done by "admin"
-(Done) 	2. Create the tabs (4 tabs - Company details, Trade & sub Trades, Discounts, Testomonial),
-(Done) 3. Trade tab page
-(Done) -> Trade/ Create, Update, delete
-(Done) -> Subtrade/ Selection of trade, create, update and delete sub trade.
-(Done) -> Map sub trade with main trades
-(Done) 4. Discount Page
-(Done)	Trade and Sub trade dropdown.
-(done)	Zip code optional
-
-(done)	Create / Edit / Delete discount
-
 Working On
 ----------
 List discount based on selection.
+Image upload for discounts
+Logo upload for service provider
+
+
+Work Done
+---------
+1. Broght back signup and forgot pass form,
+2. Minor corrections in signup form,
+3. Modified view one form for user from Div to table view
+4. Modified view one click from single variable args to object orgs in viewall form.
+5. In User Edit, set the role value based on db value.
+6. Added Proper check for admin and get the roles and role display string to set the role in user > view all
+7. Removed Privilege, if same user is editing his details.
+8. Belongs to is removed from user module.
+9. Testomonial.
+	Customer Name,
+	Comments,
+	* rating

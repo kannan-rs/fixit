@@ -38,7 +38,7 @@
 				<tr>
 					<td colspan="2" class="extralinks">
 					<?php
-						$start = "<a class=\"signup\" href=\"".$baseUrl.">main/signup\">";
+						$start = "<a class=\"signup\" href=\"".$baseUrl."main/signup\">";
 						$end = "</a>";
 						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('login->buttons_links->new_customer'));
 					?>
@@ -47,7 +47,7 @@
 				<tr>
 					<td colspan="2" class="extralinks">
 					<?php
-						$start = "<a class=\"signup\" href=\"".$baseUrl.">main/forgotpass\">";
+						$start = "<a class=\"signup\" href=\"".$baseUrl."main/forgotpass\">";
 						$end = "</a>";
 						echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('login->buttons_links->forgot_pass'));
 					?>

@@ -720,4 +720,130 @@ class Contractors extends CI_Controller {
 		$response = $this->model_contractors->deleteDiscount($params);
 		print_r(json_encode($response));
 	}
+
+	public function viewAllTestimonial() {
+		$this->load->model('projects/model_contractors');
+
+		$contractor_id 			= $this->input->post("contractor_id");
+
+		$params = array(
+			"contractor_id"		=> $contractor_id
+		);
+
+		$response = $this->model_contractors->getTestimonial($params);
+
+		if($response["status"] == "success") {
+			$params["testimonialList"] = $response["testimonialList"];
+		}
+
+		echo $this->load->view("projects/contractors/testimonialView", $params, true);
+	}
+
+	public function createTestimonialForm() {
+		$this->load->model('projects/model_contractors');
+
+		$contractor_id 	= $this->input->post("contractor_id");
+
+		$params = array(
+			"contractor_id"		=> $contractor_id
+		);
+
+		echo $this->load->view("projects/contractors/inputFormTestimonial", $params, true);
+	}
+
+	public function addTestimonial() {
+		$this->load->model('projects/model_contractors');
+
+		$contractor_id 				= $this->input->post("contractor_id");
+		$testimonial_summary		= $this->input->post("testimonial_summary");
+		$testimonial_descr			= $this->input->post("testimonial_descr");
+		$testimonial_ratting		= $this->input->post("testimonial_ratting");
+		$testimonial_customer_name	= $this->input->post("testimonial_customer_name");
+		$testimonial_date			= $this->input->post("testimonial_date");
+
+		$data = array(
+			'testimonial_contractor_id'		=> $contractor_id,
+			'testimonial_customer_id'		=> "",
+			'testimonial_anonynomus_name'	=> $testimonial_customer_name,
+			'testimonial_summary' 			=> $testimonial_summary,
+			'testimonial_descr'				=> $testimonial_descr,
+			'testimonial_ratting'			=> $testimonial_ratting,
+			'testimonial_date'				=> $testimonial_date,
+			'created_by'					=> $this->session->userdata('user_id'),
+			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_on'					=> date("Y-m-d H:i:s"),
+			'updated_on'					=> date("Y-m-d H:i:s")
+		);
+
+		$response = $this->model_contractors->insertTestimonial($data);
+
+		print_r(json_encode($response));
+	}
+
+	public function editTestimonialForm() {
+		$this->load->model('projects/model_contractors');
+
+		$contractor_id 				= $this->input->post("contractor_id");
+		$testimonial_id 			= $this->input->post("testimonial_id");
+
+		$params = array(
+			"contractor_id"		=> $contractor_id,
+			"testimonial_id"	=> $testimonial_id
+		);
+
+		$response = $this->model_contractors->getTestimonial($params);
+
+		if($response["status"] == "success") {
+			$params["testimonialList"] = $response["testimonialList"];
+		}
+
+		echo $this->load->view("projects/contractors/inputFormTestimonial", $params, true);
+	}
+
+	public function updateTestimonial() {
+		$this->load->model('projects/model_contractors');
+
+		$testimonial_id 			= $this->input->post("testimonial_id");
+		$contractor_id 				= $this->input->post("contractor_id");
+		$testimonial_summary		= $this->input->post("testimonial_summary");
+		$testimonial_descr			= $this->input->post("testimonial_descr");
+		$testimonial_ratting		= $this->input->post("testimonial_ratting");
+		$testimonial_customer_name	= $this->input->post("testimonial_customer_name");
+		$testimonial_date			= $this->input->post("testimonial_date");
+
+		$data = array(
+			'testimonial_anonynomus_name'	=> $testimonial_customer_name,
+			'testimonial_summary' 			=> $testimonial_summary,
+			'testimonial_descr'				=> $testimonial_descr,
+			'testimonial_ratting'			=> $testimonial_ratting,
+			'testimonial_date'				=> $testimonial_date,
+			'updated_by'					=> $this->session->userdata('user_id'),
+			'updated_on'					=> date("Y-m-d H:i:s")
+		);
+
+		$params = array(
+			'data'				=> $data,
+			'testimonial_id'	=> $testimonial_id,
+			'contractor_id'		=> $contractor_id
+		);
+
+		$response = $this->model_contractors->updateTestimonial($params);
+
+		print_r(json_encode($response));
+	}
+
+	public function deleteTestimonial() {
+		$this->load->model('projects/model_contractors');
+
+		$testimonial_id 		= $this->input->post("testimonial_id");
+		$contractor_id 			= $this->input->post("contractor_id");
+
+		$params = array(
+			"contractor_id"		=> $contractor_id,
+			"testimonial_id"		=> $testimonial_id
+		);
+
+		$response = $this->model_contractors->deleteTestimonial($params);
+		print_r(json_encode($response));
+	}
 }

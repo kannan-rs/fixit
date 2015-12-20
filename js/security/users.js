@@ -7,7 +7,7 @@ var _users = (function () {
     var rolesDb = null;
     var rolesBySno = [];
     
-    if(session && session.role_id && session.role_id == 'admin') {
+    if(session && session.role_disp_name && session.role_disp_name == 'admin') {
         preset();
     }
     
@@ -60,7 +60,6 @@ var _users = (function () {
         for (i = 0; i < rolesDb.length; i++) {
             rolesBySno[rolesDb[i].sno] = rolesDb[i];
         }
-        console.log(rolesBySno);
     };
 
     return {
@@ -681,8 +680,9 @@ var _users = (function () {
         },
         setPrivilege: function() {
             if($("#privilege_db_val").length) {
-                var roleId = rolesBySno[$("#privilege_db_val").val()] ? rolesBySno[$("#privilege_db_val").val()].sno : "0";
-                $("#privilege").val(roleId);
+                //var roleId = rolesBySno[$("#privilege_db_val").val()] ? rolesBySno[$("#privilege_db_val").val()].sno : "0";
+                //$("#privilege").val(roleId);
+                $("#privilege").val($("#privilege_db_val").val());
             }
         },
         hideUnsetPrimaryContact: function() {

@@ -1,16 +1,4 @@
 <?php
-/*print_r($mainTradesList);
-echo "<br/>";
-print_r($subTradesList);
-
-echo "<br/>";
-
-echo "main_trade_id->".$main_trade_id."<br/>";
-echo "contractor_id->".$contractor_id."<br/>";
-echo "sub_trade_id->".$sub_trade_id."<br/>";*/
-?>
-
-<?php
 	$edit = false;
 	$prefix = "create";
 

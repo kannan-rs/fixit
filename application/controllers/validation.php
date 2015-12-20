@@ -28,6 +28,11 @@ class Validation extends CI_Controller {
 
 			$this->session->set_userdata($data);
 
+			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+			$this->session->set_userdata('role_disp_name', $role_disp_name);
+
+
 			$response["status"] = "Success";
 			$response["message"] = "";
 			$response["redirect"] = "/main/projects";

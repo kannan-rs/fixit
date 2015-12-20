@@ -1058,4 +1058,9 @@ a.icon-right {
 .discount-table-list .red {
   color: red !important; }
 
+#testimonialList .red {
+  color: red !important; }
+#testimonialList .viewOne a {
+  text-decoration: none; }
+
 /*# sourceMappingURL=style.css.map */

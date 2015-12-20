@@ -21,121 +21,174 @@
 
 <?php echo $noticeFile; ?>
 
-<form>
-	<div class='form'>
-		<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details->sno; ?>">
-		<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details->primary_contact; ?>">
-		<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details->contact_pref; ?>">
-		<input type="hidden" name="viewonly" value="true">
-		
-		<div class='label'><?php echo $this->lang->line_arr('user->details_view->role'); ?></div>
-		<div class="capitalize role_id"><?php echo $users->role_id; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->firstName'); ?></div>
-		<div class="capitalize"><?php echo $user_details->first_name; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->lastName'); ?></div>
-		<div class="capitalize"><?php echo $user_details->last_name; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->belongsTo'); ?></div>
-		<div class="capitalize"><?php echo !empty($user_details->belongs_to) ? $user_details->belongs_to : "-NA-"; ?></div>
-		<?php 
+<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details->sno; ?>">
+<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details->primary_contact; ?>">
+<input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details->contact_pref; ?>">
+<input type="hidden" name="viewonly" value="true">
+
+<table cellspacing="0" class="viewOne">	
+	<tbody>
+		<tr>
+			<td class='label'><?php echo $this->lang->line_arr('user->details_view->role'); ?></td>
+			<td class="capitalize role_id"><?php echo $users->role_id; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->firstName'); ?></td>
+			<td class="capitalize"><?php echo $user_details->first_name; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->lastName'); ?></td>
+			<td class="capitalize"><?php echo $user_details->last_name; ?></td>
+		</tr>
+		<!-- <tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->belongsTo'); ?></td>
+			<td class="capitalize"><?php echo !empty($user_details->belongs_to) ? $user_details->belongs_to : "-NA-"; ?></td>
+		</tr>
+			<?php 
 			if($user_details->belongs_to == "contractor") { 
-		?>
-			<div class="label"><?php echo $this->lang->line_arr('user->details_view->contractor'); ?></div>
-			<div class="capitalize"><?php echo $belongsToName; ?></div>
-		<?php 
+			?>
+				<tr>
+					<td class="label"><?php echo $this->lang->line_arr('user->details_view->contractor'); ?></td>
+					<td class="capitalize"><?php echo $belongsToName; ?></td>
+				</tr>
+			<?php 
 			} else if($user_details->belongs_to == "adjuster") {
-		?>
-			<div class="label"><?php echo $this->lang->line_arr('user->details_view->adjuster'); ?></div>
-			<div class="capitalize"><?php echo $belongsToName; ?></div>
-		<?php
+			?>
+			<tr>
+				<td class="label"><?php echo $this->lang->line_arr('user->details_view->adjuster'); ?></td>
+				<td class="capitalize"><?php echo $belongsToName; ?></td>
+			</tr>
+			<?php
 			}
-		?>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->userStatus'); ?></div>
-		<div class="capitalize"><?php echo $user_details->status; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->activeStartDate'); ?></div>
-		<div><?php echo explode(" ",$user_details->active_start_date)[0]; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->activeEndDate'); ?></div>
-		<div><?php echo explode(" ",$user_details->active_end_date)[0]; ?></div>	
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->email'); ?></div>
-		<div><?php echo $user_details->email; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->contactPhoneNumber'); ?></div>
-		<div><?php echo $user_details->contact_ph1; ?></div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->mobileNumber'); ?></div>
-		<div>
-			<table  class="innerOption">
-				<tr>
-					<td colspan="2"><?php echo $user_details->contact_mobile; ?></td>
-				</tr>
-				<tr id="mobileradio">
-					<td>
-						<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">
-					</td>
-					<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
-				</tr>
-			</table>
-		</div>
-		
-		<div class="label"><?php echo $this->lang->line_arr('user->details_view->altNumber'); ?></div>
-		<div>
-			<table class="innerOption">
-				<tr>
-					<td colspan="2"><?php echo $user_details->contact_alt_mobile; ?></td>
-				</tr>
-				<tr id="alternateradio">
-					<td>
-						<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">
-					</td>
-					<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
-				</tr>
-			</table>
-		</div>
-		
-		<!-- <div class="label prefMode"><?php echo $this->lang->line_arr('user->details_view->prefMode'); ?></div>
-		<div>
-			<table class="innerOption">
-				<tr>
-					<td id="emailIdcheckbox"><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled="disabled"></td>
-					<td id="emailIdcheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_email'); ?></td>
-					<td id="contactPhoneNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactContactPhoneNumber" value="contactPhoneNumber" disabled="disabled"></td>
-					<td id="contactPhoneNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_home_phone'); ?></td>
-				</tr>
-				<tr>
-					<td id="mobileNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled="disabled"></td>
-					<td id="mobileNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_mobile_number'); ?></td>
-					<td id="altNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactAltNumber" value="altNumber" disabled="disabled"></td>
-					<td id="altNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_alt_number'); ?></td>
-				</tr>
-			</table>
-		</div> -->
-		
-		<?php
-			echo $addressFile;
-		?>
-		<!-- Referred to Details -->
-		<?php 
-		if($user_details->referred_by) {
-			echo "<div class='label'>User Referred By:</div>";
-			echo "<div>".$user_details->referred_by."</div>";
-			
-			if($user_details->referred_by == "contractor") { 
-				echo "<div class='label'>Referred By Contractor Company:</div>";
-				echo "<div>".$referredByName."</div>";
-			} else if($user_details->referred_by == "adjuster") {
-				echo "<div class='label'>Referred By Adjuster Company:</div>";
-				echo "<div>".$referredByName."</div>";
+			?>
+		<tr> -->
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->userStatus'); ?></td>
+			<td class="capitalize"><?php echo $user_details->status; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->activeStartDate'); ?></td>
+			<td><?php echo explode(" ",$user_details->active_start_date)[0]; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->activeEndDate'); ?></td>
+			<td><?php echo explode(" ",$user_details->active_end_date)[0]; ?></td>	
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->email'); ?></td>
+			<td><?php echo $user_details->email; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->contactPhoneNumber'); ?></td>
+			<td><?php echo $user_details->contact_ph1; ?></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->mobileNumber'); ?></td>
+			<?php
+			if(isset($user_details->contact_mobile) && $user_details->contact_mobile != "") {
+			?>
+			<td>
+				<?php echo $user_details->contact_mobile; ?><br/>
+				<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">&nbsp;&nbsp;
+				<?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?>
+				<!-- <table  class="innerOption">
+					<tr>
+						<td colspan="2"><?php echo $user_details->contact_mobile; ?></td>
+					</tr>
+					<tr id="mobileradio">
+						<td>
+							<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">
+						</td>
+						<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
+					</tr>
+				</table> -->
+			</td>
+			<?php
 			} else {
-				echo "<div class='label'>Referred By Customer Name:</div>";
-				echo "<div>".($referredByName ? $referredByName : "-NA-")."</div>";
+			?>
+			<td>-NA-</td>
+			<?php 
 			}
-		}
-		?>
-	</div>
-</form>
+			?>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->lang->line_arr('user->details_view->altNumber'); ?></td>
+			<?php
+			if(isset($user_details->contact_alt_mobile) && $user_details->contact_alt_mobile != "") {
+			?>
+			<td>
+				<?php echo $user_details->contact_alt_mobile; ?><br/>
+				<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">&nbsp;&nbsp;
+				<?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?>
+				<!-- <table class="innerOption">
+					<tr>
+						<td colspan="2"><?php echo $user_details->contact_alt_mobile; ?></td>
+					</tr>
+					<tr id="alternateradio">
+						<td>
+							<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">
+						</td>
+						<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
+					</tr>
+				</table> -->
+			</td>
+			<?php
+			} else {
+			?>
+			<td>-NA-</td>
+			<?php 
+			}
+			?>
+		</tr>
+		<!-- 
+		<tr>
+			<td class="label prefMode"><?php echo $this->lang->line_arr('user->details_view->prefMode'); ?></td>
+			<td>
+				<table class="innerOption">
+					<tr>
+						<td id="emailIdcheckbox"><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled="disabled"></td>
+						<td id="emailIdcheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_email'); ?></td>
+						<td id="contactPhoneNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactContactPhoneNumber" value="contactPhoneNumber" disabled="disabled"></td>
+						<td id="contactPhoneNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_home_phone'); ?></td>
+					</tr>
+					<tr>
+						<td id="mobileNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled="disabled"></td>
+						<td id="mobileNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_mobile_number'); ?></td>
+						<td id="altNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactAltNumber" value="altNumber" disabled="disabled"></td>
+						<td id="altNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_alt_number'); ?></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		-->
+			
+			<?php
+				echo $addressFile;
+			?>
+			<!-- Referred to Details -->
+			<?php 
+			if($user_details->referred_by) {
+				echo "<tr>";
+				echo "<td class='label'>User Referred By:</td>";
+				echo "<td>".$user_details->referred_by."</td>";
+				echo "</tr>";
+				
+				if($user_details->referred_by == "contractor") { 
+					echo "<tr>";
+					echo "<td class='label'>Referred By Contractor Company:</td>";
+					echo "<td>".$referredByName."</td>";
+					echo "</tr>";
+				} else if($user_details->referred_by == "adjuster") {
+					echo "<tr>";
+					echo "<td class='label'>Referred By Adjuster Company:</td>";
+					echo "<td>".$referredByName."</td>";
+					echo "</tr>";
+				} else {
+					echo "<tr>";
+					echo "<td class='label'>Referred By Customer Name:</td>";
+					echo "<td>".($referredByName ? $referredByName : "-NA-")."</td>";
+					echo "</tr>";
+				}
+			}
+			?>
+	</tbody>
+</table>

@@ -9,7 +9,7 @@ if(!$openAs || $openAs != "popup") {
 			<li><a href="#tabs_contractor_company_details">Company details</a></li>
 			<li><a href="#tabs_contractor_trade_sub_trades" onclick="_contractors.showTradeList()">Trade & sub Trades</a></li>
 			<li><a href="#tabs_contractor_discounts" onclick="_contractors.showDiscountInitialPage()">Discounts</a></li>
-			<li><a href="#tabs_contractor_testomonial">Testomonial</a></li>
+			<li><a href="#tabs_contractor_testomonial" onclick="_contractors.showTestimonial()">Customer Testimonial</a></li>
 		</ul>
 		<div id="tabs_contractor_company_details">
 		<!-- Tab Menu content #1 -->
@@ -143,6 +143,7 @@ if(!$openAs || $openAs != "popup") {
 	if(!$openAs || $openAs != "popup") {
 	?>
 	</div>
+	<!-- Trades and Sub Trade list -->
 	<div id="tabs_contractor_trade_sub_trades">
 		<div class="header-options">
 			<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('contractor->headers->trades_list'); ?></h2>
@@ -158,18 +159,11 @@ if(!$openAs || $openAs != "popup") {
 		<div id="tradesList">
 		</div>
 	</div>
+	<!-- Discount List -->
 	<div id="tabs_contractor_discounts">
 		<div class="header-options">
 			<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('contractor->headers->discount_list'); ?></h2>
-			<!-- <span class="options-icon">
-				<span>
-					<a class="step fi-page-add size-21" href="javascript:void(0);" 
-						onclick="_contractors.addDiscountForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_discount'); ?>">
-					</a>
-				</span>
-			</span> -->
 		</div>
-		<div style="clear:both"></div>
 		<div id="discountFilters">
 			<table>
 				<tr>
@@ -206,7 +200,23 @@ if(!$openAs || $openAs != "popup") {
 		</div>
 		<div id="discountList"></div>
 	</div>
-	<div id="tabs_contractor_testomonial">
+	<!-- Testimonial List -->
+	<div id="tabs_contractor_testimonial">
+		<div class="header-options">
+			<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('contractor->headers->testomonial_list'); ?></h2>
+			<div class="header-options">
+				<span class="options-icon">
+					<span>
+						<a class="step fi-page-add size-21" href="javascript:void(0);" 
+							onclick="_contractors.addTestomonialForm( event )" 
+							title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_testimonial'); ?>">
+						</a>
+					</span>
+				</span>
+			</div>
+		</div>
+		<div style="clear:both"></div>
+		<div id="testimonialList"></div>
 	</div>
 </div>
 <?php

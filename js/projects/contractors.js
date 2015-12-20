@@ -204,6 +204,10 @@ var _contractors = (function () {
         $("#"+ddId).html(htmlContent);
     }
 
+    /*function renderTestimonialView( list ) {
+        
+    }*/
+
     return {
         errorMessage: function () {
             return {
@@ -1356,7 +1360,271 @@ var _contractors = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             }); 
-        }
+        },
 
+        showTestimonial: function() {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/viewAllTestimonial",
+                data: {
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#testimonialList").html( response );
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        addTestomonialForm: function( event ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/createTestimonialForm",
+                data: {
+                    contractor_id       : _contractors.contractorId
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Add testimonial Form"});
+                    _utils.setAsDateFields( {dateField : "testimonial_date"} );
+                    //_utils.setAsDateFields( {dateField : "discount_to_date"} );
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        createTestimonialValidate : function() {
+            var validator = $( "#create_testimonial_contractor_form" ).validate(
+                {
+                    rules: {
+                        testimonial_summary : {
+                            required: true
+                        },
+                        testimonial_ratting : {
+                            required: true
+                        },
+                        testimonial_customer_name : {
+                            required: true
+                        },
+                        testimonial_date: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        testimonial_summary : {
+                            required : "Please provide testimonial summary"
+                        },
+                        testimonial_ratting : {
+                            required: "Please provide testimonial ratting"
+                        },
+                        testimonial_customer_name : {
+                            required: "Please provide testimonial customer name"
+                        },
+                        testimonial_date: {
+                            required: "Please provide testimonial date"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.createTestimonialSubmit();
+            }
+        },
+
+        createTestimonialSubmit: function() {
+            var testimonial_summary         = $("#testimonial_summary").val();
+            var testimonial_descr           = $("#testimonial_descr").val();
+            var testimonial_ratting         = $("#testimonial_ratting").val();
+            var testimonial_customer_name   = $("#testimonial_customer_name").val();
+            var testimonial_date            = _utils.toMySqlDateFormat($('#testimonial_date').val());
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/addTestimonial",
+                data: {
+                    testimonial_summary         : testimonial_summary,
+                    testimonial_descr           : testimonial_descr,
+                    testimonial_ratting         : testimonial_ratting,
+                    testimonial_customer_name   : testimonial_customer_name,
+                    testimonial_date            : testimonial_date,
+                    contractor_id               : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTestimonial();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        editTestimonialForm: function( event, testimonial_id ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/editTestimonialForm",
+                data: {
+                    contractor_id       : _contractors.contractorId,
+                    testimonial_id      : testimonial_id
+                },
+                success: function( response ) {
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Edit Testimonial Form"});
+
+                    _utils.setAsDateFields( {dateField : "testimonial_date"} );
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        },
+
+        updateTestimonialValidate: function() {
+            var validator = $( "#update_testimonial_contractor_form" ).validate(
+                {
+                    rules: {
+                        testimonial_summary : {
+                            required: true
+                        },
+                        testimonial_ratting : {
+                            required: true
+                        },
+                        testimonial_customer_name : {
+                            required: true
+                        },
+                        testimonial_date: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        testimonial_summary : {
+                            required : "Please provide testimonial summary"
+                        },
+                        testimonial_ratting : {
+                            required: "Please provide testimonial ratting"
+                        },
+                        testimonial_customer_name : {
+                            required: "Please provide testimonial customer name"
+                        },
+                        testimonial_date: {
+                            required: "Please provide testimonial date"
+                        }
+                    }
+                }
+            ).form();
+
+            if(validator) {
+                _contractors.updateTestimonialSubmit();
+            }
+        },
+
+        updateTestimonialSubmit: function() {
+            var testimonial_id              = $("#dbTestimonialId").val();
+            var testimonial_summary         = $("#testimonial_summary").val();
+            var testimonial_descr           = $("#testimonial_descr").val();
+            var testimonial_ratting         = $("#testimonial_ratting").val();
+            var testimonial_customer_name   = $("#testimonial_customer_name").val();
+            var testimonial_date            = _utils.toMySqlDateFormat($('#testimonial_date').val());
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/updateTestimonial",
+                data: {
+                    testimonial_id              : testimonial_id,
+                    testimonial_summary         : testimonial_summary,
+                    testimonial_descr           : testimonial_descr,
+                    testimonial_ratting         : testimonial_ratting,
+                    testimonial_customer_name   : testimonial_customer_name,
+                    testimonial_date            : testimonial_date,
+                    contractor_id               : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        $("#popupForAll").dialog("close");
+                        _contractors.showTestimonial();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        deleteTestimonial :  function( event, testimonial_id ) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+             var deleteConfim = confirm("Do you want to delete this testimonial");
+            if (!deleteConfim) {
+                return;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/contractors/deleteTestimonial",
+                data: {
+                    testimonial_id  : testimonial_id,
+                    contractor_id   : _contractors.contractorId
+                },
+                success: function( response ) {
+                    response = $.parseJSON( response );
+                    if(response.status == "success") {
+                        alert(response.message);
+                        _contractors.showTestimonial();
+                    } else if( response.status == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            }); 
+        }
     }
 })();

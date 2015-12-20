@@ -619,12 +619,13 @@ $lang["contractor"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" 		=> "Create Contractor",
-		"update" 		=> "Update Contractor",
-		"view_all" 		=> "Contractors List",
-		"view_one" 		=> "Contractor Details",
-		"trends_list"	=> "Trends & Sub Trends List",
-		"discount_list"	=> "Discount List"
+		"create" 			=> "Create Contractor",
+		"update" 			=> "Update Contractor",
+		"view_all" 			=> "Contractors List",
+		"view_one" 			=> "Contractor Details",
+		"trends_list"		=> "Trends & Sub Trends List",
+		"discount_list"		=> "Discount List",
+		"testomonial_list"	=> "Testomonial List"
 	),
 	/*
 		Create and edit form text
@@ -662,6 +663,11 @@ $lang["contractor"] = array(
 		"discount_from_date"			=> "Discount Starting Date",
 		"discount_to_date"				=> "Discount Ending Date",
 		"discount_value"				=> "Discount Amount",
+		"testimonial_summary"			=> "Summary",
+		"testimonial_descr"				=> "Description",
+		"testimonial_ratting"			=> "Ratting",
+		"testimonial_customer_name"		=> "Customer Name",
+		"testimonial_date"				=> "Date",
 
 		/*
 			Place holder for text input element in Create/Edit form
@@ -685,6 +691,11 @@ $lang["contractor"] = array(
 		"discount_from_date_ph"				=> "Discount Starting Date",
 		"discount_to_date_ph"				=> "Discount Ending Date",
 		"discount_value_ph"					=> "Discount Value",
+		"testimonial_summary_ph"			=> "Testimonial Summary",
+		"testimonial_descr_ph"				=> "Testimonial Description",
+		"testimonial_ratting_ph"			=> "Testimonial Ratting",
+		"testimonial_customer_name_ph"		=> "Testimonial Customer Name",
+		"testimonial_date_ph"				=> "Testimonial Date",
 
 		/*
 			Dropdown's Default 1st text,
@@ -755,7 +766,12 @@ $lang["contractor"] = array(
 		"edit_discount"			=> "Edit Discount",
 		"create_discount"		=> "Create Discount",
 		"update_discount"		=> "Update Discount",
-		"delete_discount"		=> "Delete Discount"
+		"delete_discount"		=> "Delete Discount",
+		"add_testimonial"		=> "Add Testomonial",
+		"edit_testimonial"		=> "Edit Testomonial",
+		"create_testimonial"	=> "Create Testomonial",
+		"update_testimonial"	=> "Update Testomonial",
+		"delete_testimonial"	=> "Delete Testomonial",
 	)
 );
 

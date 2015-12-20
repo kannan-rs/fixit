@@ -14,7 +14,7 @@ if(isset($users) && count($users)) {
 	}
 	$buttonText 	= "Update User";
 } else {
-	if($role_disp_name == "admin") { 
+	if(isset($role_disp_name) && $role_disp_name == "admin") { 
 		$heading 		= $this->lang->line_arr('user->headers->admin_create');
 		$buttonText 	= "Create User";
 	} else { 
@@ -79,23 +79,33 @@ if(!$openAs || $openAs != "popup") {
 	?>
 	<table class='form'>
 		<tbody>
-			<?php if($role_disp_name == "admin" && ($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))) { ?>
-			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('user->input_form->role'); ?></td>
-				<td>
-					<select name="privilege" id="privilege">
-						<option value="0"><?php echo $this->lang->line_arr('user->input_form->role_option_0'); ?></option>
-						<?php
-						if($roles && count($roles)) {
-							for($i = 0; $i < count($roles); $i++) {
-								echo "<option value='".$roles[$i]->sno."'>".$roles[$i]->role_name."</option>";
+			<?php 
+			if(
+				isset($role_disp_name) && 
+				$role_disp_name == "admin" && 
+				($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))
+			) { 
+				if(!isset($role_id) || !isset($users) || $role_id != $users[0]->role_id) {
+				?>
+				<tr>
+					<td class="label"><?php echo $this->lang->line_arr('user->input_form->role'); ?></td>
+					<td>
+						<select name="privilege" id="privilege">
+							<option value="0"><?php echo $this->lang->line_arr('user->input_form->role_option_0'); ?></option>
+							<?php
+							if($roles && count($roles)) {
+								for($i = 0; $i < count($roles); $i++) {
+									echo "<option value='".$roles[$i]->sno."'>".$roles[$i]->role_name."</option>";
+								}
 							}
-						}
-						?>
-					</select>
-				</td>
-			</tr>
-			<?php } ?>
+							?>
+						</select>
+					</td>
+				</tr>
+			<?php 
+				} 
+			}
+			?>
 			<tr>
 				<!-- <td class="label">First Name:</td> -->
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->firstName'); ?></td>
@@ -127,7 +137,7 @@ if(!$openAs || $openAs != "popup") {
 			?>
 
 
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->belongsTo'); ?></td>
 				<td>
 					<?php if($createOrEdit == "create" && $belongsTo != "") { // Create User from project by selecting contractor or adjuster ?>
@@ -152,8 +162,8 @@ if(!$openAs || $openAs != "popup") {
 					}
 					?>
 				</td>
-			</tr>
-			<?php if($role_disp_name == "admin") { ?>
+			</tr> -->
+			<?php if(isset($role_disp_name) && $role_disp_name == "admin") { ?>
 			<!-- Contractor Search and search results -->
 			<tr class="contractor-search">
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
@@ -341,7 +351,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 
-			<?php if($prefix == "create" && $role_disp_name == "") { ?>
+			<?php if($prefix == "create" && (!isset($role_disp_name) || $role_disp_name == "")) { ?>
 			<tr class="signupTC">
 				<td></td>
 				<td>
