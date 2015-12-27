@@ -1,6 +1,5 @@
-<!-- SIDEBAR -->
-<ul>	
-	<?php
+<?php
+/*SIDEBAR*/ 
 	/*print_r($projectPermission);
 echo "<br/>";
 print_r($contractorPermission);
@@ -15,9 +14,9 @@ print_r($adjusterPermission);*/
 		
 		$menuOutput = "";
 
-		$menuCount = isset($menus) && isset($menus[$page]) && is_array($menus[$page]) ? count($menus[$page]) : 0;
+		$menuCount = isset($left_menus) && isset($left_menus[$page]) && is_array($left_menus[$page]) ? count($left_menus[$page]) : 0;
 
-		$leftMenus = $menus[$page];
+		$leftMenus = isset($left_menus[$page]) ? $left_menus[$page] : null;
 		
 		for($menuIdx = 0; $menuIdx < $menuCount; $menuIdx++) {
 			$leftLoopMenu = $leftMenus[$menuIdx];
@@ -50,43 +49,23 @@ print_r($adjusterPermission);*/
 			}
 
 			$selected = ($module == $leftLoopMenu['key']) ? "selected" : "";
-			$selected = ($selected == "" && $module == "" && $menus_default[$page] == $leftLoopMenu['key']) ? "selected" : $selected; 
+			$selected = ($selected == "" && $module == "" && $left_menus_default[$page] == $leftLoopMenu['key']) ? "selected" : $selected; 
 			$menuOutput .= "<li class=\"".$selected."\"><a href=\"".$leftLoopMenu['link']."\">". $leftLoopMenu['text'] ."</a></li>";
 		}
 
 		$menuTitle = isset($menu_title) && isset($menu_title[$page]) ? $menu_title[$page] : "";
+
+		if(isset($menuOutput) && $menuOutput != "") {
 		?>
-		<li>
-			<!-- <h4><?php echo $menuTitle; ?></h4> -->
-			<ul class="blocklist">
-			  <?php echo $menuOutput; ?>
-			</ul>
-		</li>
+		<ul>
+			<li>
+				<!-- <h4><?php echo $menuTitle; ?></h4> -->
+				<ul class="blocklist">
+				  <?php echo $menuOutput; ?>
+				</ul>
+			</li>
+		</ul>
 		<?php
-	} else { // If Not logged in then following link
-	/*
-	?>
-		<li>
-			<h4>Blocklist</h4>
-			<ul class="blocklist">
-			  <li><a href="#">Lorem ipsum dolor sit amet.</a></li>
-			  <li class="selected"><a href="#">Quisque consequat nunc a felis.</a></li>
-			  <li><a href="#">Suspendisse consequat magna at.</a></li>
-			  <li><a href="#">Etiam eget diam id ligula.</a></li>
-			  <li><a href="#">Sed in mauris non nibh.</a></li>
-			</ul>
-		</li>
-		<li>
-		<h4>Testimonial</h4>
-		<p class="testimonial">
-			<span>&ldquo; </span> Nunc fringilla porttitor ipsum. Nulla rutrum sapien sed leo. Fusce sit amet nulla ac velit commodo mattis. Ut tristique neque nec lorem. <span> &rdquo;</span><br />
-			<strong>Dolor sit</strong>
-			<em>Curabitur</em>
-		</p>
-	</li>
-	<?php
-	*/
+		}
 	}
 	?>
-</ul>
-<!-- SIDEBAR -->

@@ -1,6 +1,6 @@
 <?php
 
-class Model_dataFilters extends CI_Model {
+class Model_datafilters extends CI_Model {
 	public function getDataFiltersList($params = "") {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			

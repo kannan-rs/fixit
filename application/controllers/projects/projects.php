@@ -127,8 +127,8 @@ class Projects extends CI_Controller {
 	public function getAssignees() {
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 
 		$customerId = "";
 		$adjusterId = "";
@@ -175,12 +175,14 @@ class Projects extends CI_Controller {
 		}
 
 		if(!empty($adjusterId)) {
+			$assigneeDetails["status"] = "success";
 			$adjusterIdArr = explode(",", $adjusterId);
 			$partnersResponse = $this->model_partners->getPartnersList($adjusterIdArr);
 			 $assigneeDetails["adjusterDetails"] = $partnersResponse["partners"];
 		}
 
 		if(!empty($contractorId)) {
+			$assigneeDetails["status"] = "success";
 			$contractorIdArr = explode(",", $contractorId);
 			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
 			$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
@@ -240,8 +242,8 @@ class Projects extends CI_Controller {
 	public function add() {
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$addressLine1 			= $this->input->post('addressLine1');
@@ -414,8 +416,8 @@ class Projects extends CI_Controller {
 	public function update() {
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$record 				= $this->input->post('project_sno');
@@ -510,8 +512,8 @@ class Projects extends CI_Controller {
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$projectId = $this->input->post('projectId');
@@ -617,9 +619,9 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
-		$this->load->model('projects/model_contractors');
+		$this->load->model('service_providers/model_contractors');
 		$this->load->model('projects/model_issues');
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_remainingbudget');
 		$this->load->model('utils/model_form_utils');
 
@@ -882,9 +884,9 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
-		$this->load->model('projects/model_contractors');
+		$this->load->model('service_providers/model_contractors');
 		$this->load->model('projects/model_issues');
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_remainingbudget');
 
 		$projectParams = array(

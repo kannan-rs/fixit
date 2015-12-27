@@ -1,8 +1,8 @@
-<div class="create-link">
+<!-- <div class="create-link">
 	<a href="javascript:void(0);" onclick="_dataFilters.createForm()">
 		<?php echo $this->lang->line_arr('data_filter->buttons_links->create'); ?>
 	</a>
-</div>
+</div> -->
 <h2><?php echo $this->lang->line_arr('data_filter->headers->view_all'); ?></h2>
 <div>
 	<!-- List all the Data Filters from database -->

@@ -24,22 +24,22 @@ session = <?php print_r(json_encode($initVar)); ?>;
 	<header class="header">
 		<?php echo $header; ?>
 	</header>
-
 	<!-- Top Navigation Menu -->
-	<nav>
-		<?php echo $top_menu; ?>
-	</nav>
-
+	<?php echo $top_menu; ?>
 	<!-- Main Content Section for all application actions -->
 	<section>
 		<?php
 		if($this->session->userdata("is_logged_in")) {
+			if(isset($left_side_bar) && $left_side_bar != "") {
 		?>
 			<div class="sidebar column-220 column-left">	
 				<!-- Left Side Bar and left navigation -->
 				<?php echo $left_side_bar; ?>
 			</div>
 		<?php
+			} else {
+				$main_content_css = "column-940";
+			}
 		}
 		?>
 		<div class="content <?php echo $main_content_css; ?> column-left inner-column">	

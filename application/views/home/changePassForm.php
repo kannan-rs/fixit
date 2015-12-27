@@ -19,8 +19,9 @@
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="signup_user_submit" onclick="_userInfo.updatePasswordValidate()"><?php echo $this->lang->line_arr('change_password->buttons_links->
-update'); ?></button>
+						<button type="button" id="signup_user_submit" onclick="_userInfo.updatePasswordValidate()">
+							<?php echo $this->lang->line_arr('change_password->buttons_links->update'); ?>
+						</button>
 					</p>
 				</td>
 			</tr>

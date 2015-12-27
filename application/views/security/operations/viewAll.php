@@ -1,8 +1,8 @@
-<div class="create-link">
+<!-- <div class="create-link">
 	<a href="javascript:void(0);" onclick="_operations.createForm()">
 		<?php echo $this->lang->line_arr('operation->buttons_links->create'); ?>
 	</a>
-</div>
+</div> -->
 <h2><?php echo $this->lang->line_arr('operation->headers->view_all'); ?></h2>
 <div>
 	<!-- List all the operations from database -->

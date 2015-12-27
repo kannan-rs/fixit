@@ -32,7 +32,7 @@ if(isset($testimonialList) && count($testimonialList)) {
                     </tr>
                     <tr>
                         <td colspan="2">Customer Name : <?php echo $oneRecord->testimonial_anonynomus_name; ?> </td>
-                        <td colspan="2">Ratting : <?php echo $oneRecord->testimonial_ratting; ?> </td>
+                        <td colspan="2">Rating : <?php echo $oneRecord->testimonial_rating; ?> </td>
                     </tr>
                     <tr>
                         <td colspan="4"><?php echo $oneRecord->testimonial_descr; ?></td>

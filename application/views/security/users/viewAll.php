@@ -1,8 +1,8 @@
-<div class="create-link">
+<!-- <div class="create-link">
 	<a href="javascript:void(0);" onclick="_users.createForm()">
 		<?php echo $this->lang->line_arr('user->buttons_links->create'); ?>
 	</a>
-</div>
+</div> -->
 <h2><?php echo $this->lang->line_arr('user->headers->view_all'); ?></h2>
 
 <?php echo $noticeFile; ?>

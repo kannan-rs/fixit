@@ -114,8 +114,8 @@ class Docs extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$response = array();
@@ -223,8 +223,8 @@ class Docs extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$docId = $this->input->post('docId');

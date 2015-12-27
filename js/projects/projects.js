@@ -1196,7 +1196,7 @@ var _projects = (function () {
             var self = this;
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/getList",
+                url: "/service_providers/contractors/getList",
                 data: {
                     records: records
                 },
@@ -1244,7 +1244,7 @@ var _projects = (function () {
             var i;
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/getList",
+                url: "/service_providers/contractors/getList",
                 data: {},
                 success: function (response) {
                     response = $.parseJSON(response);
@@ -1280,7 +1280,7 @@ var _projects = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/getList",
+                url: "/service_providers/contractors/getList",
                 data: {
                     serviceZip: serviceZip
                 },
@@ -1359,7 +1359,7 @@ var _projects = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/getList",
+                url: "/adjusters/partners/getList",
                 data: {
                     companyName: nameOrComp,
                     name: nameOrComp
@@ -1399,7 +1399,7 @@ var _projects = (function () {
             var self = this;
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/getList",
+                url: "/adjusters/partners/getList",
                 data: {
                     records: records
                 },
@@ -1477,7 +1477,7 @@ var _projects = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/getList",
+                url: "/service_providers/contractors/getList",
                 data: {
                     records: records
                 },
@@ -1515,7 +1515,7 @@ var _projects = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/getList",
+                url: "/adjusters/partners/getList",
                 data: {
                     records: records
                 },

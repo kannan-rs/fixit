@@ -29,7 +29,7 @@ class Tasks extends CI_Controller {
 
 		$this->load->model('projects/model_tasks');
 		$this->load->model('projects/model_projects');
-		$this->load->model('projects/model_contractors');
+		$this->load->model('service_providers/model_contractors');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_issues');
 
@@ -168,8 +168,8 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$task_start_date 	= ($this->input->post('task_start_date') == "") ? date("Y-m-d") : $this->input->post('task_start_date');
@@ -330,8 +330,8 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$record 	= 	$this->input->post('task_id');
@@ -426,8 +426,8 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$task_id = $this->input->post('task_id');
@@ -519,7 +519,7 @@ class Tasks extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
-		$this->load->model('projects/model_contractors');
+		$this->load->model('service_providers/model_contractors');
 		$this->load->model('projects/model_issues');
 
 
@@ -547,9 +547,11 @@ class Tasks extends CI_Controller {
 		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
 
 		if(in_array('view', $contractorPermission['operation'])) {
-			$contractorIds 	= explode(",", $tasks[0]->task_owner_id);
-			$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
-			$contractors 	= $contractorsResponse["contractors"];
+			$contractorIds 	= strlen ($tasks[0]->task_owner_id ) ? explode(",", $tasks[0]->task_owner_id) : "";
+			if($contractorIds) {
+				$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+				$contractors 	= $contractorsResponse["contractors"];
+			}
 		}
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
@@ -588,7 +590,7 @@ class Tasks extends CI_Controller {
 			'projectNameDescr' 		=> $projectNameDescr,
 			'internalLink' 			=> $internalLink,
 			'viewFor' 				=> $viewFor,
-			'contractors' 			=> $contractors,
+			'contractors' 			=> isset($contractors) ? $contractors : [],
 			'projectPermission'		=> $projectPermission,
 			'issuesPermission'		=> $issuesPermission,
 			'contractorPermission'	=> $contractorPermission,

@@ -6,17 +6,20 @@
 		$heading = $viewFrom == "projects" ? "" : $heading;
 		$heading = $heading != "" ? "<h2>".$heading."</h2>" : $heading;
 ?>
+<?php if($viewFrom == "security") { ?>
 <div class="create-link">
-	<?php if($viewFrom == "security") { ?>
 	<a href="javascript:void(0);" onclick="_users.createForm()">
 		<?php echo $this->lang->line_arr('user->buttons_links->create'); ?>
 	</a>
-	<?php } else if($viewFrom == "") { ?>
-		<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">
-			<?php echo $this->lang->line_arr('user->buttons_links->edit_details'); ?>
-		</a>
-	<?php } ?>
 </div>
+<?php } else if($viewFrom == "") { ?>
+<div class="create-link">
+	<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">
+		<?php echo $this->lang->line_arr('user->buttons_links->edit_details'); ?>
+	</a>
+</div>
+<?php } ?>
+
 <?php echo $heading; ?>
 
 <?php echo $noticeFile; ?>

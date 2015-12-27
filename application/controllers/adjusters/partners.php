@@ -15,7 +15,7 @@ class Partners extends CI_Controller {
 	}
 
 	public function getList() {
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 
 		$companyName 	= explode(",", $this->input->post("companyName"));
 		$name 			= explode(",", $this->input->post("name"));
@@ -31,7 +31,7 @@ class Partners extends CI_Controller {
 	}
 
 	public function getPartnerByCompanyName() {
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		
 		$companyName = explode(",", $this->input->post('companyName'));
 		$record = "";
@@ -54,7 +54,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		
 		$partnersResponse = $this->model_partners->getPartnersList();
 
@@ -63,7 +63,7 @@ class Partners extends CI_Controller {
 			'role_id' => $this->session->userdata('role_id')
 		);
 		
-		echo $this->load->view("projects/partners/viewAll", $params, true);
+		echo $this->load->view("adjusters/partners/viewAll", $params, true);
 	}
 	
 	public function createForm() {
@@ -98,11 +98,11 @@ class Partners extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 
-		echo $this->load->view("projects/partners/inputForm", $params, true);
+		echo $this->load->view("adjusters/partners/inputForm", $params, true);
 	}
 
 	public function add() {
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$data = array(
@@ -157,7 +157,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
 
@@ -195,7 +195,7 @@ class Partners extends CI_Controller {
 			'adjusterPermission'	=> $adjusterPermission
 		);
 		
-		echo $this->load->view("projects/partners/viewOne", $params, true);
+		echo $this->load->view("adjusters/partners/viewOne", $params, true);
 	}
 
 	public function editForm() {
@@ -211,7 +211,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 
 		$partnerId = $this->input->post('partnerId');
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -240,11 +240,11 @@ class Partners extends CI_Controller {
 			'popupType' 	=> $popupType
 		);
 		
-		echo $this->load->view("projects/partners/inputForm", $params, true);
+		echo $this->load->view("adjusters/partners/inputForm", $params, true);
 	}
 
 	public function update() {
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$partnerId 			= $this->input->post('partnerId');
@@ -287,7 +287,7 @@ class Partners extends CI_Controller {
 	}
 
 	public function deleteRecord() {
-		$this->load->model('projects/model_partners');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$partnerId = $this->input->post('partnerId');

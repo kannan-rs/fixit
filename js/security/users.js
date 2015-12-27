@@ -797,7 +797,7 @@ var _users = (function () {
             }
             $.ajax({
                 method: "POST",
-                url: "/projects/contractors/getList",
+                url: "/service_providers/contractors/getList",
                 data: {
                     zip     : $("#"+prefix+"contractorZipCode").val()
                 },
@@ -830,7 +830,7 @@ var _users = (function () {
             var self = this;
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/getPartnerByCompanyName",
+                url: "/adjusters/partners/getPartnerByCompanyName",
                 data: {
                     companyName : $("#"+prefix+"partnerCompanyName").val().trim()
                 },

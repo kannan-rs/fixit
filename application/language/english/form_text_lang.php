@@ -45,7 +45,7 @@ $lang['user'] = array(
 		"confirmPassword" 				=> "Confirm Password",
 		"passwordHint" 					=> "Password Hint",
 		"belongsTo" 					=> "User Belongs To",
-		"contractorZipCode" 			=> "Search Contractor By Zip Code and Select",
+		"contractorZipCode" 			=> "Search Service Provider By Zip Code and Select",
 		"partnerCompanyName" 			=> "Search Adjuster By Company Name and Select",
 		"userStatus" 					=> "User Status",
 		"activeStartDate" 				=> "Active Start Date",
@@ -61,7 +61,7 @@ $lang['user'] = array(
 		"prefContactMobileNumber" 		=> "Mobile Number",
 		"prefContactAltNumber" 			=> "Alternate Number",
 		"referredBy" 					=> "User Referred By:",
-		"referredBycontractorZipCode" 	=> "Search Contractor By Zip Code and Select",
+		"referredBycontractorZipCode" 	=> "Search Service Provider By Zip Code and Select",
 		"referredBypartnerCompanyName" 	=> "Search Adjuster By Company Name and Select",
 		"tc" 							=> "I agree to the Fixit Network ##replace1## Terms and Condition ##replace2## and ##replace3## Privacy Policy ##replace4##",
 		"tc_error" 						=> "You must agree to the Fixit Network's Terms of Conditions and Privacy Policy, in order to use our services.",
@@ -116,7 +116,7 @@ $lang['user'] = array(
 		"firstName" 			=> "First Name",
 		"lastName" 				=> "Last Name",
 		"belongsTo" 			=> "User Belongs To",
-		"contractor" 			=> "Contractor Company",
+		"contractor" 			=> "Service Provider Company",
 		"adjuster" 				=> "Adjuster Company",
 		"userStatus" 			=> "User Status",
 		"activeStartDate" 		=> "Active Start Date",
@@ -439,8 +439,8 @@ $lang["projects"] = array (
 		"project_date" => "Project Date",
 		"project_address" => "Project Address",
 		"budget" => "Budget",
-		"contractor_details" => "Contractor Details",
-		"contractor_name" => "Contractor Name",
+		"contractor_details" => "Service Provider Details",
+		"contractor_name" => "Service Provider Name",
 		"partners_details" => "Partner Details",
 		"partner_name" => "Partner Name",
 		"tasks_list" => "Tasks List",
@@ -461,7 +461,7 @@ $lang["projects"] = array (
 		"project_status" => "Project Status",
 		"start_date" => "Project Start Date",
 		"end_date" => "Project End Date",
-		"contractorZipCode" => "Search Contractor By Zip Code",
+		"contractorZipCode" => "Search Service Provider By Zip Code",
 		"project_budget" => "Project Budget",
 		"lend_amount" => "Loan Amount",
 		"project_lender" => "Project Lender",
@@ -538,7 +538,7 @@ $lang["projects"] = array (
 		"contact_office_number" => "Contact Office Number",
 		"contact_mobile_number" => "Contact Mobile Number",
 		"address" => "Address",
-		"yet_to_assign" => "Yet to assign contractor",
+		"yet_to_assign" => "Yet to assign Service Provider",
 	),
 	/*
 		Partners Details section
@@ -552,7 +552,7 @@ $lang["projects"] = array (
 		"contact_personal_email" => "Contact Personal Email",
 		"contact_mobile_number" => "Contact Mobile Number",
 		"address" => "Address",
-		"yet_to_assign" => "Yet to assign contractor",
+		"yet_to_assign" => "Yet to assign Service Provider",
 	),
 	/*
 		Insurence Details section
@@ -588,7 +588,7 @@ $lang["projects"] = array (
 		"create_task" => "Create Task",
 		"new_customer" => "Do you want to add new customer? ##replace1## Click Here ##replace2##.",
 		"new_adjuster" => "Do you want to add new adjuster? ##replace1## Click Here ##replace2##.",
-		"new_contractor" => "Do you want to add new contractor? ##replace1## Click Here ##replace2##.",
+		"new_contractor" => "Do you want to add new service provider? ##replace1## Click Here ##replace2##.",
 		"open" => "Open",
 		"completed" => "Completed",
 		"deleted" => "Deleted",
@@ -608,7 +608,7 @@ $lang["projects"] = array (
 		"add_task_title" => "Add a Task",
 		"add_note_title" => "Add a Note",
 		"add_docs_title" => "Add a Document",
-		"add_contractor_title" => "Add a Contractor",
+		"add_contractor_title" => "Add a Service Provider",
 		"expand_all" => "Expand All",
 		"collapse_all" => "Collapse All"
 	)
@@ -619,10 +619,10 @@ $lang["contractor"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" 			=> "Create Contractor",
-		"update" 			=> "Update Contractor",
-		"view_all" 			=> "Contractors List",
-		"view_one" 			=> "Contractor Details",
+		"create" 			=> "Create Service Provider",
+		"update" 			=> "Update Service Provider",
+		"view_all" 			=> "Service Provider List",
+		"view_one" 			=> "Service Provider Details",
 		"trends_list"		=> "Trends & Sub Trends List",
 		"discount_list"		=> "Discount List",
 		"testomonial_list"	=> "Testomonial List"
@@ -665,24 +665,24 @@ $lang["contractor"] = array(
 		"discount_value"				=> "Discount Amount",
 		"testimonial_summary"			=> "Summary",
 		"testimonial_descr"				=> "Description",
-		"testimonial_ratting"			=> "Ratting",
+		"testimonial_rating"			=> "Rating",
 		"testimonial_customer_name"		=> "Customer Name",
 		"testimonial_date"				=> "Date",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"name_ph" 							=> "Contractor Name",
+		"name_ph" 							=> "Service Provider Name",
 		"company_ph" 						=> "Company Name",
-		"type_ph" 							=> "Contractor Type",
-		"license_ph" 						=> "Contractor License",
+		"type_ph" 							=> "Service Provider Type",
+		"license_ph" 						=> "Service Provider License",
 		"bbb_ph" 							=> "BBB",
 		"emailId_ph" 						=> "Email ID",
 		"contactPhoneNumber_ph" 			=> "Contact Phone Number",
 		"mobileNumber_ph" 					=> "Contact Mobile Number",
 		"websiteURL_ph" 					=> "Website URL",
 		"serviceZip_ph" 					=> "Zip codes of Available Service Area",
-		"searchForDefaultContractor_ph" 	=> "Email ID of default contractor",
+		"searchForDefaultContractor_ph" 	=> "Email ID of default service provider",
 		"trade_name_ph"						=> "Trade Name",
 		"sub_trade_name_ph"					=> "Sub Trade Name",
 		"discount_name_ph"					=> "Discount Name",
@@ -693,7 +693,7 @@ $lang["contractor"] = array(
 		"discount_value_ph"					=> "Discount Value",
 		"testimonial_summary_ph"			=> "Testimonial Summary",
 		"testimonial_descr_ph"				=> "Testimonial Description",
-		"testimonial_ratting_ph"			=> "Testimonial Ratting",
+		"testimonial_rating_ph"			=> "Testimonial Rating",
 		"testimonial_customer_name_ph"		=> "Testimonial Customer Name",
 		"testimonial_date_ph"				=> "Testimonial Date",
 
@@ -710,7 +710,7 @@ $lang["contractor"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"contractor_name" 	=> "contractor Name",
+		"contractor_name" 	=> "Service Provider Name",
 		"company" 			=> "Company",
 		"type" 				=> "Type",
 		"status" 			=> "Status"
@@ -745,17 +745,17 @@ $lang["contractor"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" 				=> "Create Contractor",
-		"update" 				=> "Update Contractor",
+		"create" 				=> "Create Service Provider",
+		"update" 				=> "Update Service Provider",
 		"active" 				=> "Active",
 		"in_active" 			=> "InActive",
 		"deleted" 				=> "Deleted",
 		"all" 					=> "All",
-		"active_hover_text" 	=> "Click on this button to view active contractors",
-		"in_active_hover_text" 	=> "Click on this button to view in-active contractors",
-		"all_hover_text" 		=> "Click on this button to view all contractors",
-		"edit_hover_text" 		=> "Edit Contractor",
-		"delete_hover_text" 	=> "Delete Contractor",
+		"active_hover_text" 	=> "Click on this button to view active service providers",
+		"in_active_hover_text" 	=> "Click on this button to view in-active service providers",
+		"all_hover_text" 		=> "Click on this button to view all service providers",
+		"edit_hover_text" 		=> "Edit Service Provider",
+		"delete_hover_text" 	=> "Delete Service Provider",
 		"add_main_trade"		=> "Add New Main Trade",
 		"create_trade"			=> "Create Trade",
 		"update_trade"			=> "Update Trade",
@@ -999,7 +999,7 @@ $lang["issues"] = array(
 		"issueDescr" => "Issue Description",
 		"assignedToUserType" => "Assigned to",
 		"issueAssignedToCustomer" => "Assigned to Customer",
-		"issueContractorResult" => "Select Assigned to Contractor",
+		"issueContractorResult" => "Select Assigned to Service Provider",
 		"issueAdjusterResult" => "Select Assigned to Adjuster",
 		"issueFromdate" => "Issue From Date",
 		"issueStatus" => "Issue Status",

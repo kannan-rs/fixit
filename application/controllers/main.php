@@ -130,6 +130,35 @@ class Main extends CI_Controller {
 		}
 	}
 
+	public function service_providers()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		if(!$this->isLoggedIn()) {
+			return false;
+		}
+
+		$this->layouts->setPage("service_providers");
+		//Render a view
+		$this->layouts->view();
+	}
+
+	public function adjusters()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		if(!$this->isLoggedIn()) {
+			return false;
+		}
+
+		$this->layouts->setPage("adjusters");
+		//Render a view
+		$this->layouts->view();
+		
+	}
+
 	public function signup()
 	{
 		// With View library

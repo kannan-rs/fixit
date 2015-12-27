@@ -16,7 +16,8 @@ var _tasks = (function () {
                     required : _lang.english.errorMessage.taskForm.task_start_date
                 },
                 task_end_date : {
-                    required : _lang.english.errorMessage.taskForm.task_end_date
+                    required : _lang.english.errorMessage.taskForm.task_end_date,
+                    //greaterThanOrEqualTo : _lang.english.errorMessage.taskForm.task_end_date
                 },
                 task_status : {
                     required : _lang.english.errorMessage.taskForm.task_status
@@ -36,7 +37,7 @@ var _tasks = (function () {
         validationRules: function() {
             return {
                 task_end_date: {
-                    greaterThanOrEqualTo: "#task_start_date"
+                    //greaterThanOrEqualTo: "#task_start_date"
                 }
             }
         },

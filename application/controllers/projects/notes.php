@@ -127,8 +127,8 @@ class Notes extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$projectId 	= $this->input->post('projectId');
@@ -226,8 +226,8 @@ class Notes extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
 		$noteId = $this->input->post('noteId');

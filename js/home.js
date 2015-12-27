@@ -48,25 +48,49 @@ $().ready(function() {
             Page home       -> Load Personal details
             Project         -> Load Issues                        
     */
+    var pageModuleMap = {
+        "security"              : "users",
+        "home"                  : "view_my_details",
+        "projects"              : "projects",
+        "signup"                : "signup",
+        "service_providers"     : "service_providers",
+        "adjusters"             : "adjusters"
+    }
 
-    var module = session.module != "" ? session.module : (session.page == "security" ? "users" : (session.page == "home" ? "view_my_details" : (session.page == "projects" ? "projects" : ( session.page == "signup" ? "signup" : ""))));
+    var module  = session.module != "" ? session.module : (pageModuleMap[session.page] ?  pageModuleMap[session.page] : "");
+    module      = session.function && session.function != "" ? session.function : module;
 
     switch (module) {
         /* Security Page */
         case "users":
             _users.viewAll();
             break;
+        case "create_user":
+            _users.createForm();
+            break;
         case "operations":
             _operations.viewAll();
+            break;
+        case "create_operation":
+            _operations.createForm()
             break;
         case "roles":
             _roles.viewAll();
             break;
+        case "create_role":
+            _roles.createForm()
+            break;
         case "functions":
             _functions.viewAll();
             break;
+        case "create_function":
+            _functions.createForm()
+            break;
         case "data_filters":
             _dataFilters.viewAll();
+            break;
+        case "create_data_filter":
+            _dataFilters.createForm();
             break;
         case "permissions":
             _permissions.getPageForType();
@@ -85,16 +109,16 @@ $().ready(function() {
         case "create_project":
             _projects.createForm();
             break;
-        case "contractors":
+        case "service_providers":
             _contractors.viewAll();
             break;
         case "create_contractor":
             _contractors.createForm();
             break;
-        case "partners":
+        case "adjusters":
             _partners.viewAll();
             break;
-        case "create_partner":
+        case "create_adjuster":
             _partners.createForm();
             break;
             /*Personal Details*/

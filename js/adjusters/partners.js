@@ -103,7 +103,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/createForm",
+                url: "/adjusters/partners/createForm",
                 data: {
                     openAs: openAs,
                     popupType: popupType,
@@ -174,7 +174,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/add",
+                url: "/adjusters/partners/add",
                 data: {
                     //name: name,
                     company: company,
@@ -224,7 +224,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/viewOne",
+                url: "/adjusters/partners/viewOne",
                 data: {
                     partnerId: _partners.partnerId,
                     openAs: openAs,
@@ -256,7 +256,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/viewAll",
+                url: "/adjusters/partners/viewAll",
                 data: {},
                 success: function (response) {
                     $("#partner_content").html(response);
@@ -277,7 +277,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/editForm",
+                url: "/adjusters/partners/editForm",
                 data: {
                     partnerId : _partners.partnerId,
                     openAs: openAs,
@@ -348,7 +348,7 @@ var _partners = (function () {
 
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/update",
+                url: "/adjusters/partners/update",
                 data: {
                     partnerId: partnerId,
                     //name: name,
@@ -396,7 +396,7 @@ var _partners = (function () {
             var fail_error = null;
             $.ajax({
                 method: "POST",
-                url: "/projects/partners/deleteRecord",
+                url: "/adjusters/partners/deleteRecord",
                 data: {
                     partnerId: _partners.partnerId
                 },

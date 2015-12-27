@@ -87,7 +87,7 @@ if(in_array('view', $issuesPermission['operation'])) {
 	<tr>
 	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->owner_name'); ?>:</td><td class='cell'>
 		<?php 
-			echo count($contractors) ? $contractors[0]->name." from company '".$contractors[0]->company."'" : "Customer";
+			echo isset($contractors) && count($contractors) ? $contractors[0]->name." from company '".$contractors[0]->company."'" : "Customer";
 		?>
 	</td>
 	</tr>

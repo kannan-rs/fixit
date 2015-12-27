@@ -9,7 +9,7 @@
 	$anonynomus_name 	= "";
 	$summary 			= "";
 	$descr 				= "";
-	$ratting 			= "";
+	$rating 			= "";
 	$date 				= "";
 
 	$testimonial  = isset($testimonialList) && is_array($testimonialList) ? $testimonialList[0] : null;
@@ -24,7 +24,7 @@
 		$anonynomus_name 			= $testimonial->testimonial_anonynomus_name;
 		$summary 					= $testimonial->testimonial_summary;
 		$descr 						= $testimonial->testimonial_descr;
-		$ratting					= $testimonial->testimonial_ratting;
+		$rating					= $testimonial->testimonial_rating;
 		$date						= explode(" ", $testimonial->testimonial_date_input_box)[0];
 	}
 ?>
@@ -33,7 +33,7 @@
 	
 	<input type="hidden" name="dbTestimonialId" id="dbTestimonialId" value="<?php echo isset($id) ? $id : ""; ?>">
 	<input type="hidden" name="dbCustomerId" id="dbCustomerId" value="<?php echo isset($for_customer_id) ? $for_customer_id : ""; ?>" />
-	<input type="hidden" name="dbRatting" id="dbRatting" value="<?php echo isset($ratting) ? $ratting : ""; ?>" />
+	<input type="hidden" name="dbRating" id="dbRating" value="<?php echo isset($rating) ? $rating : ""; ?>" />
 
 	<table class='form'>
 		<tbody>
@@ -51,10 +51,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->testimonial_ratting'); ?></td>
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->testimonial_rating'); ?></td>
 				<td>
-					<input type="text" name="testimonial_ratting" id="testimonial_ratting" value="<?php echo isset($ratting) ? $ratting : "";?>" 
-						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->testimonial_ratting_ph'); ?>" required>
+					<input type="text" name="testimonial_rating" id="testimonial_rating" value="<?php echo isset($rating) ? $rating : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->testimonial_rating_ph'); ?>" required>
 				</td>
 			</tr>
 			<tr>

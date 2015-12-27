@@ -56,3 +56,34 @@ Work Done
 	Customer Name,
 	Comments,
 	* rating
+10. Change the text "Contractor to service provider"
+11. Discount Page, Error corrected
+12. Testimonial was view under all tabs which is fixed to display only under testimonial page.
+13. Error when no contractor present, While displaying task details view was corrected.
+14. Removed undefined alert on opening issues edit popup.
+15. Data filter page not loading was corrected.
+16. Controller permission edit setting error corrected
+17. Done - Spell check "Rating"
+Go through all the pages and make sure not errors
+Rating to be with stars in create and view
+
+
+Trades and Subtrades from master list.
+
+- Home, Security, Projects, Service provider, Partners
+- Remove the left menu and make it as part of Mouse hover
+
+- Notes Delete Confiramtion is not happening
+- Project and Tasks Is not allowing to add Issues from project details, Permission problem
+- Error while creating task is corrected.
+- Error while validating start date and end date in task creation
+- Task owner assignment is not happening, it always showing that task is assigned to customer.
+- Some JS error while adding partner from projects "Uncaught TypeError: _projects.updatePartnerSelectionList is not a function"
+-Create contractor from project is landing in contractors page, it need to stay in project page itself.
+- Export to PDF is not exporting the list
+- Trades and Sub trades, discounts, testimonial add permissions
+- User delete confirmation alert is not present
+- Role delete confirmation is not present
+- Operation delete confirmation is not present
+- Function delete confiramtion is not present
+- Data filter delete confirmation was not happening

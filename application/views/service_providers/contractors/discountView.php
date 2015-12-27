@@ -8,10 +8,17 @@ if(isset($discountList) && count($discountList)) {
 	for($i=0; $i < count($discountList); $i++) {
 		$discount = $discountList[$i];
 
-		$mainTradeText 	= isset($discount->discount_for_trade_id) && $discount->discount_for_trade_id != "0" ? $tradesList[$discount->discount_for_trade_id]->trade_name : "All";
-		$subTradeText	= $mainTradeText != "all" && 
+		$mainTradeText 	= 	isset($discount->discount_for_trade_id) && 
+							$discount->discount_for_trade_id != "0" &&
+							isset($tradesList) &&
+							isset($tradesList[$discount->discount_for_trade_id]) ? $tradesList[$discount->discount_for_trade_id]->trade_name : "All";
+
+		$subTradeText	= 	$mainTradeText != "all" && 
 							isset($discount->discount_for_sub_trade_id) && 
+							isset($tradesList) &&
+							isset($tradesList[$discount->discount_for_sub_trade_id]) &&
 							$discount->discount_for_sub_trade_id != "0" ? $tradesList[$discount->discount_for_sub_trade_id]->trade_name : "All";
+							
 		$mainTradeId 	= $discount->discount_for_trade_id;
 		$subTradeId 	= $discount->discount_for_sub_trade_id;
 		$name			= $discount->discount_name;

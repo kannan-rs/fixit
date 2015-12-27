@@ -51,7 +51,7 @@ class Contractors extends CI_Controller {
 			'role_disp_name'	=> $role_disp_name
 		);
 		
-		echo $this->load->view("projects/service_providers/viewAll", $params, true);
+		echo $this->load->view("service_providers/contractors/viewAll", $params, true);
 	}
 	
 	public function createForm() {
@@ -91,7 +91,7 @@ class Contractors extends CI_Controller {
 			'popupType' 		=> $popupType
 		);
 
-		echo $this->load->view("projects/service_providers/inputForm", $params, true);
+		echo $this->load->view("service_providers/contractors/inputForm", $params, true);
 	}
 
 	public function add() {
@@ -203,7 +203,7 @@ class Contractors extends CI_Controller {
 			'role_disp_name'		=> $role_disp_name
 		);
 		
-		echo $this->load->view("projects/service_providers/viewOne", $params, true);
+		echo $this->load->view("service_providers/contractors/viewOne", $params, true);
 	}
 
 	public function editForm() {
@@ -259,7 +259,7 @@ class Contractors extends CI_Controller {
 			'role_disp_name'	=> $role_disp_name
 		);
 		
-		echo $this->load->view("projects/service_providers/inputForm", $params, true);
+		echo $this->load->view("service_providers/contractors/inputForm", $params, true);
 	}
 
 	public function update() {
@@ -335,7 +335,7 @@ class Contractors extends CI_Controller {
 		$params = array(
 		);
 
-		echo $this->load->view("projects/service_providers/inputFormMainTrade", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormMainTrade", $params, true);
 	}
 
 	public function addMainTrades() {
@@ -377,7 +377,7 @@ class Contractors extends CI_Controller {
 			$params['tradesList'] = $response["tradesList"];
 		}
 
-		echo $this->load->view("projects/service_providers/inputFormMainTrade", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormMainTrade", $params, true);
 	}
 
 	public function updateMainTrades() {
@@ -428,7 +428,7 @@ class Contractors extends CI_Controller {
 			"main_trade_name"	=> $this->input->post("main_trade_name")
 		);
 
-		echo $this->load->view("projects/service_providers/inputFormSubTrade", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormSubTrade", $params, true);
 	}
 
 	public function addSubTrades() {
@@ -476,7 +476,7 @@ class Contractors extends CI_Controller {
 			$params['tradesList'] = $response["tradesList"];
 		}
 
-		echo $this->load->view("projects/service_providers/inputFormSubTrade", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormSubTrade", $params, true);
 	}
 
 	public function updateSubTrades() {
@@ -551,7 +551,7 @@ class Contractors extends CI_Controller {
 			$params['discountList'] = $response["discountList"];
 		}
 
-		echo $this->load->view("projects/service_providers/discountView", $params, true);
+		echo $this->load->view("service_providers/contractors/discountView", $params, true);
 	}
 
 	public function createDiscountForm() {
@@ -595,7 +595,7 @@ class Contractors extends CI_Controller {
 			$params['subTradesList'] = $response["tradesList"];
 		}
 
-		echo $this->load->view("projects/service_providers/inputFormDiscount", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormDiscount", $params, true);
 	}
 
 	public function addDiscount() {
@@ -660,7 +660,7 @@ class Contractors extends CI_Controller {
 			$params['discountList'] = $response["discountList"];
 		}
 
-		echo $this->load->view("projects/service_providers/inputFormDiscount", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormDiscount", $params, true);
 	}
 
 	public function updateDiscount() {
@@ -736,7 +736,7 @@ class Contractors extends CI_Controller {
 			$params["testimonialList"] = $response["testimonialList"];
 		}
 
-		echo $this->load->view("projects/service_providers/testimonialView", $params, true);
+		echo $this->load->view("service_providers/contractors/testimonialView", $params, true);
 	}
 
 	public function createTestimonialForm() {
@@ -748,7 +748,7 @@ class Contractors extends CI_Controller {
 			"contractor_id"		=> $contractor_id
 		);
 
-		echo $this->load->view("projects/service_providers/inputFormTestimonial", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormTestimonial", $params, true);
 	}
 
 	public function addTestimonial() {
@@ -797,7 +797,7 @@ class Contractors extends CI_Controller {
 			$params["testimonialList"] = $response["testimonialList"];
 		}
 
-		echo $this->load->view("projects/service_providers/inputFormTestimonial", $params, true);
+		echo $this->load->view("service_providers/contractors/inputFormTestimonial", $params, true);
 	}
 
 	public function updateTestimonial() {

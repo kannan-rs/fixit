@@ -15,8 +15,8 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function viewAll() {
-		$this->load->model('security/model_dataFilters');
-		$dataFilters = $this->model_dataFilters->getDataFiltersList();
+		$this->load->model('security/model_datafilters');
+		$dataFilters = $this->model_datafilters->getDataFiltersList();
 
 		$params = array(
 			'function'=>"view",
@@ -37,7 +37,7 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function add() {
-		$this->load->model('security/model_dataFilters');
+		$this->load->model('security/model_datafilters');
 		$data = array(
 		   'data_filter_id' =>  $this->input->post('dataFilter_id'),
 		   'data_filter_name' => $this->input->post('dataFilter_name'),
@@ -59,11 +59,11 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function editForm() {
-		$this->load->model('security/model_dataFilters');
+		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');
 
-		$dataFilters = $this->model_dataFilters->getDataFiltersList($record);
+		$dataFilters = $this->model_datafilters->getDataFiltersList($record);
 
 		$params = array(
 			'function'=>"edit",
@@ -75,7 +75,7 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function update() {
-		$this->load->model('security/model_dataFilters');
+		$this->load->model('security/model_datafilters');
 		$record = $this->input->post('dataFilter_sno');
 		$data_filter_id = $this->input->post('dataFilter_id');
 		$data_filter_name = $this->input->post('dataFilter_name');
@@ -103,7 +103,7 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function deleteRecord() {
-		$this->load->model('security/model_dataFilters');
+		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');
 
@@ -122,10 +122,10 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function viewOne() {
-		$this->load->model('security/model_dataFilters');
+		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');
-		$dataFilters = $this->model_dataFilters->getDataFiltersList($record);
+		$dataFilters = $this->model_datafilters->getDataFiltersList($record);
 
 		$params = array(
 			'function'=>"view",

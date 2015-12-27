@@ -91,8 +91,8 @@ class Issues extends CI_Controller {
 
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
@@ -153,8 +153,8 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
 		
@@ -266,8 +266,8 @@ class Issues extends CI_Controller {
 
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 
 
 		$issueId 			= $this->input->post('issueId');
@@ -328,8 +328,8 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
 
@@ -437,8 +437,8 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('projects/model_contractors');
-		$this->load->model('projects/model_partners');
+		$this->load->model('service_providers/model_contractors');
+		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
 

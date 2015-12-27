@@ -16,6 +16,7 @@ class Layouts
 			"js/library/jquery-ui.js",
 			"js/library/jquery.validate.js",
 			"js/library/plugin/searchSelect-Jquery.js",
+			"js/library/menus.js",
 			"js/themes/default/layouts.js",
 			"js/submit.js",
 			"js/utils/utils.js",
@@ -26,19 +27,16 @@ class Layouts
 			"js/security/functions.js",
 			"js/security/dataFilters.js",
 			"js/security/permissions.js",
-			//"js/security.js",
 			"js/projects/issues.js",
 			"js/projects/projects.js",
 			"js/projects/tasks.js",
 			"js/projects/notes.js",
 			"js/projects/docs.js",
-			"js/projects/contractors.js",
-			"js/projects/partners.js",
+			"js/service_providers/contractors.js",
+			"js/adjusters/partners.js",
 			"js/projects/remainingbudget.js",
-			//"js/projects.js",
 			'js/home/userInfo.js',
-			"js/home.js",
-			"js/home.js",
+			"js/home.js"
 		)
 	);
 
@@ -46,145 +44,14 @@ class Layouts
 		"css/jquery-ui.css",
 		"css/style.css",
 		"css/foundation-icons.css"
-	); 
-
-	private $includes = array();
-
-	private $menus = array(
-		'security'=> array(
-			array(
-				'text'=> 'Users', 
-				'link'=> '/main/security/users', 
-				'key'=> 'users',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			),
-			array(
-				'text'=> 'Roles', 
-				'link'=> '/main/security/roles', 
-				'key'=> 'roles',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			),
-			array(
-				'text'=> 'Operations', 
-				'link'=> '/main/security/operations', 
-				'key'=> 'operations',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			),
-			array(
-				'text'=> 'Functions', 
-				'link'=> '/main/security/functions', 
-				'key'=> 'functions',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			),
-			array(
-				'text'=> 'Data Filters', 
-				'link'=> '/main/security/data_filters', 
-				'key'=> 'data_filters',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			),
-			array(
-				'text'=> 'Permissions', 
-				'link'=> '/main/security/permissions', 
-				'key'=> 'permissions',
-				'dependency'	=> array(
-					'roles_by_name'	=> array('admin')
-				)
-			)
-		),
-		'home' => array(
-			array(
-				'text' => 'View My Details', 
-				'link'=> '/main/home/view_my_details', 
-				'key' => 'view_my_details'
-			),
-			array(
-				'text' => 'Change Password', 
-				'link'=> '/main/home/change_pass_form', 
-				'key' => 'change_pass_form'
-			)
-		),
-		'projects' => array(
-			/*array(
-				'text' => 'Issues', 
-				'link'=> '/main/projects/issues', 
-				'key' => 'issues'
-			),
-			array(
-				'text' => 'Create Issue', 
-				'link'=> '/main/projects/create_issue', 
-				'key' => 'create_issue'
-			),*/
-			array(
-				'text' => 'Projects', 
-				'link'=> '/main/projects/projects', 
-				'key' => 'projects',
-				'dependency'	=> array(
-					'permissions'	=> 'projectPermission',
-					'operation'		=> array('view')
-				)
-			),
-			array(
-				'text' => 'Create Project', 
-				'link'=> '/main/projects/create_project', 
-				'key' => 'create_project',
-				'dependency'	=> array(
-					'permissions'	=> 'projectPermission',
-					'operation'		=> array('create')
-				)
-			),
-			array(
-				'text' => 'Contractors', 
-				'link'=> '/main/projects/contractors', 
-				'key' => 'contractors',
-				'dependency'	=> array(
-					'permissions'	=> 'contractorPermission',
-					'operation'		=> array('view')
-				)
-			),
-			array(
-				'text' => 'Create Contractor', 
-				'link'=> '/main/projects/create_contractor', 
-				'key' => 'create_contractor',
-				'dependency'	=> array(
-					'permissions'	=> 'contractorPermission',
-					'operation'		=> array('create')
-				)
-			),
-			array(
-				'text' => 'Partners', 
-				'link'=> '/main/projects/partners', 
-				'key' => 'partners',
-				'dependency'	=> array(
-					'permissions'	=> 'adjusterPermission',
-					'operation'		=> array('view')
-				)
-			),
-			array(
-				'text' => 'Create Partner', 
-				'link'=> '/main/projects/create_partner', 
-				'key' => 'create_partner',
-				'dependency'	=> array(
-					'permissions'	=> 'adjusterPermission',
-					'operation'		=> array('create')
-				)
-			)
-		)
 	);
 
+	private $includes = array();
+	
 	/*
 		Set default left navigation selection and highlight if no left navigation is selected
 	*/
-	private $menus_default = array(
+	private $left_menus_default = array(
 		'security'=>"users",
 		'home' => "view_my_details",
 		'projects' => 'projects'
@@ -238,8 +105,8 @@ class Layouts
 	*/
 	public function view($params = array(), $layouts = array()) {
 
-		$this->layout_data['menus'] 		= $this->menus;
-		$this->layout_data['menus_default'] = $this->menus_default;
+		//$this->layout_data['menus'] 		= $this->menus;
+		$this->layout_data['left_menus_default'] = $this->left_menus_default;
 		$this->layout_data['menu_title'] 	= $this->menu_title;
 		$this->layout_data['initVar'] 		= $this->CI->session->userdata;
 		$this->layout_data['baseUrl'] 		= base_url();
