@@ -167,6 +167,12 @@ var _operations = (function () {
             });
         },
         deleteRecord: function (ope_sno) {
+            var deleteConfim = confirm("Do you want to delete this operation");
+
+            if (!deleteConfim) {
+                return;
+            }
+            
             $.ajax({
                 method: "POST",
                 url: "/security/operations/deleteRecord",

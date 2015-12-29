@@ -570,6 +570,12 @@ var _users = (function () {
             });
         },
         deleteRecord: function(userId, emailId) {
+            var deleteConfim = confirm("Do you want to delete this user");
+
+            if (!deleteConfim) {
+                return;
+            }
+
             $.ajax({
                 method: "POST",
                 url: "/security/users/deleteRecord",

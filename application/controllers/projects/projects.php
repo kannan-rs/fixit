@@ -88,8 +88,8 @@ class Projects extends CI_Controller {
 
 			$ed_query = "select 
 								AVG(task_percent_complete) as percentage, 
-								DATE_FORMAT( MAX(task_end_date), '%m/%d/%y' ) as end_date, 
-								DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
+								DATE_FORMAT( MAX(task_end_date), '%m/%d/%Y' ) as end_date, 
+								DATE_FORMAT( MIN(task_start_date),  '%m/%d/%Y') as start_date 
 						from project_details where project_id = '".$projects[$i]->proj_id."' and deleted = 0";
 
 			$consolidate_data_query = $this->db->query($ed_query);
@@ -687,8 +687,8 @@ class Projects extends CI_Controller {
 		// Individual View
 		$ed_query = "select 
 							AVG(task_percent_complete) as percentage, 
-							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%y') as end_date, 
-							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
+							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%Y') as end_date, 
+							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%Y') as start_date 
 					from project_details where project_id = '".$project->proj_id."' and deleted = 0";
 
 		$consolidate_data_query = $this->db->query($ed_query);
@@ -909,8 +909,8 @@ class Projects extends CI_Controller {
 		// Individual View
 		$ed_query = "select 
 							AVG(task_percent_complete) as percentage, 
-							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%y') as end_date, 
-							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%y') as start_date 
+							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%Y') as end_date, 
+							DATE_FORMAT( MIN(task_start_date),  '%m/%d/%Y') as start_date 
 					from project_details where project_id = '".$project->proj_id."' and deleted = 0";
 
 		$consolidate_data_query = $this->db->query($ed_query);

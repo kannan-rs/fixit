@@ -749,6 +749,12 @@ var _projects = (function () {
         },
 
         documentDelete: function (doc_id) {
+            var deleteConfim = confirm("Do you want to delete this document");
+
+            if (!deleteConfim) {
+                return;
+            }
+
             var fail_error = null;
             $.ajax({
                 method: "POST",
@@ -808,6 +814,12 @@ var _projects = (function () {
         },
 
         notesDelete: function (noteId, taskId) {
+            var deleteConfim = confirm("Do you want to delete this notes");
+
+            if (!deleteConfim) {
+                return;
+            }
+
             var fail_error = null;
             var self = this;
             $.ajax({

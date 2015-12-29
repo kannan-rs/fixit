@@ -12,6 +12,7 @@ class Layouts
 
 	private $js_includes = array(
 		'common' => array(
+			"js/utils/constants.js",
 			"js/library/jquery-2.1.3.min.js",
 			"js/library/jquery-ui.js",
 			"js/library/jquery.validate.js",
@@ -115,8 +116,8 @@ class Layouts
 
 		if($this->layout_data['is_logged_in']) {
 			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
-			$this->layout_data['role_id'] 			= $role_id;
-			$this->layout_data['role_disp_name'] 	= $role_disp_name;
+			$this->layout_data['role_id'] 				= $role_id;
+			$this->layout_data['role_disp_name'] 		= $role_disp_name;
 			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');

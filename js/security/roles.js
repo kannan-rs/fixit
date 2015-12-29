@@ -160,6 +160,12 @@ var _roles = (function () {
             });
         },
         deleteRecord: function (role_sno) {
+            var deleteConfim = confirm("Do you want to delete this role");
+
+            if (!deleteConfim) {
+                return;
+            }
+            
             $.ajax({
                 method: "POST",
                 url: "/security/roles/deleteRecord",

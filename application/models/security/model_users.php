@@ -169,8 +169,8 @@ class Model_users extends CI_Model {
 			"type",
 			"belongs_to_id",
 			"status",
-			"DATE_FORMAT(active_start_date, \"%m/%d/%y\") as active_start_date",
-			"DATE_FORMAT(active_end_date, \"%m/%d/%y\") as active_end_date",
+			"DATE_FORMAT(active_start_date, \"%m/%d/%Y\") as active_start_date",
+			"DATE_FORMAT(active_end_date, \"%m/%d/%Y\") as active_end_date",
 			"email",
 			"contact_ph1",
 			"contact_mobile",
@@ -183,8 +183,8 @@ class Model_users extends CI_Model {
 			"addr_country",
 			"addr_pin",
 			"contact_pref",
-			"DATE_FORMAT(created_dt, \"%m/%d/%y %H:%i:%S\") as created_dt",
-			"DATE_FORMAT(last_updated_dt, \"%m/%d/%y %H:%i:%S\") as last_updated_dt",
+			"DATE_FORMAT(created_dt, \"%m/%d/%Y %H:%i:%S\") as created_dt",
+			"DATE_FORMAT(last_updated_dt, \"%m/%d/%Y %H:%i:%S\") as last_updated_dt",
 			"created_by",
 			"updated_by"
 		]);

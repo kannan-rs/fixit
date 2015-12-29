@@ -33,6 +33,11 @@
 if(!$edit && (!$openAs || $openAs != "popup")) {
 	echo "<h2>".$this->lang->line_arr('contractor->headers->'.$prefix)."</h2>";
 }
+
+$validateOptions = "";
+if($openAs) {
+	$validateOptions = "'".$openAs."', '".$popupType."'";
+}
 ?>
 
 <form id="<?php echo $prefix; ?>_contractor_form" name="<?php echo $prefix; ?>_contractor_form" class="inputForm">
@@ -82,13 +87,15 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->type'); ?></td>
 				<td>
-					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->type_ph'); ?>" <?php  echo $required; ?> >
+					<input type="text" name="type" id="type" value="<?php echo isset($type) ? $type : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->type_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->license'); ?></td>
 				<td>
-					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->license_ph'); ?>" <?php  echo $required; ?> >
+					<input type="text" name="license" id="license" value="<?php echo isset($license) ? $license : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->license_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
 			<!-- <tr>
@@ -120,19 +127,22 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->emailId'); ?>:</td>
 				<td>
-					<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->emailId_ph'); ?>" <?php  echo $required; ?> >
+					<input type="email" name="emailId" id="emailId" value="<?php echo isset($office_email) ? $office_email : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->emailId_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->contactPhoneNumber'); ?>:</td>
 				<td>
-					<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->contactPhoneNumber_ph'); ?>" <?php  echo $required; ?> >
+					<input type="text" name="contactPhoneNumber" id="contactPhoneNumber" value="<?php echo isset($office_ph) ? $office_ph : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->contactPhoneNumber_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->mobileNumber'); ?>:</td>
 				<td>
-						<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->mobileNumber_ph'); ?>" <?php  echo $required; ?> >
+					<input type="text" name="mobileNumber" id="mobileNumber" value="<?php echo isset($mobile_ph) ? $mobile_ph : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->mobileNumber_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
 			<!-- <tr>
@@ -165,11 +175,17 @@ if(!$edit && (!$openAs || $openAs != "popup")) {
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" onclick="_contractors.<?php echo $prefix; ?>Validate()"><?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?></button>
+						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" 
+							onclick="_contractors.<?php echo $prefix; ?>Validate(<?php echo $validateOptions; ?>)">
+								<?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?>
+						</button>
 						<?php
 						if($openAs == "popup") {
 						?>
-						<button type="button" id="cancelButton" onclick="_projects.closeDialog({popupType: '<?php echo $popupType; ?>'})"><?php echo $this->lang->line_arr('buttons->cancel'); ?></button>
+						<button type="button" id="cancelButton" 
+							onclick="_projects.closeDialog({popupType: '<?php echo $popupType; ?>'})">
+								<?php echo $this->lang->line_arr('buttons->cancel'); ?>
+							</button>
 						<?php
 						} else {
 						?>

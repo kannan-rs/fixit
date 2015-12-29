@@ -11,14 +11,11 @@ class Model_roles extends CI_Model {
 	}
 
 	public function getRolesListByName($params = "") {
-		if(!$params || $params == "" && $params == 0) {
-			return false;
-		}
-		
 		$this->db->where('role_name', $params);
 		$query = $this->db->get('roles');
 		$roles = $query->result();
 		
+		//print_r($this->db->last_query());
 		return $roles;
 	}
 }

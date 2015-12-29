@@ -1,8 +1,8 @@
-<div class="create-link">
+<!-- <div class="create-link">
 	<a href="javascript:void(0);" onclick="_roles.createForm()">
 		<?php echo $this->lang->line_arr('role->buttons_links->create'); ?>
 	</a>
-</div>
+</div> -->
 <h2><?php echo $this->lang->line_arr('role->headers->view_one'); ?></h2>
 <div class='form'>
 	<!-- List all the Roles from database -->

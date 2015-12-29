@@ -251,7 +251,7 @@ $menus = array(
 			)
 		)
 	),
-	array(
+	/*array(
 		'text' 			=> "adjusters",
 		'link' 			=> "/main/adjusters",
 		'is_logged_in' 	=> 1,
@@ -279,7 +279,7 @@ $menus = array(
 				)
 			)
 		)
-	)
+	)*/
 );
 
 $is_logged_in = (isset($is_logged_in) && $is_logged_in === 1) ? 1 : 0;

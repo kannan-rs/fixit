@@ -169,6 +169,11 @@ var _functions = (function () {
         },
 
         deleteRecord: function (function_sno) {
+            var deleteConfim = confirm("Do you want to delete this function");
+
+            if (!deleteConfim) {
+                return;
+            }
             $.ajax({
                 method: "POST",
                 url: "/security/functions/deleteRecord",

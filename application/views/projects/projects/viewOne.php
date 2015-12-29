@@ -186,7 +186,7 @@
 			<?php if(in_array('create', $notesPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);" 
-				onclick="_projects.addProjectNote(evnet);" 
+				onclick="_projects.addProjectNote(event);" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_note_title'); ?>"></a>
 			<?php } ?>
 		</h3>

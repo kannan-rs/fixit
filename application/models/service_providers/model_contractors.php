@@ -249,8 +249,8 @@ class Model_contractors extends CI_Model {
 
 			$this->db->select([
 				"*",
-				"DATE_FORMAT(discount_from_date, \"%m/%d/%y\") as discount_from_date_input_box",
-				"DATE_FORMAT(discount_to_date, \"%m/%d/%y\") as discount_to_date_input_box", 
+				"DATE_FORMAT(discount_from_date, \"%m/%d/%Y\") as discount_from_date_input_box",
+				"DATE_FORMAT(discount_to_date, \"%m/%d/%Y\") as discount_to_date_input_box", 
 				"DATE_FORMAT(discount_from_date, \"%d-%m-%y\") as discount_from_date_for_view", 
 				"DATE_FORMAT( discount_to_date, \"%d-%m-%y\") as discount_to_date_for_view",
 				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
@@ -359,7 +359,7 @@ class Model_contractors extends CI_Model {
 
 			$this->db->select([
 				"*",
-				"DATE_FORMAT(testimonial_date, \"%m/%d/%y\") as testimonial_date_input_box",
+				"DATE_FORMAT(testimonial_date, \"%m/%d/%Y\") as testimonial_date_input_box",
 				"DATE_FORMAT( testimonial_date, \"%d-%m-%y\") as testimonial_date_for_view",
 				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view",
 				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",

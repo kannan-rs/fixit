@@ -39,9 +39,9 @@ class Model_remainingbudget extends CI_Model {
 
 		$this->db->select([
 				"*", 
-				"DATE_FORMAT(created_on, \"%m/%d/%y %H:%i:%S\") as created_on_for_view", 
-				"DATE_FORMAT( updated_on, \"%m/%d/%y %H:%i:%S\") as updated_on_for_view",
-				"DATE_FORMAT( date, \"%m/%d/%y\") as date",
+				"DATE_FORMAT(created_on, \"%m/%d/%Y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%m/%d/%Y %H:%i:%S\") as updated_on_for_view",
+				"DATE_FORMAT( date, \"%m/%d/%Y\") as date",
 				"created_on",
 				"updated_on"
 		]);

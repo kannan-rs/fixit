@@ -32,7 +32,7 @@ if(!$openAs || $openAs != "popup") {
 			</a>
 
 			<?php
-				if(in_array('create', $issuesPermission)) {
+				if(in_array('create', $issuesPermission["operation"])) {
 					$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
 					$createFn 		= "_issues.createForm(event, ".$createFnOptions.")";
 			?>

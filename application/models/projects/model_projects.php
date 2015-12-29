@@ -3,6 +3,7 @@
 class Model_projects extends CI_Model {
 	
 	public function getProjectsList( $projectParams ) {
+		//print_r($projectParams);
 		if($projectParams['role_disp_name'] != "admin") {
 			$this->db->where('deleted', '0');
 		}
@@ -13,8 +14,8 @@ class Model_projects extends CI_Model {
 
 		$this->db->select([
 				"*",
-				"DATE_FORMAT(start_date, \"%m/%d/%y\") as start_date",
-				"DATE_FORMAT(end_date, \"%m/%d/%y\") as end_date",  
+				"DATE_FORMAT(start_date, \"%m/%d/%Y\") as start_date",
+				"DATE_FORMAT(end_date, \"%m/%d/%Y\") as end_date",  
 				"DATE_FORMAT(created_on, \"%m-%d-%y %H:%i:%S\") as created_on_for_view", 
 				"DATE_FORMAT( updated_on, \"%m-%d-%y %H:%i:%S\") as updated_on_for_view",
 				"created_on",
@@ -60,6 +61,7 @@ class Model_projects extends CI_Model {
 			]);
 		$query = $this->db->from('project')->get();
 		
+		//print_r($this->db->last_query());
 		$projects = $query->result();
 
 		return $projects;

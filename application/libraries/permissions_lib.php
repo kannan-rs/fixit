@@ -46,9 +46,9 @@ class Permissions_lib {
 	private function getRoleIdByName( $role_name ) {
 		$role_id = "";
 		$this->CI->load->model("security/model_roles");
-		$role_resp = $this->CI->model_roles->getRolesListByName("Customer");
+		$role_resp = $this->CI->model_roles->getRolesListByName($role_name);
 		if($role_resp) {
-			$role_id = $role_resp[0]->role_id;
+			$role_id = $role_resp[0]->sno;
 		}
 		return $role_id;
 	}
@@ -103,7 +103,11 @@ class Permissions_lib {
 		$this->CI->load->model('security/model_roles');
 
 		$role_id = $this->CI->session->userdata('role_id');
-		$role_disp_name = strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name);
+		if(!$role_id || $role_id == 0 || $role_id == "0") {
+			$role_id = $this->getRoleIdByName( "Customer" );
+			$this->CI->session->userdata('role_id', $role_id);
+		}
+		$role_disp_name = $role_id ? strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name) : "Customer";
 		
 		return array($role_id, $role_disp_name);
 	}

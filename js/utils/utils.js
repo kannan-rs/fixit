@@ -485,7 +485,7 @@ var _utils = (function () {
         setAsDateFields: function (options) {
             $("#" + options.dateField).datepicker({
                 showAnim: "fadeIn",
-                dateFormat: "mm/dd/y"
+                dateFormat: DATE_INPUT_FORMAT
             });
         },
         /*
@@ -496,14 +496,14 @@ var _utils = (function () {
             }
         */
         setAsDateRangeFields: function (options) {
-            var numberOfMonths = options.numberOfMonths || 3;
+            var numberOfMonths = options.numberOfMonths || 2;
             $(function () {
                 $("#" + options.fromDateField).datepicker({
                     defaultDate: " + 1w",
                     changeMonth: true,
                     numberOfMonths: numberOfMonths,
                     showAnim: "fadeIn",
-                    dateFormat: "mm/dd/y",
+                    dateFormat: DATE_INPUT_FORMAT,
                     onClose: function (selectedDate) {
                         $("#" + options.toDateField).datepicker("option", "minDate", selectedDate);
                     }
@@ -513,7 +513,7 @@ var _utils = (function () {
                     changeMonth: true,
                     numberOfMonths: numberOfMonths,
                     showAnim: "fadeIn",
-                    dateFormat: "mm/dd/y",
+                    dateFormat: DATE_INPUT_FORMAT,
 
                     onClose: function (selectedDate) {
                         $("#" + options.fromDateField).datepicker("option", "maxDate", selectedDate);
@@ -522,21 +522,21 @@ var _utils = (function () {
             });
         },
         /*
-            Convert from "mm/dd/yy" to "yyyy-mm-dd"
+            Convert from "mm/dd/yyyy" to "yyyy-mm-dd"
         */
         toMySqlDateFormat: function (dateStr) {
-            var dateStrArr = dateStr.split("/");
-            var month = dateStrArr[0];
-            var date = dateStrArr[1];
-            var year = "20" + dateStrArr[2];
+            var dateStrArr  = dateStr.split("/");
+            var month       = dateStrArr[0];
+            var date        = dateStrArr[1];
+            var year        = dateStrArr[2];
             return (year + "-" + month + "-" + date);
         },
         /*
-            Convert from "yyyy-mm-dd" to "mm/dd/yy"
+            Convert from "yyyy-mm-dd" to "mm/dd/yyyy"
         */
         toDisplayDateFormat: function (dateStr) {
             var dateStrArr = dateStr.split("-");
-            var year = dateStrArr[0].substr(2, 2);
+            var year = dateStrArr[0];
             var month = dateStrArr[1];
             var date = dateStrArr[2];
             return (month + "/" + date + "/" + year);

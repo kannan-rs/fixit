@@ -35,13 +35,6 @@ S2: SP Admin expites, service provided admin can select multiple trade and multi
 s3: SP Admin details,
 
 
-Working On
-----------
-List discount based on selection.
-Image upload for discounts
-Logo upload for service provider
-
-
 Work Done
 ---------
 1. Broght back signup and forgot pass form,
@@ -66,15 +59,24 @@ Work Done
 17. Done - Spell check "Rating"
 Go through all the pages and make sure not errors
 Rating to be with stars in create and view
+18. Changing of Menus as drop down
+	- Home, Security, Projects, Service provider, Partners
+	- Remove the left menu and make it as part of Mouse hover
+19. Notes Delete Confiramtion is not happening
+20. Project and Tasks Is not allowing to add Issues from project details, Permission problem
+21. User delete confirmation alert is not present
+22. Role delete confirmation is not present
+23. Operation delete confirmation is not present
+24. Function delete confiramtion is not present
+25. Data filter delete confirmation was not happening
 
+Pending list
+------------
+List discount based on selection.
+Image upload for discounts
+Logo upload for service provider
 
 Trades and Subtrades from master list.
-
-- Home, Security, Projects, Service provider, Partners
-- Remove the left menu and make it as part of Mouse hover
-
-- Notes Delete Confiramtion is not happening
-- Project and Tasks Is not allowing to add Issues from project details, Permission problem
 - Error while creating task is corrected.
 - Error while validating start date and end date in task creation
 - Task owner assignment is not happening, it always showing that task is assigned to customer.
@@ -82,8 +84,21 @@ Trades and Subtrades from master list.
 -Create contractor from project is landing in contractors page, it need to stay in project page itself.
 - Export to PDF is not exporting the list
 - Trades and Sub trades, discounts, testimonial add permissions
-- User delete confirmation alert is not present
-- Role delete confirmation is not present
-- Operation delete confirmation is not present
-- Function delete confiramtion is not present
-- Data filter delete confirmation was not happening
+
+
+- Error while validating start date and end date in task creation
+	>> Project Create & Edit start and end date range and selection validation works
+	>> Task Create & Edit start and end date works.
+	>> Date in MM/DD/YYYY format
+- Removed Create link from details view of "User / Role / Operations / data Filter / functions"
+	>> Fixed
+- Task owner assignment is not happening, it always showing that task is assigned to customer.
+	>> Fixed
+
+- Some JS error while adding partner from projects "Uncaught TypeError: _projects.updatePartnerSelectionList is not a function"
+	>> Partner is removed Not looking into this for Now
+
+- Create contractor from project is landing in contractors page, it need to stay in project page itself.
+	>> Fixed
+- Export to PDF is not exporting the list
+- Trades and Sub trades, discounts, testimonial need to add permissions

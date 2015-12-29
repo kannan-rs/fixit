@@ -169,6 +169,12 @@ var _dataFilters = (function () {
         },
 
         deleteRecord: function (dataFilter_sno) {
+            var deleteConfim = confirm("Do you want to delete this data filter");
+
+            if (!deleteConfim) {
+                return;
+            }
+            
             $.ajax({
                 method: "POST",
                 url: "/security/dataFilters/deleteRecord",
