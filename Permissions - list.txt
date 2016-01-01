@@ -35,70 +35,18 @@ S2: SP Admin expites, service provided admin can select multiple trade and multi
 s3: SP Admin details,
 
 
-Work Done
----------
-1. Broght back signup and forgot pass form,
-2. Minor corrections in signup form,
-3. Modified view one form for user from Div to table view
-4. Modified view one click from single variable args to object orgs in viewall form.
-5. In User Edit, set the role value based on db value.
-6. Added Proper check for admin and get the roles and role display string to set the role in user > view all
-7. Removed Privilege, if same user is editing his details.
-8. Belongs to is removed from user module.
-9. Testomonial.
-	Customer Name,
-	Comments,
-	* rating
-10. Change the text "Contractor to service provider"
-11. Discount Page, Error corrected
-12. Testimonial was view under all tabs which is fixed to display only under testimonial page.
-13. Error when no contractor present, While displaying task details view was corrected.
-14. Removed undefined alert on opening issues edit popup.
-15. Data filter page not loading was corrected.
-16. Controller permission edit setting error corrected
-17. Done - Spell check "Rating"
-Go through all the pages and make sure not errors
-Rating to be with stars in create and view
-18. Changing of Menus as drop down
-	- Home, Security, Projects, Service provider, Partners
-	- Remove the left menu and make it as part of Mouse hover
-19. Notes Delete Confiramtion is not happening
-20. Project and Tasks Is not allowing to add Issues from project details, Permission problem
-21. User delete confirmation alert is not present
-22. Role delete confirmation is not present
-23. Operation delete confirmation is not present
-24. Function delete confiramtion is not present
-25. Data filter delete confirmation was not happening
-
 Pending list
 ------------
 List discount based on selection.
 Image upload for discounts
 Logo upload for service provider
 
-Trades and Subtrades from master list.
-- Error while creating task is corrected.
-- Error while validating start date and end date in task creation
-- Task owner assignment is not happening, it always showing that task is assigned to customer.
-- Some JS error while adding partner from projects "Uncaught TypeError: _projects.updatePartnerSelectionList is not a function"
--Create contractor from project is landing in contractors page, it need to stay in project page itself.
 - Export to PDF is not exporting the list
 - Trades and Sub trades, discounts, testimonial add permissions
 
-
-- Error while validating start date and end date in task creation
-	>> Project Create & Edit start and end date range and selection validation works
-	>> Task Create & Edit start and end date works.
-	>> Date in MM/DD/YYYY format
-- Removed Create link from details view of "User / Role / Operations / data Filter / functions"
-	>> Fixed
-- Task owner assignment is not happening, it always showing that task is assigned to customer.
-	>> Fixed
-
-- Some JS error while adding partner from projects "Uncaught TypeError: _projects.updatePartnerSelectionList is not a function"
-	>> Partner is removed Not looking into this for Now
-
-- Create contractor from project is landing in contractors page, it need to stay in project page itself.
-	>> Fixed
-- Export to PDF is not exporting the list
-- Trades and Sub trades, discounts, testimonial need to add permissions
+Done - Trade and Sub trade
+--------------------------
+Done - Master List table for trade and sub trade
+Done - Changing the input to dropdown
+Done - change the tabel entries for contractor trades and sub trades
+Done - Chage the rest of the places based on the table entries

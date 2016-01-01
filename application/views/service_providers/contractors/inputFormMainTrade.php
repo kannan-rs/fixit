@@ -1,13 +1,8 @@
 <?php
 	$prefix 		= "create";
-	$trade_name_from_db 	= "";
-	$trade_id_from_db 		= "";
 
-	if(isset($tradesList) && count($tradesList)) {
-		$trade 					= $tradesList[0];
+	if(isset($displayString) && !empty($displayString) && isset($main_trade_id) && !empty($main_trade_id)) {
 		$prefix 				= "update";
-		$trade_name_from_db 	= $trade->trade_name;
-		$trade_id_from_db 		= $trade->trade_id;
 	}
 ?>
 <form id="contractor_<?php echo $prefix; ?>_trade_form" name="contractor_<?php echo $prefix; ?>_trade_form" class="inputForm">
@@ -16,16 +11,36 @@
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->trade_name'); ?>:</td>
 				<td>
-					<input type="hidden" name="trade_id_db_value" id="trade_id_db_value" value="<?php echo isset($trade_id_from_db) ? $trade_id_from_db : ""; ?>" />
-					<input type="text" name="trade_name" id="trade_name" value="<?php echo isset($trade_name_from_db) ? $trade_name_from_db : "";?>" required 
-						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->trade_name_ph'); ?>">
+					<input type="hidden" name="main_trade_id_db_value" id="main_trade_id_db_value" 
+						value="<?php echo isset($main_trade_id) ? $main_trade_id : ""; ?>" />
+					<?php
+					if($prefix == "create") {
+					?>
+					<select name="trade_name" id="trade_name" onchange="_contractors.addSubTradesForm(event, this.value);">
+						<option value=""><?php echo $this->lang->line_arr('contractor->input_form->main_trade_option_0'); ?></option>
+						<?php
+						for( $i = 0, $count = count($main_trades_list); $i < $count; $i++ ) {
+							echo '<option value = "'.$main_trades_list[$i]->main_trade_id.'">'.$main_trades_list[$i]->main_trade_name.'</option>';
+						}
+						?>
+					</select>
+					<?php
+					} else if($prefix == "update") {
+						echo $displayString;
+					}
+					?>
+				</td>
+			</tr>
+			<tr class="sub-trade-tr">
+				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->sub_trade_name'); ?>:</td>
+				<td id="sub-trade-container">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
 						<button type="button" id="contractor_<?php echo $prefix; ?>_trade_submit" 
-							onclick="_contractors.<?php echo $prefix; ?>TradeValidate()">
+							onclick="_contractors.<?php echo $prefix; ?>TradeValidate(<?php echo isset($main_trade_id) ? $main_trade_id : ""; ?>)">
 								<?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix."_trade"); ?>
 						</button>
 						<button type="button" id="cancelButton" 

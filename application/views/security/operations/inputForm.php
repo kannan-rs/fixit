@@ -19,10 +19,10 @@ $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 	<input type="hidden" id='ope_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('operation->input_form->operationId'); ?></td>
 				<td><input type="text" name="operationId" id="operationId" value="<?php echo $ope_id; ?>" placeholder = "<?php echo $this->lang->line_arr('operation->input_form->operationId_ph'); ?>" required></td>
-			<tr>
+			<tr> -->
 				<td class="label"><?php echo $this->lang->line_arr('operation->input_form->operationName'); ?></td>
 				<td><input type="text" name="operationName" id="operationName" value="<?php echo $ope_name; ?>" placeholder = "<?php echo $this->lang->line_arr('operation->input_form->operationName_ph'); ?>" required></td>
 			<tr>

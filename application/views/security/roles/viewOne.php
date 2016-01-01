@@ -10,8 +10,8 @@
 		if(count($roles) > 0) {
 			$i = 0;
 			
-			echo "<div class='label'>".$this->lang->line_arr('role->details_view->roleId')."</div>";
-			echo "<div>".$roles[$i]->role_id."</div>";
+			/*echo "<div class='label'>".$this->lang->line_arr('role->details_view->roleId')."</div>";
+			echo "<div>".$roles[$i]->role_id."</div>";*/
 			echo "<div class='label'>".$this->lang->line_arr('role->details_view->roleName')."</div>";
 			echo "<div>". $roles[$i]->role_name ."</div>";
 			echo "<div class='label'>".$this->lang->line_arr('role->details_view->roleDescr')."</div>";

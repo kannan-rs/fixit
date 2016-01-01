@@ -94,7 +94,7 @@
 					<select name="project_type" id="project_type">
 					<option value=""><?php echo $this->lang->line_arr('projects->input_form->project_type_option_0'); ?></option>
 					<option value="commercial">Commercial</option>
-					<option value="personal">Personal</option>
+					<option value="residential">Residential</option>
 					</select>
 				</td>
 			</tr>
@@ -237,6 +237,7 @@
 						<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
 							placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
 							onkeyup="_projects.showCustomerListInDropDown()">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.showCustomerListInDropDown()"></span>
 					</td>
 				</tr>
 				<tr class="customer-search-result">

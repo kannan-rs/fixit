@@ -39,4 +39,4 @@ $lang['email_error_contractor_add_message_html'] = "";
 
 
 $lang['email_from_name_html'] = "The Fixit Network Admin:";
-$lang['email_signature_html'] = "<p>-Thanks-,<br/>The Fixit Network</p>";
+$lang['email_signature_html'] = "<br/><br/><p>-Thanks-,<br/>The Fixit Network</p>";

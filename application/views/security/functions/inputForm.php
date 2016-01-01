@@ -21,10 +21,10 @@ $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 	
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('function->input_form->functionId'); ?></td>
 				<td><input type="text" name="functionId" id="functionId" value="<?php echo $fn_id; ?>"  placeholder="<?php echo $this->lang->line_arr('function->input_form->functionId_ph'); ?>" required></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('function->input_form->functionName'); ?></td>
 				<td><input type="text" name="functionName" id="functionName" value="<?php echo $fn_name; ?>"  placeholder="<?php echo $this->lang->line_arr('function->input_form->functionName_ph'); ?>" required></td>

@@ -9,7 +9,7 @@
 	<?php
 		if(count($dataFilters) > 0) {
 			$i = 0;
-			echo "<div class='cell label'>".$this->lang->line_arr('data_filter->details_view->dataFilterId')."</div>"."<div class='cell'>".$dataFilters[$i]->data_filter_id."</div>";
+			/*echo "<div class='cell label'>".$this->lang->line_arr('data_filter->details_view->dataFilterId')."</div>"."<div class='cell'>".$dataFilters[$i]->data_filter_id."</div>";*/
 			echo "<div class='cell label'>".$this->lang->line_arr('data_filter->details_view->dataFilterName')."</div>"."<div class='cell'>". $dataFilters[$i]->data_filter_name ."</div>";
 			echo "<div class='cell label'>".$this->lang->line_arr('data_filter->details_view->dataFilterDescr')."</div>"."<div class='cell'>". $dataFilters[$i]->data_filter_descr ."</div>";
 		}

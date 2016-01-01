@@ -10,7 +10,7 @@
 		if(count($functions) > 0) {
 			$i = 0;
 			
-			echo "<div class='cell label'>".$this->lang->line_arr('function->details_view->functionId')."</div>"."<div class='cell'>".$functions[$i]->fn_id."</div>";
+			/*echo "<div class='cell label'>".$this->lang->line_arr('function->details_view->functionId')."</div>"."<div class='cell'>".$functions[$i]->fn_id."</div>";*/
 			echo "<div class='cell label'>".$this->lang->line_arr('function->details_view->functionName')."</div>"."<div class='cell'>". $functions[$i]->fn_name ."</div>";
 			echo "<div class='cell label'>".$this->lang->line_arr('function->details_view->functionDescr')."</div>"."<div class='cell'>". $functions[$i]->fn_descr ."</div>";
 			

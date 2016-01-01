@@ -12,7 +12,7 @@
 		if(count($functions) > 0) {
 			echo "<tr class='heading'>";
 			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->sno')."</td>";
-			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionId')."</td>";
+			/*echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionId')."</td>";*/
 			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionName')."</td>";
 			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->functionDescr')."</td>";
 			echo "<td class='cell'>".$this->lang->line_arr('function->summary_table->action')."</td>";
@@ -23,9 +23,9 @@
 			$deleteFn = "_functions.deleteRecord(".$functions[$i]->sno.")";
 			echo "<tr class='row'>";
 			echo "<td class='cell number'>".($i+1)."</td>";
-			echo "<td class='cell number'>";
+			/*echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"_functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_id;
-			echo "</td>";
+			echo "</td>";*/
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_name ."</td>";
 			echo "<td>".$functions[$i]->fn_descr."</td>";
 			echo "<td class='cell table-action'>";

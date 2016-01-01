@@ -18,7 +18,6 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= $this->lang->line('email_'.$status.'_user_'.$responseType.'_subject');
-			$mail_options["signature"] 	= $this->lang->line('email_signature_html');
 
 			$patterns = array();
 			$patterns[0] = '/#first_name#/';
@@ -36,7 +35,7 @@ class Model_mail extends CI_Model {
 			//email_success_user_add_message_html
 			$mail_options["message"] =  preg_replace($patterns, $replacements, $this->lang->line('email_'.$status.'_user_'.$responseType.'_message_html'));
 
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -69,11 +68,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Referral Registration to Fixit Network successfully";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<p>Your referral ".$user_details_record[0]->first_name." ".$user_details_record[0]->last_name."'s' account with fixit network was created successfully.</p>";
 			$mail_options["message"] 	.= "<p>Thanks for referring. </p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -95,11 +93,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Deletion of account";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"].",</p>";
 			$mail_options["message"] 	.= "<p>Your account is successfully deleted from our system.</p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}	
@@ -119,10 +116,9 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Personal information updateed successfully";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<p>Your personal information is updated successfully. Please login with you credential to see the latest update</p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -141,11 +137,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Registration Successful for Contractor Company";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<p>Welcome Contractor company, Your account with fixit network was created successfully.</p>";
 			$mail_options["message"] 	.= "<p>personal information is also added successfully. </p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -164,11 +159,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Notice : Contractor Company information update";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<p>Your Contractor company information is updated successfully.</p>";
 			$mail_options["message"] 	.= "<p> </p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -188,11 +182,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Registration Successful for Partner Company";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<p>Welcome Partner company, Your account with fixit network was created successfully.</p>";
 			$mail_options["message"] 	.= "<p>personal information is also added successfully. </p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}
@@ -211,11 +204,10 @@ class Model_mail extends CI_Model {
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
 			$mail_options["subject"]	= "Notice: Partner Company information update";
-			$mail_options["signature"] 	= "<p>Thanks,<br/>Fixit Networks</p>";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
 			$mail_options["message"] 	.= "<pYour Partner company information is updated successfully.</p>";
 			$mail_options["message"] 	.= "<p> </p>";
-			$mail_options["message"] 	.= $mail_options["signature"];
+			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
 			return $mail_options;
 		}

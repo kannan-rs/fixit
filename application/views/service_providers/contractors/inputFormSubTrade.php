@@ -1,44 +1,31 @@
 <?php
-	$prefix 		= "create";
-	$sub_trade_name_from_db 	= "";
-	$sub_trade_id_from_db 		= "";
-
-	if(isset($tradesList) && count($tradesList)) {
-		$trade 					= $tradesList[0];
-		$prefix 				= "update";
-		$sub_trade_name_from_db 	= $trade->trade_name;
-		$sub_trade_id_from_db 		= $trade->trade_id;
-	}
+if(count($sub_trades_list)) {
 ?>
-<form id="contractor_<?php echo $prefix; ?>_sub_trade_form" name="contractor_<?php echo $prefix; ?>_sub_trade_form" class="inputForm">
-	<table class='form'>
-		<tbody>
-			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->sub_trade_name'); ?>:</td>
-				<td>
-					<input type="hidden" name="main_trade_id_db_value" id="main_trade_id_db_value" value="<?php echo isset($main_trade_id) ? $main_trade_id : ""; ?>" />
-					<input type="hidden" name="sub_trade_id_db_value" id="sub_trade_id_db_value" value="<?php echo isset($sub_trade_id_from_db) ? $sub_trade_id_from_db : ""; ?>" />
-					<input type="text" name="sub_trade_name" id="sub_trade_name" value="<?php echo isset($sub_trade_name_from_db) ? $sub_trade_name_from_db : "";?>" required 
-						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->sub_trade_name_ph'); ?>">
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<p class="button-panel">
-						<button type="button" id="contractor_<?php echo $prefix; ?>_sub_trade_submit" 
-							onclick="_contractors.<?php echo $prefix; ?>SubTradeValidate()">
-								<?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix."_sub_trade"); ?>
-						</button>
-						<button type="button" id="cancelButton" 
-							onclick="_projects.closeDialog({popupType: ''})">
-								<?php echo $this->lang->line_arr('buttons->cancel'); ?>
-						</button>
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><?php echo $this->lang->line('mandatory_field_text'); ?></td>
-			</tr>
-		</tbody>
-	</table>
-</form>
+<table class='form'>
+	<tbody>
+		<?php
+		$existingList = "";
+		for($i = 0, $count = count($sub_trades_list); $i < $count; $i++) {
+			$checked = isset($selected_sub_trade_list[$sub_trades_list[$i]->sub_trade_id]) ? "checked" : "";
+			if($checked) {
+				$existingList .= !empty($existingList) ? "," : "";
+				$existingList .= $sub_trades_list[$i]->sub_trade_id;
+			}
+		?>
+		<tr>
+			<td>
+				<input type="checkbox" name="sub_trades" <?php echo $checked;?>
+					id="<?php echo $sub_trades_list[$i]->sub_trade_id; ?>" 
+					value="<?php echo $sub_trades_list[$i]->sub_trade_name; ?>" >
+					<?php echo $sub_trades_list[$i]->sub_trade_name; ?>
+			</td>
+		</tr>
+		<?php
+		}
+		?>
+		<input type="hidden" id="existingSubList" value="<?php echo $existingList; ?>">
+	</tbody>
+</table>
+<?php
+}
+?>

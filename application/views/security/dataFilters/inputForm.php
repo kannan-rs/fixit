@@ -22,10 +22,10 @@ $data_filter_descr 	= isset($individualDataFilter) ? $individualDataFilter->data
 	<input type="hidden" id='dataFilter_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('data_filter->input_form->dataFilterId'); ?></td>
 				<td><input type="text" name="dataFilterId" id="dataFilterId" value="<?php echo $data_filter_id; ?>" placeholder="<?php echo $this->lang->line_arr('data_filter->input_form->dataFilterId_ph'); ?>" required></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('data_filter->input_form->dataFilterName'); ?></td>
 				<td><input type="text" name="dataFilterName" id="dataFilterName" value="<?php echo $data_filter_name; ?>" placeholder="<?php echo $this->lang->line_arr('data_filter->input_form->dataFilterName_ph'); ?>" required></td>

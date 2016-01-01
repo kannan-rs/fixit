@@ -20,12 +20,12 @@ $role_desc 	= isset($individualRole) ? $individualRole->role_desc : "";
 	<input type="hidden" id='role_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>
 		<tbody>
-			<tr>
+			<!-- <tr>
 				<td class="label"><?php echo $this->lang->line_arr('role->input_form->roleId'); ?></td>
 				<td>
 					<input type="text" name="roleId" id="roleId" value="<?php echo $role_id; ?>" placeholder="<?php echo $this->lang->line_arr('role->input_form->roleId_ph'); ?>" required>
 				</td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('role->input_form->roleName'); ?></td>
 				<td><input type="text" name="roleName" id="roleName" value="<?php echo $role_name; ?>" placeholder="<?php echo $this->lang->line_arr('role->input_form->roleName_ph'); ?>" required></td>

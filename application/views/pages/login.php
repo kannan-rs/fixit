@@ -12,7 +12,7 @@
 						<?php echo $this->lang->line_arr('login->input_form->login_email'); ?> :
 					</td>
 					<td>
-						<input type=email id="login_email" name="login_email" placeholder="<?php echo $this->lang->line_arr('login->input_form->login_email_ph'); ?> Id" required />
+						<input type=email id="login_email" name="login_email" placeholder="<?php echo $this->lang->line_arr('login->input_form->login_email_ph'); ?>" required />
 					</td>
 				</tr>
 				<tr>

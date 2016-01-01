@@ -39,9 +39,10 @@ var _contractors = (function () {
                 var trade = tradeDbList[i];
                 if(trade.trade_parent == "0") {
                     tradeMappedList.parents.push(trade);
-                     tradeMappedList.childs[trade.trade_id] = [];
+                     tradeMappedList.childs[trade.trade_id_from_master_list] = [];
                 }
             }
+            //console.log(tradeMappedList);
 
             for(var i = 0; i < tradeDbList.length; i++) {
                 var trade = tradeDbList[i];
@@ -49,6 +50,7 @@ var _contractors = (function () {
                     tradeMappedList.childs[trade.trade_parent].push(trade);
                 }
             }
+            //console.log(tradeMappedList);            
         }
     }
 
@@ -65,7 +67,7 @@ var _contractors = (function () {
                 if( response.status == "success") {
                     mapTradeData(response.tradesList);
                     if(renderTrade) {
-                        displayTradesList();
+                        displayTradesList(_contractors.contractorId);
                     }
                 } else {
                     alert("Error while fetching Trades and Sub trades");
@@ -80,7 +82,7 @@ var _contractors = (function () {
         });
     };
 
-    function displayTradesList() {
+    function displayTradesList( contractorId ) {
         var tradesEle = $("#tradesList");
 
         var htmlContent = "No Tradess or Sub Tradess Found";
@@ -93,38 +95,40 @@ var _contractors = (function () {
                 
                 htmlContent += "<a class=\"step fi-deleteRow size-21 accordion-icon icon-right red delete\" ";
                 htmlContent += "href=\"javascript:void(0);\"  ";
-                htmlContent += "onclick=\"_contractors.deleteMainTradesForm(event, "+trends.trade_id+");\" ";
+                htmlContent += "onclick=\"_contractors.deleteMainTradesForm(event, "+trends.trade_id_from_master_list+");\" ";
                 htmlContent += "title=\"Delete Main Trade\"></a>";
                 
                 htmlContent += "<a class=\"step fi-page-edit size-21 accordion-icon icon-right\" ";
                 htmlContent += "href=\"javascript:void(0);\"  ";
-                htmlContent += "onclick=\"_contractors.editMainTradesForm(event, "+trends.trade_id+", '"+trends.trade_name+"');\" ";
+                htmlContent += "onclick=\"_contractors.editTradesForm(event, "+trends.trade_id_from_master_list+", '"+trends.trade_name+"');\" ";
                 htmlContent += "title=\"Edit Main Trade\"></a>";
 
-                htmlContent += "<a class=\"step fi-page-add size-21 accordion-icon icon-right\" ";
+                /*htmlContent += "<a class=\"step fi-page-add size-21 accordion-icon icon-right\" ";
                 htmlContent += "href=\"javascript:void(0);\"  ";
                 htmlContent += "onclick=\"_contractors.addSubTradesForm(event, "+trends.trade_id+", '"+trends.trade_name+"');\" ";
-                htmlContent += "title=\"Add Sub Trade\"></a>";
+                htmlContent += "title=\"Add Sub Trade\"></a>";*/
 
                 htmlContent += "</h3>";
 
                 htmlContent += "<table cellspacing=\"0\" class=\"viewOne\">";
                 
-                var childs = tradeMappedList.childs[trends.trade_id];
+                var childs = tradeMappedList.childs[trends.trade_id_from_master_list];
                 if(childs && childs.length) {
                     for(var j = 0; j < childs.length; j++) {
                         htmlContent += "<tr>";
                         htmlContent += "<td class='cell'>";
                         htmlContent += "<span>"+childs[j].trade_name+"</span>";
+                        
                         htmlContent += "<a class=\"step fi-deleteRow size-21 accordion-icon icon-right red delete\" ";
                         htmlContent += "href=\"javascript:void(0);\"  ";
-                        htmlContent += "onclick=\"_contractors.deleteSubTradesForm(event, "+childs[j].trade_id+", "+childs[j].trade_parent+");\" ";
+                        htmlContent += "onclick=\"_contractors.deleteSubTradesForm(event, "+childs[j].trade_id_from_master_list+", "+childs[j].trade_parent+");\" ";
                         htmlContent += "title=\"Delete Main Trade\"></a>";
                         
-                        htmlContent += "<a class=\"step fi-page-edit size-21 accordion-icon icon-right\" ";
+                        /*htmlContent += "<a class=\"step fi-page-edit size-21 accordion-icon icon-right\" ";
                         htmlContent += "href=\"javascript:void(0);\"  ";
                         htmlContent += "onclick=\"_contractors.editSubTradesForm(event, "+childs[j].trade_id+", '"+childs[j].trade_name+"' , "+childs[j].trade_parent+");\" ";
-                        htmlContent += "title=\"Edit Main Trade\"></a>";
+                        htmlContent += "title=\"Edit Main Trade\"></a>";*/
+                        
                         htmlContent += "</td>";
                         htmlContent += "</tr>";
                     }
@@ -715,9 +719,12 @@ var _contractors = (function () {
            $.ajax({
                 method: "POST",
                 url: "/service_providers/contractors/createFormMainTrades",
-                data: {},
+                data: {
+                    contractorId : _contractors.contractorId
+                },
                 success: function( response ) {
                     $("#popupForAll").html( response );
+                    $(".sub-trade-tr").hide();
                     _projects.openDialog({"title" : "Add New Main Trades"});
                 },
                 error: function( error ) {
@@ -745,20 +752,26 @@ var _contractors = (function () {
                 }
             ).form();
 
-            if(validator) {
+            if(validator && $("input[name=sub_trades]:checked").length) {
                 _contractors.createTradeSubmit();
             }
         },
 
         createTradeSubmit: function() {
-            var newTrades = $("#trade_name").val();
+            var main_trade_id = $("#trade_name").val();
+            var sub_trades_id = "";
+            $.each($("input[name=sub_trades]:checked"), function() {
+                sub_trades_id += sub_trades_id.length ? "," : "";
+                sub_trades_id += $(this).attr('id');
+            });
 
             $.ajax({
                 method: "POST",
-                url: "/service_providers/contractors/addMainTrades",
+                url: "/service_providers/contractors/addTrades",
                 data: {
-                    trade_name      : newTrades,
-                    contractor_id   : _contractors.contractorId
+                    main_trade_id       : main_trade_id,
+                    sub_trades_id       : sub_trades_id,
+                    contractor_id       : _contractors.contractorId
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
@@ -779,21 +792,25 @@ var _contractors = (function () {
             });
         },
 
-        editMainTradesForm: function( event, mainTradeId, dispString ) {
+        editTradesForm: function( event, mainTradeId, dispString ) {
             if(typeof(event) != 'undefined') {
                 event.stopPropagation();
             }
+            var self = this;
 
             $.ajax({
                 method: "POST",
                 url: "/service_providers/contractors/updateFormMainTrades",
                 data: {
                     trade_id        : mainTradeId,
-                    contractorId    : _contractors.contractorId
+                    contractorId    : _contractors.contractorId,
+                    displayString   : dispString
                 },
                 success: function( response ) {
                     $("#popupForAll").html( response );
                     _projects.openDialog({"title" : "Edit Main Trades \""+dispString+"\""});
+
+                    self.addSubTradesForm(undefined, mainTradeId);
                 },
                 error: function( error ) {
                     error = error;
@@ -804,38 +821,54 @@ var _contractors = (function () {
             }); 
         },
 
-        updateTradeValidate : function() {
-            var validator = $( "#contractor_update_trade_form" ).validate(
-                {
-                    rules: {
-                        trade_name : {
-                            required : true
-                        }
-                    },
-                    messages: {
-                        trade_name : {
-                            required : "Please provide Trades name"
-                        }
-                    }
-                }
-            ).form();
+        updateTradeValidate : function( main_trade_id ) {
+            if(!main_trade_id) {
+                return;
+            }
 
-            if(validator) {
+            if( $("input[name=sub_trades]:checked").length ) {
                 _contractors.updateTradeSubmit();
             }
         },
 
-        updateTradeSubmit: function() {
-            var trade_name  = $("#trade_name").val();
-            var trade_id    = $("#trade_id_db_value").val();
+        updateTradeSubmit: function( main_trade_id ) {
+            var main_trade_id    = $("#main_trade_id_db_value").val();
+
+            var selected_sub_trades_id_array = [];
+            var to_add_sub_trades_id    = "";
+            var to_delete_sub_trade_id  = "";
+            
+            var existing_sub_list_arr = $("#existingSubList").val().split(",");
+            
+            $.each($("input[name=sub_trades]:checked"), function() {
+                var value = $(this).attr('id');
+                selected_sub_trades_id_array.push(value);
+
+                if(existing_sub_list_arr.indexOf(value) == -1) {
+                    to_add_sub_trades_id += to_add_sub_trades_id.length ? "," : "";
+                    to_add_sub_trades_id += value;
+                }
+            });
+
+            for(var i = 0, count = existing_sub_list_arr.length; i < count; i++) {
+                if(selected_sub_trades_id_array.indexOf(existing_sub_list_arr[i]) == -1) {
+                    to_delete_sub_trade_id += to_delete_sub_trade_id.length ? "," : "";
+                    to_delete_sub_trade_id += existing_sub_list_arr[i];
+                }
+            }
+
+            if(!to_add_sub_trades_id && !to_delete_sub_trade_id) {
+                return;
+            }
 
             $.ajax({
                 method: "POST",
-                url: "/service_providers/contractors/updateMainTrades",
+                url: "/service_providers/contractors/updateTrades",
                 data: {
-                    trade_name     : trade_name,
-                    trade_id        : trade_id,
-                    contractor_id   : _contractors.contractorId
+                    main_trade_id               : main_trade_id,
+                    to_add_sub_trades_id        : to_add_sub_trades_id,
+                    to_delete_sub_trade_id      : to_delete_sub_trade_id,
+                    contractor_id               : _contractors.contractorId
                 },
                 success: function( response ) {
                     response = $.parseJSON(response);
@@ -861,7 +894,7 @@ var _contractors = (function () {
                 event.stopPropagation();
             }
 
-             var deleteConfim = confirm("Do you want to delete this Trade");
+             var deleteConfim = confirm("Do you want to delete this Trade and its sub trades");
             if (!deleteConfim) {
                 return;
             }
@@ -891,7 +924,7 @@ var _contractors = (function () {
             }); 
         },
 
-        addSubTradesForm: function(event, main_trade_id, main_trade_name) {
+        addSubTradesForm: function(event, main_trade_id) {
             if(typeof(event) != 'undefined') {
                 event.stopPropagation();
             }
@@ -901,12 +934,11 @@ var _contractors = (function () {
                 url: "/service_providers/contractors/createSubTradesForm",
                 data: {
                     main_trade_id       : main_trade_id,
-                    main_trade_name     : main_trade_name,
                     contractor_id       : _contractors.contractorId
                 },
                 success: function( response ) {
-                    $("#popupForAll").html( response );
-                    _projects.openDialog({"title" : "Add Sub Trades \""+main_trade_name+"\""});
+                    $("#sub-trade-container").html( response );
+                    $(".sub-trade-tr").show();
                 },
                 error: function( error ) {
                     error = error;

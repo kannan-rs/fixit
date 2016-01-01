@@ -234,8 +234,8 @@ var _partners = (function () {
                     if (openAs && openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Partner Details"}, popupType);
-                        _projects.updatePartnerSelectionList();
-                        _projects.setPartnerDetails();
+                        //_projects.updatePartnerSelectionList();
+                        //_projects.setPartnerDetails();
                     } else {
                         $("#partner_content").html(response);
                     }
