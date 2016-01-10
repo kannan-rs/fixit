@@ -1,32 +1,5 @@
-Function
-	Project
-		Task
-		Issues
-		Notes
-		Documents
-	Customer
-	Service Provider
-		Service Provider Admin Screen
-	Adjuster
-	Personal info
-	Claims
-		Notes
-		Docs
-		Tasks
-
-Data Filter
-	All
-	Self
-	Company (his company)
-
 Permission Module
------------------
-Need to checking the permissions for all modules in action time while affecting database.
-
-
-Service Provide admin
-	->
-
+------------------
 Portal for service provide list (search by zip)
 Portal for discount coupons, ads, guest login to do search.
 
@@ -34,19 +7,88 @@ S1: Trades and sub trades need to be entered by Fixit admin
 S2: SP Admin expites, service provided admin can select multiple trade and multiple sub trade
 s3: SP Admin details,
 
+Work Done
+---------
+1. Modified top menu in JSON format.
 
-Pending list
-------------
-List discount based on selection.
-Image upload for discounts
-Logo upload for service provider
+To Do
+-----
+Navigation - .5
+Permissions - 2
+Claim list database decision - 1
+Claim individual view  - 3
+Claim list table view  - 3
+1. Claim controller
+2. Claim Adding input form - 1
+3. Claim add into database - 1
+4. Claim edit - 1
+5. Updating database - 1
+5. Claim delete - 1
+6. Notes
+	- Add
+	- Delete
+7. Dairy updates
+	- Add
+	- Delete
+8. Payment details view - 1.5
+9. Claim document
+	Add
+	Delete
+10. Claim history section
 
-- Export to PDF is not exporting the list
-- Trades and Sub trades, discounts, testimonial add permissions
 
-Done - Trade and Sub trade
---------------------------
-Done - Master List table for trade and sub trade
-Done - Changing the input to dropdown
-Done - change the tabel entries for contractor trades and sub trades
-Done - Chage the rest of the places based on the table entries
+	-Name 			- customer_id, Search with email ID and fill in the details
+    -Address 		- addr1, addr2, addr_city, addr_state, addr_country, addr_pin
+    -Phone 			- customer_contact_no
+    -Email 			- customer_email_id
+    -Claim No 		- claim_number
+    9751970475
+  Claim Description 
+-----------------
+   - Text claim description
+Notes
+-----
+    - Notes 1
+    - Notes 2
+Diary updates
+-------------
+    - Dairy 1
+    - Dairy 2
+Payment details
+---------------
+    P1
+    Starting budget	$30,000.00
+    Remediation payment	$2,389.45 << Paid
+    Remaining budget	$22,610.55
+    P2
+    Starting budget	$40,000.00
+    Remediation payment	$2,389.45 << pain
+    Remaining budget	$22,610.55
+    p3
+    Starting budget	$30,000.00
+    Remediation payment	$2,389.45
+    Remaining budget	$22,610.55
+
+        Claim total $100,000
+        Total Paid =
+        Remaining budget = 
+
+Claim Documents
+---------------
+    - Doc 1
+    - Doc 2
+Claim History (To be implement Later)
+-------------
+    - History 1
+    - History 2
+
+Note: Claim history will be implemented later
+
+Top Navigation Menus
+    - View Claims
+    - Create Claims
+
+Claims Details View
+    Will have all the above mentioned list
+
+Edit and delete functionality to be with this.

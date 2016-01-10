@@ -54,7 +54,8 @@ $().ready(function() {
         "projects"              : "projects",
         "signup"                : "signup",
         "service_providers"     : "service_providers",
-        "adjusters"             : "adjusters"
+        "adjusters"             : "adjusters",
+        "claims"                : "claims"
     }
 
     var module  = session.module != "" ? session.module : (pageModuleMap[session.page] ?  pageModuleMap[session.page] : "");
@@ -120,6 +121,12 @@ $().ready(function() {
             break;
         case "create_adjuster":
             _partners.createForm();
+            break;
+        case "claims":
+            _claims.viewAll();
+            break;
+        case "create_claim":
+            _claims.createForm();
             break;
             /*Personal Details*/
         case "view_my_details":

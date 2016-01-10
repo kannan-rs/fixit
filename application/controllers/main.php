@@ -159,6 +159,21 @@ class Main extends CI_Controller {
 		
 	}
 
+	public function claims()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		if(!$this->isLoggedIn()) {
+			return false;
+		}
+
+		$this->layouts->setPage("claims");
+		//Render a view
+		$this->layouts->view();
+		
+	}
+
 	public function signup()
 	{
 		// With View library

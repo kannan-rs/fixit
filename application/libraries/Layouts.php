@@ -35,6 +35,7 @@ class Layouts
 			"js/projects/docs.js",
 			"js/service_providers/contractors.js",
 			"js/adjusters/partners.js",
+			"js/claims/claims.js",
 			"js/projects/remainingbudget.js",
 			'js/home/userInfo.js',
 			"js/home.js"
@@ -121,6 +122,7 @@ class Layouts
 			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
+			$this->layout_data['claimPermission'] 	= $this->CI->permissions_lib->getPermissions('claim');
 		}
 		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
