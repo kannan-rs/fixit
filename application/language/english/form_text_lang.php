@@ -1207,6 +1207,77 @@ $lang["budget"] = array(
 	)
 );
 
+$lang["claim"] = array(
+	/*
+		Title, Header and sub header text
+	*/
+	"headers" => array(
+		"view_all"				=> "Claim List",
+		"create" 				=> "Create Claim",
+		"update" 				=> "Update Claim",
+		"view_one"				=> "Claim Details View",
+		"claim_details"			=> "Claim Details",
+		"claim_description"		=> "Claim Description",
+		"claim_address"			=> "Claim Address",
+		"claim_notes"			=> "Claim Notes",
+		"claim_dairy_update"	=> "Claim Dairy Updates",
+		"claim_payment"			=> "Claim Payment"
+	),
+	"input_form" => array(
+		/*
+			Following are the (key => "text value") map for the "Budget" create and edit form
+			Sections
+				1. After Login 	> Projects > Individual Project View > Budget List > Update Budget
+				2. After Login 	> Projects > Individual Project View > Budget List > Update Budget> Edit Budget
+		*/
+		"searchCustomerName" 	=> "Customer Name",
+		"contactPhoneNumber" 	=> "Contct Number",
+		"email" 				=> "Email ID",
+		"description" 			=> "Description",
+		"claim_number"			=> "Claim Number",
+
+		/*
+			Place holder for text input element in Create/Edit form
+		*/
+		"searchCustomerName_ph" 	=> "Search by Email ID",
+		"contactPhoneNumber_ph" 	=> "Contact Number",
+		"email_ph" 					=> "Email ID",
+		"description_ph"			=> "Description",
+		"claim_number_ph" 			=> "Claim Number"
+	),
+	
+	/*
+		Summary view / View All Table's Column header
+	*/
+	"summary_table" => array(
+		"claim_number"		=> "Claim Number",
+		"customer_name"		=> "Customer Name",
+		"customer_email"	=> "Customer Contact Number"
+	),
+
+	/*
+		Detailed view / individual view Row label
+	*/
+	"details_view" => array(
+		"edit_title"		=> "Edit Claim",
+		"delete_title"		=> "Delete Claim",
+		"claim_number"		=> "Claim Number",
+		"customer_name"		=> "Customer Name",
+		"contact_number"	=> "Customer Contact Number",
+		"contact_email"		=> "Customer Email"
+	),
+	/*
+		Button text and link text
+	*/
+	"buttons_links" => array(
+		"create" => "Create Claim",
+		"update" => "Update Claim",
+		"add_new" => "Add New Claim",
+		"edit_claim_title" => "Edit Claim",
+		"delete_claim_title" => "Delete Claim"
+	)
+);
+
 $lang["login"] = array(
 	/*
 		Title, Header and sub header text

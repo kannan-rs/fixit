@@ -6,6 +6,14 @@ var _utils = (function () {
     //var postalCodeByCity = null;
     var _states = null;
     var _countries = null;
+    var _customers = [];
+
+    function mapCustomerObjectById( customer ) {
+        for( cust in customer) {
+            _customers[customer[cust].sno] = customer[cust];
+        }
+    };
+
     return {
         //state : [],
         //postalCodeMap : {},
@@ -447,13 +455,14 @@ var _utils = (function () {
             if (responseObj.status === "success") {
                 customer = responseObj.customer;
             }
+            mapCustomerObjectById(customer);
 
             var searchList = {
                 list: customer,
                 excludeList: [],
                 appendTo: "customerNameList",
                 type: "searchList",
-                functionName: "_projects.setCustomerId",
+                functionName: "_utils.setCustomerId",
                 searchBoxId: "searchCustomerName",
                 dbEntryId: "customer_id",
                 dataIdentifier    : "customer",
@@ -461,6 +470,26 @@ var _utils = (function () {
 
             this.createDropDownOptionsList(searchList);
         },
+        setCustomerId: function (event, element, options) {
+            $("#searchCustomerName").val(options.first_name + " " + options.last_name);
+            $("#customer_id").val(options.searchId);
+        },
+
+        showCustomerListInDropDown: function () {
+            var customer = $("#searchCustomerName").val();
+            var i;
+            $(".customer-search-result").show();
+            $("#customerNameList").show();
+
+            for (i = 0; i < $("#customerNameList").children().length; i += 1) {
+                if ($($("#customerNameList").children()[i]).text().indexOf(customer) > -1) {
+                    $($("#customerNameList").children()[i]).show();
+                } else {
+                    $($("#customerNameList").children()[i]).hide();
+                }
+            }
+        },
+
         setAdjusterDataList: function () {
             var response = this.getAdjusterList();
             var responseObj = $.parseJSON(response);
@@ -589,6 +618,12 @@ var _utils = (function () {
         },
         setAddressEditVal: function() {
 
+        },
+        validateCustomerByName: function(customer_id, customer_name) {
+            if(!_customers[customer_id] || customer_name != _customers[customer_id].first_name+" "+_customers[customer_id].last_name) {
+                return false;
+            }
+            return true;
         }
     };
 })();

@@ -48,21 +48,13 @@ class Model_form_utils extends CI_Model {
 	}
 
 	public function getCustomerList( $params = array()) {
-		//print_r($params);
 		$response = array("status" => "error");
 
 		$queryStr 	= "SELECT users.sno, users.user_name, ";
 		$queryStr	.= "user_details.email, user_details.first_name, user_details.last_name ";
 		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
 
-		/*
-		if($params && $params != "" && $params != 0) {
-			if($from_db == "users") {
-				$queryStr .= " AND users.sno = ".$params;			
-			} else if($from_db == "user_details") {
-				$queryStr .= " AND user_details.sno = ".$params;
-			}
-		}*/
+
 		if(isset($params) && is_array($params)) {
 			$emailId	= isset($params["emailId"]) ? $params["emailId"] : "";
 			$belongsTo	= isset($params["belongsTo"]) ? $params["belongsTo"] : "";
@@ -83,8 +75,8 @@ class Model_form_utils extends CI_Model {
 				$this->db->where_in('belongs_to', $belongsToArr);
 				$queryStr .=" AND `belongs_to` IN (".$belongsToStr.")";
 			} else {
-				$this->db->where('belongs_to', "customer");
-				$queryStr .=" AND `belongs_to` = \"customer\"";
+				/*$this->db->where('belongs_to', "customer");
+				$queryStr .=" AND `belongs_to` = \"customer\"";*/
 			}
 
 			if(!empty($assignment)) {
@@ -93,9 +85,11 @@ class Model_form_utils extends CI_Model {
 				$queryStr .= " AND `belongs_to_id` = '".$assignment."'";
 			}
 		} else {
-			$this->db->where('belongs_to', "customer");
-			$queryStr .=" AND `belongs_to` = \"customer\"";
+			/*$this->db->where('belongs_to', "customer");
+			$queryStr .=" AND `belongs_to` = \"customer\"";*/
 		}
+
+		//echo $queryStr;
 		
 		//$this->db->select(["*"]);
 		//$query = $this->db->from('user_details')->get();

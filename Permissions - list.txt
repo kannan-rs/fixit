@@ -10,27 +10,22 @@ s3: SP Admin details,
 Work Done
 ---------
 1. Modified top menu in JSON format.
+2. Added Claim and its Sub menu in top Navigation
+3. Claim list table is added in database
+4. Claim Insert/Update/Delete/Table View/ Individual view functionality done
+5. Permission added for claim module.
+    Create, view, update and delete permission
 
 To Do
 -----
-Navigation - .5
-Permissions - 2
-Claim list database decision - 1
-Claim individual view  - 3
-Claim list table view  - 3
-1. Claim controller
-2. Claim Adding input form - 1
-3. Claim add into database - 1
-4. Claim edit - 1
-5. Updating database - 1
-5. Claim delete - 1
 6. Notes
 	- Add
 	- Delete
 7. Dairy updates
 	- Add
 	- Delete
-8. Payment details view - 1.5
+8. Payment details view
+
 9. Claim document
 	Add
 	Delete
@@ -42,7 +37,7 @@ Claim list table view  - 3
     -Phone 			- customer_contact_no
     -Email 			- customer_email_id
     -Claim No 		- claim_number
-    9751970475
+
   Claim Description 
 -----------------
    - Text claim description
@@ -83,12 +78,3 @@ Claim History (To be implement Later)
     - History 2
 
 Note: Claim history will be implemented later
-
-Top Navigation Menus
-    - View Claims
-    - Create Claims
-
-Claims Details View
-    Will have all the above mentioned list
-
-Edit and delete functionality to be with this.

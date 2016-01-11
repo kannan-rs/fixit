@@ -158,6 +158,19 @@ var _lang = {
                 "amount":"Please provide value for amount, the amount needs to be a number",
                 "descr":" Please provide a description for the budget item",
                 "date":" Please provide a date for the budget item"
+            },
+            "claimForm" : {
+                "customer_name"         : "Please search and select customer for this claim",
+                "addressLine1"          : "Please provide a valid mailing address",
+                "addressLine2"          : "",
+                "city"                  : "Please provide a city name",
+                "country"               : "Please select an option from the country dropdown",
+                "state"                 : "Please select an option from the state dropdown",
+                "zipCode"               : "Zip Code needs to be a 5 digit number",
+                "contactPhoneNumber"    : "Phone number needs to be in 'xxx-xxx-xxxx' format",
+                "emailId"               : "Please provide a valid email address",
+                "claim_number"          : "Please provide claim number",
+                "description"           : "Please provide description"
             }
         }
     }

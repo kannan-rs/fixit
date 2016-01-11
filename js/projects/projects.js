@@ -1582,7 +1582,7 @@ var _projects = (function () {
             });
         },
 
-        showCustomerListInDropDown: function () {
+        /*showCustomerListInDropDown: function () {
             var customer = $("#searchCustomerName").val();
             var i;
             $(".customer-search-result").show();
@@ -1595,7 +1595,7 @@ var _projects = (function () {
                     $($("#customerNameList").children()[i]).hide();
                 }
             }
-        },
+        },*/
 
         showAdjusterListInDropDown: function () {
             var adjuster = $("#searchAdjusterName").val();
@@ -1612,10 +1612,10 @@ var _projects = (function () {
             }
         },
 
-        setCustomerId: function (event, element, options) {
+        /*setCustomerId: function (event, element, options) {
             $("#searchCustomerName").val(options.first_name + " " + options.last_name);
             $("#customer_id").val(options.searchId);
-        },
+        },*/
 
         setAdjusterId: function (event, element, options) {
             $("#searchAdjusterName").val(options.first_name + " " + options.last_name);

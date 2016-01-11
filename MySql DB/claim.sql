@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2016 at 05:10 AM
+-- Generation Time: Jan 10, 2016 at 05:46 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -52,10 +52,11 @@ CREATE TABLE IF NOT EXISTS `claim` (
   `claim_end_date` datetime DEFAULT NULL,
   `claim_complete_date` datetime DEFAULT NULL,
   `claim_close_date` datetime DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  `create_id` varchar(45) DEFAULT NULL,
-  `last_updated_id` varchar(45) DEFAULT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
   `Property_damage_reserve` int(11) DEFAULT NULL,
   PRIMARY KEY (`claim_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

@@ -205,7 +205,7 @@ class Partners extends CI_Controller {
 		/* If User dont have view permission load No permission page */
 		if(!in_array('update', $adjusterPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "create partner"
+				'page_disp_string' => "update partner"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;

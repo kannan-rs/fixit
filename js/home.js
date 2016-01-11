@@ -120,6 +120,7 @@ $().ready(function() {
             _partners.viewAll();
             break;
         case "create_adjuster":
+        case "create_partner":
             _partners.createForm();
             break;
         case "claims":
