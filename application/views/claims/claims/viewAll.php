@@ -12,24 +12,32 @@
 			<td class='cell'><?php echo $this->lang->line_arr('claim->summary_table->customer_email'); ?></td>
 		</tr>
 	<?php
-	}
 
-	for($i = 0; $i < count($claims); $i++) { 
-		$claim = $claims[$i];
+		for($i = 0; $i < count($claims); $i++) { 
+			$claim = $claims[$i];
+		?>
+			<tr class='row viewAll <?php echo $cssStatus; ?>'>
+				<!-- <td class='cell capitalize'>
+					<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->id; ?>')">
+						<?php echo $claim->name; ?>
+					</a>
+				</td> -->
+				<td class="cell capitalize">
+					<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->claim_id; ?>')">
+						<?php echo $claim->	claim_number; ?></td>
+					</a>
+				<td class="cell capitalize"><?php echo isset($customer_names[$claim->claim_customer_id]) ? $customer_names[$claim->claim_customer_id] : "-NA-"; ?></td>
+				<td class="cell capitalize"><?php echo $claim->customer_contact_no.", ".$claim->customer_email_id; ?></td>
+			</tr>
+		<?php
+		}
+	}  else {
 	?>
-		<tr class='row viewAll <?php echo $cssStatus; ?>'>
-			<!-- <td class='cell capitalize'>
-				<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->id; ?>')">
-					<?php echo $claim->name; ?>
-				</a>
-			</td> -->
-			<td class="cell capitalize">
-				<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->claim_id; ?>')">
-					<?php echo $claim->	claim_number; ?></td>
-				</a>
-			<td class="cell capitalize"><?php echo isset($customer_names[$claim->claim_customer_id]) ? $customer_names[$claim->claim_customer_id] : "-NA-"; ?></td>
-			<td class="cell capitalize"><?php echo $claim->customer_contact_no.", ".$claim->customer_email_id; ?></td>
-		</tr>
+	<tr>
+		<td>
+			-- No Claim data present --
+		</td>
+	</tr>
 	<?php
 	}
 	?>

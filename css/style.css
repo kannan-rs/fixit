@@ -1322,7 +1322,8 @@ a.icon-right {
 
 .connectedSortable.dropdown {
   position: absolute;
-  margin-top: -20px; }
+  margin-top: -20px;
+  z-index: 10; }
 
 .page-tabs {
   border: 0px;

@@ -215,7 +215,7 @@ var _claims = (function () {
                 },
                 success: function (response) {
                     $("#claims_content").html(response);
-                    presetInputForm( "input" );
+                    presetInputForm( "create" );
                 },
                 error: function (error) {
                     error = error;
