@@ -8,7 +8,7 @@ class Model_projects extends CI_Model {
 			$this->db->where('deleted', '0');
 		}
 
-		if(!in_array('all', $projectParams['projectPermission']['data_filter'])) {
+		if(isset($projectParams['projectId']) && count($projectParams['projectId'])) {
 			$this->db->where_in("proj_id", $projectParams["projectId"]);
 		}
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Claims extends CI_Controller {
+class Suborgation extends CI_Controller {
 
 	public function __construct()
    	{
@@ -22,33 +22,37 @@ class Claims extends CI_Controller {
 		/* If User dont have view permission load No permission page */
 		if(!in_array('view', $claimPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Claims list"
+				'page_disp_string' => "Suborgation list"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
 
-		$this->load->model('claims/model_claims');
+		$claim_id = $this->input->post("claim_id");
+
+		$this->load->model('claims/model_suborgation');
 		$this->load->model('security/model_users');
 		
-		$getParams = array();
+		$getParams = array(
+			"claim_id"		=> $claim_id
+		);
 
-		$claimsResponse = $this->model_claims->getClaimsList($getParams);
+		$response = $this->model_suborgation->getSuborgationsList($getParams);
 
-		$claims = $claimsResponse["claims"];
+		$suborgation = $response["suborgation"];
 
-		for($i = 0, $count = count($claims); $i < $count; $i++) {
-			$customer_names[$claims[$i]->claim_customer_id] = $this->model_users->getUserDisplayName($claims[$i]->claim_customer_id);
+		for($i = 0, $count = count($suborgation); $i < $count; $i++) {
+			$customer_names[$suborgation[$i]->customer_id] = $this->model_users->getUserDisplayName($suborgation[$i]->customer_id);
 		}
 
 		$params = array(
-			'claims'				=>$claimsResponse["claims"],
+			'suborgation'			=> $response["suborgation"],
 			'role_id' 				=> $this->session->userdata('role_id'),
 			'claimPermission' 		=> $claimPermission,
 			'customer_names'		=> $customer_names
 		);
 		
-		echo $this->load->view("claims/claims/viewAll", $params, true);
+		echo $this->load->view("claims/suborgation/viewAll", $params, true);
 	}
 
 	public function createForm() {
@@ -58,16 +62,18 @@ class Claims extends CI_Controller {
 		/* If User dont have view permission load No permission page */
 		if(!in_array('create', $claimPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "create claims"
+				'page_disp_string' => "create suborgation"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
 
+		$openAs 	= $this->input->post("openAs");
+
 		$this->load->model('security/model_users');
 
 		$addressParams = array(
-			'forForm' 		=> "create_claim_form"
+			'forForm' 		=> "create_suborgation_form"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
@@ -78,35 +84,36 @@ class Claims extends CI_Controller {
 			'users' 				=> $this->model_users->getUsersList(),
 			'userType' 				=> $this->session->userdata('role_id'),
 			'addressFile' 			=> $addressFile,
-			'customerPermission'	=> $customerPermission
+			'customerPermission'	=> $customerPermission,
+			'openAs'				=> $openAs
 		);
 
-		echo $this->load->view("claims/claims/inputForm", $params, true);
+		echo $this->load->view("claims/suborgation/inputForm", $params, true);
 	}
 
 	public function add() {
-		$this->load->model('claims/model_claims');
+		$this->load->model('claims/model_suborgation');
 		$this->load->model('mail/model_mail');
 
 		$data = array(
-			'claim_customer_id' 	=> $this->input->post('customer_id'),
-			'addr1' 				=> $this->input->post('addressLine1'),
-			'addr2' 				=> $this->input->post('addressLine2'),
-			'addr_city' 			=> $this->input->post('city'),
-			'addr_country'			=> $this->input->post('country'),
-			'addr_state' 			=> $this->input->post('state'),
-			'addr_pin' 				=> $this->input->post('zipCode'),
-			'customer_contact_no'	=> $this->input->post('contactPhoneNumber'),
-			'customer_email_id' 	=> $this->input->post('emailId'),
-			'claim_number' 			=> $this->input->post('claim_number'),
-			'claim_description' 	=> $this->input->post('description'),
+			"claim_id"				=> $this->input->post('claim_id'),
+			"customer_id"			=> $this->input->post('customer_id'),
+			"climant_name"			=> $this->input->post('climant_name'),
+			"addressLine1"			=> $this->input->post('addressLine1'),
+			"addressLine2"			=> $this->input->post('addressLine2'),
+			"addr_city"				=> $this->input->post('city'),
+			"addr_country"			=> $this->input->post('country'),
+			"addr_state"			=> $this->input->post('state'),
+			"addr_pin"				=> $this->input->post('zipCode'),
+			"description"			=> $this->input->post('description'),
+			"status"				=> $this->input->post("status"),
 			'created_by'			=> $this->session->userdata('user_id'),
 			'updated_by'			=> $this->session->userdata('user_id'),
 			'created_on'			=> date("Y-m-d H:i:s"),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_claims->insert($data);
+		$response = $this->model_suborgation->insert($data);
 
 		/*$claimParamsFormMail = array(
 			'response'			=> $response,
@@ -134,62 +141,53 @@ class Claims extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('claims/model_claims');
+		$this->load->model('claims/model_suborgation');
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
 		$this->load->model('projects/model_remainingbudget');
 
+		$suborgation_id 		= $this->input->post('suborgation_id');
 		$claim_id 				= $this->input->post('claim_id');
 
 		$getParams 	= array(
-			"record" 		=> $claim_id
+			"suborgation_id" 		=> $suborgation_id,
+			"claim_id"				=> $claim_id
 		);
-		$claimsResponse 		= $this->model_claims->getClaimsList( $getParams );
+		$response 		= $this->model_suborgation->getSuborgationsList( $getParams );
 
-		$claims = $claimsResponse["claims"];
+		$suborgation = $response["suborgation"];
 		
-		for($i=0; $i < count($claims); $i++) {
-			$claims[$i]->customer_name 		= $this->model_users->getUserDisplayName($claims[$i]->claim_customer_id);
-			$claims[$i]->created_by_name	= $this->model_users->getUsersList($claims[$i]->created_by)[0]->user_name;
-			$claims[$i]->updated_by_name 	= $this->model_users->getUsersList($claims[$i]->updated_by)[0]->user_name;
+		for($i=0; $i < count($suborgation); $i++) {
+			$suborgation[$i]->customer_name 		= $this->model_users->getUserDisplayName($suborgation[$i]->customer_id);
+			$suborgation[$i]->created_by_name	= $this->model_users->getUsersList($suborgation[$i]->created_by)[0]->user_name;
+			$suborgation[$i]->updated_by_name 	= $this->model_users->getUsersList($suborgation[$i]->updated_by)[0]->user_name;
 		}
 
-		$stateText = !empty($claims[0]->addr_state) ? $this->model_form_utils->getCountryStatus($claims[0]->addr_state)[0]->name : "";
+		$stateText = !empty($suborgation[0]->addr_state) ? $this->model_form_utils->getCountryStatus($suborgation[0]->addr_state)[0]->name : "";
 
 		$addressParams = array(
-			'addressLine1' 		=> $claims[0]->addr1,
-			'addressLine2' 		=> $claims[0]->addr2,
-			'city' 				=> $claims[0]->addr_city,
-			'country' 			=> $claims[0]->addr_country,
+			'addressLine1' 		=> $suborgation[0]->addressLine1,
+			'addressLine2' 		=> $suborgation[0]->addressLine1,
+			'city' 				=> $suborgation[0]->addr_city,
+			'country' 			=> $suborgation[0]->addr_country,
 			'state'				=> $stateText,
-			'zipCode' 			=> $claims[0]->addr_pin,
+			'zipCode' 			=> $suborgation[0]->addr_pin,
 			'requestFrom' 		=> 'view'
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
-		/*
-		Get Project with the Claim details
-		*/
-		$project_with_claim_response = $this->model_claims->getProjectClaim($claims[0]->claim_number);
-
-		if($project_with_claim_response["status"] == "success") {
-			$project_with_claim = $project_with_claim_response["projects"];
-			for($i = 0, $count= count($project_with_claim); $i < $count; $i++) {
-				$project_with_claim[$i]->remediation_payment = $this->model_remainingbudget->getPaidBudgetSum($project_with_claim[$i]->proj_id);
-			}
-		}
 
 		$params = array(
-			'claims'				=> $claims,
-			'budget_details'		=> isset($project_with_claim) ? $project_with_claim : [],
+			'suborgation'			=> $suborgation,
 			'userType' 				=> $this->session->userdata('role_id'),
 			'claim_id' 				=> $claim_id,
+			'suborgation_id'		=> $suborgation_id,
 			'addressFile' 			=> $addressFile,
 			'claimPermission'		=> $claimPermission
 		);
 		
-		echo $this->load->view("claims/claims/viewOne", $params, true);
+		echo $this->load->view("claims/suborgation/viewOne", $params, true);
 	}
 
 	public function editForm() {
@@ -205,7 +203,7 @@ class Claims extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('claims/model_claims');
+		$this->load->model('claims/model_suborgation');
 
 		$claim_id = $this->input->post('claim_id');
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -214,8 +212,8 @@ class Claims extends CI_Controller {
 		$get_params = array(
 			"record" 	=> $claim_id
 		);
-		$claimsResponse = $this->model_claims->getClaimsList( $get_params );
-		$claims = $claimsResponse["claims"];
+		$response = $this->model_suborgation->getSuborgationList( $get_params );
+		$claims = $response["suborgation"];
 
 		$addressParams = array(
 			'addressLine1' 		=> $claims[0]->addr1,
@@ -244,7 +242,7 @@ class Claims extends CI_Controller {
 	}
 
 	public function update() {
-		$this->load->model('claims/model_claims');
+		$this->load->model('claims/model_suborgation');
 		$this->load->model('mail/model_mail');
 
 		$claim_id = $this->input->post("claim_id");
@@ -265,7 +263,7 @@ class Claims extends CI_Controller {
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_claims->update($data, $claim_id);
+		$response = $this->model_suborgation->update($data, $claim_id);
 
 		/*$claimParamsFormMail = array(
 			'response'			=> $response,
@@ -281,11 +279,11 @@ class Claims extends CI_Controller {
 	}
 
 	public function deleteRecord() {
-		$this->load->model('claims/model_claims');
+		$this->load->model('claims/model_suborgation');
 		$this->load->model('mail/model_mail');
 
 		$claim_id = $this->input->post('claim_id');
-		$delete_claim = $this->model_claims->deleteRecord($claim_id);
+		$delete_claim = $this->model_suborgation->deleteRecord($claim_id);
 
 		print_r(json_encode($delete_claim));
 	}

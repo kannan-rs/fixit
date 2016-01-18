@@ -36,6 +36,10 @@ class Layouts
 			"js/service_providers/contractors.js",
 			"js/adjusters/partners.js",
 			"js/claims/claims.js",
+			"js/claims/notes.js",
+			"js/claims/dairy_updates.js",
+			"js/claims/suborgation.js",
+			"js/claims/docs.js",
 			"js/projects/remainingbudget.js",
 			'js/home/userInfo.js',
 			"js/home.js"

@@ -171,6 +171,25 @@ var _lang = {
                 "emailId"               : "Please provide a valid email address",
                 "claim_number"          : "Please provide claim number",
                 "description"           : "Please provide description"
+            },
+            "claimSuborgationForm" : {
+                "customer_name"         : "Please search and select customer for this suborgation",
+                "addressLine1"          : "Please provide a valid mailing address",
+                "addressLine2"          : "",
+                "city"                  : "Please provide a city name",
+                "country"               : "Please select an option from the country dropdown",
+                "state"                 : "Please select an option from the state dropdown",
+                "zipCode"               : "Zip Code needs to be a 5 digit number",
+                "contactPhoneNumber"    : "Phone number needs to be in 'xxx-xxx-xxxx' format",
+                "status"                : "Please provide status",
+                "climant_name"          : "Please provide climant name",
+                "description"           : "Please provide description"
+            },
+            "claimNotesForm" : {
+                "notesDescription"         : "Please provide the notes description",
+            },
+            "claimDailyUpdateForm" : {
+                "dairy_updatesDescription"         : "Please provide the dairy update description",
             }
         }
     }

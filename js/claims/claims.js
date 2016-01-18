@@ -152,6 +152,13 @@ var _claims = (function () {
         _utils.getAndSetCountryStatus(form+"_claim_form");
     }
 
+    function presetViewOne() {
+        $( "#claim_tabs" ).tabs();
+        _claim_notes.viewAll(_claims._claim_id);
+        _claim_dairy_updates.viewAll(_claims._claim_id);
+        _claim_docs.viewAll(_claims._claim_id);
+    }
+
     return {
     	viewAll: function() {
     		var fail_error = null;
@@ -193,6 +200,7 @@ var _claims = (function () {
                             active: 0
                         }
                    );
+                    presetViewOne();
                 },
                 error: function (error) {
                     error = error;
@@ -265,7 +273,6 @@ var _claims = (function () {
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Edit Claim"});
                     presetInputForm("update");
-                    //$("#claims_content").html(response);
                 },
                 error: function (error) {
                     error = error;
@@ -327,6 +334,98 @@ var _claims = (function () {
             }).fail(function (failedObj) {
                 fail_error = failedObj;
             });
-        }
+        },
+        /*claimNotesCreateForm : function(event, options) {
+            var fail_error  = null;
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            var openAs = (options && options.openAs) ? options.openAs: "";
+            var popupType = (options && options.popupType) ? options.popupType: "";
+
+            $.ajax({
+                method: "POST",
+                url: "/claims/claims/notesCreateForm",
+                data: {
+                    openAs      : openAs,
+                    popupType   : popupType,
+                    claim_id    : _claims._claim_id
+                },
+                success: function (response) {
+                    if (openAs === "popup") {
+                        $("#popupForAll" + popupType).html(response);
+                        _projects.openDialog({title: "Add Claim Notes"}, popupType);
+                    }
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+        },*/
+        /*claimDairyUpdateCreateForm : function(event, options) {
+            var fail_error  = null;
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            var openAs = (options && options.openAs) ? options.openAs: "";
+            var popupType = (options && options.popupType) ? options.popupType: "";
+
+            $.ajax({
+                method: "POST",
+                url: "/claims/claims/getListWithForm",
+                data: {
+                    openAs      : openAs,
+                    popupType   : popupType,
+                    claim_id    : _claims._claim_id
+                },
+                success: function (response) {
+                    if (openAs === "popup") {
+                        $("#popupForAll" + popupType).html(response);
+                        _claims.openDialog({title: "Paid From Budget"}, popupType);
+                        _utils.setAsDateFields({dateField: "date"});
+                    }
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+        },*/
+        /*claimDocsCreateForm : function(event, options) {
+            var fail_error  = null;
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+
+            var openAs = (options && options.openAs) ? options.openAs: "";
+            var popupType = (options && options.popupType) ? options.popupType: "";
+
+            $.ajax({
+                method: "POST",
+                url: "/claims/claims/getListWithForm",
+                data: {
+                    openAs      : openAs,
+                    popupType   : popupType,
+                    claim_id    : _claims._claim_id
+                },
+                success: function (response) {
+                    if (openAs === "popup") {
+                        $("#popupForAll" + popupType).html(response);
+                        _claims.openDialog({title: "Paid From Budget"}, popupType);
+                        _utils.setAsDateFields({dateField: "date"});
+                    }
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+        },*/
     };
 })();

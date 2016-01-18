@@ -95,4 +95,34 @@ class Model_claims extends CI_Model {
 		}
 		return $response;
 	}
+
+	public function getProjectClaim( $claim_number ) {
+		$response = array(
+			"status"	=> "error"
+		);
+
+		if(!isset($claim_number) || empty($claim_number)) {
+			$response["message"] = "Provide vaild claim number";
+		} else {
+			$this->db->where('deleted', '0');
+			$this->db->where('associated_claim_num', $claim_number);
+
+			$this->db->select([
+					"proj_id",
+					"project_name",
+					"associated_claim_num",
+					"project_budget"
+				]);
+			$query = $this->db->from('project')->get();
+			
+			$projects = $query->result();
+
+			if($projects) {
+				$response["status"] 	= "success";
+				$response["projects"]	= $projects;
+			}
+		}
+
+		return $response;
+	}
 }

@@ -1216,12 +1216,15 @@ $lang["claim"] = array(
 		"create" 				=> "Create Claim",
 		"update" 				=> "Update Claim",
 		"view_one"				=> "Claim Details View",
+		"subrogation"			=> "Subrogation",
 		"claim_details"			=> "Claim Details",
 		"claim_description"		=> "Claim Description",
 		"claim_address"			=> "Claim Address",
 		"claim_notes"			=> "Claim Notes",
 		"claim_dairy_update"	=> "Claim Dairy Updates",
-		"claim_payment"			=> "Claim Payment"
+		"claim_payment"			=> "Claim Payment",
+		"claim_documents"		=> "Claim Documents",
+		"claim_history"			=> "Claim History"
 	),
 	"input_form" => array(
 		/*
@@ -1259,12 +1262,20 @@ $lang["claim"] = array(
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
-		"edit_title"		=> "Edit Claim",
-		"delete_title"		=> "Delete Claim",
-		"claim_number"		=> "Claim Number",
-		"customer_name"		=> "Customer Name",
-		"contact_number"	=> "Customer Contact Number",
-		"contact_email"		=> "Customer Email"
+		"edit_title"						=> "Edit Claim",
+		"delete_title"						=> "Delete Claim",
+		"claim_number"						=> "Claim Number",
+		"customer_name"						=> "Customer Name",
+		"contact_number"					=> "Customer Contact Number",
+		"contact_email"						=> "Customer Email",
+		"no_project_text"					=> "-- No project is associated with this claim number --",
+		"budget_project_name"				=> "Project Name :",
+		"budget_starting_budget"			=> "Starting budget:",
+		"budget_remediation_budget"			=> "Remediation budget:",
+		"budget_remaining_budget"			=> "Remaining budget:",
+		"budget_total_claim_budget"			=> "Total Claim budget:",
+		"budget_total_remediation_budget"	=> "Total Remediation budget:",
+		"budget_total_remaining_budget"		=> "Total Remaining budget:",
 	),
 	/*
 		Button text and link text
@@ -1274,7 +1285,137 @@ $lang["claim"] = array(
 		"update" => "Update Claim",
 		"add_new" => "Add New Claim",
 		"edit_claim_title" => "Edit Claim",
-		"delete_claim_title" => "Delete Claim"
+		"delete_claim_title" => "Delete Claim",
+		"add_dairy_updates_title"	=> "Add Claim Dairy Updates",
+		"add_docs_title"			=> "Add Claim Documents"
+	)
+);
+
+$lang["claim_daily_updates"] = array(
+	/*
+		Title, Header and sub header text
+	*/
+	"headers" => array(
+		"create" => "Create Dairy Update",
+		"view_all" => "Dairy Updates"
+	),
+	"input_form" => array(
+		/*
+			Following are the (key => "text value") map for the "Claim Dairy Updates" create and edit form
+			Sections
+				1. After Login 	> Projects > Individual Project View > Claim Dairy Updates List > Add Dairy Update
+				2. After Login 	> Projects > Individual Project View > Issue List > Claim Dairy Updates List > Add Dairy Update
+		*/
+		"dailyUpdateContent" => "Dairy Update Content",
+
+		/*
+			Place holder for text input element in Create/Edit form
+		*/
+		"dailyUpdateContent_ph" => "Dairy Update Content"
+	),
+	
+	/*
+		Summary view / View All Table's Column header
+	*/
+	"summary_table" => array(
+		"created_by" => "Created By"
+	),
+
+	/*
+		Detailed view / individual view Row label
+	*/
+	"details_view" => array(
+	),
+	/*
+		Button text and link text
+	*/
+	"buttons_links" => array(
+		"add" => "Add Dairy Update"
+	)
+);
+
+$lang["claim_suborgation"] = array(
+	/*
+		Title, Header and sub header text
+	*/
+	"headers" => array(
+		"view_all"						=> "Suborgation List",
+		"create" 						=> "Create Suborgation",
+		"update" 						=> "Update Suborgation",
+		"view_one"						=> "Suborgation Details View",
+		"suborgation_details"			=> "Suborgation Details",
+		"description"					=> "Description",
+		"suborgation_address"			=> "Suborgation Address",
+		"suborgation_notes"				=> "Suborgation Notes",
+		"suborgation_documents"			=> "Suborgation Documents",
+		"customer_details"				=> "Customer Details",
+		"climant_details"				=> "Climant Details",
+	),
+	"input_form" => array(
+		/*
+			Following are the (key => "text value") map for the "Budget" create and edit form
+			Sections
+				1. After Login 	> Projects > Individual Project View > Budget List > Update Budget
+				2. After Login 	> Projects > Individual Project View > Budget List > Update Budget> Edit Budget
+		*/
+		"searchCustomerName" 	=> "Customer Name",
+		"climant_name" 			=> "Climant Name",
+		"email" 				=> "Email ID",
+		"description" 			=> "Description",
+		"status"				=> "Status",
+
+		/*
+			Place holder for text input element in Create/Edit form
+		*/
+		"searchCustomerName_ph" 	=> "Search by Email ID",
+		"climant_name_ph" 			=> "Climant Name",
+		"email_ph" 					=> "Email ID",
+		"description_ph"			=> "Description",
+		"status_ph"					=> "Status"
+	),
+	
+	/*
+		Summary view / View All Table's Column header
+	*/
+	"summary_table" => array(
+		"customer_name"		=> "Customer Name",
+		"climant_name"		=> "Climant Name",
+		"status"			=> "Status"
+	),
+
+	/*
+		Detailed view / individual view Row label
+	*/
+	"details_view" => array(
+		"add_title"							=> "Add Suborgation",
+		"edit_title"						=> "Edit Suborgation",
+		"delete_title"						=> "Delete Suborgation",
+		"claim_number"						=> "Suborgation Number",
+		"customer_name"						=> "Customer Name",
+		"contact_number"					=> "Customer Contact Number",
+		"contact_email"						=> "Customer Email",
+		"no_project_text"					=> "-- No project is associated with this claim number --",
+		"budget_project_name"				=> "Project Name :",
+		"budget_starting_budget"			=> "Starting budget:",
+		"budget_remediation_budget"			=> "Remediation budget:",
+		"budget_remaining_budget"			=> "Remaining budget:",
+		"budget_total_claim_budget"			=> "Total Suborgation budget:",
+		"budget_total_remediation_budget"	=> "Total Remediation budget:",
+		"budget_total_remaining_budget"		=> "Total Remaining budget:",
+		"status"							=> "Status",
+		"climant_name"						=> "Climant Name",
+	),
+	/*
+		Button text and link text
+	*/
+	"buttons_links" => array(
+		"create" => "Create Suborgation",
+		"update" => "Update Suborgation",
+		"add_new" => "Add New Suborgation",
+		"edit_claim_title" => "Edit Suborgation",
+		"delete_claim_title" => "Delete Suborgation",
+		"add_dairy_updates_title"	=> "Add Suborgation Dairy Updates",
+		"add_docs_title"			=> "Add Suborgation Documents"
 	)
 );
 
@@ -1316,9 +1457,12 @@ $lang["login"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"login" => "Login",
-		"new_customer" => "New to the Fixit Network ##replace1## Click here ##replace2## to register",
-		"forgot_pass" => "Forgot your password ##replace1## Click here ##replace2## to retrive"
+		"login" 					=> "Login",
+		"new_customer" 				=> "New to the Fixit Network ##replace1## Click here ##replace2## to register",
+		"forgot_pass" 				=> "Forgot your password ##replace1## Click here ##replace2## to retrive",
+		"add_notes_title"			=> "Add Claim Notes",
+		"add_dairy_updates_title" 	=> "Add Claim Dairy Update",
+		"add_docs_title"			=> "Add Claim Document"
 	)
 );
 
