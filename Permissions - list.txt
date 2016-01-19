@@ -15,7 +15,6 @@ Default it is uncheck,
 Align the header with the content (Left align)
 Expand all / collapse all
 
-#23
 #13
 #14
 #18
@@ -35,4 +34,10 @@ Done List:
 Suborgation Page
     Add Suborgation
     View All Suborgation
-    ViewAll
+    View One
+
+
+Bugs Fixed
+#23
+#21
+#22 - Working on

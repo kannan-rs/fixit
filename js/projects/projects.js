@@ -546,7 +546,8 @@ var _projects = (function () {
                         {
                             collapsible: true,
                             icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                            active: defaultAccordian
+                            //active: defaultAccordian
+                            active: false
                         }
                    );
                     $("#projectDescrAccordion").accordion(

@@ -1349,7 +1349,7 @@ $lang["claim_suborgation"] = array(
 		"suborgation_notes"				=> "Suborgation Notes",
 		"suborgation_documents"			=> "Suborgation Documents",
 		"customer_details"				=> "Customer Details",
-		"climant_details"				=> "Climant Details",
+		"climant_details"				=> "Claimant Details",
 	),
 	"input_form" => array(
 		/*
@@ -1359,7 +1359,7 @@ $lang["claim_suborgation"] = array(
 				2. After Login 	> Projects > Individual Project View > Budget List > Update Budget> Edit Budget
 		*/
 		"searchCustomerName" 	=> "Customer Name",
-		"climant_name" 			=> "Climant Name",
+		"climant_name" 			=> "Claimant Name",
 		"email" 				=> "Email ID",
 		"description" 			=> "Description",
 		"status"				=> "Status",
@@ -1368,7 +1368,7 @@ $lang["claim_suborgation"] = array(
 			Place holder for text input element in Create/Edit form
 		*/
 		"searchCustomerName_ph" 	=> "Search by Email ID",
-		"climant_name_ph" 			=> "Climant Name",
+		"climant_name_ph" 			=> "Claimant Name",
 		"email_ph" 					=> "Email ID",
 		"description_ph"			=> "Description",
 		"status_ph"					=> "Status"
@@ -1379,7 +1379,7 @@ $lang["claim_suborgation"] = array(
 	*/
 	"summary_table" => array(
 		"customer_name"		=> "Customer Name",
-		"climant_name"		=> "Climant Name",
+		"climant_name"		=> "Claimant Name",
 		"status"			=> "Status"
 	),
 
@@ -1403,7 +1403,7 @@ $lang["claim_suborgation"] = array(
 		"budget_total_remediation_budget"	=> "Total Remediation budget:",
 		"budget_total_remaining_budget"		=> "Total Remaining budget:",
 		"status"							=> "Status",
-		"climant_name"						=> "Climant Name",
+		"climant_name"						=> "Claimant Name",
 	),
 	/*
 		Button text and link text

@@ -73,7 +73,8 @@ var _claim_suborgation = (function() {
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
-                    //_claim_suborgation.viewOne(response.insertedId);
+                    $("#popupForAll").dialog("close");
+                    _claim_suborgation.viewOne(response.insertedId);
                     _claim_suborgation.viewAll();
                 } else if (response.status.toLowerCase() === "error") {
                     alert(response.message);
@@ -249,7 +250,8 @@ var _claim_suborgation = (function() {
                     $("#suborgation_accordion").accordion(
                         {
                             collapsible: true,
-                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"}
+                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
+                            active: false
                         }
                    );
                     presetViewOne();

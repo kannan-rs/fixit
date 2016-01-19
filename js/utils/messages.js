@@ -182,7 +182,7 @@ var _lang = {
                 "zipCode"               : "Zip Code needs to be a 5 digit number",
                 "contactPhoneNumber"    : "Phone number needs to be in 'xxx-xxx-xxxx' format",
                 "status"                : "Please provide status",
-                "climant_name"          : "Please provide climant name",
+                "climant_name"          : "Please provide claimant name",
                 "description"           : "Please provide description"
             },
             "claimNotesForm" : {

@@ -153,7 +153,7 @@ var _contractors = (function () {
             {
                 collapsible: true,
                 icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                active: 0
+                active: false
             }
        );
     };
