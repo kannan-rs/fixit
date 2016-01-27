@@ -76,31 +76,6 @@ var _claim_docs = (function(){
             });
         },
 
-        deleteRecord: function (doc_id) {
-            var fail_error = null;
-            $.ajax({
-                method: "POST",
-                url: "/claims/docs/deleteRecord",
-                data: {
-                    doc_id: doc_id
-                },
-                success: function (response) {
-                    response = $.parseJSON(response);
-                    if (response.status.toLowerCase() === "success") {
-                        alert(response.message);
-                        _claim_docs.viewAll();
-                    } else if (response.status.toLowerCase() === "error") {
-                        alert(response.message);
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
-        },
-
 		addDocumentForm : function(event) {
 			var fail_error = null;
             var self = this;

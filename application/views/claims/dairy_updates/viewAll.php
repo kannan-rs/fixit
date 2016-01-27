@@ -11,9 +11,6 @@
 $count = count($claim_dairy_updates);
 if($count) {
 	for($i=0; $i < $count; $i++) {
-
-		$deleteFn = "_claim_dairy_updates.deleteRecord";
-		$deleteFn .= "(".$claim_dairy_updates[$i]->dairy_updates_id.")";
 	?>
 		<tr id="dairy_updates_<?php echo $claim_dairy_updates[$i]->dairy_updates_id; ?>">
 			<td class='cell' colspan="3">
@@ -21,9 +18,6 @@ if($count) {
 				<br/><i><?php echo $this->lang->line_arr('claim_dairy_updates->summary_table->created_by'); ?>: <?php echo $claim_dairy_updates[$i]->created_by_name; ?> on 
 					<?php echo $claim_dairy_updates[$i]->created_on_for_view; ?>
 				</i>
-			</td>
-			<td class="table-action">
-				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>"></a></span>
 			</td>
 		</tr>
 	<?php

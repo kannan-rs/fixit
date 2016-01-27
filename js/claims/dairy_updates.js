@@ -123,38 +123,6 @@ var _claim_dairy_updates = (function () {
             }).fail(function (failedObj) {
                 fail_error = failedObj;
             });
-        },
-
-        deleteRecord: function (dairy_update_id) {
-            var deleteConfim = confirm("Do you want to delete this dairy update");
-
-            if (!deleteConfim) {
-                return;
-            }
-
-            var fail_error = null;
-            var self = this;
-            $.ajax({
-                method: "POST",
-                url: "/claims/dairy_updates/deleteRecord",
-                data: {
-                    dairy_update_id: dairy_update_id
-                },
-                success: function (response) {
-                    response = $.parseJSON(response);
-                    if (response.status.toLowerCase() === "success") {
-                        _claim_dairy_updates.viewAll(_claims._claim_id);
-                        setTimeout(function () {alert(response.message);}, 100);
-                    } else if (response.status.toLowerCase() === "error") {
-                        alert(response.message);
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
         }
     };
 })();

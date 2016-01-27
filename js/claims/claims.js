@@ -51,12 +51,22 @@ var _claims = (function () {
     function createSubmit() {
         var customer_name       = $("#customer_name").val();
         var customer_id         = $("#customer_id").val();
+
         var addressLine1        = $("#addressLine1").val();
         var addressLine2        = $("#addressLine2").val();
-        var city                = $("#city").val();
-        var country             = $("#country").val();
-        var state               = $("#state").val();
-        var zipCode             = $("#zipCode").val();
+        var city                = $("#cityDbVal").val();
+        var country             = $("#countryDbVal").val();
+        var state               = $("#stateDbVal").val();
+        var zipCode             = $("#zipcodeDbVal").val();
+
+        var is_property_address_same    = $("#is_property_address_same:checked").val();
+        var property_addr1              = !is_property_address_same ? $("#property_addressLine1").val() : addressLine1;
+        var property_addr2              = !is_property_address_same ? $("#property_addressLine2").val() : addressLine2;
+        var property_addr_city          = !is_property_address_same ? $("#property_city").val() : city;
+        var property_addr_country       = !is_property_address_same ? $("#property_country").val() : country;
+        var property_addr_state         = !is_property_address_same ? $("#property_state").val() : state;
+        var property_addr_pin           = !is_property_address_same ? $("#property_zipCode").val() : zipCode;
+
         var contactPhoneNumber  = $("#contactPhoneNumber").val();
         var emailId             = $("#emailId").val();
         var claim_number        = $("#claim_number").val();
@@ -66,18 +76,19 @@ var _claims = (function () {
             method: "POST",
             url: "/claims/claims/add",
             data: {
-                customer_name : customer_name,
-                customer_id : customer_id,
-                addressLine1 : addressLine1,
-                addressLine2 : addressLine2,
-                city : city,
-                country : country,
-                state : state,
-                zipCode : zipCode,
-                contactPhoneNumber : contactPhoneNumber,
-                emailId : emailId,
-                claim_number : claim_number,
-                description : description
+                customer_name   : customer_name,
+                customer_id     : customer_id,
+                is_property_address_same    : is_property_address_same,
+                property_addr1              : property_addr1,
+                property_addr2              : property_addr2,
+                property_addr_city          : property_addr_city,
+                property_addr_country       : property_addr_country,
+                property_addr_state         : property_addr_state,
+                property_addr_pin           : property_addr_pin,
+                contactPhoneNumber  : contactPhoneNumber,
+                emailId             : emailId,
+                claim_number        : claim_number,
+                description         : description
             },
             success: function (response) {
                 response = $.parseJSON(response);
@@ -99,12 +110,22 @@ var _claims = (function () {
     function updateSubmit() {
         var customer_name       = $("#customer_name").val();
         var customer_id         = $("#customer_id").val();
+
         var addressLine1        = $("#addressLine1").val();
         var addressLine2        = $("#addressLine2").val();
         var city                = $("#city").val();
         var country             = $("#country").val();
         var state               = $("#state").val();
         var zipCode             = $("#zipCode").val();
+
+        var is_property_address_same    = $("#is_property_address_same:checked").val();
+        var property_addr1              = !is_property_address_same ? $("#property_addressLine1").val() : addressLine1;
+        var property_addr2              = !is_property_address_same ? $("#property_addressLine2").val() : addressLine2;
+        var property_addr_city          = !is_property_address_same ? $("#property_city").val() : city;
+        var property_addr_country       = !is_property_address_same ? $("#property_country").val() : country;
+        var property_addr_state         = !is_property_address_same ? $("#property_state").val() : state;
+        var property_addr_pin           = !is_property_address_same ? $("#property_zipCode").val() : zipCode;
+
         var contactPhoneNumber  = $("#contactPhoneNumber").val();
         var emailId             = $("#emailId").val();
         var claim_number        = $("#claim_number").val();
@@ -114,19 +135,20 @@ var _claims = (function () {
             method: "POST",
             url: "/claims/claims/update",
             data: {
-                customer_name : customer_name,
-                customer_id : customer_id,
-                addressLine1 : addressLine1,
-                addressLine2 : addressLine2,
-                city : city,
-                country : country,
-                state : state,
-                zipCode : zipCode,
-                contactPhoneNumber : contactPhoneNumber,
-                emailId : emailId,
-                claim_number : claim_number,
-                description : description,
-                claim_id : _claims._claim_id
+                customer_name   : customer_name,
+                customer_id     : customer_id,
+                is_property_address_same    : is_property_address_same,
+                property_addr1              : property_addr1,
+                property_addr2              : property_addr2,
+                property_addr_city          : property_addr_city,
+                property_addr_country       : property_addr_country,
+                property_addr_state         : property_addr_state,
+                property_addr_pin           : property_addr_pin,
+                contactPhoneNumber  : contactPhoneNumber,
+                emailId             : emailId,
+                claim_number        : claim_number,
+                description         : description,
+                claim_id            : _claims._claim_id
             },
             success: function (response) {
                 response = $.parseJSON(response);
@@ -149,7 +171,35 @@ var _claims = (function () {
     function presetInputForm( form ) {
         $(".customer-search-result").hide();
         _utils.setCustomerDataList();
-        _utils.getAndSetCountryStatus(form+"_claim_form");
+        _utils.getAndSetCountryStatus(form+"_claim_form", "property");
+
+        $("#claim_accordion").accordion(
+            {
+                collapsible: true,
+                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
+                active: false,
+
+            }
+        );
+        _claims.viewOnlyExpandAll();
+        $("#customer_id").bind({
+            change : function( event , form) {
+                get_customer_address( form );
+            }
+        });
+
+        $("#is_property_address_same").bind( {
+            click : function( event ) {
+                $("#claim_property_address").show();
+                if($("#is_property_address_same:checked").val()) {
+                    $("#claim_property_address").hide();
+                }
+            }
+        });
+
+        if($("#is_property_address_same:checked").val()) {
+            $("#claim_property_address").hide();
+        }
     }
 
     function presetViewOne() {
@@ -157,6 +207,28 @@ var _claims = (function () {
         _claim_notes.viewAll(_claims._claim_id);
         _claim_dairy_updates.viewAll(_claims._claim_id);
         _claim_docs.viewAll(_claims._claim_id);
+    }
+
+    function get_customer_address( form ) {
+        $.ajax({
+            method: "POST",
+            url: "/claims/claims/customer_address",
+            data: {
+                customer_id : $("#customer_id").val(),
+                claim_id    : _claims._claim_id
+            },
+            success: function (response) {
+                $("#claim_customer_address").html("<div>Communication Address</div>"+response);
+                _utils.setCustomerDataList();
+                _utils.getAndSetCountryStatus(form+"_claim_form");
+                $("#is_property_address_same").prop("disabled", false);
+            },
+            error: function (error) {
+                error = error;
+            }
+        }).fail(function (failedObj) {
+            fail_error = failedObj;
+        });
     }
 
     return {
@@ -233,6 +305,7 @@ var _claims = (function () {
             });
     	},
     	createValidate: function () {
+            var cityError = false;
             var isCustomerPresent   = false;
             var customer_id         = $("#customer_id").val();
             var searchCustomerName  = $("#searchCustomerName").val();
@@ -249,7 +322,11 @@ var _claims = (function () {
                 alert("Plesae select proper customer from the search list");
             }
 
-            validator = validator && _utils.cityFormValidation() ? false : validator;
+            var is_property_address_same    = $("#is_property_address_same:checked").val();
+
+            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_") : false;
+            
+            validator = validator && cityValidate ? false : validator;
 
             if (validator) {
                createSubmit();
@@ -286,6 +363,7 @@ var _claims = (function () {
             var isCustomerPresent   = false;
             var customer_id         = $("#customer_id").val();
             var searchCustomerName  = $("#searchCustomerName").val();
+            
             var validator = $("#update_claim_form").validate({
                 rules: validationRules(),
                 messages: errorMessage()
@@ -298,10 +376,11 @@ var _claims = (function () {
                 alert("Plesae select proper customer from the search list");
             }
 
-            cityError = _utils.cityFormValidation();
-            if (cityError) {
-                return false;
-            }
+            var is_property_address_same    = $("#is_property_address_same:checked").val();
+
+            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_") : false;
+            
+            validator = validator && cityValidate ? false : validator;
 
             if (validator) {
                 updateSubmit();
@@ -335,97 +414,29 @@ var _claims = (function () {
                 fail_error = failedObj;
             });
         },
-        /*claimNotesCreateForm : function(event, options) {
-            var fail_error  = null;
-            if(typeof(event) != 'undefined') {
-                event.stopPropagation();
-            }
-
-            var openAs = (options && options.openAs) ? options.openAs: "";
-            var popupType = (options && options.popupType) ? options.popupType: "";
-
-            $.ajax({
-                method: "POST",
-                url: "/claims/claims/notesCreateForm",
-                data: {
-                    openAs      : openAs,
-                    popupType   : popupType,
-                    claim_id    : _claims._claim_id
-                },
-                success: function (response) {
-                    if (openAs === "popup") {
-                        $("#popupForAll" + popupType).html(response);
-                        _projects.openDialog({title: "Add Claim Notes"}, popupType);
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
+        viewOnlyExpandAll: function () {
+            var icons = $( "#claim_accordion" ).accordion( "option", "icons" );
+            $('#claim_accordion > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
+                'aria-selected': 'true',
+                'tabindex': '0'
             });
-        },*/
-        /*claimDairyUpdateCreateForm : function(event, options) {
-            var fail_error  = null;
-            if(typeof(event) != 'undefined') {
-                event.stopPropagation();
-            }
-
-            var openAs = (options && options.openAs) ? options.openAs: "";
-            var popupType = (options && options.popupType) ? options.popupType: "";
-
-            $.ajax({
-                method: "POST",
-                url: "/claims/claims/getListWithForm",
-                data: {
-                    openAs      : openAs,
-                    popupType   : popupType,
-                    claim_id    : _claims._claim_id
-                },
-                success: function (response) {
-                    if (openAs === "popup") {
-                        $("#popupForAll" + popupType).html(response);
-                        _claims.openDialog({title: "Paid From Budget"}, popupType);
-                        _utils.setAsDateFields({dateField: "date"});
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
+            $('#claim_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.header).addClass(icons.activeHeader);
+            $('#claim_accordion > .ui-accordion-content').addClass('ui-accordion-content-active').attr({
+                'aria-expanded': 'true',
+                'aria-hidden': 'false'
+            }).show();
+        },
+        viewOnlyCollapseAll: function() {
+            var icons = $( "#claim_accordion" ).accordion( "option", "icons" );
+            $('#claim_accordion > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
+                'aria-selected': 'false',
+                'tabindex': '-1'
             });
-        },*/
-        /*claimDocsCreateForm : function(event, options) {
-            var fail_error  = null;
-            if(typeof(event) != 'undefined') {
-                event.stopPropagation();
-            }
-
-            var openAs = (options && options.openAs) ? options.openAs: "";
-            var popupType = (options && options.popupType) ? options.popupType: "";
-
-            $.ajax({
-                method: "POST",
-                url: "/claims/claims/getListWithForm",
-                data: {
-                    openAs      : openAs,
-                    popupType   : popupType,
-                    claim_id    : _claims._claim_id
-                },
-                success: function (response) {
-                    if (openAs === "popup") {
-                        $("#popupForAll" + popupType).html(response);
-                        _claims.openDialog({title: "Paid From Budget"}, popupType);
-                        _utils.setAsDateFields({dateField: "date"});
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
-        },*/
+            $('#claim_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.activeHeader).addClass(icons.header);
+            $('#claim_accordion > .ui-accordion-content').removeClass('ui-accordion-content-active').attr({
+                'aria-expanded': 'false',
+                'aria-hidden': 'true'
+            }).hide();
+        }
     };
 })();

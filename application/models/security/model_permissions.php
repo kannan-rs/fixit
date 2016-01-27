@@ -33,7 +33,7 @@ class Model_permissions extends CI_Model {
 		$type = $options["type"];
 
 		$this->db->where('user_id', "");
-		
+		 
 		$permissions_query 		= $this->db->get('permissions');
 
 		$permissions 			= $permissions_query->result();

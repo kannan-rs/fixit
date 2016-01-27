@@ -207,7 +207,8 @@ class Projects extends CI_Controller {
 		$this->load->model('security/model_users');
 
 		$addressParams = array(
-			'forForm' 			=> "create_project_form"
+			'forForm' 			=> "create_project_form",
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
@@ -382,7 +383,8 @@ class Projects extends CI_Controller {
 			'country' 			=> $projects[0]->addr_country,
 			'state'				=> $projects[0]->addr_state,
 			'zipCode' 			=> $projects[0]->addr_pin,
-			'forForm' 			=> "update_project_form"
+			'forForm' 			=> "update_project_form",
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);

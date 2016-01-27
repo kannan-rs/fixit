@@ -1224,7 +1224,11 @@ $lang["claim"] = array(
 		"claim_dairy_update"	=> "Claim Dairy Updates",
 		"claim_payment"			=> "Claim Payment",
 		"claim_documents"		=> "Claim Documents",
-		"claim_history"			=> "Claim History"
+		"claim_history"			=> "Claim History",
+		"other_details"			=> "Other Details",
+		"customer_details"		=> "Customer Details",
+		"property_address"		=> "Property Address",
+		"other_details"			=> "Other Details"
 	),
 	"input_form" => array(
 		/*
@@ -1334,22 +1338,23 @@ $lang["claim_daily_updates"] = array(
 	)
 );
 
-$lang["claim_suborgation"] = array(
+$lang["claim_subrogation"] = array(
 	/*
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"view_all"						=> "Suborgation List",
-		"create" 						=> "Create Suborgation",
-		"update" 						=> "Update Suborgation",
-		"view_one"						=> "Suborgation Details View",
-		"suborgation_details"			=> "Suborgation Details",
+		"view_all"						=> "Subrogation List",
+		"create" 						=> "Create Subrogation",
+		"update" 						=> "Update Subrogation",
+		"view_one"						=> "Subrogation Details View",
+		"subrogation_details"			=> "Subrogation Details",
 		"description"					=> "Description",
-		"suborgation_address"			=> "Suborgation Address",
-		"suborgation_notes"				=> "Suborgation Notes",
-		"suborgation_documents"			=> "Suborgation Documents",
+		"subrogation_address"			=> "Subrogation Address",
+		"subrogation_notes"				=> "Subrogation Notes",
+		"subrogation_documents"			=> "Subrogation Documents",
 		"customer_details"				=> "Customer Details",
 		"climant_details"				=> "Claimant Details",
+		"other_details"					=> "Other Details"
 	),
 	"input_form" => array(
 		/*
@@ -1380,17 +1385,18 @@ $lang["claim_suborgation"] = array(
 	"summary_table" => array(
 		"customer_name"		=> "Customer Name",
 		"climant_name"		=> "Claimant Name",
-		"status"			=> "Status"
+		"status"			=> "Status",
+		"description"		=> "Description"
 	),
 
 	/*
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
-		"add_title"							=> "Add Suborgation",
-		"edit_title"						=> "Edit Suborgation",
-		"delete_title"						=> "Delete Suborgation",
-		"claim_number"						=> "Suborgation Number",
+		"add_title"							=> "Add Subrogation",
+		"edit_title"						=> "Edit Subrogation",
+		"delete_title"						=> "Delete Subrogation",
+		"claim_number"						=> "Subrogation Number",
 		"customer_name"						=> "Customer Name",
 		"contact_number"					=> "Customer Contact Number",
 		"contact_email"						=> "Customer Email",
@@ -1399,7 +1405,7 @@ $lang["claim_suborgation"] = array(
 		"budget_starting_budget"			=> "Starting budget:",
 		"budget_remediation_budget"			=> "Remediation budget:",
 		"budget_remaining_budget"			=> "Remaining budget:",
-		"budget_total_claim_budget"			=> "Total Suborgation budget:",
+		"budget_total_claim_budget"			=> "Total Subrogation budget:",
 		"budget_total_remediation_budget"	=> "Total Remediation budget:",
 		"budget_total_remaining_budget"		=> "Total Remaining budget:",
 		"status"							=> "Status",
@@ -1409,13 +1415,13 @@ $lang["claim_suborgation"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" => "Create Suborgation",
-		"update" => "Update Suborgation",
-		"add_new" => "Add New Suborgation",
-		"edit_claim_title" => "Edit Suborgation",
-		"delete_claim_title" => "Delete Suborgation",
-		"add_dairy_updates_title"	=> "Add Suborgation Dairy Updates",
-		"add_docs_title"			=> "Add Suborgation Documents"
+		"create" => "Create Subrogation",
+		"update" => "Update Subrogation",
+		"add_new" => "Add New Subrogation",
+		"edit_claim_title" => "Edit Subrogation",
+		"delete_claim_title" => "Delete Subrogation",
+		"add_dairy_updates_title"	=> "Add Subrogation Dairy Updates",
+		"add_docs_title"			=> "Add Subrogation Documents"
 	)
 );
 

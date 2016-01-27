@@ -123,38 +123,6 @@ var _claim_notes = (function () {
             }).fail(function (failedObj) {
                 fail_error = failedObj;
             });
-        },
-
-        deleteRecord: function (note_id) {
-            var deleteConfim = confirm("Do you want to delete this notes");
-
-            if (!deleteConfim) {
-                return;
-            }
-
-            var fail_error = null;
-            var self = this;
-            $.ajax({
-                method: "POST",
-                url: "/claims/notes/deleteRecord",
-                data: {
-                    note_id: note_id
-                },
-                success: function (response) {
-                    response = $.parseJSON(response);
-                    if (response.status.toLowerCase() === "success") {
-                        _claim_notes.viewAll(_claims._claim_id);
-                        setTimeout(function () {alert(response.message);}, 100);
-                    } else if (response.status.toLowerCase() === "error") {
-                        alert(response.message);
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
         }
     };
 })();

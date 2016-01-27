@@ -6,7 +6,7 @@
 	<ul>
 		<li><a href="#tabs_claim_details"><?php echo $this->lang->line_arr('claim->headers->view_one'); ?></a></li>
 		<li><a href="#tabs_claim_subrogation" 
-			onclick="_claim_suborgation.viewAll('<?php echo $claim_id;?>')">
+			onclick="_claim_subrogation.viewAll('<?php echo $claim_id;?>')">
 				<?php echo $this->lang->line_arr('claim->headers->subrogation'); ?>
 			</a>
 		</li>
@@ -60,6 +60,10 @@
 						<td class='cell label'><?php echo $this->lang->line_arr('claim->details_view->contact_email'); ?></td>
 						<td class='cell'><?php echo $claim->customer_email_id; ?></td>
 					</tr>
+					<tr>
+						<td colspan="2">Address For Communication</td>
+					</tr>
+					<?php echo $customer_address_file; ?>
 				</table>
 			</div>
 
@@ -74,7 +78,7 @@
 
 			<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('claim->headers->claim_address'); ?></span></h3>
 			<div class="form">
-				<?php echo $addressFile; ?>
+				<?php echo $property_address_file; ?>
 			</div>
 
 			<h3>

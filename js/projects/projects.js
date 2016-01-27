@@ -345,7 +345,7 @@ var _projects = (function () {
                     _utils.setAdjusterDataList();
                     _utils.getAndSetCountryStatus("update_project_form");
                     _utils.setAddressByCity();
-                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
+                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit", '');
                     _utils.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
                 },
                 error: function (error) {

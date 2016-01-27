@@ -290,7 +290,7 @@ var _partners = (function () {
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("update_partner_form");
                     _utils.setAddressByCity();
-                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
+                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');
 
                 },
                 error: function (error) {

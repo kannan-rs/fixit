@@ -5,6 +5,7 @@ class Model_functions extends CI_Model {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}
+		$this->db->order_by("fn_name", "asc"); 
 		//$this->db->where('status', '1');
 		$query = $this->db->get('functions');
 		$functions = $query->result();

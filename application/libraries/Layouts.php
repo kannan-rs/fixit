@@ -38,7 +38,7 @@ class Layouts
 			"js/claims/claims.js",
 			"js/claims/notes.js",
 			"js/claims/dairy_updates.js",
-			"js/claims/suborgation.js",
+			"js/claims/subrogation.js",
 			"js/claims/docs.js",
 			"js/projects/remainingbudget.js",
 			'js/home/userInfo.js',
@@ -167,7 +167,8 @@ class Layouts
 				$this->layout_data["userType"] 			= $this->CI->session->userdata("role_id");
 
 				$addressParams = array(
-					'forForm' 		=> "create_user_form"
+					'forForm' 			=> "create_user_form",
+					'requestFrom'		=> "input"
 				);
 				$addressFile 							= $this->CI->load->view("forms/address", $addressParams, true);
 				$this->layout_data['addressFile']		= $addressFile;

@@ -6,15 +6,19 @@
         .insertAfter( this.element );
 
       this.element.hide();
+
+      if($(this.element[0]).attr("hidden")) {
+        $(this.wrapper).hide();
+      }
       this._createAutocomplete();
       this._createShowAllButton();
-      if(this.element[0].id === "city") {
-        this._addCityEventsToInput();
-
-        var cityDbVal = $("#cityDbVal").val();
+      if( this.element[0].id.indexOf("city") >= 0 ) {
+        var id_prefix = this.element[0].id.indexOf("property_") == 0 ? "property_" : "";
+        this._addCityEventsToInput( id_prefix );
+        var cityDbVal = $("#"+id_prefix+"cityDbVal").val();
         $( this.input ).attr("placeholder", "Enter first 3 letter of the city").val(cityDbVal);
-        $("#city").val(cityDbVal);
-        this._createError({id : "cityError", "text" : ""});
+        $("#"+id_prefix+"city").val(cityDbVal);
+        this._createError({id : id_prefix+"cityError", "text" : ""});
       }
     },
 
@@ -92,17 +96,21 @@
     _addCityEventsToInput: function() {
         $( this.input ).on({
           keyup : function() { 
+              var id_prefix = $(this).attr('id').indexOf("property") == 0 ? "property_" : "";
               $(this).removeClass("form-error").next().removeClass("form-error");
-              $("#cityError").css({"display" : "none"}).removeClass("form-error");
-              _utils.getAndSetMatchCity(this.value);
+              $("#"+id_prefix+"cityError").css({"display" : "none"}).removeClass("form-error");
+              _utils.getAndSetMatchCity(this.value,'', $(this).attr('id'));
           },
           blur : function() {
-            if(this.value != $("#city").val()) {
-                $("#city").val("");
+            
+            var id_prefix = $(this).attr('id').indexOf("property") == 0 ? "property_" : "";
+
+            if(this.value != $("#"+id_prefix+"city").val()) {
+                $("#"+id_prefix+"city").val("");
             } else {
               $(this).removeClass("form-error").next().removeClass("form-error");
               $("#cityError").css({"display" : "none"}).removeClass("form-error");
-              _utils.setAddressByCity();
+              _utils.setAddressByCity($(this).attr('id'));
             }
           }
         })

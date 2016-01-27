@@ -25,9 +25,12 @@ var _utils = (function () {
             Function    : getAndSetCountryStatus
             Description : get country and state from database and set it in localstorage
         */
-        getAndSetCountryStatus: function (moduleId) {
+        getAndSetCountryStatus: function (moduleId, id_prefix) {
             var self = this;
             $( '#'+moduleId+' #city' ).combobox();
+            if(id_prefix) {
+                $( '#'+moduleId+' #'+id_prefix+"_city" ).combobox();
+            }
             _utils.moduleId = moduleId;
 
             _states = _states || this.getStatesFromLS();
@@ -57,8 +60,8 @@ var _utils = (function () {
                     fail_error = failedObj;
                 });
             }
-            self.populateCountryOption(moduleId);
-            _utils.setCountryStateOfDb(moduleId);
+            self.populateCountryOption(moduleId, id_prefix);
+            _utils.setCountryStateOfDb(moduleId, id_prefix);
         },
         setStateToLS : function( states ) {
             if (Storage) {
@@ -94,23 +97,38 @@ var _utils = (function () {
             }
             return countries;
         },
-        populateCountryOption : function( moduleId ) {
+        populateCountryOption : function( moduleId, id_prefix ) {
             var i;
             $('#' + moduleId + ' #country').empty();
             $('#' + moduleId + ' #country').append($('<option>', {
                 'value': '',
                 'text': '--Select Country--'
             }));
+            
+            if(id_prefix) {
+                $('#' + moduleId + ' #'+id_prefix+'_country').empty();
+                $('#' + moduleId + ' #'+id_prefix+'_country').append($('<option>', {
+                    'value': '',
+                    'text': '--Select Country--'
+                }));    
+            }
             for (i = 0; i < _countries.length; i += 1) {
                 if(_countries[i].toLocaleLowerCase() == 'usa') {
                     $('#' + moduleId + ' #country').append($('<option>', {
                         'value': _countries[i],
                         'text': _countries[i]
                     }));
+
+                    if( id_prefix ) {
+                        $('#' + moduleId + ' #'+id_prefix+'_country').append($('<option>', {
+                            'value': _countries[i],
+                            'text': _countries[i]
+                        }));
+                    }
                 }
             }
         },
-        getAndSetMatchCity: function (value, from) {
+        getAndSetMatchCity: function (value, from, inputId) {
             var i = 0;
             var city = null;
             var self = this;
@@ -135,7 +153,7 @@ var _utils = (function () {
                                 searchCityList = response.cityList;
                                 self.setCityToLS(searchCityStr, searchCityList);
                                 
-                                self.populateCityOption(searchCityList);
+                                self.populateCityOption(searchCityList, "", inputId);
                             } else {
                                 alert(response.message);
                             }
@@ -148,21 +166,23 @@ var _utils = (function () {
                         fail_error = failedObj;
                     });
                 }
-                this.populateCityOption(searchCityList, from);
+                this.populateCityOption(searchCityList, from, inputId);
             }
         },
-        populateCityOption: function(searchCityList ,from) {
+        populateCityOption: function(searchCityList ,from, inputId) {
             var i;
             var uniqueCity = [];
             //$('#' + moduleId + ' #city_list').empty();
 
-            $('#city').empty();
+            var id_prefix = inputId && inputId.indexOf("property") == 0 ? "property_" : "";
+
+            $('#'+id_prefix+'city').empty();
             if(searchCityList) {
                 for (i = 0; i < searchCityList.length; i += 1) {
                     //$('#' + moduleId + ' #city_list').append($('<option>', {
                     if(uniqueCity.indexOf(searchCityList[i].city) < 0) {
                         uniqueCity.push(searchCityList[i].city);
-                        $('#city').append($('<option>', {
+                        $('#'+id_prefix+'city').append($('<option>', {
                             'value': searchCityList[i].city,
                             'text': searchCityList[i].city
                         }));
@@ -172,7 +192,7 @@ var _utils = (function () {
             
             if(!from || from != 'edit') {
                 $("a[title='Show All Items']").trigger('click'); 
-                $('#city_jqDD').focus();
+                $('#'+id_prefix+'city_jqDD').focus();
             }
         },
         getCityFromLS: function(cityStr) {
@@ -199,8 +219,9 @@ var _utils = (function () {
                 $('#' + _utils.moduleId + ' #state').val(_utils.postalCodeMap[postalCode].state_abbreviation);
             }
         },*/
-        setAddressByCity: function() {
-            var city = $('#city').val();
+        setAddressByCity: function( search_by_id ) {
+            var id_prefix = search_by_id.indexOf("property_") == 0 ? "property_" : "";
+            var city = $('#'+id_prefix+'city').val();
             var postalList = null;
             var i = 0;
 
@@ -208,8 +229,8 @@ var _utils = (function () {
                 postalList = this.getPostalDetailsByCity( city );
             }
 
-            this.populateStateOption({'postalList' : postalList, 'country' : $('#country').val()});
-            this.populateZipCodeOption({'postalList' : postalList, 'country' : $('#country').val()});
+            this.populateStateOption({'postalList' : postalList, 'country' : $('#'+id_prefix+'country').val(), id_prefix : id_prefix });
+            this.populateZipCodeOption({'postalList' : postalList, 'country' : $('#'+id_prefix+'country').val(), id_prefix : id_prefix });
         },
         getPostalDetailsByCity: function( city ) {
             var i;
@@ -253,18 +274,19 @@ var _utils = (function () {
         },
         populateStateOption: function ( options ) {
             var i = 0;
-            var country = options.country;
-            var moduleId = options.moduleId;
-            var postalList = options.postalList;
-            var stateAbrList = this.getStateAbrFromCity( postalList );
+            var country         = options.country;
+            var moduleId        = options.moduleId;
+            var postalList      = options.postalList;
+            var stateAbrList    = this.getStateAbrFromCity( postalList );
+            var id_prefix       = options.id_prefix;
 
             /*$('#' + moduleId + ' #state').html('');
             $('#' + moduleId + ' #state').append($('<option>', {
                 'value': '',
                 'text': '--Select State--'
             }));*/
-            $('#state').html('');
-            $('#state').append($('<option>', {
+            $('#'+id_prefix+'state').html('');
+            $('#'+id_prefix+'state').append($('<option>', {
                 'value': '',
                 'text': '--Select State--'
             }));
@@ -272,7 +294,7 @@ var _utils = (function () {
             for (i = 0; i < _states.length; i += 1) {
                 if (_states[i].country === country && (!stateAbrList || stateAbrList.indexOf(_states[i].abbreviation) != -1)) {
                     //$('#' + moduleId + ' #state').append($('<option>', {
-                    $('#state').append($('<option>', {
+                    $('#'+id_prefix+'state').append($('<option>', {
                         'value': _states[i].abbreviation,
                         'text': _states[i].name,
                         class: country
@@ -281,8 +303,8 @@ var _utils = (function () {
             }
 
             if($.isArray(stateAbrList) && stateAbrList.length == 1) {
-                $('#state').val(stateAbrList[0]);
-                $('#state').focusout();
+                $('#'+id_prefix+'state').val(stateAbrList[0]);
+                $('#'+id_prefix+'state').focusout();
             }
         },
         populateZipCodeOption: function ( options ) {
@@ -291,28 +313,29 @@ var _utils = (function () {
             var moduleId = options.moduleId;
             var postalList = options.postalList;
             var zipList = this.getZipCodeFromCity( postalList );
+            var id_prefix   = options.id_prefix;
 
-            $('#zipCode').html('');
-            $('#zipCode').append($('<option>', {
+            $('#'+id_prefix+'zipCode').html('');
+            $('#'+id_prefix+'zipCode').append($('<option>', {
                 'value': '',
                 'text': '--Select Zipcode--'
             }));
 
             if ($.isArray(zipList)) {
                 for (i = 0; i < zipList.length; i += 1) {
-                    $('#zipCode').append($('<option>', {
+                    $('#'+id_prefix+'zipCode').append($('<option>', {
                         'value': zipList[i],
                         'text': zipList[i]
                     }));
                 }
                 
                 if (zipList.length == 1) {
-                    $('#zipCode').val(zipList[0]);
-                    $('#zipCode').focusout();
+                    $('#'+id_prefix+'zipCode').val(zipList[0]);
+                    $('#'+id_prefix+'zipCode').focusout();
                 }
             }
         },
-        setCountryStateOfDb: function (moduleId) {
+        setCountryStateOfDb: function (moduleId, id_prefix) {
             var country = $('#countryDbVal').val();
             var state = $('#stateDbVal').val();
 
@@ -324,6 +347,22 @@ var _utils = (function () {
 
             if (state) {
                 setTimeout(function () {$('#' + moduleId + ' #state').val(state);}, 10);
+            }
+
+
+            if(id_prefix) {
+                var country = $('#'+id_prefix+'_countryDbVal').val();
+                var state = $('#'+id_prefix+'_stateDbVal').val();
+
+                if (!country) {
+                    country = $($('#' + moduleId + ' #'+id_prefix+'_country').children()[1]).val();
+                }
+
+                $('#' + moduleId + ' #'+id_prefix+'_country').val(country).trigger('change');
+
+                if (state) {
+                    setTimeout(function () {$('#' + moduleId + ' #'+id_prefix+'_state').val(state);}, 10);
+                }
             }
         },
 
@@ -472,7 +511,7 @@ var _utils = (function () {
         },
         setCustomerId: function (event, element, options) {
             $("#searchCustomerName").val(options.first_name + " " + options.last_name);
-            $("#customer_id").val(options.searchId);
+            $("#customer_id").val(options.searchId).trigger("change");
         },
 
         showCustomerListInDropDown: function () {
@@ -607,11 +646,12 @@ var _utils = (function () {
                 $("#" + statusDD).val("customer");
             }
         },
-        cityFormValidation: function() {
+        cityFormValidation: function( id_prefix ) {
             var error = false;
-            if(!$("#city").val() && $("#city").attr("required")) {
-                $($("#city_jqDD").addClass("form-error").next()).addClass("form-error");
-                $("#cityError").addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
+            id_prefix = id_prefix ? id_prefix : "";
+            if(!$("#"+id_prefix+"city").val() && $("#"+id_prefix+"city").attr("required")) {
+                $($("#"+id_prefix+"city_jqDD").addClass("form-error").next()).addClass("form-error");
+                $("#"+id_prefix+"cityError").addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
                 error = true;
             }
             return error;

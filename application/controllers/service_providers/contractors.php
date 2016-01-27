@@ -122,6 +122,7 @@ class Contractors extends CI_Controller {
 			'forForm' 			=> "create_contractor_form",
 			'role_id' 			=> $role_id,
 			'role_disp_name'	=> $role_disp_name,
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
@@ -285,7 +286,8 @@ class Contractors extends CI_Controller {
 			'zipCode' 			=> $contractors[0]->pin_code,
 			'forForm' 			=> "update_contractor_form",
 			'role_id'			=> $role_id,
-			'role_disp_name'	=> $role_disp_name
+			'role_disp_name'	=> $role_disp_name,
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);

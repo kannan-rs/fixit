@@ -444,7 +444,7 @@ var _users = (function () {
                     _utils.getAndSetCountryStatus("update_user_form");
                     //_utils.setAddressEditVal();
                     _utils.setAddressByCity();
-                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
+                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');
 
                     dateOptions = {
                         fromDateField     : "activeStartDate",

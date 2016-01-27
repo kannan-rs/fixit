@@ -5,7 +5,9 @@ class Model_roles extends CI_Model {
 		if($params && $params != "" && $params != 0) {
 			$this->db->where('sno', $params);			
 		}
+		$this->db->order_by("role_name", "asc"); 
 		$query = $this->db->get('roles');
+
 		$roles = $query->result();
 		return $roles;
 	}

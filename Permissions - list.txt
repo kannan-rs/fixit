@@ -8,36 +8,35 @@ S2: SP Admin expites, service provided admin can select multiple trade and multi
 s3: SP Admin details,
 
 
-Property address - Prepopulate the address
-
--Mailing address is different that property address[check box], if not all adjuster to enter another address
-Default it is uncheck, 
 Align the header with the content (Left align)
-Expand all / collapse all
 
 #13
 #14
 #18
 
-Done List:
-- Claim Notes
-    List View, Add, Delete
-- Claim daily Updates
-    List View, Add, Delete
--Claim Docs
-    List View, Add, Delete
--Payment details view
-    List of project details
-    Sum up total claim, remaitted claim and remaining claim
--Adding Subrogation tab
-----------------
-Suborgation Page
-    Add Suborgation
-    View All Suborgation
-    View One
-
-
-Bugs Fixed
-#23
-#21
 #22 - Working on
+
+Working on
+	Expand all / collapse all for claim
+
+Work Done
+---------
+1. No deleteion for notes, Dairy Updates, Docs
+2. Remove customer name from subrogation. Customer name need to be populated from claim details
+3. Current address is communication address, We need to extend to add property address
+	> getting address from Users and populating
+	> Changing input address as property address
+	> Viewing the both address
+	> Editing property address
+4. Subrogation Status Maichel will send the status
+	> Changing subrogation status
+	> Edit subrogation status
+5. Permission for subrogation is separate
+    While checking check for claim permission and subrogation permission
+        Claim View && Subrogation View
+        Claim Create && Subrogation Create
+        Claim Update && Subrogation Update
+6. Claim Address
+ 	Property address - Prepopulate the address
+	-Mailing address is different that property address[check box], if not all adjuster to enter another address
+	Default it is uncheck,

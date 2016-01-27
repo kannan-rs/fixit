@@ -23,7 +23,7 @@ var _contractors = (function () {
         if(forForm == "update") {
             _contractors.setPrefContact();
             _utils.setAddressByCity();
-            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit");
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit", '');
         }
 
         $(".default-user-search-result").hide();

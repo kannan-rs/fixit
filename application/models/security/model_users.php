@@ -101,6 +101,7 @@ class Model_users extends CI_Model {
 				$queryStr .= " AND user_details.sno = ".$params;
 			}
 		}
+		$queryStr .= " ORDER BY users.user_name";
 
 		$query = $this->db->query($queryStr);
 		$users = $query->result();
@@ -325,6 +326,25 @@ class Model_users extends CI_Model {
 			$this->db->flush_cache();
 		} else {
 			$response['message']	= 'Invalid activation key for user, Please try again';
+		}
+		return $response;
+	}
+
+	public function get_user_details_address( $params ) {
+		$user_id = $params["customer_id"];
+
+		$response = array( "status" => "error");
+
+		if(empty($user_id)) {
+			$response["message"]	= "Invalid request";
+		} else {
+			$queryStr 	= "SELECT user_details.addr1, user_details.addr2, user_details.addr_city, user_details.addr_state, user_details.addr_country, user_details.addr_pin ";
+			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0 AND users.sno = ".$user_id;
+
+			$query = $this->db->query($queryStr);
+			$users = $query->result();
+
+			$response["users"]	=	$users;
 		}
 		return $response;
 	}

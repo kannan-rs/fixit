@@ -85,7 +85,8 @@ class Partners extends CI_Controller {
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 
 		$addressParams = array(
-			'forForm' 		=> "create_partner_form"
+			'forForm' 			=> "create_partner_form",
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
@@ -227,7 +228,8 @@ class Partners extends CI_Controller {
 			'country' 			=> $partners[0]->country,
 			'state'				=> $partners[0]->state,
 			'zipCode' 			=> $partners[0]->zip_code,
-			'forForm' 			=> "update_partner_form"
+			'forForm' 			=> "update_partner_form",
+			'requestFrom'		=> "input"
 		);
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);

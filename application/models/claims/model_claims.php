@@ -4,13 +4,13 @@ class Model_claims extends CI_Model {
 	public function getClaimsList($params = array()) {
 		$this->db->where('is_deleted', '0');
 
-		$record = isset($params["record"]) ? $params["record"] : null;
+		$claim_id = isset($params["claim_id"]) ? $params["claim_id"] : null;
 
-		if($record) {
-			if(is_array($record) && implode(",", $record) != "" ) {
-				$this->db->where_in('id', $record);
-			} else if( !empty($record) ) {
-				$this->db->where('claim_id', $record);
+		if($claim_id) {
+			if(is_array($claim_id) && implode(",", $claim_id) != "" ) {
+				$this->db->where_in('id', $claim_id);
+			} else if( !empty($claim_id) ) {
+				$this->db->where('claim_id', $claim_id);
 			}
 		}
 

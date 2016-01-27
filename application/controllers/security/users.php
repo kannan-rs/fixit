@@ -34,7 +34,7 @@ class Users extends CI_controller {
 		}
 		if(isset($view) && !empty($view) && $view != 'view') {
 			$addressParams['forForm'] 		= $view;
-			unset($addressParams['requestFrom']);
+			$addressParams['requestFrom'] 		= "input";
 		}
 
 		return $this->load->view("forms/address", $addressParams, true);

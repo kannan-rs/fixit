@@ -172,8 +172,8 @@ var _lang = {
                 "claim_number"          : "Please provide claim number",
                 "description"           : "Please provide description"
             },
-            "claimSuborgationForm" : {
-                "customer_name"         : "Please search and select customer for this suborgation",
+            "claimSubrogationForm" : {
+                "customer_name"         : "Please search and select customer for this subrogation",
                 "addressLine1"          : "Please provide a valid mailing address",
                 "addressLine2"          : "",
                 "city"                  : "Please provide a city name",
@@ -181,7 +181,7 @@ var _lang = {
                 "state"                 : "Please select an option from the state dropdown",
                 "zipCode"               : "Zip Code needs to be a 5 digit number",
                 "contactPhoneNumber"    : "Phone number needs to be in 'xxx-xxx-xxxx' format",
-                "status"                : "Please provide status",
+                "status"                : "Please select status",
                 "climant_name"          : "Please provide claimant name",
                 "description"           : "Please provide description"
             },
