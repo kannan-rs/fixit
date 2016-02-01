@@ -10,6 +10,13 @@ $lang["headers"] = array(
 	"existing_user" => "Existing User? ##replace1## Sign in ##replace2##",
 	"new_user" 		=> "New to the Fixit Network?  ##replace1## Signup ##replace2##"
 );
+
+$lang["common_text"] = array(
+	"created_by" 	=> "Created By",
+	"created_on" 	=> "Created On",
+	"updated_by" 	=> "Updated By",
+	"updated_on" 	=> "Updated On"
+);
 /*
 	Form Labels
 */
@@ -619,13 +626,18 @@ $lang["contractor"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" 			=> "Create Service Provider",
-		"update" 			=> "Update Service Provider",
-		"view_all" 			=> "Service Provider List",
-		"view_one" 			=> "Service Provider Details",
-		"trends_list"		=> "Trends & Sub Trends List",
-		"discount_list"		=> "Discount List",
-		"testomonial_list"	=> "Testomonial List"
+		"create" 					=> "Create Service Provider",
+		"update" 					=> "Update Service Provider",
+		"view_all" 					=> "Service Provider List",
+		"view_one" 					=> "Service Provider Details",
+		"trades_list"				=> "Trades & Sub Trades List",
+		"discount_list"				=> "Discount List",
+		"testomonial_list"			=> "Testomonial List",
+		"contractor_details"		=> "Contractor Details",
+		"contractor_address"		=> "Contractor Address",
+		"contractor_contact"		=> "Contractor Contact Details",
+		"contractor_service_area"	=> "Contractor Service Area",
+		"contractor_others"			=> "Contractor Other Details"
 	),
 	/*
 		Create and edit form text
@@ -712,6 +724,7 @@ $lang["contractor"] = array(
 	"summary_table" => array(
 		"contractor_name" 	=> "Service Provider Name",
 		"company" 			=> "Company",
+		"service_area"		=> "Service in Zip Code",
 		"type" 				=> "Type",
 		"status" 			=> "Status"
 	),
@@ -726,7 +739,7 @@ $lang["contractor"] = array(
 		"type" 						=> "Type",
 		"license" 					=> "License",
 		"bbb" 						=> "BBB",
-		"dtatus" 					=> "Status",
+		"status" 					=> "Status",
 		"office_email_id" 			=> "Office Email ID",
 		"office_number" 			=> "Office Number",
 		"mobile_number" 			=> "Mobile Number",
@@ -735,11 +748,7 @@ $lang["contractor"] = array(
 		"office_phone" 				=> "Office Phone",
 		"mobile_number" 			=> "Mobile Number",
 		"webSite_url" 				=> "WebSite URL",
-		"serive_provided" 			=> "Service Provided in Zip code",
-		"created_by" 				=> "Created By",
-		"created_on" 				=> "Created On",
-		"updated_by" 				=> "Updated By",
-		"updated_on" 				=> "Updated On"
+		"serive_provided" 			=> "Service Provided in Zip code"
 	),
 	/*
 		Button text and link text
@@ -780,10 +789,14 @@ $lang["partner"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" => "Create  Partner",
-		"update" => "Update  Partner",
-		"view_all" => "Partners List",
-		"view_one" => "Partner Details"
+		"create" 				=> "Create  Partner",
+		"update" 				=> "Update  Partner",
+		"view_all" 				=> "Partners List",
+		"view_one" 				=> "Partner Details",
+		"partner_details"		=> "Partner Details",
+		"partner_address"		=> "Partner Address",
+		"partner_contact"		=> "Partner Contact Details",
+		"partner_others"		=> "Partner Other Details"
 	),
 	"input_form" => array(
 		/*
@@ -858,11 +871,7 @@ $lang["partner"] = array(
 		"pref_office_email_id" => "Office Email ID",
 		"pref_personal_mobile_number" => "Personal Mobile Number",
 		"pref_personal_email_id" => "Personal Email ID",
-		"website_url" => "WebSite URL",
-		"created_by" => "Created By",
-		"created_on" => "Created On",
-		"updated_by" => "Updated By",
-		"updated_on" => "Updated On"
+		"website_url" => "WebSite URL"
 	),
 	/*
 		Button text and link text
@@ -951,11 +960,7 @@ $lang["tasks"] = array(
 		"owner_name" => "Owner Name",
 		"dependency" => "Dependency",
 		"trend_type" => "Trend Type",
-		"complete" => "% Complete",
-		"created_by" => "Created By",
-		"created_on" => "Created On",
-		"updated_by" => "Updated By",
-		"updated_on" => "Last Updated on"
+		"complete" => "% Complete"
 	),
 	/*
 		Button text and link text
@@ -1041,11 +1046,7 @@ $lang["issues"] = array(
 		"issue_from_date" => "Issue From Date",
 		"assigned_date" => "Assigned Date",
 		"issue_status" => "Issue Status",
-		"issue_notes" => "Issue Notes",
-		"created_by" => "Created By",
-		"created_on" => "Created On",
-		"updated_by" => "Updated By",
-		"updated_on" => "Updated On"
+		"issue_notes" => "Issue Notes"
 	),
 	/*
 		Button text and link text
@@ -1137,7 +1138,6 @@ $lang["notes"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"created_by" => "Created By"
 	),
 
 	/*
@@ -1259,6 +1259,7 @@ $lang["claim"] = array(
 	"summary_table" => array(
 		"claim_number"		=> "Claim Number",
 		"customer_name"		=> "Customer Name",
+		"claim_descr"		=> "Claim Description",
 		"customer_email"	=> "Customer Contact Number"
 	),
 
@@ -1322,7 +1323,6 @@ $lang["claim_daily_updates"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"created_by" => "Created By"
 	),
 
 	/*

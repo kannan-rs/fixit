@@ -14,7 +14,9 @@ $ope_name 	= isset($individualOperation) ? $individualOperation->ope_name : "";
 $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 ?>
 
-<h2><?php echo $this->lang->line_arr('operation->headers->'.$prefix); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('operation->headers->'.$prefix); ?></h2>
+</div>
 <form id="<?php echo $prefix; ?>_operation_form" name="<?php echo $prefix; ?>_operation_form" class="inputForm">
 	<input type="hidden" id='ope_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>

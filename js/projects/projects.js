@@ -542,35 +542,10 @@ var _projects = (function () {
                 },
                 success: function (response) {
                     $("#project_content").html(response);
-                    $("#accordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                            //active: defaultAccordian
-                            active: false
-                        }
-                   );
-                    $("#projectDescrAccordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                            active: false
-                        }
-                   );
-                    $("#contractor_accordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-triangle-1-e", activeHeader: "ui-icon-triangle-1-s"},
-                            active: false
-                        }
-                   );
-                    $("#partner_accordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-triangle-1-e", activeHeader: "ui-icon-triangle-1-s"},
-                            active: false
-                        }
-                   );
+                    _utils.set_accordion('accordion');
+                    //_utils.set_accordion('projectDescrAccordion');
+                    _utils.set_accordion('contractor_accordion', 'triangle');
+                    _utils.set_accordion('partner_accordion', 'triangle');
                     //budgetFormat();
                 },
                 error: function (error) {
@@ -1651,34 +1626,6 @@ var _projects = (function () {
             } else if (options !== "") {
                 $(".projects-table-list .row." + options).show();
             }
-        },
-        viewOnlyExpandAll: function () {
-            var icons = $( "#accordion" ).accordion( "option", "icons" );
-            //$('.open').click(function () {
-            $('#accordion > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
-                'aria-selected': 'true',
-                'tabindex': '0'
-            });
-            $('#accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.header).addClass(icons.activeHeader);
-            $('#accordion > .ui-accordion-content').addClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'true',
-                'aria-hidden': 'false'
-            }).show();
-            //});
-        },
-        viewOnlyCollapseAll: function() {
-            var icons = $( "#accordion" ).accordion( "option", "icons" );
-            //$('.close').click(function () {
-            $('#accordion > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
-                'aria-selected': 'false',
-                'tabindex': '-1'
-            });
-            $('#accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.activeHeader).addClass(icons.header);
-            $('#accordion > .ui-accordion-content').removeClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'false',
-                'aria-hidden': 'true'
-            }).hide();
-            //});
         }
     };
 })();

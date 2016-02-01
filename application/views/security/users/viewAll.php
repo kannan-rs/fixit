@@ -3,7 +3,9 @@
 		<?php echo $this->lang->line_arr('user->buttons_links->create'); ?>
 	</a>
 </div> -->
-<h2><?php echo $this->lang->line_arr('user->headers->view_all'); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('user->headers->view_all'); ?></h2>
+</div>
 
 <?php echo $noticeFile; ?>
 
@@ -17,7 +19,7 @@
 			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->user_name')."</td>";
 			/*echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->belongs_to')."</td>";*/
 			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->role')."</td>";
-			echo "<td class='cell'>".$this->lang->line_arr('user->summary_table->actions')."</td>";
+			echo "<td class='cell table-action'>".$this->lang->line_arr('user->summary_table->actions')."</td>";
 			echo "</tr>";
 		}
 

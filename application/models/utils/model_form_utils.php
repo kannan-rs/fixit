@@ -52,7 +52,7 @@ class Model_form_utils extends CI_Model {
 
 		$queryStr 	= "SELECT users.sno, users.user_name, ";
 		$queryStr	.= "user_details.email, user_details.first_name, user_details.last_name ";
-		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
+		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
 
 		if(isset($params) && is_array($params)) {

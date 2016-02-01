@@ -87,7 +87,7 @@ class Model_docs extends CI_Model {
 			$this->db->where('doc_id', $record);
 			
 			$data = array(
-				'is_deleted' 				=> 1
+				'is_deleted' => 1
 			);
 			
 			if($this->db->update('claim_docs', $data)) {

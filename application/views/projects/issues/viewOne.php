@@ -37,7 +37,7 @@
 	if(!$openAs || $openAs != "popup") {
 ?>
 <div class="header-options">
-	<h2><?php echo $this->lang->line_arr('issues->headers->view_one'); ?></h2>
+	<h2 class=''><?php echo $this->lang->line_arr('issues->headers->view_one'); ?></h2>
 	<span class="options-icon">
 		<span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="<?php echo $this->lang->line_arr('issues->details_view->edit_single_issue_title'); ?>"></a></span>
 		<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('issues->details_view->delete_title'); ?>"></a></span>	
@@ -76,13 +76,13 @@
 			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->issue_notes'); ?></div>
 			<div><?php echo $issues->notes; ?></div>
 
-			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->created_by'); ?></div>
+			<div class='label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></div>
 			<div><?php echo $issues->created_by_name; ?></div>
-			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->created_on'); ?></div>
+			<div class='label'><?php echo $this->lang->line_arr('common_text->created_on'); ?></div>
 			<div><?php echo $issues->created_on_for_view; ?></div>
-			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->updated_by'); ?></div>
+			<div class='label'><?php echo $this->lang->line_arr('common_text->updated_by'); ?></div>
 			<div><?php echo $issues->updated_by_name; ?></div>
-			<div class='label'><?php echo $this->lang->line_arr('issues->details_view->updated_on'); ?></div>
+			<div class='label'><?php echo $this->lang->line_arr('common_text->updated_on'); ?></div>
 			<div><?php echo $issues->updated_on_for_view; ?></div>
 
 	</div>

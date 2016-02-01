@@ -15,7 +15,7 @@ if($count) {
 		<tr id="notes_<?php echo $claim_notes[$i]->notes_id; ?>">
 			<td class='cell' colspan="3">
 				<?php echo $claim_notes[$i]->notes_content; ?> 
-				<br/><i><?php echo $this->lang->line_arr('notes->summary_table->created_by'); ?>: <?php echo $claim_notes[$i]->created_by_name; ?> on 
+				<br/><i><?php echo $this->lang->line_arr('common_text->created_by'); ?>: <?php echo $claim_notes[$i]->created_by_name; ?> on 
 					<?php echo $claim_notes[$i]->created_on_for_view; ?>
 				</i>
 			</td>

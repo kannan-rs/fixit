@@ -3,7 +3,9 @@
 		<?php echo $this->lang->line_arr('function->buttons_links->create'); ?>
 	</a>
 </div> -->
-<h2><?php echo $this->lang->line_arr('function->headers->view_one'); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('function->headers->view_one'); ?></h2>
+</div>
 <div class="form">
 	<!-- List all the Functions from database -->
 	<?php

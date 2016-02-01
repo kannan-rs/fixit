@@ -15,6 +15,16 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function viewAll() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "data filter list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('security/model_datafilters');
 		$dataFilters = $this->model_datafilters->getDataFiltersList();
 
@@ -28,6 +38,16 @@ class DataFilters extends CI_Controller {
 	}
 	
 	public function createForm() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "create data filter"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$params = array(
 			'function'=>"createdataFilterform",
 			'record'=>""
@@ -37,6 +57,18 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function add() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_datafilters');
 		$data = array(
 		   'data_filter_id' =>  $this->input->post('dataFilter_id'),
@@ -59,6 +91,16 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function editForm() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "edit data filter"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');
@@ -75,6 +117,18 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function update() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_datafilters');
 		$record = $this->input->post('dataFilter_sno');
 		$data_filter_id = $this->input->post('dataFilter_id');
@@ -103,6 +157,18 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+		
 		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');
@@ -122,6 +188,16 @@ class DataFilters extends CI_Controller {
 	}
 
 	public function viewOne() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "data filter details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('security/model_datafilters');
 
 		$record = $this->input->post('dataFilter_sno');

@@ -75,9 +75,9 @@ a.signup {
 	}
 }
 
-.notes_list {
+.notes_list, .dairy_updates_list, .docs_list {
 	 table {
-		border-bottom: 1px solid #dddddd;
+		border-bottom: 0px solid #dddddd;
 
 		tr {
 			td {
@@ -110,9 +110,9 @@ table.viewOne.projectViewOne {
 /* Accordiance CSS Override */
 .accordion h3, .accordion h2 {
 	padding: 5px 5px 5px 30px !important;
-	background-color: transparent;
-	background-image: none;
-	border:0px;
+	background-color: transparent !important;
+	background-image: none !important;
+	border:0px !important;
 	clear: both;
 	/*color: #244C61;*/
 }
@@ -206,6 +206,9 @@ a.accordion-icon:hover {
 
 .header-options {
 	border:0px;
+	margin-top: 10px;
+	margin-bottom : 10px;
+	height : 25px;
 	
 	h2 {
 		float:left;
@@ -363,8 +366,13 @@ a.icon-right {
 	margin-top: -7px;
 }
 
-#project_content .ui-widget-content, #claims_content .ui-widget-content {
-	border-width:0px 0px 1px 0px;
+#project_content .ui-widget-content, 
+#claims_content .ui-widget-content, 
+#contractor_content .ui-widget-content, 
+#tabs_contractor_company_details .ui-widget-content, 
+#partner_content .ui-widget-content,
+#subrogation_content .ui-widget-content {
+	border-width:0px 0px 0px 0px;
 }
 
 .projectViewOne .project-title {
@@ -385,7 +393,7 @@ a.icon-right {
 
 .internal-tab-as-links {
 	text-align: center;
-	border-bottom: 1px solid #D0D0D0;
+	/*border-bottom: 1px solid #D0D0D0;*/
 	padding-bottom: 10px;
 	margin: 0px 20px;
 	text-align : right;

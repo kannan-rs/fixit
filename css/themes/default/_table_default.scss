@@ -35,6 +35,9 @@ table {
         td.cell.descr {
             width : 150px;
         }
+        td.cell.description {
+            max-width : 450px;
+        }
 		td.cell.table-action, td.cell.percentage, td.cell.date {
 			text-align: center;
 		}
@@ -49,17 +52,19 @@ table {
 		}
 	}
 	tr.heading {
-		text-align: center;
+		/*text-align: center;*/
+		font-weight : bold;
 
 		td {
 			text-transform: capitalize;
 		}
-		td.cell.name {
+		td.cell {
 			text-align: left;
 		}
-		td.cell.descr {
-			text-align: left;
+		td.cell.table-action, td.cell.date, td.cell.percentage {
+			text-align: center;
 		}
+
 
 	}
 }

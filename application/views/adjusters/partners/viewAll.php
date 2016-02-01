@@ -1,16 +1,18 @@
-<h2><?php echo $this->lang->line_arr('partner->headers->view_all'); ?></h2>
-<div class="partners internal-tab-as-links" onclick="_partners.showPartnersList(event)">
-	<a href="javascript:void(0);" data-option="active" 
-		title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?>
-	</a>
-	<a href="javascript:void(0);" data-option="inactive" 
-		title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?>
-	</a>
-	<?php if($role_id == "admin") { ?>
-		<!-- <a href="javascript:void(0);" data-option="deleted"><?php echo $this->lang->line_arr('partner->buttons_links->delete'); ?></a> -->
-	<?php } ?>
-	<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('partner->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->all'); ?></a>
-</div>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('partner->headers->view_all'); ?></h2>
+	<div class="partners internal-tab-as-links" onclick="_partners.showPartnersList(event)">
+		<a href="javascript:void(0);" data-option="active" 
+			title="<?php echo $this->lang->line_arr('partner->buttons_links->active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->active'); ?>
+		</a>
+		<a href="javascript:void(0);" data-option="inactive" 
+			title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?>
+		</a>
+		<?php if($role_id == "admin") { ?>
+			<!-- <a href="javascript:void(0);" data-option="deleted"><?php echo $this->lang->line_arr('partner->buttons_links->delete'); ?></a> -->
+		<?php } ?>
+		<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('partner->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->all'); ?></a>
+		</div>
+	</div>
 <div>
 	<!-- List all the Functions from database -->
 	<table cellspacing="0" class="partners-table-list">

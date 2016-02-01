@@ -664,6 +664,45 @@ var _utils = (function () {
                 return false;
             }
             return true;
+        },
+        viewOnlyExpandAll: function ( accordion_id ) {
+            var icons = $( '#'+accordion_id ).accordion( "option", "icons" );
+            $('#'+accordion_id+' > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
+                'aria-selected': 'true',
+                'tabindex': '0'
+            });
+            $('#'+accordion_id+' > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.header).addClass(icons.activeHeader);
+            $('#'+accordion_id+' > .ui-accordion-content').addClass('ui-accordion-content-active').attr({
+                'aria-expanded': 'true',
+                'aria-hidden': 'false'
+            }).show();
+        },
+        viewOnlyCollapseAll: function( accordion_id ) {
+            var icons = $( '#'+accordion_id ).accordion( "option", "icons" );
+            $('#'+accordion_id+' > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
+                'aria-selected': 'false',
+                'tabindex': '-1'
+            });
+            $('#'+accordion_id+' > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.activeHeader).addClass(icons.header);
+            $('#'+accordion_id+' > .ui-accordion-content').removeClass('ui-accordion-content-active').attr({
+                'aria-expanded': 'false',
+                'aria-hidden': 'true'
+            }).hide();
+        },
+        set_accordion: function( accordion_id, icon_type ) {
+            var icon_obj = {header: "ui-icon-plus", activeHeader: "ui-icon-minus"};
+            
+            if(icon_type && icon_type == 'triangle') {
+                icon_obj = {header: "ui-icon-triangle-1-e", activeHeader: "ui-icon-triangle-1-s"}
+            }
+
+            $("#"+accordion_id).accordion(
+                {
+                    collapsible: true,
+                    icons: icon_obj,
+                    active: false
+                }
+           );
         }
     };
 })();

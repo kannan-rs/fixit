@@ -239,6 +239,7 @@ var _partners = (function () {
                     } else {
                         $("#partner_content").html(response);
                     }
+                    _utils.set_accordion('partner_accordion');
                     _partners.setPrefContact();
                 },
                 error: function (error) {

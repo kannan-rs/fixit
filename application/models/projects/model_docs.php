@@ -1,9 +1,9 @@
 <?php
 class Model_docs extends CI_Model {
 	public function getDocsList($projectId = "", $docId = "") {
-		$countWhereStr = " WHERE deleted = 0";
+		$countWhereStr = " WHERE is_deleted = 0";
 
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {
 			$this->db->where('project_id', $projectId);
@@ -48,7 +48,7 @@ class Model_docs extends CI_Model {
 	}
 
 	public function getDocById($docId = "") {
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		if(isset($docId) && !is_null($docId) && $docId != "") {
 			$this->db->where('doc_id', $docId);	
@@ -87,7 +87,7 @@ class Model_docs extends CI_Model {
 			$this->db->where('doc_id', $record);
 			
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' => 1
 			);
 			
 			if($this->db->update('project_docs', $data)) {

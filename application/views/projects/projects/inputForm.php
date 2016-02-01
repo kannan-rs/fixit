@@ -57,7 +57,9 @@
 
 <!-- Title for the Page -->
 <?php if(isset($header) && !empty($header)) { ?>
-<h2><?php echo $this->lang->line_arr('projects->headers->create'); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('projects->headers->create'); ?></h2>
+</div>
 <?php } ?>
 
 <form id="<?php echo $prefix; ?>_project_form" name="<?php echo $prefix; ?>_project_form" class="inputForm">

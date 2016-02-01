@@ -3,7 +3,7 @@
 class Model_contractors extends CI_Model {
 	
 	public function getContractorsList($record = "", $zip = "", $serviceZip = "") {
-		//$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 		
 		if(isset($record) && !is_null($record)) {
 			//echo "record =>"; print_r(array_filter($record)); echo "--count =>".count($record)."--imp--".implode(",", $record)."<br/>";
@@ -104,7 +104,7 @@ class Model_contractors extends CI_Model {
 			$this->db->where('id', $record);
 
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' => 1
 			);
 			
 			if($this->db->update('contractor', $data)) {
@@ -132,7 +132,7 @@ class Model_contractors extends CI_Model {
 		}
 
 		$this->db->where('trade_belongs_to_contractor_id', $contractorId);
-		$this->db->where('is_deleted', 0);
+		$this->db->where('is_deleted', "0");
 
 		if(isset($trade_id) && !empty($trade_id)) {
 			$this->db->where('trade_id', $trade_id);
@@ -491,6 +491,7 @@ class Model_contractors extends CI_Model {
 			if($tradeId != "all") {
 				$this->db->where("main_trade_id", $tradeId);
 			}
+			$this->db->where('is_deleted', 0);
 			$this->db->order_by("main_trade_name", "asc"); 
 			$query = $this->db->from('trades_main')->get();
 		
@@ -522,6 +523,7 @@ class Model_contractors extends CI_Model {
 				$this->db->where("parent_trade_id", $main_trade_id);
 			}
 			$this->db->order_by("sub_trade_name", "asc"); 
+			$this->db->where('is_deleted', 0);
 			$query = $this->db->from('trades_sub')->get();
 		
 			if($this->db->_error_number() == 0) {

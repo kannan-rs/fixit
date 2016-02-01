@@ -1,34 +1,37 @@
-<h2><?php echo $this->lang->line_arr('projects->headers->view_all'); ?></h2>
-<div class="projects internal-tab-as-links" onclick="_projects.showProjectsList(event)">
-	<a href="javascript:void(0);" data-option="open" 
-		title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>">
-			<?php echo $this->lang->line_arr('projects->buttons_links->open'); ?>
-	</a>
-	<a href="javascript:void(0);" data-option="completed" 
-		title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
-			<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
-	</a>
-
-	<?php if($role_disp_name == "admin") { ?>
-		
-		<a href="javascript:void(0);" data-option="deleted" 
-			title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
-				<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('projects->headers->view_all'); ?></h2>
+	<div class="projects internal-tab-as-links" onclick="_projects.showProjectsList(event)">
+		<a href="javascript:void(0);" data-option="open" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>">
+				<?php echo $this->lang->line_arr('projects->buttons_links->open'); ?>
+		</a>
+		<a href="javascript:void(0);" data-option="completed" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
+				<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
 		</a>
 
-	<?php } ?>
-	
-	<?php if(in_array('view', $issuesPermission['operation'])) { ?>
-	<a href="javascript:void(0);" data-option="issues" 
-		title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
-			<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
-	</a>
-	<?php } ?>
-	<a href="javascript:void(0);" data-option="all"
-		title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
-			<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
-	</a>
+		<?php if($role_disp_name == "admin") { ?>
+			
+			<a href="javascript:void(0);" data-option="deleted" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
+					<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+			</a>
+
+		<?php } ?>
+		
+		<?php if(in_array('view', $issuesPermission['operation'])) { ?>
+		<a href="javascript:void(0);" data-option="issues" 
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
+				<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
+		</a>
+		<?php } ?>
+		<a href="javascript:void(0);" data-option="all"
+			title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
+				<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
+		</a>
+	</div>
 </div>
+
 <div>
 	<!-- List all the Functions from database -->
 	<table cellspacing="0" class="projects-table-list">
@@ -38,10 +41,10 @@
 	?>
 			<tr class='heading'>
 			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->project_name'); ?></td>
-			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->complete'); ?></td>
-			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->start_date'); ?></td>
-			<td class='cell'><?php echo $this->lang->line_arr('projects->summary_table->end_date'); ?></td>
-			<td class='cell'></td>
+			<td class='cell percentage'><?php echo $this->lang->line_arr('projects->summary_table->complete'); ?></td>
+			<td class='cell date'><?php echo $this->lang->line_arr('projects->summary_table->start_date'); ?></td>
+			<td class='cell date'><?php echo $this->lang->line_arr('projects->summary_table->end_date'); ?></td>
+			<td class='cell table-action'></td>
 			</tr>
 	<?php
 		}
@@ -51,7 +54,7 @@
 			$deleteFn = $deleteText ? "_projects.deleteRecord(".$projects[$i]->proj_id.")" : "";*/
 
 			$cssStatus = $projects[$i]->project_status == "completed" || $projects[$i]->percentage == "100" ? "completed" : "open";
-			$cssStatus = $projects[$i]->deleted ? "deleted" : $cssStatus;
+			$cssStatus = $projects[$i]->is_deleted ? "deleted" : $cssStatus;
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo $issueCount ? "issues" : ""; ?>'>
 				<td class='cell'>

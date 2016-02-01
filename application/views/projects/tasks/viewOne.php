@@ -101,16 +101,16 @@ if(in_array('view', $issuesPermission['operation'])) {
 	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->complete'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_percent_complete; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->created_by'); ?></td><td class='cell'><?php echo $created_by; ?></td>
+	<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></td><td class='cell'><?php echo $created_by; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->created_on'); ?>:</td><td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
+	<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_on'); ?>:</td><td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->updated_by'); ?></td><td class='cell'><?php echo $updated_by; ?></td>
+	<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_by'); ?></td><td class='cell'><?php echo $updated_by; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->updated_on'); ?></td><td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
+	<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_on'); ?></td><td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
 	</tr>
 <?php
 	}

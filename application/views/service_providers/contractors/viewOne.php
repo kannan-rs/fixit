@@ -14,7 +14,17 @@
 		<!-- Tab Menu content #1 -->
 		
 			<div class="header-options">
-				<h2><?php echo $this->lang->line_arr('contractor->headers->view_one'); ?></h2>
+				<h2 class=''><?php echo $this->lang->line_arr('contractor->headers->view_one'); ?></h2>
+				<span class="options-icon left-icon-list">
+					<span class="ui-accordion-header-icon ui-icon ui-icon-plus expand-all" 
+						title="<?php echo $this->lang->line_arr('projects->buttons_links->expand_all'); ?>" 
+						onclick="_utils.viewOnlyExpandAll('service_provider_accordion')">
+					</span>
+					<span class="ui-accordion-header-icon ui-icon ui-icon-minus collapse-all" 
+						title="<?php echo $this->lang->line_arr('projects->buttons_links->collapse_all'); ?>" 
+						onclick="_utils.viewOnlyCollapseAll('service_provider_accordion')">
+					</span>
+				</span>
 				<span class="options-icon">
 					<?php 
 					if(in_array('update', $contractorPermission['operation'])) {
@@ -46,98 +56,131 @@
 		<?php
 		}
 		?>
-			<table cellspacing="0" class="viewOne">
-				<tbody>
-				<!-- List all the Functions from database -->
-					<!--
-					<tr> 
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->name'); ?>:</td>
-						<td class="capitalize"><?php echo $contractor->name; ?></td> 
-					</tr>
-					-->
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->company'); ?></td>
-						<td class="capitalize"><?php echo $contractor->company; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->default_contract_user'); ?></td>
-						<td class="capitalize"><?php echo isset($contractor->default_contact_user_disp_str) ? $contractor->default_contact_user_disp_str : ""; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->type'); ?></td>
-						<td class="capitalize"><?php echo $contractor->type; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->license'); ?></td>
-						<td class="capitalize"><?php echo $contractor->license; ?></td>
-					</tr>
-					<!-- <tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->bbb'); ?></td>
-						<td class="capitalize"><?php echo $contractor->bbb; ?></td>
-					</tr> -->
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->dtatus'); ?></td>
-						<td class="capitalize"><?php echo $contractor->status; ?></td>
-					</tr>
-					<?php
-					echo $addressFile;
-					?>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->office_email_id'); ?></td>
-						<td><?php echo $contractor->office_email; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->office_number'); ?></td>
-						<td><?php echo $contractor->office_ph; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->mobile_number'); ?></td>
-						<td><?php echo $contractor->mobile_ph; ?></td>
-					</tr>
-						<!-- 
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->prefered_mode'); ?></td>
-						<td>
-							<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo $contractor->prefer; ?>" />
-							<table class="innerOption">
-								
-									<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled></td>
-									<td><?php echo $this->lang->line_arr('contractor->details_view->email'); ?></td>
-									<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber" disabled></td>
-									<td><?php echo $this->lang->line_arr('contractor->details_view->office_phone'); ?></td>
-									<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled></td>
-									<td><?php echo $this->lang->line_arr('contractor->details_view->mobile_number'); ?></td>
-								
-							</table>
-						</td> 
-						</tr>
-						-->
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->webSite_url'); ?></td>
-						<td><?php echo $contractor->website_url; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->serive_provided'); ?></td>
-						<td><?php echo $contractor->service_area; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->created_by'); ?></td>
-						<td><?php echo $contractor->created_by; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->created_on'); ?></td>
-						<td><?php echo $contractor->created_on; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->updated_by'); ?></td>
-						<td><?php echo $contractor->updated_by; ?></td>
-					</tr>
-					<tr>
-						<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->updated_on'); ?></td>
-						<td><?php echo $contractor->updated_on; ?></td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="service_provider_accordion" class="accordion">
+				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('contractor->headers->contractor_details'); ?></span></h3>
+				<div>
+					<table cellspacing="0" class="viewOne">
+						<tbody>
+							<!--
+							<tr> 
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->name'); ?>:</td>
+								<td class="capitalize"><?php echo $contractor->name; ?></td> 
+							</tr>
+							-->
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->company'); ?></td>
+								<td class="capitalize"><?php echo $contractor->company; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->default_contract_user'); ?></td>
+								<td class="capitalize"><?php echo isset($contractor->default_contact_user_disp_str) ? $contractor->default_contact_user_disp_str : ""; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->type'); ?></td>
+								<td class="capitalize"><?php echo $contractor->type; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->license'); ?></td>
+								<td class="capitalize"><?php echo $contractor->license; ?></td>
+							</tr>
+							<!-- <tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->bbb'); ?></td>
+								<td class="capitalize"><?php echo $contractor->bbb; ?></td>
+							</tr> -->
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->status'); ?></td>
+								<td class="capitalize"><?php echo $contractor->status; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('contractor->headers->contractor_address'); ?></span></h3>
+				<div>
+					<table cellspacing="0" class="viewOne">
+						<tbody>
+							<?php
+							echo $addressFile;
+							?>
+						</tbody>
+					</table>
+				</div>
+				<h3>
+					<span class="inner_accordion">
+						<?php echo $this->lang->line_arr('contractor->headers->contractor_contact')." & ".$this->lang->line_arr('contractor->headers->contractor_service_area'); ?>
+					</span>
+				</h3>
+				<div>
+					<table cellspacing="0" class="viewOne">
+						<tbody>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->office_email_id'); ?></td>
+								<td><?php echo $contractor->office_email; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->office_number'); ?></td>
+								<td><?php echo $contractor->office_ph; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->mobile_number'); ?></td>
+								<td><?php echo $contractor->mobile_ph; ?></td>
+							</tr>
+								<!-- 
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->prefered_mode'); ?></td>
+								<td>
+									<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo $contractor->prefer; ?>" />
+									<table class="innerOption">
+										
+											<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled></td>
+											<td><?php echo $this->lang->line_arr('contractor->details_view->email'); ?></td>
+											<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber" disabled></td>
+											<td><?php echo $this->lang->line_arr('contractor->details_view->office_phone'); ?></td>
+											<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled></td>
+											<td><?php echo $this->lang->line_arr('contractor->details_view->mobile_number'); ?></td>
+										
+									</table>
+								</td> 
+								</tr>
+								-->
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->webSite_url'); ?></td>
+								<td><?php echo $contractor->website_url; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->serive_provided'); ?></td>
+								<td><?php echo $contractor->service_area; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<h3>
+					<span class="inner_accordion">
+						<?php echo $this->lang->line_arr('contractor->headers->contractor_others') ?>
+					</span>
+				</h3>
+					<div>
+						<table cellspacing="0" class="viewOne">
+							<tbody>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></td>
+								<td><?php echo $contractor->created_by; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('common_text->created_on'); ?></td>
+								<td><?php echo $contractor->created_on; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('common_text->updated_by'); ?></td>
+								<td><?php echo $contractor->updated_by; ?></td>
+							</tr>
+							<tr>
+								<td class='label'><?php echo $this->lang->line_arr('common_text->updated_on'); ?></td>
+								<td><?php echo $contractor->updated_on; ?></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		<?php
 		if(!$openAs || $openAs != "popup") {
 		?>

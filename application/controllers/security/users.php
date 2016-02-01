@@ -64,13 +64,24 @@ class Users extends CI_controller {
 
 	public function viewAll() 
 	{
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "users list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		include 'include_user_model.php';
 		$this->load->model('security/model_permissions');
 
 		$getParams = array(
 			"dataFor" => "roles"
 		);
-		$roles = $this->model_permissions->getAllList($getParams)["roles"];
+		//$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : "";
 		$status 		= $this->input->post('status');
@@ -129,6 +140,18 @@ class Users extends CI_controller {
 	}
 
 	public function add() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		include 'include_user_model.php';
 		
 		$emailId 		= $this->input->post('emailId');
@@ -269,7 +292,17 @@ class Users extends CI_controller {
 	}
 
 	public function editForm() {
+		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "edit user"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		include 'include_user_model.php';
 		$this->load->model('security/model_permissions');
 
@@ -325,6 +358,18 @@ class Users extends CI_controller {
 	}
 
 	public function update() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		include 'include_user_model.php';
 
 		$response = array();
@@ -425,6 +470,18 @@ class Users extends CI_controller {
 	}
 
 	public function deleteRecord() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		include 'include_user_model.php';
 
 		$record = $this->input->post('userId');
@@ -450,6 +507,16 @@ class Users extends CI_controller {
 	}
 
 	public function viewOne() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "user details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		include 'include_user_model.php';
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");

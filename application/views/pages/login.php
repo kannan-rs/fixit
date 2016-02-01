@@ -1,12 +1,10 @@
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('login->headers->title'); ?></h2>
+</div>
 <div id="index_content">
 	<form class="login-form" id="login_form" method="post" action="/validation/login">
 		<table>
 			<tbody>
-				<tr>
-					<td colspan="2">
-						<h2><?php echo $this->lang->line_arr('login->headers->title'); ?></h2>
-					</td>
-				</tr>
 				<tr>
 					<td class="label">
 						<?php echo $this->lang->line_arr('login->input_form->login_email'); ?> :

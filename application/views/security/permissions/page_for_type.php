@@ -1,24 +1,25 @@
-<h2><?php echo $this->lang->line_arr('permission->headers->title'); ?></h2>
-<div class="permission internal-tab-as-links" onclick="_permissions.showPermissionsPage(event)">
-	<a href="javascript:void(0);" data-option="default" 
-		title="<?php echo $this->lang->line_arr('permission->buttons_links->default_title'); ?>">
-			<?php echo $this->lang->line_arr('permission->buttons_links->default'); ?>
-	</a>
-	<!-- <a href="javascript:void(0);" data-option="user" 
-		title="<?php echo $this->lang->line_arr('permission->buttons_links->user_permission_title'); ?>">
-			<?php echo $this->lang->line_arr('permission->buttons_links->user_permission'); ?>
-	</a> -->
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('permission->headers->title'); ?></h2>
+	<div class="permission internal-tab-as-links" onclick="_permissions.showPermissionsPage(event)">
+		<a href="javascript:void(0);" data-option="default" 
+			title="<?php echo $this->lang->line_arr('permission->buttons_links->default_title'); ?>">
+				<?php echo $this->lang->line_arr('permission->buttons_links->default'); ?>
+		</a>
+		<!-- <a href="javascript:void(0);" data-option="user" 
+			title="<?php echo $this->lang->line_arr('permission->buttons_links->user_permission_title'); ?>">
+				<?php echo $this->lang->line_arr('permission->buttons_links->user_permission'); ?>
+		</a> -->
+	</div>
 </div>
 <p class="note error"></p>
 <p class="note success"></p>
 <div class="permissions">
-	
 	<?php
 	if($type != 'default') {
 	?>
 	<!-- Users List Drop Down -->
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->headers->user'); ?></h3>
+		<!-- <h3><?php echo $this->lang->line_arr('permission->headers->user'); ?></h3> -->
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->user'); ?></label>
 		<section class="dataSection">
 			<select id="user" onchange="_permissions.getPermissions('<?php echo $type; ?>', 'user')">
@@ -36,7 +37,7 @@
 
 	<!-- Role List Drop Down -->
 	<section class="section">
-		<h3><?php echo $this->lang->line_arr('permission->headers->role'); ?></h3>
+		<!-- <h3><?php echo $this->lang->line_arr('permission->headers->role'); ?></h3> -->
 		<label class="label"><?php echo $this->lang->line_arr('permission->input_form->role'); ?></label>
 		<section class="dataSection">
 			<select id="role" onchange="_permissions.getPermissions('<?php echo $type; ?>', 'role')">

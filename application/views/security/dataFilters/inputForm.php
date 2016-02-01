@@ -17,7 +17,9 @@ $data_filter_name 	= isset($individualDataFilter) ? $individualDataFilter->data_
 $data_filter_descr 	= isset($individualDataFilter) ? $individualDataFilter->data_filter_descr : "";
 
 ?>
-<h2><?php echo $this->lang->line_arr('data_filter->headers->'.$prefix); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('data_filter->headers->'.$prefix); ?></h2>
+</div>
 <form id="<?php echo $prefix; ?>_dataFilter_form" name="<?php echo $prefix; ?>_dataFilter_form" class="inputForm">
 	<input type="hidden" id='dataFilter_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>

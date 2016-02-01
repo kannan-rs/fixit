@@ -15,6 +15,18 @@ class Permissions extends CI_Controller {
 	}
 
 	public function getComponentInfo() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+		
 		$this->load->model('security/model_permissions');
 
 		$getParams = array(
@@ -30,6 +42,16 @@ class Permissions extends CI_Controller {
 	}
 
 	public function inputForm() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "create permission"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('security/model_permissions');
 
 		$permissionId = $this->input->post('permissionId');
@@ -58,6 +80,18 @@ class Permissions extends CI_Controller {
 	}
 
 	public function getPageForType() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_permissions');
 
 		$type = $this->input->post('type');
@@ -108,6 +142,18 @@ class Permissions extends CI_Controller {
 	}*/
 
 	public function getPermissions() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_permissions');
 
 		$user_id = $this->input->post('user_id');
@@ -143,6 +189,18 @@ class Permissions extends CI_Controller {
 	}
 
 	public function setPermissions() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_permissions');
 		$response = $this->model_permissions->setUserPermission();
 
@@ -150,6 +208,18 @@ class Permissions extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_permissions');
 		$response = $this->model_permissions->deleteRecord();
 

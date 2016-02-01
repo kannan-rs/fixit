@@ -23,7 +23,7 @@
 ?>
 <?php
 if(!$edit && (!$openAs || $openAs != "popup")) {
-	echo "<h2>".$this->lang->line_arr('partner->headers->'.$prefix)."</h2>";
+	echo "<div class=\"header-options\"><h2>".$this->lang->line_arr('partner->headers->'.$prefix)."</h2></div>";
 }
 ?>
 <form id="<?php echo $prefix ?>_partner_form" name="<?php echo $prefix ?>_partner_form" class="inputForm">

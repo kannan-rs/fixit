@@ -22,10 +22,10 @@
 	<span class="options-icon left-icon-list">
 		<span class="ui-accordion-header-icon ui-icon ui-icon-plus expand-all" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->expand_all'); ?>" 
-			onclick="_projects.viewOnlyExpandAll()"></span>
+			onclick="_utils.viewOnlyExpandAll('accordion')"></span>
 		<span class="ui-accordion-header-icon ui-icon ui-icon-minus collapse-all" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->collapse_all'); ?>" 
-			onclick="_projects.viewOnlyCollapseAll()"></span>
+			onclick="_utils.viewOnlyCollapseAll('accordion')"></span>
 	</span>
 	<span class="options-icon">
 		<?php
@@ -86,11 +86,13 @@
 	<div id="accordion" class="accordion">
 		<!-- Project Description -->
 		<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->project_description'); ?></span></h3>
-		<table cellspacing="0" class="viewOne">
-			<tr>
-				<td class='cell'><?php echo $project->project_descr; ?></td>
-			</tr>
-		</table>
+		<div>
+			<table cellspacing="0" class="viewOne">
+				<tr>
+					<td class='cell'><?php echo $project->project_descr; ?></td>
+				</tr>
+			</table>
+		</div>
 
 		<!-- Project start and end dates -->
 		<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->project_date'); ?></span></h3>

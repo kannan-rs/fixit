@@ -6,6 +6,7 @@ class Model_remainingbudget extends CI_Model {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {			
 			$this->db->where('project_id', $projectId);
 		}
+		$this->db->where('is_deleted', "0");
 
 		$this->db->select([
 				"*", 
@@ -36,6 +37,7 @@ class Model_remainingbudget extends CI_Model {
 		if(isset($budgetId) && !is_null($budgetId) && $budgetId != "") {			
 			$this->db->where('sno', $budgetId);
 		}
+		$this->db->where('is_deleted', "0");
 
 		$this->db->select([
 				"*", 
@@ -67,6 +69,7 @@ class Model_remainingbudget extends CI_Model {
 		if(isset($projectId) && !is_null($projectId) && $projectId != "") {			
 			$this->db->where('project_id', $projectId);
 		}
+		$this->db->where('is_deleted', "0");
 
 		$this->db->select([
 				 "SUM(amount) as amount"
@@ -115,10 +118,15 @@ class Model_remainingbudget extends CI_Model {
 		$response = array(
 			'status' => 'error'
 		);
+		
 		if($record && $record!= "") {
 			$this->db->where('sno', $record);
+
+			$data = array(
+				'is_deleted' => 1
+			);
 			
-			if($this->db->delete('paid_from_budget')) {
+			if($this->db->update('paid_from_budget', $data)) {
 				$response['status']		= "success";
 				$response['message']	= "Paid From Budget Deleted Successfully";
 			} else {

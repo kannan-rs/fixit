@@ -104,7 +104,7 @@ class Model_claims extends CI_Model {
 		if(!isset($claim_number) || empty($claim_number)) {
 			$response["message"] = "Provide vaild claim number";
 		} else {
-			$this->db->where('deleted', '0');
+			$this->db->where('is_deleted', '0');
 			$this->db->where('associated_claim_num', $claim_number);
 
 			$this->db->select([

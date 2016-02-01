@@ -53,7 +53,9 @@ $popupType 			= isset($popupType) ? $popupType : "";
 <?php
 if(!$openAs || $openAs != "popup") {
 ?>
-<h2><?php echo $heading; ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $heading; ?></h2>
+</div>
 <?php
 }
 ?>

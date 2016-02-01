@@ -86,7 +86,7 @@ class Model_dairy_updates extends CI_Model {
 			$this->db->where('dairy_updates_id', $dairy_updates_id);
 
 			$data = array(
-				'is_deleted' 				=> 1
+				'is_deleted' => 1
 			);
 			
 			if($this->db->update('claim_dairy_updates', $data)) {

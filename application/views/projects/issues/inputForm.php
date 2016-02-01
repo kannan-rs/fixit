@@ -24,7 +24,9 @@ if(!$openAs || $openAs != "popup") {
 <?php
 if(!empty($headerText)) {
 ?>
-<h2>$headerText</h2>
+<div class="header-options">
+	<h2 class=''>$headerText</h2>
+</div>
 <?php
 }
 ?>

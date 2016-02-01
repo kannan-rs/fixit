@@ -15,7 +15,7 @@ if($count) {
 		<tr id="dairy_updates_<?php echo $claim_dairy_updates[$i]->dairy_updates_id; ?>">
 			<td class='cell' colspan="3">
 				<?php echo $claim_dairy_updates[$i]->dairy_updates_content; ?> 
-				<br/><i><?php echo $this->lang->line_arr('claim_dairy_updates->summary_table->created_by'); ?>: <?php echo $claim_dairy_updates[$i]->created_by_name; ?> on 
+				<br/><i><?php echo $this->lang->line_arr('common_text->created_by'); ?>: <?php echo $claim_dairy_updates[$i]->created_by_name; ?> on 
 					<?php echo $claim_dairy_updates[$i]->created_on_for_view; ?>
 				</i>
 			</td>

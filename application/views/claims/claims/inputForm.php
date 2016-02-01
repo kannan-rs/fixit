@@ -74,8 +74,9 @@
 		$Property_damage_reserve 	= $claim->Property_damage_reserve;
 	}
 ?>
-
-<h2><?php echo $this->lang->line_arr('claim->headers->'.$prefix);?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('claim->headers->'.$prefix);?></h2>
+</div>
 <form id="<?php echo $prefix ?>_claim_form" name="<?php echo $prefix ?>_claim_form" class="inputForm">
 	<input type="hidden" id='claimId' value="<?php echo isset($claim_id) ? $claim_id : "" ; ?>" />
 	<input type="hidden" value="<?php echo $claim_customer_id;?>" name="customer_id" id="customer_id">

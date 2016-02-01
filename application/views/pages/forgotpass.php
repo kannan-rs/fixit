@@ -1,12 +1,10 @@
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('forgot_password->headers->title'); ?></h2>
+</div>
 <div id="index_content">
 	<form class="forgotpass-form" id="forgotpass_form" method="post" action="/validation/forgotpass">
 		<table>
 			<tbody>
-				<tr>
-					<td colspan="2">
-						<h2><?php echo $this->lang->line_arr('forgot_password->headers->title'); ?></h2>
-					</td>
-				</tr>
 				<tr>
 					<td class="label">
 						<?php echo $this->lang->line_arr('forgot_password->input_form->user_name'); ?> :

@@ -20,7 +20,7 @@ class Subrogation extends CI_Controller {
 			$claim_record_count = count($claims);
 
 			if( $claim_record_count == 1 ) {
-				$customer_name = $this->model_users->getUserDisplayName($claims[0]->claim_customer_id);
+				$customer_name = $this->model_users->getUserDisplayNameWithEmail($claims[0]->claim_customer_id);
 			}
 		}
 		return $customer_name;
@@ -157,7 +157,7 @@ class Subrogation extends CI_Controller {
 		$subrogation = $response["subrogation"];
 
 		/*for($i = 0, $count = count($subrogation); $i < $count; $i++) {
-			$customer_names[$subrogation[$i]->customer_id] = $this->model_users->getUserDisplayName($subrogation[$i]->customer_id);
+			$customer_names[$subrogation[$i]->customer_id] = $this->model_users->getUserDisplayNameWithEmail($subrogation[$i]->customer_id);
 		}*/
 
 		$params = array(

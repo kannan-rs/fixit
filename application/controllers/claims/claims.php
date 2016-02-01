@@ -179,7 +179,7 @@ class Claims extends CI_Controller {
 			$_customer_address_file = $this->load->view("forms/address", $_addressParams, true);
 		}
 		
-		$claims[0]->customer_name 		= $this->model_users->getUserDisplayName($claims[0]->claim_customer_id);
+		$claims[0]->customer_name 		= $this->model_users->getUserDisplayNameWithEmail($claims[0]->claim_customer_id);
 		$claims[0]->created_by_name		= $this->model_users->getUsersList($claims[0]->created_by)[0]->user_name;
 		$claims[0]->updated_by_name 	= $this->model_users->getUsersList($claims[0]->updated_by)[0]->user_name;
 

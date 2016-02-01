@@ -88,7 +88,7 @@ var _contractors = (function () {
         var htmlContent = "No Tradess or Sub Tradess Found";
         //generateInternalLink("createTrade");
         if(tradeMappedList.parents.length) {
-            htmlContent = "<div id=\"accordion\" class=\"accordion\">";
+            htmlContent = "<div id=\"trade_accordion\" class=\"accordion\">";
             for(var i = 0; i < tradeMappedList.parents.length; i++) {
                 var trends = tradeMappedList.parents[i];
                 htmlContent += "<h3><span class=\"inner_accordion\">"+trends.trade_name+"</span>";
@@ -149,13 +149,7 @@ var _contractors = (function () {
             $( this ).toggleClass( "active" );
         });
 
-        $("#accordion").accordion(
-            {
-                collapsible: true,
-                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                active: false
-            }
-       );
+        _utils.set_accordion('trade_accordion');
     };
 
     function showDiscountList() {
@@ -182,7 +176,7 @@ var _contractors = (function () {
         if(tradeMappedList.parents.length) {
             for(var i = 0; i < tradeMappedList.parents.length; i++) {
                 var trade = tradeMappedList.parents[i];
-                htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
+                htmlContent += "<option value='"+trade.trade_id_from_master_list+"'>"+trade.trade_name+"</option>";
             }
         }
 
@@ -194,10 +188,10 @@ var _contractors = (function () {
 
     function _populateSubTradeInDiscount( mainTradeId, ddId ) {
         var htmlContent = "<option value=\"0\">-- Select Sub Trade --</option>";
-        if(mainTradeId && mainTradeId != "0" && tradeMappedList.childs[mainTradeId].length) {
+        if(mainTradeId && mainTradeId != "0" && tradeMappedList.childs[mainTradeId] && tradeMappedList.childs[mainTradeId].length) {
             for(var i = 0; i < tradeMappedList.childs[mainTradeId].length; i++) {
                 var trade = tradeMappedList.childs[mainTradeId][i];
-                htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";
+                htmlContent += "<option value='"+trade.trade_id_from_master_list+"'>"+trade.trade_name+"</option>";
             }
         }
 
@@ -451,6 +445,8 @@ var _contractors = (function () {
                             $( "#contractor_tabs" ).tabs();
                         //});
                     }
+
+                    _utils.set_accordion('service_provider_accordion');
                     _contractors.setPrefContact();
                 },
                 error: function( error ) {

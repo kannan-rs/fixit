@@ -173,15 +173,8 @@ var _claims = (function () {
         _utils.setCustomerDataList();
         _utils.getAndSetCountryStatus(form+"_claim_form", "property");
 
-        $("#claim_accordion").accordion(
-            {
-                collapsible: true,
-                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                active: false,
-
-            }
-        );
-        _claims.viewOnlyExpandAll();
+        _utils.set_accordion('claim_accordion');
+        _utils.viewOnlyExpandAll('claim_accordion');
         $("#customer_id").bind({
             change : function( event , form) {
                 get_customer_address( form );
@@ -265,13 +258,7 @@ var _claims = (function () {
                 },
                 success: function (response) {
                     $("#claims_content").html(response);
-                    $("#accordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                            active: false
-                        }
-                   );
+                    _utils.set_accordion('claim_accordion');
                     presetViewOne();
                 },
                 error: function (error) {
@@ -413,30 +400,6 @@ var _claims = (function () {
             }).fail(function (failedObj) {
                 fail_error = failedObj;
             });
-        },
-        viewOnlyExpandAll: function () {
-            var icons = $( "#claim_accordion" ).accordion( "option", "icons" );
-            $('#claim_accordion > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
-                'aria-selected': 'true',
-                'tabindex': '0'
-            });
-            $('#claim_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.header).addClass(icons.activeHeader);
-            $('#claim_accordion > .ui-accordion-content').addClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'true',
-                'aria-hidden': 'false'
-            }).show();
-        },
-        viewOnlyCollapseAll: function() {
-            var icons = $( "#claim_accordion" ).accordion( "option", "icons" );
-            $('#claim_accordion > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
-                'aria-selected': 'false',
-                'tabindex': '-1'
-            });
-            $('#claim_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.activeHeader).addClass(icons.header);
-            $('#claim_accordion > .ui-accordion-content').removeClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'false',
-                'aria-hidden': 'true'
-            }).hide();
         }
     };
 })();

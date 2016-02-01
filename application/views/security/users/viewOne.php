@@ -4,7 +4,7 @@
 
 		$heading = $viewFrom == "security" ? $this->lang->line_arr('user->headers->admin_view_one') : $this->lang->line_arr('user->headers->view_one');
 		$heading = $viewFrom == "projects" ? "" : $heading;
-		$heading = $heading != "" ? "<h2>".$heading."</h2>" : $heading;
+		$heading = $heading != "" ? "<div class=\"header-options\"><h2 class=''>".$heading."</h2></div>" : $heading;
 ?>
 <?php if($viewFrom == "security") { ?>
 <!-- <div class="create-link">

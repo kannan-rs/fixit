@@ -33,6 +33,7 @@ class Model_permissions extends CI_Model {
 		$type = $options["type"];
 
 		$this->db->where('user_id', "");
+		$this->db->where('is_deleted', '0');
 		 
 		$permissions_query 		= $this->db->get('permissions');
 
@@ -43,6 +44,7 @@ class Model_permissions extends CI_Model {
 	public function getPermissionsById( $options ) {
 		if($options["permissionId"] && $options["permissionId"] != "") {
 			$this->db->where('sno', $options["permissionId"]);
+			$this->db->where('is_deleted', '0');
 			$permissions_query 		= $this->db->get('permissions');
 			$permissions 			= $permissions_query->result();
 			return $permissions;
@@ -52,7 +54,6 @@ class Model_permissions extends CI_Model {
 	}
 
 	public function getUserPermission( $options) {
-
 		$user_id = $options["user_id"];
 		$role_id = $options["role_id"];
 		$function_id = $options["function_id"];
@@ -69,8 +70,9 @@ class Model_permissions extends CI_Model {
 		}
 
 		if($function_id != "") {
-			$this->db->where('function_id', $function_id);	
+			$this->db->where('function_id', $function_id);
 		}
+		$this->db->where('is_deleted', '0');
 		
 		$permissions_query 		= $this->db->get('permissions');
 		$permissions 			= $permissions_query->result();
@@ -150,7 +152,12 @@ class Model_permissions extends CI_Model {
 
 		if($permission_id && $permission_id != "") {
 			$this->db->where('sno', $permission_id);
-			if($this->db->delete("permissions")) {
+
+			$data = array(
+				'is_deleted' 	=> 1
+			);
+
+			if($this->db->update("permissions", $data)) {
 				$response["status"] = "success";
 				$response["action"] = "deleteed";
 			} 

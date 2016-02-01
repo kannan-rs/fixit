@@ -15,7 +15,9 @@ $role_name 	= isset($individualRole) ? $individualRole->role_name : "";
 $role_desc 	= isset($individualRole) ? $individualRole->role_desc : "";
 
 ?>
-<h2><?php echo $this->lang->line_arr('role->headers->'.$prefix); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('role->headers->'.$prefix); ?></h2>
+</div>
 <form id="<?php echo $prefix; ?>_role_form" name="update_role_form" class="inputForm">
 	<input type="hidden" id='role_sno' value="<?php echo $sno; ?>" />
 	<table class='form'>

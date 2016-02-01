@@ -6,7 +6,7 @@ class Model_users extends CI_Model {
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
 		$this->db->where('status', '1');
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 		$this->db->where('activation_key', 'active');
 
 		$query = $this->db->get('users');
@@ -25,7 +25,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		$query = $this->db->get('users');
 
@@ -40,7 +40,7 @@ class Model_users extends CI_Model {
 
 		$this->db->where('user_name', $email);
 		$this->db->where('password', $password);
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		$query = $this->db->get('users');
 
@@ -54,7 +54,7 @@ class Model_users extends CI_Model {
 	public function getUserSnoViaEmail($email = '') {
 		if($email != '') {
 			$this->db->where('user_name', $email);
-			$this->db->where('deleted', '0');
+			$this->db->where('is_deleted', '0');
 
 			$query = $this->db->get('users');
 
@@ -73,7 +73,7 @@ class Model_users extends CI_Model {
 	public function getUserDetailsSnoViaEmail($email = '') {
 		if($email != '') {
 			$this->db->where('email', $email);
-			$this->db->where('deleted', '0');
+			$this->db->where('is_deleted', '0');
 
 			$query = $this->db->get('user_details');
 
@@ -92,7 +92,7 @@ class Model_users extends CI_Model {
 	public function getUsersList($params = "", $from_db = "users") {
 		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, ";
 		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name ";
-		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
+		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
 		if($params && $params != "" && $params != 0) {
 			if($from_db == "users") {
@@ -108,10 +108,10 @@ class Model_users extends CI_Model {
 		return $users;
 	}
 
-	public function getUserDisplayName($params = "") {
+	public function getUserDisplayNameWithEmail($params = "") {
 		if(!empty($params) && $params != 0) {
 			$queryStr 	= "SELECT users.user_name, user_details.first_name, user_details.last_name ";
-			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0";
+			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 			$queryStr .= " AND users.sno = ".$params;
 			
 			$query = $this->db->query($queryStr);
@@ -121,6 +121,24 @@ class Model_users extends CI_Model {
 
 			if($users && count($users)) {
 				return $users[0]->first_name." ".$users[0]->last_name." (".$users[0]->user_name.")";
+			}
+		}
+		return "--No Name--";
+	}
+
+	public function getUserDisplayName($params = "") {
+		if(!empty($params) && $params != 0) {
+			$queryStr 	= "SELECT users.user_name, user_details.first_name, user_details.last_name ";
+			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+			$queryStr .= " AND users.sno = ".$params;
+			
+			$query = $this->db->query($queryStr);
+
+			//echo $this->db->last_query();
+			$users = $query->result();
+
+			if($users && count($users)) {
+				return $users[0]->first_name." ".$users[0]->last_name;
 			}
 		}
 		return "--No Name--";
@@ -157,7 +175,7 @@ class Model_users extends CI_Model {
 	public function getUserDetailsByEmail($email) {
 		//$this->db->flush_cache();
 		$this->db->where('email', $email);
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		$this->db->select([
 			"sno",
@@ -201,7 +219,7 @@ class Model_users extends CI_Model {
 		}
 		
 		$this->db->where('sno', $sno);
-		$this->db->where('deleted', '0');
+		$this->db->where('is_deleted', '0');
 
 		$query = $this->db->get('user_details');
 		$user_details = $query->result();
@@ -256,7 +274,7 @@ class Model_users extends CI_Model {
 			$this->db->where('sno', $record);
 
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' 				=> 1
 			);
 			
 			if($this->db->update('users', $data)) {
@@ -279,7 +297,7 @@ class Model_users extends CI_Model {
 			$this->db->where('email', $email);
 
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' 				=> 1
 			);
 			
 			if($this->db->update('user_details', $data)) {
@@ -339,7 +357,7 @@ class Model_users extends CI_Model {
 			$response["message"]	= "Invalid request";
 		} else {
 			$queryStr 	= "SELECT user_details.addr1, user_details.addr2, user_details.addr_city, user_details.addr_state, user_details.addr_country, user_details.addr_pin ";
-			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.deleted = 0 AND user_details.deleted = 0 AND users.sno = ".$user_id;
+			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0 AND users.sno = ".$user_id;
 
 			$query = $this->db->query($queryStr);
 			$users = $query->result();

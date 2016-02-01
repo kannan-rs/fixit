@@ -105,32 +105,6 @@ $menu_json_str = '[
 				]
 			},
 			{
-				"text"			: "Operations", 
-				"link"			: "/main/security/operations", 
-				"key"			: "operations",
-				"dependency"	: {
-					"roles_by_name"	: ["admin"]
-				},
-				"sub_menus"	: [
-					{
-						"text"			: "View Operations", 
-						"link"			: "/main/security/operations", 
-						"key"			: "operations",
-						"dependency"	: {
-							"roles_by_name"	: ["admin"]
-						}
-					},
-					{
-						"text"			: "Create Operation", 
-						"link"			: "/main/security/operations/create_operation", 
-						"key"			: "operations",
-						"dependency"	: {
-							"roles_by_name"	: ["admin"]
-						}
-					}
-				]
-			},
-			{
 				"text"			: "Functions", 
 				"link"			: "/main/security/functions", 
 				"key"			: "functions",
@@ -150,6 +124,32 @@ $menu_json_str = '[
 						"text"			: "Create Function", 
 						"link"			: "/main/security/functions/create_function", 
 						"key"			: "functions",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Operations", 
+				"link"			: "/main/security/operations", 
+				"key"			: "operations",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Operations", 
+						"link"			: "/main/security/operations", 
+						"key"			: "operations",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create Operation", 
+						"link"			: "/main/security/operations/create_operation", 
+						"key"			: "operations",
 						"dependency"	: {
 							"roles_by_name"	: ["admin"]
 						}

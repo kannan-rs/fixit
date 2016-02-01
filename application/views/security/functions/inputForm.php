@@ -15,7 +15,9 @@ $fn_name 	= isset($individualFunction) ? $individualFunction->fn_name : "";
 $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 
 ?>
-<h2><?php echo $this->lang->line_arr('function->headers->'.$prefix); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('function->headers->'.$prefix); ?></h2>
+</div>
 <form id="<?php echo $prefix; ?>_function_form" name="<?php echo $prefix; ?>_function_form" class="inputForm">
 	<input type="hidden" id='function_sno' value="<?php echo $sno; ?>" />
 	

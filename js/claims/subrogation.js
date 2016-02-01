@@ -131,15 +131,8 @@ var _claim_subrogation = (function() {
         $(".customer-search-result").hide();
         _utils.setCustomerDataList();
         _utils.getAndSetCountryStatus(form+"_subrogation_form", "property");
-        $("#subrogation_accordion").accordion(
-            {
-                collapsible: true,
-                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                active: false,
-
-            }
-        );
-        _claim_subrogation.viewOnlyExpandAll();
+        _utils.set_accordion('subrogation_accordion');
+        _utils.viewOnlyExpandAll('subrogation_accordion');
 
         $("#is_property_address_same").bind( {
             click : function( event ) {
@@ -288,13 +281,7 @@ var _claim_subrogation = (function() {
                 success: function (response) {
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Subrogation Details"});
-                    $("#subrogation_accordion").accordion(
-                        {
-                            collapsible: true,
-                            icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                            active: false
-                        }
-                   );
+                    _utils.set_accordion('subrogation_accordion');
                     presetViewOne();
                 },
                 error: function (error) {
@@ -305,35 +292,6 @@ var _claim_subrogation = (function() {
             });
 		},
 		deleteRecord: function() {
-
-		},
-        viewOnlyExpandAll: function () {
-            var icons = $( "#subrogation_accordion" ).accordion( "option", "icons" );
-            //$('.open').click(function () {
-            $('#subrogation_accordion > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
-                'aria-selected': 'true',
-                'tabindex': '0'
-            });
-            $('#subrogation_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.header).addClass(icons.activeHeader);
-            $('#subrogation_accordion > .ui-accordion-content').addClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'true',
-                'aria-hidden': 'false'
-            }).show();
-            //});
-        },
-        viewOnlyCollapseAll: function() {
-            var icons = $( "#subrogation_accordion" ).accordion( "option", "icons" );
-            //$('.close').click(function () {
-            $('#subrogation_accordion > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
-                'aria-selected': 'false',
-                'tabindex': '-1'
-            });
-            $('#subrogation_accordion > .ui-accordion-header > .ui-accordion-header-icon').removeClass(icons.activeHeader).addClass(icons.header);
-            $('#subrogation_accordion > .ui-accordion-content').removeClass('ui-accordion-content-active').attr({
-                'aria-expanded': 'false',
-                'aria-hidden': 'true'
-            }).hide();
-            //});
-        }
+		}
 	};
 })();

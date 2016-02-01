@@ -43,7 +43,7 @@ class Model_issues extends CI_Model {
 			$this->db->where_in("status", explode(',', $status));
 		}
 
-		$this->db->where("deleted", 0);
+		$this->db->where("is_deleted", 0);
 
 		$this->db->select([
 				"issue_id",
@@ -59,7 +59,7 @@ class Model_issues extends CI_Model {
 				"DATE_FORMAT(assigned_date, \"%m/%d/%Y\") as assigned_date_for_view",
 				"status",
 				"notes",
-				"deleted", 
+				"is_deleted", 
 				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
 				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
 				"created_on",
@@ -125,7 +125,7 @@ class Model_issues extends CI_Model {
 			$this->db->where('id', $record);
 
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' 				=> 1
 			);
 			
 			if($this->db->update('issue', $data)) {

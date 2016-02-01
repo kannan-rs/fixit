@@ -145,13 +145,7 @@ var _contractors = (function () {
             $( this ).toggleClass( "active" );
         });
 
-        $("#accordion").accordion(
-            {
-                collapsible: true,
-                icons: {header: "ui-icon-plus", activeHeader: "ui-icon-minus"},
-                active: false
-            }
-       );
+        _utils.set_accordion('accordion');
     };
 
     function showDiscountList() {
@@ -190,7 +184,7 @@ var _contractors = (function () {
 
     function _populateSubTradeInDiscount( mainTradeId, ddId ) {
         var htmlContent = "<option value=\"0\">-- Select Sub Trade --</option>";
-        if(mainTradeId && mainTradeId != "0" && tradeMappedList.childs[mainTradeId].length) {
+        if(mainTradeId && mainTradeId != "0" && tradeMappedList.childs[mainTradeId] && tradeMappedList.childs[mainTradeId].length) {
             for(var i = 0; i < tradeMappedList.childs[mainTradeId].length; i++) {
                 var trade = tradeMappedList.childs[mainTradeId][i];
                 htmlContent += "<option value='"+trade.trade_id+"'>"+trade.trade_name+"</option>";

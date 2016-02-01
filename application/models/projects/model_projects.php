@@ -5,7 +5,7 @@ class Model_projects extends CI_Model {
 	public function getProjectsList( $projectParams ) {
 		//print_r($projectParams);
 		if($projectParams['role_disp_name'] != "admin") {
-			$this->db->where('deleted', '0');
+			$this->db->where('is_deleted', '0');
 		}
 
 		if(isset($projectParams['projectId']) && count($projectParams['projectId'])) {
@@ -30,7 +30,7 @@ class Model_projects extends CI_Model {
 
 	public function getProjectIds( $projectParams ) {
 		/*if($projectParams['role_disp_name'] != "admin") {
-			//$this->db->where('deleted', '0');
+			//$this->db->where('is_deleted', '0');
 		} else {
 			return "";
 		}*/
@@ -108,7 +108,7 @@ class Model_projects extends CI_Model {
 			$this->db->where('proj_id', $record);
 
 			$data = array(
-				'deleted' 				=> 1
+				'is_deleted' => 1
 			);
 			
 			if($this->db->update('project', $data)) {

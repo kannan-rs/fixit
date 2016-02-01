@@ -15,6 +15,17 @@ class Functions extends CI_Controller {
 	}
 
 	public function viewAll() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "function list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('security/model_functions');
 		$functions = $this->model_functions->getFunctionsList();
 
@@ -28,6 +39,17 @@ class Functions extends CI_Controller {
 	}
 	
 	public function createForm() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "create function"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$params = array(
 			'function'=>"createfunctionform",
 			'record'=>""
@@ -37,6 +59,18 @@ class Functions extends CI_Controller {
 	}
 
 	public function add() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_functions');
 		$data = array(
 		   'fn_id' =>  $this->input->post('function_id'),
@@ -61,6 +95,17 @@ class Functions extends CI_Controller {
 	}
 
 	public function editForm() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "edit function"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		$this->load->model('security/model_functions');
 
 		$record = $this->input->post('function_sno');
@@ -77,6 +122,18 @@ class Functions extends CI_Controller {
 	}
 
 	public function update() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+
 		$this->load->model('security/model_functions');
 		$record = $this->input->post('function_sno');
 		$fn_id = $this->input->post('function_id');
@@ -106,6 +163,18 @@ class Functions extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		$response = array(
+			'status'	=> "error"
+		);
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$response["message"] 			= "No permission to execute this operation";
+			print_r(json_encode($response));
+			return false;
+		}
+		
 		$this->load->model('security/model_functions');
 
 		$record = $this->input->post('function_sno');
@@ -126,6 +195,16 @@ class Functions extends CI_Controller {
 	}
 
 	public function viewOne() {
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != "admin") {
+			$no_permission_options = array(
+				'page_disp_string' => "function details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
 		$this->load->model('security/model_functions');
 
 		$record = $this->input->post('function_sno');

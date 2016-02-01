@@ -1,4 +1,6 @@
-<h2><?php echo $this->lang->line_arr('change_password->headers->title'); ?></h2>
+<div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('change_password->headers->title'); ?></h2>
+</div>
 <form id="update_password_form" name="update_password_form" class="inputForm">
 	<input type="hidden" id='email' value="<?php echo $user_details[0]->user_name; ?>" />
 	<input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details[0]->sno; ?>">

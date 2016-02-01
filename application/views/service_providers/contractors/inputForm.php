@@ -31,7 +31,7 @@
 
 <?php
 if(!$edit && (!$openAs || $openAs != "popup")) {
-	echo "<h2>".$this->lang->line_arr('contractor->headers->'.$prefix)."</h2>";
+	echo "<div class=\"header-options\"><h2 class='page-header'>".$this->lang->line_arr('contractor->headers->'.$prefix)."</h2></div>";
 }
 
 $validateOptions = "";

@@ -13,6 +13,17 @@
 	</ul>
 	<div id="tabs_claim_details">
 		<div class="header-options">
+			<h2 class=''><?php echo $this->lang->line_arr('claim->headers->view_one'); ?></h2>
+			<span class="options-icon left-icon-list">
+				<span class="ui-accordion-header-icon ui-icon ui-icon-plus expand-all" 
+					title="<?php echo $this->lang->line_arr('projects->buttons_links->expand_all'); ?>" 
+					onclick="_utils.viewOnlyExpandAll('claim_accordion')">
+				</span>
+				<span class="ui-accordion-header-icon ui-icon ui-icon-minus collapse-all" 
+					title="<?php echo $this->lang->line_arr('projects->buttons_links->collapse_all'); ?>" 
+					onclick="_utils.viewOnlyCollapseAll('claim_accordion')">
+				</span>
+			</span>
 			<span class="options-icon">
 				<?php 
 				if(in_array('update', $claimPermission['operation'])) {
@@ -39,7 +50,7 @@
 			</span>
 		</div>
 		<div class="clear"></div>
-		<div id="accordion" class="accordion">
+		<div id="claim_accordion" class="accordion">
 			<!-- Project Description -->
 			<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('claim->headers->claim_details'); ?></span></h3>
 			<div>

@@ -1,5 +1,5 @@
-<h2><?php echo $this->lang->line_arr('claim_subrogation->headers->view_all'); ?></h2>
 <div class="header-options">
+	<h2 class=''><?php echo $this->lang->line_arr('claim_subrogation->headers->view_all'); ?></h2>
 	<span class="options-icon">
 		<?php 
 		if(in_array('create', $claimPermission['operation'])) {

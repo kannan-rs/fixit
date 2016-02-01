@@ -234,9 +234,9 @@ class Contractors extends CI_Controller {
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
-		$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayName($contractors[0]->default_contact_user_id);
-		$contractors[0]->created_by = $this->model_users->getUserDisplayName($contractors[0]->created_by);
-		$contractors[0]->updated_by = $this->model_users->getUserDisplayName($contractors[0]->updated_by);
+		$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->default_contact_user_id);
+		$contractors[0]->created_by = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->created_by);
+		$contractors[0]->updated_by = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->updated_by);
 
 		$params = array(
 			'contractors'			=> $contractors,
@@ -293,7 +293,7 @@ class Contractors extends CI_Controller {
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		if(!empty($contractors[0]->default_contact_user_id)) {
-			$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayName($contractors[0]->default_contact_user_id);
+			$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->default_contact_user_id);
 		}
 
 		$params = array(
@@ -746,6 +746,9 @@ class Contractors extends CI_Controller {
 	public function showDiscountList() {
 		$this->load->model('service_providers/model_contractors');
 		$contractor_id	= $this->input->post("contractor_id");
+		$sub_trade_id 	= !empty($this->input->post("sub_trade_id")) ? $this->input->post("sub_trade_id") : "";
+		$main_trade_id 	= !empty($this->input->post("main_trade_id")) ? $this->input->post("main_trade_id") : "";
+		$trade_name 	= !empty($this->input->post("trade_name")) ? $this->input->post("trade_name") : "";
 
 		$getParams = array(
 			"contractor_id" => $contractor_id
@@ -755,15 +758,40 @@ class Contractors extends CI_Controller {
 		$tradesListResponse = $this->model_contractors->getTradesList( $getParams );
 		$tradesList 		= $this->convertTradesDBToId($tradesListResponse["tradesList"]);
 
+		/* Get Main Trade and Sub trade Values from databases */
+		$main_trades_response = $this->model_contractors->getMainTradeList("all");
+		$main_trades = null;
+		if($main_trades_response["status"] == "success") {
+			$main_trades = $main_trades_response["mainTradesList"];
+			$main_trades 	= $this->_mapMainTradeToId( $main_trades );
+		}
+
+		// Get Sub trade list Trades
+		$options = array(
+			"sub_trade_id" 		=> "all",
+			"parent_trade_id"	=> "all",
+			"trade_for"			=> "sub",
+			"contractor_id"		=> $contractor_id
+		);
+		$sub_trades_response = $this->model_contractors->getSubTradeList($options);
+
+		$sub_trades_list = [];
+		if($sub_trades_response["status"] == "success") {
+			$sub_trades = $sub_trades_response["subTradesList"];
+			$sub_trades = $this->_mapSubTradeToId( $sub_trades );
+		}
+
 		/* Get Discount List */
 		$response = $this->model_contractors->getDiscountList($getParams);
 
 		$params = array(
-			"sub_trade_id"		=> $this->input->post("sub_trade_id"),
-			"main_trade_id"		=> $this->input->post("main_trade_id"),
+			"sub_trade_id"		=> $sub_trade_id,
+			"main_trade_id"		=> $main_trade_id,
 			"contractor_id"		=> $contractor_id,
-			"trade_name"		=> $this->input->post("trade_name"),
-			"tradesList"		=> $tradesList
+			"trade_name"		=> $trade_name,
+			"tradesList"		=> $tradesList,
+			"main_trades"		=> $main_trades,
+			"sub_trades"		=> $sub_trades
 		);
 
 		if($response["status"] == "success") {

@@ -492,6 +492,8 @@ table {
     width: 115px; }
   table tr td.cell.descr {
     width: 150px; }
+  table tr td.cell.description {
+    max-width: 450px; }
   table tr td.cell.table-action, table tr td.cell.percentage, table tr td.cell.date {
     text-align: center; }
   table tr td.cell.label {
@@ -500,13 +502,14 @@ table {
     width: 100px;
     text-align: right; }
   table tr.heading {
-    text-align: center; }
+    /*text-align: center;*/
+    font-weight: bold; }
     table tr.heading td {
       text-transform: capitalize; }
-    table tr.heading td.cell.name {
+    table tr.heading td.cell {
       text-align: left; }
-    table tr.heading td.cell.descr {
-      text-align: left; }
+    table tr.heading td.cell.table-action, table tr.heading td.cell.date, table tr.heading td.cell.percentage {
+      text-align: center; }
 
 table.form td {
   border-bottom: 0px solid #eFeFeF; }
@@ -1042,11 +1045,11 @@ a.signup {
   content: "*";
   color: red; }
 
-.notes_list table {
-  border-bottom: 1px solid #dddddd; }
-  .notes_list table tr td {
+.notes_list table, .dairy_updates_list table, .docs_list table {
+  border-bottom: 0px solid #dddddd; }
+  .notes_list table tr td, .dairy_updates_list table tr td, .docs_list table tr td {
     border-bottom: 0px solid #dddddd; }
-  .notes_list table tr td.cell.label {
+  .notes_list table tr td.cell.label, .dairy_updates_list table tr td.cell.label, .docs_list table tr td.cell.label {
     width: auto; }
 
 table.viewOne tr td.cell.label {
@@ -1060,9 +1063,9 @@ table.viewOne.projectViewOne {
 /* Accordiance CSS Override */
 .accordion h3, .accordion h2 {
   padding: 5px 5px 5px 30px !important;
-  background-color: transparent;
-  background-image: none;
-  border: 0px;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0px !important;
   clear: both;
   /*color: #244C61;*/ }
 
@@ -1154,7 +1157,10 @@ a.accordion-icon:hover {
   color: #2B5B78; }
 
 .header-options {
-  border: 0px; }
+  border: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 25px; }
   .header-options h2 {
     float: left; }
   .header-options .ui-icon {
@@ -1285,8 +1291,13 @@ textarea.small-textarea {
 a.icon-right {
   margin-top: -7px; }
 
-#project_content .ui-widget-content, #claims_content .ui-widget-content {
-  border-width: 0px 0px 1px 0px; }
+#project_content .ui-widget-content,
+#claims_content .ui-widget-content,
+#contractor_content .ui-widget-content,
+#tabs_contractor_company_details .ui-widget-content,
+#partner_content .ui-widget-content,
+#subrogation_content .ui-widget-content {
+  border-width: 0px 0px 0px 0px; }
 
 .projectViewOne .project-title {
   width: auto; }
@@ -1302,7 +1313,7 @@ a.icon-right {
 
 .internal-tab-as-links {
   text-align: center;
-  border-bottom: 1px solid #D0D0D0;
+  /*border-bottom: 1px solid #D0D0D0;*/
   padding-bottom: 10px;
   margin: 0px 20px;
   text-align: right; }

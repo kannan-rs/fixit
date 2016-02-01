@@ -5,7 +5,9 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		<?php echo $internalLink; ?>
 	</div>
 	<?php echo $projectNameDescr; ?>
-	<h2><?php echo $this->lang->line_arr('tasks->headers->view_all'); ?></h2>
+	<div class="header-options">
+		<h2 class=''><?php echo $this->lang->line_arr('tasks->headers->view_all'); ?></h2>
+	</div>
 <?php
 } else {
 ?>

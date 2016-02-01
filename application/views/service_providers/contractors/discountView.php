@@ -10,14 +10,14 @@ if(isset($discountList) && count($discountList)) {
 
 		$mainTradeText 	= 	isset($discount->discount_for_trade_id) && 
 							$discount->discount_for_trade_id != "0" &&
-							isset($tradesList) &&
-							isset($tradesList[$discount->discount_for_trade_id]) ? $tradesList[$discount->discount_for_trade_id]->trade_name : "All";
+							isset($main_trades) &&
+							isset($main_trades[$discount->discount_for_trade_id]) ? $main_trades[$discount->discount_for_trade_id]->main_trade_name : "All";
 
 		$subTradeText	= 	$mainTradeText != "all" && 
 							isset($discount->discount_for_sub_trade_id) && 
-							isset($tradesList) &&
-							isset($tradesList[$discount->discount_for_sub_trade_id]) &&
-							$discount->discount_for_sub_trade_id != "0" ? $tradesList[$discount->discount_for_sub_trade_id]->trade_name : "All";
+							isset($sub_trades) &&
+							isset($sub_trades[$discount->discount_for_sub_trade_id]) &&
+							$discount->discount_for_sub_trade_id != "0" ? $sub_trades[$discount->discount_for_sub_trade_id]->sub_trade_name : "All";
 							
 		$mainTradeId 	= $discount->discount_for_trade_id;
 		$subTradeId 	= $discount->discount_for_sub_trade_id;
