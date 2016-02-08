@@ -312,7 +312,7 @@ $menu_json_str = '[
 
 $menus = json_decode($menu_json_str, true);
 
-$is_logged_in = (isset($is_logged_in) && $is_logged_in === 1) ? 1 : 0;
+$is_logged_in = is_logged_in() ? 1 : 0;
 
 $controller 	= $this->session->userdata("controller");
 $page 			= $this->session->userdata("page");

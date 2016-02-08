@@ -36,6 +36,7 @@ var _claim_dairy_updates = (function () {
                 daily_update_content: dailyUpdateContent
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -72,6 +73,7 @@ var _claim_dairy_updates = (function () {
                     claim_id    : _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Add Claim Dairy Updates"}, popupType);
@@ -110,6 +112,7 @@ var _claim_dairy_updates = (function () {
                     count: _claim_dairy_updates.dairy_updateListCount
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#dairy_update_content").html(response);
                         var dairy_updateCount = $("#dairyUpdatesCountForClaim").val();

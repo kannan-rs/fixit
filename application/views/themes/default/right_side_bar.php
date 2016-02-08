@@ -1,5 +1,5 @@
 <?php 
-	if(!$this->session->userdata("is_logged_in") && $page != "signup" && $page != "login") {
+	if(!is_logged_in() && $page != "signup" && $page != "login") {
 ?>
 	<!-- SIDEBAR -->
 	<aside>

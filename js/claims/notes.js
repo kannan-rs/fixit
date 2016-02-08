@@ -36,6 +36,7 @@ var _claim_notes = (function () {
                 noteContent: noteContent
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -72,6 +73,7 @@ var _claim_notes = (function () {
                     claim_id    : _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Add Claim Notes"}, popupType);
@@ -110,6 +112,7 @@ var _claim_notes = (function () {
                     count: _notes.noteListCount
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#note_content").html(response);
                         var noteCount = $("#notesCountForClaim").val();

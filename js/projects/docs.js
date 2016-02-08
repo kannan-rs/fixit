@@ -39,6 +39,7 @@ var _docs = (function () {
                     projectId : projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#project_content").html(response);
                 },
                 error: function (error) {
@@ -66,6 +67,7 @@ var _docs = (function () {
                         startRecord: _docs.docsListStartRecord
                     },
                     success: function (response) {
+                        if(!_utils.is_logged_in( response )) { return false; }
                         if (response.length) {
                             if (_docs.docsListStartRecord === 0) {
                                 $("#attachment_list").html(response);
@@ -99,6 +101,7 @@ var _docs = (function () {
                     projectId: projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#new_attachment").html(response);
                 },
                 error: function (error) {
@@ -131,6 +134,7 @@ var _docs = (function () {
                     docId: doc_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);

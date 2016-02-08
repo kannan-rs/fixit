@@ -119,7 +119,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			
 			
-			<?php if(!isset($is_logged_in) || $is_logged_in != 1 || $createOrEdit == "create") { // only for create user ?>
+			<?php if(!is_logged_in() || $createOrEdit == "create") { // only for create user ?>
 				<tr>
 					<td class="label"><?php echo $this->lang->line_arr('user->input_form->password'); ?></td>
 					<td><input type="password" name="password" id="password" value="" placeholder="<?php echo $this->lang->line_arr('user->input_form->password_ph'); ?>" required></td>

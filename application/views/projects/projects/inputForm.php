@@ -138,7 +138,7 @@
 			?>
 
 			<?php
-			if(in_array('view', $contractorPermission['operation'])) {
+			if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			?>
 				<!-- Project Contractor Search and Adding -->
 				<!-- List of added contractor from the serach result-->
@@ -164,7 +164,7 @@
 				</tr>
 
 				<?php 
-				if(in_array('create', $contractorPermission['operation'])) {
+				if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) {
 				?>
 					<tr>
 						<td  class="label notMandatory">&nbsp;</td>
@@ -230,7 +230,7 @@
 			</tr>
 
 			<?php
-			if(in_array('view', $customerPermission['operation'])) {
+			if(in_array(OPERATION_VIEW, $customerPermission['operation'])) {
 			?>
 				<!-- Project Customer Name Search and Adding -->
 				<tr>
@@ -250,7 +250,7 @@
 				</tr>
 
 				<?php
-				if(in_array('create', $customerPermission['operation']) && count($customerPermission['data_filter']) > 1) {
+				if(in_array(OPERATION_CREATE, $customerPermission['operation']) && count($customerPermission['data_filter']) > 1) {
 				?>
 				<tr>
 					<td  class="label notMandatory">&nbsp;</td>
@@ -270,7 +270,7 @@
 			?>
 
 			<?php
-			if(in_array('view', $adjusterPermission['operation'])) {
+			if(in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
 			?>
 				<!-- Project Adjuster Search and Adding -->
 				<tr class="adjuster-search-selected">
@@ -294,7 +294,7 @@
 					</td>
 				</tr>
 				<?php 
-				if(in_array('create', $adjusterPermission['operation'])) {
+				if(in_array(OPERATION_CREATE, $adjusterPermission['operation'])) {
 				?>
 				<tr>
 					<td  class="label notMandatory">&nbsp;</td>

@@ -66,6 +66,7 @@ var _dataFilters = (function () {
                 url: "/security/dataFilters/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -82,6 +83,7 @@ var _dataFilters = (function () {
                 url: "/security/dataFilters/createForm",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -106,6 +108,7 @@ var _dataFilters = (function () {
                     dataFilter_desc: dataFilter_desc
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -128,6 +131,7 @@ var _dataFilters = (function () {
                 url: "/security/dataFilters/editForm",
                 data: {dataFilter_sno: dataFilter_sno},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -154,6 +158,7 @@ var _dataFilters = (function () {
                     dataFilter_sno: dataFilter_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
@@ -182,6 +187,7 @@ var _dataFilters = (function () {
                     dataFilter_sno: dataFilter_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
@@ -204,6 +210,7 @@ var _dataFilters = (function () {
                     dataFilter_sno: dataFilter_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {

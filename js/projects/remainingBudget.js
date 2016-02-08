@@ -44,6 +44,7 @@ var _remainingbudget = (function () {
                     budgetId: budgetId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Paid From Budget"}, popupType);
@@ -91,6 +92,7 @@ var _remainingbudget = (function () {
                     budgetId: budgetId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -121,6 +123,7 @@ var _remainingbudget = (function () {
                     remainingbudgetId: budgetId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {

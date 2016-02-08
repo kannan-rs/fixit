@@ -15,7 +15,7 @@
 	</span>
 	<span class="options-icon">
 		<?php 
-		if(in_array('update', $claimPermission['operation'])) {
+		if(in_array(OPERATION_UPDATE, $claimPermission['operation'])) {
 			$editFn 		= "_claim_subrogation.editForm({openAs : 'popup'})";
 		?>
 			<span>
@@ -25,7 +25,7 @@
 			</span>
 		<?php
 		}
-		if(in_array('delete', $claimPermission['operation'])) {
+		if(in_array(OPERATION_DELETE, $claimPermission['operation'])) {
 			$deleteFn 		= "_claim_subrogation.deleteRecord('".$claim_id."', '".$subrogation_id."')";
 		?>
 			<span>

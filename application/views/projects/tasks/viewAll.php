@@ -54,7 +54,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 
 		$rowCSS 		= $taskStatus == "completed" ? "completed" : "open";
 
-		if(in_array('view', $issuesPermission['operation'])) {
+		if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 			$issueCount 	= $tasks[$i]->issueCount;
 			$issueFnOptions = "{'projectId' :".$tasks[$i]->project_id.", 'taskId' : ".$tasks[$i]->task_id.", 'openAs' : 'popup', 'popupType' : '' }";
 			$issueFn = "_issues.viewAll(".$issueFnOptions.")";
@@ -87,7 +87,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<td class='cell date'><?php echo  $stard_date; ?></td>
 			<td class='cell date'><?php echo  $end_date; ?></td>
 			<td class='cell table-action'>
-			<?php if(in_array('view', $notesPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_VIEW, $notesPermission['operation'])) { ?>
 				<span>
 					<a class="step fi-clipboard-notes size-21" 
 						href="javascript:void(0);" 
@@ -98,7 +98,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 			<?php } ?>
 				<!-- <span><a  class="step fi-page-edit size-21" href="javascript:void(0);" onclick="<?php echo $editFn; ?>" title="Edit Task"></a></span>
 				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="Delete Task"></a></span> -->
-				<?php if(in_array('view', $issuesPermission['operation'])) { ?>
+				<?php if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { ?>
 				<span>
 					<a class="step fi-alert size-21 <?php echo $issueCount ? 'red' : ''; ?>" 
 						href="javascript:void(0);" 

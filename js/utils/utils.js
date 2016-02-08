@@ -25,6 +25,20 @@ var _utils = (function () {
             Function    : getAndSetCountryStatus
             Description : get country and state from database and set it in localstorage
         */
+        is_logged_in: function( data ) {
+            try {
+                var resp = $.parseJSON( data );
+                if(resp && resp.status == "not_logged_in") {
+                    alert(resp.message);
+                    window.location.href = "/main/login";
+                    return false;
+                }
+            } catch (e) {
+                return true;
+            }
+            return true;
+        },
+
         getAndSetCountryStatus: function (moduleId, id_prefix) {
             var self = this;
             $( '#'+moduleId+' #city' ).combobox();

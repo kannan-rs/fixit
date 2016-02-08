@@ -69,6 +69,7 @@ var _operations = (function () {
                 url: "/security/operations/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -84,6 +85,7 @@ var _operations = (function () {
                 url: "/security/operations/createForm",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -107,6 +109,7 @@ var _operations = (function () {
                     ope_desc: ope_desc
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -128,6 +131,7 @@ var _operations = (function () {
                 url: "/security/operations/editForm",
                 data: {ope_sno : ope_sno},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -153,6 +157,7 @@ var _operations = (function () {
                     ope_sno: ope_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
@@ -180,6 +185,7 @@ var _operations = (function () {
                     ope_sno: ope_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
@@ -201,6 +207,7 @@ var _operations = (function () {
                     ope_id: ope_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {

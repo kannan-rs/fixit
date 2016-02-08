@@ -12,22 +12,20 @@ class Projects extends CI_Controller {
 		$sub_module = $this->uri->segment(3) ? $this->uri->segment(3): "";
 		$function = $this->uri->segment(4) ? $this->uri->segment(4): "";
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
-
-		/*echo $controller."<br/>";
-		echo $page."<br/>";
-		echo $module."<br/>";
-		echo $sub_module."<br/>";
-		echo $function."<br/>";
-		echo $record."<br/>";*/
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions("projects");
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		//print_r($projectPermission);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Project List"
 			);
@@ -44,7 +42,7 @@ class Projects extends CI_Controller {
 		$this->load->model('security/model_users');
 
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission = $this->permissions_lib->getPermissions('issues');
+		$issuesPermission = $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		//print_r($issuesPermission);
 
 		$projectList 	= "";
@@ -104,7 +102,7 @@ class Projects extends CI_Controller {
 			$projects[$i]->start_date 	= $start_date;
 			$projects[$i]->end_date 		= $end_date;
 
-			if(in_array('view', $issuesPermission['operation'])) {
+			if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
@@ -125,6 +123,11 @@ class Projects extends CI_Controller {
 	}
 
 	public function getAssignees() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
 		$this->load->model('service_providers/model_contractors');
@@ -142,7 +145,7 @@ class Projects extends CI_Controller {
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectId 			= $this->input->post('projectId');
 		
@@ -192,11 +195,16 @@ class Projects extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$projectPermission 		= $this->permissions_lib->getPermissions('projects');
+		$projectPermission 		= $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Creating Projects"
 			);
@@ -217,13 +225,13 @@ class Projects extends CI_Controller {
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		//Contractor > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 		//Customer > Permissions for logged in User by role_id
-		$customerPermission 	= $this->permissions_lib->getPermissions('customer');
+		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 		//Budget > Permissions for logged in User by role_id
-		$budgetPermission 		= $this->permissions_lib->getPermissions('budget');
+		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
 		
 		$params = array(
 			'users' 				=> $this->model_users->getUsersList(),
@@ -241,6 +249,18 @@ class Projects extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_PROJECTS, OPERATION_CREATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
 		$this->load->model('service_providers/model_contractors');
@@ -331,12 +351,17 @@ class Projects extends CI_Controller {
 
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions("projects");
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		//print_r($projectPermission);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update project"
 			);
@@ -348,10 +373,10 @@ class Projects extends CI_Controller {
 		$this->load->model('security/model_users');
 
 		//Project > Permissions for logged in User by role_id
-		$projectPermission 		= $this->permissions_lib->getPermissions('projects');
+		$projectPermission 		= $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Update Project"
 			);
@@ -390,13 +415,13 @@ class Projects extends CI_Controller {
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
 		//Contractor > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 		//Customer > Permissions for logged in User by role_id
-		$customerPermission 	= $this->permissions_lib->getPermissions('customer');
+		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 		//Budget > Permissions for logged in User by role_id
-		$budgetPermission 		= $this->permissions_lib->getPermissions('budget');
+		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
 
 		$params = array(
 			'projects' 				=>$projects,
@@ -416,6 +441,18 @@ class Projects extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_PROJECTS, OPERATION_UPDATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
 		$this->load->model('service_providers/model_contractors');
@@ -506,11 +543,23 @@ class Projects extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_PROJECTS, OPERATION_DELETE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
@@ -573,11 +622,27 @@ class Projects extends CI_Controller {
 	}
 
 	public function viewOnlyBudget() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
+		$permission = $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array(OPERATION_VIEW, $permission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Project Details"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_remainingbudget');
@@ -604,11 +669,16 @@ class Projects extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Project Details"
 			);
@@ -633,21 +703,21 @@ class Projects extends CI_Controller {
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		//Tasks > Permissions for logged in User by role_id
-		$tasksPermission		= $this->permissions_lib->getPermissions('tasks');
+		$tasksPermission		= $this->permissions_lib->getPermissions(FUNCTION_TASKS);
 		//Docs > Permissions for logged in User by role_id
-		$docsPermission 		= $this->permissions_lib->getPermissions('docs');
+		$docsPermission 		= $this->permissions_lib->getPermissions(FUNCTION_DOCS);
 		//Notes > Permissions for logged in User by role_id
 		$notesPermission 		= $this->permissions_lib->getPermissions( 'notes');
 		//Budget > Permissions for logged in User by role_id
-		$budgetPermission 		= $this->permissions_lib->getPermissions('budget');
+		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
 		//Customer > Permissions for logged in User by role_id
-		$customerPermission 	= $this->permissions_lib->getPermissions('customer');
+		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 		//Service Provider > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
 		/*
 		echo "<br/>Project Permissions ->";
@@ -711,7 +781,7 @@ class Projects extends CI_Controller {
 		// Contractor Name
 		$project->contractorName = "-- Not Provided --";
 
-		if(!in_array('view', $contractorPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Assigned Contractor Details"
 			);
@@ -731,7 +801,7 @@ class Projects extends CI_Controller {
 		// Partners Name
 		$project->partnerName = "-- Not Provided --";
 
-		if(!in_array('view', $adjusterPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Assigned Adjuster Details"
 			);
@@ -761,7 +831,7 @@ class Projects extends CI_Controller {
 		/*
 			Customer Output
 		*/
-		if(!in_array('view', $customerPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $customerPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Assigned Customer Details"
 			);
@@ -804,7 +874,7 @@ class Projects extends CI_Controller {
 		/*
 			Budget List
 		*/
-		if(in_array('view', $budgetPermission['operation'])) {
+		if(in_array(OPERATION_VIEW, $budgetPermission['operation'])) {
 			$budgetParams = array(
 				'project'		=> $project,
 				'userType' 		=> $this->session->userdata('role_id'),
@@ -846,11 +916,16 @@ class Projects extends CI_Controller {
 	}
 
 	public function exportCSV() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('export', $projectPermission['operation'])) {
+		if(!in_array(OPERATION_EXPORT, $projectPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "export project"
 			);
@@ -880,7 +955,7 @@ class Projects extends CI_Controller {
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');

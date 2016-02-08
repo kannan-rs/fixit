@@ -112,22 +112,8 @@ class Permissions_lib {
 		return array($role_id, $role_disp_name);
 	}
 
-	/*
-		params : array object
-		{
-							"user_id" => "",
-							"role_id" => "",
-							"type" => "",
-							"function_name" => "",
-			[-optional-] 	"operation" => "",
-			[-optional-] 	"get_allowed_permissions" => "all"
-		}
-	*/
 	public function getPermissions( $modules = "" ) {
-		//echo $modules."<br/>";
 		$options = $this->_getPermissionOption( $modules );
-		/*print_r($options);
-		echo "<br/>";*/
 
 		$this->CI->load->model('security/model_permissions');
 		/*
@@ -154,9 +140,6 @@ class Permissions_lib {
 			"data_filter" 	=> []
 		);
 
-		/*echo "role_id->".$this->role_id."<br/>";
-		echo "type->".$this->type."<br/>";
-		echo "function_id->".$this->function_id."<br/>"; */
 		if($this->role_id == "" || $this->type == "" || $this->function_id == "") {
 			return $final_permission;
 		}
@@ -167,7 +150,6 @@ class Permissions_lib {
 			Get Permission list from "database > permission > table" for selected user by role
 		*/
 		$permissionResp = $this->_getPermissions();
-		//print_r($permissionResp);
 
 		if($permissionResp["status"] == "error") {
 			return $final_permission;
@@ -200,9 +182,6 @@ class Permissions_lib {
 		$opNameFromDB = [];
 		$dfNameFromDB = [];
 
-		/*echo "<br/>Data Filter Ids->";
-		print_r($dfIdFromPermDB);*/
-
 		for( $i = 0; $i < count($opIdFromPermDB); $i++) {
 			$opNameFromDB[$i] = strtolower($this->compDataBySno["operations"][$opIdFromPermDB[$i]]->ope_name);
 		}
@@ -210,21 +189,10 @@ class Permissions_lib {
 		if(is_array($dfIdFromPermDB)) {
 			$dfIdFromPermDB = array_filter($dfIdFromPermDB);
 		}
-		/*echo "<br/>Data Filter List ->";
-		print_r($this->compDataBySno["dataFilters"]);
-		echo "<br/>count of dfIdFromPermDB ->".count($dfIdFromPermDB);
-		echo "<br/>";
-		print_r($dfIdFromPermDB);*/
+
 		for( $i = 0; $i < count($dfIdFromPermDB); $i++) {
-			/*echo "<br/>";
-			echo $this->compDataBySno["dataFilters"][$dfIdFromPermDB[$i]]->data_filter_name;*/
 			$dfNameFromDB[$i] = strtolower($this->compDataBySno["dataFilters"][$dfIdFromPermDB[$i]]->data_filter_name);
 		}
-
-		/*echo "<br/>Operation Name From DB->";
-		print_r($opNameFromDB);
-		echo "<br/>Data Filter Name From DB->";
-		print_r($dfNameFromDB);*/
 
 		if(in_array('all', $opNameFromDB)) {
 			$opNameFromDB = array();
@@ -253,6 +221,19 @@ class Permissions_lib {
 		}
 
 		return $final_permission;
+	}
+
+	public function is_allowed( $permissionFor, $operation) {
+		$response = array( "status" => true );
+		//Project > Permissions for logged in User by role_id
+		$permission = $this->getPermissions( $permissionFor );
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array($operation, $permission['operation'])) {
+			$response["message"] 	= "No permission to execute this operation";
+			$response["status"] = false;
+		}
+		return $response;
 	}
 }
 ?>

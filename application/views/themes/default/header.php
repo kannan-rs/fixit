@@ -6,7 +6,7 @@
 </div>
 
 <?php
-if($this->session->userdata("is_logged_in")) {
+if(is_logged_in()) {
 ?>
 	<div class='logged_in'>
 			<span class="logged-in-as">

@@ -15,6 +15,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -39,6 +44,11 @@ class Functions extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -59,6 +69,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -73,7 +88,7 @@ class Functions extends CI_Controller {
 
 		$this->load->model('security/model_functions');
 		$data = array(
-		   'fn_id' =>  $this->input->post('function_id'),
+		   //'fn_id' =>  $this->input->post('function_id'),
 		   'fn_name' => $this->input->post('function_name'),
 		   'fn_descr' => $this->input->post('function_desc')
 		);
@@ -95,6 +110,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -122,6 +142,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -163,6 +188,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -195,6 +225,11 @@ class Functions extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 

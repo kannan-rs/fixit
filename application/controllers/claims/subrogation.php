@@ -129,13 +129,18 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission 		= $this->permissions_lib->getPermissions('claim');
-		$subrogationPermission 	= $this->permissions_lib->getPermissions('claim subrogation');
+		$claimPermission 		= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$subrogationPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_SUBROGATION);
 		$customer_names = array();
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $claimPermission['operation']) || !in_array('view', $subrogationPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $subrogationPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Subrogation list"
 			);
@@ -172,14 +177,19 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
-		$subrogationPermission 	= $this->permissions_lib->getPermissions('claim subrogation');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$subrogationPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_SUBROGATION);
 
 		$claim_id 	= $this->input->post("claim_id");
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $claimPermission['operation']) || !in_array("create", $subrogationPermission["operation"])|| empty($claim_id)) {
+		if(!in_array(OPERATION_CREATE, $claimPermission['operation']) || !in_array(OPERATION_CREATE, $subrogationPermission["operation"])|| empty($claim_id)) {
 			$no_permission_options = array(
 				'page_disp_string' => "create subrogation"
 			);
@@ -197,7 +207,7 @@ class Subrogation extends CI_Controller {
 		$customer_communication_address_file = $this->_get_claim_customer_address( $claim_id, "view");
 		$claimant_address_file = $this->_get_claimant_address($claim_id, "", "input");
 
-		$customerPermission = $this->permissions_lib->getPermissions('customer');
+		$customerPermission = $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 
 		$params = array(
 			'users' 								=> $this->model_users->getUsersList(),
@@ -213,6 +223,19 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_CREATE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_NOTES, OPERATION_CREATE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_subrogation');
 		$this->load->model('mail/model_mail');
 
@@ -249,12 +272,17 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
-		$subrogationPermission 	= $this->permissions_lib->getPermissions('claim subrogation');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$subrogationPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_SUBROGATION);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $claimPermission['operation']) || !in_array("view", $subrogationPermission["operation"])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $subrogationPermission["operation"])) {
 			$no_permission_options = array(
 				'page_disp_string' => "view claims"
 			);
@@ -298,12 +326,17 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
-		$subrogationPermission 	= $this->permissions_lib->getPermissions('claim subrogation');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$subrogationPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_SUBROGATION);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $claimPermission['operation']) || !in_array('update', $subrogationPermission["operation"])) {
+		if(!in_array(OPERATION_UPDATE, $claimPermission['operation']) || !in_array(OPERATION_UPDATE, $subrogationPermission["operation"])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update subrogation"
 			);
@@ -332,7 +365,7 @@ class Subrogation extends CI_Controller {
 
 		$subrogation = $response["subrogation"];
 		
-		$customerPermission = $this->permissions_lib->getPermissions('customer');
+		$customerPermission = $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 
 		$params = array(
 			'users' 								=> $this->model_users->getUsersList(),
@@ -349,6 +382,19 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_UPDATE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_NOTES, OPERATION_UPDATE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_subrogation');
 		$this->load->model('mail/model_mail');
 
@@ -391,6 +437,19 @@ class Subrogation extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_DELETE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_NOTES, OPERATION_DELETE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_subrogation');
 		$this->load->model('mail/model_mail');
 

@@ -103,6 +103,7 @@ var _issues = (function() {
                     taskId         : taskId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
                         _projects.openDialog({"title" : "Add Issue"}, popupType);
@@ -180,6 +181,7 @@ var _issues = (function() {
                     assignedToCustomerId     : assignedToCustomerId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     _issues.viewAll({projectId : issueProjectId, taskId : issueTaskId});
                     if(response.status.toLowerCase() == "success") {
@@ -219,6 +221,7 @@ var _issues = (function() {
                     popupType         : popupType
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if( openAs && openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
                         _projects.openDialog({"title" : "Issue Details"}, popupType);
@@ -262,6 +265,7 @@ var _issues = (function() {
                     taskId         : taskId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
                         _projects.openDialog({"title" : "Issues"}, popupType);
@@ -298,6 +302,7 @@ var _issues = (function() {
                     
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if(openAs == "popup") {
                         $("#popupForAll"+popupType).html(response);
                         _projects.openDialog({"title" : "Edit Issue"}, popupType);
@@ -379,6 +384,7 @@ var _issues = (function() {
                     assignedToCustomerId     : assignedToCustomerId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
@@ -412,6 +418,7 @@ var _issues = (function() {
                     issueId: _issues.issueId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
@@ -450,6 +457,7 @@ var _issues = (function() {
                     projectId: projectId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         _issues.setAssignees( response );

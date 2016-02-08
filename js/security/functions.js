@@ -66,6 +66,7 @@ var _functions = (function () {
                 url: "/security/functions/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -82,6 +83,7 @@ var _functions = (function () {
                 url: "/security/functions/createForm",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -106,6 +108,7 @@ var _functions = (function () {
                     function_desc: function_desc
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -128,6 +131,7 @@ var _functions = (function () {
                 url: "/security/functions/editForm",
                 data: {function_sno : function_sno},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -154,6 +158,7 @@ var _functions = (function () {
                     function_sno: function_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status.toLowerCase() === "success") {
@@ -181,6 +186,7 @@ var _functions = (function () {
                     function_sno: function_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
@@ -203,6 +209,7 @@ var _functions = (function () {
                     function_sno: function_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {

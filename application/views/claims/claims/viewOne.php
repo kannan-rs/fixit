@@ -26,7 +26,7 @@
 			</span>
 			<span class="options-icon">
 				<?php 
-				if(in_array('update', $claimPermission['operation'])) {
+				if(in_array(OPERATION_UPDATE, $claimPermission['operation'])) {
 					$editFn 		= "_claims.editForm({openAs : 'popup'})";
 				?>
 					<span>
@@ -36,7 +36,7 @@
 					</span>
 				<?php
 				}
-				if(in_array('delete', $claimPermission['operation'])) {
+				if(in_array(OPERATION_DELETE, $claimPermission['operation'])) {
 					$deleteFn 		= "_claims.deleteRecord('".$claim_id."')";
 				?>
 					<span>

@@ -64,6 +64,11 @@ class Users extends CI_controller {
 
 	public function viewAll() 
 	{
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -109,6 +114,11 @@ class Users extends CI_controller {
 
 	public function createForm() 
 	{
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		$this->load->model('security/model_permissions');
 
@@ -126,7 +136,7 @@ class Users extends CI_controller {
 		$params = array(
 			'role_id'			=> $role_id,
 			'role_disp_name' 	=> $role_disp_name,
-			'is_logged_in' 		=> $this->session->userdata("is_logged_in"),
+			'is_logged_in' 		=> is_logged_in(),
 			'addressFile' 		=> $addressFile,
 			'openAs' 			=> $openAs,
 			'belongsTo' 		=> $belongsTo,
@@ -140,6 +150,11 @@ class Users extends CI_controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -266,7 +281,7 @@ class Users extends CI_controller {
 						
 					}
 
-					if(!$this->session->userdata("is_logged_in")) {
+					if(!is_logged_in()) {
 						$noticeFile = $this->_getNotificationText($response["status"], 'add', $user_details_record);
 						$createConfirmPageParams = array(
 							'user_details' 	=> $user_details_record,
@@ -292,6 +307,11 @@ class Users extends CI_controller {
 	}
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -350,7 +370,7 @@ class Users extends CI_controller {
 			'addressFile' 		=> $addressFile,
 			'role_id' 			=> $role_id,
 			'role_disp_name'	=> $role_disp_name,
-			'is_logged_in' 		=> $this->session->userdata("is_logged_in"),
+			'is_logged_in' 		=> is_logged_in(),
 			'roles'				=> $roles,
 		);
 		
@@ -358,6 +378,11 @@ class Users extends CI_controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -470,6 +495,11 @@ class Users extends CI_controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -507,6 +537,11 @@ class Users extends CI_controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 

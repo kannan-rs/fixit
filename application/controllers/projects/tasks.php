@@ -15,11 +15,16 @@ class Tasks extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+		$tasksPermission = $this->permissions_lib->getPermissions(FUNCTION_TASKS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $tasksPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $tasksPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Task List"
 			);
@@ -39,7 +44,7 @@ class Tasks extends CI_Controller {
 		$viewFor = $viewFor ? $viewFor : "";
 
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
@@ -88,7 +93,7 @@ class Tasks extends CI_Controller {
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission = $this->permissions_lib->getPermissions('issues');
+		$issuesPermission = $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		//Notes > Permissions for logged in User by role_id
 		$notesPermission 		= $this->permissions_lib->getPermissions( 'notes');
 
@@ -110,11 +115,16 @@ class Tasks extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+		$tasksPermission = $this->permissions_lib->getPermissions(FUNCTION_TASKS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $tasksPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $tasksPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Create task"
 			);
@@ -130,7 +140,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
@@ -165,6 +175,18 @@ class Tasks extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_TASKS, OPERATION_CREATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -202,7 +224,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		
 		/* Project Details */
 		$projectParams = array(
@@ -263,11 +285,16 @@ class Tasks extends CI_Controller {
 
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+		$tasksPermission = $this->permissions_lib->getPermissions(FUNCTION_TASKS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $tasksPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $tasksPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update task"
 			);
@@ -291,7 +318,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
@@ -327,6 +354,18 @@ class Tasks extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_TASKS, OPERATION_UPDATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -364,7 +403,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$taskData->project_id],
@@ -423,6 +462,18 @@ class Tasks extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_TASKS, OPERATION_DELETE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -443,7 +494,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$taskData->project_id],
@@ -504,11 +555,16 @@ class Tasks extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
 		//Project > Permissions for logged in User by role_id
-		$tasksPermission = $this->permissions_lib->getPermissions('tasks');
+		$tasksPermission = $this->permissions_lib->getPermissions(FUNCTION_TASKS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $tasksPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $tasksPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Task List"
 			);
@@ -530,9 +586,9 @@ class Tasks extends CI_Controller {
 		$tasks = $this->model_tasks->getTask($record);
 
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission = $this->permissions_lib->getPermissions('issues');
+		$issuesPermission = $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 
-		if (in_array('view', $issuesPermission['operation']) && isset($tasks)) {
+		if (in_array(OPERATION_VIEW, $issuesPermission['operation']) && isset($tasks)) {
 			for($i = 0; $i < count($tasks); $i++) {
 				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $tasks[$i]->project_id, 'taskId' => $tasks[$i]->task_id, 'status' => 'open'));
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
@@ -544,9 +600,9 @@ class Tasks extends CI_Controller {
 		$projectId 		= $tasks[0]->project_id;
 
 		//Contractor > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions('service provider');
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 
-		if(in_array('view', $contractorPermission['operation'])) {
+		if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			$contractorIds 	= strlen ($tasks[0]->task_owner_id ) ? explode(",", explode("-", $tasks[0]->task_owner_id)[1]) : "";
 			if($contractorIds) {
 				$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
@@ -558,7 +614,7 @@ class Tasks extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],

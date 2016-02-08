@@ -2,7 +2,7 @@
 	<h2 class=''><?php echo $this->lang->line_arr('claim_subrogation->headers->view_all'); ?></h2>
 	<span class="options-icon">
 		<?php 
-		if(in_array('create', $claimPermission['operation'])) {
+		if(in_array(OPERATION_CREATE, $claimPermission['operation'])) {
 			$createFn 		= "_claim_subrogation.createForm({openAs : 'popup'})";
 		?>
 			<span>

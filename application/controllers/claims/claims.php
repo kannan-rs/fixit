@@ -15,12 +15,17 @@ class Claims extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 		$customer_names = array();
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $claimPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Claims list"
 			);
@@ -52,11 +57,16 @@ class Claims extends CI_Controller {
 	}
 
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $claimPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $claimPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "create claims"
 			);
@@ -74,7 +84,7 @@ class Claims extends CI_Controller {
 
 		$_property_address_file = $this->load->view("forms/address", $_property_address_params, true);
 		
-		$customerPermission = $this->permissions_lib->getPermissions('customer');
+		$customerPermission = $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 
 		$params = array(
 			'users' 				=> $this->model_users->getUsersList(),
@@ -88,6 +98,18 @@ class Claims extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_CREATE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_claims');
 		$this->load->model('mail/model_mail');
 
@@ -130,11 +152,16 @@ class Claims extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $claimPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "view claims"
 			);
@@ -225,11 +252,16 @@ class Claims extends CI_Controller {
 	}
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $claimPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $claimPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update claim"
 			);
@@ -291,7 +323,7 @@ class Claims extends CI_Controller {
 
 		$_property_address_file = $this->load->view("forms/address", $_property_address_params, true);
 
-		$customerPermission = $this->permissions_lib->getPermissions('customer');
+		$customerPermission = $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 
 		$params = array(
 			'claims' 				=> $claims,
@@ -307,6 +339,18 @@ class Claims extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_UPDATE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_claims');
 		$this->load->model('mail/model_mail');
 
@@ -348,6 +392,18 @@ class Claims extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_DELETE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_claims');
 		$this->load->model('mail/model_mail');
 
@@ -358,6 +414,18 @@ class Claims extends CI_Controller {
 	}
 
 	public function customer_address() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_VIEW);
+
+		if( !$is_view_allowed["status"]) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$customer_id 	= $this->input->post('customer_id');
 		$claim_id 		= $this->input->post("claim_id");
 

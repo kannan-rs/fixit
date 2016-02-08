@@ -63,6 +63,7 @@ var _claim_docs = (function(){
                     startRecord: docsListStartRecord
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#attachment_content").html(response);
                         presetViewAll();
@@ -91,6 +92,7 @@ var _claim_docs = (function(){
                     claim_id: _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Add Claim Document"});
                 },

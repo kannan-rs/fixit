@@ -85,7 +85,7 @@
 		<h3><span class="inner_accordion"><?php echo $this->lang->line_arr('claim->headers->customer_details'); ?></span></h3>
 		<div>
 			<?php
-				if(in_array('view', $customerPermission['operation'])) {
+				if(in_array(OPERATION_VIEW, $customerPermission['operation'])) {
 				?>
 				<table class='form'>
 					<tbody>

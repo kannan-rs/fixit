@@ -15,11 +15,16 @@ class Notes extends CI_Controller {
 	}
 	
 	public function viewAll() {		
-		//Claim > Permissions for logged in User by role_id
-		$notesPermission = $this->permissions_lib->getPermissions('notes');
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$claimPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$notesPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_NOTES);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $notesPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $notesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Notes List"
 			);
@@ -66,11 +71,17 @@ class Notes extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Claim > Permissions for logged in User by role_id
-		$notesPermission = $this->permissions_lib->getPermissions('notes');
+		$claimPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$notesPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_NOTES);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $notesPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $claimPermission['operation']) || !in_array(OPERATION_CREATE, $notesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Create Notes"
 			);
@@ -88,6 +99,19 @@ class Notes extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_CREATE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_CLAIM_NOTES, OPERATION_CREATE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_notes');
 		$this->load->model('mail/model_mail');
 
@@ -112,6 +136,19 @@ class Notes extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_DELETE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_CLAIM_NOTES, OPERATION_DELETE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_notes');
 		$this->load->model('mail/model_mail');
 

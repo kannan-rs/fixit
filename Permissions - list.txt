@@ -10,55 +10,47 @@ s3: SP Admin details,
 
 Align the header with the content (Left align)
 
-#13
-#14
 #18
 
 #22 - Working on
 
-Worked On
-1. Claims View All, Customer name, Removed Email ID from List by adding another function to provide only display name of a user
-2. Aligned the header for all table to left and Text is made bold
-3. Removed SNO column for table (Role, Operation, etc..)
-4. Aligned the header to left by default and center for Action, Date, Percentage
-5. Incereased the width of description column viewed in the viewAll table
-6. Added service Zip code in Service provider > contractor > view All table
-7. Added -NA- For Service in Zip code and Type if value is not available in service provider > contractor > view all
-8. Expand all / collapse all for Service provider contractor , Adjuster and claim
-9. Moved few common text together,
-10. Added some cosmetic changes for claim view one
-11. Provided space between header text and menu in all pages
-12. Provided delete support by adding deleted flag and corrected the flag data on following
-	Contractor, Permissions, Tasks, Budget, Project, Docs, Issues, Partner, Notes
-13. Header added for Contractor > Trades and Sub trades
-14. Discount trades and sub trades heading text are populated from Master DB. It was throwing error which is corrected.
-15. Moved accordion init, expand and collapse accordion function to utils, common place and cleared the code in all modules
-16. expand all and colaps all for subrogation view, Util function for expand all and collapse all
-17. Added Permission as admin for all the security module view forms. 
-18. Permission Check on db updates and deployment the site
-	- User
-	- Role
-	- Function
-	- Operation
-	- Data Filter
-	- Permission
-
-
-Permission on action Working On
+Worked on Permission on action
 -------------------------------
-Yet to do
-	- Project
-		- Project
-		- Tasks
-		- Notes
-		- Documents
-		- Budget
-		- Customer
-	- Service Provider
-		- Service Provider
-		- Trades and Sub trades
-		- Discounts
-		- Customer Testimonial
-	-Claim
-		- Claim
-		-Subrogation
+1. Project
+	- Project (Done)
+	- Tasks (Done)
+	- Issues (Done)
+	- Notes (Done)
+	- Documents (Done)
+	- Budget (Done)
+	- Customer
+2. Service Provider
+	- Service Provider (Done)
+	- Trades and Sub trades (Done)
+	- Discounts (Done)
+	- Testimonial (Done)
+3. Claim
+	- Claim (Done )
+	-Subrogation (Done)
+	- Dairy Updates (Done)
+	- Notes (Done)
+	- Docs (Done)
+4. Adjusters (Done)
+
+5. Seperated code for discount, trades, testimonial and contractor
+
+6. Session Management
+
+Fixed Bugs
+----------
+#13
+#14
+#8
+
+
+
+1. Change the contractor to service provider everywhere.
+2. #0000019
+3. Create list of user based on role and share the details with all. Will test functionality based on user role.
+4. I will deploy the latest code.
+5. 

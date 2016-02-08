@@ -163,6 +163,7 @@ var _permissions = (function () {
                 url: "/security/permissions/getComponentInfo",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     responseObj = JSON.parse(response);
                     if(responseObj.status == "success") {
                         $(".error").hide();
@@ -191,6 +192,7 @@ var _permissions = (function () {
                     type : type
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Add/Update Permission Form"});
                     setPermissionsFromDB();
@@ -242,6 +244,7 @@ var _permissions = (function () {
                     type : type
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                     $(".error").hide();
                     $(".success").hide();
@@ -306,6 +309,7 @@ var _permissions = (function () {
                     type : type
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     responseObj = jQuery.parseJSON(response);
                     if (responseObj.status === "success") {
                         //$(".error").hide().text('');
@@ -421,6 +425,7 @@ var _permissions = (function () {
 
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     responseObj = jQuery.parseJSON(response);
                     $("#popupForAll").dialog("close");
                     if (responseObj.status === "success") {
@@ -611,6 +616,7 @@ var _permissions = (function () {
                     permissionId: permissionId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     responseObj = $.parseJSON(response);
                     if (responseObj.status === "success") {
                         if (responseObj.action === "deleted") {

@@ -16,14 +16,19 @@ class Docs extends CI_Controller {
 	}
 	
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
-		$docsPermission = $this->permissions_lib->getPermissions('docs');
+		$docsPermission = $this->permissions_lib->getPermissions(FUNCTION_DOCS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $docsPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $docsPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Document List"
 			);
@@ -52,7 +57,7 @@ class Docs extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
@@ -87,11 +92,16 @@ class Docs extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$docsPermission = $this->permissions_lib->getPermissions('docs');
+		$docsPermission = $this->permissions_lib->getPermissions(FUNCTION_DOCS);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $docsPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $docsPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Create Document"
 			);
@@ -110,6 +120,18 @@ class Docs extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_DOCS, OPERATION_CREATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_docs');
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
@@ -141,7 +163,7 @@ class Docs extends CI_Controller {
 
 				list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 				//Project > Permissions for logged in User by role_id
-				$projectPermission = $this->permissions_lib->getPermissions('projects');
+				$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 				$projectParams = array(
 					'projectId' 		=> [$projectId],
@@ -200,6 +222,22 @@ class Docs extends CI_Controller {
 	}
 
 	public function downloadAttachment() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$docsPermission = $this->permissions_lib->getPermissions(FUNCTION_DOCS);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array(OPERATION_VIEW, $docsPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Document List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+		
 		if(isset($this->function)) {
 			$this->load->model('projects/model_docs');
 			$one_doc = $this->model_docs->getDocById($this->function);
@@ -219,6 +257,19 @@ class Docs extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		//Project > Permissions for logged in User by role_id
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_DOCS, OPERATION_DELETE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_docs');
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
@@ -235,7 +286,7 @@ class Docs extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		if(isset($docsResponse["docs"])) {
 			$docs = $docsResponse['docs'][0];

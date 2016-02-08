@@ -15,11 +15,16 @@ class remainingbudget extends CI_Controller {
 	}
 
 	public function getListWithForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Budget > Permissions for logged in User by role_id
-		$budgetPermission 		= $this->permissions_lib->getPermissions('budget');
+		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $budgetPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $budgetPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "budget list"
 			);
@@ -36,7 +41,7 @@ class remainingbudget extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 		$rbResponse = $this->model_remainingbudget->getList( $projectId );
 
-		if(in_array('update', $budgetPermission['operation']) && $budgetId != "") {
+		if(in_array(OPERATION_UPDATE, $budgetPermission['operation']) && $budgetId != "") {
 			$updateBudget = $this->model_remainingbudget->getBudgetById( $budgetId )["paidFromBudget"];
 		} else if( $budgetId != "" ) {
 			$no_permission_options = array(
@@ -45,7 +50,7 @@ class remainingbudget extends CI_Controller {
 			$inputForm = $this->load->view("pages/no_permission", $no_permission_options, true);
 		}
 
-		if(in_array('create', $budgetPermission['operation']) || in_array('update', $budgetPermission['operation'])) {
+		if(in_array(OPERATION_CREATE, $budgetPermission['operation']) || in_array(OPERATION_UPDATE, $budgetPermission['operation'])) {
 			$inputFormParams = array(
 				'openAs' 			=> $openAs,
 				'popupType' 		=> $popupType,
@@ -76,6 +81,18 @@ class remainingbudget extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_BUDGET, OPERATION_CREATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_remainingbudget');
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
@@ -101,6 +118,18 @@ class remainingbudget extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_BUDGET, OPERATION_UPDATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_remainingbudget');
 
 		$budgetId 			= $this->input->post('budgetId');
@@ -121,6 +150,18 @@ class remainingbudget extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_BUDGET, OPERATION_DELETE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_remainingbudget');
 
 		$remainingbudgetId = $this->input->post('remainingbudgetId');

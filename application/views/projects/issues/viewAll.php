@@ -31,7 +31,7 @@ if(!$openAs || $openAs != "popup") {
 		</a>
 
 		<?php
-			if(in_array('create', $issuesPermission["operation"])) {
+			if(in_array(OPERATION_CREATE, $issuesPermission["operation"])) {
 				$createFnOptions = "{'projectId' :".$projectId.", 'openAs' : '".$openAs."', 'popupType' : '".$popupType."', 'taskId' : '".$taskId."'}";
 				$createFn 		= "_issues.createForm(event, ".$createFnOptions.")";
 		?>
@@ -76,7 +76,7 @@ if(!$openAs || $openAs != "popup") {
 			<td class="cell capitalize date"><?php echo $issue->issue_from_date; ?></td>
 			<td class='cell table-action'>
 			<?php
-			if(in_array('update', $issuesPermission['operation'])) {
+			if(in_array(OPERATION_UPDATE, $issuesPermission['operation'])) {
 			?>
 				<span>
 					<a class="step fi-page-edit size-21" href="javascript:void(0);" 

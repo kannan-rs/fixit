@@ -5,7 +5,7 @@ echo "<br/>";
 print_r($contractorPermission);
 echo "<br/>";
 print_r($adjusterPermission);*/
-	if($this->session->userdata("is_logged_in")) {
+	if(is_logged_in()) {
 		
 		$controller 	= $this->session->userdata("controller");
 		$page 			= $this->session->userdata("page");

@@ -15,10 +15,15 @@ class Issues extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $issuesPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Issues List"
 			);
@@ -48,10 +53,15 @@ class Issues extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $issuesPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $issuesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Create Issues"
 			);
@@ -78,10 +88,15 @@ class Issues extends CI_Controller {
 
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $issuesPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $issuesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update issue"
 			);
@@ -150,6 +165,18 @@ class Issues extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_ISSUES, OPERATION_CREATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -190,7 +217,7 @@ class Issues extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
@@ -253,10 +280,15 @@ class Issues extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Issues > Permissions for logged in User by role_id
-		$issuesPermission 		= $this->permissions_lib->getPermissions('issues');
+		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $issuesPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Issue details"
 			);
@@ -325,6 +357,18 @@ class Issues extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_ISSUES, OPERATION_UPDATE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -370,7 +414,7 @@ class Issues extends CI_Controller {
 
 		if($issue) {
 			//Project > Permissions for logged in User by role_id
-			$projectPermission = $this->permissions_lib->getPermissions('projects');
+			$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 			$projectParams = array(
 				'projectId' 		=> [$issue->project_id],
@@ -434,6 +478,18 @@ class Issues extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_ISSUES, OPERATION_DELETE);
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
@@ -451,7 +507,7 @@ class Issues extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
-		$projectPermission = $this->permissions_lib->getPermissions('projects');
+		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$issue->project_id],

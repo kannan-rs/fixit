@@ -19,7 +19,7 @@
 
 		<?php } ?>
 		
-		<?php if(in_array('view', $issuesPermission['operation'])) { ?>
+		<?php if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { ?>
 		<a href="javascript:void(0);" data-option="issues" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
 				<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
@@ -68,7 +68,7 @@
 				<td class='cell table-action'>
 				<span>
 				<?php 
-				if(in_array('view', $issuesPermission['operation'])) {
+				if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 					$issueCount 	= $projects[$i]->issueCount;
 					$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
 					$issueFn = "_issues.viewAll(".$issueFnOptions.")";

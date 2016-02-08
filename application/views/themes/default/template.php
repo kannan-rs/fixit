@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="fixitWebsite">
 <head>
 <!-- Metadatas -->
 <title>The Fixit Network: A marketplace for you and your resources</title>
@@ -12,12 +12,12 @@ session = <?php print_r(json_encode($initVar)); ?>;
 
 <?php 
 	echo $includes; 
-	//$main_content_css = !$this->session->userdata("is_logged_in") ? "column-480" : "column-700";
+	//$main_content_css = !is_logged_in() ? "column-480" : "column-700";
 	$main_content_css = $this->session->userdata("page") == "signup" || $this->session->userdata("page") == "login" || $this->session->userdata("page") == "forgotpass"? "column-940" : "column-700";
 	//$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
 ?>
 </head>
-<body>
+<body ng-controller="website">
 <div class="wrapper">
 
 	<!-- Header -->
@@ -29,7 +29,7 @@ session = <?php print_r(json_encode($initVar)); ?>;
 	<!-- Main Content Section for all application actions -->
 	<section>
 		<?php
-		if($this->session->userdata("is_logged_in")) {
+		if(is_logged_in()) {
 			if(isset($left_side_bar) && $left_side_bar != "") {
 		?>
 			<div class="sidebar column-220 column-left">	
@@ -48,7 +48,7 @@ session = <?php print_r(json_encode($initVar)); ?>;
 		</div>
 		<!-- Right Side menus -->
 		<?php
-		if(!$this->session->userdata("is_logged_in") && $this->session->userdata("page") != "login" && $this->session->userdata("page") != "signup" && $this->session->userdata("page") != "forgotpass") {
+		if(!is_logged_in() && $this->session->userdata("page") != "login" && $this->session->userdata("page") != "signup" && $this->session->userdata("page") != "forgotpass") {
 		?>
 			<div class="sidebar column-220 column-right">	
 				<?php echo $right_side_bar; ?>

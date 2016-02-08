@@ -91,6 +91,7 @@ var _claims = (function () {
                 description         : description
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -151,6 +152,7 @@ var _claims = (function () {
                 claim_id            : _claims._claim_id
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -211,6 +213,7 @@ var _claims = (function () {
                 claim_id    : _claims._claim_id
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 $("#claim_customer_address").html("<div>Communication Address</div>"+response);
                 _utils.setCustomerDataList();
                 _utils.getAndSetCountryStatus(form+"_claim_form");
@@ -233,6 +236,7 @@ var _claims = (function () {
                 url: "/claims/claims/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#claims_content").html(response);
                 },
                 error: function (error) {
@@ -257,6 +261,7 @@ var _claims = (function () {
                     claim_id : _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#claims_content").html(response);
                     _utils.set_accordion('claim_accordion');
                     presetViewOne();
@@ -281,6 +286,7 @@ var _claims = (function () {
                 data: {
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#claims_content").html(response);
                     presetInputForm( "create" );
                 },
@@ -334,6 +340,7 @@ var _claims = (function () {
                     openAs  : options.openAs
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Edit Claim"});
                     presetInputForm("update");
@@ -386,6 +393,7 @@ var _claims = (function () {
                     claim_id: _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);

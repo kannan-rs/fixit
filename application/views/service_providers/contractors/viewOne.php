@@ -6,9 +6,9 @@
 	<div id="contractor_tabs" class="page-tabs">
 		<ul>
 			<li><a href="#tabs_contractor_company_details">Company details</a></li>
-			<li><a href="#tabs_contractor_trade_sub_trades" onclick="_contractors.showTradeList()">Trade & sub Trades</a></li>
-			<li><a href="#tabs_contractor_discounts" onclick="_contractors.showDiscountInitialPage()">Discounts</a></li>
-			<li><a href="#tabs_contractor_testimonial" onclick="_contractors.showTestimonial()">Customer Testimonial</a></li>
+			<li><a href="#tabs_contractor_trade_sub_trades" onclick="_contractor_trades.showTradeList()">Trade & sub Trades</a></li>
+			<li><a href="#tabs_contractor_discounts" onclick="_contractor_discounts.initialPage()">Discounts</a></li>
+			<li><a href="#tabs_contractor_testimonial" onclick="_contractor_testimonial.viewAll()">Customer Testimonial</a></li>
 		</ul>
 		<div id="tabs_contractor_company_details">
 		<!-- Tab Menu content #1 -->
@@ -27,7 +27,7 @@
 				</span>
 				<span class="options-icon">
 					<?php 
-					if(in_array('update', $contractorPermission['operation'])) {
+					if(in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
 						$editFn 		= "_contractors.editForm({'openAs':'popup', 'popupType' : 2})";
 					?>
 						<span>
@@ -38,7 +38,7 @@
 						</span>
 					<?php
 					}
-					if(in_array('delete', $contractorPermission['operation'])) {
+					if(in_array(OPERATION_DELETE, $contractorPermission['operation'])) {
 						$deleteFn 		= "_contractors.deleteRecord('".$contractorId."')";
 					?>
 						<span>
@@ -192,7 +192,7 @@
 				<span class="options-icon">
 					<span>
 						<a class="step fi-page-add size-21" href="javascript:void(0);" 
-							onclick="_contractors.addNewMainTrendsForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_main_trend'); ?>">
+							onclick="_contractor_trades.addNewMainTrendsForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_main_trend'); ?>">
 						</a>
 					</span>
 				</span>
@@ -211,7 +211,7 @@
 					<tr>
 						<td>Main Trade</td>
 						<td>
-							<select id="discount_for_main_trade" onchange="_contractors.populateSubTradeInDiscount( this.value );">
+							<select id="discount_for_main_trade" onchange="_contractor_discounts.populateSubTrade( this.value );">
 								<option value="0">-- Select Main Trade --</option>
 							</select>
 						</td>
@@ -226,7 +226,7 @@
 							<span class="options-icon">
 								<span>
 									<a class="step fi-page-add size-21" href="javascript:void(0);" 
-										onclick="_contractors.addDiscountForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_discount'); ?>">
+										onclick="_contractor_discounts.createForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_discount'); ?>">
 									</a>
 								</span>
 							</span>
@@ -250,7 +250,7 @@
 					<span class="options-icon">
 						<span>
 							<a class="step fi-page-add size-21" href="javascript:void(0);" 
-								onclick="_contractors.addTestomonialForm( event )" 
+								onclick="_contractor_testimonial.createForm( event )" 
 								title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_testimonial'); ?>">
 							</a>
 						</span>

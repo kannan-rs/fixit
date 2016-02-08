@@ -14,18 +14,25 @@ class Dairy_updates extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 	
-	public function viewAll() {		
-		//Claim > Permissions for logged in User by role_id
-		//$notesPermission = $this->permissions_lib->getPermissions('notes');
+	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Project > Permissions for logged in User by role_id
+		$claimPermission 			= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$dairyUpdatesPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_DAIRY_UPDATES);
 
 		/* If User dont have view permission load No permission page */
-		/*if(!in_array('view', $notesPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $dairyUpdatesPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Notes List"
+				'page_disp_string' => "dairy update list"
 			);
+
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
-		}*/
+		}
 
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
@@ -66,17 +73,23 @@ class Dairy_updates extends CI_Controller {
 	}
 	
 	public function createForm() {
-		//Claim > Permissions for logged in User by role_id
-		//$notesPermission = $this->permissions_lib->getPermissions('notes');
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$claimPermission 			= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$dairyUpdatesPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_DAIRY_UPDATES);
+		$customer_names = array();
 
 		/* If User dont have view permission load No permission page */
-		/*if(!in_array('create', $notesPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $claimPermission['operation']) || !in_array(OPERATION_CREATE, $dairyUpdatesPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Create Notes"
+				'page_disp_string' => "create dairy update"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
-		}*/
+		}
 
 		$claim_id			= $this->input->post('claim_id');
 
@@ -88,6 +101,19 @@ class Dairy_updates extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_CREATE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_CLAIM_DAIRY_UPDATES, OPERATION_CREATE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_dairy_updates');
 		$this->load->model('mail/model_mail');
 
@@ -112,6 +138,19 @@ class Dairy_updates extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_DELETE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_NOTES, OPERATION_DELETE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_dairy_updates');
 		$this->load->model('mail/model_mail');
 

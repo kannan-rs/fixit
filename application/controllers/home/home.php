@@ -14,7 +14,7 @@ class home extends CI_Controller {
 		$record = $this->uri->segment(5) ? $this->uri->segment(5): "";
 	}
 
-	function changePassForm() {
+	public function changePassForm() {
 		$this->load->model('security/model_users');
 		
 		$record = $this->session->userdata("user_id");

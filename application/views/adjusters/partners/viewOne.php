@@ -18,7 +18,7 @@
 	</span>
 	<span class="options-icon">
 		<?php 
-		if(in_array('update', $adjusterPermission['operation'])) {
+		if(in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
 			$editFn 		= "_partners.editForm({'openAs':'popup', 'popupType' : 2})";
 		?>
 			<span>
@@ -28,7 +28,7 @@
 			</span>
 		<?php
 		}
-		if(in_array('delete', $adjusterPermission['operation'])) {
+		if(in_array(OPERATION_DELETE, $adjusterPermission['operation'])) {
 			$deleteFn 		= "_partners.deleteRecord('".$partnerId."')";
 		?>
 			<span>

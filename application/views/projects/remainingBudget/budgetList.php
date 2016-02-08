@@ -15,7 +15,7 @@
 		<td class="cell"><?php echo $budgetList[$i]->descr; ?></td>
 		<td class="cell table-action">
 			<?php 
-			if(in_array('update', $budgetPermission['operation'])) { 
+			if(in_array(OPERATION_UPDATE, $budgetPermission['operation'])) { 
 			?>
 				<span>
 					<a  class="step fi-page-edit size-21" href="javascript:void(0);" 
@@ -25,7 +25,7 @@
 				</span>
 			<?php 
 			}
-			if(in_array('delete', $budgetPermission['operation'])) { 
+			if(in_array(OPERATION_DELETE, $budgetPermission['operation'])) { 
 			?>
 			<span>
 				<a class="step fi-deleteRow size-21 red delete" 

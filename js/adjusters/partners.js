@@ -110,6 +110,7 @@ var _partners = (function () {
                     projectId: projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Add Partner"}, popupType);
@@ -197,6 +198,7 @@ var _partners = (function () {
                     popupType: popupType
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -231,6 +233,7 @@ var _partners = (function () {
                     popupType: popupType
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (openAs && openAs === "popup") {
                         $("#popupForAll" + popupType).html(response);
                         _projects.openDialog({title: "Partner Details"}, popupType);
@@ -260,6 +263,7 @@ var _partners = (function () {
                 url: "/adjusters/partners/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#partner_content").html(response);
                     _partners.showPartnersList();
                 },
@@ -285,6 +289,7 @@ var _partners = (function () {
                     popupType: popupType
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll" + popupType).html(response);
                     _projects.openDialog({title: "Edit Partner"}, popupType);
                     _partners.setPrefContact();
@@ -371,6 +376,7 @@ var _partners = (function () {
                     websiteURL: websiteURL
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         $(".ui-button").trigger("click");
@@ -402,6 +408,7 @@ var _partners = (function () {
                     partnerId: _partners.partnerId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);

@@ -2,7 +2,7 @@
 $taskId = $tasks[0]->task_id;
 $projectId = $tasks[0]->project_id;
 
-if(in_array('view', $issuesPermission['operation'])) {
+if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 	
 }
 ?>
@@ -14,7 +14,7 @@ if(in_array('view', $issuesPermission['operation'])) {
 		<?php 
 		if(count($tasks) > 0) { ?>
 			<?php 
-			if(in_array('update', $tasksPermission['operation'])) { 
+			if(in_array(OPERATION_UPDATE, $tasksPermission['operation'])) { 
 				$editFn 	= "_projects.editTask('".$taskId."')";
 			?>
 			<span>
@@ -27,7 +27,7 @@ if(in_array('view', $issuesPermission['operation'])) {
 			<?php 
 			}
 
-			if(in_array('delete', $tasksPermission['operation'])) { 
+			if(in_array(OPERATION_DELETE, $tasksPermission['operation'])) { 
 				$deleteFn 	= "_projects.taskDelete(".$taskId.",".$projectId.")";
 			?>
 			<span>
@@ -40,7 +40,7 @@ if(in_array('view', $issuesPermission['operation'])) {
 			<?php 
 			}
 
-			if(in_array('view', $issuesPermission['operation'])) { 
+			if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { 
 				$issueCount 	= $tasks[0]->issueCount;
 				$issueFnOptions = "{'projectId' :".$projectId.", 'taskId' : ".$taskId.", 'openAs' : 'popup', 'popupType' : '' }";
 				$issueFn = "_issues.viewAll(".$issueFnOptions.")";

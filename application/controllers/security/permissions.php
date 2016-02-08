@@ -15,6 +15,11 @@ class Permissions extends CI_Controller {
 	}
 
 	public function getComponentInfo() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -42,6 +47,11 @@ class Permissions extends CI_Controller {
 	}
 
 	public function inputForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
@@ -80,6 +90,11 @@ class Permissions extends CI_Controller {
 	}
 
 	public function getPageForType() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -114,6 +129,11 @@ class Permissions extends CI_Controller {
 	}
 
 	/*public function getPermissionsById() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$this->load->model('security/model_permissions');
 
 		$permissionId = $this->input->post('permissionId');
@@ -142,6 +162,11 @@ class Permissions extends CI_Controller {
 	}*/
 
 	public function getPermissions() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -189,6 +214,11 @@ class Permissions extends CI_Controller {
 	}
 
 	public function setPermissions() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		$response = array(
 			'status'	=> "error"
 		);
@@ -208,6 +238,11 @@ class Permissions extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
 		$response = array(
 			'status'	=> "error"
 		);

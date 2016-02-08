@@ -16,16 +16,23 @@ class Docs extends CI_Controller {
 	}
 	
 	public function viewAll() {
-		//Claim > Permissions for logged in User by role_id
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Project > Permissions for logged in User by role_id
+		$claimPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$docsPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_DOCS);
+
 		/* If User dont have view permission load No permission page */
-		/*$docsPermission = $this->permissions_lib->getPermissions('docs');
-		if(!in_array('view', $docsPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $docsPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Document List"
+				'page_disp_string' => "document list"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
-		}*/
+		}
 
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
@@ -49,7 +56,7 @@ class Docs extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Claim > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 		$params = array(
 			'claim_docs' 		=> isset($claimDocsResponse["docs"]) ? $claimDocsResponse["docs"] : [],
@@ -63,16 +70,23 @@ class Docs extends CI_Controller {
 	}
 	
 	public function createForm() {
-		//Claim > Permissions for logged in User by role_id
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Project > Permissions for logged in User by role_id
+		$claimPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$docsPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_DOCS);
+
 		/* If User dont have view permission load No permission page */
-		/*$docsPermission = $this->permissions_lib->getPermissions('docs');
-		if(!in_array('create', $docsPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $claimPermission['operation']) || !in_array(OPERATION_CREATE, $docsPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Create Document"
+				'page_disp_string' => "document list"
 			);
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
-		}*/
+		}
 
 		$claim_id			= $this->input->post('claim_id');
 		$params = array(
@@ -84,6 +98,19 @@ class Docs extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_CREATE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_CLAIM_DOCS, OPERATION_CREATE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_docs');
 		$this->load->model('claims/model_claims');
 		$this->load->model('security/model_users');
@@ -112,7 +139,7 @@ class Docs extends CI_Controller {
 
 				/*list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 				//Claim > Permissions for logged in User by role_id
-				$claimPermission = $this->permissions_lib->getPermissions('claim');
+				$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 				$claimParams = array(
 					'claim_id' 		=> [$claim_id],
@@ -171,6 +198,24 @@ class Docs extends CI_Controller {
 	}
 
 	public function downloadAttachment() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Project > Permissions for logged in User by role_id
+		$claimPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
+		$docsPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CLAIM_DOCS);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array(OPERATION_VIEW, $claimPermission['operation']) || !in_array(OPERATION_VIEW, $docsPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "document list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+		
 		if(isset($this->function)) {
 			$this->load->model('claims/model_docs');
 			$one_doc = $this->model_docs->getDocById($this->function);
@@ -190,6 +235,19 @@ class Docs extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed_claim 	= $this->permissions_lib->is_allowed(FUNCTION_CLAIM, OPERATION_DELETE);
+		$is_allowed 		= $this->permissions_lib->is_allowed(FUNCTION_CLAIM_DAIRY_UPDATES, OPERATION_DELETE);
+
+		if(!$is_allowed_claim["status"] || !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('claims/model_docs');
 		//$this->load->model('claims/model_claims');
 		//$this->load->model('security/model_users');
@@ -205,7 +263,7 @@ class Docs extends CI_Controller {
 
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Claim > Permissions for logged in User by role_id
-		$claimPermission = $this->permissions_lib->getPermissions('claim');
+		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 		/*if(isset($docsResponse["docs"])) {
 			$docs = $docsResponse['docs'][0];

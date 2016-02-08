@@ -13,6 +13,7 @@ class Layouts
 	private $js_includes = array(
 		'common' => array(
 			"js/utils/constants.js",
+			"js/library/angular.min.js",
 			"js/library/jquery-2.1.3.min.js",
 			"js/library/jquery-ui.js",
 			"js/library/jquery.validate.js",
@@ -34,6 +35,9 @@ class Layouts
 			"js/projects/notes.js",
 			"js/projects/docs.js",
 			"js/service_providers/contractors.js",
+			"js/service_providers/trades.js",
+			"js/service_providers/discounts.js",
+			"js/service_providers/testimonial.js",
 			"js/adjusters/partners.js",
 			"js/claims/claims.js",
 			"js/claims/notes.js",
@@ -117,9 +121,9 @@ class Layouts
 		$this->layout_data['initVar'] 		= $this->CI->session->userdata;
 		$this->layout_data['baseUrl'] 		= base_url();
 		$this->layout_data['params']  		= $params;
-		$this->layout_data['is_logged_in']  = $this->CI->session->userdata("is_logged_in");
+		$this->layout_data['is_logged_in']  = is_logged_in();
 
-		if($this->layout_data['is_logged_in']) {
+		if(is_logged_in()) {
 			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
 			$this->layout_data['role_id'] 				= $role_id;
 			$this->layout_data['role_disp_name'] 		= $role_disp_name;
@@ -155,7 +159,7 @@ class Layouts
 		$this->layout_data['left_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/left_side_bar", $this->layout_data, true);
 		
 		
-		if(!$this->CI->session->userdata("is_logged_in") && $this->layout_data['page'] == "index") {
+		if(!is_logged_in() && $this->layout_data['page'] == "index") {
 			//echo "<br/>Not Logged In";
 			$this->layout_data['main_content'] = $this->CI->load->view("notLoggedIn/index", $this->layout_data, true);
 		} else {

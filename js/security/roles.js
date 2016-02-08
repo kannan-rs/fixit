@@ -64,6 +64,7 @@ var _roles = (function () {
                 url: "/security/roles/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -79,6 +80,7 @@ var _roles = (function () {
                 url: "/security/roles/createForm",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -102,6 +104,7 @@ var _roles = (function () {
                     role_desc: role_desc
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
@@ -121,6 +124,7 @@ var _roles = (function () {
                 url: "/security/roles/editForm",
                 data: {role_sno : role_sno},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {
@@ -146,6 +150,7 @@ var _roles = (function () {
                     role_sno: role_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     alert(response.message);
                     if (response.status === "success") {
@@ -173,6 +178,7 @@ var _roles = (function () {
                     role_sno: role_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     //$("#security_content").html(response);
                     response = $.parseJSON(response);
                     alert(response.message);
@@ -195,6 +201,7 @@ var _roles = (function () {
                     role_sno: role_sno
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                 },
                 error: function (error) {

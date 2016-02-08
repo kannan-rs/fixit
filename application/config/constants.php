@@ -36,6 +36,57 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/*
+|---------------------------------------------------------
+| PERMISSIONS MODULE CONSTANTS
+|---------------------------------------------------------
+*/
+/*
+| Operations Constants
+*/
+define('OPERATION_CREATE',		'create');
+define('OPERATION_UPDATE',		'update');
+define('OPERATION_DELETE',		'delete');
+define('OPERATION_VIEW',		'view');
+define('OPERATION_DEACTIVATE',	'deactivate');
+define('OPERATION_ACTIVATE',	'activate');
+define('OPERATION_EXPORT',		'export');
+
+/*
+| Module Constants
+*/
+define('FUNCTION_ALL',							'all');
+define('FUNCTION_CUSTOMER',						'customer');
+define('FUNCTION_ADJUSTER',						'adjuster');
+define('FUNCTION_CLAIM',						'claim');
+define('FUNCTION_CLAIM_DOCS',					'Claim Docs');
+define('FUNCTION_CLAIM_DAIRY_UPDATES',			'Claim Dairy Updates');
+define('FUNCTION_CLAIM_NOTES',					'Claim Notes');
+define('FUNCTION_CLAIM_SUBROGATION',			'claim subrogation');
+define('FUNCTION_SERVICE_PROVIDER',				'service provider');
+define('FUNCTION_SERVICE_PROVIDER_ADS',			'service provider ads');
+define('FUNCTION_SERVICE_PROVIDER_DISCOUNT',	'service provider discounts');
+define('FUNCTION_SERVICE_PROVIDER_TESTIMONIAL',	'service provider testimonial');
+define('FUNCTION_SERVICE_PROVIDER_TRADE',		'service provider trade');
+define('FUNCTION_INSURANCE_CO',					'insurance co');
+define('FUNCTION_TASKS',						'tasks');
+define('FUNCTION_ISSUES',						'issues');
+define('FUNCTION_PROJECTS',						'projects');
+define('FUNCTION_USERS',						'users');
+define('FUNCTION_DOCS',							'docs');
+define('FUNCTION_NOTES',						'notes');
+define('FUNCTION_BUDGET',						'budget');
+
+/*
+| Role Constants
+*/
+define('ROLE_ADMIN', 							'admin');
+define('ROLE_SUB_ADMIN', 						'sub admin');
+define('ROLE_INSURANCECO_CALL_CENTER_AGENT', 	'insuranceco call center agent');
+define('ROLE_INSURANCECO_ADMIN', 				'insuranceco admin');
+define('ROLE_CUSTOMER', 						'customer');
+define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
+define('ROLE_SERVICE_PROVIDER_USER', 			'service provider user');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -31,7 +31,7 @@ class Main extends CI_Controller {
 
 		$this->layouts->setPage("index");
 		
-		if($this->session->userdata('is_logged_in')) {
+		if(is_logged_in()) {
 			redirect(base_url()."main/home");
 		}
 		//Render a view
@@ -242,7 +242,7 @@ class Main extends CI_Controller {
 	}
 
 	public function isLoggedIn() {
-		if(!$this->session->userdata("is_logged_in")) {
+		if(!is_logged_in()) {
 			 redirect('/main/index', 'refresh');
 		} else {
 			return true;
@@ -250,6 +250,19 @@ class Main extends CI_Controller {
 	}
 
 	public function logout() {
+		/*$this->session->unset_userdata('is_logged_in');
+		$this->session->set_userdata('is_logged_in', "");
+		$this->session->unset_userdata('module');
+		$this->session->unset_userdata('controller');
+		$this->session->unset_userdata('page');
+		$this->session->unset_userdata('function');
+		$this->session->unset_userdata('record');
+		$this->session->unset_userdata('role_id');
+		$this->session->unset_userdata('user_id');
+		$this->session->unset_userdata('email');
+		$this->session->unset_userdata('userType');
+		$this->session->unset_userdata('cart_contents');*/
+
 		$this->session->sess_destroy();
 		redirect("/");
 	}

@@ -33,6 +33,7 @@ var _notes = (function () {
                     projectId: projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#project_content").html(response);
                 },
                 error: function (error) {
@@ -65,6 +66,7 @@ var _notes = (function () {
                         count: _notes.noteListCount
                     },
                     success: function (response) {
+                        if(!_utils.is_logged_in( response )) { return false; }
                         if (response.length) {
                             $("#notesCount").remove();
                             if (_notes.noteListStartRecord === 0) {
@@ -100,6 +102,7 @@ var _notes = (function () {
                     taskId: taskId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#new_note_content").html(response);
                 },
                 error: function (error) {
@@ -141,6 +144,7 @@ var _notes = (function () {
                     noteContent: noteContent
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);

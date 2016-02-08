@@ -188,6 +188,8 @@ var _projects = (function () {
                 url: "/projects/projects/viewAll",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    _utils.is_logged_in( response );
                     $("#project_content").html(response);
                     self.showProjectsList();
                 },
@@ -209,6 +211,7 @@ var _projects = (function () {
                 url: "/projects/projects/createForm",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#project_content").html(response);
                     //self.setMandatoryFields();
                     self.hideContractorDetails('all');
@@ -304,6 +307,7 @@ var _projects = (function () {
                     zipCode: zipCode
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -330,6 +334,7 @@ var _projects = (function () {
                     projectId: self.projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Edit Project"});
                     self.setDropdownValue();
@@ -453,6 +458,7 @@ var _projects = (function () {
 
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         $(".ui-button").trigger("click");
@@ -487,6 +493,7 @@ var _projects = (function () {
                     projectId: self.projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -541,6 +548,8 @@ var _projects = (function () {
                     projectId: self.projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    _utils.is_logged_in( response );
                     $("#project_content").html(response);
                     _utils.set_accordion('accordion');
                     //_utils.set_accordion('projectDescrAccordion');
@@ -567,6 +576,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#task_content").html(response);
                     var taskCount = $("#tasksCount").val();
                     taskCount = (taskCount && taskCount !== "" || taskCount > 0) ? " (" + taskCount + ")" : '';
@@ -600,6 +610,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#notesCount").remove();
                         $("#note_content").html(response);
@@ -636,6 +647,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#popupForAll").html(response);
                         self.openDialog({title: "Nots List for Task"});
@@ -661,6 +673,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").append(response);
                 },
                 error: function (error) {
@@ -682,6 +695,7 @@ var _projects = (function () {
                     startRecord: _docs.docsListStartRecord
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if (response.length) {
                         $("#attachment_content").html(response);
 
@@ -713,6 +727,7 @@ var _projects = (function () {
                     projectId: self.projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Add Document"});
                 },
@@ -739,6 +754,7 @@ var _projects = (function () {
                     docId: doc_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         $("#docId_" + response.docId).remove();
@@ -771,6 +787,7 @@ var _projects = (function () {
                     project_id: project_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -805,6 +822,7 @@ var _projects = (function () {
                     noteId: noteId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         $("#notes_" + noteId).hide();
@@ -837,6 +855,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Task Details"});
 
@@ -866,6 +885,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Add Task"});
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
@@ -901,6 +921,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Add Notes"});
                 },
@@ -924,6 +945,7 @@ var _projects = (function () {
                     viewFor: 'projectViewOne'
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Edit Task Details"});
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
@@ -980,6 +1002,7 @@ var _projects = (function () {
                     task_trade_type: task_trade_type
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -1014,6 +1037,7 @@ var _projects = (function () {
                     noteContent: noteContent
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
 
@@ -1072,6 +1096,7 @@ var _projects = (function () {
                     task_trade_type: task_trade_type
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
@@ -1189,6 +1214,7 @@ var _projects = (function () {
                     records: records
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status === "success") {
                         var contractors = {
@@ -1235,6 +1261,7 @@ var _projects = (function () {
                 url: "/service_providers/contractors/getList",
                 data: {},
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     $("#contractorId").children().remove();
                     if (response.status === "success") {
@@ -1273,6 +1300,7 @@ var _projects = (function () {
                     serviceZip: serviceZip
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         //response.contractorList;
@@ -1353,6 +1381,7 @@ var _projects = (function () {
                     name: nameOrComp
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         //response.adjusterList;
@@ -1392,6 +1421,7 @@ var _projects = (function () {
                     records: records
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status === "success") {
                         var adjusters = {
@@ -1470,6 +1500,7 @@ var _projects = (function () {
                     records: records
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status === "success") {
                         var contractors = {
@@ -1508,6 +1539,7 @@ var _projects = (function () {
                     records: records
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         //response.adjusterList;
@@ -1547,6 +1579,7 @@ var _projects = (function () {
                     projectId: self.projectId
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#viewOneProjectBudget").html(response);
                     //budgetFormat();
                 },

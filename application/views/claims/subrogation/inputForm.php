@@ -39,7 +39,7 @@
 				<tbody>
 
 					<?php
-					if(in_array('view', $customerPermission['operation'])) {
+					if(in_array(OPERATION_VIEW, $customerPermission['operation'])) {
 					?>
 						<!-- Project Customer Name Search and Adding -->
 						<tr>

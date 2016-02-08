@@ -64,6 +64,7 @@ var _claim_subrogation = (function() {
 				description : description
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -110,6 +111,7 @@ var _claim_subrogation = (function() {
                 description : description
             },
             success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 response = $.parseJSON(response);
                 if (response.status.toLowerCase() === "success") {
                     alert(response.message);
@@ -173,6 +175,7 @@ var _claim_subrogation = (function() {
                 	claim_id 	: _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#tabs_claim_subrogation").html(response);
                 },
                 error: function (error) {
@@ -199,6 +202,7 @@ var _claim_subrogation = (function() {
                 	claim_id 	: _claims._claim_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Create Subrogation"});
                     presetInputForm( "create" );
@@ -240,6 +244,7 @@ var _claim_subrogation = (function() {
                     subrogation_id  : _claim_subrogation._subrogation_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Update Subrogation"});
                     presetInputForm( "update" );
@@ -279,6 +284,7 @@ var _claim_subrogation = (function() {
                     subrogation_id : _claim_subrogation._subrogation_id
                 },
                 success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#popupForAll").html(response);
                     _projects.openDialog({title: "Subrogation Details"});
                     _utils.set_accordion('subrogation_accordion');

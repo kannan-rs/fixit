@@ -15,6 +15,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function getList() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_VIEW);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('adjusters/model_partners');
 
 		$companyName 	= explode(",", $this->input->post("companyName"));
@@ -31,6 +43,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function getPartnerByCompanyName() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_VIEW);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+		
 		$this->load->model('adjusters/model_partners');
 		
 		$companyName = explode(",", $this->input->post('companyName'));
@@ -42,11 +66,16 @@ class Partners extends CI_Controller {
 	}
 
 	public function viewAll() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $adjusterPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "partner list"
 			);
@@ -67,11 +96,16 @@ class Partners extends CI_Controller {
 	}
 	
 	public function createForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('create', $adjusterPermission['operation'])) {
+		if(!in_array(OPERATION_CREATE, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "create partner"
 			);
@@ -103,6 +137,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function add() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_CREATE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -146,11 +192,16 @@ class Partners extends CI_Controller {
 	}
 
 	public function viewOne() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('view', $adjusterPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "create partner"
 			);
@@ -200,11 +251,16 @@ class Partners extends CI_Controller {
 	}
 
 	public function editForm() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions('adjuster');
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array('update', $adjusterPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "update partner"
 			);
@@ -246,6 +302,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function update() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_UPDATE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -289,6 +357,18 @@ class Partners extends CI_Controller {
 	}
 
 	public function deleteRecord() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+		
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_DELETE);
+
+		if( !$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 

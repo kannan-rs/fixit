@@ -38,6 +38,7 @@ var _users = (function () {
             async : false,
             data: {},
             success: function( response ) {
+                if(!_utils.is_logged_in( response )) { return false; }
                 responseArr = JSON.parse(response);
                 if(responseArr.status == "success") {
                     rolesDb = responseArr.roles;
@@ -252,6 +253,7 @@ var _users = (function () {
                     responseType     : responseType
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
                     setViewBasics();
                 },
@@ -279,6 +281,7 @@ var _users = (function () {
                     requestFrom : requestFrom
                 },
                 success: function( response ) {
+                    //if(!_utils.is_logged_in( response )) { return false; }
                     if(openAs == "") {
                         $("#security_content").html(response);
                     } else {
@@ -390,6 +393,7 @@ var _users = (function () {
                     tc                  : tc
                 },
                 success: function( response ) {
+                    //if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         //alert(response.message);
@@ -425,6 +429,7 @@ var _users = (function () {
                 url: "/security/users/editForm",
                 data: {'userId' : userId},
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if(session.page == "home") {
                         $("#index_content").html(response);
                     } else {
@@ -549,6 +554,7 @@ var _users = (function () {
                     referredById         : referredById
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         var params = {
@@ -584,6 +590,7 @@ var _users = (function () {
                     emailId : emailId
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response["status"] == "success") {
                         var params = {
@@ -623,6 +630,7 @@ var _users = (function () {
                     responseType     : responseType
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     if( openAs && openAs == "popup") {
                         $("#popupForAll"+popupType).html( response );
                         var title = "";
@@ -808,6 +816,7 @@ var _users = (function () {
                     zip     : $("#"+prefix+"contractorZipCode").val()
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status == "success") {
                         contractors = { 
@@ -841,6 +850,7 @@ var _users = (function () {
                     companyName : $("#"+prefix+"partnerCompanyName").val().trim()
                 },
                 success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status == "success") {
                         partners = {

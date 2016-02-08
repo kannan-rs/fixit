@@ -1,19 +1,19 @@
 <?php
-	if(in_array('update', $projectPermission['operation'])) {
+	if(in_array(OPERATION_UPDATE, $projectPermission['operation'])) {
 		$editFn 	= "_projects.editProject('".$projectId."')";
 	}
-	if(in_array('delete', $projectPermission['operation'])) {
+	if(in_array(OPERATION_DELETE, $projectPermission['operation'])) {
 		$deleteFn 	= "_projects.deleteRecord('".$projectId."')";
 	}
 	
-	if(in_array('view', $issuesPermission['operation'])) {
+	if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 		$issueCount 	= $project->issueCount ? $project->issueCount : "";
 
 		$issueFnOptions = "{'projectId' :".$projectId.", 'openAs' : 'popup', 'popupType' : '' }";
 		$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
 	}
 
-	if(in_array('export', $issuesPermission['operation'])) {
+	if(in_array(OPERATION_EXPORT, $issuesPermission['operation'])) {
 		$exportFn 		= "_projects.exportCSV('".$projectId."')";
 	}
 ?>
@@ -29,7 +29,7 @@
 	</span>
 	<span class="options-icon">
 		<?php
-		if(in_array('view', $issuesPermission['operation'])) { 
+		if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { 
 		?>
 		<span>
 			<a class="step fi-alert size-21 <?php echo $issueCount ? "red" : ""; ?>" 
@@ -40,7 +40,7 @@
 		</span>
 		<?php
 		}
-		if(in_array('update', $projectPermission['operation'])) {
+		if(in_array(OPERATION_UPDATE, $projectPermission['operation'])) {
 		?>
 		<span>
 			<a class="step fi-page-edit size-21" href="javascript:void(0);" 
@@ -49,7 +49,7 @@
 		</span>
 		<?php
 		} 
-		if(in_array('export', $issuesPermission['operation'])) {
+		if(in_array(OPERATION_EXPORT, $issuesPermission['operation'])) {
 		?>
 		<span>
 			<a class="step fi-page-csv size-21" href="javascript:void(0);" 
@@ -58,7 +58,7 @@
 		</span>
 		<?php 
 		}
-		if(in_array('delete', $projectPermission['operation'])) {
+		if(in_array(OPERATION_DELETE, $projectPermission['operation'])) {
 		?>
 		<span>
 			<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
@@ -118,8 +118,8 @@
 		<!-- Project Budget -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->budget'); ?></span>
-			<?php if(in_array('update', $budgetPermission['operation']) || 
-				in_array('create', $budgetPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_UPDATE, $budgetPermission['operation']) || 
+				in_array(OPERATION_CREATE, $budgetPermission['operation'])) { ?>
 			<a class="step fi-page-edit size-21 accordion-icon icon-right" href="javascript:void(0);" 
 			onclick="_remainingbudget.getListWithForm(event, {'openAs': 'popup', 'popupType' : '2'})" 
 			title="<?php echo $this->lang->line_arr('projects->buttons_links->update_budget_title'); ?>"></a>
@@ -139,7 +139,7 @@
 		<!-- Project Contractor Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
-			<?php if(in_array('create', $contractorPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
 				onclick="_contractors.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
@@ -153,7 +153,7 @@
 		<!-- Project Adjuster Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partners_details'); ?></span>
-			<?php if(in_array('create', $adjusterPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_CREATE, $adjusterPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 			href="javascript:void(0);"  
 			onclick="_partners.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
@@ -170,7 +170,7 @@
 				<?php echo $this->lang->line_arr('projects->headers->tasks_list'); ?>
 				<span id="taskCountDisplay"></span>
 			</span>
-			<?php if(in_array('create', $tasksPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_CREATE, $tasksPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 			href="javascript:void(0);"  
 			onclick="_projects.addTask(event);" 
@@ -185,7 +185,7 @@
 				<?php echo $this->lang->line_arr('projects->headers->notes'); ?>
 				<span id="notesCountForProjectDisplay"></span>
 			</span>
-			<?php if(in_array('create', $notesPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_CREATE, $notesPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);" 
 				onclick="_projects.addProjectNote(event);" 
@@ -200,7 +200,7 @@
 				<?php echo $this->lang->line_arr('projects->headers->documents'); ?>
 				<span id="docsCountDisplay"></span>
 			</span>
-			<?php if(in_array('create', $docsPermission['operation'])) { ?>
+			<?php if(in_array(OPERATION_CREATE, $docsPermission['operation'])) { ?>
 			<a class="step fi-page-add size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
 				onclick="_projects.addDocumentForm(event);" 
