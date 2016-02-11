@@ -321,7 +321,7 @@ $role_id 		= $this->session->userdata("role_id");
 
 ?>
 
-<div class="nav_top">
+<div class="nav_top" ng-controller="top_menu">
 	<div class="container">
 		<div class="navbar navbar-static-top">
 			<div class="navigation">

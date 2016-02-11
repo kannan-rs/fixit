@@ -12,45 +12,11 @@ Align the header with the content (Left align)
 
 #18
 
-#22 - Working on
-
-Worked on Permission on action
--------------------------------
-1. Project
-	- Project (Done)
-	- Tasks (Done)
-	- Issues (Done)
-	- Notes (Done)
-	- Documents (Done)
-	- Budget (Done)
-	- Customer
-2. Service Provider
-	- Service Provider (Done)
-	- Trades and Sub trades (Done)
-	- Discounts (Done)
-	- Testimonial (Done)
-3. Claim
-	- Claim (Done )
-	-Subrogation (Done)
-	- Dairy Updates (Done)
-	- Notes (Done)
-	- Docs (Done)
-4. Adjusters (Done)
-
-5. Seperated code for discount, trades, testimonial and contractor
-
-6. Session Management
-
-Fixed Bugs
-----------
-#13
-#14
-#8
-
-
-
 1. Change the contractor to service provider everywhere.
 2. #0000019
 3. Create list of user based on role and share the details with all. Will test functionality based on user role.
-4. I will deploy the latest code.
-5. 
+
+Done List
+---------
+1. Deployment and some session issue corrected : 2hrs
+2. 
