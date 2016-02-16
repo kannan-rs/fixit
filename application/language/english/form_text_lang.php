@@ -535,7 +535,7 @@ $lang["projects"] = array (
 		"contact_pref" => "Contact Pref"
 	),
 	/*
-		Contractor Details Section
+		Service Provider Details Section
 	*/
 	"details_view_contractor" => array(
 		"name" => "Name",
@@ -633,23 +633,23 @@ $lang["contractor"] = array(
 		"trades_list"				=> "Trades & Sub Trades List",
 		"discount_list"				=> "Discount List",
 		"testomonial_list"			=> "Testomonial List",
-		"contractor_details"		=> "Contractor Details",
-		"contractor_address"		=> "Contractor Address",
-		"contractor_contact"		=> "Contractor Contact Details",
-		"contractor_service_area"	=> "Contractor Service Area",
-		"contractor_others"			=> "Contractor Other Details"
+		"contractor_details"		=> "Service Provider Details",
+		"contractor_address"		=> "Service Provider Address",
+		"contractor_contact"		=> "Service Provider Contact Details",
+		"contractor_service_area"	=> "Service Provider Service Area",
+		"contractor_others"			=> "Service Provider Other Details"
 	),
 	/*
 		Create and edit form text
 	*/
 	"input_form" => array(
 		/*
-			Following are the (key => "text value") map for the "Contractors" create and edit form
+			Following are the (key => "text value") map for the "Service Provider's" create and edit form
 			Sections
-				1. After Login 	> Projects > Create Contractor
-				2. After Login 	> Projects > Contractors > Individual Contractor View > Edit Contractor
-				3. After Login 	> Projects > Create Project > Add New Contractor
-				4. After Login 	> Projects > Edit Project > Add New Contractor
+				1. After Login 	> Projects > Create Service Provider
+				2. After Login 	> Projects > Service Providers > Individual Service Provider View > Edit Service Provider
+				3. After Login 	> Projects > Create Project > Add New Service Provider
+				4. After Login 	> Projects > Edit Project > Add New Service Provider
 		*/
 		"name" 							=> "Name",
 		"company" 						=> "Company",

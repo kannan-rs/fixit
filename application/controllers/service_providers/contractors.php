@@ -13,13 +13,13 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$serviceZip = trim($this->input->post("serviceZip")) ? explode(",", trim($this->input->post("serviceZip"))) : null;
 		$zip 		= trim($this->input->post("zip")) ? trim($this->input->post("zip")) : null;
 		$records 	= trim($this->input->post("records")) ? explode(",", trim($this->input->post("records"))) : null;
 		
-		$contractorsResponse = $this->model_contractors->getContractorsList( $records, $zip, $serviceZip );
+		$contractorsResponse = $this->model_service_providers->get_service_provider_list( $records, $zip, $serviceZip );
 
 		print_r(json_encode($contractorsResponse));
 	}
@@ -30,7 +30,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
@@ -44,9 +44,9 @@ class Contractors extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		
-		$contractorsResponse = $this->model_contractors->getContractorsList();
+		$contractorsResponse = $this->model_service_providers->get_service_provider_list();
 
 		$params = array(
 			'contractors'		=> $contractorsResponse["contractors"],
@@ -64,7 +64,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_CREATE, $contractorPermission['operation'])) {
@@ -118,7 +118,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('mail/model_mail');
 
 		$data = array(
@@ -147,7 +147,7 @@ class Contractors extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_contractors->insert($data);
+		$response = $this->model_service_providers->insert($data);
 
 		$contractorCompanyParamsFormMail = array(
 			'response'				=> $response,
@@ -169,7 +169,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
@@ -182,14 +182,14 @@ class Contractors extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('security/model_users');
 		$this->load->model('utils/model_form_utils');
 
 		$contractorId 			= $this->input->post('contractorId');
 		$openAs		 			= $this->input->post('openAs');
 
-		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorId);
+		$contractorsResponse 	= $this->model_service_providers->get_service_provider_list($contractorId);
 
 		$contractors = $contractorsResponse["contractors"];
 
@@ -240,7 +240,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
@@ -254,14 +254,14 @@ class Contractors extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('security/model_users');
 
 		$contractorId = $this->input->post('contractorId');
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 
-		$contractorsResponse = $this->model_contractors->getContractorsList($contractorId);
+		$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorId);
 		$contractors = $contractorsResponse["contractors"];
 
 		$addressParams = array(
@@ -309,7 +309,7 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('mail/model_mail');
 
 		$contractorId 			= $this->input->post('contractorId');
@@ -338,7 +338,7 @@ class Contractors extends CI_Controller {
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_contractors->update($data, $contractorId);
+		$response = $this->model_service_providers->update($data, $contractorId);
 
 		$contractorCompanyParamsFormMail = array(
 			'response'				=> $response,
@@ -366,11 +366,11 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('mail/model_mail');
 
 		$contractorId = $this->input->post('contractorId');
-		$delete_contractor = $this->model_contractors->deleteRecord($contractorId);
+		$delete_contractor = $this->model_service_providers->deleteRecord($contractorId);
 
 		print_r(json_encode($delete_contractor));	
 	}

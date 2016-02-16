@@ -22,7 +22,7 @@
 	$customer_id 			= "";
 	$associated_claim_num 	= "";
 
-	$contractorLable 	= "Selected Contractor from Search result";
+	$contractorLable 	= "Selected Service Provider from Search result";
 	$adjusterLable		= "Selected Adjuster from Search result";
 	
 	if(isset($projects) && count($projects)) {
@@ -47,7 +47,7 @@
 		$customer_id 			= $project->customer_id;
 		$associated_claim_num 	= $project->associated_claim_num;
 
-		$contractorLable = "Contractor's List";
+		$contractorLable = "Service Provider's List";
 		$adjusterLable		= "Adjuster's List";
 
 	} else {
@@ -109,7 +109,7 @@
 						<option value=""><?php echo $this->lang->line_arr('projects->input_form->project_status_option_0'); ?></option>
 						<option value="project created">Project Created</option>
 						<option value="not assigned">Not Assigned</option>
-						<option value="assigned to contractor">Assigned to Contractor</option>
+						<option value="assigned to contractor">Assigned to Service Provider</option>
 						<option value="work in progress">Work in Progress</option>
 						<option value="completed">Completed</option>
 					</select>
@@ -140,7 +140,7 @@
 			<?php
 			if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			?>
-				<!-- Project Contractor Search and Adding -->
+				<!-- Project Service Provider Search and Adding -->
 				<!-- List of added contractor from the serach result-->
 				<tr class="contractor-search-selected">
 					<td class="label"><?php echo $contractorLable; ?></td>

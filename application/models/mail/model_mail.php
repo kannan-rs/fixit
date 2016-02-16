@@ -136,9 +136,9 @@ class Model_mail extends CI_Model {
 			$mail_options["to"]			= $contractorData["office_email"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
-			$mail_options["subject"]	= "Registration Successful for Contractor Company";
+			$mail_options["subject"]	= "Registration Successful for Service Provider Company";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
-			$mail_options["message"] 	.= "<p>Welcome Contractor company, Your account with fixit network was created successfully.</p>";
+			$mail_options["message"] 	.= "<p>Welcome Service Provider company, Your account with fixit network was created successfully.</p>";
 			$mail_options["message"] 	.= "<p>personal information is also added successfully. </p>";
 			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
@@ -158,9 +158,9 @@ class Model_mail extends CI_Model {
 			$mail_options["to"]			= $contractorData["office_email"];
 			$mail_options["cc"]			="";
 			$mail_options["bcc"]		= "";
-			$mail_options["subject"]	= "Notice : Contractor Company information update";
+			$mail_options["subject"]	= "Notice : Service Provider Company information update";
 			$mail_options["message"] 	= "<p>Dear ".$mail_options["name"]."</p>";
-			$mail_options["message"] 	.= "<p>Your Contractor company information is updated successfully.</p>";
+			$mail_options["message"] 	.= "<p>Your Service Provider company information is updated successfully.</p>";
 			$mail_options["message"] 	.= "<p> </p>";
 			$mail_options["message"] 	.= $this->lang->line('email_signature_html');
 
@@ -270,7 +270,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 						case 'create':
-							$mail_list["subject"]	= "Contractor : New Project Created";
+							$mail_list["subject"]	= "Service Provider : New Project Created";
 							$mail_list["message"] 	.= "<p>New Project with your contractor company as part of that was created successfully.</p>";
 							$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 						break;
@@ -300,7 +300,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 						case 'create':
-							$mail_list["subject"]	= "Contractor : New Project Created";
+							$mail_list["subject"]	= "Service Provider : New Project Created";
 							$mail_list["message"] 	.= "<p>New Project with your Partner company as part of that was created successfully.</p>";
 						break;
 						case 'update':
@@ -381,7 +381,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Task Created";
+					 		$mail_list["subject"]	= "Service Provider : New Task Created";
 					 		$mail_list["message"] 	.= "<p>New Task with your contractor company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -410,7 +410,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Task Created";
+					 		$mail_list["subject"]	= "Service Provider : New Task Created";
 					 		$mail_list["message"] 	.= "<p>New Task with your Partner company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -492,7 +492,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Issue Created";
+					 		$mail_list["subject"]	= "Service Provider : New Issue Created";
 					 		$mail_list["message"] 	.= "<p>New Issue with your contractor company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -521,7 +521,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Issue Created";
+					 		$mail_list["subject"]	= "Service Provider : New Issue Created";
 					 		$mail_list["message"] 	.= "<p>New Issue with your Partner company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -597,7 +597,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Notes Created";
+					 		$mail_list["subject"]	= "Service Provider : New Notes Created";
 					 		$mail_list["message"] 	.= "<p>New Notes with your contractor company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -621,7 +621,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Notes Created";
+					 		$mail_list["subject"]	= "Service Provider : New Notes Created";
 					 		$mail_list["message"] 	.= "<p>New Notes with your Partner company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -692,7 +692,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Document Created";
+					 		$mail_list["subject"]	= "Service Provider : New Document Created";
 					 		$mail_list["message"] 	.= "<p>New Document with your contractor company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;
@@ -716,7 +716,7 @@ class Model_mail extends CI_Model {
 
 					switch ( $mail_type ) {
 					 	case 'create':
-					 		$mail_list["subject"]	= "Contractor : New Document Created";
+					 		$mail_list["subject"]	= "Service Provider : New Document Created";
 					 		$mail_list["message"] 	.= "<p>New Document with your Partner company as part of that was created successfully.</p>";
 					 		$mail_list["message"] 	.= "<p>Login to fixit networks to see more details of the project</p>";
 					 	break;

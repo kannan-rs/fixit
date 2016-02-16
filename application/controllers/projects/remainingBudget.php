@@ -96,7 +96,7 @@ class remainingbudget extends CI_Controller {
 		$this->load->model('projects/model_remainingbudget');
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 

@@ -38,7 +38,7 @@ var homeObj = (function () {
 })();
 
 
-$().ready(function() {
+$(document).ready(function() {
     /*
         Set Module to lode
         1. If Module is already set then load that module,
@@ -48,6 +48,16 @@ $().ready(function() {
             Page home       -> Load Personal details
             Project         -> Load Issues                        
     */
+    $('ul.nav li.dropdown').on("mouseover", function () {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn();
+        //$(this).find('.sub-menu-level1').css("top", $(this).position().top+"px");
+        //css("top", $(this).position().top)
+    });
+    $('ul.nav li.dropdown').on("mouseout", function () {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut();
+        //$(this).find('.sub-menu-level1').css("top", $(this).position().top);
+    });
+        
     var pageModuleMap = {
         "security"              : "users",
         "home"                  : "view_my_details",

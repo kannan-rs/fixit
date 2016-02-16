@@ -67,7 +67,7 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 						<option value=""><?php echo $this->lang->line_arr('tasks->input_form->task_status_option_0'); ?></option>
 						<option value="task created">Task Created</option>
 						<option value="not assigned">Not Assigned</option>
-						<option value="assigned to contractor">Assigned to Contractor</option>
+						<option value="assigned to contractor">Assigned to Service Provider</option>
 						<option value="work in progress">Work in Progress</option>
 						<option value="completed">Completed</option>
 					</select>

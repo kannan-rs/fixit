@@ -381,7 +381,7 @@ var _utils = (function () {
         },
 
         /*
-            Create Option list dropdown for Customer / Adjuster / Contractor
+            Create Option list dropdown for Customer / Adjuster / Service Provider
             Based on options sent to this functions
                 1. Create LI based on the options sent to this function
                 2. Show [+] / [-] options based on options
@@ -391,13 +391,13 @@ var _utils = (function () {
                 6. Click to select and add its value to the text box and add it ID to the hidden value for further usage
 
                 options {
-                    list            : <List of customer / Contractor / Adjuster>
+                    list            : <List of customer / Service Provider / Adjuster>
                     type            : ownerList or Not
                     prefixId        : <LI> ID Prefix
-                    dataIdentifier  : What type of data it is (Customer / Contractor / Adjuster )
+                    dataIdentifier  : What type of data it is (Customer / Service Provider / Adjuster )
                     selectId        : For Edit form, Show already selected Owner
                     valuePrefix     : Value Prefix for Radio button, to make it unique
-                    dispStrKey      : Database Key for customer/adjuster table, used to show as display string in <li> top (Contractor/Adjuster)
+                    dispStrKey      : Database Key for customer/adjuster table, used to show as display string in <li> top (Service Provider/Adjuster)
                     radioOptionName : NAME of radio button, when type="ownerList"
                     appendTo        : ID of <UL> where all the created <li> using list loop to be added
                     functionName    : FUNCTION NAME - Function to be called when the user clicked on <li> created to show user name and mail ID

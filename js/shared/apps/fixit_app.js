@@ -1,0 +1,1 @@
+var fixit_app = angular.module("fixit_app", []);

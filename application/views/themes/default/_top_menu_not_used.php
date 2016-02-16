@@ -386,10 +386,9 @@ $role_id 		= $this->session->userdata("role_id");
 											}
 
 											if(isset($dependency['permissions']) && isset($dependency['operation'])) {
-												$permissionKey 		= $dependency['permissions'];
-												$allowedPermission 	= $$permissionKey;
-												$operation 			= $dependency['operation'];
-												$showMenu 			= false;
+											$permissionKey      = $dependency['permissions'];     $allowedPermission  =
+											$$permissionKey;     $operation          = $dependency['operation'];
+											$showMenu           = false;
 
 												for($opIx = 0; $opIx < count($operation); $opIx++) {
 													if(in_array($operation[$opIx], $allowedPermission['operation'])) {

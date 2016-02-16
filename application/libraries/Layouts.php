@@ -1,6 +1,5 @@
 <?php 
-class Layouts
-{
+class Layouts {
   	// hold codeigniter instance
 	private $CI;
 
@@ -18,8 +17,11 @@ class Layouts
 			"js/library/jquery-ui.js",
 			"js/library/jquery.validate.js",
 			"js/library/plugin/searchSelect-Jquery.js",
-			"js/library/menus.js",
+			//"js/library/menus.js",
 			"js/shared/themes/default/layouts.js",
+			"js/shared/apps/fixit_app.js",
+			"js/shared/top_menu/top_menu_ctrl.js",
+			"js/shared/top_menu/top_menu_directive.js",
 			"js/submit.js",
 			"js/shared/utils/utils.js",
 			"js/shared/utils/messages.js",
@@ -57,6 +59,8 @@ class Layouts
 	);
 
 	private $includes = array();
+
+	private $menus = TOP_MENUS;
 	
 	/*
 		Set default left navigation selection and highlight if no left navigation is selected
@@ -72,6 +76,48 @@ class Layouts
 		'home' 		=> "Personal Details",
 		'projects' 	=> "Project Management"
 	);
+
+	private function set_required_permission() {
+		if(is_logged_in()) {
+			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
+			$this->layout_data['role_id'] 				= $role_id;
+			$this->layout_data['role_disp_name'] 		= $role_disp_name;
+			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
+			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
+			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
+			$this->layout_data['claimPermission'] 	= $this->CI->permissions_lib->getPermissions('claim');
+		}
+	}
+
+	private function check_menu_dependency( $menu ) {
+		//print_r($menu);
+		$dependency_ok = true;
+		if($dependency_ok && isset($menu['dependency'])) {
+			$dependency = $menu['dependency'];
+			if(isset($dependency['roles_by_name']) && isset($role_disp_name) && !in_array($role_disp_name, $dependency['roles_by_name'])) {
+				$dependency_ok = false;
+			}
+
+			if($dependency_ok && isset($dependency['permissions']) && isset($dependency['operation'])) {
+				$permissionKey 		= $dependency['permissions'];
+				$allowedPermission 	= isset($this->layout_data[$permissionKey]) ? $this->layout_data[$permissionKey] : null;
+				$operation 			= $dependency['operation'];
+				$showMenu 			= false;
+
+				if(isset($allowedPermission)) {
+					for($opIx = 0; $opIx < count($operation); $opIx++) {
+						if(in_array($operation[$opIx], $allowedPermission['operation'])) {
+							$showMenu = true;
+						}
+					}
+				}
+				if(!$showMenu) {
+					$dependency_ok =  false;
+				}
+			}
+		}
+		return $dependency_ok;
+	}
 
 	public function __construct() {
 		$this->CI =& get_instance();
@@ -123,7 +169,8 @@ class Layouts
 		$this->layout_data['params']  		= $params;
 		$this->layout_data['is_logged_in']  = is_logged_in();
 
-		if(is_logged_in()) {
+		$this->set_required_permission();
+		/*if(is_logged_in()) {
 			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
 			$this->layout_data['role_id'] 				= $role_id;
 			$this->layout_data['role_disp_name'] 		= $role_disp_name;
@@ -131,7 +178,7 @@ class Layouts
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
 			$this->layout_data['claimPermission'] 	= $this->CI->permissions_lib->getPermissions('claim');
-		}
+		}*/
 		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
 		$main_content_name = null;
@@ -153,8 +200,10 @@ class Layouts
 	public function setLayout($params) {
 		// set layout's Header
 		$this->layout_data['header'] 			= $this->CI->load->view("themes/".$this->layout_template."/header", $this->layout_data, true);
+		
 		// set layout's top menu Links
-		$this->layout_data['top_menu'] 			= $this->CI->load->view("themes/".$this->layout_template."/top_menu", $this->layout_data, true);
+		//$this->layout_data['top_menu'] 			= $this->CI->load->view("themes/".$this->layout_template."/top_menu", $this->layout_data, true);
+		
 		// set layout's side bar for left navigation
 		$this->layout_data['left_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/left_side_bar", $this->layout_data, true);
 		
@@ -208,5 +257,88 @@ class Layouts
 		}
 		$this->layout_data["includes"]			= $this->printIncludes();
 	}
+
+	public function top_menu() {
+		$menus 			= json_decode( $this->menus, true);
+		$is_logged_in	= is_logged_in() ? 1 : 0;
+		//$page 			= $is_logged_in ? DEFAULT_PAGE_IF_LOGGED_IN : DEFAULT_PAGE_IF_NOT_LOGGED_IN;
+
+		$this->set_required_permission();
+
+		$menus_to_show 	= array();
+
+		for($menuIdx = 0; $menuIdx < count($menus); $menuIdx++) {
+			$selected = "";
+
+			$menu = $menus[$menuIdx];
+			/* Dependency Check from Main Menu */
+			$dependency_pass = $this->check_menu_dependency( $menu );
+			if(!$dependency_pass)
+				continue;
+			/* Dependency Check Ends */
+			
+			/* Top Menu Generation */
+			if($menu['is_logged_in'] === 'all' || $menu['is_logged_in'] === $is_logged_in) {
+				
+				//echo "<br/>menu =>";
+				//print_r($menu);
+				$sub_menus = isset($menu['sub_menus']) ? $menu['sub_menus'] : null;
+
+				$temp_menu_to_show = array(
+					'menu_text'		=> $menu["text"],
+					'link'			=> isset($menu["link"]) ? $menu["link"] : "",
+					'sub_menus'		=> array()
+				);
+
+				if($sub_menus) {
+					for($subMenuIdx = 0, $subMenuCount = count($sub_menus); $subMenuIdx < $subMenuCount; $subMenuIdx++) {
+						$sbm1	= $sub_menus[$subMenuIdx];
+
+						/* Dependency check for sub menu */
+						$dependency_pass = $this->check_menu_dependency( $sbm1 );
+						if(!$dependency_pass)
+							continue;
+						/* Dependency Check ends */
+
+						$sub_menus2 = isset($sbm1['sub_menus']) ? $sbm1['sub_menus'] : null;
+
+						$temp_sub_menu_1 =  array(
+							"link"			=> isset($sbm1["link"]) ? $sbm1["link"] : "",
+							"menu_text" 	=> $sbm1["text"],
+							"sub_menus"		=> array()
+						);
+
+						$sub_menus2 = isset($sbm1['sub_menus']) ? $sbm1['sub_menus'] : null;
+
+						if($sub_menus2) {
+							$dropdownCSS = "dropdown-menu sub-menu-level1";
+							for($sm2ix = 0, $sm2Count = count($sub_menus2); $sm2ix < $sm2Count; $sm2ix++) {
+								$sbm2 = $sub_menus2[$sm2ix];
+								
+								/* Dependency Check from Main Menu */
+								$dependency_pass = $this->check_menu_dependency( $sbm2 );
+								if(!$dependency_pass)
+									continue;
+								/* Dependency Check Ends */
+
+								$temp_sub_menu_2 = array(
+									'link'		=> $sbm2['link'],
+									'clickfn'	=> isset($sbm2['clickfn']) ? $sbm2['clickfn'] : "",
+									'menu_text'	=> $sbm2['text']
+								);
+
+								array_push($temp_sub_menu_1["sub_menus"], $temp_sub_menu_2);
+							}
+						}
+
+						array_push($temp_menu_to_show["sub_menus"], $temp_sub_menu_1);
+					}
+				}
+				array_push($menus_to_show, $temp_menu_to_show);
+			}
+		}
+		return json_encode($menus_to_show);
+	}
+	/* Function Ends */
 }
 ?>

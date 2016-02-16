@@ -177,7 +177,7 @@
 				
 				if($user_details->referred_by == "contractor") { 
 					echo "<tr>";
-					echo "<td class='label'>Referred By Contractor Company:</td>";
+					echo "<td class='label'>Referred By Service Provider Company:</td>";
 					echo "<td>".$referredByName."</td>";
 					echo "</tr>";
 				} else if($user_details->referred_by == "adjuster") {

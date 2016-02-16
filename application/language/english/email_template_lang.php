@@ -20,7 +20,7 @@ $lang['email_error_user_add_message_text'] = "";
 $lang['email_error_user_add_message_html'] = "";
 
 /**
-	Contractor Creation Success Mail text
+	Service Provider Creation Success Mail text
 */
 $lang['email_success_contractor_add_subject'] = "Congratulations on registering for the Fixit Network";
 $lang['email_success_contractor_add_message_text'] = "";
@@ -31,7 +31,7 @@ $lang['email_success_contractor_add_message_html'] = "Dear #first_name# #last_na
 	<p>#activation_link#</p>";
 
 /**
-	Contractor Creation Error Mail text
+	Service Provider Creation Error Mail text
 */
 $lang['email_error_contractor_add_subject'] = "Error : Registration to the Fixit Network";
 $lang['email_error_contractor_add_message_text'] = "";

@@ -15,7 +15,7 @@ var _lang = {
                 "passwordHint"                     : "",
                 "belongsTo"                     : "Select an option from belongs to dropdown",
                 "contractorZipCode"             : "", /* Text Box : Search contractor based on zip code */
-                "contractorList"                : "", /* Radio button : To select at least on Contractor from the search result */
+                "contractorList"                : "", /* Radio button : To select at least on Service Provider from the search result */
                 "partnerCompanyName"             : "", /* Text Box : Search partner company based on zip code */
                 "adjusterList"                    : "", /* Radio button : To select at least on Adjuster from the search result */
                 "userStatus"                     : "Select an option from user status dropdown",
@@ -36,9 +36,9 @@ var _lang = {
                 "prefContactContactPhoneNumber" : "", /* check box : Preferred contact Phone Number */
                 "prefContactMobileNumber"         : "", /* check box : Preferred contact Mobile Number */
                 "prefContactAltNumber"             : "", /* check box : Preferred contact Alternate Number */
-                "referredBy"                     : "", /* Drop Down : To select referred by Cutomer / Contractor / Adjuster */
+                "referredBy"                     : "", /* Drop Down : To select referred by Cutomer / Service Provider / Adjuster */
                 "referredBycontractorZipCode"     : "", /* Text Box : Search contractor based on zip code for Referred By */
-                "referredBycontractorList"         : "", /* Radio button : To select at least on Contractor from the search result */
+                "referredBycontractorList"         : "", /* Radio button : To select at least on Service Provider from the search result */
                 "referredBypartnerCompanyName"     : "", /* Text Box : Search partner company based on Company name for Referred By */
                 "referredByadjusterList"         : "" /* Radio button : To select at least on Adjuster from the search result */
             },
@@ -110,8 +110,8 @@ var _lang = {
                 "state"                        : "Select an option from state dropdown",
                 "zipCode"                    : "Zip Code need to be a 5 digit number",
                 "emailId"                     : "Please provide valid email for contractor",
-                "contactPhoneNumber"         : "Contractor phone number should be number",
-                "mobileNumber"                 : "Contractor mobile number should be number",
+                "contactPhoneNumber"         : "Service Provider phone number should be number",
+                "mobileNumber"                 : "Service Provider mobile number should be number",
                 "prefContactEmailId"         : "",
                 "prefContactofficeNumber"     : "",
                 "prefContactMobileNumber"     : "",

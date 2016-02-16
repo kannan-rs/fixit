@@ -136,7 +136,7 @@
 		<div>
 		<?php echo $customerFile; ?>
 		</div>
-		<!-- Project Contractor Details -->
+		<!-- Project Service Provider Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
 			<?php if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) { ?>

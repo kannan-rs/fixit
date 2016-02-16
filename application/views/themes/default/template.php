@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="<?php echo is_logged_in() ? 'fixit_app' : 'fixit_website'; ?>">
+<html ng-app="fixit_app">
 <head>
 <!-- Metadatas -->
 <title>The Fixit Network: A marketplace for you and your resources</title>
@@ -17,17 +17,20 @@ session = <?php print_r(json_encode($initVar)); ?>;
 	//$main_content_css = $main_content_css == "column-480" && $this->session->userdata("page") != "signup" ? "column-480" : "column-700";
 ?>
 </head>
-<body ng-controller="<?php echo is_logged_in() ? 'app_ctrl' : 'website_ctrl'; ?>">
+<body>
 <div class="wrapper">
 
 	<!-- Header -->
-	<header class="header" ng-controller="header">
+	<header class="header">
 		<?php echo $header; ?>
 	</header>
 	<!-- Top Navigation Menu -->
-	<?php echo $top_menu; ?>
+	<div class="nav_top" ng-controller="top_menu">
+		<div ng-include="top_menu_view"></div>
+	</div>
 	<!-- Main Content Section for all application actions -->
-	<section ng-controller="<?php echo $this->session->userdata("page"); ?>">
+	<!-- <section ng-controller="<?php echo $this->session->userdata("page"); ?>"> -->
+	<section>
 		<?php
 		if(is_logged_in()) {
 			if(isset($left_side_bar) && $left_side_bar != "") {

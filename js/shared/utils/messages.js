@@ -15,7 +15,7 @@ var _lang = {
                 "passwordHint"                     : "",
                 "belongsTo":"Please select an option from the 'belongs to' dropdown",
                 "contractorZipCode":"", /* Text Box: To search for a contractor based on your project's zip code */
-                "contractorList":"", /* Radio button: To select at least one Contractor from the search result */
+                "contractorList":"", /* Radio button: To select at least one Service Provider from the search result */
                 "partnerCompanyName":"", /* Text Box: To search for a partner company based on zip code */
                 "adjusterList":"", /* Radio button: To select an Adjuster from the search result */
                 "userStatus":"To select an option from the user status dropdown",
@@ -36,9 +36,9 @@ var _lang = {
                 "prefContactContactPhoneNumber":"",/* check box: Please select the preferred contact phone number */ 
                 "prefContactMobileNumber":"",/* check box: Please select the preferred contact mobile number */ 
                 "prefContactAltNumber":"",/* check box: Please select the preferred contact alternate number */ 
-                "referredBy":"",/* Drop Down: Please select who you were referred by Customer / Contractor / Adjuster */ 
+                "referredBy":"",/* Drop Down: Please select who you were referred by Customer / Service Provider / Adjuster */ 
                 "referredBycontractorZipCode":"",/* Text Box: To search a contractor based on zip code for Referred By */ 
-                "referredBycontractorList"         : "", /* Radio button : To select at least on Contractor from the search result */
+                "referredBycontractorList"         : "", /* Radio button : To select at least on Service Provider from the search result */
                 "referredBypartnerCompanyName"     : "", /* Text Box : Search partner company based on Company name for Referred By */
                 "referredByadjusterList"         : "" /* Radio button : To select at least on Adjuster from the search result */
             },
@@ -110,8 +110,8 @@ var _lang = {
                 "state"                        : "Select an option from state dropdown",
                 "zipCode":"Zip Code needs to be a 5 digit number",
                 "emailId":"Please provide a valid email for contractor",
-                "contactPhoneNumber":"Contractor number needs to be in 'xxx-xxx-xxxx' format",
-                "mobileNumber":"Contractor mobile number needs to be in 'xxx-xxx-xxxx' format",
+                "contactPhoneNumber":"Service Provider number needs to be in 'xxx-xxx-xxxx' format",
+                "mobileNumber":"Service Provider mobile number needs to be in 'xxx-xxx-xxxx' format",
                 "prefContactEmailId"         : "",
                 "prefContactofficeNumber"     : "",
                 "prefContactMobileNumber"     : "",

@@ -149,7 +149,7 @@ if(!$openAs || $openAs != "popup") {
 					<select name="belongsTo" id="belongsTo" <?php if($role_disp_name == "admin") { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
 						<option value=""><?php echo $this->lang->line_arr('user->input_form->belongsTo_option_0'); ?></option>
 						<option value="customer">Customer</option>
-						<option value="contractor">Contractor</option>
+						<option value="contractor">Service Provider</option>
 						<option value="adjuster">Adjuster</option>
 					</select>
 					<?php
@@ -157,7 +157,7 @@ if(!$openAs || $openAs != "popup") {
 					
 					if(!empty($belongsTo)) {
 						if( $belongsTo == "contractor") {
-							echo "<span id=\"selectedContractorDb\">Contractor:".$belongsToName."</span>";
+							echo "<span id=\"selectedContractorDb\">Service Provider:".$belongsToName."</span>";
 						} else if ($belongsTo == "adjuster") {
 							echo "<span id=\"selectedAdjusterDB\">Adjuster:".$belongsToName."</span>";
 						}
@@ -166,7 +166,7 @@ if(!$openAs || $openAs != "popup") {
 				</td>
 			</tr> -->
 			<?php if(isset($role_disp_name) && $role_disp_name == "admin") { ?>
-			<!-- Contractor Search and search results -->
+			<!-- Service Provider Search and search results -->
 			<tr class="contractor-search">
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
 				<td>
@@ -307,13 +307,13 @@ if(!$openAs || $openAs != "popup") {
 						<select name="referredBy" id="referredBy" onchange="_users.showreferredByOption()">
 							<option value=""><?php echo $this->lang->line_arr('user->input_form->referredBy_option_0'); ?></option>
 							<option value="customer">Customer</option>
-							<option value="contractor">Contractor</option>
+							<option value="contractor">Service Provider</option>
 							<option value="adjuster">Adjuster</option>
 						</select>
 						<?php
 						if(!empty($referredBy)) {
 							if( $referredBy == "contractor") {
-								echo "<span id=\"referredToselectedContractorDb\">Contractor:".$referredByName."</span>";
+								echo "<span id=\"referredToselectedContractorDb\">Service Provider:".$referredByName."</span>";
 							} else if ($referredBy == "adjuster") {
 								echo "<span id=\"referredToselectedAdjusterDB\">Adjuster:".$referredByName."</span>";
 							}
@@ -322,7 +322,7 @@ if(!$openAs || $openAs != "popup") {
 				</td>
 			</tr>
 
-			<!-- Contractor Search and search results -->
+			<!-- Service Provider Search and search results -->
 			<tr class="referredBycontractor-search">
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode'); ?></td>
 				<td>

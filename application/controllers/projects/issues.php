@@ -106,7 +106,7 @@ class Issues extends CI_Controller {
 
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -138,7 +138,7 @@ class Issues extends CI_Controller {
 			} else if($issues[$i]->assigned_to_user_type == "contractor" ) {
 				if(!empty($issues[$i]->assigned_to_user_id)) {
 					$contractorIdArr = explode(",", $issues[$i]->assigned_to_user_id);
-					$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+					$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 					$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
 				}
 			} else if($issues[$i]->assigned_to_user_type == "adjuster") {
@@ -180,12 +180,12 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
 		
-		$assignedToContractorId	= $this->input->post("assignedToContractorId");
+		$assigned_to_service_provider_id	= $this->input->post("assignedToContractorId");
 		$assignedToAdjusterId 	= $this->input->post("assignedToAdjusterId");
 		$assignedToCustomerId 	= $this->input->post("assignedToCustomerId");
 
@@ -194,7 +194,7 @@ class Issues extends CI_Controller {
 
 		$assignedToUserType = $this->input->post("assignedToUserType");
 
-		$assignedToUserId = ($assignedToUserType == "customer") ? $assignedToCustomerId : ($assignedToUserType == "contractor" ? $assignedToContractorId : ($assignedToUserType == "adjuster" ? $assignedToAdjusterId : ""));
+		$assignedToUserId = ($assignedToUserType == "customer") ? $assignedToCustomerId : ($assignedToUserType == "contractor" ? $assigned_to_service_provider_id : ($assignedToUserType == "adjuster" ? $assignedToAdjusterId : ""));
 		
 		$data = array(
 			'issue_name' 			=> $this->input->post("issueName"),
@@ -245,10 +245,10 @@ class Issues extends CI_Controller {
 		$contractorsData 	= null;
 		$partnersData 		= null;
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 
@@ -298,7 +298,7 @@ class Issues extends CI_Controller {
 
 		$this->load->model('projects/model_issues');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 
 
@@ -332,7 +332,7 @@ class Issues extends CI_Controller {
 			} else if($issues[$i]->assigned_to_user_type == "contractor" ) {
 				if(!empty($issues[$i]->assigned_to_user_id)) {
 					$contractorIdArr = explode(",", $issues[$i]->assigned_to_user_id);
-					$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+					$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 					$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
 				}
 			} else if($issues[$i]->assigned_to_user_type == "adjuster") {
@@ -372,19 +372,19 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
 
 		$issueId 				= $this->input->post('issueId');
-		$assignedToContractorId	= $this->input->post("assignedToContractorId");
+		$assigned_to_service_provider_id	= $this->input->post("assignedToContractorId");
 		$assignedToAdjusterId 	= $this->input->post("assignedToAdjusterId");
 		$assignedToCustomerId 	= $this->input->post("assignedToCustomerId");
 
 		$assignedToUserType = $this->input->post("assignedToUserType");
 
-		$assignedToUserId = ($assignedToUserType == "customer") ? $assignedToCustomerId : ($assignedToUserType == "contractor" ? $assignedToContractorId : ($assignedToUserType == "adjuster" ? $assignedToAdjusterId : ""));
+		$assignedToUserId = ($assignedToUserType == "customer") ? $assignedToCustomerId : ($assignedToUserType == "contractor" ? $assigned_to_service_provider_id : ($assignedToUserType == "adjuster" ? $assignedToAdjusterId : ""));
 
 		$data = array(
 			'issue_name' 				=> $this->input->post('issueName'),
@@ -442,10 +442,10 @@ class Issues extends CI_Controller {
 			$contractorsData 	= null;
 			$partnersData 		= null;
 
-			//Contractor Details
+			//Service Provider Details
 			if($contractorId != "") {
 				$contractorIdArr = explode(",", $contractorId);
-				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 				 $contractorsData = $contractorsResponse["contractors"];
 			}
 
@@ -493,7 +493,7 @@ class Issues extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_issues');
 		$this->load->model('mail/model_mail');
@@ -534,10 +534,10 @@ class Issues extends CI_Controller {
 		$contractorsData 	= null;
 		$partnersData 		= null;
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 

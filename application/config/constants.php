@@ -89,4 +89,320 @@ define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
 define('ROLE_SERVICE_PROVIDER_USER', 			'service provider user');
 
 /* End of file constants.php */
+
+/*
+| Menus
+*/
+define('TOP_MENUS', '[
+	{
+		"text" 			: "Home",
+		"link" 			: "/main/index",
+		"is_logged_in" 	: 0
+	},
+	{
+		"text" 			: "Home",
+		"link" 			: "/main/index",
+		"is_logged_in" 	: 1,
+		"sub_menus" 		: [
+			{
+				"text" 			: "View My Details", 
+				"link"			: "/main/home/view_my_details", 
+				"key" 			: "view_my_details",
+				"is_logged_in" 	: 1
+			},
+			{
+				"text" 			: "Change Password", 
+				"link" 			: "/main/home/change_pass_form", 
+				"key" 			: "change_pass_form",
+				"is_logged_in" 	: 1
+			}
+		]
+	},
+	{
+		"text" 			: "Overview",
+		"link" 			: "/main/overview",
+		"is_logged_in" 	: 0
+	},
+	{
+		"text" 			: "FAQ",
+		"link" 			: "/main/faq",
+		"is_logged_in" 	: 0
+	},
+	{
+		"text" 			: "About Us",
+		"link" 			: "/main/about_us",
+		"is_logged_in" 	: 0
+	},
+	{
+		"text" 			: "Contact Us",
+		"link" 			: "/main/contact_us",
+		"is_logged_in" 	: 0
+	},
+	{
+		"text" 			: "Security",
+		"link" 			: "/main/security",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"roles_by_name"	: ["admin"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Users", 
+				"link"			: "/main/security/users", 
+				"key"			: "users",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Users", 
+						"link"			: "/main/security/users", 
+						"key"			: "users",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create User", 
+						"link" 			: "/main/security/users/create_user",
+						"key"			: "users",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Roles", 
+				"link"			: "/main/security/roles", 
+				"key"			: "roles",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Roles", 
+						"link"			: "/main/security/roles", 
+						"key"			: "roles",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create Role", 
+						"link" 			: "/main/security/roles/create_role",
+						"key"			: "roles",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Functions", 
+				"link"			: "/main/security/functions", 
+				"key"			: "functions",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Functions", 
+						"link"			: "/main/security/functions", 
+						"key"			: "functions",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create Function", 
+						"link"			: "/main/security/functions/create_function", 
+						"key"			: "functions",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Operations", 
+				"link"			: "/main/security/operations", 
+				"key"			: "operations",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Operations", 
+						"link"			: "/main/security/operations", 
+						"key"			: "operations",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create Operation", 
+						"link"			: "/main/security/operations/create_operation", 
+						"key"			: "operations",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Data Filters", 
+				"link"			: "/main/security/data_filters", 
+				"key"			: "data_filters",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				},
+				"sub_menus"	: [
+					{
+						"text"			: "View Data Filters", 
+						"link"			: "/main/security/data_filters", 
+						"key"			: "data_filters",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					},
+					{
+						"text"			: "Create Data Filter", 
+						"link"			: "/main/security/data_filters/create_data_filter", 
+						"key"			: "data_filters",
+						"dependency"	: {
+							"roles_by_name"	: ["admin"]
+						}
+					}
+				]
+			},
+			{
+				"text"			: "Permissions", 
+				"link"			: "/main/security/permissions", 
+				"key"			: "permissions",
+				"dependency"	: {
+					"roles_by_name"	: ["admin"]
+				}
+			}
+		]
+	},
+	{
+		"text" 			: "Projects",
+		"link" 			: "/main/projects",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "projectPermission",
+			"operation"		: ["create"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "View Projects", 
+				"link"			: "/main/projects/projects", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "projectPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Project", 
+				"link"			: "/main/projects/create_project", 
+				"key" 			: "create_project",
+				"dependency"	: {
+					"permissions"	: "projectPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	},
+	{
+		"text" 			: "Service Providers",
+		"link" 			: "/main/service_providers",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "contractorPermission",
+			"operation"		: ["create"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Service Providers List", 
+				"link"			: "/main/service_providers", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "contractorPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Service Provider", 
+				"link"			: "/main/service_providers/create_contractor", 
+				"key" 			: "create_project",
+				"dependency"	: {
+					"permissions"	: "contractorPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	},
+	{
+		"text" 			: "Adjusters",
+		"link" 			: "/main/adjusters",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "adjusterPermission",
+			"operation"		: ["view"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Adjusters List", 
+				"link"			: "/main/adjusters", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "adjusterPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Adjuster", 
+				"link"			: "/main/adjusters/create_partner", 
+				"key" 			: "create_project",
+				"dependency"	: {
+					"permissions"	: "adjusterPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	},
+	{
+		"text" 			: "Claims",
+		"link" 			: "/main/claims",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "claimPermission",
+			"operation"		: ["view"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Claims List", 
+				"link"			: "/main/claims", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "claimPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Claim", 
+				"link"			: "/main/claims/create_claim", 
+				"key" 			: "create_claim",
+				"dependency"	: {
+					"permissions"	: "claimPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	}
+]');
+define("DEFAULT_PAGE_IF_NOT_LOGGED_IN", "index");
+define("DEFAULT_PAGE_IF_LOGGED_IN", "projects");
 /* Location: ./application/config/constants.php */

@@ -8,15 +8,15 @@ S2: SP Admin expites, service provided admin can select multiple trade and multi
 s3: SP Admin details,
 
 
-Align the header with the content (Left align)
-
 #18
 
-1. Change the contractor to service provider everywhere.
-2. #0000019
+1. #0000019
+2. bug #10
 3. Create list of user based on role and share the details with all. Will test functionality based on user role.
 
 Done List
 ---------
 1. Deployment and some session issue corrected : 2hrs
-2. 
+2. Change the contractor to service provider : 3hrs
+3. Created email ID's in live for further testing : 1hr
+4. 

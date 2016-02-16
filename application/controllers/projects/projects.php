@@ -130,7 +130,7 @@ class Projects extends CI_Controller {
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 
 		$customerId = "";
@@ -187,7 +187,7 @@ class Projects extends CI_Controller {
 		if(!empty($contractorId)) {
 			$assigneeDetails["status"] = "success";
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
 		}
 
@@ -224,7 +224,7 @@ class Projects extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
 		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
@@ -263,7 +263,7 @@ class Projects extends CI_Controller {
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -316,10 +316,10 @@ class Projects extends CI_Controller {
 		$contractorsData 	= null;
 		$partnersData 		= null;
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 
@@ -414,7 +414,7 @@ class Projects extends CI_Controller {
 
 		$addressFile = $this->load->view("forms/address", $addressParams, true);
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
 		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
@@ -455,7 +455,7 @@ class Projects extends CI_Controller {
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -507,10 +507,10 @@ class Projects extends CI_Controller {
 		$contractorsData 	= null;
 		$partnersData 		= null;
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 
@@ -563,7 +563,7 @@ class Projects extends CI_Controller {
 
 		$this->load->model('projects/model_projects');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -588,10 +588,10 @@ class Projects extends CI_Controller {
 
 		$response = $this->model_projects->deleteRecord($projectId);
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 
@@ -691,7 +691,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('projects/model_issues');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_remainingbudget');
@@ -734,7 +734,7 @@ class Projects extends CI_Controller {
 		print_r($budgetPermission);
 		echo "<br/>Customer Permissions ->";
 		print_r($customerPermission);
-		echo "<br/>Contractor / Service provider Permissions ->";
+		echo "<br/>Service provider Permissions ->";
 		print_r($contractorPermission);
 		echo "<br/>Adjuster Permissions ->";
 		print_r($adjusterPermission);
@@ -778,18 +778,18 @@ class Projects extends CI_Controller {
 		$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
 		$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
 
-		// Contractor Name
+		//Service Provider Name
 		$project->contractorName = "-- Not Provided --";
 
 		if(!in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			$no_permission_options = array(
-				'page_disp_string' => "Assigned Contractor Details"
+				'page_disp_string' => "Assigned Service Provider Details"
 			);
 			$contractorFile =  $this->load->view("pages/no_permission", $no_permission_options, true);
 		} else {
 			if($project->contractor_id != "") {
 				$contractorIdArr = explode(",", $project->contractor_id);
-				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 				 $contractors = $contractorsResponse["contractors"];
 			}
 			$contractorParams = array(
@@ -961,7 +961,7 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_notes');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('projects/model_issues');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('projects/model_remainingbudget');
@@ -1005,11 +1005,11 @@ class Projects extends CI_Controller {
 		$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
 		$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
 
-		// Contractor Name
+		//Service Provider Name
 		$project->contractorName = "-- Not Provided --";
 		if($project->contractor_id != "") {
 			$contractorIdArr = explode(",", $project->contractor_id);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractors = $contractorsResponse["contractors"];
 		}
 
@@ -1056,11 +1056,11 @@ class Projects extends CI_Controller {
             ["", "End Date", $project->end_date]
         );
         
-        /* Contractor Details */
-        $csvArray[] = array("Contractors Assigned To The Project", "");
-        $csvArray[] = array("", "Contractor Name", "Contractor Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
+        // Service Provider Details */
+        $csvArray[] = array("Service Providers Assigned To The Project", "");
+        $csvArray[] = array("", "Service Provider Name", "Service Provider Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
         
-        /* Contractor List */
+        // Service Provider List */
         for($i = 0; $i < count($contractors); $i++) {
             $csvArray[] = array("", $contractors[$i]->name, $contractors[$i]->company, $contractors[$i]->prefer, $contractors[$i]->office_email, $contractors[$i]->office_ph, $contractors[$i]->mobile_ph, $contractors[$i]->address1, $contractors[$i]->address2, $contractors[$i]->city, $contractors[$i]->state, $contractors[$i]->country, $contractors[$i]->pin_code);
         }
@@ -1081,7 +1081,7 @@ class Projects extends CI_Controller {
 		$tasksResponse 	= $this->model_tasks->getTasksList($projectId);
 
 		$contractorIds 			= explode(",", $project->contractor_id);
-		$contractorsResponse 	= $this->model_contractors->getContractorsList($contractorIds);
+		$contractorsResponse 	= $this->model_service_providers->get_service_provider_list($contractorIds);
 		$contractorDB 			= $contractorsResponse["contractors"];
 
 		for($i = 0; $i < count($contractorDB); $i++) {

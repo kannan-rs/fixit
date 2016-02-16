@@ -64,11 +64,11 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$contractor_id = $this->input->post("contractorId");
 
 		// Get All Trades
-		$main_trades_response = $this->model_contractors->getMainTradeList("all");
+		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -82,7 +82,7 @@ class Trades extends CI_Controller {
 			"trade_for"			=> "sub",
 			"contractor_id"		=> $contractor_id
 		);
-		$sub_trades_response = $this->model_contractors->getSubTradeList($options);
+		$sub_trades_response = $this->model_service_providers->getSubTradeList($options);
 
 		$sub_trades_list = [];
 		if($sub_trades_response["status"] == "success") {
@@ -94,7 +94,7 @@ class Trades extends CI_Controller {
 			"contractor_id" => $contractor_id
 		);
 
-		$tradesList = $this->model_contractors->getTradesList( $params );
+		$tradesList = $this->model_service_providers->getTradesList( $params );
 
 		if($tradesList["status"] == "success") {
 			for($i = 0, $count = count($tradesList["tradesList"]); $i < $count; $i++) {
@@ -116,7 +116,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TRADE);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_CREATE, $permission['operation'])) {
@@ -127,11 +127,11 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$contractor_id = $this->input->post("contractorId");
 
 		// Get All Trades
-		$main_trades_response = $this->model_contractors->getMainTradeList("all");
+		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -143,7 +143,7 @@ class Trades extends CI_Controller {
 			"trade_for"		=> "main"
 		);
 
-		$available_main_trades_response = $this->model_contractors->getAvailableTrades( $options );
+		$available_main_trades_response = $this->model_service_providers->getAvailableTrades( $options );
 
 		$available_main_trades = null;
 		if($available_main_trades_response["status"] == "success") {
@@ -176,7 +176,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id = $this->input->post("contractor_id");
 		$main_trade_id = $this->input->post("main_trade_id");
@@ -191,7 +191,7 @@ class Trades extends CI_Controller {
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_contractors->insertTrade($data);
+		$response = $this->model_service_providers->insertTrade($data);
 
 		if($response["status"] == "success") {
 			$sub_trades_id_arr = explode(",", $sub_trades_id);
@@ -206,7 +206,7 @@ class Trades extends CI_Controller {
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
-					$response = $this->model_contractors->insertTrade($data);		
+					$response = $this->model_service_providers->insertTrade($data);		
 				} else {
 					break;
 				}
@@ -222,7 +222,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TRADE);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_UPDATE, $permission['operation'])) {
@@ -237,10 +237,10 @@ class Trades extends CI_Controller {
 		$contractor_id 	= $this->input->post("contractorId");
 		$displayString 	= $this->input->post("displayString");
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		// Get All Trades
-		$main_trades_response = $this->model_contractors->getMainTradeList("all");
+		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -252,7 +252,7 @@ class Trades extends CI_Controller {
 			"trade_for"		=> "main"
 		);
 
-		$available_main_trades_response = $this->model_contractors->getAvailableTrades( $options );
+		$available_main_trades_response = $this->model_service_providers->getAvailableTrades( $options );
 
 		$available_main_trades = null;
 		if($available_main_trades_response["status"] == "success") {
@@ -287,7 +287,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$response = array("status" => "success");
 
@@ -311,7 +311,7 @@ class Trades extends CI_Controller {
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
-					$response = $this->model_contractors->insertTrade($data);		
+					$response = $this->model_service_providers->insertTrade($data);		
 				} else {
 					break;
 				}
@@ -327,7 +327,7 @@ class Trades extends CI_Controller {
 						'sub_trade_id' 		=> $to_delete_sub_trade_id_arr[$i],
 						'trade_id'			=> $main_trade_id
 					);
-					$response = $this->model_contractors->deleteTradeRecordByParent($options);		
+					$response = $this->model_service_providers->deleteTradeRecordByParent($options);		
 				} else {
 					break;
 				}
@@ -351,7 +351,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id = $this->input->post("contractor_id");
 		$trade_id 		= $this->input->post("trade_id");
@@ -361,10 +361,10 @@ class Trades extends CI_Controller {
 			"trade_id"		=> $trade_id
 		);
 
-		$response = $this->model_contractors->deleteTradeRecord($params);
+		$response = $this->model_service_providers->deleteTradeRecord($params);
 
 		if($response["status"] == "success") {
-			$response_dependent = $this->model_contractors->deleteTradeRecordByParent( $params );
+			$response_dependent = $this->model_service_providers->deleteTradeRecordByParent( $params );
 		}
 
 		if(isset($response_dependent)) {
@@ -381,7 +381,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TRADE);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_CREATE, $permission['operation'])) {
@@ -392,7 +392,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 		= $this->input->post("contractor_id");
 		$main_trade_id		= $this->input->post("main_trade_id");
@@ -406,7 +406,7 @@ class Trades extends CI_Controller {
 		);
 
 
-		$sub_trades_response = $this->model_contractors->getSubTradeList($options);
+		$sub_trades_response = $this->model_service_providers->getSubTradeList($options);
 
 		$sub_trades_list = [];
 
@@ -414,7 +414,7 @@ class Trades extends CI_Controller {
 			$sub_trades_list = $sub_trades_response["subTradesList"];
 		}
 
-		$available_sub_trades_response = $this->model_contractors->getAvailableTrades( $options );
+		$available_sub_trades_response = $this->model_service_providers->getAvailableTrades( $options );
 
 		$available_sub_trades = null;
 		if($available_sub_trades_response["status"] == "success") {
@@ -446,7 +446,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 		= $this->input->post("contractor_id");
 		$sub_trade_name 	= $this->input->post("sub_trade_name");
@@ -462,7 +462,7 @@ class Trades extends CI_Controller {
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_contractors->insertTrade($data);
+		$response = $this->model_service_providers->insertTrade($data);
 
 		print_r(json_encode($response));
 	}
@@ -473,7 +473,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TRADE);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_UPDATE, $permission['operation'])) {
@@ -484,7 +484,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$params = array(
 			"sub_trade_id"		=> $this->input->post("sub_trade_id"),
@@ -499,7 +499,7 @@ class Trades extends CI_Controller {
 			"contractor_id"		=> $this->input->post("contractor_id")
 		);
 
-		$response = $this->model_contractors->getTradesList( $getParams );
+		$response = $this->model_service_providers->getTradesList( $getParams );
 
 		if($response["status"] == "success") {
 			$params['tradesList'] = $response["tradesList"];
@@ -521,7 +521,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$sub_trade_name	= $this->input->post("sub_trade_name");
 		$sub_trade_id	= $this->input->post("sub_trade_id");
@@ -543,7 +543,7 @@ class Trades extends CI_Controller {
 			"main_trade_id"	=> $main_trade_id
 		);
 
-		$response = $this->model_contractors->updateTrade($params);
+		$response = $this->model_service_providers->updateTrade($params);
 
 		print_r(json_encode($response));
 	}
@@ -561,7 +561,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$sub_trade_id	= $this->input->post("sub_trade_id");
 		$main_trade_id	= $this->input->post("main_trade_id");
@@ -573,7 +573,7 @@ class Trades extends CI_Controller {
 			"trade_parent" 	=> $main_trade_id
 		);
 
-		$response = $this->model_contractors->deleteTradeRecord($params);
+		$response = $this->model_service_providers->deleteTradeRecord($params);
 		print_r(json_encode($response));
 	}
 }

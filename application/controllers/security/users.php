@@ -269,7 +269,7 @@ class Users extends CI_controller {
 							'referredBy' 			=> $referredBy
 						);
 						if($referredBy == "contractor") {
-							$userReferredByParamsFormMail['referredByDetails'] = $this->model_contractors->getContractorsList($referredById)["contractors"];
+							$userReferredByParamsFormMail['referredByDetails'] = $this->model_service_providers->get_service_provider_list($referredById)["contractors"];
 						} else if( $referredBy == "adjuster") {
 							$userReferredByParamsFormMail['referredByDetails'] = $this->model_partners->getPartnersList($referredById)["parrtners"];
 						}
@@ -338,7 +338,7 @@ class Users extends CI_controller {
 
 		$belongsToName = "";
 		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
-			$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->belongs_to_id);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->belongs_to_id);
 			$contractors = $contractorsResponse["contractors"];
 			$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
@@ -349,7 +349,7 @@ class Users extends CI_controller {
 
 		$referredByName = "";
 		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
-			$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->referred_by_id);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->referred_by_id);
 			$contractors = $contractorsResponse["contractors"];
 			$referredByName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
@@ -566,7 +566,7 @@ class Users extends CI_controller {
 		$belongsToName = "";
 		if(!empty($user_details[0]->belongs_to_id) && !empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to != "customer") {
 			if($user_details[0]->belongs_to == "contractor") {
-				$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->belongs_to_id);
+				$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->belongs_to_id);
 				$contractors = $contractorsResponse["contractors"];
 				$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 			} else if($user_details[0]->belongs_to == "adjuster") {
@@ -580,7 +580,7 @@ class Users extends CI_controller {
 		$referredByName = "";
 		if(!empty($user_details[0]->referred_by_id) && !empty($user_details[0]->referred_by) && $user_details[0]->referred_by != "customer") {
 			if($user_details[0]->referred_by == "contractor") {
-				$contractorsResponse = $this->model_contractors->getContractorsList($user_details[0]->referred_by_id);
+				$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->referred_by_id);
 				$contractors = $contractorsResponse["contractors"];
 				$referredByName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
 			} else if($user_details[0]->referred_by == "adjuster") {

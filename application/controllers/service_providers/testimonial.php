@@ -13,7 +13,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TESTIMONIAL);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $permission['operation'])) {
@@ -24,7 +24,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 			= $this->input->post("contractor_id");
 
@@ -32,7 +32,7 @@ class Testimonial extends CI_Controller {
 			"contractor_id"		=> $contractor_id
 		);
 
-		$response = $this->model_contractors->getTestimonial($params);
+		$response = $this->model_service_providers->getTestimonial($params);
 
 		if($response["status"] == "success") {
 			$params["testimonialList"] = $response["testimonialList"];
@@ -47,7 +47,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TESTIMONIAL);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_CREATE, $permission['operation'])) {
@@ -58,7 +58,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 	= $this->input->post("contractor_id");
 
@@ -82,7 +82,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 				= $this->input->post("contractor_id");
 		$testimonial_summary		= $this->input->post("testimonial_summary");
@@ -105,7 +105,7 @@ class Testimonial extends CI_Controller {
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_contractors->insertTestimonial($data);
+		$response = $this->model_service_providers->insertTestimonial($data);
 
 		print_r(json_encode($response));
 	}
@@ -116,7 +116,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		//Contractor > Permissions for logged in User by role_id
+		//Service Provider > Permissions for logged in User by role_id
 		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_TESTIMONIAL);
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_UPDATE, $permission['operation'])) {
@@ -127,7 +127,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$contractor_id 				= $this->input->post("contractor_id");
 		$testimonial_id 			= $this->input->post("testimonial_id");
@@ -137,7 +137,7 @@ class Testimonial extends CI_Controller {
 			"testimonial_id"	=> $testimonial_id
 		);
 
-		$response = $this->model_contractors->getTestimonial($params);
+		$response = $this->model_service_providers->getTestimonial($params);
 
 		if($response["status"] == "success") {
 			$params["testimonialList"] = $response["testimonialList"];
@@ -159,7 +159,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$testimonial_id 			= $this->input->post("testimonial_id");
 		$contractor_id 				= $this->input->post("contractor_id");
@@ -185,7 +185,7 @@ class Testimonial extends CI_Controller {
 			'contractor_id'		=> $contractor_id
 		);
 
-		$response = $this->model_contractors->updateTestimonial($params);
+		$response = $this->model_service_providers->updateTestimonial($params);
 
 		print_r(json_encode($response));
 	}
@@ -203,7 +203,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 
 		$testimonial_id 		= $this->input->post("testimonial_id");
 		$contractor_id 			= $this->input->post("contractor_id");
@@ -213,7 +213,7 @@ class Testimonial extends CI_Controller {
 			"testimonial_id"		=> $testimonial_id
 		);
 
-		$response = $this->model_contractors->deleteTestimonial($params);
+		$response = $this->model_service_providers->deleteTestimonial($params);
 		print_r(json_encode($response));
 	}
 }

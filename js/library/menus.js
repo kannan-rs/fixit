@@ -3,7 +3,7 @@ jQuery(document).ready(function($) {
 "use strict";
 
 		//add some elements with animate effect
-		$(".box").hover(
+		/*$(".box").hover(
 			function () {
 			$(this).find('span.badge').addClass("animated fadeInLeft");
 			$(this).find('.ico').addClass("animated fadeIn");
@@ -12,9 +12,9 @@ jQuery(document).ready(function($) {
 			$(this).find('span.badge').removeClass("animated fadeInLeft");
 			$(this).find('.ico').removeClass("animated fadeIn");
 			}
-		);
+		);*/
 		
-	(function() {
+	/*(function() {
 
 		var $menu = $('.navigation nav'),
 			optionsList = '<option value="" selected>Go to..</option>';
@@ -39,19 +39,30 @@ jQuery(document).ready(function($) {
 		.after('<select class="selectmenu">' + optionsList + '</select>');
 		
 		$('select.selectmenu').on('change', function() {
+			console.log(3);
 			window.location = $(this).val();
 		});
 		
-	})();
+	})();*/
 
 		//Navi hover
-		$('ul.nav li.dropdown').hover(function () {
+		/*$('ul.nav li.dropdown').hover(function () {
 			$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn();
 			//$(this).find('.sub-menu-level1').css("top", $(this).position().top+"px");
 			//css("top", $(this).position().top)
 		}, function () {
 			$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut();
 			//$(this).find('.sub-menu-level1').css("top", $(this).position().top);
+		});*/
+
+		/*$('ul.nav li.dropdown').on("mouseover", function () {
+			$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn();
+			//$(this).find('.sub-menu-level1').css("top", $(this).position().top+"px");
+			//css("top", $(this).position().top)
 		});
+		$('ul.nav li.dropdown').on("mouseout", function () {
+			$(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut();
+			//$(this).find('.sub-menu-level1').css("top", $(this).position().top);
+		});*/
 		
 });

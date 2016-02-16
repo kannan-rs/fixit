@@ -59,7 +59,7 @@ if(!empty($headerText)) {
 					<select name="assignedToUserType" id="assignedToUserType" onchange="_issues.showAssignedToOptions()">
 						<option value=""><?php echo $this->lang->line_arr('issues->input_form->assignedToUserType_option_0'); ?></option>
 						<option value="customer">Customer</option>
-						<option value="contractor">Contractor</option>
+						<option value="contractor">Service Provider</option>
 						<option value="adjuster">Adjuster</option>
 					</select>
 				</td>
@@ -73,7 +73,7 @@ if(!empty($headerText)) {
 				</td>
 			</tr>
 
-			<!-- Project Contractor Search and Adding -->
+			<!-- Project Service Provider Search and Adding -->
 			<tr class="issue-contractor-for-project-result" id="assignedToUserContractor">
 				<!-- <div class="issue-contractor-for-project"> -->
 				<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueContractorResult'); ?></td>

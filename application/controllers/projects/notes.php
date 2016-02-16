@@ -149,7 +149,7 @@ class Notes extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -209,10 +209,10 @@ class Notes extends CI_Controller {
 		$contractorsData 	= null;
 		$partnersData 		= null;
 
-		//Contractor Details
+		//Service Provider Details
 		if($contractorId != "") {
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 			 $contractorsData = $contractorsResponse["contractors"];
 		}
 
@@ -260,7 +260,7 @@ class Notes extends CI_Controller {
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_tasks');
 		$this->load->model('security/model_users');
-		$this->load->model('service_providers/model_contractors');
+		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('adjusters/model_partners');
 		$this->load->model('mail/model_mail');
 
@@ -310,10 +310,10 @@ class Notes extends CI_Controller {
 			$contractorsData 	= null;
 			$partnersData 		= null;
 
-			//Contractor Details
+			//Service Provider Details
 			if($contractorId != "") {
 				$contractorIdArr = explode(",", $contractorId);
-				$contractorsResponse = $this->model_contractors->getContractorsList($contractorIdArr);
+				$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 				 $contractorsData = $contractorsResponse["contractors"];
 			}
 
