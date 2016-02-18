@@ -7,7 +7,7 @@
 		<a href="javascript:void(0);" data-option="inactive" 
 			title="<?php echo $this->lang->line_arr('partner->buttons_links->in_active_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->in_active'); ?>
 		</a>
-		<?php if($role_id == "admin") { ?>
+		<?php if($role_id == ROLE_ADMIN) { ?>
 			<!-- <a href="javascript:void(0);" data-option="deleted"><?php echo $this->lang->line_arr('partner->buttons_links->delete'); ?></a> -->
 		<?php } ?>
 		<a href="javascript:void(0);" data-option="all" title="<?php echo $this->lang->line_arr('partner->buttons_links->all_title'); ?>"><?php echo $this->lang->line_arr('partner->buttons_links->all'); ?></a>

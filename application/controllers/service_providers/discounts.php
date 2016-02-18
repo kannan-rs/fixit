@@ -52,6 +52,9 @@ class Discounts extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
+		$this->load->model('service_providers/model_discounts');
+		
 		$contractor_id	= $this->input->post("contractor_id");
 		$sub_trade_id 	= !empty($this->input->post("sub_trade_id")) ? $this->input->post("sub_trade_id") : "";
 		$main_trade_id 	= !empty($this->input->post("main_trade_id")) ? $this->input->post("main_trade_id") : "";
@@ -62,11 +65,11 @@ class Discounts extends CI_Controller {
 		);
 
 		/* Get Trades */
-		$tradesListResponse = $this->model_service_providers->getTradesList( $getParams );
+		$tradesListResponse = $this->model_trades->getTradesList( $getParams );
 		$tradesList 		= $this->convertTradesDBToId($tradesListResponse["tradesList"]);
 
 		/* Get Main Trade and Sub trade Values from databases */
-		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -80,7 +83,7 @@ class Discounts extends CI_Controller {
 			"trade_for"			=> "sub",
 			"contractor_id"		=> $contractor_id
 		);
-		$sub_trades_response = $this->model_service_providers->getSubTradeList($options);
+		$sub_trades_response = $this->model_trades->getSubTradeList($options);
 
 		$sub_trades_list = [];
 		if($sub_trades_response["status"] == "success") {
@@ -89,7 +92,7 @@ class Discounts extends CI_Controller {
 		}
 
 		/* Get Discount List */
-		$response = $this->model_service_providers->getDiscountList($getParams);
+		$response = $this->model_discounts->getDiscountList($getParams);
 
 		$params = array(
 			"sub_trade_id"		=> $sub_trade_id,
@@ -126,6 +129,7 @@ class Discounts extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$main_trade_id 	= $this->input->post("main_trade_id");
 		$contractor_id 	= $this->input->post("contractor_id");
@@ -146,7 +150,7 @@ class Discounts extends CI_Controller {
 			"contractor_id"		=> $contractor_id
 		);
 
-		$response = $this->model_service_providers->getTradesList( $getParams );
+		$response = $this->model_trades->getTradesList( $getParams );
 
 		if($response["status"] == "success") {
 			$params['mainTradesList'] = $response["tradesList"];
@@ -159,7 +163,7 @@ class Discounts extends CI_Controller {
 			"contractor_id"		=> $contractor_id
 		);
 
-		$response = $this->model_service_providers->getTradesList( $getParams );
+		$response = $this->model_trades->getTradesList( $getParams );
 
 		if($response["status"] == "success") {
 			$params['subTradesList'] = $response["tradesList"];
@@ -182,6 +186,7 @@ class Discounts extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_discounts');
 
 		$main_trade_id 			= $this->input->post("main_trade_id");
 		$sub_trade_id 			= $this->input->post("sub_trade_id");
@@ -211,7 +216,7 @@ class Discounts extends CI_Controller {
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_service_providers->insertDiscount($data);
+		$response = $this->model_discounts->insertDiscount($data);
 
 		print_r(json_encode($response));
 	}
@@ -234,6 +239,7 @@ class Discounts extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_discounts');
 
 		$contractor_id	= $this->input->post("contractor_id");
 		$discount_id	= $this->input->post("discount_id");
@@ -244,7 +250,7 @@ class Discounts extends CI_Controller {
 		);
 
 		/* Get Discount List */
-		$response = $this->model_service_providers->getDiscountList($getParams);
+		$response = $this->model_discounts->getDiscountList($getParams);
 
 		if($response["status"] == "success") {
 			$params['discountList'] = $response["discountList"];
@@ -267,6 +273,7 @@ class Discounts extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_discounts');
 
 		$discount_id 			= $this->input->post("discount_id");
 		$main_trade_id 			= $this->input->post("main_trade_id");
@@ -303,7 +310,7 @@ class Discounts extends CI_Controller {
 			'contractor_id'		=> $contractor_id
 		);
 
-		$response = $this->model_service_providers->updateDiscount($params);
+		$response = $this->model_discounts->updateDiscount($params);
 
 		print_r(json_encode($response));
 	}
@@ -321,7 +328,7 @@ class Discounts extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_discounts');
 
 		$discount_id 			= $this->input->post("discount_id");
 		$contractor_id 			= $this->input->post("contractor_id");
@@ -331,7 +338,7 @@ class Discounts extends CI_Controller {
 			"discount_id"		=> $discount_id
 		);
 
-		$response = $this->model_service_providers->deleteDiscount($params);
+		$response = $this->model_discounts->deleteDiscount($params);
 		print_r(json_encode($response));
 	}
 }

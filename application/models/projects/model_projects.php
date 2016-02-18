@@ -4,7 +4,7 @@ class Model_projects extends CI_Model {
 	
 	public function getProjectsList( $projectParams ) {
 		//print_r($projectParams);
-		if($projectParams['role_disp_name'] != "admin") {
+		if($projectParams['role_disp_name'] != ROLE_ADMIN ) {
 			$this->db->where('is_deleted', '0');
 		}
 
@@ -29,7 +29,7 @@ class Model_projects extends CI_Model {
 	}
 
 	public function getProjectIds( $projectParams ) {
-		/*if($projectParams['role_disp_name'] != "admin") {
+		/*if($projectParams['role_disp_name'] != ROLE_ADMIN ) {
 			//$this->db->where('is_deleted', '0');
 		} else {
 			return "";

@@ -208,7 +208,7 @@
 			</tr>
 
 				<?php
-				if($role_disp_name == "admin") {
+				if($role_disp_name == ROLE_ADMIN ) {
 				?>
 			<!-- Project Deductible -->
 			<tr>

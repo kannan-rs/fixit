@@ -51,6 +51,19 @@ class Trades extends CI_Controller {
 		return $uniqueMainTrades;
 	}
 
+	private function _mix_sub_trade_to_main_trade( $main_trades = array(), $sub_trades = array()) {
+		foreach ($sub_trades as $sub_trade_id => $sub_trade) {
+			if( isset($main_trades[$sub_trade->parent_trade_id])) {
+				if( !isset($main_trades[$sub_trade->parent_trade_id]->sub_trades )) {
+					$main_trades[$sub_trade->parent_trade_id]->sub_trades = array();
+				}
+				array_push($main_trades[$sub_trade->parent_trade_id]->sub_trades, $sub_trade);
+			}
+			
+		}
+		return $main_trades;
+	}
+
 	public function getTradesList() {
 		if(!is_logged_in()) {
 			print_r(json_encode(response_for_not_logged_in()));
@@ -65,10 +78,12 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
+
 		$contractor_id = $this->input->post("contractorId");
 
 		// Get All Trades
-		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -82,7 +97,7 @@ class Trades extends CI_Controller {
 			"trade_for"			=> "sub",
 			"contractor_id"		=> $contractor_id
 		);
-		$sub_trades_response = $this->model_service_providers->getSubTradeList($options);
+		$sub_trades_response = $this->model_trades->getSubTradeList($options);
 
 		$sub_trades_list = [];
 		if($sub_trades_response["status"] == "success") {
@@ -94,7 +109,7 @@ class Trades extends CI_Controller {
 			"contractor_id" => $contractor_id
 		);
 
-		$tradesList = $this->model_service_providers->getTradesList( $params );
+		$tradesList = $this->model_trades->getTradesList( $params );
 
 		if($tradesList["status"] == "success") {
 			for($i = 0, $count = count($tradesList["tradesList"]); $i < $count; $i++) {
@@ -128,10 +143,12 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
+
 		$contractor_id = $this->input->post("contractorId");
 
 		// Get All Trades
-		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -143,7 +160,7 @@ class Trades extends CI_Controller {
 			"trade_for"		=> "main"
 		);
 
-		$available_main_trades_response = $this->model_service_providers->getAvailableTrades( $options );
+		$available_main_trades_response = $this->model_trades->getAvailableTrades( $options );
 
 		$available_main_trades = null;
 		if($available_main_trades_response["status"] == "success") {
@@ -163,6 +180,130 @@ class Trades extends CI_Controller {
 		echo $this->load->view("service_providers/trades/inputFormMainTrade", $params, true);
 	}
 
+	public function create_form_main_trade_master() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$params = array();
+
+		echo $this->load->view("service_providers/trades/input_form_main_trade_for_master", $params, true);
+	}
+
+	public function edit_form_main_trade_master() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		$main_trade_id = $this->input->post("master_main_trade_id");
+		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id)) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$this->load->model('service_providers/model_trades');
+
+		$response = array("status" => "error");
+		
+		$trade_list_response = $this->model_trades->getMainTradeList( $main_trade_id );
+
+		if($trade_list_response["status"] == "error") {
+			$response = $trade_list_response;
+		} else {
+			$params = array(
+				"master_main_trade_list" 	=> $trade_list_response["mainTradesList"],
+				"main_trade_id"				=> $main_trade_id
+			);
+			echo $this->load->view("service_providers/trades/input_form_main_trade_for_master", $params, true);
+		}
+	}
+
+	public function create_form_sub_trade_master() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		$main_trade_id = $this->input->post("master_main_trade_id");
+
+		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id)) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$params = array(
+			"main_trade_id" => $main_trade_id
+		);
+
+		echo $this->load->view("service_providers/trades/input_form_sub_trade_for_master", $params, true);
+	}
+
+	public function edit_form_sub_trade_master() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		$main_trade_id = $this->input->post("master_main_trade_id");
+		$sub_trade_id = $this->input->post("master_sub_trade_id");
+		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id) || empty($sub_trade_id)) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$this->load->model('service_providers/model_trades');
+
+		$response = array("status" => "error");
+
+		$params = array(
+			"sub_trade_id"		=> $sub_trade_id,
+			"parent_trade_id"	=> $main_trade_id
+		);
+		
+		$trade_list_response = $this->model_trades->getSubTradeList( $params );
+		
+		if($trade_list_response["status"] == "error") {
+			$response = $trade_list_response;
+		} else {
+			$params = array(
+				"master_sub_trade_list" 	=> $trade_list_response["subTradesList"],
+				"main_trade_id"				=> $main_trade_id,
+				"sub_trade_id"				=> $sub_trade_id
+			);
+			echo $this->load->view("service_providers/trades/input_form_sub_trade_for_master", $params, true);
+		}
+	}
+
 	public function addTrades() {
 		if(!is_logged_in()) {
 			print_r(json_encode(response_for_not_logged_in()));
@@ -177,6 +318,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$contractor_id = $this->input->post("contractor_id");
 		$main_trade_id = $this->input->post("main_trade_id");
@@ -191,7 +333,7 @@ class Trades extends CI_Controller {
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_service_providers->insertTrade($data);
+		$response = $this->model_trades->insertTrade($data);
 
 		if($response["status"] == "success") {
 			$sub_trades_id_arr = explode(",", $sub_trades_id);
@@ -206,12 +348,226 @@ class Trades extends CI_Controller {
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
-					$response = $this->model_service_providers->insertTrade($data);		
+					$response = $this->model_trades->insertTrade($data);		
 				} else {
 					break;
 				}
 			}
 		}
+
+		print_r(json_encode($response));
+	}
+
+	public function master_list_add_main_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$main_trade_name 	= $this->input->post("master_main_trade_name");
+		$main_trade_descr 	= $this->input->post("master_main_trade_descr");
+
+		$this->load->model('service_providers/model_trades');
+
+		if(!empty($main_trade_name)) {
+			$trade_data = array(
+				'main_trade_name'			=> $main_trade_name,
+				'main_trade_description'	=> $main_trade_descr,
+				'is_deleted'				=> 0 
+			);
+
+			$response = $this->model_trades->add_master_main_trade( $trade_data );
+		} else {
+			$response["message"] 	= "Invalid request";
+		}
+
+		print_r(json_encode($response));
+	}
+
+		public function master_list_add_sub_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$master_sub_trade_name		= $this->input->post("master_sub_trade_name");
+		$master_sub_trade_descr		= $this->input->post("master_sub_trade_descr");
+		$master_main_trade_id		= $this->input->post("master_main_trade_id");
+
+		$this->load->model('service_providers/model_trades');
+
+		if( !empty($master_sub_trade_name) && !empty($master_sub_trade_descr) && !empty($master_main_trade_id) ) {
+			$trade_data = array(
+				'sub_trade_name'		=> $master_sub_trade_name,
+				'sub_trade_description'	=> $master_sub_trade_descr,
+				'parent_trade_id'		=> $master_main_trade_id,
+				'is_deleted'			=> 0 
+			);
+
+			$response = $this->model_trades->add_master_sub_trade( $trade_data );
+		} else {
+			$response["message"] 	= "Invalid request";
+		}
+
+		print_r(json_encode($response));
+	}
+
+	public function master_list_update_main_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$main_trade_id 		= $this->input->post("master_main_trade_id");
+		$main_trade_name 	= $this->input->post("master_main_trade_name");
+		$main_trade_descr 	= $this->input->post("master_main_trade_descr");
+
+		$this->load->model('service_providers/model_trades');
+
+		if(!empty($main_trade_name)) {
+			$trade_data = array(
+				'main_trade_name'			=> $main_trade_name,
+				'main_trade_description'	=> $main_trade_descr
+			);
+			$response = $this->model_trades->update_master_main_trade( $trade_data, $main_trade_id );
+		} else {
+			$response["message"] 	= "Invalid request";
+		}
+
+		print_r(json_encode($response));
+	}
+
+	public function master_list_update_sub_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$main_trade_id 		= $this->input->post("master_main_trade_id");
+		$sub_trade_id 		= $this->input->post("master_sub_trade_id");
+		$sub_trade_name 	= $this->input->post("master_sub_trade_name");
+		$sub_trade_descr 	= $this->input->post("master_sub_trade_descr");
+
+		$this->load->model('service_providers/model_trades');
+
+		if(!empty($main_trade_id) && !empty($sub_trade_id) && !empty($sub_trade_name) && !empty($sub_trade_descr)) {
+			$trade_data = array(
+				'sub_trade_name'			=> $sub_trade_name,
+				'sub_trade_description'		=> $sub_trade_descr
+			);
+			$response = $this->model_trades->update_master_sub_trade( $trade_data, $main_trade_id, $sub_trade_id );
+		} else {
+			$response["message"] 	= "Invalid request";
+		}
+
+		print_r(json_encode($response));
+	}
+
+	public function master_list_delete_main_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$main_trade_id 		= $this->input->post("master_main_trade_id");
+
+		$this->load->model('service_providers/model_trades');
+
+		$response = $this->model_trades->delete_master_main_trade( $main_trade_id );
+
+		print_r(json_encode($response));
+	}
+
+	public function master_list_delete_sub_trades() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$response = array("status" => "error");
+
+		$main_trade_id 		= $this->input->post("master_main_trade_id");
+		$sub_trade_id 		= $this->input->post("master_sub_trade_id");
+
+		$this->load->model('service_providers/model_trades');
+
+		$response = $this->model_trades->delete_master_sub_trade( $main_trade_id, $sub_trade_id );
 
 		print_r(json_encode($response));
 	}
@@ -238,9 +594,10 @@ class Trades extends CI_Controller {
 		$displayString 	= $this->input->post("displayString");
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		// Get All Trades
-		$main_trades_response = $this->model_service_providers->getMainTradeList("all");
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -252,7 +609,7 @@ class Trades extends CI_Controller {
 			"trade_for"		=> "main"
 		);
 
-		$available_main_trades_response = $this->model_service_providers->getAvailableTrades( $options );
+		$available_main_trades_response = $this->model_trades->getAvailableTrades( $options );
 
 		$available_main_trades = null;
 		if($available_main_trades_response["status"] == "success") {
@@ -288,6 +645,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$response = array("status" => "success");
 
@@ -311,7 +669,7 @@ class Trades extends CI_Controller {
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
-					$response = $this->model_service_providers->insertTrade($data);		
+					$response = $this->model_trades->insertTrade($data);		
 				} else {
 					break;
 				}
@@ -327,7 +685,7 @@ class Trades extends CI_Controller {
 						'sub_trade_id' 		=> $to_delete_sub_trade_id_arr[$i],
 						'trade_id'			=> $main_trade_id
 					);
-					$response = $this->model_service_providers->deleteTradeRecordByParent($options);		
+					$response = $this->model_trades->deleteTradeRecordByParent($options);		
 				} else {
 					break;
 				}
@@ -352,6 +710,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$contractor_id = $this->input->post("contractor_id");
 		$trade_id 		= $this->input->post("trade_id");
@@ -361,10 +720,10 @@ class Trades extends CI_Controller {
 			"trade_id"		=> $trade_id
 		);
 
-		$response = $this->model_service_providers->deleteTradeRecord($params);
+		$response = $this->model_trades->deleteTradeRecord($params);
 
 		if($response["status"] == "success") {
-			$response_dependent = $this->model_service_providers->deleteTradeRecordByParent( $params );
+			$response_dependent = $this->model_trades->deleteTradeRecordByParent( $params );
 		}
 
 		if(isset($response_dependent)) {
@@ -393,6 +752,8 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
+
 
 		$contractor_id 		= $this->input->post("contractor_id");
 		$main_trade_id		= $this->input->post("main_trade_id");
@@ -406,7 +767,7 @@ class Trades extends CI_Controller {
 		);
 
 
-		$sub_trades_response = $this->model_service_providers->getSubTradeList($options);
+		$sub_trades_response = $this->model_trades->getSubTradeList($options);
 
 		$sub_trades_list = [];
 
@@ -414,7 +775,7 @@ class Trades extends CI_Controller {
 			$sub_trades_list = $sub_trades_response["subTradesList"];
 		}
 
-		$available_sub_trades_response = $this->model_service_providers->getAvailableTrades( $options );
+		$available_sub_trades_response = $this->model_trades->getAvailableTrades( $options );
 
 		$available_sub_trades = null;
 		if($available_sub_trades_response["status"] == "success") {
@@ -447,6 +808,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$contractor_id 		= $this->input->post("contractor_id");
 		$sub_trade_name 	= $this->input->post("sub_trade_name");
@@ -462,7 +824,7 @@ class Trades extends CI_Controller {
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_service_providers->insertTrade($data);
+		$response = $this->model_trades->insertTrade($data);
 
 		print_r(json_encode($response));
 	}
@@ -485,6 +847,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$params = array(
 			"sub_trade_id"		=> $this->input->post("sub_trade_id"),
@@ -499,7 +862,7 @@ class Trades extends CI_Controller {
 			"contractor_id"		=> $this->input->post("contractor_id")
 		);
 
-		$response = $this->model_service_providers->getTradesList( $getParams );
+		$response = $this->model_trades->getTradesList( $getParams );
 
 		if($response["status"] == "success") {
 			$params['tradesList'] = $response["tradesList"];
@@ -522,6 +885,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$sub_trade_name	= $this->input->post("sub_trade_name");
 		$sub_trade_id	= $this->input->post("sub_trade_id");
@@ -543,7 +907,7 @@ class Trades extends CI_Controller {
 			"main_trade_id"	=> $main_trade_id
 		);
 
-		$response = $this->model_service_providers->updateTrade($params);
+		$response = $this->model_trades->updateTrade($params);
 
 		print_r(json_encode($response));
 	}
@@ -562,6 +926,7 @@ class Trades extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
 
 		$sub_trade_id	= $this->input->post("sub_trade_id");
 		$main_trade_id	= $this->input->post("main_trade_id");
@@ -573,7 +938,66 @@ class Trades extends CI_Controller {
 			"trade_parent" 	=> $main_trade_id
 		);
 
-		$response = $this->model_service_providers->deleteTradeRecord($params);
+		$response = $this->model_trades->deleteTradeRecord($params);
+		print_r(json_encode($response));
+	}
+
+	public function list_all_trades_and_manage() {
+		$response = array(
+			"status" => "success"
+		);
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		/* Get Role ID and Role Display String*/
+		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+
+		if($role_disp_name != ROLE_ADMIN ) {
+			$no_permission_options = array(
+				'page_disp_string' => "Trades management list"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$this->load->model('service_providers/model_trades');
+
+		// Get All Trades
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
+		$main_trades = null;
+		if($main_trades_response["status"] == "success") {
+			$response["status"] = "success";
+			$main_trades = $main_trades_response["mainTradesList"];
+			$main_trades 	= $this->_mapMainTradeToId( $main_trades );
+		} else {
+			$response["status"] = "error";
+		}
+
+		if($response["status"] == "success") {
+			// Get All Trades
+			$options = array(
+				"sub_trade_id" 		=> "all",
+				"parent_trade_id"	=> "all",
+				"trade_for"			=> "sub"
+			);
+			$sub_trades_response = $this->model_trades->getSubTradeList($options);
+
+			$sub_trades_list = [];
+			if($sub_trades_response["status"] == "success") {
+				$sub_trades = $sub_trades_response["subTradesList"];
+				$sub_trades = $this->_mapSubTradeToId( $sub_trades );
+			} else {
+				$response["status"] = "error";
+			}
+		}
+
+		if($response["status"] == "success") {
+			$mixed_master_trades = $this->_mix_sub_trade_to_main_trade($main_trades, $sub_trades);
+			$response["trade_list"] = $mixed_master_trades;
+		}
+
 		print_r(json_encode($response));
 	}
 }

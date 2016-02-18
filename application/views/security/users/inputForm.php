@@ -14,7 +14,7 @@ if(isset($users) && count($users)) {
 	}
 	$buttonText 	= "Update User";
 } else {
-	if(isset($role_disp_name) && $role_disp_name == "admin") { 
+	if(isset($role_disp_name) && $role_disp_name == ROLE_ADMIN) { 
 		$heading 		= $this->lang->line_arr('user->headers->admin_create');
 		$buttonText 	= "Create User";
 	} else { 
@@ -84,7 +84,7 @@ if(!$openAs || $openAs != "popup") {
 			<?php 
 			if(
 				isset($role_disp_name) && 
-				$role_disp_name == "admin" && 
+				$role_disp_name == ROLE_ADMIN && 
 				($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))
 			) { 
 				if(!isset($role_id) || !isset($users) || $role_id != $users[0]->role_id) {
@@ -146,7 +146,7 @@ if(!$openAs || $openAs != "popup") {
 					<div><?php echo $belongsTo; ?><input type="hidden" id="belongsToDb" value="<?php echo $belongsTo; ?>"></div>
 					<?php } else {
 					?>
-					<select name="belongsTo" id="belongsTo" <?php if($role_disp_name == "admin") { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
+					<select name="belongsTo" id="belongsTo" <?php if($role_disp_name == ROLE_ADMIN) { ?> onchange="_users.showBelongsToOption()" <?php } ?> required>
 						<option value=""><?php echo $this->lang->line_arr('user->input_form->belongsTo_option_0'); ?></option>
 						<option value="customer">Customer</option>
 						<option value="contractor">Service Provider</option>
@@ -165,7 +165,7 @@ if(!$openAs || $openAs != "popup") {
 					?>
 				</td>
 			</tr> -->
-			<?php if(isset($role_disp_name) && $role_disp_name == "admin") { ?>
+			<?php if(isset($role_disp_name) && $role_disp_name == ROLE_ADMIN) { ?>
 			<!-- Service Provider Search and search results -->
 			<tr class="contractor-search">
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
@@ -208,7 +208,7 @@ if(!$openAs || $openAs != "popup") {
 			</tr>
 			<?php } ?>
 
-			<?php if($createOrEdit == "edit" && $role_disp_name == "admin"  && $viewFrom == "security") { ?>
+			<?php if($createOrEdit == "edit" && $role_disp_name == ROLE_ADMIN  && $viewFrom == "security") { ?>
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->activeStartDate'); ?></td>
 				<td>

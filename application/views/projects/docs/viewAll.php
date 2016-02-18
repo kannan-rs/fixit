@@ -18,7 +18,7 @@ if(count($project_docs) > 0) {
 			</td>
 			<td class='cell'>Created By: <?php echo $project_docs[$i]->created_by_name; ?> on <?php echo $project_docs[$i]->created_date_for_view; ?></td>
 			<?php
-			if($accountType == "admin") {
+			if($accountType == ROLE_ADMIN) {
 			?>
 			<td class="table-action">
 				<span><a  class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" onclick="<?php echo $deleteFn; ?>" title="<?php echo $this->lang->line_arr('docs->buttons_links->delete_title'); ?>"></a></span>

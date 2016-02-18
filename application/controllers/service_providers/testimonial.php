@@ -25,6 +25,8 @@ class Testimonial extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_testimonials');
+
 
 		$contractor_id 			= $this->input->post("contractor_id");
 
@@ -32,7 +34,7 @@ class Testimonial extends CI_Controller {
 			"contractor_id"		=> $contractor_id
 		);
 
-		$response = $this->model_service_providers->getTestimonial($params);
+		$response = $this->model_testimonials->getTestimonial($params);
 
 		if($response["status"] == "success") {
 			$params["testimonialList"] = $response["testimonialList"];
@@ -83,6 +85,7 @@ class Testimonial extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_testimonials');
 
 		$contractor_id 				= $this->input->post("contractor_id");
 		$testimonial_summary		= $this->input->post("testimonial_summary");
@@ -105,7 +108,7 @@ class Testimonial extends CI_Controller {
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
 
-		$response = $this->model_service_providers->insertTestimonial($data);
+		$response = $this->model_testimonials->insertTestimonial($data);
 
 		print_r(json_encode($response));
 	}
@@ -128,6 +131,7 @@ class Testimonial extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_testimonials');
 
 		$contractor_id 				= $this->input->post("contractor_id");
 		$testimonial_id 			= $this->input->post("testimonial_id");
@@ -137,7 +141,7 @@ class Testimonial extends CI_Controller {
 			"testimonial_id"	=> $testimonial_id
 		);
 
-		$response = $this->model_service_providers->getTestimonial($params);
+		$response = $this->model_testimonials->getTestimonial($params);
 
 		if($response["status"] == "success") {
 			$params["testimonialList"] = $response["testimonialList"];
@@ -160,6 +164,7 @@ class Testimonial extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_testimonials');
 
 		$testimonial_id 			= $this->input->post("testimonial_id");
 		$contractor_id 				= $this->input->post("contractor_id");
@@ -185,7 +190,7 @@ class Testimonial extends CI_Controller {
 			'contractor_id'		=> $contractor_id
 		);
 
-		$response = $this->model_service_providers->updateTestimonial($params);
+		$response = $this->model_testimonials->updateTestimonial($params);
 
 		print_r(json_encode($response));
 	}
@@ -203,7 +208,7 @@ class Testimonial extends CI_Controller {
 			return false;
 		}
 
-		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_testimonials');
 
 		$testimonial_id 		= $this->input->post("testimonial_id");
 		$contractor_id 			= $this->input->post("contractor_id");
@@ -213,7 +218,7 @@ class Testimonial extends CI_Controller {
 			"testimonial_id"		=> $testimonial_id
 		);
 
-		$response = $this->model_service_providers->deleteTestimonial($params);
+		$response = $this->model_testimonials->deleteTestimonial($params);
 		print_r(json_encode($response));
 	}
 }

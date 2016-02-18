@@ -10,7 +10,7 @@
 				<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
 		</a>
 
-		<?php if($role_disp_name == "admin") { ?>
+		<?php if($role_disp_name == ROLE_ADMIN) { ?>
 			
 			<a href="javascript:void(0);" data-option="deleted" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">

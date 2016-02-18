@@ -16,7 +16,7 @@
 		<td class='cell dollers' ><div>$<?php echo number_format($project->deductible, 2, '.', ','); ?></div></td>
 	</tr>
 	<?php
-	if($userType == "admin") {
+	if($userType == ROLE_ADMIN ) {
 	?>
 	<tr>
 		<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_budget->referral_fee'); ?></td>

@@ -9,8 +9,8 @@
 	$id_prefix		= !empty($id_prefix) ? $id_prefix : "";
 	$hidden			= !empty($hidden) ? $hidden : "";
 
-	$notMandatory 	= isset($role_disp_name) && $role_disp_name == 'admin' ? "notMandatory" : "";
-	$required		= isset($role_disp_name) && $role_disp_name == 'admin' ? "" : "required";
+	$notMandatory 	= isset($role_disp_name) && $role_disp_name == ROLE_ADMIN ? "notMandatory" : "";
+	$required		= isset($role_disp_name) && $role_disp_name == ROLE_ADMIN ? "" : "required";
 
 	if($requestFrom == "view") {
 		$notMandatory = "notMandatory";

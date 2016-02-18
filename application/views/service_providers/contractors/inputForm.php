@@ -25,8 +25,8 @@
 
 	}
 
-	$notMandatory 	= $role_disp_name == "admin" ? "notMandatory" : "";
-	$required		= $role_disp_name == "admin" ? " " : "required";
+	$notMandatory 	= $role_disp_name == ROLE_ADMIN ? "notMandatory" : "";
+	$required		= $role_disp_name == ROLE_ADMIN ? " " : "required";
 ?>
 
 <?php
@@ -64,7 +64,7 @@ if($openAs) {
 				</td>
 			</tr>
 			<?php
-			if($role_disp_name == "admin") {
+			if($role_disp_name == ROLE_ADMIN) {
 			?>
 				<tr>
 					<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
@@ -105,7 +105,7 @@ if($openAs) {
 				</td>
 			</tr> -->
 			<?php 
-			if($role_disp_name == "admin") {
+			if($role_disp_name == ROLE_ADMIN) {
 			?>
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->status'); ?></td>

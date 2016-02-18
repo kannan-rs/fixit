@@ -23,7 +23,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$no_permission_options = array(
 				'page_disp_string' => "operation list"
 			);
@@ -51,7 +51,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$no_permission_options = array(
 				'page_disp_string' => "create operation"
 			);
@@ -79,7 +79,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -116,7 +116,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$no_permission_options = array(
 				'page_disp_string' => "edit operation"
 			);
@@ -151,7 +151,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -198,7 +198,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -231,7 +231,7 @@ class Operations extends CI_Controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != "admin") {
+		if($role_disp_name != ROLE_ADMIN) {
 			$no_permission_options = array(
 				'page_disp_string' => "operation details"
 			);

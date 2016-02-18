@@ -7,7 +7,7 @@
 		<a href="javascript:void(0);" data-option="inactive" title="<?php echo $this->lang->line_arr('contractor->buttons_links->in_active_hover_text'); ?>">
 			<?php echo $this->lang->line_arr('contractor->buttons_links->in_active'); ?>
 		</a>
-		<?php if($role_disp_name == "admin") { ?>
+		<?php if($role_disp_name == ROLE_ADMIN) { ?>
 			<!-- <a href="javascript:void(0);" data-option="deleted">
 				<?php echo $this->lang->line_arr('contractor->buttons_links->deleted'); ?>
 			</a> -->

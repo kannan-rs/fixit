@@ -15,8 +15,7 @@ var _users = (function () {
         getRole();
     };
 
-    function setViewBasics() {
-        
+    function setViewBasics() {    
         $(".role_id").each(
             function( index, element ){
                var roleId = $(this).text();

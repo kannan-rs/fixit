@@ -143,7 +143,7 @@ define('TOP_MENUS', '[
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
-			"roles_by_name"	: ["admin"]
+			"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 		},
 		"sub_menus"		: [
 			{
@@ -151,7 +151,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/users", 
 				"key"			: "users",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -159,7 +159,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/users", 
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					},
 					{
@@ -167,7 +167,7 @@ define('TOP_MENUS', '[
 						"link" 			: "/main/security/users/create_user",
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					}
 				]
@@ -177,7 +177,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/roles", 
 				"key"			: "roles",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -185,7 +185,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/roles", 
 						"key"			: "roles",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					},
 					{
@@ -193,7 +193,7 @@ define('TOP_MENUS', '[
 						"link" 			: "/main/security/roles/create_role",
 						"key"			: "roles",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					}
 				]
@@ -203,7 +203,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/functions", 
 				"key"			: "functions",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -211,7 +211,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/functions", 
 						"key"			: "functions",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					},
 					{
@@ -219,7 +219,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/functions/create_function", 
 						"key"			: "functions",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					}
 				]
@@ -229,7 +229,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/operations", 
 				"key"			: "operations",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -237,7 +237,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/operations", 
 						"key"			: "operations",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					},
 					{
@@ -245,7 +245,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/operations/create_operation", 
 						"key"			: "operations",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					}
 				]
@@ -255,7 +255,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/data_filters", 
 				"key"			: "data_filters",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -263,7 +263,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/data_filters", 
 						"key"			: "data_filters",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					},
 					{
@@ -271,7 +271,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/data_filters/create_data_filter", 
 						"key"			: "data_filters",
 						"dependency"	: {
-							"roles_by_name"	: ["admin"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 						}
 					}
 				]
@@ -281,7 +281,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/permissions", 
 				"key"			: "permissions",
 				"dependency"	: {
-					"roles_by_name"	: ["admin"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				}
 			}
 		]

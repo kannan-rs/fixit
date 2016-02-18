@@ -12,7 +12,6 @@
 		</ul>
 		<div id="tabs_contractor_company_details">
 		<!-- Tab Menu content #1 -->
-		
 			<div class="header-options">
 				<h2 class=''><?php echo $this->lang->line_arr('contractor->headers->view_one'); ?></h2>
 				<span class="options-icon left-icon-list">
@@ -188,18 +187,51 @@
 		<!-- Trades and Sub Trade list -->
 		<div id="tabs_contractor_trade_sub_trades">
 			<div class="header-options">
-				<h2 class="ui-accordion-header"><?php echo $this->lang->line_arr('contractor->headers->trades_list'); ?></h2>
-				<span class="options-icon">
-					<span>
-						<a class="step fi-page-add size-21" href="javascript:void(0);" 
-							onclick="_contractor_trades.addNewMainTrendsForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_main_trend'); ?>">
+				<h2 class="ui-accordion-header show-in-contractor-trade"><?php echo $this->lang->line_arr('contractor->headers->trades_list'); ?></h2>
+				<?php
+				if($role_disp_name == ROLE_ADMIN) {
+				?>
+					<h2 class="ui-accordion-header show-in-master-trade"><?php echo $this->lang->line_arr('contractor->headers->master_trades_list'); ?></h2>
+				<?php } ?>
+				<span class="options-icon left-icon-list">
+					<?php
+					if($role_disp_name == ROLE_ADMIN) {
+					?>
+					<span class="show-in-contractor-trade">
+						<a class="step fi-results size-21" href="javascript:void(0);" 
+							onclick="_contractor_trades.list_all_Trades_and_manage(true)" title="<?php echo $this->lang->line_arr('contractor->buttons_links->list_all_trades_and_manage'); ?>">
 						</a>
 					</span>
+					<?php
+					}
+					?>
+				</span>
+				<span class="options-icon">
+					<span class="show-in-contractor-trade">
+						<a class="step fi-page-add size-21" href="javascript:void(0);" 
+							onclick="_contractor_trades.addNewMainTrendsForm()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_main_trade'); ?>">
+						</a>
+					</span>
+					<?php
+					if($role_disp_name == ROLE_ADMIN) {
+					?>
+					<span class="show-in-master-trade">
+						<a class="step fi-page-add size-21" href="javascript:void(0);" 
+							onclick="_contractor_trades.add_main_trend_for_master_form()" title="<?php echo $this->lang->line_arr('contractor->buttons_links->add_master_main_trade'); ?>">
+						</a>
+					</span>
+					<span class="show-in-master-trade">
+						<a class="step fi-arrow-left size-21" href="javascript:void(0);" 
+							onclick="_contractor_trades.showTradeList(true)" title="<?php echo $this->lang->line_arr('contractor->buttons_links->back_to_contractor_trades'); ?>">
+						</a>
+					</span>
+					<?php
+					}
+					?>
 				</span>
 			</div>
 			<div style="clear:both"></div>
-			<div id="tradesList">
-			</div>
+			<div id="tradesList"></div>
 		</div>
 		<!-- Discount List -->
 		<div id="tabs_contractor_discounts">
