@@ -13,7 +13,7 @@ class Model_roles extends CI_Model {
 	}
 
 	public function getRolesListByName($params = "") {
-		$roles;
+		$roles =  null;
 		if(!empty($params)) {
 			$this->db->where('role_name', $params);
 			$query = $this->db->get('roles');
@@ -21,5 +21,21 @@ class Model_roles extends CI_Model {
 			//print_r($this->db->last_query());
 		}
 		return $roles;
+	}
+
+	public function get_role_id_by_role_name( $role_name = '') {
+		$role_id = false;
+		if(!empty($role_name)) {
+			$this->db->where('role_name', $role_name);
+
+			$query = $this->db->get('roles');
+
+			if($query->num_rows() == 1) {
+				if($role_row = $query->result()) {
+					$role_id = $role_row[0]->sno;
+				}
+			}
+		}
+		return $role_id;
 	}
 }

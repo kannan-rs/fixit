@@ -206,6 +206,24 @@ var _contractor_discounts = (function () {
             _populateSubTrade( mainTradeId, ddId );
         },
 
+        show_discount_by_filter: function() {
+            var selected_main_trade = $("#discount_for_main_trade").val();
+            var selected_sub_trade  = $("#discount_for_sub_trade").val();
+
+            var selector = ".oneDiscount";
+
+            $(".oneDiscount").hide();
+
+            if(selected_main_trade != "0") {
+                selector = "[data-main-trade-id="+selected_main_trade+"]";
+                if(selected_sub_trade != "0") {
+                    selector += "[data-sub-trade-id="+selected_sub_trade+"]";
+                }
+            }
+            $(selector).show();
+
+        },
+
         createForm: function(event) {
             if(typeof(event) != 'undefined') {
                 event.stopPropagation();

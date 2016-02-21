@@ -92,6 +92,7 @@ class Layouts {
 	private function check_menu_dependency( $menu ) {
 		//print_r($menu);
 		$dependency_ok = true;
+		list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
 		if($dependency_ok && isset($menu['dependency'])) {
 			$dependency = $menu['dependency'];
 			if(isset($dependency['roles_by_name']) && isset($role_disp_name) && !in_array($role_disp_name, $dependency['roles_by_name'])) {

@@ -88,6 +88,17 @@ define('ROLE_CUSTOMER', 						'customer');
 define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
 define('ROLE_SERVICE_PROVIDER_USER', 			'service provider user');
 
+/*
+| Role to page mapping
+*/
+define('ADMIN_PAGE', 							'security');
+define('SUB_ADMIN_PAGE', 						'projects');
+define('INSURANCECO_CALL_CENTER_AGENT_PAGE', 	'adjusters');
+define('INSURANCECO_ADMIN_PAGE', 				'adjusters');
+define('CUSTOMER_PAGE', 						'projects');
+define('SERVICE_PROVIDER_ADMIN_PAGE', 			'service_providers');
+define('SERVICE_PROVIDER_USER_PAGE', 			'service_providers');
+
 /* End of file constants.php */
 
 /*

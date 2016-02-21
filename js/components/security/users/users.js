@@ -22,9 +22,9 @@ var _users = (function () {
                var roleText = rolesBySno[roleId] ? rolesBySno[roleId].role_name : "Customer";
                $(this).text(roleText);
 
-               if(roleText == "Admin") {
-                    $($($(".table-action").eq(index)).children()[1]).remove();
-                }
+               /*if(roleText == "Admin") {
+                    $($($(".table-action").eq(index + 1)).children()[1]).remove();
+                }*/
             }
         );
     }
@@ -435,9 +435,9 @@ var _users = (function () {
                         $("#security_content").html(response);
                     }
 
-                    _users.setPrimaryContact();
-                    _users.setPrefContact();
-                    _users.setBelongsTo();
+                    _users.setPrimaryContact(); // To set primary contact selection
+                    //_users.setPrefContact();
+                    //_users.setBelongsTo();
                     _users.setPrivilege();
                     //_users.setStatus();
                     _utils.setStatus("userStatus", "userStatusDb");
@@ -647,9 +647,9 @@ var _users = (function () {
 
                     setViewBasics();
                     _users.setPrimaryContact();
-                    _users.setPrefContact();
+                    //_users.setPrefContact();
                     _users.hideUnsetPrimaryContact();
-                    _users.hideUnsetPrefContact();
+                    //_users.hideUnsetPrefContact();
                 },
                 error: function( error ) {
                     error = error;
@@ -660,6 +660,9 @@ var _users = (function () {
             });
         },
         /* Utils Function */
+        /*
+        | Set the default selection of the primary contact "Radio button"
+        */
         setPrimaryContact: function() {
             var primaryContact     = $("#dbPrimaryContact").val();
 
@@ -670,7 +673,7 @@ var _users = (function () {
             });
 
         },
-        setPrefContact: function() {
+        /*setPrefContact: function() {
             var prefContact    = $("#dbPrefContact").val().split(",");
 
             $("input[name=prefContact]").each(function() {
@@ -678,13 +681,13 @@ var _users = (function () {
                     $(this).prop("checked", true);
                 }
             });
-        },
-        setBelongsTo: function() {
+        },*/
+        /*setBelongsTo: function() {
             var belongsToDb = $("#belongsToDb").val();
             if(belongsToDb != "" && $("#belongsTo").length) {
                 $("#belongsTo").val(belongsToDb);
             }
-        },
+        },*/
         setreferredBy: function() {
             var referredByDb = $("#referredByDb").val();
             if(referredByDb != "" && $("#referredByDb").length) {
@@ -711,7 +714,7 @@ var _users = (function () {
                 });
             }
         },
-        hideUnsetPrefContact: function() {
+        /*hideUnsetPrefContact: function() {
             if($("#user_details_form").length) {
                 var prefContact    = $("#dbPrefContact").val().split(",");
 
@@ -724,7 +727,7 @@ var _users = (function () {
                     }
                 });
             }
-        },
+        },*/
         showBelongsToOption: function( ) {
             var belongsTo = $("#belongsTo").val();
 

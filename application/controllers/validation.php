@@ -30,12 +30,24 @@ class Validation extends CI_Controller {
 
 			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
+			$page_const = strtoupper(str_replace(" ", "_", $role_disp_name)."_page");
+
 			$this->session->set_userdata('role_disp_name', $role_disp_name);
+
+			$landing_page = "projects";
+			//Project > Permissions for logged in User by role_id
+			$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
+			//print_r($projectPermission);
+
+			/* If User dont have view permission load No permission page */
+			if(!in_array(OPERATION_VIEW, $projectPermission['operation'])) {
+				$landing_page = constant($page_const);
+			}
 
 
 			$response["status"] = "Success";
 			$response["message"] = "";
-			$response["redirect"] = "/main/projects";
+			$response["redirect"] = "/main/".$landing_page;
 		}
 		print_r(json_encode($response));
 	}

@@ -82,6 +82,7 @@ class Users extends CI_controller {
 
 		include 'include_user_model.php';
 		$this->load->model('security/model_permissions');
+		$this->load->model('security/model_roles');
 
 		$getParams = array(
 			"dataFor" => "roles"
@@ -106,7 +107,8 @@ class Users extends CI_controller {
 			'function'		=> "view",
 			'record' 		=> "all",
 			'users'			=> $users,
-			'noticeFile' 	=> $noticeFile
+			'noticeFile' 	=> $noticeFile,
+			'admin_role_id'	=> $this->model_roles->get_role_id_by_role_name(ROLE_ADMIN)
 		);
 		
 		echo $this->load->view("security/users/viewAll", $params, true);
@@ -150,10 +152,10 @@ class Users extends CI_controller {
 	}
 
 	public function add() {
-		if(!is_logged_in()) {
+		/*if(!is_logged_in()) {
 			print_r(json_encode(response_for_not_logged_in()));
 			return false;
-		}
+		}*/
 
 		$response = array(
 			'status'	=> "error"
@@ -161,7 +163,7 @@ class Users extends CI_controller {
 		/* Get Role ID and Role Display String*/
 		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		if(is_logged_in() && $role_disp_name != ROLE_ADMIN ) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;

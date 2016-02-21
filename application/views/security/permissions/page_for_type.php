@@ -1,15 +1,18 @@
 <div class="header-options">
 	<h2 class=''><?php echo $this->lang->line_arr('permission->headers->title'); ?></h2>
+	<?php /*
 	<div class="permission internal-tab-as-links" onclick="_permissions.showPermissionsPage(event)">
 		<a href="javascript:void(0);" data-option="default" 
 			title="<?php echo $this->lang->line_arr('permission->buttons_links->default_title'); ?>">
 				<?php echo $this->lang->line_arr('permission->buttons_links->default'); ?>
 		</a>
-		<!-- <a href="javascript:void(0);" data-option="user" 
+		<a href="javascript:void(0);" data-option="user" 
 			title="<?php echo $this->lang->line_arr('permission->buttons_links->user_permission_title'); ?>">
 				<?php echo $this->lang->line_arr('permission->buttons_links->user_permission'); ?>
-		</a> -->
+		</a>
 	</div>
+	*/
+	?>
 </div>
 <p class="note error"></p>
 <p class="note success"></p>

@@ -7,26 +7,16 @@ S1: Trades and sub trades need to be entered by Fixit admin
 S2: SP Admin expites, service provided admin can select multiple trade and multiple sub trade
 s3: SP Admin details,
 
+Works Done :
+1. Added users in Database and provided roles using different way.
+2. Removed default button from permissions 
+3. Specifying roles and perminssions 
+4. Tested with permission and fixed some issues
+	1. Signup issue directly from website, it was checking for logged in users to do action which is changed, so that not logged in or new customer can register
+	2. Fixed login issue for checking status while logging in.
+	3. Added check while generating top menus based on dependency[Role Name]
+	4. On login showed respective page for logged in users. If the user has acces to project then show projects else shoe its respective default page.
+	5. If logged in as admin during order by it removes delete i 2 place. Chaged the logic and made a strict condition to check only for Admin user, rmove the delete link.
+5. Fixed address population issue during edit.
+6. Show disocunt list based on the selection of trade and sub trade
 
-#18
-
-1. #0000019
-2. bug #10
-3. Create list of user based on role and share the details with all. Will test functionality based on user role.
-
-Done List
------------------
-1. Deployment and some session issue corrected 
-2. Change the contractor to service provider 
-3. Created email ID's in live for further testing 
-4. Segrirated trades model functions from service privider
-5. Segrirated discounts model functions from service privider
-6. Segrirated testimonials model functions from service privider
-7. Listing Mater trade and sub trade 
-8. setting Icon for add, edit and delete in respective place and icon management 
-9. Main trade add functionality and refresh after add
-11. Edit Main trade  and update list 
-13. Delete main trade and Update list
-10. Add Sub trade and undate the list
-12. Edit sub trade and update list
-14. Delete sub trades and update list

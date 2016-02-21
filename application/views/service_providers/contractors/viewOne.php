@@ -243,13 +243,13 @@
 					<tr>
 						<td>Main Trade</td>
 						<td>
-							<select id="discount_for_main_trade" onchange="_contractor_discounts.populateSubTrade( this.value );">
+							<select id="discount_for_main_trade" onchange="_contractor_discounts.populateSubTrade( this.value ); _contractor_discounts.show_discount_by_filter();">
 								<option value="0">-- Select Main Trade --</option>
 							</select>
 						</td>
 						<td>Sub Trade</td>
 						<td>
-							<select id="discount_for_sub_trade">
+							<select id="discount_for_sub_trade" onchange="_contractor_discounts.show_discount_by_filter();">
 								<option value="0">-- Select Sub Trade --</option>
 							</select>
 						</td>

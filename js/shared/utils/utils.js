@@ -234,7 +234,7 @@ var _utils = (function () {
             }
         },*/
         setAddressByCity: function( search_by_id ) {
-            var id_prefix = search_by_id.indexOf("property_") == 0 ? "property_" : "";
+            var id_prefix = search_by_id && search_by_id.indexOf("property_") == 0 ? "property_" : "";
             var city = $('#'+id_prefix+'city').val();
             var postalList = null;
             var i = 0;
@@ -316,7 +316,14 @@ var _utils = (function () {
                 }
             }
 
-            if($.isArray(stateAbrList) && stateAbrList.length == 1) {
+            /*if($.isArray(stateAbrList) && stateAbrList.length == 1) {
+                $('#'+id_prefix+'state').val(stateAbrList[0]);
+                $('#'+id_prefix+'state').focusout();
+            }*/
+            if($("#"+id_prefix+"stateDbVal").val()) {
+                $('#'+id_prefix+'state').val($("#stateDbVal").val());
+                $('#'+id_prefix+'state').focusout();
+            } else if($.isArray(stateAbrList) && stateAbrList.length == 1) {
                 $('#'+id_prefix+'state').val(stateAbrList[0]);
                 $('#'+id_prefix+'state').focusout();
             }
@@ -343,7 +350,14 @@ var _utils = (function () {
                     }));
                 }
                 
-                if (zipList.length == 1) {
+                /*if (zipList.length == 1) {
+                    $('#'+id_prefix+'zipCode').val(zipList[0]);
+                    $('#'+id_prefix+'zipCode').focusout();
+                }*/
+                if( $("#"+id_prefix+"zipcodeDbVal").val()) {
+                   $('#'+id_prefix+'zipCode').val($("#zipcodeDbVal").val());
+                    $('#'+id_prefix+'zipCode').focusout(); 
+                } else if (zipList.length == 1) {
                     $('#'+id_prefix+'zipCode').val(zipList[0]);
                     $('#'+id_prefix+'zipCode').focusout();
                 }
@@ -351,6 +365,7 @@ var _utils = (function () {
         },
         setCountryStateOfDb: function (moduleId, id_prefix) {
             var country = $('#countryDbVal').val();
+            var state = $('#stateDbVal').val();
             var state = $('#stateDbVal').val();
 
             if (!country) {

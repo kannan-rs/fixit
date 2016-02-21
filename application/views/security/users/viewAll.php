@@ -24,7 +24,7 @@
 		}
 
 		for($i = 0; $i < count($users); $i++) { 
-			$deleteText = ($users[$i]->role_id == '') ?"": $this->lang->line_arr('user->buttons_links->delete');
+			$deleteText = ( $users[$i]->role_id == $admin_role_id ) ? "" : $this->lang->line_arr('user->buttons_links->delete');
 			$deleteFn = $deleteText ? "_users.deleteRecord(".$users[$i]->sno.", '".$users[$i]->user_name."')" : "";
 			echo "<tr class='row'>";
 			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_users.viewOne({ userId: ".$users[$i]->sno."})\">". $users[$i]->user_name ."</td>";
