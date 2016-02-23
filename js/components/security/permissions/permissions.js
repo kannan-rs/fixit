@@ -597,7 +597,7 @@ var _permissions = (function () {
                 action += "onclick=\"_permissions.deleteRecord("+permissionList[i].sno+")\" title=\"Delete Permission\"></a>";
                 action += "</span>";
 
-                $("#permissionListTable").append("<tr class='cell'>"+roleTd+functionTd+operationTd+dataFilterTd+action+"</tr>");
+                $("#permissionListTable").append("<tr class='cell'>"+functionTd+operationTd+dataFilterTd+action+"</tr>");
             }
         },
         deleteRecord: function( permissionId ) {

@@ -21,8 +21,8 @@ session = <?php print_r(json_encode($initVar)); ?>;
 <div class="wrapper">
 
 	<!-- Header -->
-	<header class="header">
-		<?php echo $header; ?>
+	<header class="header" ng-controller="header">
+		<div ng-include="header_view"></div>
 	</header>
 	<!-- Top Navigation Menu -->
 	<div class="nav_top" ng-controller="top_menu">

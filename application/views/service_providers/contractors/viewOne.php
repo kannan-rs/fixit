@@ -265,11 +265,11 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td colspan="5">
 							Select main trade and sub trade to filter the discount list or to add new discount
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 			</div>
 			<div id="discountList"></div>

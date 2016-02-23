@@ -95,7 +95,8 @@ class Model_permissions extends CI_Model {
 			'role_id' => $this->input->post('role_id'),
 			'op_id' => $this->input->post('op_sno'),
 			'function_id' => $this->input->post('fn_id'),
-			'data_filter_id' => $this->input->post('df_sno')
+			'data_filter_id' => $this->input->post('df_sno'),
+			'is_deleted'	=> '0'
 		);
 
 		if($permission_id != "") {
@@ -111,6 +112,7 @@ class Model_permissions extends CI_Model {
 		if($function_id != "") {
 			$this->db->where("function_id", $function_id);
 		}
+		$this->db->where('is_deleted', '0');
 
 		$get_query 		= $this->db->get('permissions');
 		$get 			= $get_query->result();
@@ -119,6 +121,7 @@ class Model_permissions extends CI_Model {
 		$response = array(
 			"status" => "success"
 		);
+
 		if( $count > 1) {
 			$response["status"] = "error";
 			$response["message"] = "Something is wrong while updating permission, please try proper combination";

@@ -60,7 +60,7 @@
 		<table cellspacing="0" id="permissionListTable">
 			<tr class="header">
 				<!-- <td class="permUserName">User Name</td> -->
-				<td clas="permRole">Role</td>
+				<!-- <td clas="permRole">Role</td> -->
 				<td clas="permFunction">Function</td>
 				<td clas="permOperation">Operation</td>
 				<td clas="permDataFilter">DataFilter</td>

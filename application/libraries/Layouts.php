@@ -20,8 +20,13 @@ class Layouts {
 			//"js/library/menus.js",
 			"js/shared/themes/default/layouts.js",
 			"js/shared/apps/fixit_app.js",
+
 			"js/shared/top_menu/top_menu_ctrl.js",
 			"js/shared/top_menu/top_menu_directive.js",
+
+			"js/shared/header/header_ctrl.js",
+			//"js/shared/header/header_directive.js",
+
 			"js/submit.js",
 			"js/shared/utils/utils.js",
 			"js/shared/utils/messages.js",
@@ -200,7 +205,7 @@ class Layouts {
 
 	public function setLayout($params) {
 		// set layout's Header
-		$this->layout_data['header'] 			= $this->CI->load->view("themes/".$this->layout_template."/header", $this->layout_data, true);
+		//$this->layout_data['header'] 			= $this->CI->load->view("themes/".$this->layout_template."/header", $this->layout_data, true);
 		
 		// set layout's top menu Links
 		//$this->layout_data['top_menu'] 			= $this->CI->load->view("themes/".$this->layout_template."/top_menu", $this->layout_data, true);

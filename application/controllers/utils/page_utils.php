@@ -17,4 +17,22 @@ class page_utils extends CI_Controller {
 	public function get_page_menus() {
 		echo $this->layouts->top_menu();
 	}
+
+	public function header_data() {
+		$is_logged_in = is_logged_in();
+		$response = array(
+			"base_url"		=> base_url(),
+			"is_logged_in"	=> $is_logged_in
+		);
+
+		if($is_logged_in) {
+			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+			$response["logged_in_user_email"]		= $this->session->userdata("email");
+			$response["role_disp_name"]				= $role_disp_name;
+		} else {
+			$response["existing_user_sign_in"]		= $this->lang->line_arr('headers->existing_user');
+			$response["new_user_sign_up"]			= $this->lang->line_arr('headers->new_user');
+		}
+		print_r(json_encode($response));
+	}
 }

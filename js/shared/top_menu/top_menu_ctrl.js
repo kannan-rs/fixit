@@ -1,7 +1,9 @@
 // Top Menu Controller
 fixit_app.controller('top_menu', function($scope, $http) {
-	$http
-		.get("/utils/page_utils/get_page_menus")
+	$scope.top_menu_view 	= "/js/shared/top_menu/top_menu_template.html";
+	$http({
+		'url' : "/utils/page_utils/get_page_menus"
+	})
 		.then(function( response ) {
 			$scope.page 	= session.page && session.page != "home" ? session.page : "index";
 
@@ -12,6 +14,5 @@ fixit_app.controller('top_menu', function($scope, $http) {
 			}
 
 			$scope.menus = menus;
-			$scope.top_menu_view 	= "/js/shared/top_menu/top_menu_template.html";
 		});
 });

@@ -7,16 +7,32 @@ S1: Trades and sub trades need to be entered by Fixit admin
 S2: SP Admin expites, service provided admin can select multiple trade and multiple sub trade
 s3: SP Admin details,
 
-Works Done :
-1. Added users in Database and provided roles using different way.
-2. Removed default button from permissions 
-3. Specifying roles and perminssions 
-4. Tested with permission and fixed some issues
-	1. Signup issue directly from website, it was checking for logged in users to do action which is changed, so that not logged in or new customer can register
-	2. Fixed login issue for checking status while logging in.
-	3. Added check while generating top menus based on dependency[Role Name]
-	4. On login showed respective page for logged in users. If the user has acces to project then show projects else shoe its respective default page.
-	5. If logged in as admin during order by it removes delete i 2 place. Chaged the logic and made a strict condition to check only for Admin user, rmove the delete link.
-5. Fixed address population issue during edit.
-6. Show disocunt list based on the selection of trade and sub trade
+>Permission to be added into live from dev as per XLS
+> Discount in tabler format
+> Provide space for ads in projects
+-------------
 
+Permission setting and testing (20 - 4.25 = 15.75)
+1. If permission is set and deleted, and if user tries to set the same permission, it is not getting lister. (1)
+2. Removed role column from permission (.25)
+
+3. Setting of permission (2)
+	Questions ()
+	1. What is the difference between 
+		Service Provider Admin
+		Service Provider Agent
+		Service provider User
+	2. What isthe difference between
+		Insurance Admin
+		Insurance call center agent
+		Adjuster
+	3. When we say permission like 
+		For Service privider Admin , he has permission to Create, Update, View users of data filter service privoder user.
+			> This means a user who is having service provider admin as role has a permission to create, upate and view users with permission service provider user who are assigned to the service provider company ? Is my understanding is correct.
+	4. As of now create, update and view of users is under Security > Users which is completely owned by "Super Admin". Do we need to liverage this for other users as well ?
+
+	Also having some more questions related to data verification. Can we have a call by Tomorrow  Morning PST.
+
+4. Discount list as a table with 1 header row. (1hr)- Done
+	name | Description | Date | Available on zip codes
+	10% off for weekend sale | <description > | <date> | <Zip>
