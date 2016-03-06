@@ -12,11 +12,11 @@ s3: SP Admin details,
 > Provide space for ads in projects
 -------------
 
-Permission setting and testing (20 - 4.25 = 15.75)
-1. If permission is set and deleted, and if user tries to set the same permission, it is not getting lister. (1)
-2. Removed role column from permission (.25)
+Permission setting and testing
+1. If permission is set and deleted, and if user tries to set the same permission, it is not getting lister.
+2. Removed role column from permission
 
-3. Setting of permission (2)
+3. Setting of permission
 	Questions ()
 	1. What is the difference between 
 		Service Provider Admin
@@ -33,6 +33,16 @@ Permission setting and testing (20 - 4.25 = 15.75)
 
 	Also having some more questions related to data verification. Can we have a call by Tomorrow  Morning PST.
 
-4. Discount list as a table with 1 header row. (1hr)- Done
+4. Discount list as a table with 1 header row. - Done
 	name | Description | Date | Available on zip codes
 	10% off for weekend sale | <description > | <date> | <Zip>
+
+Plans for this week
+-------------------
+Permission for data filter to the best.
+Customer - Show his records in project
+Adjuster admin - show all projects which he created or assigned to his company and which he is assigned to
+Adjuster User - Show all the projects where he is assigned to
+
+Contractor admin - Show projects which he company is part of.
+Contractor User - Show projects which he is assigned

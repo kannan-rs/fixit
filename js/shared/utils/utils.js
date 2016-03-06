@@ -496,11 +496,11 @@ var _utils = (function () {
             }
         },
 
-        getCustomerList: function ( data ) {
+        getFromUsersList: function ( data ) {
             data = data && data instanceof Object ? data : {};
             var customer = $.ajax({
                 method: "POST",
-                url: "/utils/formUtils/getCustomerList",
+                url: "/utils/formUtils/getFromUsersList",
                 data: data,
                 async: false
             }).responseText;
@@ -517,7 +517,7 @@ var _utils = (function () {
             return adjuster;
         },
         setCustomerDataList: function () {
-            var response = this.getCustomerList();
+            var response = this.getFromUsersList();
             var responseObj = $.parseJSON(response);
             var customer = [];
             if (responseObj.status === "success") {

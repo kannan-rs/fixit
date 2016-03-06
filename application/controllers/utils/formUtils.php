@@ -29,20 +29,20 @@ class formUtils extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
-	public function getCustomerList() {
-		$emailId 	= $this->input->post('emailId');
-		$belongsTo	= $this->input->post('belongsTo');
-		$assignment	= $this->input->post('assignment');
+	public function getFromUsersList() {
+		$emailId 			= $this->input->post('emailId');
+		$role_disp_name		= $this->input->post('role_disp_name');
+		$assignment			= $this->input->post('assignment');
 
 		$requestData = array(
-			"emailId"		=> $emailId,
-			"belongsTo"		=> $belongsTo,
-			"assignment"	=> $assignment,
+			"emailId"				=> $emailId,
+			"role_disp_name"		=> $role_disp_name,
+			"assignment"			=> $assignment,
 		);
 
 		$this->load->model('utils/model_form_utils');
 
-		$response = $this->model_form_utils->getCustomerList( $requestData );
+		$response = $this->model_form_utils->getFromUsersList( $requestData );
 
 		print_r(json_encode($response));
 	}

@@ -186,10 +186,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -208,11 +205,8 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		$main_trade_id = $this->input->post("master_main_trade_id");
-		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id)) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN || empty($main_trade_id)) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -243,11 +237,9 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		$main_trade_id = $this->input->post("master_main_trade_id");
 
-		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id)) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN || empty($main_trade_id)) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -268,12 +260,9 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		$main_trade_id = $this->input->post("master_main_trade_id");
 		$sub_trade_id = $this->input->post("master_sub_trade_id");
-		if($role_disp_name != ROLE_ADMIN || empty($main_trade_id) || empty($sub_trade_id)) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN || empty($main_trade_id) || empty($sub_trade_id)) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -327,8 +316,8 @@ class Trades extends CI_Controller {
 		$data = array(
 			'trade_belongs_to_contractor_id'	=> $contractor_id,
 			'trade_id_from_master_list' 		=> $main_trade_id,
-			'created_by'						=> $this->session->userdata('user_id'),
-			'updated_by'						=> $this->session->userdata('user_id'),
+			'created_by'						=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'						=> $this->session->userdata('logged_in_user_id'),
 			'created_on'						=> date("Y-m-d H:i:s"),
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
@@ -343,8 +332,8 @@ class Trades extends CI_Controller {
 						'trade_belongs_to_contractor_id'	=> $contractor_id,
 						'trade_id_from_master_list' 		=> $sub_trades_id_arr[$i],
 						'trade_parent'						=> $main_trade_id,
-						'created_by'						=> $this->session->userdata('user_id'),
-						'updated_by'						=> $this->session->userdata('user_id'),
+						'created_by'						=> $this->session->userdata('logged_in_user_id'),
+						'updated_by'						=> $this->session->userdata('logged_in_user_id'),
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
@@ -364,10 +353,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -403,10 +389,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -444,10 +427,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -482,10 +462,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -521,10 +498,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -549,10 +523,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);
@@ -664,8 +635,8 @@ class Trades extends CI_Controller {
 						'trade_belongs_to_contractor_id'	=> $contractor_id,
 						'trade_id_from_master_list' 		=> $to_add_sub_trades_id_arr[$i],
 						'trade_parent'						=> $main_trade_id,
-						'created_by'						=> $this->session->userdata('user_id'),
-						'updated_by'						=> $this->session->userdata('user_id'),
+						'created_by'						=> $this->session->userdata('logged_in_user_id'),
+						'updated_by'						=> $this->session->userdata('logged_in_user_id'),
 						'created_on'						=> date("Y-m-d H:i:s"),
 						'updated_on'						=> date("Y-m-d H:i:s")
 					);
@@ -818,8 +789,8 @@ class Trades extends CI_Controller {
 			'trade_parent'						=> $main_trade_id,
 			'trade_belongs_to_contractor_id'	=> $contractor_id,
 			'trade_name' 						=> $sub_trade_name,
-			'created_by'						=> $this->session->userdata('user_id'),
-			'updated_by'						=> $this->session->userdata('user_id'),
+			'created_by'						=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'						=> $this->session->userdata('logged_in_user_id'),
 			'created_on'						=> date("Y-m-d H:i:s"),
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
@@ -894,8 +865,8 @@ class Trades extends CI_Controller {
 
 		$data = array(
 			'trade_name' 						=> $sub_trade_name,
-			'created_by'						=> $this->session->userdata('user_id'),
-			'updated_by'						=> $this->session->userdata('user_id'),
+			'created_by'						=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'						=> $this->session->userdata('logged_in_user_id'),
 			'created_on'						=> date("Y-m-d H:i:s"),
 			'updated_on'						=> date("Y-m-d H:i:s")
 		);
@@ -951,10 +922,7 @@ class Trades extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$no_permission_options = array(
 				'page_disp_string' => "Trades management list"
 			);

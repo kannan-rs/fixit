@@ -16,30 +16,6 @@ class Users extends CI_controller {
 		$this->session->userdata("module", $module);
 	}
 
-	private function _getAddressFile($view = '', $user_details = array())
-	{
-		$this->load->model('utils/model_form_utils');
-		$addressParams = array();
-		
-		if(isset($user_details) && count($user_details)) {
-				$stateText = !empty($user_details[0]->addr_state) ? $this->model_form_utils->getCountryStatus($user_details[0]->addr_state)[0]->name : "";
-
-				$addressParams['addressLine1'] 		= $user_details[0]->addr1;
-				$addressParams['addressLine2'] 		= $user_details[0]->addr2;
-				$addressParams['city'] 				= $user_details[0]->addr_city;
-				$addressParams['country'] 			= $user_details[0]->addr_country;
-				$addressParams['state']				=  $view == 'view' ? $stateText : $user_details[0]->addr_state;
-				$addressParams['zipCode'] 			= $user_details[0]->addr_pin;
-				$addressParams['requestFrom'] 		= 'view';
-		}
-		if(isset($view) && !empty($view) && $view != 'view') {
-			$addressParams['forForm'] 		= $view;
-			$addressParams['requestFrom'] 		= "input";
-		}
-
-		return $this->load->view("forms/address", $addressParams, true);
-	}
-
 	private function _getNotificationText( $status = '', $responseType = '', $user_details = array()) 
 	{
 		$patterns = array();
@@ -62,17 +38,22 @@ class Users extends CI_controller {
 		return $this->load->view("forms/notice", $noticeParams, true);
 	}
 
+	/**
+	| Support function to list all users as table on clicking "security > Users > View Users"
+	**/
 	public function viewAll() 
 	{
+		/* Checking for logged in or not */
 		if(!is_logged_in()) {
 			print_r(json_encode(response_for_not_logged_in()));
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		//User > Permissions for logged in User by role_id
+		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		/* Checking for page access permission */
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN && !in_array(OPERATION_VIEW, $userPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "users list"
 			);
@@ -87,7 +68,6 @@ class Users extends CI_controller {
 		$getParams = array(
 			"dataFor" => "roles"
 		);
-		//$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : "";
 		$status 		= $this->input->post('status');
@@ -99,8 +79,11 @@ class Users extends CI_controller {
 		if(!empty($record) && isset($status) && !empty($status) && isset($responseType) && !empty($responseType)) {
 			$actionOnUsers 			= $this->model_users->getUsersList($record);
 			$actionOnUser_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
-
 			$noticeFile = $this->_getNotificationText($status, $responseType, $actionOnUser_details);
+		}
+
+		for($i = 0; $i < count($users); $i++) {
+			$users[$i]->role_disp_name = $this->model_roles->get_role_name_by_role_id($users[$i]->role_id);
 		}
 
 		$params = array(
@@ -121,7 +104,6 @@ class Users extends CI_controller {
 			return false;
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		$this->load->model('security/model_permissions');
 
 		$getParams = array(
@@ -129,15 +111,15 @@ class Users extends CI_controller {
 		);
 		$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
-		$addressFile = $this->_getAddressFile('create_user_form');
+		$addressFile = $this->form_lib->getAddressFile(array("requestFrom" => "input", "view" => "create_user_form"));
 
 		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
 		$belongsTo 		= $this->input->post('belongsTo') ? $this->input->post('belongsTo') : "";
 		
 		$params = array(
-			'role_id'			=> $role_id,
-			'role_disp_name' 	=> $role_disp_name,
+			'role_id'			=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'is_logged_in' 		=> is_logged_in(),
 			'addressFile' 		=> $addressFile,
 			'openAs' 			=> $openAs,
@@ -160,10 +142,8 @@ class Users extends CI_controller {
 		$response = array(
 			'status'	=> "error"
 		);
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if(is_logged_in() && $role_disp_name != ROLE_ADMIN ) {
+		if(is_logged_in() && $this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -179,7 +159,7 @@ class Users extends CI_controller {
 		$tc 			= $this->input->post('tc');
 		$activationKey 	= md5($emailId."-".$password);
 
-		if(!$this->session->userdata("user_id") && (!isset($tc) || empty($tc))) {
+		if(!$this->session->userdata('logged_in_user_id') && (!isset($tc) || empty($tc))) {
 			$response["status"] 			= "error";
 			$response["message"] 			= "Please accept terms and condition";
 			print_r(json_encode($response));
@@ -201,17 +181,17 @@ class Users extends CI_controller {
 				'contact_mobile' 		=> $this->input->post('mobileNumber'),
 				'contact_alt_mobile'	=> $this->input->post('altNumber'),
 				'primary_contact'		=> $this->input->post('primaryContact'),
-				'addr1' 				=> $this->input->post('addressLine1'),
-				'addr2' 				=> $this->input->post('addressLine2'),
-				'addr_city' 			=> $this->input->post('city'),
-				'addr_state' 			=> $this->input->post('state'),
-				'addr_country' 			=> $this->input->post('country'),
-				'addr_pin'				=> $this->input->post('zipCode'),
+				'address1' 				=> $this->input->post('addressLine1'),
+				'address2' 				=> $this->input->post('addressLine2'),
+				'city' 			=> $this->input->post('city'),
+				'state' 			=> $this->input->post('state'),
+				'country' 			=> $this->input->post('country'),
+				'zip_code'				=> $this->input->post('zipCode'),
 				'contact_pref' 			=> $this->input->post('prefContact'),
 				'created_dt' 			=> date("Y-m-d H:i:s"),
 				'last_updated_dt' 		=> date("Y-m-d H:i:s"),
-				'created_by'			=> $this->session->userdata("user_id"),
-				'updated_by'			=> $this->session->userdata("user_id")
+				'created_by'			=> $this->session->userdata('logged_in_user_id'),
+				'updated_by'			=> $this->session->userdata('logged_in_user_id')
 			);
 
 			$inserted = $this->model_users->insertUserDetails($createUser_data);
@@ -223,8 +203,8 @@ class Users extends CI_controller {
 					'role_id' 				=> $this->input->post('privilege'),
 					'activation_key' 		=> $activationKey,
 					'status' 				=> $userStatus,
-					'created_by'			=> $this->session->userdata("user_id"),
-					'updated_by'			=> $this->session->userdata("user_id"),
+					'created_by'			=> $this->session->userdata('logged_in_user_id'),
+					'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 					'created_date'			=> date("Y-m-d H:i:s"),
 					'updated_date'			=> date("Y-m-d H:i:s")
 				);
@@ -314,10 +294,10 @@ class Users extends CI_controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);//User > Permissions for logged in User by role_id
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		/* Checking for page access permission */
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_UPDATE, $userPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "edit user"
 			);
@@ -333,7 +313,7 @@ class Users extends CI_controller {
 		);
 		$roles = $this->model_permissions->getAllList($getParams)["roles"];
 
-		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
+		$record = $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata('logged_in_user_id');
 
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
@@ -360,7 +340,7 @@ class Users extends CI_controller {
 			$referredByName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
 		}
 
-		$addressFile = $this->_getAddressFile('update_user_form', $user_details);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_user_form", "requestFrom" => "input", "address_data" => $user_details[0]));
 
 		$params = array(
 			'record' 			=> $record,
@@ -370,8 +350,8 @@ class Users extends CI_controller {
 			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
 			'addressFile' 		=> $addressFile,
-			'role_id' 			=> $role_id,
-			'role_disp_name'	=> $role_disp_name,
+			'role_id' 			=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'	=> $this->session->userdata('logged_in_role_disp_name'),
 			'is_logged_in' 		=> is_logged_in(),
 			'roles'				=> $roles,
 		);
@@ -388,10 +368,11 @@ class Users extends CI_controller {
 		$response = array(
 			'status'	=> "error"
 		);
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS); //User > Permissions for logged in User by role_id
+
+		/* Checking for page access permission */
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_UPDATE, $userPermission['operation'])) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -438,14 +419,14 @@ class Users extends CI_controller {
 			'contact_alt_mobile'	=> $altNumber,
 			'primary_contact'		=> $primaryContact,
 			'contact_pref'			=> $prefContact,
-			'addr1' 				=> $addressLine1,
-			'addr2' 				=> $addressLine2,
-			'addr_city' 			=> $city,
-			'addr_state' 			=> $state,
-			'addr_country' 			=> $country,
-			'addr_pin'				=> $zipCode,
+			'address1' 				=> $addressLine1,
+			'address2' 				=> $addressLine2,
+			'city' 					=> $city,
+			'state' 				=> $state,
+			'country' 				=> $country,
+			'zip_code'				=> $zipCode,
 			'last_updated_dt' 		=> date("Y-m-d H:i:s"),
-			'updated_by'			=> $this->session->userdata('user_id')
+			'updated_by'			=> $this->session->userdata('logged_in_user_id')
 		);
 
 		if( $active_start_date != "" )
@@ -505,10 +486,8 @@ class Users extends CI_controller {
 		$response = array(
 			'status'	=> "error"
 		);
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -543,11 +522,10 @@ class Users extends CI_controller {
 			print_r(json_encode(response_for_not_logged_in()));
 			return false;
 		}
-		
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
-		if($role_disp_name != ROLE_ADMIN ) {
+		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS); //User > Permissions for logged in User by role_id
+
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_VIEW, $userPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "user details"
 			);
@@ -556,14 +534,14 @@ class Users extends CI_controller {
 		}
 		include 'include_user_model.php';
 
-		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata("user_id");
+		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata('logged_in_user_id');
 		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "home";
 		$status 		= $this->input->post('status');
 		$responseType 	= $this->input->post('responseType');
 
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
-		$stateDetails 	= $this->model_form_utils->getCountryStatus($user_details[0]->addr_state);
+		$stateDetails 	= $this->model_form_utils->getCountryStatus($user_details[0]->state);
 
 		$belongsToName = "";
 		if(!empty($user_details[0]->belongs_to_id) && !empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to != "customer") {
@@ -592,7 +570,7 @@ class Users extends CI_controller {
 			}
 		}
 
-		$addressFile = $this->_getAddressFile('view', $user_details);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "view", "address_data" => $user_details[0]));
 		
 		if(isset($status) && !empty($status) && isset($responseType) && !empty($responseType)) {
 			$noticeFile = $this->_getNotificationText($status, $responseType, $user_details);
@@ -604,7 +582,7 @@ class Users extends CI_controller {
 			'users'				=> $users,
 			'user_details' 		=> $user_details,
 			'state' 			=> $stateDetails,
-			'userType' 			=> $this->session->userdata("role_id"),
+			'userType' 			=> $this->session->userdata('logged_in_role_id'),
 			'addressFile' 		=> $addressFile,
 			'belongsToName' 	=> !empty($belongsToName) ? $belongsToName : "-NA-",
 			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-",
@@ -612,5 +590,65 @@ class Users extends CI_controller {
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);
+	}
+
+	function getFromUsersList() {
+		$response = array("status" => "error");
+
+		$queryStr 	= "SELECT users.sno, users.user_name, ";
+		$queryStr	.= "user_details.email, user_details.first_name, user_details.last_name ";
+		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+
+
+		if(isset($params) && is_array($params)) {
+			$emailId	= isset($params["emailId"]) ? $params["emailId"] : "";
+			$belongsTo	= isset($params["belongsTo"]) ? $params["belongsTo"] : "";
+			$assignment	= isset($params["assignment"]) ? $params["assignment"] : "";
+			
+			if(!empty($emailId)) {
+				$this->db->like('email', $emailId);
+				$queryStr .=" AND `email` LIKE '%".$emailId."%'";
+			}
+			if(!empty($belongsTo)) {
+				$belongsToArr = explode("|", $belongsTo);
+				$belongsToStr = "";
+				for($i = 0; $i < count($belongsToArr); $i++) {
+					$belongsToArr[$i] = $belongsToArr[$i] == "empty" ? "" : $belongsToArr[$i];
+					$belongsToStr .= $i > 0 ? "," : "";
+					$belongsToStr .= "'".$belongsToArr[$i]."'";
+				}
+				$this->db->where_in('belongs_to', $belongsToArr);
+				$queryStr .=" AND `belongs_to` IN (".$belongsToStr.")";
+			} else {
+				/*$this->db->where('belongs_to', "customer");
+				$queryStr .=" AND `belongs_to` = \"customer\"";*/
+			}
+
+			if(!empty($assignment)) {
+				$assignment = $assignment == "not assigned" ? '0' : $assignment;
+				$this->db->where('belongs_to_id', $assignment);
+				$queryStr .= " AND `belongs_to_id` = '".$assignment."'";
+			}
+		} else {
+			/*$this->db->where('belongs_to', "customer");
+			$queryStr .=" AND `belongs_to` = \"customer\"";*/
+		}
+
+		//echo $queryStr;
+		
+		//$this->db->select(["*"]);
+		//$query = $this->db->from('user_details')->get();
+		$query = $this->db->query($queryStr);
+
+		//echo $this->db->last_query();
+		
+		if($this->db->_error_number()) {
+			$response['message'] = $this->db->_error_message();	
+		} else {
+			$response['status']		= "success";
+			$response['customer'] 	= $query->result();
+		}
+		
+		return $response;
 	}
 }

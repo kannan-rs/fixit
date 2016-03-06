@@ -34,9 +34,6 @@ class Dairy_updates extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 
 		$this->load->model('claims/model_dairy_updates');
 		$this->load->model('security/model_users');
@@ -58,9 +55,6 @@ class Dairy_updates extends CI_Controller {
 			$dairy_updates_response["dairy_updates"][$i]->created_by_name = $this->model_users->getUsersList($dairy_updates_response["dairy_updates"][$i]->created_by)[0]->user_name;
 			$dairy_updates_response["dairy_updates"][$i]->updated_by_name = $this->model_users->getUsersList($dairy_updates_response["dairy_updates"][$i]->updated_by)[0]->user_name;
 		}
-
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-		//Claim > Permissions for logged in User by role_id
 
 		$params = array(
 			'claim_dairy_updates' 	=> isset($dairy_updates_response["dairy_updates"]) ? $dairy_updates_response["dairy_updates"] : [],
@@ -122,8 +116,8 @@ class Dairy_updates extends CI_Controller {
 		$data = array(
 			'claim_id'				=> $claim_id,
 			'dairy_updates_content'	=> $this->input->post('daily_update_content'),
-			'created_by'			=> $this->session->userdata('user_id'),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'created_by'			=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'created_on'			=> date("Y-m-d H:i:s"),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);

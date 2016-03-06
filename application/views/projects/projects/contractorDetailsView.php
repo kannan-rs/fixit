@@ -32,7 +32,7 @@
 			</tr>
 			<tr>
 				<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_contractor->address'); ?></td>
-				<td class='cell' ><?php echo $contractors[$i]->address1.",<br/>".$contractors[$i]->address2.",<br/>".$contractors[$i]->city.",<br/>".$contractors[$i]->state.",<br/>".$contractors[$i]->country.",<br/>".$contractors[$i]->pin_code; ?></td>
+				<td class='cell' ><?php echo $contractors[$i]->address1.",<br/>".$contractors[$i]->address2.",<br/>".$contractors[$i]->city.",<br/>".$contractors[$i]->state.",<br/>".$contractors[$i]->country.",<br/>".$contractors[$i]->zip_code; ?></td>
 			</tr>
 		</table>
 	</div>

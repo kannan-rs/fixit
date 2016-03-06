@@ -56,6 +56,7 @@ if($openAs) {
 						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->name_ph'); ?>">
 				</td>
 			</tr> -->
+			<!-- Company name -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->company'); ?>:</td>
 				<td>
@@ -66,21 +67,22 @@ if($openAs) {
 			<?php
 			if($role_disp_name == ROLE_ADMIN) {
 			?>
-				<tr>
-					<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
-					<td>
-						<input type="text" id="searchForDefaultContractor" name="searchForDefaultContractor" 
-							placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" 
-							onkeyup="_contractors.searchUserByEmail({ emailId : this.value })" 
-							value="<?php echo isset($default_contact_user_disp_str) ? $default_contact_user_disp_str : ""; ?>">
-					</td>
-				</tr>
-				<tr class="default-user-search-result">
-				<td  class="label notMandatory">&nbsp;</td>
-					<td>
-						<ul id="contractorUserList" class="connectedSortable dropdown"></ul>
-					</td>
-				</tr>
+			<!-- Search for default admin user -->
+			<tr>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor'); ?></td>
+				<td>
+					<input type="text" id="searchForDefaultContractor" name="searchForDefaultContractor" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->searchForDefaultContractor_ph'); ?>" 
+						onkeyup="_contractors.searchUserByEmail({ emailId : this.value })" 
+						value="<?php echo isset($default_contact_user_disp_str) ? $default_contact_user_disp_str : ""; ?>">
+				</td>
+			</tr>
+			<tr class="default-user-search-result">
+			<td  class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="contractorUserList" class="connectedSortable dropdown"></ul>
+				</td>
+			</tr>
 			<?php
 			}
 			?>

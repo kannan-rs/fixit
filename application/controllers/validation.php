@@ -20,19 +20,19 @@ class Validation extends CI_Controller {
 			$user_id = $this->model_users->getUserId($email, $password);
 			
 			$data = array(
-				'email' => $email,
-				'is_logged_in'=> 1,
-				'role_id' => $role_id,
-				'user_id' => $user_id
+				'logged_in_email' 	=> $email,
+				'is_logged_in'		=> 1,
+				'logged_in_role_id' => $role_id,
+				'logged_in_user_id' => $user_id
 			);
-
 			$this->session->set_userdata($data);
 
 			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+			$this->session->set_userdata('logged_in_role_disp_name', $role_disp_name);
 
 			$page_const = strtoupper(str_replace(" ", "_", $role_disp_name)."_page");
 
-			$this->session->set_userdata('role_disp_name', $role_disp_name);
+			
 
 			$landing_page = "projects";
 			//Project > Permissions for logged in User by role_id
@@ -122,14 +122,14 @@ class Validation extends CI_Controller {
 				'contact_mobile' 		=> $mobileNumber,
 				'contact_alt_mobile'	=> $altNumber,
 				'primary_contact'		=> $primaryContact,
-				'addr1' 				=> $addressLine1,
-				'addr2' 				=> $addressLine2,
-				'addr3' 				=> $addressLine3,
-				'addr4' 				=> $addressLine4,
-				'addr_city' 			=> $city,
-				'addr_state' 			=> $state,
-				'addr_country' 			=> $country,
-				'addr_pin'				=> $zipCode,
+				'address1' 				=> $addressLine1,
+				'address2' 				=> $addressLine2,
+				'address3' 				=> $addressLine3,
+				'address4' 				=> $addressLine4,
+				'city' 					=> $city,
+				'state' 				=> $state,
+				'country' 				=> $country,
+				'zip_code'				=> $zipCode,
 				'contact_pref' 			=> $prefContact,
 				'created_dt' 			=> date("Y-m-d H:i:s"),
 				'last_updated_dt' 		=> date("Y-m-d H:i:s"),
@@ -205,13 +205,13 @@ class Validation extends CI_Controller {
 			'contact_ph1' 			=> $contactPhoneNumber,
 			'contact_mobile' 		=> $mobileNumber,
 			'contact_pager' 		=> $pagerNumber,
-			'addr1' 				=> $addressLine1,
-			'addr2' 				=> $addressLine2,
-			'addr3' 				=> $addressLine3,
-			'addr4' 				=> $addressLine4,
-			'addr_city' 			=> $city,
-			'addr_state' 			=> $state,
-			'addr_country' 			=> $country,
+			'address1' 				=> $addressLine1,
+			'address2' 				=> $addressLine2,
+			'address3' 				=> $addressLine3,
+			'address4' 				=> $addressLine4,
+			'city' 					=> $city,
+			'state' 				=> $state,
+			'country' 				=> $country,
 			'contact_pref' 			=> $pref,
 			'last_updated_dt' 		=> date("Y-m-d H:i:s")
 		);

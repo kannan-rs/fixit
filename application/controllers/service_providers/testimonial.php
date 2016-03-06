@@ -102,8 +102,8 @@ class Testimonial extends CI_Controller {
 			'testimonial_descr'				=> $testimonial_descr,
 			'testimonial_rating'			=> $testimonial_rating,
 			'testimonial_date'				=> $testimonial_date,
-			'created_by'					=> $this->session->userdata('user_id'),
-			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_by'					=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'					=> $this->session->userdata('logged_in_user_id'),
 			'created_on'					=> date("Y-m-d H:i:s"),
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
@@ -180,7 +180,7 @@ class Testimonial extends CI_Controller {
 			'testimonial_descr'				=> $testimonial_descr,
 			'testimonial_rating'			=> $testimonial_rating,
 			'testimonial_date'				=> $testimonial_date,
-			'updated_by'					=> $this->session->userdata('user_id'),
+			'updated_by'					=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
 

@@ -86,7 +86,7 @@ define('ROLE_INSURANCECO_CALL_CENTER_AGENT', 	'insuranceco call center agent');
 define('ROLE_INSURANCECO_ADMIN', 				'insuranceco admin');
 define('ROLE_CUSTOMER', 						'customer');
 define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
-define('ROLE_SERVICE_PROVIDER_USER', 			'service provider user');
+define('ROLE_SERVICE_PROVIDER_USER',			'service provider user');
 
 /*
 | Role to page mapping
@@ -154,7 +154,7 @@ define('TOP_MENUS', '[
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
-			"roles_by_name"	: ["'.ROLE_ADMIN.'"]
+			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
 		},
 		"sub_menus"		: [
 			{
@@ -162,7 +162,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/users", 
 				"key"			: "users",
 				"dependency"	: {
-					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -170,7 +170,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/users", 
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
 						}
 					},
 					{
@@ -178,7 +178,7 @@ define('TOP_MENUS', '[
 						"link" 			: "/main/security/users/create_user",
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
 						}
 					}
 				]

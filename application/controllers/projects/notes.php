@@ -32,10 +32,6 @@ class Notes extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-
 		$this->load->model('projects/model_notes');
 		$this->load->model('security/model_users');
 		$this->load->model('projects/model_projects');
@@ -61,13 +57,12 @@ class Notes extends CI_Controller {
 			$projectNotesResponse["notes"][$i]->updated_by_name = $this->model_users->getUsersList($projectNotesResponse["notes"][$i]->updated_by)[0]->user_name;
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission' => $projectPermission
 		);
 		$project 			= $this->model_projects->getProjectsList($projectParams);
@@ -161,8 +156,8 @@ class Notes extends CI_Controller {
 			'task_id'			=> $taskId,
 			'notes_name'		=> $this->input->post('noteName'),
 			'notes_content'		=> $this->input->post('noteContent'),
-			'created_by'		=> $this->session->userdata('user_id'),
-			'updated_by'		=> $this->session->userdata('user_id'),
+			'created_by'		=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
 			'created_date'		=> date("Y-m-d H:i:s"),
 			'updated_date'		=> date("Y-m-d H:i:s")
 		);
@@ -174,13 +169,12 @@ class Notes extends CI_Controller {
 			$response["taskId"] = $this->input->post('taskId');
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
@@ -275,13 +269,12 @@ class Notes extends CI_Controller {
 			$projectId 	= !empty($note->project_id) ? $note->project_id : null;
 			$taskId 	= !empty($note->task_id) ? $note->task_id : null;
 
-			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 			//Project > Permissions for logged in User by role_id
 			$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		
 			$projectParams = array(
 				'projectId' 		=> [$projectId],
-				'role_disp_name' 	=> $role_disp_name,
+				'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 				'projectPermission'	=> $projectPermission
 			);
 			$projects = $this->model_projects->getProjectsList($projectParams);

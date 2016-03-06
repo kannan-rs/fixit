@@ -1335,7 +1335,7 @@ var _projects = (function () {
             Contractor Search Add and Remove
             for create and Edit form
         */
-        searchContractorAction: function (events) {
+        searchContractorAction: function ( event ) {
             var element = event.target;
             var modifyactionToDo = null;
             var clickedId = $(element).attr("data-contractorid");

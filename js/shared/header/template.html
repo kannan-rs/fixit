@@ -1,0 +1,31 @@
+<!-- TITLE -->
+<div class="logo">
+	<a href="#"><img ng-src="{{ base_url }}images/logo.jpg" class="logo-img"></a>
+	<br/>
+	<span class="captionText">A marketplace for you and your resources</span>
+</div>
+
+<div class='logged_in' ng-show='is_logged_in'>
+		<span class="logged-in-as">
+			Logged in as {{ logged_in_user_email }} 
+		</span>
+		<span class="logged-in-as">
+			Role as <b><i>{{ role_disp_name }}</i></b>
+			<a href='{{ base_url }}main/logout'>Logout</a>
+		</span>
+</div>
+<!--	if ($page != "signup" && $page != "login" && $page != "forgotpass") { -->
+<div class="login_form" ng-show="!is_logged_in">
+	<table>
+		<tbody>
+			<tr>
+				<td>{{ existing_user_sign_in[0] }} <a class="signup" ng-href="{{ base_url}}main/login">{{ existing_user_sign_in[1] }}</a> </td>
+			</tr>
+			<tr>
+				<td>{{ new_user_sign_up[0] }} <a class="signup" ng-href="{{ base_url }}main/signup">{{ new_user_sign_up[1] }}</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="clear"></div>
+<!-- END TITLE

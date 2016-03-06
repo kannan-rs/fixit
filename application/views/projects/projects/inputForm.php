@@ -145,7 +145,7 @@
 				<tr class="contractor-search-selected">
 					<td class="label"><?php echo $contractorLable; ?></td>
 					<td>
-						<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction()">
+						<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction(event)">
 						</ul>
 					</td>
 				</tr>
@@ -159,7 +159,7 @@
 				<tr class="contractor-search-result">
 					<td class="label notMandatory">&nbsp;</td>
 					<td>
-						<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction()"></ul>
+						<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction(event)"></ul>
 					</td>
 				</tr>
 

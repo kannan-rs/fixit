@@ -10,7 +10,7 @@ if(is_logged_in()) {
 ?>
 	<div class='logged_in'>
 			<span class="logged-in-as">
-				Logged in as <?php echo $this->session->userdata("email") ?> 
+				Logged in as <?php echo $this->session->userdata('logged_in_email') ?> 
 			</span>
 			<span class="logged-in-as">
 				Role as <b><i><?php echo $role_disp_name; ?></i></b>

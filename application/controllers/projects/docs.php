@@ -20,9 +20,6 @@ class Docs extends CI_Controller {
 			print_r(json_encode(response_for_not_logged_in()));
 			return false;
 		}
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
 		$docsPermission = $this->permissions_lib->getPermissions(FUNCTION_DOCS);
@@ -55,13 +52,12 @@ class Docs extends CI_Controller {
 			}
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 		
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 
@@ -71,7 +67,7 @@ class Docs extends CI_Controller {
 			'projectId' 		=> $projectId,
 			'projectName' 		=> $project[0]->project_name,
 			'projectDescr' 		=> $project[0]->project_descr,
-			'accountType' 		=> $this->session->userdata('role_id')
+			'accountType' 		=> $this->session->userdata('logged_in_role_id')
 		);
 
 		$internalLinkParams = array(
@@ -153,21 +149,20 @@ class Docs extends CI_Controller {
 					'document_content' 		=> addslashes(file_get_contents($_FILES['docAttachment']['tmp_name'])),
 					'att_name' 				=> $_FILES["docAttachment"]["name"],
 					'att_type'				=> $_FILES["docAttachment"]["type"],
-					'created_by'			=> $this->session->userdata('user_id'),
+					'created_by'			=> $this->session->userdata('logged_in_user_id'),
 					'created_on' 			=> date("Y-m-d H:i:s"),
-					'updated_by' 			=> $this->session->userdata('user_id'),
+					'updated_by' 			=> $this->session->userdata('logged_in_user_id'),
 					'updated_on' 			=> date("Y-m-d H:i:s")
 				);
 
 				$response = $this->model_docs->insert($data);
 
-				list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 				//Project > Permissions for logged in User by role_id
 				$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 				$projectParams = array(
 					'projectId' 		=> [$projectId],
-					'role_disp_name' 	=> $role_disp_name,
+					'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 					'projectPermission'	=> $projectPermission
 				);
 
@@ -284,7 +279,6 @@ class Docs extends CI_Controller {
 
 		$response = $this->model_docs->deleteRecord($docId);
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
@@ -295,7 +289,7 @@ class Docs extends CI_Controller {
 
 			$projectParams = array(
 				'projectId' 		=> [$projectId],
-				'role_disp_name' 	=> $role_disp_name,
+				'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 				'projectPermission'	=> $projectPermission
 			);
 

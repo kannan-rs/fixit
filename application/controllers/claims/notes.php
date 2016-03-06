@@ -32,10 +32,6 @@ class Notes extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
-
 		$this->load->model('claims/model_notes');
 		$this->load->model('security/model_users');
 		$this->load->model('claims/model_claims');
@@ -57,7 +53,6 @@ class Notes extends CI_Controller {
 			$notesResponse["notes"][$i]->updated_by_name = $this->model_users->getUsersList($notesResponse["notes"][$i]->updated_by)[0]->user_name;
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Claim > Permissions for logged in User by role_id
 
 		$params = array(
@@ -120,8 +115,8 @@ class Notes extends CI_Controller {
 		$data = array(
 			'claim_id'			=> $claim_id,
 			'notes_content'		=> $this->input->post('noteContent'),
-			'created_by'		=> $this->session->userdata('user_id'),
-			'updated_by'		=> $this->session->userdata('user_id'),
+			'created_by'		=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
 			'created_on'		=> date("Y-m-d H:i:s"),
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);

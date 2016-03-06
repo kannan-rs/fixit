@@ -21,6 +21,51 @@ class Model_users extends CI_Model {
 		}
 	}
 
+	private function get_users_for_service_provider_admin() {
+		$whereQuery = "";
+		if($this->session->userdata('logged_in_role_disp_name') == ROLE_SERVICE_PROVIDER_ADMIN) {
+			$whereQuery = " AND ".$this->get_self_where_class();
+		}
+
+		return $whereQuery;
+	}
+
+	private function get_users_for_adjuster_admin_users() {
+		$whereQuery = "";
+		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+			$whereQuery = " AND ".$this->get_self_where_class();
+		}
+		return $whereQuery;
+	}
+
+	private function get_users_for_insurence_call_center_agent () {
+		$whereQuery = "";
+		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+			$whereQuery = " AND ".$this->get_self_where_class();
+		}
+		return $whereQuery;
+	}
+
+	private function get_users_for_customer () {
+		$whereQuery = "";
+		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+			$whereQuery = " AND ".$this->get_self_where_class();
+		}
+		return $whereQuery;
+	}
+
+	private function get_users_for_service_provider_user () {
+		$whereQuery = "";
+		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+			$whereQuery = " AND ".$this->get_self_where_class();
+		}
+		return $whereQuery;
+	}
+
+	private function get_self_where_class() {
+		return " users.user_name = '".$this->session->userdata('logged_in_email')."'";
+	}
+
 	public function getAccountType($email, $password) {
 
 		$this->db->where('user_name', $email);
@@ -90,22 +135,77 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUsersList($params = "", $from_db = "users") {
-		$queryStr 	= "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, ";
-		$queryStr	.= "users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name ";
-		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+		$queryStr = "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
+		$whereQuery = "";
+		$orderByQuery = "";
 		if($params && $params != "" && $params != 0) {
 			if($from_db == "users") {
-				$queryStr .= " AND users.sno = ".$params;			
+				$whereQuery .= " AND users.sno = ".$params;			
 			} else if($from_db == "user_details") {
-				$queryStr .= " AND user_details.sno = ".$params;
+				$whereQuery .= " AND user_details.sno = ".$params;
 			}
 		}
-		$queryStr .= " ORDER BY users.user_name";
+
+		/* logged in role_id and display name */
+		/* BAsed on logged in user, users list displayed will vary */
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+
+		if($role_disp_name != ROLE_ADMIN && $role_disp_name != ROLE_SUB_ADMIN) {
+			if($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+				$whereQuery .= $this->get_users_for_service_provider_admin();
+			} else if( $role_disp_name == ROLE_INSURANCECO_ADMIN) {
+				$whereQuery .= $this->get_users_for_adjuster_admin_users();
+			} else if($role_disp_name = ROLE_INSURANCECO_CALL_CENTER_AGENT) {
+				$whereQuery .= $this->get_users_for_insurence_call_center_agent();
+			} else if($role_disp_name == ROLE_CUSTOMER) {
+				$whereQuery .= $this->get_users_for_customer();
+			} else if( $role_disp_name == ROLE_SERVICE_PROVIDER_USER ) {
+				$whereQuery .= $this->get_users_for_service_provider_user();
+			}
+		}
+
+		$orderByQuery .= " ORDER BY users.user_name";
+
+		$queryStr .= $whereQuery.$orderByQuery;
 
 		$query = $this->db->query($queryStr);
 		$users = $query->result();
 		return $users;
+	}
+
+	public function getUserEmailById($params = "") {
+		if(!empty($params) && $params != 0) {
+			$queryStr 	= "SELECT users.user_name ";
+			$queryStr 	.= "FROM `users` where users.is_deleted = 0 AND users.sno = ".$params;
+			
+			$query = $this->db->query($queryStr);
+
+			//echo $this->db->last_query();
+			$users = $query->result();
+
+			if($users && count($users)) {
+				return $users[0]->user_name;
+			}
+		}
+		return false;
+	}
+
+	public function get_user_details_id_from_user_id( $record = "") {
+		if(!empty($record) && $record != 0) {
+			$queryStr 	= "SELECT user_details.sno ";
+			$queryStr 	.= "FROM `user_details` LEFT JOIN `users` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+			$queryStr .= " AND users.sno = ".$record;
+			
+			$query = $this->db->query($queryStr);
+
+			$users = $query->result();
+
+			if($users && count($users)) {
+				return $users[0]->sno;
+			}
+		}
+		return false;
 	}
 
 	public function getUserDisplayNameWithEmail($params = "") {
@@ -195,12 +295,12 @@ class Model_users extends CI_Model {
 			"contact_mobile",
 			"contact_alt_mobile",
 			"primary_contact",
-			"addr1",
-			"addr2",
-			"addr_city",
-			"addr_state",
-			"addr_country",
-			"addr_pin",
+			"address1",
+			"address2",
+			"city",
+			"state",
+			"country",
+			"zip_code",
 			"contact_pref",
 			"DATE_FORMAT(created_dt, \"%m/%d/%Y %H:%i:%S\") as created_dt",
 			"DATE_FORMAT(last_updated_dt, \"%m/%d/%Y %H:%i:%S\") as last_updated_dt",
@@ -356,7 +456,7 @@ class Model_users extends CI_Model {
 		if(empty($user_id)) {
 			$response["message"]	= "Invalid request";
 		} else {
-			$queryStr 	= "SELECT user_details.addr1, user_details.addr2, user_details.addr_city, user_details.addr_state, user_details.addr_country, user_details.addr_pin ";
+			$queryStr 	= "SELECT user_details.address1, user_details.address2, user_details.city, user_details.state, user_details.country, user_details.zip_code ";
 			$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0 AND users.sno = ".$user_id;
 
 			$query = $this->db->query($queryStr);

@@ -29,41 +29,41 @@ class Model_projects extends CI_Model {
 	}
 
 	public function getProjectIds( $projectParams ) {
-		/*if($projectParams['role_disp_name'] != ROLE_ADMIN ) {
-			//$this->db->where('is_deleted', '0');
-		} else {
-			return "";
-		}*/
-		
+		$query  = "SELECT `proj_id` FROM `project` WHERE ";
+		if($projectParams['role_disp_name'] != ROLE_ADMIN ) {
+			$query .= "`is_deleted` = 0 ";
+		}
+
 		if(!in_array('all', $projectParams["projectPermission"]["data_filter"] )) {
-			if( $projectParams['role_disp_name'] == "customer" ) {
+			if( $projectParams['role_disp_name'] == ROLE_CUSTOMER ) {
 				$this->db->where('customer_id', $projectParams["user_details_id"]);
 
-			} else if( $projectParams['role_disp_name'] == "contractor" ) {
-				$this->db->or_where('contractor_id', $projectParams["user_details_id"]);
-				$this->db->or_like('contractor_id', $projectParams["user_details_id"].",", "right");
-				$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"], "left");
-				$this->db->or_like('contractor_id', ",".$projectParams["user_details_id"].",");
-				$this->db->or_like('created_by', $projectParams["user_id"]);
+			} else if( $projectParams['role_disp_name'] == ROLE_SERVICE_PROVIDER_ADMIN ) {
+				$this->load->model("service_providers/model_service_providers");
 
-			} else if( $projectParams['role_disp_name'] == "adjuster" ) {
-				$this->db->or_where('adjuster_id', $projectParams["user_details_id"]);
+				$contractor_id = $this->model_service_providers->get_contractor_company_id_by_user_id($projectParams["user_id"]);
+				if(empty($contractor_id) || !$contractor_id ) {
+					return false;
+				}
+				
+				$query .= " AND (`created_by` = '".$projectParams["user_id"]."' OR `contractor_id` = '".$contractor_id."' OR `contractor_id` LIKE '%".$contractor_id.",%' OR `contractor_id` LIKE '%,".$contractor_id."%' OR `contractor_id` LIKE '%,".$contractor_id.",%')";
+
+			} else if( $projectParams['role_disp_name'] == ROLE_INSURANCECO_ADMIN ) {
+				/*$this->db->or_where('adjuster_id', $projectParams["user_details_id"]);
 				$this->db->or_like('adjuster_id', $projectParams["user_details_id"].",", "right");
 				$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"], "left");
-				$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"].",");
+				$this->db->or_like('adjuster_id', ",".$projectParams["user_details_id"].",");*/
+			} else if( $projectParams['role_disp_name'] == ROLE_SERVICE_PROVIDER_USER ) {
+
+			} else if( $projectParams['role_disp_name'] == ROLE_INSURANCECO_CALL_CENTER_AGENT ) {
+
 			}
 		}
 
-		$this->db->or_where('created_by', $projectParams["user_id"]);
+		$query 		= $this->db->query($query);
+		$projects 	= $query->result();
 
-		$this->db->select([
-				'proj_id'
-			]);
-		$query = $this->db->from('project')->get();
-		
 		//print_r($this->db->last_query());
-		$projects = $query->result();
-
 		return $projects;
 	}
 

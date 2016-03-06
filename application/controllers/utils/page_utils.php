@@ -26,9 +26,8 @@ class page_utils extends CI_Controller {
 		);
 
 		if($is_logged_in) {
-			list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-			$response["logged_in_user_email"]		= $this->session->userdata("email");
-			$response["role_disp_name"]				= $role_disp_name;
+			$response["logged_in_user_email"]		= $this->session->userdata('logged_in_email');
+			$response["role_disp_name"]				= $this->session->userdata('logged_in_role_disp_name');
 		} else {
 			$response["existing_user_sign_in"]		= $this->lang->line_arr('headers->existing_user');
 			$response["new_user_sign_up"]			= $this->lang->line_arr('headers->new_user');

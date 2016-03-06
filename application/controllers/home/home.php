@@ -17,7 +17,7 @@ class home extends CI_Controller {
 	public function changePassForm() {
 		$this->load->model('security/model_users');
 		
-		$record = $this->session->userdata("user_id");
+		$record = $this->session->userdata('logged_in_user_id');
 		$users = $this->model_users->getUsersList($record);
 
 		$params = array(
@@ -43,7 +43,7 @@ class home extends CI_Controller {
 		$update_data = array(
 			'password' => md5($password),
 			'password_hint' => $passwordHint,
-			'updated_by' => $this->session->userdata("user_id"),
+			'updated_by' => $this->session->userdata('logged_in_user_id'),
 			'updated_date' => date("Y-m-d H:i:s")
 		);
 

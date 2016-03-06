@@ -89,7 +89,7 @@ class Partners extends CI_Controller {
 
 		$params = array(
 			'partners'=>$partnersResponse["partners"],
-			'role_id' => $this->session->userdata('role_id')
+			'role_id' => $this->session->userdata('logged_in_role_id')
 		);
 		
 		echo $this->load->view("adjusters/partners/viewAll", $params, true);
@@ -117,19 +117,12 @@ class Partners extends CI_Controller {
 
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
 		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
-
-		$addressParams = array(
-			'forForm' 			=> "create_partner_form",
-			'requestFrom'		=> "input"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
 		
 		$params = array(
 			'users' 		=> $this->model_users->getUsersList(),
-			'userType' 		=> $this->session->userdata('role_id'),
+			'userType' 		=> $this->session->userdata('logged_in_role_id'),
 			'openAs' 		=> $openAs,
-			'addressFile' 	=> $addressFile,
+			'addressFile' 	=> $this->form_lib->getAddressFile(array("view" => "create_partner_form", "requestFrom"=> "input")),
 			'popupType' 	=> $popupType
 		);
 
@@ -170,8 +163,8 @@ class Partners extends CI_Controller {
 			'personal_email_id' => $this->input->post('pEmailId'),
 			'contact_pref' 		=> $this->input->post('prefContact'),
 			'website_url' 		=> $this->input->post('websiteURL'),
-			'created_by'		=> $this->session->userdata('user_id'),
-			'updated_by'		=> $this->session->userdata('user_id'),
+			'created_by'		=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
 			'created_on'		=> date("Y-m-d H:i:s"),
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
@@ -224,23 +217,11 @@ class Partners extends CI_Controller {
 			$partners[$i]->updated_by_name = $this->model_users->getUsersList($partners[$i]->updated_by)[0]->user_name;
 		}
 
-		$stateText = !empty($partners[0]->state) ? $this->model_form_utils->getCountryStatus($partners[0]->state)[0]->name : "";
-
-		$addressParams = array(
-			'addressLine1' 		=> $partners[0]->address1,
-			'addressLine2' 		=> $partners[0]->address2,
-			'city' 				=> $partners[0]->city,
-			'country' 			=> $partners[0]->country,
-			'state'				=> $stateText,
-			'zipCode' 			=> $partners[0]->zip_code,
-			'requestFrom' 		=> 'view'
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "view", "address_data" => $partners[0]));
 
 		$params = array(
 			'partners'				=> $partners,
-			'userType' 				=> $this->session->userdata('role_id'),
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
 			'partnerId' 			=> $partnerId,
 			'addressFile' 			=> $addressFile,
 			'openAs' 				=> $openAs,
@@ -277,23 +258,12 @@ class Partners extends CI_Controller {
 		$partnersResponse = $this->model_partners->getPartnersList($partnerId);
 		$partners = $partnersResponse["partners"];
 
-		$addressParams = array(
-			'addressLine1' 		=> $partners[0]->address1,
-			'addressLine2' 		=> $partners[0]->address2,
-			'city' 				=> $partners[0]->city,
-			'country' 			=> $partners[0]->country,
-			'state'				=> $partners[0]->state,
-			'zipCode' 			=> $partners[0]->zip_code,
-			'forForm' 			=> "update_partner_form",
-			'requestFrom'		=> "input"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_partner_form", "requestFrom"=> "input", "address_data" => $partners[0]));
 
 		$params = array(
-			'partners' 	=> $partners,
+			'partners' 		=> $partners,
 			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('role_id'),
+			'userType' 		=> $this->session->userdata('logged_in_role_id'),
 			'openAs' 		=> $openAs,
 			'popupType' 	=> $popupType
 		);
@@ -337,7 +307,7 @@ class Partners extends CI_Controller {
 			'personal_email_id' => $this->input->post('pEmailId'),
 			'contact_pref' 		=> $this->input->post('prefContact'),
 			'website_url' 		=> $this->input->post('websiteURL'),
-			'updated_by'		=> $this->session->userdata('user_id'),
+			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
 

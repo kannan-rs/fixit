@@ -48,7 +48,7 @@ class Claims extends CI_Controller {
 
 		$params = array(
 			'claims'				=>$claimsResponse["claims"],
-			'role_id' 				=> $this->session->userdata('role_id'),
+			'role_id' 				=> $this->session->userdata('logged_in_role_id'),
 			'claimPermission' 		=> $claimPermission,
 			'customer_names'		=> $customer_names
 		);
@@ -89,7 +89,7 @@ class Claims extends CI_Controller {
 		$params = array(
 			'users' 				=> $this->model_users->getUsersList(),
 			'customer_address_file' => "",
-			'userType' 				=> $this->session->userdata('role_id'),
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
 			'property_address_file' => $_property_address_file,
 			'customerPermission'	=> $customerPermission
 		);
@@ -119,19 +119,19 @@ class Claims extends CI_Controller {
 			'claim_customer_id' 	=> $this->input->post('customer_id'),
 			
 			"is_property_address_same"	=> $is_property_address_same,
-			"property_addr1" 			=> $this->input->post("property_addr1"),
-			"property_addr2" 			=> $this->input->post("property_addr2"),
-			"property_addr_city" 		=> $this->input->post("property_addr_city"),
-			"property_addr_country" 	=> $this->input->post("property_addr_country"),
-			"property_addr_state" 		=> $this->input->post("property_addr_state"),
-			"property_addr_pin" 		=> $this->input->post("property_addr_pin"),
+			"property_address1" 		=> $this->input->post("property_address1"),
+			"property_address2" 		=> $this->input->post("property_address2"),
+			"property_city" 			=> $this->input->post("property_city"),
+			"property_country" 			=> $this->input->post("property_country"),
+			"property_state" 			=> $this->input->post("property_state"),
+			"property_zip_code" 		=> $this->input->post("property_zip_code"),
 
 			'customer_contact_no'	=> $this->input->post('contactPhoneNumber'),
 			'customer_email_id' 	=> $this->input->post('emailId'),
 			'claim_number' 			=> $this->input->post('claim_number'),
 			'claim_description' 	=> $this->input->post('description'),
-			'created_by'			=> $this->session->userdata('user_id'),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'created_by'			=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'created_on'			=> date("Y-m-d H:i:s"),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
@@ -192,33 +192,22 @@ class Claims extends CI_Controller {
 			$usersResponse = $this->model_users->get_user_details_address( $get_params );
 			$users = $usersResponse["users"];
 
-			$stateText = !empty($users[0]->addr_state) ? $this->model_form_utils->getCountryStatus($users[0]->addr_state)[0]->name : "";
-
-			$_addressParams = array(
-				'addressLine1' 		=> $users[0]->addr1,
-				'addressLine2' 		=> $users[0]->addr2,
-				'city' 				=> $users[0]->addr_city,
-				'country' 			=> $users[0]->addr_country,
-				'state'				=> $stateText,
-				'zipCode' 			=> $users[0]->addr_pin,
-				'requestFrom' 		=> "view"
-			);
-			$_customer_address_file = $this->load->view("forms/address", $_addressParams, true);
+			$_customer_address_file = $this->form_lib->getAddressFile(array("view" => "view", "address_data" => $users[0]));
 		}
 		
 		$claims[0]->customer_name 		= $this->model_users->getUserDisplayNameWithEmail($claims[0]->claim_customer_id);
 		$claims[0]->created_by_name		= $this->model_users->getUsersList($claims[0]->created_by)[0]->user_name;
 		$claims[0]->updated_by_name 	= $this->model_users->getUsersList($claims[0]->updated_by)[0]->user_name;
 
-		$stateText = !empty($claims[0]->property_addr_state) ? $this->model_form_utils->getCountryStatus($claims[0]->property_addr_state)[0]->name : "";
+		$stateText = !empty($claims[0]->property_state) ? $this->model_form_utils->getCountryStatus($claims[0]->property_state)[0]->name : "";
 
 		$_addressParams = array(
-			'addressLine1' 		=> $claims[0]->property_addr1,
-			'addressLine2' 		=> $claims[0]->property_addr2,
-			'city' 				=> $claims[0]->property_addr_city,
-			'country' 			=> $claims[0]->property_addr_country,
+			'addressLine1' 		=> $claims[0]->property_address1,
+			'addressLine2' 		=> $claims[0]->property_address2,
+			'city' 				=> $claims[0]->property_city,
+			'country' 			=> $claims[0]->property_country,
 			'state'				=> $stateText,
-			'zipCode' 			=> $claims[0]->property_addr_pin,
+			'zipCode' 			=> $claims[0]->property_zip_code,
 			'requestFrom' 		=> 'view'
 		);
 
@@ -241,7 +230,7 @@ class Claims extends CI_Controller {
 		$params = array(
 			'claims'					=> $claims,
 			'budget_details'			=> isset($project_with_claim) ? $project_with_claim : [],
-			'userType' 					=> $this->session->userdata('role_id'),
+			'userType' 					=> $this->session->userdata('logged_in_role_id'),
 			'claim_id' 					=> $claim_id,
 			'property_address_file' 	=> $_property_address_file,
 			'customer_address_file' 	=> $_customer_address_file,
@@ -292,29 +281,18 @@ class Claims extends CI_Controller {
 			$usersResponse = $this->model_users->get_user_details_address( $get_params );
 			$users = $usersResponse["users"];
 
-			$stateText = !empty($users[0]->addr_state) ? $this->model_form_utils->getCountryStatus($users[0]->addr_state)[0]->name : "";
+			$_customer_address_file = $this->form_lib->getAddressFile(array("view" => "view", "address_data" => $users[0], "requestFrom" => "both", "hidden" => "hidden"));
 
-			$_customer_address_params = array(
-				'addressLine1' 		=> $users[0]->addr1,
-				'addressLine2' 		=> $users[0]->addr2,
-				'city' 				=> $users[0]->addr_city,
-				'country' 			=> $users[0]->addr_country,
-				'state'				=> $stateText,
-				'zipCode' 			=> $users[0]->addr_pin,
-				'requestFrom' 		=> "both",
-				"hidden"			=> "hidden",
-				'id_prefix'			=> "",
-			);
-			$customer_address_file = "<table><tbody>".$this->load->view("forms/address", $_customer_address_params, true)."</tbody></table>";
+			$customer_address_file = "<table><tbody>".$_customer_address_file."</tbody></table>";
 		}
 
 		$_property_address_params = array(
-			'addressLine1' 		=> $claims[0]->property_addr1,
-			'addressLine2' 		=> $claims[0]->property_addr2,
-			'city' 				=> $claims[0]->property_addr_city,
-			'country' 			=> $claims[0]->property_addr_country,
-			'state'				=> $claims[0]->property_addr_state,
-			'zipCode' 			=> $claims[0]->property_addr_pin,
+			'addressLine1' 		=> $claims[0]->property_address1,
+			'addressLine2' 		=> $claims[0]->property_address2,
+			'city' 				=> $claims[0]->property_city,
+			'country' 			=> $claims[0]->property_country,
+			'state'				=> $claims[0]->property_state,
+			'zipCode' 			=> $claims[0]->property_zip_code,
 			'forForm' 			=> "update_claim_form",
 			'requestFrom'		=> "input",
 			"hidden"			=> "",
@@ -329,7 +307,7 @@ class Claims extends CI_Controller {
 			'claims' 				=> $claims,
 			'customer_address_file'	=> $customer_address_file,
 			'property_address_file' => $_property_address_file,
-			'userType' 				=> $this->session->userdata('role_id'),
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
 			'openAs' 				=> $openAs,
 			'popupType' 			=> $popupType,
 			'customerPermission'	=> $customerPermission
@@ -361,18 +339,18 @@ class Claims extends CI_Controller {
 			'claim_customer_id' 	=> $this->input->post('customer_id'),
 			
 			"is_property_address_same"	=> $is_property_address_same,
-			"property_addr1" 			=> $this->input->post("property_addr1"),
-			"property_addr2" 			=> $this->input->post("property_addr2"),
-			"property_addr_city" 		=> $this->input->post("property_addr_city"),
-			"property_addr_country" 	=> $this->input->post("property_addr_country"),
-			"property_addr_state" 		=> $this->input->post("property_addr_state"),
-			"property_addr_pin" 		=> $this->input->post("property_addr_pin"),
+			"property_address1" 		=> $this->input->post("property_addr1"),
+			"property_address2" 		=> $this->input->post("property_addr2"),
+			"property_city" 			=> $this->input->post("property_addr_city"),
+			"property_country" 			=> $this->input->post("property_addr_country"),
+			"property_state" 			=> $this->input->post("property_addr_state"),
+			"property_zip_code" 		=> $this->input->post("property_addr_pin"),
 
 			'customer_contact_no'	=> $this->input->post('contactPhoneNumber'),
 			'customer_email_id' 	=> $this->input->post('emailId'),
 			'claim_number' 			=> $this->input->post('claim_number'),
 			'claim_description' 	=> $this->input->post('description'),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
 
@@ -438,18 +416,7 @@ class Claims extends CI_Controller {
 			$usersResponse = $this->model_users->get_user_details_address( $get_params );
 			$users = $usersResponse["users"];
 
-			$_addressParams = array(
-				'addressLine1' 		=> $users[0]->addr1,
-				'addressLine2' 		=> $users[0]->addr2,
-				'city' 				=> $users[0]->addr_city,
-				'country' 			=> $users[0]->addr_country,
-				'state'				=> $users[0]->addr_state,
-				'zipCode' 			=> $users[0]->addr_pin,
-				'requestFrom' 		=> "both",
-				"hidden"			=> "hidden"
-			);
-
-			$_addressFile = "<table class='form'><tbody>".$this->load->view("forms/address", $_addressParams, true)."</tbody></table>";
+			$_addressFile = $this->form_lib->getAddressFile(array("requestFrom" => "both", "hidden" => "hidden", "address_data" => $users[0]));
 		}
 
 		echo $_addressFile;

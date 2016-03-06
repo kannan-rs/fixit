@@ -1,6 +1,6 @@
 // Top Menu Controller
 fixit_app.controller('top_menu', function($scope, $http) {
-	$scope.top_menu_view 	= "/js/shared/top_menu/top_menu_template.html";
+	$scope.top_menu_view 	= "/js/shared/top_menu/template.html";
 	$http({
 		'url' : "/utils/page_utils/get_page_menus"
 	})

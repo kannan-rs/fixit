@@ -49,19 +49,7 @@ class Subrogation extends CI_Controller {
 				$usersResponse = $this->model_users->get_user_details_address( $get_params );
 				$users = $usersResponse["users"];
 
-				$stateText = !empty($users[0]->addr_state) ? $this->model_form_utils->getCountryStatus($users[0]->addr_state)[0]->name : "";
-
-				$_addressParams = array(
-					'addressLine1' 		=> $users[0]->addr1,
-					'addressLine2' 		=> $users[0]->addr2,
-					'city' 				=> $users[0]->addr_city,
-					'country' 			=> $users[0]->addr_country,
-					'state'				=> $stateText,
-					'zipCode' 			=> $users[0]->addr_pin,
-					'requestFrom' 		=> "view", 	
-					'id_prefix'			=> "",
-				);
-				$_customer_address_file = $this->load->view("forms/address", $_addressParams, true);
+				$_customer_address_file = $this->form_lib->getAddressFile(array("requestFrom" => "view", "address_data" => $users[0]));
 			}
 		}
 
@@ -84,33 +72,10 @@ class Subrogation extends CI_Controller {
 				$response = $this->model_subrogation->getSubrogationsList( $get_params );
 				$subrogation = $response["subrogation"];
 
-				$stateText = !empty($subrogation[0]->addr_state) ? $this->model_form_utils->getCountryStatus($subrogation[0]->addr_state)[0]->name : "";
-				$_addressParams = array(
-					'addressLine1' 		=> $subrogation[0]->addressLine1,
-					'addressLine2' 		=> $subrogation[0]->addressLine2,
-					'city' 				=> $subrogation[0]->addr_city,
-					'country' 			=> $subrogation[0]->addr_country,
-					'state'				=> $stateText,
-					'zipCode' 			=> $subrogation[0]->addr_pin,
-					'requestFrom' 		=> $forForm,
-					'hidden'			=> "",
-					'id_prefix'			=> "property_"
-				);
+				$_addressFile = $this->form_lib->getAddressFile(array("requestFrom" => $forForm, 'id_prefix' => "property_", "address_data" => $subrogation[0]));
 			} else {
-				$_addressParams = array(
-					'addressLine1' 		=> "",
-					'addressLine2' 		=> "",
-					'city' 				=> "",
-					'country' 			=> "",
-					'state'				=> "",
-					'zipCode' 			=> "",
-					'requestFrom' 		=> $forForm,
-					'hidden'			=> "",
-					'id_prefix'			=> "property_"
-				);
+				$_addressFile = $this->form_lib->getAddressFile(array("requestFrom" => $forForm, 'id_prefix' => "property_"));
 			}
-			$_addressFile = $this->load->view("forms/address", $_addressParams, true);
-			
 		}
 
 		return $_addressFile;
@@ -167,7 +132,7 @@ class Subrogation extends CI_Controller {
 
 		$params = array(
 			'subrogation'			=> $response["subrogation"],
-			'role_id' 				=> $this->session->userdata('role_id'),
+			'role_id' 				=> $this->session->userdata('logged_in_role_id'),
 			'claimPermission' 		=> $claimPermission,
 			'subrogationPermission'	=> $subrogationPermission
 			//'customer_names'		=> $customer_names
@@ -211,7 +176,7 @@ class Subrogation extends CI_Controller {
 
 		$params = array(
 			'users' 								=> $this->model_users->getUsersList(),
-			'userType' 								=> $this->session->userdata('role_id'),
+			'userType' 								=> $this->session->userdata('logged_in_role_id'),
 			'claimant_address_file' 				=> $claimant_address_file,
 			'customerPermission'					=> $customerPermission,
 			'customer_communication_address_file'	=> $customer_communication_address_file,
@@ -242,16 +207,16 @@ class Subrogation extends CI_Controller {
 		$data = array(
 			"claim_id"				=> $this->input->post('claim_id'),
 			"climant_name"			=> $this->input->post('climant_name'),
-			"addressLine1"			=> $this->input->post('addressLine1'),
-			"addressLine2"			=> $this->input->post('addressLine2'),
-			"addr_city"				=> $this->input->post('city'),
-			"addr_country"			=> $this->input->post('country'),
-			"addr_state"			=> $this->input->post('state'),
-			"addr_pin"				=> $this->input->post('zipCode'),
+			"address1"				=> $this->input->post('addressLine1'),
+			"address2"				=> $this->input->post('addressLine2'),
+			"city"					=> $this->input->post('city'),
+			"country"				=> $this->input->post('country'),
+			"state"					=> $this->input->post('state'),
+			"zip_code"				=> $this->input->post('zipCode'),
 			"description"			=> $this->input->post('description'),
 			"status"				=> $this->input->post("status"),
-			'created_by'			=> $this->session->userdata('user_id'),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'created_by'			=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'created_on'			=> date("Y-m-d H:i:s"),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
@@ -314,7 +279,7 @@ class Subrogation extends CI_Controller {
 
 		$params = array(
 			'subrogation'							=> $subrogation,
-			'userType' 								=> $this->session->userdata('role_id'),
+			'userType' 								=> $this->session->userdata('logged_in_role_id'),
 			'claim_id' 								=> $claim_id,
 			'subrogation_id'						=> $subrogation_id,
 			'claimant_address_file' 				=> $claimant_address_file,
@@ -370,7 +335,7 @@ class Subrogation extends CI_Controller {
 		$params = array(
 			'users' 								=> $this->model_users->getUsersList(),
 			'subrogation'							=> $subrogation,
-			'userType' 								=> $this->session->userdata('role_id'),
+			'userType' 								=> $this->session->userdata('logged_in_role_id'),
 			'claimant_address_file' 				=> $claimant_address_file,
 			'customerPermission'					=> $customerPermission,
 			'customer_communication_address_file'	=> $customer_communication_address_file,
@@ -403,15 +368,15 @@ class Subrogation extends CI_Controller {
 
 		$data = array(
 			"climant_name"			=> $this->input->post('climant_name'),
-			"addressLine1"			=> $this->input->post('addressLine1'),
-			"addressLine2"			=> $this->input->post('addressLine2'),
-			"addr_city"				=> $this->input->post('city'),
-			"addr_country"			=> $this->input->post('country'),
-			"addr_state"			=> $this->input->post('state'),
-			"addr_pin"				=> $this->input->post('zipCode'),
+			"address1"				=> $this->input->post('addressLine1'),
+			"address2"				=> $this->input->post('addressLine2'),
+			"city"					=> $this->input->post('city'),
+			"country"				=> $this->input->post('country'),
+			"state"					=> $this->input->post('state'),
+			"zip_code"				=> $this->input->post('zipCode'),
 			"description"			=> $this->input->post('description'),
 			"status"				=> $this->input->post("status"),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
 

@@ -33,9 +33,6 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		/* Including Required Modules */
 		$this->load->model('projects/model_projects');
 		$this->load->model('projects/model_issues');
@@ -47,12 +44,12 @@ class Projects extends CI_Controller {
 
 		$projectList 	= "";
 
-		$user_id 		= $this->session->userdata('user_id'); /* Get user ID for logged in User from session */
-		$email 			= $this->session->userdata('email'); /* Get Email ID for logged in User from session */
+		$user_id 		= $this->session->userdata('logged_in_user_id'); /* Get user ID for logged in User from session */
+		$email 			= $this->session->userdata('logged_in_email'); /* Get Email ID for logged in User from session */
 
 		/* Project Params to get the list of project with permissions */
 		$projectParams = array(
-			'role_disp_name' 		=> $role_disp_name,
+			'role_disp_name' 		=> $this->session->userdata('logged_in_role_disp_name'),
 			'user_details_id' 		=> $this->model_users->getUserDetailsSnoViaEmail($email),
 			'user_id' 				=> $user_id,
 			'email' 				=> $email,
@@ -60,7 +57,6 @@ class Projects extends CI_Controller {
 		);
 
 		$projectListArr = array();
-		//print_r($projectParams);
 		
 		/* If logged in User dont have 'all' permission in data filter, then get the project ID's list that user has access */
 		if( !in_array('all', $projectPermission['data_filter']) ) {
@@ -77,44 +73,48 @@ class Projects extends CI_Controller {
 		//print_r($projectParams);
 		
 		/* Get the list of Projects that logged in user has access to, from Database > projects > table to display */
-		$projects = $this->model_projects->getProjectsList( $projectParams );
+		if(in_array('all', $projectPermission['data_filter']) || !empty($projectParams["projectId"])) {
+			$projects = $this->model_projects->getProjectsList( $projectParams );
+		}
 
-		for($i = 0; $i < count($projects); $i++) {
-			$start_date = "";
-			$end_date	= "";
-			$percentage = "";
+		if(isset($projects)) {
+			for($i = 0; $i < count($projects); $i++) {
+				$start_date = "";
+				$end_date	= "";
+				$percentage = "";
 
-			$ed_query = "select 
-								AVG(task_percent_complete) as percentage, 
-								DATE_FORMAT( MAX(task_end_date), '%m/%d/%Y' ) as end_date, 
-								DATE_FORMAT( MIN(task_start_date),  '%m/%d/%Y') as start_date 
-						from project_details where project_id = '".$projects[$i]->proj_id."' and is_deleted = 0";
+				$ed_query = "select 
+									AVG(task_percent_complete) as percentage, 
+									DATE_FORMAT( MAX(task_end_date), '%m/%d/%Y' ) as end_date, 
+									DATE_FORMAT( MIN(task_start_date),  '%m/%d/%Y') as start_date 
+							from project_details where project_id = '".$projects[$i]->proj_id."' and is_deleted = 0";
 
-			$consolidate_data_query = $this->db->query($ed_query);
-			$consolidate_data_result = $consolidate_data_query->result();
-			$consolidate_data = $consolidate_data_result[0];
+				$consolidate_data_query = $this->db->query($ed_query);
+				$consolidate_data_result = $consolidate_data_query->result();
+				$consolidate_data = $consolidate_data_result[0];
 
-			$projects[$i]->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
+				$projects[$i]->percentage = ($consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0);
 
-			$start_date 	= $consolidate_data->start_date != "" ? ($projects[$i]->start_date != "" && $projects[$i]->start_date < $consolidate_data->start_date ? $projects[$i]->start_date : $consolidate_data->start_date) : ($projects[$i]->start_date != "" ? $projects[$i]->start_date : "-NA-");
-			$end_date 		= $consolidate_data->end_date != "" ? ($projects[$i]->end_date != "" && $projects[$i]->end_date > $consolidate_data->end_date ? $projects[$i]->end_date : $consolidate_data->end_date) : ($projects[$i]->end_date != "" ? $projects[$i]->end_date : "-NA-");
+				$start_date 	= $consolidate_data->start_date != "" ? ($projects[$i]->start_date != "" && $projects[$i]->start_date < $consolidate_data->start_date ? $projects[$i]->start_date : $consolidate_data->start_date) : ($projects[$i]->start_date != "" ? $projects[$i]->start_date : "-NA-");
+				$end_date 		= $consolidate_data->end_date != "" ? ($projects[$i]->end_date != "" && $projects[$i]->end_date > $consolidate_data->end_date ? $projects[$i]->end_date : $consolidate_data->end_date) : ($projects[$i]->end_date != "" ? $projects[$i]->end_date : "-NA-");
 
-			$projects[$i]->start_date 	= $start_date;
-			$projects[$i]->end_date 		= $end_date;
+				$projects[$i]->start_date 	= $start_date;
+				$projects[$i]->end_date 		= $end_date;
 
-			if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
-				$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
-				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
+				if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
+					$issuesResponse = $this->model_issues->getIssuesList(array('records' => '', 'projectId' => $projects[$i]->proj_id, 'status' => 'open'));
+					$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
-				$projects[$i]->issueCount = $issueCount;
+					$projects[$i]->issueCount = $issueCount;
+				}
+
 			}
-
 		}
 
 		$params = array(
-			'projects' 			=> $projects,
-			'role_id' 			=> $role_id,
-			'role_disp_name' 	=> $role_disp_name,
+			'projects' 			=> isset($projects) ? $projects : null,
+			'role_id' 			=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission' => $projectPermission,
 			'issuesPermission'	=> $issuesPermission
 		);
@@ -141,9 +141,6 @@ class Projects extends CI_Controller {
 			"status" 	=> "error"
 		);
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
@@ -151,7 +148,7 @@ class Projects extends CI_Controller {
 		
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=>$this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList( $projectParams );
@@ -214,15 +211,7 @@ class Projects extends CI_Controller {
 
 		$this->load->model('security/model_users');
 
-		$addressParams = array(
-			'forForm' 			=> "create_project_form",
-			'requestFrom'		=> "input"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		$addressFile = $this->form_lib->getAddressFile(array("requestFrom" => "input", "view" => "create_project_form"));
 
 		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
@@ -236,8 +225,8 @@ class Projects extends CI_Controller {
 		$params = array(
 			'users' 				=> $this->model_users->getUsersList(),
 			'addressFile' 			=> $addressFile,
-			'userType' 				=> $role_id,
-			'role_disp_name'		=> $role_disp_name,
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'		=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'		=> $projectPermission,
 			'contractorPermission'	=> $contractorPermission,
 			'adjusterPermission'	=> $adjusterPermission,
@@ -298,16 +287,16 @@ class Projects extends CI_Controller {
 			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
-			'created_by'				=> $this->session->userdata('user_id'),
-			'updated_by'				=> $this->session->userdata('user_id'),
+			'created_by'				=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'created_on'				=> date("Y-m-d H:i:s"),
 			'updated_on'				=> date("Y-m-d H:i:s"),
-			'addr1' 					=> $addressLine1,
-			'addr2' 					=> $addressLine2,
-			'addr_city' 				=> $city,
-			'addr_state' 				=> $state,
-			'addr_country' 				=> $country,
-			'addr_pin'					=> $zipCode
+			'address1' 					=> $addressLine1,
+			'address2' 					=> $addressLine2,
+			'city' 						=> $city,
+			'state' 					=> $state,
+			'country' 					=> $country,
+			'zip_code'					=> $zipCode
 		);
 
 		$response = $this->model_projects->insert($data);
@@ -384,14 +373,11 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		$record = $this->input->post('projectId');
 
 		$projectParams = array(
 			'projectId' 		=> [$record],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission' => $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
@@ -401,34 +387,19 @@ class Projects extends CI_Controller {
 			"projectId" 			=> $record
 		);
 
-		$addressParams = array(
-			'addressLine1' 		=> $projects[0]->addr1,
-			'addressLine2' 		=> $projects[0]->addr2,
-			'city' 				=> $projects[0]->addr_city,
-			'country' 			=> $projects[0]->addr_country,
-			'state'				=> $projects[0]->addr_state,
-			'zipCode' 			=> $projects[0]->addr_pin,
-			'forForm' 			=> "update_project_form",
-			'requestFrom'		=> "input"
-		);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_project_form", "requestFrom" => "input", "address_data" => $projects[0]));
 
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
-
-		//Service Provider > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
-		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
-		//Customer > Permissions for logged in User by role_id
-		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
-		//Budget > Permissions for logged in User by role_id
-		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);//Service Provider > Permissions for logged in User by role_id
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);//Adjuster > Permissions for logged in User by role_id
+		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);//Customer > Permissions for logged in User by role_id
+		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);//Budget > Permissions for logged in User by role_id
 
 		$params = array(
 			'projects' 				=>$projects,
 			'users' 				=> $this->model_users->getUsersList(),
 			'internalLink' 			=> $this->load->view("projects/internalLinks", $internalLinkParams, true),
-			'userType' 				=> $role_id,
-			'role_disp_name'		=> $role_disp_name,
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'		=> $this->session->userdata('logged_in_role_disp_name'),
 			'addressFile' 			=> $addressFile,
 			'projectPermission'		=> $projectPermission,
 			'contractorPermission'	=> $contractorPermission,
@@ -491,13 +462,13 @@ class Projects extends CI_Controller {
 			'deductible' 				=> $this->input->post('deductible'),
 			'project_lender'			=> $this->input->post('project_lender'),
 			'lend_amount'				=> $this->input->post('lend_amount'),
-			'addr1' 					=> $addressLine1,
-			'addr2' 					=> $addressLine2,
-			'addr_city' 				=> $city,
-			'addr_state' 				=> $state,
-			'addr_country' 				=> $country,
-			'addr_pin'					=> $zipCode,
-			'updated_by'				=> $this->session->userdata('user_id'),
+			'address1' 					=> $addressLine1,
+			'address2' 					=> $addressLine2,
+			'city' 						=> $city,
+			'state' 					=> $state,
+			'country' 					=> $country,
+			'zip_code'					=> $zipCode,
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
@@ -554,9 +525,6 @@ class Projects extends CI_Controller {
 			print_r(json_encode($is_allowed));
 			return false;
 		}
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
@@ -572,7 +540,7 @@ class Projects extends CI_Controller {
 		// Get Porject details defore delete
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission' => $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
@@ -638,8 +606,6 @@ class Projects extends CI_Controller {
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
-
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
@@ -651,7 +617,7 @@ class Projects extends CI_Controller {
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
@@ -662,7 +628,7 @@ class Projects extends CI_Controller {
 
 		$budgetParams = array(
 			'project'		=> $project,
-			'userType' 		=> $this->session->userdata('role_id'),
+			'userType' 		=> $this->session->userdata('logged_in_role_id'),
 		);
 
 		echo  $this->load->view("projects/projects/projectBudget", $budgetParams, true);
@@ -698,9 +664,6 @@ class Projects extends CI_Controller {
 		$this->load->model('utils/model_form_utils');
 
 		$projectId = $this->input->post('projectId');
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		//Issues > Permissions for logged in User by role_id
 		$issuesPermission 		= $this->permissions_lib->getPermissions(FUNCTION_ISSUES);
@@ -742,7 +705,7 @@ class Projects extends CI_Controller {
 
 		$projectParams = array(
 			'projectId'			=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
@@ -856,28 +819,14 @@ class Projects extends CI_Controller {
 
 		$project->issueCount = $issueCount;
 
-		/*
-			Address Output
-		*/
-		$stateText = !empty($project->addr_state) ? $this->model_form_utils->getCountryStatus($project->addr_state)[0]->name : "";
-		$addressParams = array(
-			'addressLine1' 		=> $project->addr1,
-			'addressLine2' 		=> $project->addr2,
-			'city' 				=> $project->addr_city,
-			'country' 			=> $project->addr_country,
-			'state'				=> $stateText,
-			'zipCode' 			=> $project->addr_pin,
-			'requestFrom' 		=> 'view',
-		);
-		//$addressFile = $this->load->view("forms/address", $addressParams, true);
-
+		$addressFile = $this->form_lib->getAddressFile(array("requestFrom" => "view", "address_data" => $project));
 		/*
 			Budget List
 		*/
 		if(in_array(OPERATION_VIEW, $budgetPermission['operation'])) {
 			$budgetParams = array(
 				'project'		=> $project,
-				'userType' 		=> $this->session->userdata('role_id'),
+				'userType' 		=> $this->session->userdata('logged_in_role_id'),
 			);
 			$project_budget_file = $this->load->view("projects/projects/projectBudget.php", $budgetParams, true);
 		} else {
@@ -892,15 +841,15 @@ class Projects extends CI_Controller {
 		*/
 		$params = array(
 			'project'				=> $project,
-			'role_id'				=> $role_id,
-			'userType' 				=> $role_disp_name,
+			'role_id'				=> $this->session->userdata('logged_in_role_id'),
+			'userType' 				=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectId' 			=> $projectId,
 			'contractors' 			=> $contractors,
 			'partners' 				=> $partners,
 			'customerFile' 			=> $customerFile,
 			'contractorFile' 		=> $contractorFile,
 			'adjusterFile'			=> $adjusterFile,
-			'addressFile' 			=> $this->load->view("forms/address", $addressParams, true),
+			'addressFile' 			=> $addressFile,
 			'projectBudgetFile' 	=> $project_budget_file,
 			'projectPermission'		=> $projectPermission,
 			'issuesPermission'		=> $issuesPermission,
@@ -950,9 +899,6 @@ class Projects extends CI_Controller {
 			echo "Invalid Request";
 			return;
 		}
-
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
@@ -968,7 +914,7 @@ class Projects extends CI_Controller {
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 
 		);
@@ -1035,12 +981,12 @@ class Projects extends CI_Controller {
             
             /* Address Details */
             ["Project Address", ""],
-            ["", "Address Line 1", $project->addr1],
-            ["", "Address Line 2", $project->addr2],
-            ["", "City", $project->addr_city],
-            ["", "State", $project->addr_state],
-            ["", "Country", $project->addr_country],
-            ["", "Zip", $project->addr_pin],
+            ["", "Address Line 1", $project->address1],
+            ["", "Address Line 2", $project->address2],
+            ["", "City", $project->city],
+            ["", "State", $project->state],
+            ["", "Country", $project->country],
+            ["", "Zip", $project->zip_code],
             
             /* Budget Details */
             ["Budget", ""],
@@ -1062,7 +1008,7 @@ class Projects extends CI_Controller {
         
         // Service Provider List */
         for($i = 0; $i < count($contractors); $i++) {
-            $csvArray[] = array("", $contractors[$i]->name, $contractors[$i]->company, $contractors[$i]->prefer, $contractors[$i]->office_email, $contractors[$i]->office_ph, $contractors[$i]->mobile_ph, $contractors[$i]->address1, $contractors[$i]->address2, $contractors[$i]->city, $contractors[$i]->state, $contractors[$i]->country, $contractors[$i]->pin_code);
+            $csvArray[] = array("", $contractors[$i]->name, $contractors[$i]->company, $contractors[$i]->prefer, $contractors[$i]->office_email, $contractors[$i]->office_ph, $contractors[$i]->mobile_ph, $contractors[$i]->address1, $contractors[$i]->address2, $contractors[$i]->city, $contractors[$i]->state, $contractors[$i]->country, $contractors[$i]->zip_code);
         }
         
         /* Partner Details */

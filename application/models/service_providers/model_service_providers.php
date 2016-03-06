@@ -2,6 +2,24 @@
 
 class Model_service_providers extends CI_Model {
 	
+	public function get_contractor_company_id_by_user_id($user_id = "") {
+		if(isset($user_id) && !empty($user_id)) {
+			$this->db->where('is_deleted', '0');
+			$this->db->where('default_contact_user_id', $user_id);
+
+			$this->db->select([
+				"id"
+			]);
+			$query = $this->db->from('contractor')->get();
+			$contractors = $query->result();
+
+			if(count($contractors)) {
+				return $contractors[0]->id;
+			}
+		}
+		return false;
+	}
+
 	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "") {
 		$this->db->where('is_deleted', '0');
 		
@@ -18,10 +36,10 @@ class Model_service_providers extends CI_Model {
 			//echo "zip =>"; print_r($zip); echo "--count =>".count($zip)."<br/>";
 			if(is_array($zip)) {
 				for($i = 0; $i < count($zip); $i++) {
-					if($zip[$i] != "") $this->db->or_like('pin_code', $zip[$i]);	
+					if($zip[$i] != "") $this->db->or_like('zip_code', $zip[$i]);	
 				}
 			} else if($zip != "") {
-				$this->db->or_like('pin_code', $zip);
+				$this->db->or_like('zip_code', $zip);
 			}
 		}
 

@@ -5,31 +5,27 @@ var _users = (function () {
     "use strict";
 
     var rolesDb = null;
-    var rolesBySno = [];
+    //var rolesBySno = [];
     
     if(session && session.role_disp_name && session.role_disp_name == 'admin') {
         preset();
     }
     
     function preset() {
-        getRole();
+        //getRole();
     };
 
-    function setViewBasics() {    
+    /*function setViewBasics() {    
         $(".role_id").each(
             function( index, element ){
                var roleId = $(this).text();
                var roleText = rolesBySno[roleId] ? rolesBySno[roleId].role_name : "Customer";
                $(this).text(roleText);
-
-               /*if(roleText == "Admin") {
-                    $($($(".table-action").eq(index + 1)).children()[1]).remove();
-                }*/
             }
         );
-    }
+    }*/
 
-    function getRole() {
+    /*function getRole() {
         var responseArr = null;
         $.ajax({
             method: "POST",
@@ -53,14 +49,14 @@ var _users = (function () {
         .fail(function ( failedObj ) {
             fail_error = failedObj;
         });
-    };
+    };*/
 
-    function mapRoleToId() {
+    /*function mapRoleToId() {
         var i;
         for (i = 0; i < rolesDb.length; i++) {
             rolesBySno[rolesDb[i].sno] = rolesDb[i];
         }
-    };
+    };*/
 
     return {
         validationRules: function() {
@@ -254,7 +250,7 @@ var _users = (function () {
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     $("#security_content").html(response);
-                    setViewBasics();
+                    //setViewBasics();
                 },
                 error: function( error ) {
                     error = error;
@@ -645,7 +641,7 @@ var _users = (function () {
                         }
                     }
 
-                    setViewBasics();
+                    //setViewBasics();
                     _users.setPrimaryContact();
                     //_users.setPrefContact();
                     _users.hideUnsetPrimaryContact();

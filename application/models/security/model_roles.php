@@ -38,4 +38,37 @@ class Model_roles extends CI_Model {
 		}
 		return $role_id;
 	}
+
+	public function get_role_name_by_role_id( $role_id = '') {
+		$role_name = false;
+		if(!empty($role_id)) {
+			$this->db->where('sno', $role_id);
+
+			$query = $this->db->get('roles');
+
+			if($query->num_rows() == 1) {
+				if($role_row = $query->result()) {
+					$role_name = $role_row[0]->role_name;
+				}
+			}
+		}
+		return $role_name;
+	}
+
+	public function get_role_id_from_user_table_by_user_id ( $user_id = "") {
+		if(!empty($user_id)) {
+			$this->db->where('sno', $user_id);
+			$this->db->where('is_deleted', '0');
+
+			$query = $this->db->get('user_details');
+
+			if($query->num_rows() == 1) {
+				if($user_row = $query->result()) {
+					return $user_row[0]->sno;
+				}
+			} else {
+				return false;
+			}	
+		}
+	}
 }

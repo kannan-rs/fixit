@@ -41,17 +41,14 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		$this->load->model('service_providers/model_service_providers');
 		
 		$contractorsResponse = $this->model_service_providers->get_service_provider_list();
 
 		$params = array(
 			'contractors'		=> $contractorsResponse["contractors"],
-			'role_id' 			=> $role_id,
-			'role_disp_name'	=> $role_disp_name
+			'role_id' 			=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'	=> $this->session->userdata('logged_in_role_disp_name')
 		);
 		
 		echo $this->load->view("service_providers/contractors/viewAll", $params, true);
@@ -76,7 +73,8 @@ class Contractors extends CI_Controller {
 		}
 
 		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		$role_id 		= $this->session->userdata('logged_in_role_id'); 
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 
 		$this->load->model('security/model_users');
 
@@ -133,7 +131,7 @@ class Contractors extends CI_Controller {
 			'city' 				=> $this->input->post('city'),
 			'state' 			=> $this->input->post('state'),
 			'country' 			=> $this->input->post('country'),
-			'pin_code' 			=> $this->input->post('zipCode'),
+			'zip_code' 			=> $this->input->post('zipCode'),
 			'office_email' 		=> $this->input->post('emailId'),
 			'office_ph' 		=> $this->input->post('contactPhoneNumber'),
 			'mobile_ph' 		=> $this->input->post('mobileNumber'),
@@ -141,8 +139,8 @@ class Contractors extends CI_Controller {
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
 			'website_url' 		=> $this->input->post('websiteURL'),
 			'service_area' 		=> $this->input->post('serviceZip'),
-			'created_by'		=> $this->session->userdata('user_id'),
-			'updated_by'		=> $this->session->userdata('user_id'),
+			'created_by'		=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
 			'created_on'		=> date("Y-m-d H:i:s"),
 			'updated_on'		=> date("Y-m-d H:i:s")
 		);
@@ -179,8 +177,6 @@ class Contractors extends CI_Controller {
 			echo $this->load->view("pages/no_permission", $no_permission_options, true);
 			return false;
 		}
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('security/model_users');
@@ -204,17 +200,7 @@ class Contractors extends CI_Controller {
 		$stateName = count($stateFromDb) ? $stateFromDb[0]->name: "";
 		$stateText = !empty($contractors[0]->state) ? $stateName : "";
 
-		$addressParams = array(
-			'addressLine1' 		=> $contractors[0]->address1,
-			'addressLine2' 		=> $contractors[0]->address2,
-			'city' 				=> $contractors[0]->city,
-			'country' 			=> $contractors[0]->country,
-			'state'				=> $stateText,
-			'zipCode' 			=> $contractors[0]->pin_code,
-			'requestFrom' 		=> 'view'
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->form_lib->getAddressFile(array("requestFrom" => "view", "address_data" => $contractors[0]));
 
 		$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->default_contact_user_id);
 		$contractors[0]->created_by = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->created_by);
@@ -222,13 +208,13 @@ class Contractors extends CI_Controller {
 
 		$params = array(
 			'contractors'			=> $contractors,
-			'userType' 				=> $this->session->userdata('role_id'),
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
 			'contractorId' 			=> $contractorId,
 			'addressFile' 			=> $addressFile,
 			'openAs' 				=> $openAs,
 			'contractorPermission'	=> $contractorPermission,
-			'role_id'				=> $role_id,
-			'role_disp_name'		=> $role_disp_name
+			'role_id'				=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'		=> $this->session->userdata('logged_in_role_disp_name')
 		);
 		
 		echo $this->load->view("service_providers/contractors/viewOne", $params, true);
@@ -251,8 +237,8 @@ class Contractors extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+		$role_id 		= $this->session->userdata('logged_in_role_id');
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 
 		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('security/model_users');
@@ -264,20 +250,7 @@ class Contractors extends CI_Controller {
 		$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorId);
 		$contractors = $contractorsResponse["contractors"];
 
-		$addressParams = array(
-			'addressLine1' 		=> $contractors[0]->address1,
-			'addressLine2' 		=> $contractors[0]->address2,
-			'city' 				=> $contractors[0]->city,
-			'country' 			=> $contractors[0]->country,
-			'state'				=> $contractors[0]->state,
-			'zipCode' 			=> $contractors[0]->pin_code,
-			'forForm' 			=> "update_contractor_form",
-			'role_id'			=> $role_id,
-			'role_disp_name'	=> $role_disp_name,
-			'requestFrom'		=> "input"
-		);
-
-		$addressFile = $this->load->view("forms/address", $addressParams, true);
+		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_contractor_form", "requestFrom" => "input", "address_data" => $contractors[0]));
 
 		if(!empty($contractors[0]->default_contact_user_id)) {
 			$contractors[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($contractors[0]->default_contact_user_id);
@@ -286,7 +259,7 @@ class Contractors extends CI_Controller {
 		$params = array(
 			'contractors' 		=> $contractors,
 			'addressFile' 		=> $addressFile,
-			'userType' 			=> $this->session->userdata('role_id'),
+			'userType' 			=> $this->session->userdata('logged_in_role_id'),
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
 			'role_id'			=> $role_id,
@@ -315,30 +288,49 @@ class Contractors extends CI_Controller {
 		$contractorId 			= $this->input->post('contractorId');
 
 		$data = array(
-			//'name' 				=> $this->input->post('name'),
-			'company' 			=> $this->input->post('company'),
-			'type' 				=> $this->input->post('type'),
-			'license' 			=> $this->input->post('license'),
-			//'bbb' 				=> $this->input->post('bbb'),
-			'status' 			=> $this->input->post('status'),
-			'address1' 			=> $this->input->post('addressLine1'),
-			'address2'			=> $this->input->post('addressLine2'),
-			'city' 				=> $this->input->post('city'),
-			'state' 			=> $this->input->post('state'),
-			'country' 			=> $this->input->post('country'),
-			'pin_code' 			=> $this->input->post('zipCode'),
-			'office_email' 		=> $this->input->post('emailId'),
-			'office_ph' 		=> $this->input->post('contactPhoneNumber'),
-			'mobile_ph' 		=> $this->input->post('mobileNumber'),
+			//'name' 					=> $this->input->post('name'),
+			'company' 					=> $this->input->post('company'),
+			'type' 						=> $this->input->post('type'),
+			'license' 					=> $this->input->post('license'),
+			//'bbb' 					=> $this->input->post('bbb'),
+			'status' 					=> $this->input->post('status'),
+			'address1' 					=> $this->input->post('addressLine1'),
+			'address2'					=> $this->input->post('addressLine2'),
+			'city' 						=> $this->input->post('city'),
+			'state' 					=> $this->input->post('state'),
+			'country' 					=> $this->input->post('country'),
+			'zip_code' 					=> $this->input->post('zipCode'),
+			'office_email' 				=> $this->input->post('emailId'),
+			'office_ph' 				=> $this->input->post('contactPhoneNumber'),
+			'mobile_ph' 				=> $this->input->post('mobileNumber'),
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
-			'prefer' 			=> $this->input->post('prefContact'),
-			'website_url' 		=> $this->input->post('websiteURL'),
-			'service_area' 		=> $this->input->post('serviceZip'),
-			'updated_by'		=> $this->session->userdata('user_id'),
-			'updated_on'		=> date("Y-m-d H:i:s")
+			'prefer' 					=> $this->input->post('prefContact'),
+			'website_url' 				=> $this->input->post('websiteURL'),
+			'service_area' 				=> $this->input->post('serviceZip'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
+			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
 		$response = $this->model_service_providers->update($data, $contractorId);
+
+		/*if($response["status"] == "success") {
+			// Update belongs_to_id in user
+			$this->load->model('security/model_users');
+			$this->load->model('security/model_roles');
+			$params = array(
+				"belongs_to_id" => $this->model_roles->get_role_id_from_user_table_by_user_id($default_user_details_id)
+			);
+
+			$default_user_details_id 	= $thi->model_users->get_user_details_id_from_user_id($this->input->post('db_default_user_id'));
+			if($default_user_email) {
+				$user_update_response 	= $this->model_users->updateDetailsTable( $params, $default_user_details_id);
+
+				if($user_update_response["status"] != "failed") {
+					$response["status"] 	= $user_update_response["status"];
+					$response["message"] 	= $user_update_response["message"];
+				}
+			}
+		}*/
 
 		$contractorCompanyParamsFormMail = array(
 			'response'				=> $response,

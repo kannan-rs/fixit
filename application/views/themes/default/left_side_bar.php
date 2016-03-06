@@ -10,7 +10,7 @@ print_r($adjusterPermission);*/
 		$controller 	= $this->session->userdata("controller");
 		$page 			= $this->session->userdata("page");
 		$module			= $this->session->userdata("module");
-		$role_id 		= $this->session->userdata("role_id");
+		$role_id 		= $this->session->userdata('logged_in_role_id');
 		
 		$menuOutput = "";
 

@@ -639,12 +639,12 @@ var _contractors = (function () {
             }
 
             var requestParams = {
-                emailId     : emailId,
-                belongsTo   : 'contractor|empty',
-                assignment  : 'not assigned'
+                emailId         : emailId,
+                role_disp_name  : 'SERVICE_PROVIDER_ADMIN',
+                assignment      : 'not assigned'
             }
 
-            var response = _utils.getCustomerList( requestParams );
+            var response = _utils.getFromUsersList( requestParams );
 
             var responseObj = $.parseJSON(response);
             var customer = [];

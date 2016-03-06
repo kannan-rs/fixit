@@ -54,7 +54,7 @@ class Permissions_lib {
 	}
 
 	private function _getPermissionOption( $modules = '') {
-		$role_id = $this->CI->session->userdata('role_id');
+		$role_id = $this->CI->session->userdata('logged_in_role_id');
 		
 		/* Parameter For Project Permissions */
 		$params = array(
@@ -102,10 +102,10 @@ class Permissions_lib {
 	public function getRoleAndDisplayStr() {
 		$this->CI->load->model('security/model_roles');
 
-		$role_id = $this->CI->session->userdata('role_id');
+		$role_id = $this->CI->session->userdata('logged_in_role_id');
 		if(!$role_id || $role_id == 0 || $role_id == "0") {
 			$role_id = $this->getRoleIdByName( "Customer" );
-			$this->CI->session->userdata('role_id', $role_id);
+			$this->CI->session->userdata('logged_in_role_id', $role_id);
 		}
 		$role_disp_name = $role_id ? strtolower($this->CI->model_roles->getRolesList($role_id)[0]->role_name) : "Customer";
 		

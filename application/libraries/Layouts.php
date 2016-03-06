@@ -27,6 +27,10 @@ class Layouts {
 			"js/shared/header/header_ctrl.js",
 			//"js/shared/header/header_directive.js",
 
+			"js/shared/fixitcontent/fixitcontent_ctrl.js",
+
+			"js/shared/footer/footer_ctrl.js",
+
 			"js/submit.js",
 			"js/shared/utils/utils.js",
 			"js/shared/utils/messages.js",
@@ -84,9 +88,8 @@ class Layouts {
 
 	private function set_required_permission() {
 		if(is_logged_in()) {
-			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
-			$this->layout_data['role_id'] 				= $role_id;
-			$this->layout_data['role_disp_name'] 		= $role_disp_name;
+			$this->layout_data['role_id'] 				= $this->CI->session->userdata('logged_in_role_id');
+			$this->layout_data['role_disp_name'] 		= $this->CI->session->userdata('logged_in_role_disp_name');
 			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
@@ -97,7 +100,7 @@ class Layouts {
 	private function check_menu_dependency( $menu ) {
 		//print_r($menu);
 		$dependency_ok = true;
-		list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
+		$role_disp_name = $this->CI->session->userdata('logged_in_role_disp_name');
 		if($dependency_ok && isset($menu['dependency'])) {
 			$dependency = $menu['dependency'];
 			if(isset($dependency['roles_by_name']) && isset($role_disp_name) && !in_array($role_disp_name, $dependency['roles_by_name'])) {
@@ -177,9 +180,8 @@ class Layouts {
 
 		$this->set_required_permission();
 		/*if(is_logged_in()) {
-			list($role_id, $role_disp_name) = $this->CI->permissions_lib->getRoleAndDisplayStr();
 			$this->layout_data['role_id'] 				= $role_id;
-			$this->layout_data['role_disp_name'] 		= $role_disp_name;
+			$this->layout_data['role_disp_name'] 		= $this->session->userdata('logged_in_role_disp_name');
 			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
@@ -204,12 +206,6 @@ class Layouts {
 	}
 
 	public function setLayout($params) {
-		// set layout's Header
-		//$this->layout_data['header'] 			= $this->CI->load->view("themes/".$this->layout_template."/header", $this->layout_data, true);
-		
-		// set layout's top menu Links
-		//$this->layout_data['top_menu'] 			= $this->CI->load->view("themes/".$this->layout_template."/top_menu", $this->layout_data, true);
-		
 		// set layout's side bar for left navigation
 		$this->layout_data['left_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/left_side_bar", $this->layout_data, true);
 		
@@ -218,19 +214,10 @@ class Layouts {
 			//echo "<br/>Not Logged In";
 			$this->layout_data['main_content'] = $this->CI->load->view("notLoggedIn/index", $this->layout_data, true);
 		} else {
-			//echo "<br/>Logged In";
-			//echo "<br/>"."pages/".$this->layout_data['main_content_name'];
-			//echo "---".$this->CI->session->userdata("userType")."---<br/>";
-			//print_r($this->layout_data);
 			if($this->layout_data['main_content_name'] == "signup") {
-				$this->layout_data["userType"] 			= $this->CI->session->userdata("role_id");
+				$this->layout_data["userType"] 			= $this->CI->session->userdata('logged_in_role_id');
 
-				$addressParams = array(
-					'forForm' 			=> "create_user_form",
-					'requestFrom'		=> "input"
-				);
-				$addressFile 							= $this->CI->load->view("forms/address", $addressParams, true);
-				$this->layout_data['addressFile']		= $addressFile;
+				$this->layout_data['addressFile']		= $this->form_lib->getAddressFile(array("view" => "create_user_form"));
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/inputForm", $this->layout_data, true);
 			} else {
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
@@ -240,8 +227,6 @@ class Layouts {
 		
 		//set layout's Right Hand side portions
 		$this->layout_data['right_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/right_side_bar", $this->layout_data, true);
-		// set layout's Footers
-		$this->layout_data['footer']			= $this->CI->load->view("themes/".$this->layout_template."/footer", $this->layout_data, true);
 	}
 
 	public function setIncludes($params) {

@@ -2,6 +2,7 @@
 
 class Model_form_utils extends CI_Model {
 	public function getCountryStatus( $abbr = "") {
+	
 		if(isset($abbr) && !is_null($abbr) && $abbr != "") {
 			$this->db->where('abbreviation', $abbr);	
 		}
@@ -9,7 +10,7 @@ class Model_form_utils extends CI_Model {
 		$this->db->select(["*"]);
 
 		$query = $this->db->from('state')->get();
-		
+
 		$state = $query->result();
 		
 		return $state;
@@ -47,7 +48,7 @@ class Model_form_utils extends CI_Model {
 		return $state;
 	}
 
-	public function getCustomerList( $params = array()) {
+	public function getFromUsersList( $params = array()) {
 		$response = array("status" => "error");
 
 		$queryStr 	= "SELECT users.sno, users.user_name, ";
@@ -56,16 +57,22 @@ class Model_form_utils extends CI_Model {
 
 
 		if(isset($params) && is_array($params)) {
-			$emailId	= isset($params["emailId"]) ? $params["emailId"] : "";
-			$belongsTo	= isset($params["belongsTo"]) ? $params["belongsTo"] : "";
-			$assignment	= isset($params["assignment"]) ? $params["assignment"] : "";
+			$emailId		= isset($params["emailId"]) ? $params["emailId"] : "";
+			$role_disp_name	= isset($params["role_disp_name"]) ? $params["role_disp_name"] : "";
+			$assignment		= isset($params["assignment"]) ? $params["assignment"] : "";
+			$role_id 		= "";
+
+			if(isset($role_disp_name) && !empty($role_disp_name)) {
+				$this->load->model('security/model_roles');
+				$role_id = $this->model_roles->get_role_id_by_role_name(constant("ROLE_".$role_disp_name));
+			}
 			
 			if(!empty($emailId)) {
 				$this->db->like('email', $emailId);
 				$queryStr .=" AND `email` LIKE '%".$emailId."%'";
 			}
-			if(!empty($belongsTo)) {
-				$belongsToArr = explode("|", $belongsTo);
+			if(!empty($role_id)) {
+				/*$belongsToArr = explode("|", $belongsTo);
 				$belongsToStr = "";
 				for($i = 0; $i < count($belongsToArr); $i++) {
 					$belongsToArr[$i] = $belongsToArr[$i] == "empty" ? "" : $belongsToArr[$i];
@@ -73,7 +80,10 @@ class Model_form_utils extends CI_Model {
 					$belongsToStr .= "'".$belongsToArr[$i]."'";
 				}
 				$this->db->where_in('belongs_to', $belongsToArr);
-				$queryStr .=" AND `belongs_to` IN (".$belongsToStr.")";
+				$queryStr .=" AND `belongs_to` IN (".$belongsToStr.")";*/
+
+				$this->db->where_in('users.role_id', $role_id);
+				$queryStr .=" AND `role_id` IN (".$role_id.")";
 			} else {
 				/*$this->db->where('belongs_to', "customer");
 				$queryStr .=" AND `belongs_to` = \"customer\"";*/

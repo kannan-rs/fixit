@@ -34,9 +34,6 @@ class Docs extends CI_Controller {
 			return false;
 		}
 
-		/* Get Role ID and Role Display String*/
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
-
 		$this->load->model('claims/model_docs');
 		$this->load->model('security/model_users');
 
@@ -54,7 +51,6 @@ class Docs extends CI_Controller {
 			}
 		}
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Claim > Permissions for logged in User by role_id
 		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
@@ -129,21 +125,21 @@ class Docs extends CI_Controller {
 					'document_content' 		=> addslashes(file_get_contents($_FILES['docAttachment']['tmp_name'])),
 					'att_name' 				=> $_FILES["docAttachment"]["name"],
 					'att_type'				=> $_FILES["docAttachment"]["type"],
-					'created_by'			=> $this->session->userdata('user_id'),
+					'created_by'			=> $this->session->userdata('logged_in_user_id'),
 					'created_on' 			=> date("Y-m-d H:i:s"),
-					'updated_by' 			=> $this->session->userdata('user_id'),
+					'updated_by' 			=> $this->session->userdata('logged_in_user_id'),
 					'updated_on' 			=> date("Y-m-d H:i:s")
 				);
 
 				$response = $this->model_docs->insert($data);
 
-				/*list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
+				/*
 				//Claim > Permissions for logged in User by role_id
 				$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
 				$claimParams = array(
 					'claim_id' 		=> [$claim_id],
-					'role_disp_name' 	=> $role_disp_name,
+					'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 					'claimPermission'	=> $claimPermission
 				);
 
@@ -261,7 +257,6 @@ class Docs extends CI_Controller {
 
 		$response = $this->model_docs->deleteRecord($docId);
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Claim > Permissions for logged in User by role_id
 		$claimPermission = $this->permissions_lib->getPermissions(FUNCTION_CLAIM);
 
@@ -272,7 +267,7 @@ class Docs extends CI_Controller {
 
 			$claimParams = array(
 				'claim_id' 		=> [$claim_id],
-				'role_disp_name' 	=> $role_disp_name,
+				'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 				'claimPermission'	=> $claimPermission
 			);
 

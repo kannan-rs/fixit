@@ -210,8 +210,8 @@ class Discounts extends CI_Controller {
 			'discount_value'				=> $discount_value,
 			'discount_from_date'			=> $discount_from_date,
 			'discount_to_date'				=> $discount_to_date,
-			'created_by'					=> $this->session->userdata('user_id'),
-			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_by'					=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'					=> $this->session->userdata('logged_in_user_id'),
 			'created_on'					=> date("Y-m-d H:i:s"),
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
@@ -298,8 +298,8 @@ class Discounts extends CI_Controller {
 			'discount_value'				=> $discount_value,
 			'discount_from_date'			=> $discount_from_date,
 			'discount_to_date'				=> $discount_to_date,
-			'created_by'					=> $this->session->userdata('user_id'),
-			'updated_by'					=> $this->session->userdata('user_id'),
+			'created_by'					=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'					=> $this->session->userdata('logged_in_user_id'),
 			'created_on'					=> date("Y-m-d H:i:s"),
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);

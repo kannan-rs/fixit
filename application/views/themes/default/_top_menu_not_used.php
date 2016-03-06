@@ -317,7 +317,7 @@ $is_logged_in = is_logged_in() ? 1 : 0;
 $controller 	= $this->session->userdata("controller");
 $page 			= $this->session->userdata("page");
 $module			= $this->session->userdata("module");
-$role_id 		= $this->session->userdata("role_id");
+$role_id 		= $this->session->userdata('logged_in_role_id');
 
 ?>
 

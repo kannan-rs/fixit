@@ -75,7 +75,7 @@ class Issues extends CI_Controller {
 		$taskId 	= $this->input->post('taskId') ? $this->input->post('taskId') : "";
 		
 		$params = array(
-			'userType' 		=> $this->session->userdata('role_id'),
+			'userType' 		=> $this->session->userdata('logged_in_role_id'),
 			'openAs' 		=> $openAs,
 			'popupType' 	=> $popupType,
 			'projectId' 	=> $projectId,
@@ -152,7 +152,7 @@ class Issues extends CI_Controller {
 
 		$params = array(
 			'issues'			=> $issues,
-			'userType' 			=> $this->session->userdata('role_id'),
+			'userType' 			=> $this->session->userdata('logged_in_role_id'),
 			'issueId' 			=> $issueId,
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
@@ -207,21 +207,20 @@ class Issues extends CI_Controller {
 			'assigned_date' 		=> date("Y-m-d"),
 			'status' 				=> $this->input->post("issueStatus"),
 			'notes' 				=> $this->input->post("issueNotes"),
-			'created_by'			=> $this->session->userdata('user_id'),
-			'updated_by'			=> $this->session->userdata('user_id'),
+			'created_by'			=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'			=> $this->session->userdata('logged_in_user_id'),
 			'created_on'			=> date("Y-m-d H:i:s"),
 			'updated_on'			=> date("Y-m-d H:i:s")
 		);
 
 		$response = $this->model_issues->insert($data);
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$projectId],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 
@@ -346,7 +345,7 @@ class Issues extends CI_Controller {
 
 		$params = array(
 			'issues'			=> $issues,
-			'userType' 			=> $this->session->userdata('role_id'),
+			'userType' 			=> $this->session->userdata('logged_in_role_id'),
 			'issueId' 			=> $issueId,
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
@@ -394,7 +393,7 @@ class Issues extends CI_Controller {
 			'issue_from_date' 			=> $this->input->post('issueFromdate'),
 			'status' 					=> $this->input->post('issueStatus'),
 			'notes' 					=> $this->input->post('issueNotes'),
-			'updated_by'				=> $this->session->userdata('user_id'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
@@ -410,7 +409,6 @@ class Issues extends CI_Controller {
 		$issuesResponse = $this->model_issues->getIssuesList(array('records' => $issueId, 'status' => 'all'));
 		$issue 			= isset($issuesResponse["issues"]) && is_array($issuesResponse["issues"]) && count($issuesResponse["issues"]) ? $issuesResponse["issues"][0] : null;
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 
 		if($issue) {
 			//Project > Permissions for logged in User by role_id
@@ -418,7 +416,7 @@ class Issues extends CI_Controller {
 
 			$projectParams = array(
 				'projectId' 		=> [$issue->project_id],
-				'role_disp_name' 	=> $role_disp_name,
+				'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 				'projectPermission'	=> $projectPermission
 			);
 
@@ -505,13 +503,12 @@ class Issues extends CI_Controller {
 
 		$response = $this->model_issues->deleteRecord($issueId);
 
-		list($role_id, $role_disp_name) = $this->permissions_lib->getRoleAndDisplayStr();
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$projectParams = array(
 			'projectId' 		=> [$issue->project_id],
-			'role_disp_name' 	=> $role_disp_name,
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
 		);
 		$projects = $this->model_projects->getProjectsList($projectParams);
