@@ -87,6 +87,7 @@ define('ROLE_INSURANCECO_ADMIN', 				'insuranceco admin');
 define('ROLE_CUSTOMER', 						'customer');
 define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
 define('ROLE_SERVICE_PROVIDER_USER',			'service provider user');
+define('ROLE_PARTNER_ADMIN', 					'partner admin');
 
 /*
 | Role to page mapping

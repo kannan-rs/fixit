@@ -25,6 +25,9 @@ class Model_users extends CI_Model {
 		$whereQuery = "";
 		if($this->session->userdata('logged_in_role_disp_name') == ROLE_SERVICE_PROVIDER_ADMIN) {
 			$whereQuery = " AND ".$this->get_self_where_class();
+			
+			
+			// Contractors User List
 		}
 
 		return $whereQuery;

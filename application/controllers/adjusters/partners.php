@@ -84,11 +84,18 @@ class Partners extends CI_Controller {
 		}
 
 		$this->load->model('adjusters/model_partners');
+		$this->load->model('security/model_users');
 		
 		$partnersResponse = $this->model_partners->getPartnersList();
 
+		$partners = $partnersResponse["partners"];
+
+		for( $i = 0; $i < count($partners); $i++) {
+			$partners[$i]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($partners[$i]->default_contact_user_id);
+		}
+
 		$params = array(
-			'partners'=>$partnersResponse["partners"],
+			'partners'=> $partners,
 			'role_id' => $this->session->userdata('logged_in_role_id')
 		);
 		
@@ -113,17 +120,24 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
+		/* Get Role ID and Role Display String*/
+		$role_id 		= $this->session->userdata('logged_in_role_id'); 
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+
 		$this->load->model('security/model_users');
 
-		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
-		$popupType 	= $this->input->post('popupType') ? $this->input->post('popupType') : "";
+		$openAs 		= $this->input->post('openAs') ? $this->input->post('openAs') : "";
+		$popupType 		= $this->input->post('popupType') ? $this->input->post('popupType') : "";
+		$addressFile 	= $this->form_lib->getAddressFile(array("view" => "create_partner_form", "requestFrom"=> "input"));
 		
 		$params = array(
-			'users' 		=> $this->model_users->getUsersList(),
-			'userType' 		=> $this->session->userdata('logged_in_role_id'),
-			'openAs' 		=> $openAs,
-			'addressFile' 	=> $this->form_lib->getAddressFile(array("view" => "create_partner_form", "requestFrom"=> "input")),
-			'popupType' 	=> $popupType
+			//'users' 				=> $this->model_users->getUsersList(),
+			//'userType' 				=> $this->session->userdata('logged_in_role_id'),
+			'role_id' 				=> $role_id,
+			'role_disp_name'		=> $role_disp_name,
+			'openAs' 				=> $openAs,
+			'addressFile' 			=> $addressFile,
+			'popupType' 			=> $popupType
 		);
 
 		echo $this->load->view("adjusters/partners/inputForm", $params, true);
@@ -146,27 +160,28 @@ class Partners extends CI_Controller {
 		$this->load->model('mail/model_mail');
 
 		$data = array(
-			//'name' 				=> $this->input->post('name'),
-			'company_name' 		=> $this->input->post('company'),
-			'type' 				=> $this->input->post('type'),
-			'license' 			=> $this->input->post('license'),
-			'status' 			=> $this->input->post('status'),
-			'address1' 			=> $this->input->post('addressLine1'),
-			'address2'			=> $this->input->post('addressLine2'),
-			'city' 				=> $this->input->post('city'),
-			'state' 			=> $this->input->post('state'),
-			'country' 			=> $this->input->post('country'),
-			'zip_code' 			=> $this->input->post('zipCode'),
-			'work_email_id' 	=> $this->input->post('wEmailId'),
-			'work_phone' 		=> $this->input->post('wNumber'),
-			'mobile_no' 		=> $this->input->post('pNumber'),
-			'personal_email_id' => $this->input->post('pEmailId'),
-			'contact_pref' 		=> $this->input->post('prefContact'),
-			'website_url' 		=> $this->input->post('websiteURL'),
-			'created_by'		=> $this->session->userdata('logged_in_user_id'),
-			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
-			'created_on'		=> date("Y-m-d H:i:s"),
-			'updated_on'		=> date("Y-m-d H:i:s")
+			//'name' 					=> $this->input->post('name'),
+			'company_name' 				=> $this->input->post('company'),
+			'type' 						=> $this->input->post('type'),
+			'license' 					=> $this->input->post('license'),
+			'status' 					=> $this->input->post('status'),
+			'address1' 					=> $this->input->post('addressLine1'),
+			'address2'					=> $this->input->post('addressLine2'),
+			'city' 						=> $this->input->post('city'),
+			'state' 					=> $this->input->post('state'),
+			'country' 					=> $this->input->post('country'),
+			'zip_code' 					=> $this->input->post('zipCode'),
+			'work_email_id' 			=> $this->input->post('wEmailId'),
+			'work_phone' 				=> $this->input->post('wNumber'),
+			'mobile_no' 				=> $this->input->post('pNumber'),
+			'personal_email_id' 		=> $this->input->post('pEmailId'),
+			'contact_pref' 				=> $this->input->post('prefContact'),
+			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
+			'website_url' 				=> $this->input->post('websiteURL'),
+			'created_by'				=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
+			'created_on'				=> date("Y-m-d H:i:s"),
+			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
 		$response = $this->model_partners->insert($data);
@@ -217,6 +232,8 @@ class Partners extends CI_Controller {
 			$partners[$i]->updated_by_name = $this->model_users->getUsersList($partners[$i]->updated_by)[0]->user_name;
 		}
 
+		$partners[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($partners[0]->default_contact_user_id);
+
 		$addressFile = $this->form_lib->getAddressFile(array("view" => "view", "address_data" => $partners[0]));
 
 		$params = array(
@@ -249,7 +266,12 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
+		/* Get Role ID and Role Display String*/
+		$role_id 		= $this->session->userdata('logged_in_role_id'); 
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+
 		$this->load->model('adjusters/model_partners');
+		$this->load->model('security/model_users');
 
 		$partnerId = $this->input->post('partnerId');
 		$openAs 	= $this->input->post('openAs') ? $this->input->post('openAs') : "";
@@ -260,12 +282,18 @@ class Partners extends CI_Controller {
 
 		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_partner_form", "requestFrom"=> "input", "address_data" => $partners[0]));
 
+		if(!empty($partners[0]->default_contact_user_id)) {
+			$partners[0]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($partners[0]->default_contact_user_id);
+		}
+
 		$params = array(
-			'partners' 		=> $partners,
-			'addressFile' 	=> $addressFile,
-			'userType' 		=> $this->session->userdata('logged_in_role_id'),
-			'openAs' 		=> $openAs,
-			'popupType' 	=> $popupType
+			'role_id' 			=> $role_id,
+			'role_disp_name'	=> $role_disp_name,
+			'partners' 			=> $partners,
+			'addressFile' 		=> $addressFile,
+			//'userType' 			=> $this->session->userdata('logged_in_role_id'),
+			'openAs' 			=> $openAs,
+			'popupType' 		=> $popupType
 		);
 		
 		echo $this->load->view("adjusters/partners/inputForm", $params, true);
@@ -290,25 +318,26 @@ class Partners extends CI_Controller {
 		$partnerId 			= $this->input->post('partnerId');
 
 		$data = array(
-			//'name' 				=> $this->input->post('name'),
-			'company_name' 		=> $this->input->post('company'),
-			'type' 				=> $this->input->post('type'),
-			'license' 			=> $this->input->post('license'),
-			'status' 			=> $this->input->post('status'),
-			'address1' 			=> $this->input->post('addressLine1'),
-			'address2'			=> $this->input->post('addressLine2'),
-			'city' 				=> $this->input->post('city'),
-			'state' 			=> $this->input->post('state'),
-			'country' 			=> $this->input->post('country'),
-			'zip_code' 			=> $this->input->post('zipCode'),
-			'work_email_id' 	=> $this->input->post('wEmailId'),
-			'work_phone' 		=> $this->input->post('wNumber'),
-			'mobile_no' 		=> $this->input->post('pNumber'),
-			'personal_email_id' => $this->input->post('pEmailId'),
-			'contact_pref' 		=> $this->input->post('prefContact'),
-			'website_url' 		=> $this->input->post('websiteURL'),
-			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
-			'updated_on'		=> date("Y-m-d H:i:s")
+			//'name' 					=> $this->input->post('name'),
+			'company_name' 				=> $this->input->post('company'),
+			'type' 						=> $this->input->post('type'),
+			'license' 					=> $this->input->post('license'),
+			'status' 					=> $this->input->post('status'),
+			'address1' 					=> $this->input->post('addressLine1'),
+			'address2'					=> $this->input->post('addressLine2'),
+			'city' 						=> $this->input->post('city'),
+			'state' 					=> $this->input->post('state'),
+			'country' 					=> $this->input->post('country'),
+			'zip_code' 					=> $this->input->post('zipCode'),
+			'work_email_id' 			=> $this->input->post('wEmailId'),
+			'work_phone' 				=> $this->input->post('wNumber'),
+			'mobile_no' 				=> $this->input->post('pNumber'),
+			'personal_email_id' 		=> $this->input->post('pEmailId'),
+			'contact_pref' 				=> $this->input->post('prefContact'),
+			'website_url' 				=> $this->input->post('websiteURL'),
+			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
+			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
 		$response = $this->model_partners->update($data, $partnerId);

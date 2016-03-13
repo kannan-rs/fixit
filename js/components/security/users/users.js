@@ -7,13 +7,29 @@ var _users = (function () {
     var rolesDb = null;
     //var rolesBySno = [];
     
-    if(session && session.role_disp_name && session.role_disp_name == 'admin') {
-        preset();
-    }
-    
-    function preset() {
-        //getRole();
+    function initialSettings() {
+        cleanInputForm();
     };
+
+    function cleanInputForm () {
+        $(".contractor-search").hide();
+        $(".contractor-result").hide();
+        $("#contractorList").hide();
+        $("#selectedContractorDb").hide();
+
+        $(".adjuster-search").hide();
+        $(".adjuster-result").hide();
+        $("#adjusterList").hide();
+        $("#selectedAdjusterDB").hide();
+
+       /* if($("#selectedContractorDb").text() != "") {
+            $("#selectedContractorDb").show();
+        }
+
+        if($("#selectedAdjusterDB").text() != "") {
+            $("#selectedAdjusterDB").show();
+        }*/
+    }
 
     /*function setViewBasics() {    
         $(".role_id").each(
@@ -201,7 +217,7 @@ var _users = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            if(!session.role_id && !$("#termsCondition").prop("checked")) {
+            if(!session.logged_in_role_id && !$("#termsCondition").prop("checked")) {
                 $("#tcError").show();
                 isTcError = true;
             }
@@ -234,10 +250,10 @@ var _users = (function () {
             }
         },
         viewAll: function( options ) {
-            options             = options || {};
-            var userId             = options.userId;
-            var status             = options.status;
-            var responseType     = options.responseType;
+            options            = options || {};
+            var userId         = options.userId;
+            var status         = options.status;
+            var responseType   = options.responseType;
 
             $.ajax({
                 method: "POST",
@@ -261,19 +277,19 @@ var _users = (function () {
             });
         },
         createForm: function( options ) {
-            var openAs             = options && options.openAs ? options.openAs : "";
-            var popupType         = options && options.popupType ? options.popupType : "";
-            var belongsTo         = options && options.belongsTo ? options.belongsTo : "";
-            var requestFrom     = options && options.requestFrom ? options.requestFrom : "";
+            var openAs         = options && options.openAs ? options.openAs : "";
+            var popupType      = options && options.popupType ? options.popupType : "";
+            var belongsTo      = options && options.belongsTo ? options.belongsTo : "";
+            var requestFrom    = options && options.requestFrom ? options.requestFrom : "";
 
             $.ajax({
                 method: "POST",
                 url: "/security/users/createForm",
                 data: {
-                    openAs         : openAs,
-                    belongsTo     : belongsTo,
-                    popupType     : popupType,
-                    requestFrom : requestFrom
+                    openAs          : openAs,
+                    belongsTo       : belongsTo,
+                    popupType       : popupType,
+                    requestFrom     : requestFrom
                 },
                 success: function( response ) {
                     //if(!_utils.is_logged_in( response )) { return false; }
@@ -287,9 +303,10 @@ var _users = (function () {
                             _projects.openDialog({"title" : "Add Customer"}, popupType);
                         }
                     }
-                    //_users.setStatus();
+
+                    initialSettings();
+                    
                     _utils.setStatus("userStatus", "userStatusDb");
-                    _users.showBelongsToOption();
                     _users.showreferredByOption();
                     _utils.getAndSetCountryStatus("create_user_form");
                 },
@@ -302,30 +319,30 @@ var _users = (function () {
             });
         },
         createSubmit: function( openAs, popupType, belongsToForPopup ) {
-            var idPrefix             = "#create_user_form ";
-
-            var privilege             = $(idPrefix+"#privilege").val();
-            var firstName             = $(idPrefix+"#firstName").val();
-            var lastName             = $(idPrefix+"#lastName").val();
-            var password             = $(idPrefix+"#password").val();
-            var passwordHint         = $(idPrefix+"#passwordHint").val();
-            var belongsTo             = $(idPrefix+"#belongsTo").val();
-            var referredBy             = $(idPrefix+"#referredBy").val();
+            var idPrefix            = "#create_user_form ";
+            var privilege           = $(idPrefix+"#privilege").val();
+            var role_text           = $("#privilege option:selected").text();
+            var firstName           = $(idPrefix+"#firstName").val();
+            var lastName            = $(idPrefix+"#lastName").val();
+            var password            = $(idPrefix+"#password").val();
+            var passwordHint        = $(idPrefix+"#passwordHint").val();
+            var belongsTo           = $(idPrefix+"#belongsTo").val();
+            var referredBy          = $(idPrefix+"#referredBy").val();
             var belongsToId         = "";
-            var referredById         = "";
-            var userStatus             = $(idPrefix+"#userStatus").val();
+            var referredById        = "";
+            var userStatus          = $(idPrefix+"#userStatus").val();
             var emailId             = $(idPrefix+"#emailId").val();
-            var contactPhoneNumber     = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber         = $(idPrefix+"#mobileNumber").val();
-            var altNumber             = $(idPrefix+"#altNumber").val();
-            var primaryContact        = $(idPrefix+"input[name=primaryContact]:checked").val();
-            var prefContact            = "";
-            var addressLine1         = $(idPrefix+"#addressLine1").val();
-            var addressLine2         = $(idPrefix+"#addressLine2").val();
-            var city                 = $(idPrefix+"#city").val();
-            var state                 = $(idPrefix+"#state").val();
+            var contactPhoneNumber  = $(idPrefix+"#contactPhoneNumber").val();
+            var mobileNumber        = $(idPrefix+"#mobileNumber").val();
+            var altNumber           = $(idPrefix+"#altNumber").val();
+            var primaryContact      = $(idPrefix+"input[name=primaryContact]:checked").val();
+            var prefContact         = "";
+            var addressLine1        = $(idPrefix+"#addressLine1").val();
+            var addressLine2        = $(idPrefix+"#addressLine2").val();
+            var city                = $(idPrefix+"#city").val();
+            var state               = $(idPrefix+"#state").val();
             var country             = $(idPrefix+"#country").val();
-            var zipCode                = $(idPrefix+"#zipCode").val();
+            var zipCode             = $(idPrefix+"#zipCode").val();
             var tc                  = $(idPrefix+"#termsCondition").prop("checked");
 
             $(idPrefix+"input[name=prefContact]:checked").each(
@@ -337,12 +354,12 @@ var _users = (function () {
             /*
                 Belongs to options
             */
-            var ownerSelected = $(idPrefix+"input[type='radio'][name='optionSelectedOwner']:checked");
-            var adjusterSelected = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
+            var ownerSelected       = $(idPrefix+"input[type='radio'][name='optionSelectedContractor']:checked");
+            var adjusterSelected    = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
 
-            if (belongsTo == "contractor" && ownerSelected.length > 0) {
+            if (role_text.toLowerCase().indexOf("service provider") >= 0 && ownerSelected.length > 0) {
                 belongsToId     = ownerSelected.val();
-            } else if(belongsTo == "adjuster" && adjusterSelected.length > 0) {
+            } else if(role_text.toLowerCase().indexOf("partner") >= 0 && adjusterSelected.length > 0) {
                 belongsToId     = adjusterSelected.val();
             }
 
@@ -425,24 +442,24 @@ var _users = (function () {
                 data: {'userId' : userId},
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
+
                     if(session.page == "home") {
                         $("#index_content").html(response);
                     } else {
                         $("#security_content").html(response);
                     }
 
-                    _users.setPrimaryContact(); // To set primary contact selection
-                    //_users.setPrefContact();
-                    //_users.setBelongsTo();
+                    initialSettings();
                     _users.setPrivilege();
-                    //_users.setStatus();
+                    _users.showBelongsToOption();
+
+                    _users.setPrimaryContact(); // To set primary contact selection
+                    _users.setPrivilege();
                     _utils.setStatus("userStatus", "userStatusDb");
                     _users.setreferredBy();
 
-                    _users.showBelongsToOption();
                     _users.showreferredByOption();
-                    _utils.getAndSetCountryStatus("update_user_form");
-                    //_utils.setAddressEditVal();
+                    _utils.getAndSetCountryStatus("update_user_form");;
                     _utils.setAddressByCity();
                     _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');
 
@@ -461,42 +478,40 @@ var _users = (function () {
             });
         },
         updateSubmit: function(userId) {
-            var idPrefix             = "#update_user_form ";
-            var userId                 = $(idPrefix+"#userId").val();
-            var privilege             = $(idPrefix+"#privilege").length ? $("#privilege").val() : "";
+            var idPrefix            = "#update_user_form ";
+            var userId              = $(idPrefix+"#userId").val();
+            var privilege           = $(idPrefix+"#privilege").length ? $("#privilege").val() : "";
+            var role_text           = privilege ? $("#privilege option:selected").text() : "";
             var sno                 = $(idPrefix+"#user_details_sno").val();
-            var firstName             = $(idPrefix+"#firstName").val();
-            var lastName             = $(idPrefix+"#lastName").val();
-            var belongsTo             = $(idPrefix+"#belongsTo").val();
+            var firstName           = $(idPrefix+"#firstName").val();
+            var lastName            = $(idPrefix+"#lastName").val();
+            var belongsTo           = $(idPrefix+"#belongsTo").val();
             var activeStartDate     = $(idPrefix+"#activeStartDate").length ? _utils.toMySqlDateFormat($("#activeStartDate").val()) : "";
-            var activeEndDate         = $(idPrefix+"#activeEndDate").length ? _utils.toMySqlDateFormat($("#activeEndDate").val()) : "";
+            var activeEndDate       = $(idPrefix+"#activeEndDate").length ? _utils.toMySqlDateFormat($("#activeEndDate").val()) : "";
             var belongsToId         = "";
-            var userStatus             = $(idPrefix+"#userStatus").val();
-            var contactPhoneNumber     = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber         = $(idPrefix+"#mobileNumber").val();
-            var altNumber             = $(idPrefix+"#altNumber").val();
-            var primaryContact        = $(idPrefix+"input[name=primaryContact]:checked").val();
-            var prefContact            = "";
-            var addressLine1         = $(idPrefix+"#addressLine1").val();
-            var addressLine2         = $(idPrefix+"#addressLine2").val();
-            var city                 = $(idPrefix+"#city").val();
-            var state                 = $(idPrefix+"#state").val();
+            var userStatus          = $(idPrefix+"#userStatus").val();
+            var contactPhoneNumber  = $(idPrefix+"#contactPhoneNumber").val();
+            var mobileNumber        = $(idPrefix+"#mobileNumber").val();
+            var altNumber           = $(idPrefix+"#altNumber").val();
+            var primaryContact      = $(idPrefix+"input[name=primaryContact]:checked").val();
+            var prefContact         = "";
+            var addressLine1        = $(idPrefix+"#addressLine1").val();
+            var addressLine2        = $(idPrefix+"#addressLine2").val();
+            var city                = $(idPrefix+"#city").val();
+            var state               = $(idPrefix+"#state").val();
             var country             = $(idPrefix+"#country").val();
-            var zipCode                = $(idPrefix+"#zipCode").val();
+            var zipCode             = $(idPrefix+"#zipCode").val();
+            var referredBy          = $(idPrefix+"#referredBy").val();
+            var referredById        = "";
 
-            var referredBy             = $(idPrefix+"#referredBy").val();
-            var referredById         = "";
+            var ownerSelected       = $(idPrefix+"input[type='radio'][name='optionSelectedContractor']:checked");
+            var adjusterSelected    = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
 
-            var ownerSelected = $(idPrefix+"input[type='radio'][name='optionSelectedOwner']:checked");
-            var adjusterSelected = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
-
-            if (belongsTo == "contractor" && ownerSelected.length > 0) {
-                belongsToId = ownerSelected.val();
-            } else if(belongsTo == "adjuster" && adjusterSelected.length > 0) {
-                belongsToId     = adjusterSelected.val();
-            }
-
-            if(belongsTo == "contractor" || belongsTo == "adjuster") {
+            if (role_text.toLowerCase().indexOf("service provider") >= 0 ) {
+                belongsToId = ownerSelected.length > 0 ? ownerSelected.val() : "";
+                belongsToId = belongsToId != "" ? belongsToId : $("#belongsToIdDb").val();
+            } else if(role_text.toLowerCase().indexOf("partner") >= 0 ) {
+                belongsToId     = adjusterSelected.length > 0 ? adjusterSelected.val() : "";
                 belongsToId = belongsToId != "" ? belongsToId : $("#belongsToIdDb").val();
             }
 
@@ -510,7 +525,7 @@ var _users = (function () {
             }
 
             if(referredBy == "contractor" || referredBy == "adjuster") {
-                referredById = referredById != "" ? referredById : $("#belongsToIdDb").val();
+                referredById = referredById != "" ? referredById : $("#referredByIdDb").val();
             }
 
 
@@ -524,29 +539,29 @@ var _users = (function () {
                 method: "POST",
                 url: "/security/users/update",
                 data: {
-                    userId                 : userId,
-                    privilege             : privilege,
-                    sno                 : sno,
-                    firstName             : firstName,
-                    lastName            : lastName,
-                    belongsTo            : belongsTo,
-                    belongsToId         : belongsToId,
-                    activeStartDate        : activeStartDate,
-                    activeEndDate        : activeEndDate,
-                    userStatus            : userStatus,
-                    contactPhoneNumber    : contactPhoneNumber,
-                    mobileNumber        : mobileNumber,
-                    altNumber            : altNumber,
-                    primaryContact         : primaryContact,
-                    prefContact         : prefContact,
-                    addressLine1         : addressLine1,
-                    addressLine2         : addressLine2,
-                    city                : city,
-                    state                 : state,
-                    country                : country,
-                    zipCode                : zipCode,
-                    referredBy             : referredBy,
-                    referredById         : referredById
+                    userId             : userId,
+                    privilege          : privilege,
+                    sno                : sno,
+                    firstName          : firstName,
+                    lastName           : lastName,
+                    belongsTo          : belongsTo,
+                    belongsToId        : belongsToId,
+                    activeStartDate    : activeStartDate,
+                    activeEndDate      : activeEndDate,
+                    userStatus         : userStatus,
+                    contactPhoneNumber : contactPhoneNumber,
+                    mobileNumber       : mobileNumber,
+                    altNumber          : altNumber,
+                    primaryContact     : primaryContact,
+                    prefContact        : prefContact,
+                    addressLine1       : addressLine1,
+                    addressLine2       : addressLine2,
+                    city               : city,
+                    state              : state,
+                    country            : country,
+                    zipCode            : zipCode,
+                    referredBy         : referredBy,
+                    referredById       : referredById
                 },
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
@@ -725,20 +740,38 @@ var _users = (function () {
             }
         },*/
         showBelongsToOption: function( ) {
-            var belongsTo = $("#belongsTo").val();
+            cleanInputForm();
+
+            var role_text = $("#privilege option:selected").text();
+
+            if( role_text.toLowerCase().indexOf("service provider") >= 0) {
+                $(".contractor-search").show();
+                $("#selectedContractorDb").show();
+
+                if($("#contractorList li").length) {
+                    $(".contractor-result").show();
+                    $("#contractorList").show();
+                } else {
+                    $(".contractor-result").hide();
+                    $("#contractorList").hide();
+                }
+            } else if ( role_text.toLowerCase().indexOf("partner") >= 0 ) {
+                $(".adjuster-search").show();
+                $("#selectedAdjusterDB").show();
+
+                if($("#adjusterList li").length) {
+                    $("#adjusterList").show();
+                    $(".adjuster-result").show();
+                } else {
+                    $("#adjusterList").hide();
+                    $(".adjuster-result").hide();
+                }
+            }
+
 
             // Hide all search container by default
-            $(".contractor-search").hide();
-            $(".contractor-result").hide();
-            $("#contractorList").hide();
-            $("#selectedContractorDb").hide();
-
-            $(".adjuster-search").hide();
-            $(".adjuster-result").hide();
-            $("#adjusterList").hide();
-            $("#selectedAdjusterDB").hide();
-
-            if( belongsTo == "contractor") {
+            
+            /*if( belongsTo == "contractor") {
                 $(".contractor-search").show();
                 $("#selectedContractorDb").show();
 
@@ -760,7 +793,7 @@ var _users = (function () {
                     $("#adjusterList").hide();
                     $(".adjuster-result").hide();
                 }
-            }
+            }*/
         },
         showreferredByOption: function( ) {
             var referredBy = $("#referredBy").val();
@@ -803,6 +836,11 @@ var _users = (function () {
         getContractorListUsingZip: function( prefix ) {
             var self = this;
             var contractors = null;
+
+            var selected_role_id    = $("#privilege").val();
+            var selected_role_text  = $("#privilege option:selected").text();
+            var zip_to_search       = $("#"+prefix+"contractorZipCode").val();
+
             $('#'+prefix+'contractorList').children().remove();
             if($("#"+prefix+"contractorZipCode").val().trim() == "") {
                 return;
@@ -811,17 +849,20 @@ var _users = (function () {
                 method: "POST",
                 url: "/service_providers/contractors/getList",
                 data: {
-                    zip     : $("#"+prefix+"contractorZipCode").val()
+                    zip             : zip_to_search,
+                    role_id         : selected_role_id,
+                    role_disp_name  : selected_role_text
                 },
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status == "success") {
                         contractors = { 
-                            list: response["contractors"],
-                            dispStrKey: "company",
-                            prefix: prefix,
-                            idPrefix : "contractor"
+                            list            : response["contractors"],
+                            dispStrKey      : "company",
+                            prefix          : prefix,
+                            idPrefix        : "contractor",
+                            name            : "optionSelectedContractor"
                         };
                         self.generateLiSingleSelectionDD( contractors );
                     } else {
@@ -838,6 +879,11 @@ var _users = (function () {
         },
         getAdjusterByCompanyName: function( prefix ) {
             var partners = null;
+
+            var selected_role_id    = $("#privilege").val();
+            var selected_role_text  = $("#privilege option:selected").text();
+            var company_name        = $("#"+prefix+"partnerCompanyName").val().trim();
+
             $('#'+prefix+'adjusterList').children().remove();
             if($("#"+prefix+"partnerCompanyName").val().trim() == "") return;
             var self = this;
@@ -845,17 +891,21 @@ var _users = (function () {
                 method: "POST",
                 url: "/adjusters/partners/getPartnerByCompanyName",
                 data: {
-                    companyName : $("#"+prefix+"partnerCompanyName").val().trim()
+                    companyName     : company_name,
+                    role_id         : selected_role_id,
+                    role_disp_name  : selected_role_text
                 },
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status == "success") {
                         partners = {
-                            list: response["partners"],
-                            "dispStrKey": "name",
-                            prefix: prefix,
-                            idPrefix : "adjuster"
+                            list            : response["partners"],
+                            "dispStrKey"    : "name",
+                            prefix          : prefix,
+                            idPrefix        : "adjuster",
+                            name            : "optionSelectedAdjuster"
+
                         };
                         self.generateLiSingleSelectionDD( partners );
                     } else {
@@ -871,15 +921,17 @@ var _users = (function () {
             });
         },
         generateLiSingleSelectionDD: function (options) {
-            var list = options.list;
-            var dispStrKey = options.dispStrKey;
-            var prefix = options.prefix;
-            var idPrefix = options.idPrefix;
+            var list        = options.list;
+            var dispStrKey  = options.dispStrKey;
+            var prefix      = options.prefix;
+            var idPrefix    = options.idPrefix;
+            var name        = options.name;
+
             for(var i =0 ; i < list.length; i++) {
                 var li = "<li class=\"ui-state-highlight\" id=\""+list[i].id+"\">";
                     li += "<div>"+list[i].name+"</div>";
                     li += "<div class=\"company\">"+list[i][dispStrKey]+"</div>";
-                    li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+"optionSelectedOwner\" value=\""+list[i].id+"\" /></span>";
+                    li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+name+"\" value=\""+list[i].id+"\" /></span>";
                     li += "</li>";
                 $('#'+prefix+idPrefix+'List').append(li);
             }

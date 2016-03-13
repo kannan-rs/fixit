@@ -27,24 +27,25 @@ if(isset($users) && count($users)) {
 	Input form value setting for both create and edit
 	Values are set from Database 
 */
-$firstName 			= isset($user_details) ? $user_details->first_name : "";
-$lastName 			= isset($user_details) ? $user_details->last_name : "";
-$belongsTo 			= isset($user_details) ? $user_details->belongs_to : (isset($belongsTo) ? $belongsTo : "");
-$belongsToId 		= isset($user_details) ? $user_details->belongs_to_id : "";
+$firstName 				= isset($user_details) ? $user_details->first_name : "";
+$lastName 				= isset($user_details) ? $user_details->last_name : "";
+$belongsTo 				= isset($user_details) ? $user_details->belongs_to : (isset($belongsTo) ? $belongsTo : "");
+$belongsToId 			= isset($user_details) ? $user_details->belongs_to_id : "";
 
-$referredBy 		= isset($user_details) ? $user_details->referred_by : "";
-$referredById 		= isset($user_details) ? $user_details->referred_by_id : "";
-
-$status 			= isset($user_details) ? $user_details->status : "";
-$activeStartDate 	= isset($user_details) ? $user_details->active_start_date : "";
-$activeEndDate 		= isset($user_details) ? $user_details->active_end_date : "";
-$emailId 			= isset($user_details) ? $user_details->email : "";
-$contactPhoneNumber = isset($user_details) ? $user_details->contact_ph1 : "";
-$mobileNumber 		= isset($user_details) ? $user_details->contact_mobile : "";
-$altNumber 			= isset($user_details) ? $user_details->contact_alt_mobile : "";
-$user_details_sno 	= isset($user_details) ? $user_details->sno : "";
-$dbPrefContact 		= isset($user_details) ? $user_details->contact_pref : "";
-$dbPrimaryContact 	= isset($user_details) ? $user_details->primary_contact : "";
+$referredBy 			= isset($user_details) ? $user_details->referred_by : "";
+$referredById 			= isset($user_details) ? $user_details->referred_by_id : "";
+$status 				= isset($user_details) ? $user_details->status : "";
+$activeStartDate 		= isset($user_details) ? $user_details->active_start_date : "";
+$activeEndDate 			= isset($user_details) ? $user_details->active_end_date : "";
+$emailId 				= isset($user_details) ? $user_details->email : "";
+$contactPhoneNumber 	= isset($user_details) ? $user_details->contact_ph1 : "";
+$mobileNumber 			= isset($user_details) ? $user_details->contact_mobile : "";
+$altNumber 				= isset($user_details) ? $user_details->contact_alt_mobile : "";
+$user_details_sno 		= isset($user_details) ? $user_details->sno : "";
+$dbPrefContact 			= isset($user_details) ? $user_details->contact_pref : "";
+$dbPrimaryContact 		= isset($user_details) ? $user_details->primary_contact : "";
+$is_service_provider 	= isset($is_service_provider) ? $is_service_provider : "";
+$is_partner 			= isset($is_partner) ? $is_partner : "";
 
 $openAs 			= isset($openAs) ? $openAs : "";
 $popupType 			= isset($popupType) ? $popupType : "";
@@ -82,17 +83,14 @@ if(!$openAs || $openAs != "popup") {
 	<table class='form'>
 		<tbody>
 			<?php 
-			if(
-				isset($role_disp_name) && 
-				$role_disp_name == ROLE_ADMIN && 
-				($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))
-			) { 
+			if( isset($role_disp_name) && $role_disp_name == ROLE_ADMIN && 
+				($createOrEdit == "create" || ($createOrEdit == "edit" && $viewFrom == "security"))) { 
 				if(!isset($role_id) || !isset($users) || $role_id != $users[0]->role_id) {
 				?>
 				<tr>
 					<td class="label"><?php echo $this->lang->line_arr('user->input_form->role'); ?></td>
 					<td>
-						<select name="privilege" id="privilege">
+						<select name="privilege" id="privilege" onchange="_users.showBelongsToOption()">
 							<option value="0"><?php echo $this->lang->line_arr('user->input_form->role_option_0'); ?></option>
 							<?php
 							if($roles && count($roles)) {
@@ -105,11 +103,58 @@ if(!$openAs || $openAs != "popup") {
 					</td>
 				</tr>
 			<?php 
-				} 
+				}
+
+				if($is_service_provider) {
+			?>
+				<tr>
+					<td class="label">User Belongs to Service Provider</td>
+					<td><span id="selectedContractorDb"><?php echo $belongsToName; ?></span></td>
+				</tr>
+			<?php
+					} else if ($is_partner) {
+			?>
+				<tr>
+					<td class="label">User Belongs to Partner</td>
+					<td><span id="selectedAdjusterDB"><?php echo $belongsToName; ?></span></td>
+				</tr>
+			<?php
+				}
+			?>
+				<!-- Service Provider Search and search results -->
+				<tr class="contractor-search">
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
+					<td>
+						<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->contractorZipCode_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('')"></span>
+					</td>
+				</tr>
+				<tr class="contractor-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
+					</td>
+				</tr>
+
+				<!-- Adjuster Search and search results -->
+				<tr class="adjuster-search">
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->partnerCompanyName'); ?></td>
+					<td>
+						<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->partnerCompanyName_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('')"></span>
+					</td>
+				</tr>
+				<tr class="adjuster-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
+					</td>
+				</tr>
+			<?php
 			}
 			?>
+
 			<tr>
-				<!-- <td class="label">First Name:</td> -->
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->firstName'); ?></td>
 				<td><input type="text" name="firstName" id="firstName" value="<?php echo $firstName; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->firstName_ph'); ?>" required></td>
 			</tr>
@@ -117,8 +162,7 @@ if(!$openAs || $openAs != "popup") {
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->lastName'); ?></td>
 				<td><input type="text" name="lastName" id="lastName" value="<?php echo $lastName; ?>" placeholder="<?php echo $this->lang->line_arr('user->input_form->lastName_ph'); ?>"></td>
 			</tr>
-			
-			
+
 			<?php if(!is_logged_in() || $createOrEdit == "create") { // only for create user ?>
 				<tr>
 					<td class="label"><?php echo $this->lang->line_arr('user->input_form->password'); ?></td>
@@ -165,37 +209,10 @@ if(!$openAs || $openAs != "popup") {
 					?>
 				</td>
 			</tr> -->
-			<?php if(isset($role_disp_name) && $role_disp_name == ROLE_ADMIN) { ?>
-			<!-- Service Provider Search and search results -->
-			<tr class="contractor-search">
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->contractorZipCode'); ?></td>
-				<td>
-					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->contractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('')"></span>
-				</td>
-			</tr>
-			<tr class="contractor-result">
-				<td class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="contractorList" name="contractorList" class="connectedSortable owner-search-result users"></ul>
-				</td>
-			</tr>
 
-			<!-- Adjuster Search and search results -->
-			<tr class="adjuster-search">
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->partnerCompanyName'); ?></td>
-				<td>
-					<input type="text" name="partnerCompanyName" id="partnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->partnerCompanyName_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('')"></span>
-				</td>
-			</tr>
-			<tr class="adjuster-result">
-				<td class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
-				</td>
-			</tr>
-			
+			<?php 
+			if(isset($role_disp_name) && $role_disp_name == ROLE_ADMIN) { 
+			?>
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('user->input_form->userStatus'); ?></td>
 				<td>
@@ -206,7 +223,9 @@ if(!$openAs || $openAs != "popup") {
 					</select>
 				</td>
 			</tr>
-			<?php } ?>
+			<?php
+			}
+			?>
 
 			<?php if($createOrEdit == "edit" && $role_disp_name == ROLE_ADMIN  && $viewFrom == "security") { ?>
 			<tr>
@@ -275,7 +294,9 @@ if(!$openAs || $openAs != "popup") {
 				</td>
 			</tr>
 
-			<!-- <tr>
+			<!-- Preferred Mode of contact -->
+			<!-- 
+			<tr>
 				<td class="label prefMode notMandatory"><?php echo $this->lang->line_arr('user->input_form->prefMode'); ?></td>
 				<td>
 						<table class="innerOption">
@@ -299,59 +320,63 @@ if(!$openAs || $openAs != "popup") {
 				echo $addressFile;
 			?>
 
-			<?php if(!empty($role_disp_name)) { // Referr to will be applicable only when admin creates ?>
-			<!-- Refers too -->
-			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBy'); ?></td>
-				<td>
-						<select name="referredBy" id="referredBy" onchange="_users.showreferredByOption()">
-							<option value=""><?php echo $this->lang->line_arr('user->input_form->referredBy_option_0'); ?></option>
-							<option value="customer">Customer</option>
-							<option value="contractor">Service Provider</option>
-							<option value="adjuster">Adjuster</option>
-						</select>
-						<?php
-						if(!empty($referredBy)) {
-							if( $referredBy == "contractor") {
-								echo "<span id=\"referredToselectedContractorDb\">Service Provider:".$referredByName."</span>";
-							} else if ($referredBy == "adjuster") {
-								echo "<span id=\"referredToselectedAdjusterDB\">Adjuster:".$referredByName."</span>";
+			<?php 
+			// Referr to will be applicable only when admin creates
+			if(!empty($role_disp_name) && $role_disp_name == ROLE_ADMIN) { ?>
+				<!-- Refers too -->
+				<tr>
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBy'); ?></td>
+					<td>
+							<select name="referredBy" id="referredBy" onchange="_users.showreferredByOption()">
+								<option value=""><?php echo $this->lang->line_arr('user->input_form->referredBy_option_0'); ?></option>
+								<option value="customer">Customer</option>
+								<option value="contractor">Service Provider</option>
+								<option value="adjuster">Adjuster</option>
+							</select>
+							<?php
+							if(!empty($referredBy)) {
+								if( $referredBy == "contractor") {
+									echo "<span id=\"referredToselectedContractorDb\">Service Provider:".$referredByName."</span>";
+								} else if ($referredBy == "adjuster") {
+									echo "<span id=\"referredToselectedAdjusterDB\">Adjuster:".$referredByName."</span>";
+								}
 							}
-						}
-						?>
-				</td>
-			</tr>
+							?>
+					</td>
+				</tr>
 
-			<!-- Service Provider Search and search results -->
-			<tr class="referredBycontractor-search">
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode'); ?></td>
-				<td>
-					<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('referredBy')"></span>
-				</td>
-			</tr>
-			<tr class="referredBycontractor-result">
-				<td class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="referredBycontractorList" name="referredBycontractorList" class="connectedSortable owner-search-result users"></ul>
-				</td>
-			</tr>
+				<!-- Service Provider Search and search results -->
+				<tr class="referredBycontractor-search">
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode'); ?></td>
+					<td>
+						<input type="text" name="referredBycontractorZipCode" id="referredBycontractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBycontractorZipCode_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getContractorListUsingZip('referredBy')"></span>
+					</td>
+				</tr>
+				<tr class="referredBycontractor-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="referredBycontractorList" name="referredBycontractorList" class="connectedSortable owner-search-result users"></ul>
+					</td>
+				</tr>
 
-			<!-- Adjuster Search and search results -->
-			<tr class="referredByadjuster-search">
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName'); ?></td>
-				<td>
-					<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName_ph'); ?>">
-					<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('referredBy')"></span>
-				</td>
-			</tr>
-			<tr class="referredByadjuster-result">
-				<td class="label notMandatory">&nbsp;</td>
-				<td>
-					<ul id="referredByadjusterList" name="referredByadjusterList" class="connectedSortable owner-search-result users"></ul>
-				</td>
-			</tr>
-			<?php } ?>
+				<!-- Adjuster Search and search results -->
+				<tr class="referredByadjuster-search">
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName'); ?></td>
+					<td>
+						<input type="text" name="referredBypartnerCompanyName" id="referredBypartnerCompanyName" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->referredBypartnerCompanyName_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_users.getAdjusterByCompanyName('referredBy')"></span>
+					</td>
+				</tr>
+				<tr class="referredByadjuster-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="referredByadjusterList" name="referredByadjusterList" class="connectedSortable owner-search-result users"></ul>
+					</td>
+				</tr>
+			<?php 
+			} 
+			?>
 
 			<?php if($prefix == "create" && (!isset($role_disp_name) || $role_disp_name == "")) { ?>
 			<tr class="signupTC">

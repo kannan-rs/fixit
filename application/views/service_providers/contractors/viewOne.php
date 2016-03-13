@@ -25,7 +25,15 @@
 					</span>
 				</span>
 				<span class="options-icon">
-					<?php 
+					<!-- <span>
+						<a class="step fi-torsos-all size-21" href="javascript:void(0);" 
+							onclick="_contractors.show_contractor_user_list()" 
+							title="<?php echo $this->lang->line_arr('contractor->buttons_links->contractor_user_text'); ?>">
+						</a>
+					</span> -->
+					<?php
+					
+					
 					if(in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
 						$editFn 		= "_contractors.editForm({'openAs':'popup', 'popupType' : 2})";
 					?>
@@ -157,9 +165,9 @@
 						<?php echo $this->lang->line_arr('contractor->headers->contractor_others') ?>
 					</span>
 				</h3>
-					<div>
-						<table cellspacing="0" class="viewOne">
-							<tbody>
+				<div>
+					<table cellspacing="0" class="viewOne">
+						<tbody>
 							<tr>
 								<td class='label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></td>
 								<td><?php echo $contractor->created_by; ?></td>

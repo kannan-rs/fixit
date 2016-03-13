@@ -17,7 +17,8 @@
 		</span>
 	</span>
 	<span class="options-icon">
-		<?php 
+		<?php
+		//if( $role_disp_name == ROLE_SERVICE_PROVI)
 		if(in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
 			$editFn 		= "_partners.editForm({'openAs':'popup', 'popupType' : 2})";
 		?>
@@ -58,6 +59,10 @@
 				<tr>
 					<td class='label'><?php echo $this->lang->line_arr('partner->details_view->company'); ?></td>
 					<td class="capitalize"><?php echo $partner->company_name; ?></td>
+				</tr>
+				<tr>
+					<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->default_contract_user'); ?></td>
+					<td class="capitalize"><?php echo isset($partner->default_contact_user_disp_str) ? $partner->default_contact_user_disp_str : ""; ?></td>
 				</tr>
 				<tr>
 					<td class='label'><?php echo $this->lang->line_arr('partner->details_view->type'); ?></td>

@@ -728,7 +728,8 @@ $lang["contractor"] = array(
 		"company" 			=> "Company",
 		"service_area"		=> "Service in Zip Code",
 		"type" 				=> "Type",
-		"status" 			=> "Status"
+		"status" 			=> "Status",
+		"admin_user"		=> "Admin User"
 	),
 
 	/*
@@ -785,7 +786,8 @@ $lang["contractor"] = array(
 		"create_testimonial"			=> "Create Testomonial",
 		"update_testimonial"			=> "Update Testomonial",
 		"delete_testimonial"			=> "Delete Testomonial",
-		"list_all_trades_and_manage"	=> "List all trades and sub trades and manage"
+		"list_all_trades_and_manage"	=> "List all trades and sub trades and manage",
+		"contractor_user_text"			=> "Manage Contractor User"
 	)
 );
 
@@ -812,34 +814,36 @@ $lang["partner"] = array(
 				3. After Login 	> Projects > Create Project > Add New Partner / Adjuster
 				4. After Login 	> Projects > Edit Project > Add New Partner / Adjuster
 		*/
-		"name" => "Partner Name:",
-		"company" => "Company Name",
-		"type" => "Type",
-		"license" => "License",
-		"status" => "Status",
-		"wNumber" => "Office Number",
-		"wEmailId" => "Office Email ID",
-		"pNumber" => "Mobile Number",
-		"pEmailId" => "Personal Email ID",
-		"prefMode" => "Prefered Mode for Contact",
-		"prefwNumber" => "Office Phone Number",
-		"prefwEmailId" => "Office Email ID",
-		"prefmNumber" => "Personal Mobile Number",
-		"prefwEmailId" => "Personal Email ID",
-		"websiteURL" => "Website URL",
+		"name" 							=> "Partner Name:",
+		"company" 						=> "Company Name",
+		"searchForDefaultAdjuster" 		=> "Assign Service Provider Admin",
+		"type" 							=> "Type",
+		"license" 						=> "License",
+		"status" 						=> "Status",
+		"wNumber" 						=> "Office Number",
+		"wEmailId" 						=> "Office Email ID",
+		"pNumber" 						=> "Mobile Number",
+		"pEmailId" 						=> "Personal Email ID",
+		"prefMode" 						=> "Prefered Mode for Contact",
+		"prefwNumber" 					=> "Office Phone Number",
+		"prefwEmailId" 					=> "Office Email ID",
+		"prefmNumber" 					=> "Personal Mobile Number",
+		"prefwEmailId" 					=> "Personal Email ID",
+		"websiteURL" 					=> "Website URL",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"name_ph" => "Partner Name:",
-		"company_ph" => "Company Name",
-		"type_ph" => "Partner Type",
-		"license_ph" => "Partner License",
-		"wNumber_ph" => "Office Phone Number",
-		"wEmailId_ph" => "Office Email ID",
-		"pNumber_ph" => "Contact Mobile Number",
-		"pEmailId_ph" => "Personal Email ID",
-		"websiteURL_ph" => "Website URL",
+		"name_ph" 						=> "Partner Name:",
+		"company_ph" 					=> "Company Name",
+		"searchForDefaultAdjuster_ph"	=> "Email ID of default adjuster",
+		"type_ph" 						=> "Partner Type",
+		"license_ph" 					=> "Partner License",
+		"wNumber_ph" 					=> "Office Phone Number",
+		"wEmailId_ph" 					=> "Office Email ID",
+		"pNumber_ph" 					=> "Contact Mobile Number",
+		"pEmailId_ph" 					=> "Personal Email ID",
+		"websiteURL_ph" 				=> "Website URL",
 
 		/*
 			Dropdown's Default 1st text,
@@ -852,10 +856,11 @@ $lang["partner"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"partner_name" => "Partner Name",
-		"company" => "Company",
-		"type" => "Type",
-		"status" => "Status"
+		"partner_name" 	=> "Partner Name",
+		"company" 		=> "Company",
+		"type" 			=> "Type",
+		"status" 		=> "Status",
+		"default_user" 	=> "Admin User"
 	),
 
 	/*

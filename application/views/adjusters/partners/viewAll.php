@@ -23,6 +23,7 @@
 			<tr class='heading'>
 			<!--<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->partner_name'); ?></td>-->
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->company'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->default_user'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->type'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('partner->summary_table->status'); ?></td>
 			</tr>
@@ -46,6 +47,8 @@
 					<a href="javascript:void(0);" onclick="_partners.viewOne('<?php echo $partners[$i]->id; ?>')">
 						<?php echo $partner->company_name; ?></td>
 					</a>
+				</td>
+				<td class="cell capitalize"><?php echo $partner->default_contact_user_disp_str; ?></td>
 				<td class="cell capitalize"><?php echo $partner->type; ?></td>
 				<td class="cell capitalize"><?php echo $partner->status; ?></td>
 			</tr>

@@ -66,8 +66,8 @@ class Projects extends CI_Controller {
 			}
 		}
 
-		//echo "projectListArr ->";
-		//print_r($projectListArr);
+		/*echo "projectListArr ->";
+		print_r($projectListArr);*/
 		/* Set the list of project ID's to projectParams, that logged in user has access to */
 		$projectParams["projectId"] = $projectListArr;
 		//print_r($projectParams);
@@ -738,8 +738,10 @@ class Projects extends CI_Controller {
 		$project->end_date 		= $end_date;
 
 		// Created By and Updated By user Name
-		$project->created_by_name = $this->model_users->getUsersList($project->created_by)[0]->user_name;
-		$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
+		$created_by_name_arr 		= $this->model_users->getUsersList($project->created_by);
+		$project->created_by_name 	= count($created_by_name_arr) ? $created_by_name_arr[0]->user_name : "-NA-";
+		$updated_by_name_arr 		= $this->model_users->getUsersList($project->updated_by);
+		$project->updated_by_name 	= count($updated_by_name_arr) ? $updated_by_name_arr[0]->user_name : "-NA";
 
 		//Service Provider Name
 		$project->contractorName = "-- Not Provided --";
@@ -842,7 +844,7 @@ class Projects extends CI_Controller {
 		$params = array(
 			'project'				=> $project,
 			'role_id'				=> $this->session->userdata('logged_in_role_id'),
-			'userType' 				=> $this->session->userdata('logged_in_role_disp_name'),
+			'role_disp_name' 		=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectId' 			=> $projectId,
 			'contractors' 			=> $contractors,
 			'partners' 				=> $partners,

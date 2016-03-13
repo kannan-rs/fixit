@@ -28,6 +28,7 @@
 			<tr class='heading'>
 			<!-- <td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->contractor_name'); ?></td> -->
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->company'); ?></td>
+			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->admin_user'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->service_area'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->type'); ?></td>
 			<td class='cell'><?php echo $this->lang->line_arr('contractor->summary_table->status'); ?></td>
@@ -53,6 +54,7 @@
 						<?php echo $contractor->company; ?></td>
 					</a>
 				</td>
+				<td class="cell capitalize"><?php echo $contractor->default_contact_user_disp_str; ?></td>
 				<td class="cell capitalize"><?php echo !empty($contractor->service_area) ? $contractor->service_area : "-NA-"; ?></td>
 				<td class="cell capitalize"><?php echo !empty($contractor->type) ? $contractor->type : "-NA-"; ?></td>
 				<td class="cell capitalize"><?php echo $contractor->status; ?></td>

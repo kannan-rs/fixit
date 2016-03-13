@@ -238,7 +238,7 @@
 					<td>
 						<input type="text" name="searchCustomerName" id="searchCustomerName" value="" 
 							placeholder="<?php echo $this->lang->line_arr('projects->input_form->searchCustomerName_ph'); ?>" 
-							onkeyup="_projects.showCustomerListInDropDown()">
+							onkeyup="_utils.showCustomerListInDropDown()">
 						<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.showCustomerListInDropDown()"></span>
 					</td>
 				</tr>

@@ -1,5 +1,30 @@
 var _partners = (function () {
     "use strict";
+
+    function formInitialSettings(forForm, options, response) {
+        var openAs         = options && options.openAs ? options.openAs : "";
+        var popupType     = options && options.popupType ? options.popupType : "";
+
+        if(openAs == "popup") {
+            $("#popupForAll"+popupType).html( response );
+            var prefixStr = forForm == "create" ? "Add" : "Edit";
+            _projects.openDialog({"title" : prefixStr+" Partner"}, popupType);
+        } else if(forForm == "create") {
+            $("#partner_content").html(response);
+        }
+
+        _utils.setStatus("status", "statusDb");
+        _utils.getAndSetCountryStatus(forForm+"_partner_form");
+
+        if(forForm == "update") {
+            _partners.setPrefContact();
+            _utils.setAddressByCity();
+            _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit", '');
+        }
+
+        $(".default-user-search-result").hide();
+    };
+
     return {
         errorMessage: function () {
             return {
@@ -68,6 +93,48 @@ var _partners = (function () {
             };
         },
 
+        searchUserByEmail: function (params) {
+            var emailId     = params.emailId;
+            if( !emailId || emailId.length < 3 ) {
+                return;
+            }
+
+            var requestParams = {
+                emailId         : emailId,
+                role_disp_name  : 'PARTNER_ADMIN',
+                assignment      : 'not assigned'
+            }
+
+            var response = _utils.getFromUsersList( requestParams );
+
+            var responseObj = $.parseJSON(response);
+            var customer = [];
+            $("#adjusterUserList").html("");
+            if (responseObj.status === "success") {
+                
+                customer = responseObj.customer;
+                if(customer.length) {
+                    var searchList = {
+                        list            : customer,
+                        excludeList     : [],
+                        appendTo        : "adjusterUserList",
+                        type            : "searchList",
+                        functionName    : "_partners.setSelectedDefaultUserId",
+                        searchBoxId     : "searchForDefaultAdjuster",
+                        dbEntryId       : "db_default_user_id",
+                        dataIdentifier  : "customer",
+                    };
+
+                    _utils.createDropDownOptionsList(searchList);
+                    $(".default-user-search-result").show();
+                    $(".adjusterUserList").show();
+                }
+            } else {
+                $(".default-user-search-result").hide();
+                $(".adjusterUserList").hide();
+            }
+        },
+
         validationRules: function () {
             return {
                 zipCode: {
@@ -111,15 +178,7 @@ var _partners = (function () {
                 },
                 success: function (response) {
                     if(!_utils.is_logged_in( response )) { return false; }
-                    if (openAs === "popup") {
-                        $("#popupForAll" + popupType).html(response);
-                        _projects.openDialog({title: "Add Partner"}, popupType);
-                    } else {
-                        $("#partner_content").html(response);
-                    }
-                    //_projects.setMandatoryFields();
-                    _utils.setStatus("status", "statusDb");
-                    _utils.getAndSetCountryStatus("create_partner_form");
+                    formInitialSettings("create", options, response);
                 },
                 error: function (error) {
                     error = error;
@@ -147,25 +206,27 @@ var _partners = (function () {
         },
 
         createSubmit: function (openAs, popupType) {
-            var fail_error = null;
-            var idPrefix = "#create_partner_form ";
-            //var name = $(idPrefix + "#name").val();
-            var company = $(idPrefix + "#company").val();
-            var type = $(idPrefix + "#type").val();
-            var license = $(idPrefix + "#license").val();
-            var status = $(idPrefix + "#status").val();
-            var addressLine1 = $(idPrefix + "#addressLine1").val();
-            var addressLine2 = $(idPrefix + "#addressLine2").val();
-            var city = $(idPrefix + "#city").val();
-            var state = $(idPrefix + "#state").val();
-            var country = $(idPrefix + "#country").val();
-            var zipCode = $(idPrefix + "#zipCode").val();
-            var wNumber = $(idPrefix + "#wNumber").val();
-            var wEmailId = $(idPrefix + "#wEmailId").val();
-            var pNumber = $(idPrefix + "#pNumber").val();
-            var pEmailId = $(idPrefix + "#pEmailId").val();
-            var prefContact = "";
-            var websiteURL = $(idPrefix + "#websiteURL").val();
+            var fail_error  = null;
+
+            var idPrefix            = "#create_partner_form ";
+            //var name              = $(idPrefix + "#name").val();
+            var company             = $(idPrefix + "#company").val();
+            var type                = $(idPrefix + "#type").val();
+            var license             = $(idPrefix + "#license").val();
+            var status              = $(idPrefix + "#status").val();
+            var addressLine1        = $(idPrefix + "#addressLine1").val();
+            var addressLine2        = $(idPrefix + "#addressLine2").val();
+            var city                = $(idPrefix + "#city").val();
+            var state               = $(idPrefix + "#state").val();
+            var country             = $(idPrefix + "#country").val();
+            var zipCode             = $(idPrefix + "#zipCode").val();
+            var wNumber             = $(idPrefix + "#wNumber").val();
+            var wEmailId            = $(idPrefix + "#wEmailId").val();
+            var pNumber             = $(idPrefix + "#pNumber").val();
+            var pEmailId            = $(idPrefix + "#pEmailId").val();
+            var prefContact         = "";
+            var websiteURL          = $(idPrefix + "#websiteURL").val();
+            var db_default_user_id  = $(idPrefix+"#db_default_user_id").val();
 
             $(idPrefix + "input[name=prefContact]:checked").each(
                 function () {
@@ -178,24 +239,25 @@ var _partners = (function () {
                 url: "/adjusters/partners/add",
                 data: {
                     //name: name,
-                    company: company,
-                    type: type,
-                    license: license,
-                    status: status,
-                    addressLine1: addressLine1,
-                    addressLine2: addressLine2,
-                    city: city,
-                    state: state,
-                    country: country,
-                    zipCode: zipCode,
-                    wNumber: wNumber,
-                    wEmailId: wEmailId,
-                    pNumber: pNumber,
-                    pEmailId: pEmailId,
-                    prefContact: prefContact,
-                    websiteURL: websiteURL,
-                    openAs: openAs,
-                    popupType: popupType
+                    company             : company,
+                    type                : type,
+                    license             : license,
+                    status              : status,
+                    addressLine1        : addressLine1,
+                    addressLine2        : addressLine2,
+                    city                : city,
+                    state               : state,
+                    country             : country,
+                    zipCode             : zipCode,
+                    wNumber             : wNumber,
+                    wEmailId            : wEmailId,
+                    pNumber             : pNumber,
+                    pEmailId            : pEmailId,
+                    prefContact         : prefContact,
+                    websiteURL          : websiteURL,
+                    openAs              : openAs,
+                    popupType           : popupType,
+                    db_default_user_id  : db_default_user_id
                 },
                 success: function (response) {
                     if(!_utils.is_logged_in( response )) { return false; }
@@ -290,13 +352,15 @@ var _partners = (function () {
                 },
                 success: function (response) {
                     if(!_utils.is_logged_in( response )) { return false; }
-                    $("#popupForAll" + popupType).html(response);
+                    formInitialSettings("update", options, response);
+
+                    /*$("#popupForAll" + popupType).html(response);
                     _projects.openDialog({title: "Edit Partner"}, popupType);
                     _partners.setPrefContact();
                     _utils.setStatus("status", "statusDb");
                     _utils.getAndSetCountryStatus("update_partner_form");
                     _utils.setAddressByCity();
-                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');
+                    _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');*/
 
                 },
                 error: function (error) {
@@ -325,26 +389,28 @@ var _partners = (function () {
         },
 
         updateSubmit: function () {
-            var fail_error = null;
-            var idPrefix = "#update_partner_form ";
-            var partnerId = $(idPrefix + "#partnerId").val();
-            //var name = $(idPrefix + "#name").val();
-            var company = $(idPrefix + "#company").val();
-            var type = $(idPrefix + "#type").val();
-            var license = $(idPrefix + "#license").val();
-            var status = $(idPrefix + "#status").val();
-            var addressLine1 = $(idPrefix + "#addressLine1").val();
-            var addressLine2 = $(idPrefix + "#addressLine2").val();
-            var city = $(idPrefix + "#city").val();
-            var state = $(idPrefix + "#state").val();
-            var country = $(idPrefix + "#country").val();
-            var zipCode = $(idPrefix + "#zipCode").val();
-            var wNumber = $(idPrefix + "#wNumber").val();
-            var wEmailId = $(idPrefix + "#wEmailId").val();
-            var pNumber = $(idPrefix + "#pNumber").val();
-            var pEmailId = $(idPrefix + "#pEmailId").val();
-            var prefContact = "";
-            var websiteURL = $(idPrefix + "#websiteURL").val();
+            var fail_error  = null;
+
+            var idPrefix            = "#update_partner_form ";
+            var partnerId           = $(idPrefix + "#partnerId").val();
+            //var name              = $(idPrefix + "#name").val();
+            var company             = $(idPrefix + "#company").val();
+            var type                = $(idPrefix + "#type").val();
+            var license             = $(idPrefix + "#license").val();
+            var status              = $(idPrefix + "#status").val();
+            var addressLine1        = $(idPrefix + "#addressLine1").val();
+            var addressLine2        = $(idPrefix + "#addressLine2").val();
+            var city                = $(idPrefix + "#city").val();
+            var state               = $(idPrefix + "#state").val();
+            var country             = $(idPrefix + "#country").val();
+            var zipCode             = $(idPrefix + "#zipCode").val();
+            var wNumber             = $(idPrefix + "#wNumber").val();
+            var wEmailId            = $(idPrefix + "#wEmailId").val();
+            var pNumber             = $(idPrefix + "#pNumber").val();
+            var pEmailId            = $(idPrefix + "#pEmailId").val();
+            var prefContact         = "";
+            var websiteURL          = $(idPrefix + "#websiteURL").val();
+            var db_default_user_id  = $(idPrefix+"#db_default_user_id").val();
 
             $(idPrefix + "input[name=prefContact]:checked").each(
                 function () {
@@ -356,24 +422,25 @@ var _partners = (function () {
                 method: "POST",
                 url: "/adjusters/partners/update",
                 data: {
-                    partnerId: partnerId,
-                    //name: name,
-                    company: company,
-                    type: type,
-                    license: license,
-                    status: status,
-                    addressLine1: addressLine1,
-                    addressLine2: addressLine2,
-                    city: city,
-                    state: state,
-                    country: country,
-                    zipCode: zipCode,
-                    wNumber: wNumber,
-                    wEmailId: wEmailId,
-                    pNumber: pNumber,
-                    pEmailId: pEmailId,
-                    prefContact: prefContact,
-                    websiteURL: websiteURL
+                    partnerId           : partnerId,
+                    //name              : name,
+                    company             : company,
+                    type                : type,
+                    license             : license,
+                    status              : status,
+                    addressLine1        : addressLine1,
+                    addressLine2        : addressLine2,
+                    city                : city,
+                    state               : state,
+                    country             : country,
+                    zipCode             : zipCode,
+                    wNumber             : wNumber,
+                    wEmailId            : wEmailId,
+                    pNumber             : pNumber,
+                    pEmailId            : pEmailId,
+                    prefContact         : prefContact,
+                    websiteURL          : websiteURL,
+                    db_default_user_id  : db_default_user_id
                 },
                 success: function (response) {
                     if(!_utils.is_logged_in( response )) { return false; }
@@ -456,6 +523,13 @@ var _partners = (function () {
             } else if (options !== "") {
                 $(".partners-table-list .row." + options).show();
             }
+        },
+
+        setSelectedDefaultUserId: function (event, element, options) {
+            $("#searchForDefaultAdjuster").val(options.first_name + " " + options.last_name);
+            $("#db_default_user_id").val(options.searchId);
+            $(".default-user-search-result").hide();
+            $(".adjusterUserList").hide();
         }
     };
 })();

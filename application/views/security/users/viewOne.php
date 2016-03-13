@@ -33,8 +33,25 @@
 	<tbody>
 		<tr>
 			<td class='label'><?php echo $this->lang->line_arr('user->details_view->role'); ?></td>
-			<td class="capitalize role_id"><?php echo $users->role_id; ?></td>
+			<td class="capitalize role_id"><?php echo $users->role_disp_name; ?></td>
 		</tr>
+		<?php
+			if($is_service_provider) {
+		?>
+			<tr>
+				<td class="label">User Belongs to Service Provider</td>
+				<td><span id="selectedContractorDb"><?php echo $belongsToName; ?></span></td>
+			</tr>
+		<?php
+				} else if ($is_partner) {
+		?>
+			<tr>
+				<td class="label">User Belongs to Partner</td>
+				<td><span id="selectedAdjusterDB"><?php echo $belongsToName; ?></span></td>
+			</tr>
+		<?php
+			}
+		?>
 		<tr>
 			<td class="label"><?php echo $this->lang->line_arr('user->details_view->firstName'); ?></td>
 			<td class="capitalize"><?php echo $user_details->first_name; ?></td>

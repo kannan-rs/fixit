@@ -42,11 +42,18 @@ class Contractors extends CI_Controller {
 		}
 
 		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('security/model_users');
 		
 		$contractorsResponse = $this->model_service_providers->get_service_provider_list();
 
+		$contractors = $contractorsResponse["contractors"];
+
+		for( $i = 0; $i < count($contractors); $i++) {
+			$contractors[$i]->default_contact_user_disp_str = $this->model_users->getUserDisplayNameWithEmail($contractors[$i]->default_contact_user_id);
+		}
+
 		$params = array(
-			'contractors'		=> $contractorsResponse["contractors"],
+			'contractors'		=> $contractors,
 			'role_id' 			=> $this->session->userdata('logged_in_role_id'),
 			'role_disp_name'	=> $this->session->userdata('logged_in_role_disp_name')
 		);
@@ -120,29 +127,29 @@ class Contractors extends CI_Controller {
 		$this->load->model('mail/model_mail');
 
 		$data = array(
-			//'name' 				=> $this->input->post('name'),
-			'company' 			=> $this->input->post('company'),
-			'type' 				=> $this->input->post('type'),
-			'license' 			=> $this->input->post('license'),
-			//'bbb' 				=> $this->input->post('bbb'),
-			'status' 			=> $this->input->post('status'),
-			'address1' 			=> $this->input->post('addressLine1'),
-			'address2'			=> $this->input->post('addressLine2'),
-			'city' 				=> $this->input->post('city'),
-			'state' 			=> $this->input->post('state'),
-			'country' 			=> $this->input->post('country'),
-			'zip_code' 			=> $this->input->post('zipCode'),
-			'office_email' 		=> $this->input->post('emailId'),
-			'office_ph' 		=> $this->input->post('contactPhoneNumber'),
-			'mobile_ph' 		=> $this->input->post('mobileNumber'),
-			'prefer' 			=> $this->input->post('prefContact'),
+			//'name' 					=> $this->input->post('name'),
+			'company' 					=> $this->input->post('company'),
+			'type' 						=> $this->input->post('type'),
+			'license' 					=> $this->input->post('license'),
+			//'bbb' 					=> $this->input->post('bbb'),
+			'status' 					=> $this->input->post('status'),
+			'address1' 					=> $this->input->post('addressLine1'),
+			'address2'					=> $this->input->post('addressLine2'),
+			'city' 						=> $this->input->post('city'),
+			'state' 					=> $this->input->post('state'),
+			'country' 					=> $this->input->post('country'),
+			'zip_code' 					=> $this->input->post('zipCode'),
+			'office_email' 				=> $this->input->post('emailId'),
+			'office_ph' 				=> $this->input->post('contactPhoneNumber'),
+			'mobile_ph' 				=> $this->input->post('mobileNumber'),
+			'prefer' 					=> $this->input->post('prefContact'),
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
-			'website_url' 		=> $this->input->post('websiteURL'),
-			'service_area' 		=> $this->input->post('serviceZip'),
-			'created_by'		=> $this->session->userdata('logged_in_user_id'),
-			'updated_by'		=> $this->session->userdata('logged_in_user_id'),
-			'created_on'		=> date("Y-m-d H:i:s"),
-			'updated_on'		=> date("Y-m-d H:i:s")
+			'website_url' 				=> $this->input->post('websiteURL'),
+			'service_area' 				=> $this->input->post('serviceZip'),
+			'created_by'				=> $this->session->userdata('logged_in_user_id'),
+			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
+			'created_on'				=> date("Y-m-d H:i:s"),
+			'updated_on'				=> date("Y-m-d H:i:s")
 		);
 
 		$response = $this->model_service_providers->insert($data);

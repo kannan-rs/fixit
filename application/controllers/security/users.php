@@ -49,7 +49,7 @@ class Users extends CI_controller {
 			return false;
 		}
 
-		//User > Permissions for logged in User by role_id
+		// User > Permissions for logged in User by role_id
 		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);
 
 		/* Checking for page access permission */
@@ -82,6 +82,7 @@ class Users extends CI_controller {
 			$noticeFile = $this->_getNotificationText($status, $responseType, $actionOnUser_details);
 		}
 
+		// Add Role Display Name for every user
 		for($i = 0; $i < count($users); $i++) {
 			$users[$i]->role_disp_name = $this->model_roles->get_role_name_by_role_id($users[$i]->role_id);
 		}
@@ -307,6 +308,7 @@ class Users extends CI_controller {
 
 		include 'include_user_model.php';
 		$this->load->model('security/model_permissions');
+		$this->load->model('security/model_roles');
 
 		$getParams = array(
 			"dataFor" => "roles"
@@ -318,12 +320,22 @@ class Users extends CI_controller {
 		$users 			= $this->model_users->getUsersList($record);
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 
+		for($i = 0; $i < count($users); $i++) {
+			$users[$i]->role_disp_name = $this->model_roles->get_role_name_by_role_id($users[$i]->role_id);
+		}
+
 		$belongsToName = "";
-		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
+
+		$user_role_disp_str 	= strtolower($users[0]->role_disp_name);
+		$is_service_provider 	= $user_role_disp_str == ROLE_SERVICE_PROVIDER_ADMIN || $user_role_disp_str == ROLE_SERVICE_PROVIDER_USER ? true : false;
+		$is_partner 			= $user_role_disp_str == ROLE_PARTNER_ADMIN ? true : false;
+
+		
+		if($user_details[0]->belongs_to_id && $is_service_provider ) {
 			$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->belongs_to_id);
 			$contractors = $contractorsResponse["contractors"];
 			$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
-		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
+		} else if( $user_details[0]->belongs_to_id && $is_partner ) {
 			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
 			$adjusters 	= $adjustersResponse["partners"];
 			$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
@@ -333,29 +345,31 @@ class Users extends CI_controller {
 		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
 			$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->referred_by_id);
 			$contractors = $contractorsResponse["contractors"];
-			$referredByName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+			$referredByName = count($contractors) ? $contractors[0]->company : "";
 		} else if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "adjuster") {
 			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->referred_by_id);
 			$adjusters 	= $adjustersResponse["partners"];
-			$referredByName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
+			$referredByName = count($adjusters) ? $adjusters[0]->company_name : "";
 		}
 
 		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_user_form", "requestFrom" => "input", "address_data" => $user_details[0]));
 
 		$params = array(
-			'record' 			=> $record,
-			'viewFrom' 			=> $this->input->post('userId') ? "security" : "home",
-			'users' 			=> $users,
-			'user_details' 		=> $user_details,
-			'belongsToName' 	=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
-			'referredByName' 	=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
-			'addressFile' 		=> $addressFile,
-			'role_id' 			=> $this->session->userdata('logged_in_role_id'),
-			'role_disp_name'	=> $this->session->userdata('logged_in_role_disp_name'),
-			'is_logged_in' 		=> is_logged_in(),
-			'roles'				=> $roles,
+			'record' 				=> $record,
+			'viewFrom' 				=> $this->input->post('userId') ? "security" : "home",
+			'users' 				=> $users,
+			'user_details' 			=> $user_details,
+			'belongsToName' 		=> isset($belongsToName) && !empty($belongsToName) ? $belongsToName : "-NA-",
+			'referredByName' 		=> isset($referredByName) && !empty($referredByName) ? $referredByName : "-NA-",
+			'addressFile' 			=> $addressFile,
+			'role_id' 				=> $this->session->userdata('logged_in_role_id'),
+			'role_disp_name'		=> $this->session->userdata('logged_in_role_disp_name'),
+			'is_logged_in' 			=> is_logged_in(),
+			'roles'					=> $roles,
+			"is_service_provider" 	=> $is_service_provider,
+			"is_partner"			=> $is_partner
 		);
-		
+
 		echo $this->load->view("security/users/inputForm", $params, true);
 	}
 
@@ -435,9 +449,9 @@ class Users extends CI_controller {
 		if( $active_end_date != "" )
 			$update_details_data["active_end_date"] = $active_end_date;
 
-		if($belongsTo == "" || $belongsTo == "customer") {
+		/*if($belongsTo == "" || $belongsTo == "customer") {
 			$update_details_data["belongs_to_id"] = "";
-		}
+		}*/
 
 		if($referredBy == "" || $referredBy == "customer") {
 			$update_details_data["referred_by_id"] = "";
@@ -533,6 +547,7 @@ class Users extends CI_controller {
 			return false;
 		}
 		include 'include_user_model.php';
+		$this->load->model('security/model_roles');
 
 		$record 		= $this->input->post('userId') ? $this->input->post('userId') : $this->session->userdata('logged_in_user_id');
 		$viewFrom 		= $this->input->post('viewFrom') ? $this->input->post('viewFrom') : "home";
@@ -543,17 +558,25 @@ class Users extends CI_controller {
 		$user_details 	= $this->model_users->getUserDetailsByEmail($users[0]->user_name);
 		$stateDetails 	= $this->model_form_utils->getCountryStatus($user_details[0]->state);
 
+		for($i = 0; $i < count($users); $i++) {
+			$users[$i]->role_disp_name = $this->model_roles->get_role_name_by_role_id($users[$i]->role_id);
+		}
+
 		$belongsToName = "";
-		if(!empty($user_details[0]->belongs_to_id) && !empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to != "customer") {
-			if($user_details[0]->belongs_to == "contractor") {
-				$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->belongs_to_id);
-				$contractors = $contractorsResponse["contractors"];
-				$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
-			} else if($user_details[0]->belongs_to == "adjuster") {
-				$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
-				$adjusters 	= $adjustersResponse["partners"];
-				$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
-			}
+
+		$user_role_disp_str 	= strtolower($users[0]->role_disp_name);
+		$is_service_provider 	= $user_role_disp_str == ROLE_SERVICE_PROVIDER_ADMIN || $user_role_disp_str == ROLE_SERVICE_PROVIDER_USER ? true : false;
+		$is_partner 			= $user_role_disp_str == ROLE_PARTNER_ADMIN ? true : false;
+
+		
+		if($user_details[0]->belongs_to_id && $is_service_provider ) {
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($user_details[0]->belongs_to_id);
+			$contractors = $contractorsResponse["contractors"];
+			$belongsToName = count($contractors) ? $contractors[0]->name." from ".$contractors[0]->company : "";
+		} else if( $user_details[0]->belongs_to_id && $is_partner ) {
+			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
+			$adjusters 	= $adjustersResponse["partners"];
+			$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
 		}
 
 		/* User Referred by */
@@ -576,17 +599,24 @@ class Users extends CI_controller {
 			$noticeFile = $this->_getNotificationText($status, $responseType, $user_details);
 		}
 
+		// Add Role Display Name for every user
+		for($i = 0; $i < count($users); $i++) {
+			$users[$i]->role_disp_name = $this->model_roles->get_role_name_by_role_id($users[$i]->role_id);
+		}
+
 		$params = array(
-			'viewFrom' 			=> $viewFrom,
-			'record'			=> $record,
-			'users'				=> $users,
-			'user_details' 		=> $user_details,
-			'state' 			=> $stateDetails,
-			'userType' 			=> $this->session->userdata('logged_in_role_id'),
-			'addressFile' 		=> $addressFile,
-			'belongsToName' 	=> !empty($belongsToName) ? $belongsToName : "-NA-",
-			'referredByName' 	=> !empty($referredByName) ? $referredByName : "-NA-",
-			'noticeFile' 		=> isset($noticeFile) ? $noticeFile : ""
+			'viewFrom' 				=> $viewFrom,
+			'record'				=> $record,
+			'users'					=> $users,
+			'user_details' 			=> $user_details,
+			'state' 				=> $stateDetails,
+			'userType' 				=> $this->session->userdata('logged_in_role_id'),
+			'addressFile' 			=> $addressFile,
+			'belongsToName' 		=> !empty($belongsToName) ? $belongsToName : "-NA-",
+			'referredByName' 		=> !empty($referredByName) ? $referredByName : "-NA-",
+			'noticeFile' 			=> isset($noticeFile) ? $noticeFile : "",
+			"is_service_provider" 	=> $is_service_provider,
+			"is_partner"			=> $is_partner
 		);
 		
 		echo $this->load->view("security/users/viewOne", $params, true);

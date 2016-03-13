@@ -46,3 +46,20 @@ Adjuster User - Show all the projects where he is assigned to
 
 Contractor admin - Show projects which he company is part of.
 Contractor User - Show projects which he is assigned
+
+Work Done
+---------
+1. Added Role "Partner Admin"
+2. Added / editing / view selection of default partner admin user for partner company
+3. Contractor admin user was lister in View All of service provider list
+4. Added options to add "service provider company" search by zip for service provider admin and service provider users role
+5. Added option to add "Adjuster company" search by "email" for "adjuster admin user"
+6. Role text was not displayed in single user view, which is added.
+7. Provided options to update the service provider and partner based on the selection.
+8. 
+
+
+Service provider admin allogates projects to service provider user from Projects section.
+	- Once this is done
+Service provider users will be listed with the projects that are assigned to him.
+
