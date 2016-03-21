@@ -84,6 +84,21 @@ class Model_users extends CI_Model {
 		}
 	}
 
+	public function get_role_id_from_user_id($user_id = "") {
+		if(!empty($user_id)) {
+			$this->db->where('sno', $user_id);
+			$this->db->where('is_deleted', '0');
+
+			$query = $this->db->get('users');
+
+			if($query->num_rows() == 1) {
+				if($user_row = $query->result()) {
+					return $user_row[0]->role_id;
+				}
+			}
+		}
+	}
+
 	public function getUserId($email, $password) {
 
 		$this->db->where('user_name', $email);
@@ -138,7 +153,7 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUsersList($params = "", $from_db = "users") {
-		$queryStr = "SELECT users.sno, users.user_name, users.password, users.password_hint, users.role_id, users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+		$queryStr = "SELECT users.sno, users.user_name, users.role_id, users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
 		$whereQuery = "";
 		$orderByQuery = "";
@@ -468,5 +483,44 @@ class Model_users extends CI_Model {
 			$response["users"]	=	$users;
 		}
 		return $response;
+	}
+
+	public function get_contractor_company_id_by_user_id( $user_id = "" ) {
+		if(isset($user_id) && !empty($user_id)) {
+			$this->db->where('is_deleted', '0');
+			$this->db->where('default_contact_user_id', $user_id);
+
+			$query = $this->db->get('contractor');
+			$result = $query->result();
+
+			if($query->num_rows() == 1) {
+				if($user_row = $query->result()) {
+					return $user_row[0]->id;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	public function get_partner_company_id_by_user_id( $user_id = "" ) {
+		if(isset($user_id) && !empty($user_id)) {
+			$this->db->where('is_deleted', '0');
+			$this->db_where('default_contact_user_id', $user_id);
+
+			$query = $this->db->get('partner');
+			$result = $query->result();
+
+			if($query->num_rows() == 1) {
+				if($user_row = $query->result()) {
+					return $user_row[0]->id;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }

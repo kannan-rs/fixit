@@ -56,10 +56,15 @@ Work Done
 5. Added option to add "Adjuster company" search by "email" for "adjuster admin user"
 6. Role text was not displayed in single user view, which is added.
 7. Provided options to update the service provider and partner based on the selection.
-8. 
+8. Listing of service provider user, for a specific service provider company admin login
+	> Adding of SP user to a project
+	> Resetting / Deleting of SP user from the project
+	> Selection of already assigned SP user to the project
+9. Shown service provider users projects only.
 
+- Customer
+- Admin
+- Service provider admin
+- service provider user
 
-Service provider admin allogates projects to service provider user from Projects section.
-	- Once this is done
-Service provider users will be listed with the projects that are assigned to him.
 

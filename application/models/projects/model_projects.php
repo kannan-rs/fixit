@@ -127,11 +127,6 @@ class Model_projects extends CI_Model {
 				$or_query .= !empty($or_query) ? " OR " : "";
 				$or_query .= $created_by_query;
 
-				/*if(!empty($contractor_id_like_query)) {
-					$or_query .= !empty($or_query) ? " OR " : "";
-					$or_query .= $contractor_id_like_query;
-				}*/
-
 				$or_query = "(".$or_query.")";
 
 				$outer_and_query .= " AND (".$or_query.")";
@@ -216,6 +211,15 @@ class Model_projects extends CI_Model {
 		return $projects;
 	}
 
+	public function get_project_ids_by_sp_user( $params ) {
+		if( $params['role_disp_name'] == ROLE_SERVICE_PROVIDER_USER) {
+			$query = "select project_id from `project_owners` WHERE is_deleted = 0 && user_id ='".$params['user_id']."' && role_id = '".$params['role_id']."'";
+			$query 		= $this->db->query($query);
+			$projects 	= $query->result();
+			return $projects;
+		}
+	}
+
 	public function insert($data) {
 		$response = array();
 		if($this->db->insert('project', $data)) {
@@ -270,5 +274,85 @@ class Model_projects extends CI_Model {
 			$response['message']	= 'Invalid Project, Please try again';
 		}
 		return $response;
+	}
+
+	public function insert_project_owner( $data ) {
+		$response = array();
+		if($this->db->insert('project_owners', $data)) {
+			$response['status'] 		= 'success';
+			$response['insertedId']	= $this->db->insert_id();
+			$response['message']		= "Contractor User Inserted/Updated Successfully";
+		} else {
+			$response['status'] 		= 'error';
+			$response['message']		= $this->db->_error_message();
+		}
+		return $response;
+	}
+
+	public function update_project_owner( $params )
+	{
+		$response = array(
+			'status' => 'error'
+		);
+
+		$data 				= $params["data"];
+		$project_id 		= $params["project_id"];
+		$parent_company_id 	= $params["parent_company_id"];
+
+		if(!empty($data) && !empty($project_id)) {
+			$this->db->where('project_id', $project_id);
+			$this->db->where('parent_company_id', $parent_company_id);
+
+			if($this->db->update('project_owners', $data)) {
+				$response['status']		= 'success';
+				$response['message']	= 'Contractor Users deleted Successfully';
+			} else {
+				$response["message"] = "Error while updating the records";
+			}	
+		} else {
+			$response['message']	= 'Invalid Project, Please try again';
+		}
+		return $response;
+	}
+
+	public function checking_existing_project_owner( $params ) {
+		$response = array(
+			'status' => 'error'
+		);
+
+		$user_id 			= $params["user_id"];
+		$project_id 		= $params["project_id"];
+		$parent_company_id 	= $params["parent_company_id"];
+
+		$this->db->where('user_id', $user_id);
+		$this->db->where('project_id', $project_id);
+		$this->db->where('parent_company_id', $parent_company_id);
+		$this->db->where('is_deleted', "0");
+
+		$query = $this->db->get('project_owners');
+
+		return $query->num_rows();
+
+	}
+
+	public function get_existing_project_owner( $params ) {
+		$response = array(
+			'status' => 'error'
+		);
+
+		$project_id 		= $params["project_id"];
+		$parent_company_id 	= $params["parent_company_id"];
+
+		$this->db->where('project_id', $project_id);
+		$this->db->where('parent_company_id', $parent_company_id);
+		$this->db->where('is_deleted', "0");
+
+		$query = $this->db->get('project_owners');
+
+		if($query->num_rows() >= 1) {
+			if($owner_list = $query->result()) {
+				return $owner_list[0]->user_id;
+			}
+		}
 	}
 }

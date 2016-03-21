@@ -4,34 +4,37 @@
 		<?php 
 		if(isset($projects) && count($projects)) {
 		?>
-		<a href="javascript:void(0);" data-option="open" 
-			title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>">
-				<?php echo $this->lang->line_arr('projects->buttons_links->open'); ?>
-		</a>
-		<a href="javascript:void(0);" data-option="completed" 
-			title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
-				<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
-		</a>
-
-		<?php if($role_disp_name == ROLE_ADMIN) { ?>
-			
-			<a href="javascript:void(0);" data-option="deleted" 
-				title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
-					<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+			<a href="javascript:void(0);" data-option="open" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->open_title'); ?>">
+					<?php echo $this->lang->line_arr('projects->buttons_links->open'); ?>
+			</a>
+			<a href="javascript:void(0);" data-option="completed" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->completed_title'); ?>">
+					<?php echo $this->lang->line_arr('projects->buttons_links->completed'); ?>
 			</a>
 
-		<?php } ?>
-		
-		<?php if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { ?>
-		<a href="javascript:void(0);" data-option="issues" 
-			title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
-				<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
-		</a>
-		<?php } ?>
-		<a href="javascript:void(0);" data-option="all"
-			title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
-				<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
-		</a>
+			<?php if($role_disp_name == ROLE_ADMIN) { ?>
+				
+				<a href="javascript:void(0);" data-option="deleted" 
+					title="<?php echo $this->lang->line_arr('projects->buttons_links->deleted_title'); ?>">
+						<?php echo $this->lang->line_arr('projects->buttons_links->deleted'); ?>
+				</a>
+
+			<?php } ?>
+			
+			<?php if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { ?>
+			<a href="javascript:void(0);" data-option="issues" 
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->issues_title'); ?>">
+					<?php echo $this->lang->line_arr('projects->buttons_links->issues'); ?>
+			</a>
+			<?php } ?>
+
+			
+			<a href="javascript:void(0);" data-option="all"
+				title="<?php echo $this->lang->line_arr('projects->buttons_links->all_title'); ?>">
+					<?php echo $this->lang->line_arr('projects->buttons_links->all'); ?>
+			</a>
+			
 		<?php
 		}
 		?>
@@ -62,8 +65,9 @@
 
 				$cssStatus = $projects[$i]->project_status == "completed" || $projects[$i]->percentage == "100" ? "completed" : "open";
 				$cssStatus = $projects[$i]->is_deleted ? "deleted" : $cssStatus;
+				$issueCount 	= isset($projects[$i]->issueCount) ? $projects[$i]->issueCount : "";
 		?>
-				<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo $issueCount ? "issues" : ""; ?>'>
+				<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo !empty($issueCount) ? "issues" : ""; ?>'>
 					<td class='cell'>
 						<a href="javascript:void(0);" onclick="_projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
 							<?php echo $projects[$i]->project_name; ?>
@@ -76,7 +80,7 @@
 					<span>
 					<?php 
 					if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
-						$issueCount 	= $projects[$i]->issueCount;
+						//$issueCount 	= $projects[$i]->issueCount;
 						$issueFnOptions = "{'projectId' :".$projects[$i]->proj_id.", 'openAs' : 'popup', 'popupType' : '' }";
 						$issueFn = "_issues.viewAll(".$issueFnOptions.")";
 

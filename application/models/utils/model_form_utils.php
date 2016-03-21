@@ -57,10 +57,13 @@ class Model_form_utils extends CI_Model {
 
 
 		if(isset($params) && is_array($params)) {
-			$emailId		= isset($params["emailId"]) ? $params["emailId"] : "";
-			$role_disp_name	= isset($params["role_disp_name"]) ? $params["role_disp_name"] : "";
-			$assignment		= isset($params["assignment"]) ? $params["assignment"] : "";
-			$role_id 		= "";
+			$emailId				= isset($params["emailId"]) ? $params["emailId"] : "";
+			$role_disp_name			= isset($params["role_disp_name"]) ? $params["role_disp_name"] : "";
+			$assignment				= isset($params["assignment"]) ? $params["assignment"] : "";
+			$role_id 				= "";
+			$logged_in_user 		= isset($params["logged_in_user"]) ? $params["logged_in_user"] : "";
+			$contractor_user_list 	= isset($params["contractor_user_list"]) ? $params["contractor_user_list"] : "";
+			$company_id 			= isset($params["company_id"]) ? $params["company_id"] : "";
 
 			if(isset($role_disp_name) && !empty($role_disp_name)) {
 				$this->load->model('security/model_roles');
@@ -71,28 +74,21 @@ class Model_form_utils extends CI_Model {
 				$this->db->like('email', $emailId);
 				$queryStr .=" AND `email` LIKE '%".$emailId."%'";
 			}
+			
 			if(!empty($role_id)) {
-				/*$belongsToArr = explode("|", $belongsTo);
-				$belongsToStr = "";
-				for($i = 0; $i < count($belongsToArr); $i++) {
-					$belongsToArr[$i] = $belongsToArr[$i] == "empty" ? "" : $belongsToArr[$i];
-					$belongsToStr .= $i > 0 ? "," : "";
-					$belongsToStr .= "'".$belongsToArr[$i]."'";
-				}
-				$this->db->where_in('belongs_to', $belongsToArr);
-				$queryStr .=" AND `belongs_to` IN (".$belongsToStr.")";*/
-
 				$this->db->where_in('users.role_id', $role_id);
 				$queryStr .=" AND `role_id` IN (".$role_id.")";
-			} else {
-				/*$this->db->where('belongs_to', "customer");
-				$queryStr .=" AND `belongs_to` = \"customer\"";*/
 			}
 
 			if(!empty($assignment)) {
 				$assignment = $assignment == "not assigned" ? '0' : $assignment;
 				$this->db->where('belongs_to_id', $assignment);
 				$queryStr .= " AND `belongs_to_id` = '".$assignment."'";
+			}
+
+			if(!empty($company_id)) {
+				$this->db->where('belongs_to_id', $company_id);
+				$queryStr .= " AND belongs_to_id = '".$company_id."'";
 			}
 		} else {
 			/*$this->db->where('belongs_to', "customer");
@@ -103,6 +99,7 @@ class Model_form_utils extends CI_Model {
 		
 		//$this->db->select(["*"]);
 		//$query = $this->db->from('user_details')->get();
+
 		$query = $this->db->query($queryStr);
 
 		//echo $this->db->last_query();

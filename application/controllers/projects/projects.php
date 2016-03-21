@@ -22,7 +22,6 @@ class Projects extends CI_Controller {
 
 		//Project > Permissions for logged in User by role_id
 		$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
-		//print_r($projectPermission);
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $projectPermission['operation'])) {
@@ -44,12 +43,15 @@ class Projects extends CI_Controller {
 
 		$projectList 	= "";
 
-		$user_id 		= $this->session->userdata('logged_in_user_id'); /* Get user ID for logged in User from session */
-		$email 			= $this->session->userdata('logged_in_email'); /* Get Email ID for logged in User from session */
+		$user_id 						= $this->session->userdata('logged_in_user_id'); /* Get user ID for logged in User from session */
+		$email 							= $this->session->userdata('logged_in_email'); /* Get Email ID for logged in User from session */
+		$logged_in_role_disp_name 		= $this->session->userdata('logged_in_role_disp_name');
+		$logged_in_role_id 				= $this->session->userdata('logged_in_role_id');
 
 		/* Project Params to get the list of project with permissions */
 		$projectParams = array(
-			'role_disp_name' 		=> $this->session->userdata('logged_in_role_disp_name'),
+			'role_disp_name' 		=> $logged_in_role_disp_name,
+			'role_id' 				=> $logged_in_role_id,
 			'user_details_id' 		=> $this->model_users->getUserDetailsSnoViaEmail($email),
 			'user_id' 				=> $user_id,
 			'email' 				=> $email,
@@ -59,12 +61,26 @@ class Projects extends CI_Controller {
 		$projectListArr = array();
 		
 		/* If logged in User dont have 'all' permission in data filter, then get the project ID's list that user has access */
+		/* Get details from Projects Table */
 		if( !in_array('all', $projectPermission['data_filter']) ) {
 			$projectList = $this->model_projects->getProjectIds($projectParams);
 			for($i = 0; $i < count($projectList); $i++) {
 				array_push($projectListArr, $projectList[$i]->proj_id);
 			}
 		}
+
+		/*
+			Get Project ID's from Project_Owners table
+		*/
+		if( $logged_in_role_disp_name == ROLE_SERVICE_PROVIDER_USER ) {
+			$projectList = $this->model_projects->get_project_ids_by_sp_user($projectParams);
+			for($i = 0; $i < count($projectList); $i++) {
+				if(! in_array($projectList[$i]->project_id, $projectListArr)) {
+					array_push($projectListArr, $projectList[$i]->project_id);
+				}
+			}
+		}
+
 
 		/*echo "projectListArr ->";
 		print_r($projectListArr);*/
@@ -682,28 +698,7 @@ class Projects extends CI_Controller {
 		//Adjuster > Permissions for logged in User by role_id
 		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
 
-		/*
-		echo "<br/>Project Permissions ->";
-		print_r($projectPermission);
-		echo "<br/>Issues Permissions ->";
-		print_r($issuesPermission);
-		echo "<br/>Tasks Permissions ->";
-		print_r($tasksPermission);
-		echo "<br/>Docs Permissions ->";
-		print_r($docsPermission);
-		echo "<br/>Notes Permissions ->";
-		print_r($notesPermission);
-		echo "<br/>Budget Permissions ->";
-		print_r($budgetPermission);
-		echo "<br/>Customer Permissions ->";
-		print_r($customerPermission);
-		echo "<br/>Service provider Permissions ->";
-		print_r($contractorPermission);
-		echo "<br/>Adjuster Permissions ->";
-		print_r($adjusterPermission);
-		*/
-
-		$projectParams = array(
+		$projectParams = array (
 			'projectId'			=> [$projectId],
 			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
 			'projectPermission'	=> $projectPermission
@@ -864,6 +859,122 @@ class Projects extends CI_Controller {
 			'adjusterPermission'	=> $adjusterPermission
 		);
 		echo $this->load->view("projects/projects/viewOne", $params, true);
+	}
+
+	public function add_project_owner() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_PROJECTS, DATA_FILTER_SERVICE_PROVIDER_USERS, 'data filter');
+
+		if(!$is_allowed["status"] ) {
+			print_r(json_encode($is_allowed));
+			return false;
+		}
+
+		$project_id 			= $this->input->post('projectId');
+		$sp_user_user_id 		= $this->input->post('user_id');
+		$parent_company_id 		= $this->input->post('user_parent_id');
+
+		$logged_in_role_id = $this->session->userdata('logged_in_role_id');
+
+		$update_query = true;
+
+		if(isset($sp_user_user_id) && !empty($sp_user_user_id)) {
+			$this->load->model('security/model_users');
+			$sp_user_role_id = $this->model_users->get_role_id_from_user_id( $sp_user_user_id );
+			if(isset($sp_user_role_id) && !empty($sp_user_role_id)) {
+				$update_query = true;
+			} else {
+				$update_query = false;
+			}
+		} else {
+			$update_query = false;
+		}
+
+		$this->load->model('projects/model_projects');
+
+		if($update_query) {
+			$params = array(
+				"user_id" 				=> $sp_user_user_id,
+				"project_id"			=> $project_id,
+				"parent_company_id" 	=> $parent_company_id
+			);
+
+			$existing_record = $this->model_projects->checking_existing_project_owner($params);
+			
+			if(!isset($existing_record) || empty($existing_record) || $existing_record == 0) {
+				
+				/*
+					Delete any record which are assigned earlier
+				*/
+				$data = array(
+				"is_deleted"	=> 1,
+				"updated_by"	=> $logged_in_role_id,
+				"updated_on"	=> date("Y-m-d H:i:s")
+				);
+				$params = array(
+					"data"					=> $data,
+					"project_id"			=> $project_id,
+					"parent_company_id" 	=> $parent_company_id
+				);
+				$response = $this->model_projects->update_project_owner($params);
+
+				$data = array(
+					"project_id"			=> $project_id,
+					"role_id"				=> $sp_user_role_id,
+					"user_id"				=> $sp_user_user_id,
+					"parent_company_id" 	=> $parent_company_id,
+					"is_deleted"			=> 0,
+					"created_by"			=> $logged_in_role_id,
+					"created_on"			=> date("Y-m-d H:i:s"),
+					"updated_by"			=> $logged_in_role_id,
+					"updated_on"			=> date("Y-m-d H:i:s")
+				);
+				$response = $this->model_projects->insert_project_owner($data);
+			} else {
+				$response = array('status' => "already exist");
+			}
+		} else {
+			$data = array(
+				"is_deleted"	=> 1,
+				"updated_by"	=> $logged_in_role_id,
+				"updated_on"	=> date("Y-m-d H:i:s")
+			);
+			$params = array(
+				"data"					=> $data,
+				"project_id"			=> $project_id,
+				"parent_company_id" 	=> $parent_company_id
+			);
+			$response = $this->model_projects->update_project_owner($params);
+		}
+
+		print_r(json_encode($response));
+	}
+
+	function get_sp_assigned_user_for_current_project() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$this->load->model('projects/model_projects');
+
+		$user_parent_id 	= $this->input->post('user_parent_id');
+		$project_id 	= $this->input->post('project_id');
+		$params = array(
+			"project_id"			=> $project_id,
+			"parent_company_id" 	=> $user_parent_id
+		);
+
+		$existing_record = $this->model_projects->get_existing_project_owner($params);
+
+		$response = array('status' => "success", "assigned_user_id" => $existing_record);
+
+		print_r(json_encode( $response ));
+
 	}
 
 	public function exportCSV() {

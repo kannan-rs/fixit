@@ -223,15 +223,22 @@ class Permissions_lib {
 		return $final_permission;
 	}
 
-	public function is_allowed( $permissionFor, $operation) {
+	public function is_allowed( $permissionFor, $operation, $check_on = "") {
 		$response = array( "status" => true );
 		//Project > Permissions for logged in User by role_id
 		$permission = $this->getPermissions( $permissionFor );
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array($operation, $permission['operation'])) {
-			$response["message"] 	= "No permission to execute this operation";
-			$response["status"] = false;
+		if(empty($check_on) || $check_on == "operation") {
+			if(!in_array($operation, $permission['operation'])) {
+				$response["message"] 	= "No permission to execute this operation";
+				$response["status"] = false;
+			}
+		} else if( !empty($check_on) && $check_on == "data filter") {
+			if(!in_array($operation, $permission['data_filter'])) {
+				$response["message"] 	= "No permission to execute this operation";
+				$response["status"] = false;
+			}
 		}
 		return $response;
 	}

@@ -622,7 +622,7 @@ class Users extends CI_controller {
 		echo $this->load->view("security/users/viewOne", $params, true);
 	}
 
-	function getFromUsersList() {
+	function _getFromUsersList() {
 		$response = array("status" => "error");
 
 		$queryStr 	= "SELECT users.sno, users.user_name, ";
@@ -680,5 +680,31 @@ class Users extends CI_controller {
 		}
 		
 		return $response;
+	}
+
+	public function get_parent_for_user() {
+		/* Checking for logged in or not */
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		include 'include_user_model.php';
+
+		$user_id = $this->session->userdata('logged_in_user_id');
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+
+		if($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+			$parent_id = $this->model_users->get_contractor_company_id_by_user_id( $user_id );
+		} else if ($role_disp_name == ROLE_PARTNER_ADMIN) {
+			$parent_id = $this->model_users->get_partner_company_id_by_user_id( $user_id );
+		}
+
+		$response = array(
+			'status' => "success",
+			'parent_id' => $parent_id
+		);
+
+		print_r(json_encode($response));
 	}
 }

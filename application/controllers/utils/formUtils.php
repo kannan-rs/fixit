@@ -30,19 +30,42 @@ class formUtils extends CI_Controller {
 	}
 
 	public function getFromUsersList() {
-		$emailId 			= $this->input->post('emailId');
-		$role_disp_name		= $this->input->post('role_disp_name');
-		$assignment			= $this->input->post('assignment');
+		$emailId 				= $this->input->post('emailId');
+		$role_disp_name			= $this->input->post('role_disp_name');
+		$assignment				= $this->input->post('assignment');
+		//$logged_in_user 		= $this->input->post('logged_in_user');
+		$contractor_user_list 	= $this->input->post('contractor_user_list');
 
-		$requestData = array(
-			"emailId"				=> $emailId,
-			"role_disp_name"		=> $role_disp_name,
-			"assignment"			=> $assignment,
-		);
+		$company_id = "";
 
-		$this->load->model('utils/model_form_utils');
+		$logged_in_role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 
-		$response = $this->model_form_utils->getFromUsersList( $requestData );
+		
+		if( $logged_in_role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN && !empty($contractor_user_list) ) {
+			// Get Contractor by Contractor admin
+			$logged_in_user_id = $this->session->userdata('logged_in_user_id');
+			
+			$this->load->model("service_providers/model_service_providers");
+			$company_id = $this->model_service_providers->get_contractor_company_id_by_user_id($logged_in_user_id);
+
+			//$this->load->model("security/model_users");
+
+			//$response = $this->model_users->getUsersList();
+		}
+
+		if(!isset($response)) {
+			$requestData = array(
+				"emailId"				=> $emailId,
+				"role_disp_name"		=> $role_disp_name,
+				"assignment"			=> $assignment,
+				"contractor_user_list" 	=> $contractor_user_list,
+				"company_id" 			=> $company_id
+			);
+
+			$this->load->model('utils/model_form_utils');
+
+			$response = $this->model_form_utils->getFromUsersList( $requestData );
+		}
 
 		print_r(json_encode($response));
 	}

@@ -19,6 +19,64 @@ var _projects = (function () {
         "insurence"
     ];
 
+    function get_parent_for_user () {
+        var parent_id = 0;
+        $.ajax({
+            method: "POST",
+            url: "/security/users/get_parent_for_user",
+            data: {},
+            success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
+                response = $.parseJSON(response);
+                if (response.status == "success") {
+                    _projects.user_parent_id = response.parent_id;
+                } else {
+                    _projects.user_parent_id = 0;
+                }
+
+                if(response.status == "error") {
+                    alert("Error : "+response.message);
+                }
+            },
+            error: function (error) {
+                error = error;
+            }
+        }).fail(function (failedObj) {
+            fail_error = failedObj;
+        });
+    };
+
+    function get_sp_assigned_user_for_current_project() {
+        var assigned_user_id = "";
+        $.ajax({
+            method: "POST",
+            async: false,
+            url: "/projects/projects/get_sp_assigned_user_for_current_project",
+            data: {
+                user_parent_id : _projects.user_parent_id,
+                project_id: _projects.projectId
+            },
+            success: function (response) {
+                if(!_utils.is_logged_in( response )) { return false; }
+                
+                response = $.parseJSON(response);
+                if (response.status == "success" && response.assigned_user_id) {
+                    assigned_user_id = response.assigned_user_id;
+                }
+
+                if(response.status == "error") {
+                    alert("Error : "+response.message);
+                }
+            },
+            error: function (error) {
+                error = error;
+            }
+        }).fail(function (failedObj) {
+            fail_error = failedObj;
+        });
+        return assigned_user_id;
+    }
+
     return {
         /**
             Create Project Validation
@@ -192,6 +250,7 @@ var _projects = (function () {
                     _utils.is_logged_in( response );
                     $("#project_content").html(response);
                     self.showProjectsList();
+                    get_parent_for_user();
                 },
                 error: function (error) {
                     error = error;
@@ -1659,7 +1718,94 @@ var _projects = (function () {
             } else if (options !== "") {
                 $(".projects-table-list .row." + options).show();
             }
+        },
+
+        getContractorUserList : function() {
+            var requestParams = {
+                role_disp_name          : 'SERVICE_PROVIDER_USER',
+                logged_in_user          : session.logged_in_email,
+                contractor_user_list    : 1
+            }
+
+            var response = $.parseJSON(_utils.getFromUsersList( requestParams ));
+            var contractor_users_list = response.customer;
+
+            var assigned_user_id = get_sp_assigned_user_for_current_project();
+
+            var table = "";
+
+            if( contractor_users_list.length > 0 ) {
+                table = "<form class='inputForm'><table class='form'><tbody><tr><td>First Name</td><td>Last Name</td><td>Email ID</td><td>Select User</td></tr>";
+                for( var i = 0; i < contractor_users_list.length; i++ ) {
+                    var checked = "";
+                    if(assigned_user_id == contractor_users_list[i].sno) {
+                        checked = "checked = 'checked'";
+                    }
+                    table += "<tr>";
+                    table += "<td>"+ contractor_users_list[i].first_name +"</td>";
+                    table += "<td>"+ contractor_users_list[i].last_name +"</td>";
+                    table += "<td>"+ contractor_users_list[i].email +"</td>";
+                    table += "<td><input type='radio' value='"+contractor_users_list[i].sno+"' name='assigned_sp_user' "+checked+"></td>"
+                    table += "</tr>";
+                }
+
+                table += "<tr>";
+                table += "<td colspan=4>";
+                table += "<p class='button-panel'>";
+                table += "<button type=button style='margin-right:10px' id='update_contractor_user' onclick='_projects.update_contractor_user()'>Add / Update Service Provider User</button>";
+                table += "<button type=button style='margin-right:10px' onclick='_projects.remove_all_service_provider_user()'>Reset</button>";
+                table += "<button type=button id=cancelButton onclick=\"_projects.closeDialog({popupType: ''})\">Cancel</button>";
+                table += "</p>";
+                table += "</td>";
+                table += "</tr>";
+
+                table += "</tbody></table></form>";
+
+            } else {
+                table = " No service provider User found";
+            }
+
+            $("#popupForAll").html(table);
+            _projects.openDialog({title: "Service Provider User List"});
+        },
+
+        update_contractor_user : function() {
+            var selected_sp_user = $("input[name=assigned_sp_user]:checked").val();
+            var self = this;
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/projects/add_project_owner",
+                data: {
+                    projectId: self.projectId,
+                    user_id : selected_sp_user,
+                    user_parent_id : _projects.user_parent_id
+                },
+                success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    response = $.parseJSON(response);
+                    if (response.status == "success" && selected_sp_user) {
+                        alert("Contractor user added/modified successfully");
+                    } else if (response.status == "success") {
+                        alert("Contractor user removed successfully");
+                    }
+
+                    if(response.status == "error") {
+                        alert("Error : "+response.message);
+                    }
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+        },
+
+        remove_all_service_provider_user : function() {
+            $("input[name=assigned_sp_user]:checked").attr("checked", false);
         }
+        
     };
 })();
 

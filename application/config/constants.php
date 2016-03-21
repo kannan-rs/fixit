@@ -90,6 +90,18 @@ define('ROLE_SERVICE_PROVIDER_USER',			'service provider user');
 define('ROLE_PARTNER_ADMIN', 					'partner admin');
 
 /*
+| Data Filter constant
+*/
+define('DATA_FILTER_ALL', 						'all');
+define('DATA_FILTER_ASSIGNED_INSURANCE_CO', 	'assigned insurance co');
+define('DATA_FILTER_ASSIGNED_PROJECTS', 		'assigned projects');
+define('DATA_FILTER_INSURANCE_CO_USERS', 		'insuranceco users');
+define('DATA_FILTER_SELF', 						'self');
+define('DATA_FILTER_SERVICE_PROVIDER', 			'service provider');
+define('DATA_FILTER_SERVICE_PROVIDER_CLAIMS',	'service provider claims');
+define('DATA_FILTER_SERVICE_PROVIDER_USERS', 	'service provider users');
+
+/*
 | Role to page mapping
 */
 define('ADMIN_PAGE', 							'security');
@@ -155,7 +167,7 @@ define('TOP_MENUS', '[
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
-			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
+			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'","'.ROLE_INSURANCECO_ADMIN.'"]
 		},
 		"sub_menus"		: [
 			{

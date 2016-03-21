@@ -33,13 +33,13 @@
 		if(in_array("service provider users", $projectPermission['data_filter'])) {
 		?>
 		<span>
-			<a class="step fi-torsos-all size-21" href="javascript:void(0);" onclick="" 
+			<a class="step fi-torsos-all size-21" href="javascript:void(0);" onclick="_projects.getContractorUserList()" 
 				title="Assign Service Provider User to this project" >
 			</a>
 		</span>
 		<?php	
 		}
-		
+
 		if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { 
 		?>
 		<span>
