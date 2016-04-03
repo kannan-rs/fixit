@@ -209,8 +209,8 @@ var _issues = (function() {
 
         viewOne: function( issueId, openAs, popupType ) {
             //this.issueId     = issueId;
-            popupType         = session.page == "projects" ? "2" : "";
-            openAs             = session.page == "projects" ? "popup" : "";
+            popupType         = _utils.get_current_module() == "projects" ? "2" : "";
+            openAs             = _utils.get_current_module() == "projects" ? "popup" : "";
             
             $.ajax({
                 method: "POST",
@@ -246,7 +246,7 @@ var _issues = (function() {
             var projectId     = options && options.projectId ? options.projectId : "" ;
             var taskId         = options && options.taskId ? options.taskId : "" ;
             var popupType     = "";
-            var openAs         = session.page == "projects" ? "popup" : "";
+            var openAs         = _utils.get_current_module() == "projects" ? "popup" : "";
 
             /*this.projectId     = projectId;
             this.taskId     = taskId;*/

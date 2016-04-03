@@ -47,6 +47,7 @@ class Layouts {
 			"js/components/projects/docs/docs.js",
 			"js/components/projects/remainingbudget/remainingbudget.js",
 			"js/components/service_providers/contractors/contractors.js",
+			"js/components/insurance_company/insurance_company/insurance_company.js",
 			"js/components/service_providers/trades/trades.js",
 			"js/components/service_providers/discounts/discounts.js",
 			"js/components/service_providers/testimonial/testimonial.js",
@@ -90,35 +91,59 @@ class Layouts {
 		if(is_logged_in()) {
 			$this->layout_data['role_id'] 				= $this->CI->session->userdata('logged_in_role_id');
 			$this->layout_data['role_disp_name'] 		= $this->CI->session->userdata('logged_in_role_disp_name');
-			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
-			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
-			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
-			$this->layout_data['claimPermission'] 	= $this->CI->permissions_lib->getPermissions('claim');
+			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_PROJECTS);
+			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
+			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_PARTNER);
+			$this->layout_data['claimPermission'] 		= $this->CI->permissions_lib->getPermissions(FUNCTION_CLAIM);
+			$this->layout_data['insCompPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_INSURANCE_COMPANY);
+
+			//print_r($this->layout_data['insCompPermission']);
 		}
 	}
 
 	private function check_menu_dependency( $menu ) {
-		//print_r($menu);
+		/*if($menu['text'] == "Insurance Company") {
+			echo ("ins-dep");
+			print_r($menu['dependency']);
+		}*/
 		$dependency_ok = true;
 		$role_disp_name = $this->CI->session->userdata('logged_in_role_disp_name');
 		if($dependency_ok && isset($menu['dependency'])) {
+			/*if($menu['text'] == "Insurance Company") {
+				//echo ("frist ok");
+			}*/
 			$dependency = $menu['dependency'];
 			if(isset($dependency['roles_by_name']) && isset($role_disp_name) && !in_array($role_disp_name, $dependency['roles_by_name'])) {
 				$dependency_ok = false;
 			}
 
+
 			if($dependency_ok && isset($dependency['permissions']) && isset($dependency['operation'])) {
 				$permissionKey 		= $dependency['permissions'];
+				if($menu['text'] == "Insurance Company") {
+					//print_r($this->layout_data[$permissionKey]);
+				}
+				
 				$allowedPermission 	= isset($this->layout_data[$permissionKey]) ? $this->layout_data[$permissionKey] : null;
 				$operation 			= $dependency['operation'];
 				$showMenu 			= false;
 
 				if(isset($allowedPermission)) {
+					if($menu['text'] == "Insurance Company") {
+						//print_r($allowedPermission);
+						//print_r($operation);
+					}
 					for($opIx = 0; $opIx < count($operation); $opIx++) {
 						if(in_array($operation[$opIx], $allowedPermission['operation'])) {
 							$showMenu = true;
 						}
 					}
+					if($menu['text'] == "Insurance Company") {
+						//echo "showMenu->".$showMenu;
+					}
+				}
+				if($menu['text'] == "Projects") {
+						//echo "show menu-".$showMenu."-";
 				}
 				if(!$showMenu) {
 					$dependency_ok =  false;
@@ -179,15 +204,6 @@ class Layouts {
 		$this->layout_data['is_logged_in']  = is_logged_in();
 
 		$this->set_required_permission();
-		/*if(is_logged_in()) {
-			$this->layout_data['role_id'] 				= $role_id;
-			$this->layout_data['role_disp_name'] 		= $this->session->userdata('logged_in_role_disp_name');
-			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions('projects');
-			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions('service provider');
-			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions('adjuster');
-			$this->layout_data['claimPermission'] 	= $this->CI->permissions_lib->getPermissions('claim');
-		}*/
-		//$this->layout_data['login_form'] 	= $this->CI->load->view("forms/login_form", $this->layout_data, true);
 
 		$main_content_name = null;
 		
@@ -263,9 +279,16 @@ class Layouts {
 
 			$menu = $menus[$menuIdx];
 			/* Dependency Check from Main Menu */
+
 			$dependency_pass = $this->check_menu_dependency( $menu );
-			if(!$dependency_pass)
+			if($menu['text'] != "Insurance Company") {
+				//continue;
+				//print_r($menu);
+			}
+			if(!$dependency_pass) {
+				//print_r($menu);
 				continue;
+			}
 			/* Dependency Check Ends */
 			
 			/* Top Menu Generation */

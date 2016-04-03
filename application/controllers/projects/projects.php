@@ -232,7 +232,7 @@ class Projects extends CI_Controller {
 		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 		//Customer > Permissions for logged in User by role_id
 		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);
 		//Budget > Permissions for logged in User by role_id
@@ -406,7 +406,7 @@ class Projects extends CI_Controller {
 		$addressFile = $this->form_lib->getAddressFile(array("view" => "update_project_form", "requestFrom" => "input", "address_data" => $projects[0]));
 
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);//Service Provider > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);//Adjuster > Permissions for logged in User by role_id
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_PARTNER);//Adjuster > Permissions for logged in User by role_id
 		$customerPermission 	= $this->permissions_lib->getPermissions(FUNCTION_CUSTOMER);//Customer > Permissions for logged in User by role_id
 		$budgetPermission 		= $this->permissions_lib->getPermissions(FUNCTION_BUDGET);//Budget > Permissions for logged in User by role_id
 
@@ -696,7 +696,7 @@ class Projects extends CI_Controller {
 		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 		//Adjuster > Permissions for logged in User by role_id
-		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission 	= $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 
 		$projectParams = array (
 			'projectId'			=> [$projectId],

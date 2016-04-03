@@ -123,6 +123,11 @@ class Permissions_lib {
 			"dataFor" => "all"
 		);
 		$this->compDataByDB = $this->CI->model_permissions->getAllList( $getAllParams );
+		/*if($modules == FUNCTION_INSURANCE_COMPANY) {
+			print_r($options );
+		} else {
+			return;
+		}*/
 		$this->convertCompDataBySno();
 
 		$this->user_id 						= isset($options['user_id']) ? $options["user_id"] : "";
@@ -219,6 +224,10 @@ class Permissions_lib {
 				"data_filter" 	=> $dfNameFromDB
 			);
 		}
+
+		/*echo "final_permission";
+
+		print_r($final_permission);*/
 
 		return $final_permission;
 	}

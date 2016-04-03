@@ -1,33 +1,34 @@
 <?php
 
-class Model_partners extends CI_Model {
+class Model_ins_comp extends CI_Model {
 	
-	public function get_partner_company_id_by_user_id($user_id = "") {
+	public function get_ins_comp_id_by_user_id($user_id = "") {
 		if(isset($user_id) && !empty($user_id)) {
 			$this->db->where('is_deleted', '0');
 			$this->db->where('default_contact_user_id', $user_id);
 
 			$this->db->select([
-				"id"
+				"ins_comp_id"
 			]);
-			$query = $this->db->from('partner')->get();
-			$partners = $query->result();
+			$query = $this->db->from('insurance_company')->get();
+			$ins_comps = $query->result();
 
-			if(count($partners)) {
-				return $partners[0]->id;
+			if(count($ins_comps)) {
+				return $ins_comps[0]->ins_comp_id;
 			}
 		}
 		return false;
 	}
 
-	public function getPartnersList($record = "", $companyNmae = "", $name = "") {
+	public function get_ins_comp_list($record = "", $compName = "") {
 		$this->db->where('is_deleted', '0');
-
+		
 		if(isset($record) && !is_null($record)) {
+			//echo "record =>"; print_r(array_filter($record)); echo "--count =>".count($record)."--imp--".implode(",", $record)."<br/>";
 			if(is_array($record) && implode(",", $record) != "" ) {
-				$this->db->where_in('id', $record);
-			} else if(!is_array($record) && !empty($record) ) {
-				$this->db->where('id', $record);
+				$this->db->where_in('ins_comp_id', $record);
+			} else if($record != "") {
+				$this->db->where('ins_comp_id', $record);
 			}
 		}
 
@@ -35,41 +36,29 @@ class Model_partners extends CI_Model {
 			if(is_array($companyNmae)) {
 				for($i = 0; $i < count($companyNmae); $i++) {
 					if(!empty($companyNmae[$i])) {
-						$this->db->or_like('company_name', $companyNmae[$i]);	
+						$this->db->or_like('ins_comp_name', $companyNmae[$i]);	
 					}
 				}
 			} else if(!empty($companyNmae)) {
-				$this->db->or_like('company_name', $companyNmae);
-			}
-		}
-
-		if(isset($name) && !is_null($name) && $name != "") {
-			if(is_array($name)) {
-				for($i = 0; $i < count($name); $i++) {
-					if(!empty($name[$i])) {
-						$this->db->or_like('name', $name[$i]);
-					}
-				}
-			} else if(!empty($name)) {
-				$this->db->or_like('name', $name);
+				$this->db->or_like('ins_comp_name', $companyNmae);
 			}
 		}
 
 		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN) {
-			if($this->session->userdata('logged_in_role_disp_name') == ROLE_PARTNER_ADMIN) {
+			if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
 				$this->db->where('default_contact_user_id', $this->session->userdata('logged_in_user_id'));
 			}
 		}
 
 		$this->db->select([
-				"*", 
-				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
-				"created_on",
-				"updated_on"
-			]);
+			"*", 
+			"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+			"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+			"created_on",
+			"updated_on"
+		]);
 
-		$query = $this->db->from('partner')->get();
+		$query = $this->db->from('insurance_company')->get();
 
 		//echo $this->db->last_query();
 		
@@ -77,7 +66,7 @@ class Model_partners extends CI_Model {
 		
 		if($this->db->_error_number() == 0) {
 			$response["status"] 		= "success";
-			$response["partners"] 	= $query->result();
+			$response["ins_comps"] 	= $query->result();
 		} else {
 			$response["status"] 		= "error";
 			$response["errorCode"] 		= $this->db->_error_number();
@@ -89,10 +78,10 @@ class Model_partners extends CI_Model {
 
 	public function insert($data) {
 		$response = array();
-		if($this->db->insert('partner', $data)) {
+		if($this->db->insert('insurance_company', $data)) {
 			$response['status'] 		= 'success';
 			$response['insertedId']	= $this->db->insert_id();
-			$response['message']		= "Partner Inserted Successfully";
+			$response['message']		= "Insurance Company Inserted Successfully";
 		} else {
 			$response['status'] 		= 'error';
 			$response['message']		= $this->db->_error_message();
@@ -105,17 +94,17 @@ class Model_partners extends CI_Model {
 			'status' => 'error'
 		);
 		if($record) {
-			$this->db->where('id', $record);
+			$this->db->where('ins_comp_id', $record);
 		
-			if($this->db->update('partner', $data)) {
+			if($this->db->update('insurance_company', $data)) {
 				$response['status']		= 'success';
-				$response['message']	= 'Partner updated Successfully';
+				$response['message']	= 'Insurance Company updated Successfully';
 				$response['updatedId']	= $record;
 			} else {
 				$response["message"] = "Error while updating the records";
 			}	
 		} else {
-			$response['message']	= 'Invalid partner, Please try again';
+			$response['message']	= 'Invalid Insurance Company, Please try again';
 		}
 		return $response;
 	}
@@ -125,20 +114,20 @@ class Model_partners extends CI_Model {
 			'status' => 'error'
 		);
 		if($record && $record!= "") {
-			$this->db->where('id', $record);
+			$this->db->where('ins_comp_id', $record);
 
 			$data = array(
 				'is_deleted' => 1
 			);
 			
-			if($this->db->update('partner', $data)) {
+			if($this->db->update('insurance_company', $data)) {
 				$response['status']		= "success";
-				$response['message']	= "Partner Deleted Successfully";
+				$response['message']	= "Insurance Company Deleted Successfully";
 			} else {
-				$response["message"] = "Error while deleting the partner";
+				$response["message"] = "Error while deleting the Insurance Company";
 			}
 		} else {
-			$response['message']	= 'Invalid partner, Please try again';
+			$response['message']	= 'Invalid Insurance Company, Please try again';
 		}
 		return $response;
 	}

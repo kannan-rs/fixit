@@ -68,8 +68,8 @@ $(document).ready(function() {
         "claims"                : "claims"
     }
 
-    var module  = session.module != "" ? session.module : (pageModuleMap[session.page] ?  pageModuleMap[session.page] : "");
-    module      = session.function && session.function != "" ? session.function : module;
+    var module = _utils.get_current_page();
+    var logged_in_user_details = _utils.get_logged_in_user_details();
 
     switch (module) {
         /* Security Page */
@@ -149,6 +149,12 @@ $(document).ready(function() {
         case "signup":
             _utils.getAndSetCountryStatus("create_user_form");
         break;
+        case "insurance_company":
+            _ins_comp.viewAll();
+            break;
+        case "create_insurance_company":
+            _ins_comp.createForm();
+            break;
     }
 
     $("#login_error").hide();

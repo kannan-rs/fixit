@@ -20,7 +20,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_VIEW);
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_PARTNER, OPERATION_VIEW);
 
 		if( !$is_allowed["status"] ) {
 			print_r(json_encode($is_allowed));
@@ -48,7 +48,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_VIEW);
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_PARTNER, OPERATION_VIEW);
 
 		if( !$is_allowed["status"] ) {
 			print_r(json_encode($is_allowed));
@@ -72,7 +72,7 @@ class Partners extends CI_Controller {
 		}
 
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
@@ -109,7 +109,7 @@ class Partners extends CI_Controller {
 		}
 
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_CREATE, $adjusterPermission['operation'])) {
@@ -149,7 +149,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_CREATE);
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_PARTNER, OPERATION_CREATE);
 
 		if( !$is_allowed["status"] ) {
 			print_r(json_encode($is_allowed));
@@ -206,7 +206,7 @@ class Partners extends CI_Controller {
 		}
 
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
@@ -255,7 +255,7 @@ class Partners extends CI_Controller {
 		}
 
 		//Project > Permissions for logged in User by role_id
-		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_ADJUSTER);
+		$adjusterPermission = $this->permissions_lib->getPermissions(FUNCTION_PARTNER);
 
 		/* If User dont have view permission load No permission page */
 		if(!in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
@@ -305,7 +305,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 
-		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_UPDATE);
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_PARTNER, OPERATION_UPDATE);
 
 		if( !$is_allowed["status"] ) {
 			print_r(json_encode($is_allowed));
@@ -361,7 +361,7 @@ class Partners extends CI_Controller {
 			return false;
 		}
 		
-		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_ADJUSTER, OPERATION_DELETE);
+		$is_allowed 	= $this->permissions_lib->is_allowed(FUNCTION_PARTNER, OPERATION_DELETE);
 
 		if( !$is_allowed["status"] ) {
 			print_r(json_encode($is_allowed));

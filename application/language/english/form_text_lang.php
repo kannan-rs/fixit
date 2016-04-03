@@ -54,6 +54,7 @@ $lang['user'] = array(
 		"belongsTo" 					=> "User Belongs To",
 		"contractorZipCode" 			=> "Search Service Provider By Zip Code and Select",
 		"partnerCompanyName" 			=> "Search Adjuster By Company Name and Select",
+		"ins_comp_name"					=> "Search Insurance Company By Name",
 		"userStatus" 					=> "User Status",
 		"activeStartDate" 				=> "Active Start Date",
 		"activeEndDate" 				=> "Active End Date",
@@ -83,6 +84,7 @@ $lang['user'] = array(
 		"passwordHint_ph" 					=> "Password Hint",
 		"contractorZipCode_ph" 				=> "Zip Code for search",
 		"partnerCompanyName_ph" 			=> "adjuster Company Name",
+		"ins_comp_name_ph"					=> "Insurance Company Name",
 		"activeStartDate_ph" 				=> "Active Start Date",
 		"activeEndDate_ph" 					=> "Active End Date",
 		"email_ph" 							=> "Email ID",
@@ -638,7 +640,7 @@ $lang["contractor"] = array(
 		"contractor_address"		=> "Service Provider Address",
 		"contractor_contact"		=> "Service Provider Contact Details",
 		"contractor_service_area"	=> "Service Provider Service Area",
-		"contractor_others"			=> "Service Provider Other Details"
+		"contractor_others"			=> "Service Prpovider Other Details"
 	),
 	/*
 		Create and edit form text
@@ -791,6 +793,124 @@ $lang["contractor"] = array(
 	)
 );
 
+$lang["ins_comp"] = array(
+	/*
+		Title, Header and sub header text
+	*/
+	"headers" => array(
+		"create" 				=> "Create Insurance Company",
+		"update" 				=> "Update Insurance Company",
+		"view_all" 				=> "Insurance Company List",
+		"view_one" 				=> "Insurance Company Details",
+		"ins_comp_details"		=> "Insurance Company Details",
+		"ins_comp_address"		=> "Insurance Company Address",
+		"ins_comp_contact"		=> "Insurance Company Contact Details",
+		"ins_comp_others"		=> "Insurance Company Other Details"
+	),
+	/*
+		Create and edit form text
+	*/
+	"input_form" => array(
+		/*
+			Following are the (key => "text value") map for the "Insurance Company's" create and edit form
+			Sections
+				1. After Login 	> Projects > Create Insurance Company
+				2. After Login 	> Projects > Insurance Companys > Individual Insurance Company View > Edit Insurance Company
+				3. After Login 	> Projects > Create Project > Add New Insurance Company
+				4. After Login 	> Projects > Edit Project > Add New Insurance Company
+		*/
+		"name" 							=> "Name",
+		"company" 						=> "Company",
+		"emailId" 						=> "Office Email ID",
+		"contactPhoneNumber" 			=> "Office Number",
+		"mobileNumber" 					=> "Mobile Number",
+		"websiteURL" 					=> "Website URL",
+		"search_for_default_user" 		=> "Assign Insurance Company Admin",
+
+		/*
+			Place holder for text input element in Create/Edit form
+		*/
+		"name_ph" 							=> "Insurance Company Name",
+		"company_ph" 						=> "Company Name",
+		"emailId_ph" 						=> "Email ID",
+		"contactPhoneNumber_ph" 			=> "Contact Phone Number",
+		"websiteURL_ph" 					=> "Website URL",
+		"searchForDefaultContractor_ph" 	=> "Email ID of default Insurance Company",
+
+		/*
+			Dropdown's Default 1st text,
+			this text will be shown if no option is selected in Dropdown under Create/Edit form
+		*/
+	),
+	
+	/*
+		Summary view / View All Table's Column header
+	*/
+	"summary_table" => array(
+		"company" 			=> "Company",
+		"admin_user"		=> "Admin User",
+		"email_id"			=> "Office Email ID"
+	),
+
+	/*
+		Detailed view / individual view Row label
+	*/
+	"details_view" => array(
+		"name" 						=> "Name",
+		"company" 					=> "Company",
+		"default_contract_user"		=> "Insurance Company Admin",
+		"type" 						=> "Type",
+		"license" 					=> "License",
+		"bbb" 						=> "BBB",
+		"status" 					=> "Status",
+		"office_email_id" 			=> "Office Email ID",
+		"office_number" 			=> "Office Number",
+		"mobile_number" 			=> "Mobile Number",
+		"prefered_mode" 			=> "Prefered Mode for Contact",
+		"email" 					=> "Email",
+		"office_phone" 				=> "Office Phone",
+		"mobile_number" 			=> "Mobile Number",
+		"webSite_url" 				=> "WebSite URL",
+		"serive_provided" 			=> "Service Provided in Zip code"
+	),
+	/*
+		Button text and link text
+	*/
+	"buttons_links" => array(
+		"create" 						=> "Create Insurance Company",
+		"update" 						=> "Update Insurance Company",
+		"active" 						=> "Active",
+		"in_active" 					=> "InActive",
+		"deleted" 						=> "Deleted",
+		"all" 							=> "All",
+		"active_hover_text" 			=> "Click on this button to view active Insurance Companys",
+		"in_active_hover_text" 			=> "Click on this button to view in-active Insurance Companys",
+		"all_hover_text" 				=> "Click on this button to view all Insurance Companys",
+		"edit_hover_text" 				=> "Edit Insurance Company",
+		"delete_hover_text" 			=> "Delete Insurance Company",
+		"add_main_trade"				=> "Add New Main Trade to selected Insurance Company",
+		"add_master_main_trade"			=> "Add new main trade in master trade list",
+		"create_trade"					=> "Create Trade",
+		"update_trade"					=> "Update Trade",
+		"add_sub_trade"					=> "Add Sub Trade",
+		"create_sub_trade"				=> "Create Sub Trade",
+		"update_sub_trade"				=> "Update Sub Trade",
+		"back_to_contractor_trades"		=> "Go back to contractor trades and sub trades",
+		"add_discount"					=> "Add Discount",
+		"edit_discount"					=> "Edit Discount",
+		"create_discount"				=> "Create Discount",
+		"update_discount"				=> "Update Discount",
+		"delete_discount"				=> "Delete Discount",
+		"add_testimonial"				=> "Add Testomonial",
+		"edit_testimonial"				=> "Edit Testomonial",
+		"create_testimonial"			=> "Create Testomonial",
+		"update_testimonial"			=> "Update Testomonial",
+		"delete_testimonial"			=> "Delete Testomonial",
+		"list_all_trades_and_manage"	=> "List all trades and sub trades and manage",
+		"contractor_user_text"			=> "Manage Contractor User"
+	)
+);
+
 $lang["partner"] = array(
 	/*
 		Title, Header and sub header text
@@ -867,37 +987,38 @@ $lang["partner"] = array(
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
-		"name" => "Name",
-		"company" => "Company",
-		"type" => "Type",
-		"status" => "Status",
-		"license" => "License",
-		"office_email_iD" => "Office Email ID",
-		"office_number" => "Office Number",
-		"personal_email_id" => "Personal Email ID",
-		"personal_mobile_number" => "Personal Mobile Number",
-		"prefered_mode_for_contact" => "Prefered Mode for Contact",
-		"pref_office_phone_number" => "Office Phone Number",
-		"pref_office_email_id" => "Office Email ID",
-		"pref_personal_mobile_number" => "Personal Mobile Number",
-		"pref_personal_email_id" => "Personal Email ID",
-		"website_url" => "WebSite URL"
+		"name" 							=> "Name",
+		"company" 						=> "Company",
+		"type" 							=> "Type",
+		"status" 						=> "Status",
+		"license" 						=> "License",
+		"office_email_iD" 				=> "Office Email ID",
+		"office_number" 				=> "Office Number",
+		"personal_email_id" 			=> "Personal Email ID",
+		"personal_mobile_number" 		=> "Personal Mobile Number",
+		"prefered_mode_for_contact" 	=> "Prefered Mode for Contact",
+		"pref_office_phone_number" 		=> "Office Phone Number",
+		"pref_office_email_id" 			=> "Office Email ID",
+		"pref_personal_mobile_number" 	=> "Personal Mobile Number",
+		"pref_personal_email_id" 		=> "Personal Email ID",
+		"website_url" 					=> "WebSite URL",
+		"default_contract_user" 		=> "Partner Admin User"
 	),
 	/*
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" =>"Create Partner",
-		"update" => "Update partner",
-		"active" => "Active",
-		"in_active" => "InActive",
-		"active_title" => "Click on this button to view active partners",
-		"in_active_title" => "Click on this button to view in-active partners",
-		"all" => "All",
-		"all_title" => "Click on this button to view all partners",
-		"delete" => "Deleted",
-		"edit_title" => "Edit Partner",
-		"delete_title" => "Delete Partner"
+		"create" 			=>"Create Partner",
+		"update" 			=> "Update partner",
+		"active" 			=> "Active",
+		"in_active" 		=> "InActive",
+		"active_title" 		=> "Click on this button to view active partners",
+		"in_active_title" 	=> "Click on this button to view in-active partners",
+		"all" 				=> "All",
+		"all_title" 		=> "Click on this button to view all partners",
+		"delete" 			=> "Deleted",
+		"edit_title" 		=> "Edit Partner",
+		"delete_title" 		=> "Delete Partner"
 	)
 );
 

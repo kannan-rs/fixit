@@ -45,6 +45,7 @@ $user_details_sno 		= isset($user_details) ? $user_details->sno : "";
 $dbPrefContact 			= isset($user_details) ? $user_details->contact_pref : "";
 $dbPrimaryContact 		= isset($user_details) ? $user_details->primary_contact : "";
 $is_service_provider 	= isset($is_service_provider) ? $is_service_provider : "";
+$is_ins_comp 			= isset($is_ins_comp)  ? $is_ins_comp : "";
 $is_partner 			= isset($is_partner) ? $is_partner : "";
 
 $openAs 			= isset($openAs) ? $openAs : "";
@@ -119,6 +120,13 @@ if(!$openAs || $openAs != "popup") {
 					<td><span id="selectedAdjusterDB"><?php echo $belongsToName; ?></span></td>
 				</tr>
 			<?php
+				} else if ( $is_ins_comp ) {
+			?>
+				<tr>
+					<td class="label">User Belongs to Insurance Comp</td>
+					<td><span id="selectedInsCompDB"><?php echo $belongsToName; ?></span></td>
+				</tr>	
+			<?php
 				}
 			?>
 				<!-- Service Provider Search and search results -->
@@ -148,6 +156,21 @@ if(!$openAs || $openAs != "popup") {
 					<td class="label notMandatory">&nbsp;</td>
 					<td>
 						<ul id="adjusterList" name="adjusterList" class="connectedSortable owner-search-result users"></ul>
+					</td>
+				</tr>
+
+				<!-- Adjuster Search and search results -->
+				<tr class="ins_comp-search">
+					<td class="label notMandatory"><?php echo $this->lang->line_arr('user->input_form->ins_comp_name'); ?></td>
+					<td>
+						<input type="text" name="ins_comp_name" id="ins_comp_name" value="" Placeholder="<?php echo $this->lang->line_arr('user->input_form->ins_comp_name_ph'); ?>">
+						<span class="fi-zoom-in size-21 searchIcon" onclick="_users.get_ins_comp_by_name('')"></span>
+					</td>
+				</tr>
+				<tr class="ins_comp-result">
+					<td class="label notMandatory">&nbsp;</td>
+					<td>
+						<ul id="ins_compList" name="ins_compList" class="connectedSortable owner-search-result users"></ul>
 					</td>
 				</tr>
 			<?php

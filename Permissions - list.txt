@@ -62,9 +62,43 @@ Work Done
 	> Selection of already assigned SP user to the project
 9. Shown service provider users projects only.
 
+
+Work Done from (21st)
+1. Shown projects for adjuster admin, which he belongs too. 
+2. Hide service provider selection by search, and partner selection by search from project create and edit form, if logged in user dont have permission to it.
+3. SP admin can view all SP users belongs to that company (security > Users)
+4. Delete user functionality is removed for self user record
+5. Populating of all session variables and using that in Browser code is modified to get the user details from DB if logged in.
+6. Contractor admin > creat user > association to the service provider company
+
+
+ Insurance page initial load
+ Insurance for create form cleanup
+ Completing insurance for add, edit, update, delete, view All, view one
+ 6th option
+ Listing and allowing insurance admin view only that insurance company,
+ Allow insurance agent to create insurance co users and associate the insurance company
+ Allow admin to assing company to insurance user
+ Adjuster admin login show only his adjuster company
+ Adjuster admin to manage adjuster/partner users
+
+Permissions
+-----------
 - Customer
 - Admin
 - Service provider admin
 - service provider user
+- Adjuster Admin can view only his company projects
 
+MOM (23/3/2016)
+---------------
+2. Insurance company as a new tab same as service provider
+	> comp_id
+	> company_name
+	> company_address
+	> admin_user_associated
 
+3. insurance company admin
+4. insurance company user
+
+5. Change Adjuster to Partner

@@ -57,7 +57,7 @@ define('OPERATION_EXPORT',		'export');
 */
 define('FUNCTION_ALL',							'all');
 define('FUNCTION_CUSTOMER',						'customer');
-define('FUNCTION_ADJUSTER',						'adjuster');
+define('FUNCTION_PARTNER',						'partner');
 define('FUNCTION_CLAIM',						'claim');
 define('FUNCTION_CLAIM_DOCS',					'Claim Docs');
 define('FUNCTION_CLAIM_DAIRY_UPDATES',			'Claim Dairy Updates');
@@ -68,7 +68,7 @@ define('FUNCTION_SERVICE_PROVIDER_ADS',			'service provider ads');
 define('FUNCTION_SERVICE_PROVIDER_DISCOUNT',	'service provider discounts');
 define('FUNCTION_SERVICE_PROVIDER_TESTIMONIAL',	'service provider testimonial');
 define('FUNCTION_SERVICE_PROVIDER_TRADE',		'service provider trade');
-define('FUNCTION_INSURANCE_CO',					'insurance co');
+define('FUNCTION_INSURANCE_COMPANY',			'insurance company');
 define('FUNCTION_TASKS',						'tasks');
 define('FUNCTION_ISSUES',						'issues');
 define('FUNCTION_PROJECTS',						'projects');
@@ -84,6 +84,7 @@ define('ROLE_ADMIN', 							'admin');
 define('ROLE_SUB_ADMIN', 						'sub admin');
 define('ROLE_INSURANCECO_CALL_CENTER_AGENT', 	'insuranceco call center agent');
 define('ROLE_INSURANCECO_ADMIN', 				'insuranceco admin');
+define('ROLE_INSURANCECO_USER', 				'insuranceco user');
 define('ROLE_CUSTOMER', 						'customer');
 define('ROLE_SERVICE_PROVIDER_ADMIN', 			'service provider admin');
 define('ROLE_SERVICE_PROVIDER_USER',			'service provider user');
@@ -100,14 +101,15 @@ define('DATA_FILTER_SELF', 						'self');
 define('DATA_FILTER_SERVICE_PROVIDER', 			'service provider');
 define('DATA_FILTER_SERVICE_PROVIDER_CLAIMS',	'service provider claims');
 define('DATA_FILTER_SERVICE_PROVIDER_USERS', 	'service provider users');
+define('DATA_FILTER_PARTNER_USERS', 			'partner users');
 
 /*
 | Role to page mapping
 */
 define('ADMIN_PAGE', 							'security');
 define('SUB_ADMIN_PAGE', 						'projects');
-define('INSURANCECO_CALL_CENTER_AGENT_PAGE', 	'adjusters');
-define('INSURANCECO_ADMIN_PAGE', 				'adjusters');
+define('INSURANCECO_CALL_CENTER_AGENT_PAGE', 	'partners');
+define('INSURANCECO_ADMIN_PAGE', 				'partners');
 define('CUSTOMER_PAGE', 						'projects');
 define('SERVICE_PROVIDER_ADMIN_PAGE', 			'service_providers');
 define('SERVICE_PROVIDER_USER_PAGE', 			'service_providers');
@@ -167,7 +169,7 @@ define('TOP_MENUS', '[
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
-			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'","'.ROLE_INSURANCECO_ADMIN.'"]
+			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'","'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
 		},
 		"sub_menus"		: [
 			{
@@ -175,7 +177,7 @@ define('TOP_MENUS', '[
 				"link"			: "/main/security/users", 
 				"key"			: "users",
 				"dependency"	: {
-					"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
+					"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
 				},
 				"sub_menus"	: [
 					{
@@ -183,7 +185,7 @@ define('TOP_MENUS', '[
 						"link"			: "/main/security/users", 
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
 						}
 					},
 					{
@@ -191,7 +193,7 @@ define('TOP_MENUS', '[
 						"link" 			: "/main/security/users/create_user",
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'"]
+							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
 						}
 					}
 				]
@@ -316,7 +318,7 @@ define('TOP_MENUS', '[
 		"is_logged_in" 	: 1,
 		"dependency"	: {
 			"permissions"	: "projectPermission",
-			"operation"		: ["create"]
+			"operation"		: ["view","create"]
 		},
 		"sub_menus"		: [
 			{
@@ -369,7 +371,36 @@ define('TOP_MENUS', '[
 		]
 	},
 	{
-		"text" 			: "Adjusters",
+		"text" 			: "Insurance Company",
+		"link" 			: "/main/insurance_company",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "insCompPermission",
+			"operation"		: ["create", "view"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Insurance Company List", 
+				"link"			: "/main/insurance_company", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "insCompPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Insurance Company", 
+				"link"			: "/main/insurance_company/create_insurance_company", 
+				"key" 			: "create_project",
+				"dependency"	: {
+					"permissions"	: "insCompPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	},
+	{
+		"text" 			: "Partners",
 		"link" 			: "/main/adjusters",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
@@ -378,7 +409,7 @@ define('TOP_MENUS', '[
 		},
 		"sub_menus"		: [
 			{
-				"text"			: "Adjusters List", 
+				"text"			: "Partners List", 
 				"link"			: "/main/adjusters", 
 				"key" 			: "projects",
 				"dependency"	: {
@@ -387,7 +418,7 @@ define('TOP_MENUS', '[
 				}
 			},
 			{
-				"text"			: "Create Adjuster", 
+				"text"			: "Create Partner", 
 				"link"			: "/main/adjusters/create_partner", 
 				"key" 			: "create_project",
 				"dependency"	: {

@@ -30,7 +30,7 @@
 	<span class="options-icon">
 		
 		<?php
-		if(in_array("service provider users", $projectPermission['data_filter'])) {
+		if(in_array("service provider users", $projectPermission['data_filter']) && $role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
 		?>
 		<span>
 			<a class="step fi-torsos-all size-21" href="javascript:void(0);" onclick="_projects.getContractorUserList()" 

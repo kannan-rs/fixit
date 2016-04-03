@@ -22,47 +22,100 @@ class Model_users extends CI_Model {
 	}
 
 	private function get_users_for_service_provider_admin() {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+		$logged_in_user_id = $this->session->userdata('logged_in_user_id');
 		$whereQuery = "";
-		if($this->session->userdata('logged_in_role_disp_name') == ROLE_SERVICE_PROVIDER_ADMIN) {
-			$whereQuery = " AND ".$this->get_self_where_class();
-			
-			
-			// Contractors User List
+		if($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+			$whereQuery = " AND (".$this->get_self_where_class();
+
+			$this->load->model("service_providers/model_service_providers");		
+			$contractor_id = $this->model_service_providers->get_contractor_company_id_by_user_id($logged_in_user_id);
+
+			if(isset($contractor_id) && !empty($contractor_id)) {
+				$whereQuery .= " OR user_details.belongs_to_id ='".$contractor_id."'";
+			}
+
+			$whereQuery .= ")";
+		}
+
+		return $whereQuery;
+	}
+
+	private function get_users_for_insurance_co_admin() {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+		$logged_in_user_id = $this->session->userdata('logged_in_user_id');
+		$whereQuery = "";
+		if($role_disp_name == ROLE_INSURANCECO_ADMIN) {
+			$whereQuery = " AND (".$this->get_self_where_class();
+
+			$this->load->model("insurance_company/model_ins_comp");		
+			$ins_comp_id = $this->model_ins_comp->get_ins_comp_id_by_user_id($logged_in_user_id);
+
+			if(isset($ins_comp_id) && !empty($ins_comp_id)) {
+				$whereQuery .= " OR user_details.belongs_to_id ='".$ins_comp_id."'";
+			}
+
+			$whereQuery .= ")";
 		}
 
 		return $whereQuery;
 	}
 
 	private function get_users_for_adjuster_admin_users() {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 		$whereQuery = "";
-		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+		if($role_disp_name == ROLE_INSURANCECO_ADMIN) {
 			$whereQuery = " AND ".$this->get_self_where_class();
 		}
 		return $whereQuery;
 	}
 
 	private function get_users_for_insurence_call_center_agent () {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 		$whereQuery = "";
-		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+		if($role_disp_name == ROLE_INSURANCECO_CALL_CENTER_AGENT) {
 			$whereQuery = " AND ".$this->get_self_where_class();
 		}
 		return $whereQuery;
 	}
 
 	private function get_users_for_customer () {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 		$whereQuery = "";
-		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+		if($role_disp_name == ROLE_CUSTOMER) {
 			$whereQuery = " AND ".$this->get_self_where_class();
 		}
 		return $whereQuery;
 	}
 
 	private function get_users_for_service_provider_user () {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 		$whereQuery = "";
-		if($this->session->userdata('logged_in_role_disp_name') == ROLE_INSURANCECO_ADMIN) {
+		if($role_disp_name == ROLE_SERVICE_PROVIDER_USER) {
 			$whereQuery = " AND ".$this->get_self_where_class();
 		}
 		return $whereQuery;
+	}
+
+	private function get_users_for_parent_admin () {
+		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+		$logged_in_user_id = $this->session->userdata('logged_in_user_id');
+		$whereQuery = "";
+		if($role_disp_name == ROLE_PARTNER_ADMIN) {
+			$whereQuery = " AND (".$this->get_self_where_class();
+
+			$this->load->model('adjusters/model_partners');	
+			$partner_id = $this->model_partners->get_partner_company_id_by_user_id($logged_in_user_id);
+
+			if(isset($partner_id) && !empty($partner_id)) {
+				$whereQuery .= " OR user_details.belongs_to_id ='".$partner_id."'";
+			}
+
+			$whereQuery .= ")";
+		}
+
+		return $whereQuery;
+
 	}
 
 	private function get_self_where_class() {
@@ -163,23 +216,25 @@ class Model_users extends CI_Model {
 			} else if($from_db == "user_details") {
 				$whereQuery .= " AND user_details.sno = ".$params;
 			}
-		}
+		} else {
+			/* logged in role_id and display name */
+			/* BAsed on logged in user, users list displayed will vary */
+			$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 
-		/* logged in role_id and display name */
-		/* BAsed on logged in user, users list displayed will vary */
-		$role_disp_name = $this->session->userdata('logged_in_role_disp_name');
-
-		if($role_disp_name != ROLE_ADMIN && $role_disp_name != ROLE_SUB_ADMIN) {
-			if($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
-				$whereQuery .= $this->get_users_for_service_provider_admin();
-			} else if( $role_disp_name == ROLE_INSURANCECO_ADMIN) {
-				$whereQuery .= $this->get_users_for_adjuster_admin_users();
-			} else if($role_disp_name = ROLE_INSURANCECO_CALL_CENTER_AGENT) {
-				$whereQuery .= $this->get_users_for_insurence_call_center_agent();
-			} else if($role_disp_name == ROLE_CUSTOMER) {
-				$whereQuery .= $this->get_users_for_customer();
-			} else if( $role_disp_name == ROLE_SERVICE_PROVIDER_USER ) {
-				$whereQuery .= $this->get_users_for_service_provider_user();
+			if($role_disp_name != ROLE_ADMIN && $role_disp_name != ROLE_SUB_ADMIN) {
+				if($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+					$whereQuery = $this->get_users_for_service_provider_admin();
+				} else if( $role_disp_name == ROLE_INSURANCECO_ADMIN) {
+					$whereQuery = $this->get_users_for_insurance_co_admin();
+				} else if($role_disp_name == ROLE_INSURANCECO_CALL_CENTER_AGENT) {
+					$whereQuery = $this->get_users_for_insurence_call_center_agent();
+				} else if($role_disp_name == ROLE_CUSTOMER) {
+					$whereQuery = $this->get_users_for_customer();
+				} else if( $role_disp_name == ROLE_SERVICE_PROVIDER_USER ) {
+					$whereQuery = $this->get_users_for_service_provider_user();
+				} else if ( $role_disp_name == ROLE_PARTNER_ADMIN ) {
+					$whereQuery = $this->get_users_for_parent_admin();
+				}
 			}
 		}
 

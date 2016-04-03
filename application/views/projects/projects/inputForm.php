@@ -138,7 +138,7 @@
 			?>
 
 			<?php
-			if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
+			if(in_array(OPERATION_CREATE, $contractorPermission['operation']) || in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
 			?>
 				<!-- Project Service Provider Search and Adding -->
 				<!-- List of added contractor from the serach result-->
@@ -270,7 +270,7 @@
 			?>
 
 			<?php
-			if(in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
+			if(in_array(OPERATION_VIEW, $adjusterPermission['operation']) || in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
 			?>
 				<!-- Project Adjuster Search and Adding -->
 				<tr class="adjuster-search-selected">

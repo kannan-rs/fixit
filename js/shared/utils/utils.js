@@ -732,6 +732,36 @@ var _utils = (function () {
                     active: false
                 }
            );
+        },
+        get_current_page : function() {
+            var loc = location.pathname.split("/");
+            //module = loc[loc.indexOf("main") + 1];
+            //module = loc[loc.indexOf(module) + 1] ? loc[loc.indexOf(module) + 1] : module;
+
+            return loc[loc.length - 1];
+        },
+        get_current_module : function() {
+            var loc = location.pathname.split("/");
+            page = loc[loc.indexOf("main") + 1];
+            return page;
+        },
+        get_logged_in_user_details : function() {
+            logged_in_user_details = {};
+            $.ajax({
+                method: "POST",
+                async : false,
+                url: "/security/users/get_logged_in_user_details",
+                data: {},
+                success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    logged_in_user_details = $.parseJSON( response );
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
         }
     };
 })();

@@ -22,6 +22,11 @@ var _users = (function () {
         $("#adjusterList").hide();
         $("#selectedAdjusterDB").hide();
 
+        $(".ins_comp-search").hide();
+        $(".ins_comp-result").hide();
+        $("#ins_compList").hide();
+        $("#selectedInsCompDB").hide();
+
        /* if($("#selectedContractorDb").text() != "") {
             $("#selectedContractorDb").show();
         }
@@ -217,7 +222,7 @@ var _users = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            if(!session.logged_in_role_id && !$("#termsCondition").prop("checked")) {
+            if(!logged_in_user_details.role_id && !$("#termsCondition").prop("checked")) {
                 $("#tcError").show();
                 isTcError = true;
             }
@@ -356,11 +361,14 @@ var _users = (function () {
             */
             var ownerSelected       = $(idPrefix+"input[type='radio'][name='optionSelectedContractor']:checked");
             var adjusterSelected    = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
+            var ins_comp_selected   = $(idPrefix+"input[type='radio'][name='optionSelectedInsComp']:checked");
 
             if (role_text.toLowerCase().indexOf("service provider") >= 0 && ownerSelected.length > 0) {
                 belongsToId     = ownerSelected.val();
             } else if(role_text.toLowerCase().indexOf("partner") >= 0 && adjusterSelected.length > 0) {
                 belongsToId     = adjusterSelected.val();
+            } else if(role_text.toLowerCase().indexOf("insuranceco") >= 0 && ins_comp_selected.length > 0) {
+                belongsToId     = ins_comp_selected.val();
             }
 
             /*
@@ -409,7 +417,7 @@ var _users = (function () {
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
                         //alert(response.message);
-                        if(session.is_logged_in && session.page != "signup") {
+                        if(logged_in_user_details.is_logged_in && _utils.get_current_module() != "signup") {
                             var params = {
                                 userId                 : response.insertedId,
                                 openAs                 : openAs,
@@ -419,7 +427,7 @@ var _users = (function () {
                                 responseType         : "add"
                             }
                             _users.viewOne( params );
-                        } else if (session.page == "signup") {
+                        } else if (_utils.get_current_module() == "signup") {
                             $(".content").html( response["createConfirmPage"] );
                         }
                     } else if(response.status.toLowerCase() == "error") {
@@ -443,7 +451,7 @@ var _users = (function () {
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
 
-                    if(session.page == "home") {
+                    if(_utils.get_current_module() == "home") {
                         $("#index_content").html(response);
                     } else {
                         $("#security_content").html(response);
@@ -513,6 +521,8 @@ var _users = (function () {
             } else if(role_text.toLowerCase().indexOf("partner") >= 0 ) {
                 belongsToId     = adjusterSelected.length > 0 ? adjusterSelected.val() : "";
                 belongsToId = belongsToId != "" ? belongsToId : $("#belongsToIdDb").val();
+            } else if(role_text.toLowerCase().indexOf("insuranceco") >= 0 && ins_comp_selected.length > 0) {
+                belongsToId     = ins_comp_selected.val();
             }
 
             var referredByOwnerSelected = $(idPrefix+"input[type='radio'][name='referredByoptionSelectedOwner']:checked");
@@ -635,7 +645,7 @@ var _users = (function () {
                 url: "/security/users/viewOne",
                 data: {
                     userId             : userId,
-                    viewFrom         : session.page,
+                    viewFrom         : _utils.get_current_module(),
                     status             : status,
                     responseType     : responseType
                 },
@@ -649,7 +659,7 @@ var _users = (function () {
 
                         _projects.openDialog({"title" : title+" Details"}, popupType);
                     } else {
-                        if(session.page == "home") {
+                        if(_utils.get_current_module() == "home") {
                             $("#index_content").html(response);
                         } else {
                             $("#security_content").html(response);
@@ -766,34 +776,18 @@ var _users = (function () {
                     $("#adjusterList").hide();
                     $(".adjuster-result").hide();
                 }
+            } else if ( role_text.toLowerCase().indexOf("insuranceco") >= 0 ) {
+                $(".ins_comp-search").show();
+                $("#selectedInsCompDB").show();
+
+                if($("#ins_compList li").length) {
+                    $("#ins_compList").show();
+                    $(".ins_comp-result").show();
+                } else {
+                    $("#ins_compList").hide();
+                    $(".ins_comp-result").hide();
+                }
             }
-
-
-            // Hide all search container by default
-            
-            /*if( belongsTo == "contractor") {
-                $(".contractor-search").show();
-                $("#selectedContractorDb").show();
-
-                if($("#contractorList li").length) {
-                    $(".contractor-result").show();
-                    $("#contractorList").show();
-                } else {
-                    $(".contractor-result").hide();
-                    $("#contractorList").hide();
-                }
-            } else if(belongsTo == "adjuster") {
-                $(".adjuster-search").show();
-                $("#selectedAdjusterDB").show();
-
-                if($("#adjusterList li").length) {
-                    $("#adjusterList").show();
-                    $(".adjuster-result").show();
-                } else {
-                    $("#adjusterList").hide();
-                    $(".adjuster-result").hide();
-                }
-            }*/
         },
         showreferredByOption: function( ) {
             var referredBy = $("#referredBy").val();
@@ -862,7 +856,9 @@ var _users = (function () {
                             dispStrKey      : "company",
                             prefix          : prefix,
                             idPrefix        : "contractor",
-                            name            : "optionSelectedContractor"
+                            name            : "optionSelectedContractor",
+                            id              : "id",
+                            "field_name"    : "name"
                         };
                         self.generateLiSingleSelectionDD( contractors );
                     } else {
@@ -904,7 +900,9 @@ var _users = (function () {
                             "dispStrKey"    : "name",
                             prefix          : prefix,
                             idPrefix        : "adjuster",
-                            name            : "optionSelectedAdjuster"
+                            name            : "optionSelectedAdjuster",
+                            id              : "id",
+                            "field_name"    : "name"
 
                         };
                         self.generateLiSingleSelectionDD( partners );
@@ -920,18 +918,67 @@ var _users = (function () {
                 fail_error = failedObj;
             });
         },
+
+        get_ins_comp_by_name : function( prefix ) {
+            var partners = null;
+
+            var selected_role_id    = $("#privilege").val();
+            var selected_role_text  = $("#privilege option:selected").text();
+            var company_name        = $("#"+prefix+"ins_comp_name").val().trim();
+
+            $('#'+prefix+'ins_compList').children().remove();
+            if($("#"+prefix+"ins_comp_name").val().trim() == "") return;
+            var self = this;
+            $.ajax({
+                method: "POST",
+                url: "/insurance_company/insurancecompany/get_ins_comp_by_name",
+                data: {
+                    companyName     : company_name,
+                    role_id         : selected_role_id,
+                    role_disp_name  : selected_role_text
+                },
+                success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    response = $.parseJSON(response);
+                    if(response.status == "success") {
+                        partners = {
+                            list            : response["ins_comps"],
+                            "dispStrKey"    : "ins_comp_name",
+                            prefix          : prefix,
+                            idPrefix        : "ins_comp",
+                            name            : "optionSelectedInsComp",
+                            id              : "ins_comp_id",
+                            "field_name"    : "ins_comp_name"
+
+                        };
+                        self.generateLiSingleSelectionDD( partners );
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
         generateLiSingleSelectionDD: function (options) {
             var list        = options.list;
             var dispStrKey  = options.dispStrKey;
+            var id          = options.id;
+            var field_name  = options.field_name;
             var prefix      = options.prefix;
             var idPrefix    = options.idPrefix;
             var name        = options.name;
 
             for(var i =0 ; i < list.length; i++) {
-                var li = "<li class=\"ui-state-highlight\" id=\""+list[i].id+"\">";
-                    li += "<div>"+list[i].name+"</div>";
+                var li = "<li class=\"ui-state-highlight\" id=\""+list[i][id]+"\">";
+                    li += "<div>"+list[i][field_name]+"</div>";
                     li += "<div class=\"company\">"+list[i][dispStrKey]+"</div>";
-                    li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+name+"\" value=\""+list[i].id+"\" /></span>";
+                    li += "<span class=\"search-action\"><input type=\"radio\" name=\""+prefix+name+"\" value=\""+list[i][id]+"\" /></span>";
                     li += "</li>";
                 $('#'+prefix+idPrefix+'List').append(li);
             }

@@ -148,12 +148,12 @@ class Functions extends CI_Controller {
 
 		$this->load->model('security/model_functions');
 		$record = $this->input->post('function_sno');
-		$fn_id = $this->input->post('function_id');
+		//$fn_id = $this->input->post('function_id');
 		$fn_name = $this->input->post('function_name');
 		$fn_desc = $this->input->post('function_desc');
 
 		$data = array(
-		   'fn_id' => $fn_id,
+		   //'fn_id' => $fn_id,
 		   'fn_name' => $fn_name,
 		   'fn_descr' => $fn_desc
 		);

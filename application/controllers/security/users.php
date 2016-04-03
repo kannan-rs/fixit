@@ -52,6 +52,7 @@ class Users extends CI_controller {
 		// User > Permissions for logged in User by role_id
 		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);
 
+
 		/* Checking for page access permission */
 		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN && !in_array(OPERATION_VIEW, $userPermission['operation'])) {
 			$no_permission_options = array(
@@ -144,7 +145,11 @@ class Users extends CI_controller {
 			'status'	=> "error"
 		);
 
-		if(is_logged_in() && $this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN ) {
+		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);
+
+		//print_r($userPermission);
+
+		if(is_logged_in() && !in_array(OPERATION_CREATE, $userPermission['operation'])) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -167,12 +172,36 @@ class Users extends CI_controller {
 			exit();
 		}
 
+		$belongsTo 			= "";
+		$belongsToId 		= $this->input->post("belongsToId");
+		$role_id 			= $this->input->post('privilege');
+		$logged_in_user_id 	= $this->session->userdata('logged_in_user_id');
+
+		$logged_in_role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+		$this->load->model('security/model_roles');
+		if(is_logged_in() && $logged_in_role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+			
+			$belongsToId	= $this->model_service_providers->get_contractor_company_id_by_user_id($logged_in_user_id);
+			$role_id 	= $this->model_roles->get_role_id_by_role_name(ROLE_SERVICE_PROVIDER_USER);
+		
+		} else if(is_logged_in() && $logged_in_role_disp_name == ROLE_INSURANCECO_ADMIN) {
+			
+			$belongsToId	= $this->model_ins_comp->get_ins_comp_id_by_user_id($logged_in_user_id);
+			$role_id 	= $this->model_roles->get_role_id_by_role_name(ROLE_INSURANCECO_USER);
+		
+		}  else if(is_logged_in() && $logged_in_role_disp_name == ROLE_PARTNER_ADMIN) {
+			
+			$belongsToId	= $this->model_partners->get_partner_company_id_by_user_id($logged_in_user_id);
+			$role_id 	= $this->model_roles->get_role_id_by_role_name(ROLE_PARTNER_USER);
+		
+		}
+
 		if($emailId && !$this->model_users->getUserSnoViaEmail($emailId)) {
 			$createUser_data = array(
 				'first_name' 			=> $this->input->post('firstName'),
-				'last_name' 			=> $this->input->post('lastName'), 
-				'belongs_to' 			=> $this->input->post('belongsTo'),
-				'belongs_to_id' 		=> $this->input->post("belongsToId"),
+				'last_name' 			=> $this->input->post('lastName'),
+				'belongs_to' 			=> "",
+				'belongs_to_id' 		=> $belongsToId,
 				'referred_by' 			=> $referredBy,
 				'referred_by_id' 		=> $referredById,
 				'status' 				=> $userStatus,
@@ -184,9 +213,9 @@ class Users extends CI_controller {
 				'primary_contact'		=> $this->input->post('primaryContact'),
 				'address1' 				=> $this->input->post('addressLine1'),
 				'address2' 				=> $this->input->post('addressLine2'),
-				'city' 			=> $this->input->post('city'),
-				'state' 			=> $this->input->post('state'),
-				'country' 			=> $this->input->post('country'),
+				'city' 					=> $this->input->post('city'),
+				'state' 				=> $this->input->post('state'),
+				'country' 				=> $this->input->post('country'),
 				'zip_code'				=> $this->input->post('zipCode'),
 				'contact_pref' 			=> $this->input->post('prefContact'),
 				'created_dt' 			=> date("Y-m-d H:i:s"),
@@ -201,7 +230,7 @@ class Users extends CI_controller {
 					'user_name' 			=> $emailId, 
 					'password' 				=> md5($password),
 					'password_hint' 		=> $this->input->post('passwordHint'),
-					'role_id' 				=> $this->input->post('privilege'),
+					'role_id' 				=> $role_id,
 					'activation_key' 		=> $activationKey,
 					'status' 				=> $userStatus,
 					'created_by'			=> $this->session->userdata('logged_in_user_id'),
@@ -329,6 +358,7 @@ class Users extends CI_controller {
 		$user_role_disp_str 	= strtolower($users[0]->role_disp_name);
 		$is_service_provider 	= $user_role_disp_str == ROLE_SERVICE_PROVIDER_ADMIN || $user_role_disp_str == ROLE_SERVICE_PROVIDER_USER ? true : false;
 		$is_partner 			= $user_role_disp_str == ROLE_PARTNER_ADMIN ? true : false;
+		$is_ins_comp 			= $user_role_disp_str == ROLE_INSURANCECO_ADMIN  ? true : false;
 
 		
 		if($user_details[0]->belongs_to_id && $is_service_provider ) {
@@ -339,7 +369,7 @@ class Users extends CI_controller {
 			$adjustersResponse = $this->model_partners->getPartnersList($user_details[0]->belongs_to_id);
 			$adjusters 	= $adjustersResponse["partners"];
 			$belongsToName = count($adjusters) ? $adjusters[0]->name." from ".$adjusters[0]->company_name : "";
-		}
+		} 
 
 		$referredByName = "";
 		if(!empty($user_details[0]->belongs_to) && $user_details[0]->belongs_to == "contractor") {
@@ -386,7 +416,7 @@ class Users extends CI_controller {
 		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS); //User > Permissions for logged in User by role_id
 
 		/* Checking for page access permission */
-		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_UPDATE, $userPermission['operation'])) {
+		if(!in_array(OPERATION_UPDATE, $userPermission['operation'])) {
 			$response["message"] 			= "No permission to execute this operation";
 			print_r(json_encode($response));
 			return false;
@@ -419,6 +449,29 @@ class Users extends CI_controller {
 		$zipCode 				= $this->input->post('zipCode');
 		$referredBy 			= $this->input->post("referredBy");
 		$referredById 			= $this->input->post("referredById");
+
+		$logged_in_user_id 	= $this->session->userdata('logged_in_user_id');
+
+		$logged_in_role_disp_name = $this->session->userdata('logged_in_role_disp_name');
+		
+		$this->load->model('security/model_roles');
+
+		if(is_logged_in() && $logged_in_role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+		
+			$belongsToId	= $this->model_service_providers->get_contractor_company_id_by_user_id($logged_in_user_id);
+			$privilege 	= $this->model_roles->get_role_id_by_role_name(ROLE_SERVICE_PROVIDER_USER);
+		
+		} else if(is_logged_in() && $logged_in_role_disp_name == ROLE_INSURANCECO_ADMIN) {
+			
+			$belongsToId	= $this->model_ins_comp->get_ins_comp_id_by_user_id($logged_in_user_id);
+			$role_id 	= $this->model_roles->get_role_id_by_role_name(ROLE_INSURANCECO_USER);
+		
+		} else if(is_logged_in() && $logged_in_role_disp_name == ROLE_PARTNER_ADMIN) {
+			
+			$belongsToId	= $this->model_partners->get_partner_company_id_by_user_id($logged_in_user_id);
+			$role_id 	= $this->model_roles->get_role_id_by_role_name(ROLE_PARTNER_USER);
+		
+		}
 
 		$update_details_data = array(
 			'first_name' 			=> $firstName,
@@ -567,6 +620,7 @@ class Users extends CI_controller {
 		$user_role_disp_str 	= strtolower($users[0]->role_disp_name);
 		$is_service_provider 	= $user_role_disp_str == ROLE_SERVICE_PROVIDER_ADMIN || $user_role_disp_str == ROLE_SERVICE_PROVIDER_USER ? true : false;
 		$is_partner 			= $user_role_disp_str == ROLE_PARTNER_ADMIN ? true : false;
+		$is_ins_comp 			= $user_role_disp_str == ROLE_INSURANCECO_ADMIN  ? true : false;
 
 		
 		if($user_details[0]->belongs_to_id && $is_service_provider ) {
@@ -702,8 +756,23 @@ class Users extends CI_controller {
 
 		$response = array(
 			'status' => "success",
-			'parent_id' => $parent_id
+			'parent_id' => isset($parent_id) ? $parent_id : ""
 		);
+
+		print_r(json_encode($response));
+	}
+
+	public function get_logged_in_user_details() {
+		/* Checking for logged in or not */
+		$response = array();
+		if (is_logged_in()) {
+			$response = array(
+				"email_id" 			=> $this->session->userdata('logged_in_email'),
+				"is_logged_in" 		=> $this->session->userdata('is_logged_in'),
+				"role_id"			=> $this->session->userdata('logged_in_role_id'),
+				"user_id"			=> $this->session->userdata('logged_in_user_id')
+			);
+		}
 
 		print_r(json_encode($response));
 	}

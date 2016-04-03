@@ -3,7 +3,7 @@
 class Main extends CI_Controller {
 
 	public function __construct()
-   {
+   	{
         parent::__construct();
         $this->load->helper('url');
 		$controller = $this->uri->segment(1);
@@ -156,7 +156,19 @@ class Main extends CI_Controller {
 		$this->layouts->setPage("adjusters");
 		//Render a view
 		$this->layouts->view();
-		
+	}
+
+	public function insurance_company() {
+		// With View library
+		$this->load->library("layouts");
+
+		if(!$this->isLoggedIn()) {
+			return false;
+		}
+
+		$this->layouts->setPage("insurance_company");
+		//Render a view
+		$this->layouts->view();
 	}
 
 	public function claims()
@@ -211,23 +223,9 @@ class Main extends CI_Controller {
 		$this->load->model('security/model_users');
 
 		$this->layouts->setPage("activation_user");
-		
-		/*echo "controller--".$this->session->userdata('controller');
-		echo "<br/>";
-		echo "page--".$this->session->userdata('page');
-		echo "<br/>";
-		echo "module--".$this->session->userdata('module');
-		echo "<br/>";
-		echo "function--".$this->session->userdata('function');
-		echo "<br/>";
-		echo "record--".$this->session->userdata('record');
-		echo "<br/>";*/
 
 		$response = $this->model_users->activate_user($this->session->userdata('module'));
 
-		//($response);
-
-		//print_r($response);
 		if($response && $response["activated_user"] && count($response["activated_user"])) {
 			$email = $response["activated_user"][0]->user_name;
 			if(!is_null($email) && !empty($email)) {
@@ -250,23 +248,8 @@ class Main extends CI_Controller {
 	}
 
 	public function logout() {
-		/*$this->session->unset_userdata('is_logged_in');
-		$this->session->set_userdata('is_logged_in', "");
-		$this->session->unset_userdata('module');
-		$this->session->unset_userdata('controller');
-		$this->session->unset_userdata('page');
-		$this->session->unset_userdata('function');
-		$this->session->unset_userdata('record');
-		$this->session->unset_userdata('role_id');
-		$this->session->unset_userdata('user_id');
-		$this->session->unset_userdata('email');
-		$this->session->unset_userdata('userType');
-		$this->session->unset_userdata('cart_contents');*/
-
 		$this->session->sess_destroy();
 		redirect("/");
 	}
-
-
 }
 ?>

@@ -83,7 +83,7 @@ var _projects = (function () {
         */
         clearRest: function(excludeList) {
             //var containers = ["project_content", "task_content", "note_content", "attachment_content", "popupForAll", "contractor_content"];
-            var containers = ["project_content", "popupForAll", "contractor_content"];
+            var containers = ["project_content", "popupForAll", "contractor_content", "ins_comp_content"];
 
             for(var i=0; i < containers.length; i++) {
                 if(!excludeList || !$.isArray(excludeList) || excludeList.indexOf(containers[i]) == -1) {
@@ -401,8 +401,13 @@ var _projects = (function () {
                     self.hideContractorDetails('all');
                     self.hideAdjusterDetails('all');
                     self.hideDropDowns();
-                    self.getContractorDetails($("#contractorIdDb").val());
-                    self.getAdjusterDetails($("#adjusterIdDb").val());
+
+                    if(contractorPermission && contractorPermission["operation"] && contractorPermission["operation"].indexOf("update") >=0 ) {
+                        self.getContractorDetails($("#contractorIdDb").val());
+                    }
+                    if(adjusterPermission && adjusterPermission["operation"] && adjusterPermission["operation"].indexOf("update") >=0 ) {
+                        self.getAdjusterDetails($("#adjusterIdDb").val());
+                    }
                     self.hideDropDowns();
 
                     _utils.setCustomerDataList();
@@ -1723,7 +1728,7 @@ var _projects = (function () {
         getContractorUserList : function() {
             var requestParams = {
                 role_disp_name          : 'SERVICE_PROVIDER_USER',
-                logged_in_user          : session.logged_in_email,
+                logged_in_user          : logged_in_user_details.email_id,
                 contractor_user_list    : 1
             }
 

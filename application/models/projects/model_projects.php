@@ -179,7 +179,7 @@ class Model_projects extends CI_Model {
 			}
 
 			if( $projectParams['role_disp_name'] == ROLE_PARTNER_ADMIN || $projectParams['role_disp_name'] == ROLE_SUB_ADMIN ) {
-				$self_df_query = "";
+				/*$self_df_query = "";
 				if( in_array('self', $projectParams["projectPermission"]["data_filter"]) ) {
 					$self_df_query = "`customer_id` = '".$projectParams["user_details_id"]."'";
 				}
@@ -190,14 +190,40 @@ class Model_projects extends CI_Model {
 				$or_query .= !empty($or_query) ? " OR " : "";
 				$or_query .= $created_by_query;
 
-				/*if(!empty($contractor_id_like_query)) {
-					$or_query .= !empty($or_query) ? " OR " : "";
-					$or_query .= $contractor_id_like_query;
-				}*/
-
 				$or_query = "(".$or_query.")";
 
-				$outer_and_query .= " AND (".$or_query.")";
+				$outer_and_query .= " AND (".$or_query.")";*/
+				if(in_array('assigned projects', $projectParams["projectPermission"]["data_filter"])) {
+					$this->load->model("adjusters/model_partners");
+					
+					$partner_id = $this->model_partners->get_partner_company_id_by_user_id($projectParams["user_id"]);
+
+					$self_df_query = "";
+					$partner_id_like_query = "";
+					
+					if( in_array('self', $projectParams["projectPermission"]["data_filter"]) ) {
+						$self_df_query = "`customer_id` = '".$projectParams["user_details_id"]."'";
+					}
+
+					if( !empty($partner_id) ) {
+						$partner_id_like_query .= "`adjuster_id` = '".$partner_id."' OR `adjuster_id` LIKE '%".$partner_id.",%' OR `adjuster_id` LIKE '%,".$partner_id."%' OR `adjuster_id` LIKE '%,".$partner_id.",%'";	
+					}
+
+					$created_by_query =  "`created_by` = '".$projectParams["user_id"]."'";
+
+					$or_query = $self_df_query;
+					$or_query .= !empty($or_query) ? " OR " : "";
+					$or_query .= $created_by_query;
+
+					if(!empty($partner_id_like_query)) {
+						$or_query .= !empty($or_query) ? " OR " : "";
+						$or_query .= $partner_id_like_query;
+					}
+
+					$or_query = "(".$or_query.")";
+
+					$outer_and_query .= " AND (".$or_query.")";
+				}
 
 			}
 		}
