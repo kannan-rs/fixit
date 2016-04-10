@@ -715,6 +715,12 @@ class Projects extends CI_Controller {
 		$customerFile 	= "";
 
 		// Individual View
+		/**
+			Compute following data from task table.
+			Start Date,
+			End Date and 
+			Percentage
+		*/
 		$ed_query = "select 
 							AVG(task_percent_complete) as percentage, 
 							DATE_FORMAT( MIN(task_end_date),  '%m/%d/%Y') as end_date, 
@@ -726,8 +732,13 @@ class Projects extends CI_Controller {
 		$consolidate_data = $consolidate_data_result[0];
 
 		$project->percentage 	= $consolidate_data->percentage > 0  ? round($consolidate_data->percentage,1) : 0;
-		$start_date 			= $consolidate_data->start_date != "" ? ($project->start_date != "" && $project->start_date < $consolidate_data->start_date ? $project->start_date : $consolidate_data->start_date) : ($project->start_date != "" ? $project->start_date : "-NA-");
-		$end_date 				= $consolidate_data->end_date != "" ? ($project->end_date != "" && $project->end_date > $consolidate_data->end_date ? $project->end_date : $consolidate_data->end_date) : ($project->end_date != "" ? $project->end_date : "-NA-");
+		$start_date 			= $consolidate_data->start_date != "" ? 
+										($project->start_date != "" && $project->start_date < $consolidate_data->start_date ? $project->start_date : $consolidate_data->start_date) : 
+										($project->start_date != "" ? $project->start_date : "-NA-");
+
+		$end_date 				= $consolidate_data->end_date != "" ? 
+										($project->end_date != "" && $project->end_date > $consolidate_data->end_date ? $project->end_date : $consolidate_data->end_date) : 
+										($project->end_date != "" ? $project->end_date : "-NA-");
 
 		$project->start_date 	= $start_date;
 		$project->end_date 		= $end_date;
@@ -741,7 +752,7 @@ class Projects extends CI_Controller {
 		//Service Provider Name
 		$project->contractorName = "-- Not Provided --";
 
-		if(!in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
+		if(!in_array(OPERATION_VIEW, $contractorPermission['operation']) && !in_array(OPERATION_CHOOSE, $contractorPermission['operation'])) {
 			$no_permission_options = array(
 				'page_disp_string' => "Assigned Service Provider Details"
 			);
@@ -797,7 +808,8 @@ class Projects extends CI_Controller {
 			);
 			$customerFile =  $this->load->view("pages/no_permission", $no_permission_options, true);
 		} else {
-			$customers 	= $this->model_users->getUserDetailsBySno($project->customer_id);
+			$customer_details_id = $this->model_users->get_user_details_id_from_user_id($project->customer_id);
+			$customers 	= $this->model_users->getUserDetailsBySno($customer_details_id);
 			$customer 	= count($customers) ? $customers[0] : "";
 			
 			if($customer) {
@@ -878,77 +890,49 @@ class Projects extends CI_Controller {
 		$sp_user_user_id 		= $this->input->post('user_id');
 		$parent_company_id 		= $this->input->post('user_parent_id');
 
-		$logged_in_role_id = $this->session->userdata('logged_in_role_id');
-
-		$update_query = true;
-
-		if(isset($sp_user_user_id) && !empty($sp_user_user_id)) {
-			$this->load->model('security/model_users');
-			$sp_user_role_id = $this->model_users->get_role_id_from_user_id( $sp_user_user_id );
-			if(isset($sp_user_role_id) && !empty($sp_user_role_id)) {
-				$update_query = true;
-			} else {
-				$update_query = false;
-			}
-		} else {
-			$update_query = false;
+		if(!empty($sp_user_user_id)) {
+			$sp_user_user_id = explode(",", $sp_user_user_id);			
 		}
 
+		$logged_in_role_id = $this->session->userdata('logged_in_role_id');
+
+		$update_query 		= true;
 		$this->load->model('projects/model_projects');
 
-		if($update_query) {
-			$params = array(
-				"user_id" 				=> $sp_user_user_id,
-				"project_id"			=> $project_id,
-				"parent_company_id" 	=> $parent_company_id
-			);
+		/*
+			Delete any record which are assigned earlier
+		*/
+		$data = array(
+		"is_deleted"	=> 1,
+		"updated_by"	=> $logged_in_role_id,
+		"updated_on"	=> date("Y-m-d H:i:s")
+		);
+		$params = array(
+			"data"					=> $data,
+			"project_id"			=> $project_id,
+			"parent_company_id" 	=> $parent_company_id
+		);
+		$response = $this->model_projects->update_project_owner($params);
 
-			$existing_record = $this->model_projects->checking_existing_project_owner($params);
-			
-			if(!isset($existing_record) || empty($existing_record) || $existing_record == 0) {
-				
-				/*
-					Delete any record which are assigned earlier
-				*/
-				$data = array(
-				"is_deleted"	=> 1,
-				"updated_by"	=> $logged_in_role_id,
-				"updated_on"	=> date("Y-m-d H:i:s")
-				);
-				$params = array(
-					"data"					=> $data,
-					"project_id"			=> $project_id,
-					"parent_company_id" 	=> $parent_company_id
-				);
-				$response = $this->model_projects->update_project_owner($params);
-
-				$data = array(
-					"project_id"			=> $project_id,
-					"role_id"				=> $sp_user_role_id,
-					"user_id"				=> $sp_user_user_id,
-					"parent_company_id" 	=> $parent_company_id,
-					"is_deleted"			=> 0,
-					"created_by"			=> $logged_in_role_id,
-					"created_on"			=> date("Y-m-d H:i:s"),
-					"updated_by"			=> $logged_in_role_id,
-					"updated_on"			=> date("Y-m-d H:i:s")
-				);
-				$response = $this->model_projects->insert_project_owner($data);
-			} else {
-				$response = array('status' => "already exist");
+		if(isset($sp_user_user_id) && !empty($sp_user_user_id)) {
+			for($i = 0; $i < count($sp_user_user_id); $i++) {
+				$this->load->model('security/model_users');
+				$sp_user_role_id = $this->model_users->get_role_id_from_user_id( $sp_user_user_id[$i] );
+				if(isset($sp_user_role_id) && !empty($sp_user_role_id)) {
+					$data = array(
+						"project_id"			=> $project_id,
+						"role_id"				=> $sp_user_role_id,
+						"user_id"				=> $sp_user_user_id[$i],
+						"parent_company_id" 	=> $parent_company_id,
+						"is_deleted"			=> 0,
+						"created_by"			=> $logged_in_role_id,
+						"created_on"			=> date("Y-m-d H:i:s"),
+						"updated_by"			=> $logged_in_role_id,
+						"updated_on"			=> date("Y-m-d H:i:s")
+					);
+					$response = $this->model_projects->insert_project_owner($data);
+				}
 			}
-		} else {
-			$data = array(
-				"is_deleted"	=> 1,
-				"updated_by"	=> $logged_in_role_id,
-				"updated_on"	=> date("Y-m-d H:i:s")
-			);
-			$params = array(
-				"data"					=> $data,
-				"project_id"			=> $project_id,
-				"parent_company_id" 	=> $parent_company_id
-			);
-			$response = $this->model_projects->update_project_owner($params);
 		}
 
 		print_r(json_encode($response));
@@ -963,7 +947,9 @@ class Projects extends CI_Controller {
 		$this->load->model('projects/model_projects');
 
 		$user_parent_id 	= $this->input->post('user_parent_id');
-		$project_id 	= $this->input->post('project_id');
+		$project_id 		= $this->input->post('project_id');
+		$details 			= $this->input->post('details');
+
 		$params = array(
 			"project_id"			=> $project_id,
 			"parent_company_id" 	=> $user_parent_id
@@ -971,7 +957,18 @@ class Projects extends CI_Controller {
 
 		$existing_record = $this->model_projects->get_existing_project_owner($params);
 
-		$response = array('status' => "success", "assigned_user_id" => $existing_record);
+		$existing_user_details = array();
+
+		if( isset($details) && !empty($details) ) {
+			$this->load->model('security/model_users');
+			for( $i = 0; $i < count($existing_record); $i++ ) {
+				array_push( $existing_user_details, $this->model_users->getUsersList($existing_record[$i])[0] );
+			}
+			$response = array('status' => "success", "assigned_user_id" => $existing_user_details);
+		} else {
+			$response = array('status' => "success", "assigned_user_id" => $existing_record);
+		}
+		
 
 		print_r(json_encode( $response ));
 

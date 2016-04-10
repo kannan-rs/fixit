@@ -4,7 +4,7 @@
 	$address1 			= $customer->address1 ? $customer->address1 : "--Not Provided--";
 	$address2			= $customer->address2 ? $customer->address2 : "--Not Provided--";
 	$city 				= $customer->city ? $customer->city : "--Not Provided--";
-	$state 				= $customer->addr_state ? $customer->state : "--Not Provided--";
+	$state 				= $customer->state ? $customer->state : "--Not Provided--";
 	$zipCode 			= $customer->zip_code ? $customer->zip_code : "--Not Provided--";
 	$phone 				= $customer->contact_ph1 ? $customer->contact_ph1 : "--Not Provided--";
 	$mobile 			= $customer->contact_mobile ? $customer->contact_mobile : "--Not Provided--";

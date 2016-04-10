@@ -47,58 +47,39 @@ Adjuster User - Show all the projects where he is assigned to
 Contractor admin - Show projects which he company is part of.
 Contractor User - Show projects which he is assigned
 
-Work Done
----------
-1. Added Role "Partner Admin"
-2. Added / editing / view selection of default partner admin user for partner company
-3. Contractor admin user was lister in View All of service provider list
-4. Added options to add "service provider company" search by zip for service provider admin and service provider users role
-5. Added option to add "Adjuster company" search by "email" for "adjuster admin user"
-6. Role text was not displayed in single user view, which is added.
-7. Provided options to update the service provider and partner based on the selection.
-8. Listing of service provider user, for a specific service provider company admin login
-	> Adding of SP user to a project
-	> Resetting / Deleting of SP user from the project
-	> Selection of already assigned SP user to the project
-9. Shown service provider users projects only.
 
+MOM (5/4/2016)
+--------------
+- Reset the password for all the email accounts. (Done)
+- In project choosing service provider option need to be enabled,
+	> Operation "Choosing / Assignemnt" (Done)
+- Edit project is throwing " contractor permission " error. fix that (Done)
+- Customer to view Service provider in project details view, if "choose" permission is enabled (Done)
+- In project details, customer details was wrongly printed. It was using wrong ID mapping (user details record was fetched using users table ID), fixed (Done)
 
-Work Done from (21st)
-1. Shown projects for adjuster admin, which he belongs too. 
-2. Hide service provider selection by search, and partner selection by search from project create and edit form, if logged in user dont have permission to it.
-3. SP admin can view all SP users belongs to that company (security > Users)
-4. Delete user functionality is removed for self user record
-5. Populating of all session variables and using that in Browser code is modified to get the user details from DB if logged in.
-6. Contractor admin > creat user > association to the service provider company
+- Check if customer is allowed to choose owner for task. If so is he able to choose "Partner" as owner.
+- Allow Fixit admin to choose service provider user for a project from a service provider company,
+Not Now - Allow Fixit admin to choose partners user for a project from a partner company,
+- Multiple Service provider user assignemnt for a project is possible.
+- In task assignment page, > choosing owner need to be a dropdown > with the selected list of service provider users + partner users + customer ID. 
+- Partner section (Remove the partner for all place)
+	-> Removed from Top Navigation
+	-> Removed from project Create and edit
+	-> Removed from View project list
+	-> Removed from create and edit tasks
 
+Others
+-------
+	4/6/2016(.5) - Working on creating project permission chart list for customer.
 
- Insurance page initial load
- Insurance for create form cleanup
- Completing insurance for add, edit, update, delete, view All, view one
- 6th option
- Listing and allowing insurance admin view only that insurance company,
- Allow insurance agent to create insurance co users and associate the insurance company
- Allow admin to assing company to insurance user
- Adjuster admin login show only his adjuster company
- Adjuster admin to manage adjuster/partner users
+(Last priority)
+						Insurance Company
+								|
+				________________|____________________
+				|		|			|				|
+				|		|			|				|
+			Admin		Adjuster, Call Center, 	Manager
 
-Permissions
------------
-- Customer
-- Admin
-- Service provider admin
-- service provider user
-- Adjuster Admin can view only his company projects
-
-MOM (23/3/2016)
----------------
-2. Insurance company as a new tab same as service provider
-	> comp_id
-	> company_name
-	> company_address
-	> admin_user_associated
-
-3. insurance company admin
-4. insurance company user
-
-5. Change Adjuster to Partner
+			Admin (1 Super Admin)
+			Manager (Multiple Manager)
+			Adjuster, Call Center (Multiple Manager)

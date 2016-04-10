@@ -33,7 +33,7 @@ class formUtils extends CI_Controller {
 		$emailId 				= $this->input->post('emailId');
 		$role_disp_name			= $this->input->post('role_disp_name');
 		$assignment				= $this->input->post('assignment');
-		//$logged_in_user 		= $this->input->post('logged_in_user');
+		
 		$contractor_user_list 	= $this->input->post('contractor_user_list');
 
 		$company_id = "";
@@ -51,6 +51,20 @@ class formUtils extends CI_Controller {
 			//$this->load->model("security/model_users");
 
 			//$response = $this->model_users->getUsersList();
+		} else if( !empty($contractor_user_list) && ( $logged_in_role_disp_name == ROLE_ADMIN || $logged_in_role_disp_name == ROLE_SUB_ADMIN )) {
+			$project_id 			= $this->input->post('project_id');
+			if($project_id) {
+				$this->load->model("projects/model_projects");
+
+				$projectParams = array(
+					"role_disp_name" 	=> $logged_in_role_disp_name,
+					"projectId"			=> $project_id
+				);
+				$projectsList = $this->model_projects->getProjectsList($projectParams);
+				if(count($projectsList)) {
+					$company_id = $projectsList[0]->contractor_id;
+				}
+			}
 		}
 
 		if(!isset($response)) {

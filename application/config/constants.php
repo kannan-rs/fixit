@@ -51,6 +51,7 @@ define('OPERATION_VIEW',		'view');
 define('OPERATION_DEACTIVATE',	'deactivate');
 define('OPERATION_ACTIVATE',	'activate');
 define('OPERATION_EXPORT',		'export');
+define('OPERATION_CHOOSE',		'select / choose');
 
 /*
 | Module Constants
@@ -400,35 +401,6 @@ define('TOP_MENUS', '[
 		]
 	},
 	{
-		"text" 			: "Partners",
-		"link" 			: "/main/adjusters",
-		"is_logged_in" 	: 1,
-		"dependency"	: {
-			"permissions"	: "adjusterPermission",
-			"operation"		: ["view"]
-		},
-		"sub_menus"		: [
-			{
-				"text"			: "Partners List", 
-				"link"			: "/main/adjusters", 
-				"key" 			: "projects",
-				"dependency"	: {
-					"permissions"	: "adjusterPermission",
-					"operation"		: ["view"]
-				}
-			},
-			{
-				"text"			: "Create Partner", 
-				"link"			: "/main/adjusters/create_partner", 
-				"key" 			: "create_project",
-				"dependency"	: {
-					"permissions"	: "adjusterPermission",
-					"operation"		: ["create"]
-				}
-			}
-		]
-	},
-	{
 		"text" 			: "Claims",
 		"link" 			: "/main/claims",
 		"is_logged_in" 	: 1,
@@ -461,3 +433,35 @@ define('TOP_MENUS', '[
 define("DEFAULT_PAGE_IF_NOT_LOGGED_IN", "index");
 define("DEFAULT_PAGE_IF_LOGGED_IN", "projects");
 /* Location: ./application/config/constants.php */
+
+/* // Partner Menu next to insurance company
+	{
+		"text" 			: "Partners",
+		"link" 			: "/main/adjusters",
+		"is_logged_in" 	: 1,
+		"dependency"	: {
+			"permissions"	: "adjusterPermission",
+			"operation"		: ["view"]
+		},
+		"sub_menus"		: [
+			{
+				"text"			: "Partners List", 
+				"link"			: "/main/adjusters", 
+				"key" 			: "projects",
+				"dependency"	: {
+					"permissions"	: "adjusterPermission",
+					"operation"		: ["view"]
+				}
+			},
+			{
+				"text"			: "Create Partner", 
+				"link"			: "/main/adjusters/create_partner", 
+				"key" 			: "create_project",
+				"dependency"	: {
+					"permissions"	: "adjusterPermission",
+					"operation"		: ["create"]
+				}
+			}
+		]
+	},
+*/

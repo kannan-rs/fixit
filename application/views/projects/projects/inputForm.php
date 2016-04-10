@@ -138,47 +138,47 @@
 			?>
 
 			<?php
+			if(in_array(OPERATION_CHOOSE, $contractorPermission['operation']) || in_array(OPERATION_CREATE, $contractorPermission['operation']) || in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
+			?>
+			<!-- Project Service Provider Search and Adding -->
+			<!-- List of added contractor from the serach result-->
+			<tr class="contractor-search-selected">
+				<td class="label"><?php echo $contractorLable; ?></td>
+				<td>
+					<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction(event)">
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
+				<td>
+					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
+					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
+				</td>
+			</tr>
+			<tr class="contractor-search-result">
+				<td class="label notMandatory">&nbsp;</td>
+				<td>
+					<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction(event)"></ul>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+
+			<?php 
 			if(in_array(OPERATION_CREATE, $contractorPermission['operation']) || in_array(OPERATION_UPDATE, $contractorPermission['operation'])) {
 			?>
-				<!-- Project Service Provider Search and Adding -->
-				<!-- List of added contractor from the serach result-->
-				<tr class="contractor-search-selected">
-					<td class="label"><?php echo $contractorLable; ?></td>
-					<td>
-						<ul id="contractorSearchSelected" class="connectedSortable" onclick="_projects.searchContractorAction(event)">
-						</ul>
-					</td>
-				</tr>
 				<tr>
-					<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
+					<td  class="label notMandatory">&nbsp;</td>
 					<td>
-						<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
-						<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
+						<?php
+							$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm(event, {'openAs': 'popup', 'popupType' : '2'})\">";
+							$end = "</a>";
+							echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
+						?>
 					</td>
 				</tr>
-				<tr class="contractor-search-result">
-					<td class="label notMandatory">&nbsp;</td>
-					<td>
-						<ul id="contractorSearchResult" class="connectedSortable dropdown" onclick="_projects.searchContractorAction(event)"></ul>
-					</td>
-				</tr>
-
-				<?php 
-				if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) {
-				?>
-					<tr>
-						<td  class="label notMandatory">&nbsp;</td>
-						<td>
-							<?php
-								$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm(event, {'openAs': 'popup', 'popupType' : '2'})\">";
-								$end = "</a>";
-								echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
-							?>
-						</td>
-					</tr>
-				<?php
-				}
-				?>
 			<?php
 			}
 			?>
@@ -270,6 +270,7 @@
 			?>
 
 			<?php
+			/*
 			if(in_array(OPERATION_VIEW, $adjusterPermission['operation']) || in_array(OPERATION_UPDATE, $adjusterPermission['operation'])) {
 			?>
 				<!-- Project Adjuster Search and Adding -->
@@ -311,6 +312,7 @@
 				?>
 			<?php
 			}
+			*/
 			?>
 
 			<!-- Project Associate Claim Number -->

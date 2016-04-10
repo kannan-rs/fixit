@@ -428,20 +428,26 @@ var _utils = (function () {
                 searchList: {li: "ui-state-default", symbol: "ui-icon ui-icon-plus"},
                 ownerList: {li: "ui-state-default", symbol: ""}
             };
-            var list = options.list || [] ;
-            var type = options.type || "";
-            var prefixId = options.prefixId || "";
-            var dataIdentifier = options.dataIdentifier || "";
-            var selectId = options.selectId || "";
-            var valuePrefix = options.valuePrefix ? options.valuePrefix + "-" : "";
-            var dispStrKey = options.dispStrKey || "";
+            var list            = options.list || [] ;
+            var type            = options.type || "";
+            var prefixId        = options.prefixId || "";
+            var dataIdentifier  = options.dataIdentifier || "";
+            var selectId        = options.selectId || "";
+            var valuePrefix     = options.valuePrefix ? options.valuePrefix + "-" : "";
+            var dispStrKey      = options.dispStrKey || "";
             var radioOptionName = options.radioOptionName || "";
-            var appendTo = options.appendTo || "";
-            var functionName = options.functionName || "";
-            var i = 0;
-            var inputRadio = null;
-            var selectedText = null;
-            var li = null;
+            var appendTo        = options.appendTo || "";
+            var functionName    = options.functionName || "";
+            var showRadio       = options.showRadio || "";
+            
+            var i               = 0;
+            var inputRadio      = null;
+            var selectedText    = null;
+            var li              = null;
+
+            // Key Params
+            var key_list_id     = list.length && list[0].id ? "id" : "sno";
+            var key_list_email  = list.length && list[0].email ? "email" : "user_name";
 
             var dBVal = $("#" + options.dbEntryId).val();
             var clickParamsObj = null;
@@ -452,8 +458,8 @@ var _utils = (function () {
 
                     inputRadio = " ";
                     if (type === "ownerList") {
-                        selectedText = (selectId && list[i].id === selectId) ? " checked = checked " : "";
-                        inputRadio = "<input type=\"radio\" name=\"" + radioOptionName + "\" value=\"" + valuePrefix + list[i].id + "\" " + selectedText + "/>";
+                        selectedText = (selectId && list[i][key_list_id] === selectId) ? " checked = checked " : "";
+                        inputRadio = "<input type=\"radio\" name=\"" + radioOptionName + "\" value=\"" + valuePrefix + list[i][key_list_id] + "\" " + selectedText + "/>";
                     }
 
                     
@@ -463,7 +469,7 @@ var _utils = (function () {
                             first_name: list[i].first_name || "",
                             last_name: list[i].last_name  || "",
                             searchId: list[i].sno,
-                            email: list[i].email
+                            email: list[i][key_list_email]
                         };
                         if (dBVal === list[i].sno) {
                             $("#" + options.searchBoxId).val(list[i].first_name + " " + list[i].last_name);
@@ -475,7 +481,15 @@ var _utils = (function () {
                     if(dataIdentifier == "customer") {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
                         li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
-                        li += "<div class=\"second\">" + list[i].email + "</div>";
+                        li += "<div class=\"second\">" + list[i][key_list_email] + "</div>";
+                        if(showRadio) {
+                            li += "<span class=\"" + css[type].symbol + " search-action\" ";
+                            li += " data-"+dataIdentifier+"id = " + list[i].id;
+                            li += " data-prefixid = " + prefixId;
+                            li += ">";
+                            li += inputRadio;
+                            li += "</span>";
+                        }
                     } else {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + 
                             (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"_projects.drag(event)\"" : "");

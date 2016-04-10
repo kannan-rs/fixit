@@ -71,24 +71,41 @@ class Model_form_utils extends CI_Model {
 			}
 			
 			if(!empty($emailId)) {
-				$this->db->like('email', $emailId);
+				//$this->db->like('email', $emailId);
 				$queryStr .=" AND `email` LIKE '%".$emailId."%'";
 			}
 			
 			if(!empty($role_id)) {
-				$this->db->where_in('users.role_id', $role_id);
+				//$this->db->where_in('users.role_id', $role_id);
 				$queryStr .=" AND `role_id` IN (".$role_id.")";
 			}
 
 			if(!empty($assignment)) {
 				$assignment = $assignment == "not assigned" ? '0' : $assignment;
-				$this->db->where('belongs_to_id', $assignment);
+				//$this->db->where('belongs_to_id', $assignment);
 				$queryStr .= " AND `belongs_to_id` = '".$assignment."'";
 			}
 
-			if(!empty($company_id)) {
-				$this->db->where('belongs_to_id', $company_id);
-				$queryStr .= " AND belongs_to_id = '".$company_id."'";
+			if( !empty($company_id) ) {
+				if( strrpos($company_id, ",") ) {
+					$company_id = explode(",", $company_id);
+					$queryStr .= " AND ";
+					for($i = 0; $i < count($company_id); $i++) {
+						if($i == 0) {
+							$queryStr .= " ( ";
+						}
+						if($i > 0) {
+							$queryStr .= " or ";
+						}
+						$queryStr .= "belongs_to_id = '".$company_id."'";
+						if(count($company_id) -1 == $i ) {
+							$queryStr .= " ) ";
+						}
+					}
+				} else {
+					//$this->db->where('belongs_to_id', $company_id);
+					$queryStr .= " AND belongs_to_id = '".$company_id."'";
+				}
 			}
 		} else {
 			/*$this->db->where('belongs_to', "customer");

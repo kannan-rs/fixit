@@ -5,6 +5,14 @@
 	<title>The Fixit Network: A marketplace for you and your resources</title>
 	<!-- CSS -->
 	<!-- Javascripts -->
+	<script>
+	var session 				= <?php print_r(json_encode($initVar)); ?>;
+	var projectPermission		= <?php print_r( isset($projectPermission) ? json_encode($projectPermission) : "\"\""); ?>;
+	var contractorPermission	= <?php print_r( isset($contractorPermission) ? json_encode($contractorPermission) : "\"\""); ?>;
+	var adjusterPermission		= <?php print_r( isset($adjusterPermission) ? json_encode($adjusterPermission) : "\"\""); ?>;
+	var claimPermission			= <?php print_r( isset($claimPermission) ? json_encode($claimPermission) : "\"\""); ?>;
+	</script>
+
 	<?php 
 		echo $includes; 
 		//$main_content_css = !is_logged_in() ? "column-480" : "column-700";

@@ -595,7 +595,13 @@ class Tasks extends CI_Controller {
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 
 		if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
-			$contractorIds 	= strlen ($tasks[0]->task_owner_id ) ? explode(",", explode("-", $tasks[0]->task_owner_id)[1]) : "";
+			$task_owner_id = explode("-", $tasks[0]->task_owner_id);
+			if(count($task_owner_id) && count($task_owner_id) > 1 ) {
+				$task_owner_id = $task_owner_id[1];
+			} else {
+				$task_owner_id = "";
+			}
+			$contractorIds 	= !empty($task_owner_id) && strlen ( $task_owner_id ) ? explode(",", $task_owner_id) : "";
 			if($contractorIds) {
 				$contractorsResponse 	= $this->model_service_providers->get_service_provider_list($contractorIds);
 				$contractors 	= $contractorsResponse["contractors"];

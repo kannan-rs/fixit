@@ -30,7 +30,7 @@
 	<span class="options-icon">
 		
 		<?php
-		if(in_array("service provider users", $projectPermission['data_filter']) && $role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN) {
+		if(in_array("service provider users", $projectPermission['data_filter']) && ($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN || $role_disp_name == ROLE_ADMIN || $role_disp_name == ROLE_SUB_ADMIN)) {
 		?>
 		<span>
 			<a class="step fi-torsos-all size-21" href="javascript:void(0);" onclick="_projects.getContractorUserList()" 
@@ -162,6 +162,8 @@
 		</div>
 
 		<!-- Project Adjuster Details -->
+		<?php
+		/*
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->partners_details'); ?></span>
 			<?php if(in_array(OPERATION_CREATE, $adjusterPermission['operation'])) { ?>
@@ -174,6 +176,8 @@
 		<div>
 			<?php echo $adjusterFile ?>
 		</div>
+		*/
+		?>
 
 		<!-- Project Task List table -->
 		<h3>

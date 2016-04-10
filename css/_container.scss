@@ -323,6 +323,9 @@ textarea.small-textarea {
 
 .adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
 	color: #D2B9B9;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
 }
 
 .search-action {

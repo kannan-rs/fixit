@@ -39,9 +39,6 @@ class Model_projects extends CI_Model {
 
 		if( !in_array('all', $projectParams["projectPermission"]["data_filter"]) ) {
 			// Data filter == "SELF" means project assigned to logged in User
-			/*if( in_array('self', $projectParams["projectPermission"]["data_filter"]) ) {
-				$inner_or_query .= "`customer_id` = '".$projectParams["user_details_id"]."'";
-			}*/
 
 			/* 
 				Data filter == "SERVICE PROVIDER"
@@ -158,7 +155,7 @@ class Model_projects extends CI_Model {
 			if( $projectParams['role_disp_name'] == ROLE_CUSTOMER || $projectParams['role_disp_name'] == ROLE_SUB_ADMIN ) {
 				$self_df_query = "";
 				if( in_array('self', $projectParams["projectPermission"]["data_filter"]) ) {
-					$self_df_query = "`customer_id` = '".$projectParams["user_details_id"]."'";
+					$self_df_query = "`customer_id` = '".$projectParams["user_id"]."'";
 				}
 
 				$created_by_query =  "`created_by` = '".$projectParams["user_id"]."'";
@@ -375,9 +372,13 @@ class Model_projects extends CI_Model {
 
 		$query = $this->db->get('project_owners');
 
+		$owner_list = array();
 		if($query->num_rows() >= 1) {
-			if($owner_list = $query->result()) {
-				return $owner_list[0]->user_id;
+			if($owner_list_db = $query->result()) {
+				for($i = 0; $i < count($owner_list_db); $i++) {
+					array_push($owner_list, $owner_list_db[$i]->user_id);	
+				}
+				return $owner_list;
 			}
 		}
 	}

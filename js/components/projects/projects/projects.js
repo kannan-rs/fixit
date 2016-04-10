@@ -46,15 +46,17 @@ var _projects = (function () {
         });
     };
 
-    function get_sp_assigned_user_for_current_project() {
+    function get_sp_assigned_user_for_current_project( is_details ) {
         var assigned_user_id = "";
+        var details = is_details ? "1" : "";
         $.ajax({
             method: "POST",
             async: false,
             url: "/projects/projects/get_sp_assigned_user_for_current_project",
             data: {
-                user_parent_id : _projects.user_parent_id,
-                project_id: _projects.projectId
+                user_parent_id  : _projects.user_parent_id,
+                project_id      : _projects.projectId,
+                details         : details
             },
             success: function (response) {
                 if(!_utils.is_logged_in( response )) { return false; }
@@ -953,7 +955,7 @@ var _projects = (function () {
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Add Task"});
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
-                    self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
+                    //self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
 
                     dateOptions = {
                         fromDateField: "task_start_date",
@@ -1013,7 +1015,7 @@ var _projects = (function () {
                     $("#popupForAll").html(response);
                     self.openDialog({title: "Edit Task Details"});
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
-                    self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
+                    //self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
                     _tasks.setDropdownValue();
                     setTimeout(function () {_tasks.setOwnerOption();}, 100);
 
@@ -1552,42 +1554,19 @@ var _projects = (function () {
         },
 
         setTaskOwnerListForContractorByID: function (records) {
-            var fail_error = null;
-            if (!records) {
-                return;
-            }
+            var assigned_user_id = get_sp_assigned_user_for_current_project("details");
 
-            $.ajax({
-                method: "POST",
-                url: "/service_providers/contractors/getList",
-                data: {
-                    records: records
-                },
-                success: function (response) {
-                    if(!_utils.is_logged_in( response )) { return false; }
-                    response = $.parseJSON(response);
-                    if (response.status === "success") {
-                        var contractors = {
-                            list: response.contractors,
-                            appendTo: "ownerSearchResult",
-                            type: "ownerList",
-                            prefixId: "ownerSearch",
-                            radioOptionName: "optionSelectedOwner",
-                            valuePrefix: "contractor",
-                            dataIdentifier: "contractor",
-                            dispStrKey: "company"
-                        };
-                        _utils.createDropDownOptionsList(contractors);
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function (error) {
-                    error = error;
-                }
-            }).fail(function (failedObj) {
-                fail_error = failedObj;
-            });
+            var contractors = {
+                list                : assigned_user_id,
+                appendTo            : "ownerSearchResult",
+                type                : "ownerList",
+                prefixId            : "ownerSearch",
+                radioOptionName     : "optionSelectedOwner",
+                dataIdentifier      : "customer",
+                showRadio           : true
+            };
+
+            _utils.createDropDownOptionsList(contractors);
         },
 
         setTaskOwnerListForAdjusterByID: function (records) {
@@ -1729,7 +1708,8 @@ var _projects = (function () {
             var requestParams = {
                 role_disp_name          : 'SERVICE_PROVIDER_USER',
                 logged_in_user          : logged_in_user_details.email_id,
-                contractor_user_list    : 1
+                contractor_user_list    : 1,
+                project_id              : _projects.projectId
             }
 
             var response = $.parseJSON(_utils.getFromUsersList( requestParams ));
@@ -1743,14 +1723,14 @@ var _projects = (function () {
                 table = "<form class='inputForm'><table class='form'><tbody><tr><td>First Name</td><td>Last Name</td><td>Email ID</td><td>Select User</td></tr>";
                 for( var i = 0; i < contractor_users_list.length; i++ ) {
                     var checked = "";
-                    if(assigned_user_id == contractor_users_list[i].sno) {
+                    if(assigned_user_id.indexOf(contractor_users_list[i].sno) != -1 ) {
                         checked = "checked = 'checked'";
                     }
                     table += "<tr>";
                     table += "<td>"+ contractor_users_list[i].first_name +"</td>";
                     table += "<td>"+ contractor_users_list[i].last_name +"</td>";
                     table += "<td>"+ contractor_users_list[i].email +"</td>";
-                    table += "<td><input type='radio' value='"+contractor_users_list[i].sno+"' name='assigned_sp_user' "+checked+"></td>"
+                    table += "<td><input type='checkbox' value='"+contractor_users_list[i].sno+"' name='assigned_sp_user' "+checked+"></td>"
                     table += "</tr>";
                 }
 
@@ -1775,7 +1755,15 @@ var _projects = (function () {
         },
 
         update_contractor_user : function() {
-            var selected_sp_user = $("input[name=assigned_sp_user]:checked").val();
+            //var selected_sp_user = $("input[name=assigned_sp_user]:checked").val();
+
+            var selected_sp_user = [];
+            $("input[name=assigned_sp_user]:checked").each(function() {
+                var val = $(this).val();
+                selected_sp_user.push(val);
+            });
+
+            selected_sp_user = selected_sp_user.join(",");
             var self = this;
 
             $.ajax({
