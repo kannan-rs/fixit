@@ -684,6 +684,7 @@ $lang["contractor"] = array(
 		"testimonial_rating"			=> "Rating",
 		"testimonial_customer_name"		=> "Customer Name",
 		"testimonial_date"				=> "Date",
+		"upload_logo"					=> "Upload Contractor logo",
 
 		/*
 			Place holder for text input element in Create/Edit form

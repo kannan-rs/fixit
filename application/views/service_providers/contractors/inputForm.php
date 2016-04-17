@@ -174,6 +174,14 @@ if($openAs) {
 					<textarea name="serviceZip" id="serviceZip" class="small-textarea" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->serviceZip_ph'); ?>" <?php  echo $required; ?> ><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
 				</td>
 			</tr>
+
+			<tr>
+				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->upload_logo'); ?>:</td>
+				<td>
+					<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+				</td>
+			</tr>
+
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">

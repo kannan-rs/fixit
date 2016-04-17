@@ -219,14 +219,21 @@ var _projects = (function () {
         },
 
         createValidate: function () {
-            var cityError = false;
             var validator = $("#create_project_form").validate({
                 rules: this.validationRules(),
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
-            if (cityError) {
+            var cityError = _utils.cityFormValidation();
+
+            var dateOptions = {
+                date_1      : "start_date",
+                date_2      : "end_date",
+                operation   : "<=",
+                idPrefix    : "#create_project_form "
+            }
+            var dateRangeCheck = _utils.dateCompare(dateOptions);
+            if (cityError || !dateRangeCheck) {
                 return false;
             }
 
@@ -281,7 +288,9 @@ var _projects = (function () {
                     _utils.setCustomerDataList();
                     _utils.setAdjusterDataList();
                     _utils.getAndSetCountryStatus("create_project_form");
-                    _utils.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
+
+                    _utils.setAsDateFields({dateField: "start_date"});
+                    _utils.setAsDateFields({dateField: "end_date"});
                 },
                 error: function (error) {
                     error = error;
@@ -417,7 +426,8 @@ var _projects = (function () {
                     _utils.getAndSetCountryStatus("update_project_form");
                     _utils.setAddressByCity();
                     _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit", '');
-                    _utils.setAsDateRangeFields({fromDateField: "start_date", toDateField: "end_date"});
+                    _utils.setAsDateFields({dateField: "start_date"});
+                    _utils.setAsDateFields({dateField: "end_date"});
                 },
                 error: function (error) {
                     error = error;
@@ -435,7 +445,15 @@ var _projects = (function () {
             }).form();
 
             cityError = _utils.cityFormValidation();
-            if (cityError) {
+
+            var dateOptions = {
+                date_1      : "start_date",
+                date_2      : "end_date",
+                operation   : "<=",
+                idPrefix    : "#update_project_form "
+            }
+            var dateRangeCheck = _utils.dateCompare(dateOptions);
+            if (cityError || !dateRangeCheck) {
                 return false;
             }
 
@@ -957,11 +975,8 @@ var _projects = (function () {
                     self.setTaskOwnerListForContractorByID($("#contractorIdDb").val());
                     //self.setTaskOwnerListForAdjusterByID($("#adjusterIdDb").val());
 
-                    dateOptions = {
-                        fromDateField: "task_start_date",
-                        toDateField: "task_end_date"
-                    };
-                    _utils.setAsDateRangeFields(dateOptions);
+                    _utils.setAsDateFields({dateField: "task_start_date"});
+                    _utils.setAsDateFields({dateField: "task_end_date"});
                 },
                 error: function (error) {
                     error = error;
@@ -1019,11 +1034,8 @@ var _projects = (function () {
                     _tasks.setDropdownValue();
                     setTimeout(function () {_tasks.setOwnerOption();}, 100);
 
-                    dateOptions = {
-                        fromDateField: "task_start_date",
-                        toDateField: "task_end_date"
-                    };
-                    _utils.setAsDateRangeFields(dateOptions);
+                    _utils.setAsDateFields({dateField: "task_start_date"});
+                    _utils.setAsDateFields({dateField: "task_end_date"});
                 },
                 error: function (error) {
                     error = error;
@@ -1704,7 +1716,10 @@ var _projects = (function () {
             }
         },
 
-        getContractorUserList : function() {
+        getContractorUserList : function(event) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
             var requestParams = {
                 role_disp_name          : 'SERVICE_PROVIDER_USER',
                 logged_in_user          : logged_in_user_details.email_id,

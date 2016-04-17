@@ -51,7 +51,7 @@ class formUtils extends CI_Controller {
 			//$this->load->model("security/model_users");
 
 			//$response = $this->model_users->getUsersList();
-		} else if( !empty($contractor_user_list) && ( $logged_in_role_disp_name == ROLE_ADMIN || $logged_in_role_disp_name == ROLE_SUB_ADMIN )) {
+		} else if( !empty($contractor_user_list)/* && ( $logged_in_role_disp_name == ROLE_ADMIN || $logged_in_role_disp_name == ROLE_SUB_ADMIN || )*/) {
 			$project_id 			= $this->input->post('project_id');
 			if($project_id) {
 				$this->load->model("projects/model_projects");

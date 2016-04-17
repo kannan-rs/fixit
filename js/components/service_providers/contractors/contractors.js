@@ -314,25 +314,25 @@ var _contractors = (function () {
         },
 
         createSubmit: function( openAs, popupType ) {
-            var idPrefix                 = "#create_contractor_form "
-            var name                     = $(idPrefix+"#name").val();
+            var idPrefix                = "#create_contractor_form "
+            var name                    = $(idPrefix+"#name").val();
             var company                 = $(idPrefix+"#company").val();
-            var type                     = $(idPrefix+"#type").val();
+            var type                    = $(idPrefix+"#type").val();
             var license                 = $(idPrefix+"#license").val();
-            //var bbb                     = $(idPrefix+"#bbb").val() || "";
+            //var bbb                   = $(idPrefix+"#bbb").val() || "";
             var status                  = $(idPrefix+"#status").val() || "active";
-            var addressLine1             = $(idPrefix+"#addressLine1").val();
-            var addressLine2             = $(idPrefix+"#addressLine2").val();
-            var city                     = $(idPrefix+"#city").val();
-            var state                     = $(idPrefix+"#state").val();
+            var addressLine1            = $(idPrefix+"#addressLine1").val();
+            var addressLine2            = $(idPrefix+"#addressLine2").val();
+            var city                    = $(idPrefix+"#city").val();
+            var state                   = $(idPrefix+"#state").val();
             var country                 = $(idPrefix+"#country").val();
             var zipCode                 = $(idPrefix+"#zipCode").val();
             var emailId                 = $(idPrefix+"#emailId").val();
-            var contactPhoneNumber         = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber             = $(idPrefix+"#mobileNumber").val();
+            var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
+            var mobileNumber            = $(idPrefix+"#mobileNumber").val();
             var prefContact             = "";
-            var websiteURL                 = $(idPrefix+"#websiteURL").val();
-            var serviceZip                = $(idPrefix+"#serviceZip").val();
+            var websiteURL              = $(idPrefix+"#websiteURL").val();
+            var serviceZip              = $(idPrefix+"#serviceZip").val();
             var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
 
             $(idPrefix+"input[name=prefContact]:checked").each(
@@ -371,7 +371,7 @@ var _contractors = (function () {
                     if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
-                        alert(response.message);
+                        //alert(response.message);
                         _contractors.viewOne(response.insertedId, openAs, popupType);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);

@@ -29,7 +29,7 @@
 	</span>
 	<span class="options-icon">
 		
-		<?php
+		<?php /*
 		if(in_array("service provider users", $projectPermission['data_filter']) && ($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN || $role_disp_name == ROLE_ADMIN || $role_disp_name == ROLE_SUB_ADMIN)) {
 		?>
 		<span>
@@ -38,7 +38,7 @@
 			</a>
 		</span>
 		<?php	
-		}
+		}*/
 
 		if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) { 
 		?>
@@ -151,11 +151,21 @@
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
 			<?php if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) { ?>
-			<a class="step fi-page-add size-21 accordion-icon icon-right" 
+			<a class="step fi-plus size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
 				onclick="_contractors.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
 			<?php } ?>
+			<?php
+			if( in_array(OPERATION_CHOOSE, $contractorPermission['operation']) ) {
+			?>
+			<span>
+				<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="_projects.getContractorUserList(event)" 
+					title="Assign Service Provider User to this project" >
+				</a>
+			</span>
+			<?php	
+			}?>
 		</h3>
 		<div>
 			<?php echo $contractorFile ?>

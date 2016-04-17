@@ -246,7 +246,15 @@ var _users = (function () {
 
             cityError = _utils.cityFormValidation();
 
-            if(cityError) {
+            var dateOptions = {
+                date_1      : "activeStartDate",
+                date_2      : "activeEndDate",
+                operation   : "<=",
+                idPrefix    : "#update_user_form "
+            }
+            var dateRangeCheck = _utils.dateCompare(dateOptions);
+
+            if(cityError || !dateRangeCheck) {
                 return false;
             }
 
@@ -471,11 +479,13 @@ var _users = (function () {
                     _utils.setAddressByCity();
                     _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit",'');
 
-                    dateOptions = {
+                    /*dateOptions = {
                         fromDateField     : "activeStartDate",
                         toDateField        : "activeEndDate"
                     }
-                    _utils.setAsDateRangeFields(dateOptions);
+                    _utils.setAsDateRangeFields(dateOptions);*/
+                    _utils.setAsDateFields({dateField: "activeStartDate"});
+                    _utils.setAsDateFields({dateField: "activeEndDate"});
                 },
                 error: function( error ) {
                     error = error;

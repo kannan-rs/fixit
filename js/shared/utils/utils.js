@@ -77,12 +77,14 @@ var _utils = (function () {
             self.populateCountryOption(moduleId, id_prefix);
             _utils.setCountryStateOfDb(moduleId, id_prefix);
         },
+
         setStateToLS : function( states ) {
             if (Storage) {
                 localStorage.setItem('states', JSON.stringify(states));
             }
             _states = states;
         },
+
         setCountryToLS : function () {
             var i;
             if(_states) {
@@ -97,6 +99,7 @@ var _utils = (function () {
                  localStorage.setItem('countries', JSON.stringify(_countries));
             }
         },
+
         getStatesFromLS: function() {
             var states = null;
             if(Storage) {
@@ -104,6 +107,7 @@ var _utils = (function () {
             }
             return states;
         },
+
         getCountriesFromLS: function() {
             var countries = null;
             if(Storage) {
@@ -111,6 +115,7 @@ var _utils = (function () {
             }
             return countries;
         },
+
         populateCountryOption : function( moduleId, id_prefix ) {
             var i;
             $('#' + moduleId + ' #country').empty();
@@ -142,6 +147,7 @@ var _utils = (function () {
                 }
             }
         },
+
         getAndSetMatchCity: function (value, from, inputId) {
             var i = 0;
             var city = null;
@@ -183,6 +189,7 @@ var _utils = (function () {
                 this.populateCityOption(searchCityList, from, inputId);
             }
         },
+
         populateCityOption: function(searchCityList ,from, inputId) {
             var i;
             var uniqueCity = [];
@@ -209,6 +216,7 @@ var _utils = (function () {
                 $('#'+id_prefix+'city_jqDD').focus();
             }
         },
+
         getCityFromLS: function(cityStr) {
             var cityList = null;
             if (Storage && cityStr) {
@@ -218,6 +226,7 @@ var _utils = (function () {
             }
              return cityList;
         },
+
         setCityToLS: function(cityStr, cityList) {
             if (Storage && cityStr) {
                 cityStr = cityStr.toLocaleLowerCase();
@@ -226,6 +235,7 @@ var _utils = (function () {
                 localStorage.setItem('city', JSON.stringify(city));
             }
         },
+
         /*setPostalCodeDetails: function () {
             var postalCode = $('#' + _utils.moduleId + ' #zipCode').val();
             if (_utils.postalCodeMap[postalCode]) {
@@ -233,6 +243,7 @@ var _utils = (function () {
                 $('#' + _utils.moduleId + ' #state').val(_utils.postalCodeMap[postalCode].state_abbreviation);
             }
         },*/
+
         setAddressByCity: function( search_by_id ) {
             var id_prefix = search_by_id && search_by_id.indexOf("property_") == 0 ? "property_" : "";
             var city = $('#'+id_prefix+'city').val();
@@ -246,6 +257,7 @@ var _utils = (function () {
             this.populateStateOption({'postalList' : postalList, 'country' : $('#'+id_prefix+'country').val(), id_prefix : id_prefix });
             this.populateZipCodeOption({'postalList' : postalList, 'country' : $('#'+id_prefix+'country').val(), id_prefix : id_prefix });
         },
+
         getPostalDetailsByCity: function( city ) {
             var i;
             var cityList = null;
@@ -264,6 +276,7 @@ var _utils = (function () {
             }
             return subCityList;
         },
+
         getZipCodeFromCity : function ( postalList ) {
             var i = 0;
             var zipList = null;
@@ -275,6 +288,7 @@ var _utils = (function () {
             }
             return zipList ? $.unique(zipList) : [];
         },
+
         getStateAbrFromCity : function ( postalList ) {
             var i = 0;
             var stateAbr = null;
@@ -286,6 +300,7 @@ var _utils = (function () {
             }
             return stateAbr ? $.unique(stateAbr) : [];
         },
+
         populateStateOption: function ( options ) {
             var i = 0;
             var country         = options.country;
@@ -328,6 +343,7 @@ var _utils = (function () {
                 $('#'+id_prefix+'state').focusout();
             }
         },
+
         populateZipCodeOption: function ( options ) {
             var i = 0;
             var country = options.country;
@@ -363,6 +379,7 @@ var _utils = (function () {
                 }
             }
         },
+
         setCountryStateOfDb: function (moduleId, id_prefix) {
             var country = $('#countryDbVal').val();
             var state = $('#stateDbVal').val();
@@ -530,6 +547,7 @@ var _utils = (function () {
             }).responseText;
             return adjuster;
         },
+
         setCustomerDataList: function () {
             var response = this.getFromUsersList();
             var responseObj = $.parseJSON(response);
@@ -552,6 +570,7 @@ var _utils = (function () {
 
             this.createDropDownOptionsList(searchList);
         },
+
         setCustomerId: function (event, element, options) {
             $("#searchCustomerName").val(options.first_name + " " + options.last_name);
             $("#customer_id").val(options.searchId).trigger("change");
@@ -593,12 +612,14 @@ var _utils = (function () {
 
             this.createDropDownOptionsList(searchList);
         },
+
         setAsDateFields: function (options) {
             $("#" + options.dateField).datepicker({
                 showAnim: "fadeIn",
                 dateFormat: DATE_INPUT_FORMAT
             });
         },
+
         /*
             options = {
                 fromDateField     : string     <ID for Date Field of starting from field>,
@@ -632,6 +653,7 @@ var _utils = (function () {
                 });
             });
         },
+
         /*
             Convert from "mm/dd/yyyy" to "yyyy-mm-dd"
         */
@@ -642,6 +664,7 @@ var _utils = (function () {
             var year        = dateStrArr[2];
             return (year + "-" + month + "-" + date);
         },
+
         /*
             Convert from "yyyy-mm-dd" to "mm/dd/yyyy"
         */
@@ -652,6 +675,38 @@ var _utils = (function () {
             var date = dateStrArr[2];
             return (month + "/" + date + "/" + year);
         },
+
+        /*
+            Compare dates with the provided operation
+        */
+        dateCompare: function( options ) {
+            var idPrefix    = options.idPrefix ? options.idPrefix : "";
+            var date_1      = $(idPrefix + "#"+options.date_1).val();
+            var date_2      = $(idPrefix + "#"+options.date_2).val();
+
+            if(date_1 == "" || date_2 == "") {
+                alert("Date is empty");
+                return false;
+            }
+
+            date_1 = new Date(date_1).getTime();
+            date_2 = new Date(date_2).getTime();
+
+            var operation   = options.operation;
+            
+
+            switch (operation) {
+                case "<=":
+                    if(date_1 <= date_2) {
+                        return true;
+                    } else {
+                     alert("End Date is less that start date");   
+                    }
+                break;
+            }
+            return false;
+        },
+
         /*
             Number display formatting. Adding "," to seperate numbers
             US         : 4,231,546.44
@@ -659,6 +714,7 @@ var _utils = (function () {
         toDisplayNumberFormat: function (number) {
             return number.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
+
         setStatus: function (statusDD, statusDbVal) {
             statusDbVal = typeof(statusDbVal) !== "undefined" ? statusDbVal : "";
             var status = $("#" + statusDbVal).val();
@@ -669,6 +725,7 @@ var _utils = (function () {
                 $("#" + statusDD).val("active");
             }
         },
+
         setIssueStatus: function (statusDD, statusDbVal) {
             statusDbVal = typeof(statusDbVal) !== "undefined" ? statusDbVal : "";
             var status = $("#" + statusDbVal).val();
@@ -679,6 +736,7 @@ var _utils = (function () {
                 $("#" + statusDD).val("open");
             }
         },
+
         setIssueAssignedTo: function (statusDD, statusDbVal) {
             statusDbVal = typeof(statusDbVal) !== "undefined" ? statusDbVal : "";
             var status = $("#" + statusDbVal).val();
@@ -689,6 +747,7 @@ var _utils = (function () {
                 $("#" + statusDD).val("customer");
             }
         },
+
         cityFormValidation: function( id_prefix ) {
             var error = false;
             id_prefix = id_prefix ? id_prefix : "";
@@ -699,15 +758,18 @@ var _utils = (function () {
             }
             return error;
         },
+
         setAddressEditVal: function() {
 
         },
+
         validateCustomerByName: function(customer_id, customer_name) {
             if(!_customers[customer_id] || customer_name != _customers[customer_id].first_name+" "+_customers[customer_id].last_name) {
                 return false;
             }
             return true;
         },
+
         viewOnlyExpandAll: function ( accordion_id ) {
             var icons = $( '#'+accordion_id ).accordion( "option", "icons" );
             $('#'+accordion_id+' > .ui-accordion-header').removeClass('ui-corner-all').addClass('ui-accordion-header-active ui-state-active ui-corner-top').attr({
@@ -720,6 +782,7 @@ var _utils = (function () {
                 'aria-hidden': 'false'
             }).show();
         },
+
         viewOnlyCollapseAll: function( accordion_id ) {
             var icons = $( '#'+accordion_id ).accordion( "option", "icons" );
             $('#'+accordion_id+' > .ui-accordion-header').removeClass('ui-accordion-header-active ui-state-active ui-corner-top').addClass('ui-corner-all').attr({
@@ -732,6 +795,7 @@ var _utils = (function () {
                 'aria-hidden': 'true'
             }).hide();
         },
+
         set_accordion: function( accordion_id, icon_type ) {
             var icon_obj = {header: "ui-icon-plus", activeHeader: "ui-icon-minus"};
             
@@ -747,6 +811,7 @@ var _utils = (function () {
                 }
            );
         },
+
         get_current_page : function() {
             var loc = location.pathname.split("/");
             //module = loc[loc.indexOf("main") + 1];
@@ -754,11 +819,13 @@ var _utils = (function () {
 
             return loc[loc.length - 1];
         },
+
         get_current_module : function() {
             var loc = location.pathname.split("/");
             page = loc[loc.indexOf("main") + 1];
             return page;
         },
+
         get_logged_in_user_details : function() {
             logged_in_user_details = {};
             $.ajax({

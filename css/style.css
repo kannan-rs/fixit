@@ -1148,7 +1148,8 @@ a.accordion_link:hover {
 
 a.accordion-icon {
   text-align: right;
-  float: right; }
+  float: right;
+  margin-left: 10px; }
 
 a.accordion-icon, a.accordion-icon:visited {
   color: #4086AA; }
@@ -1253,11 +1254,11 @@ textarea.small-textarea {
   /*position: absolute;
   margin-left: 200px;*/ }
 
-.owner-search-result .second, .adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
-  color: #D2B9B9; 
-overflow: hidden;
-text-overflow: ellipsis;
-width: 160px; }
+.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
+  color: #D2B9B9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%; }
 
 .search-action {
   border: 1px solid #cccccc;

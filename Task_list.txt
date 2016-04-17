@@ -28,7 +28,6 @@ MOM 3ed Aug 2015
 
 24/8/2015
 ---------
-	- 1. Add a default contact point for contractor, Partners. In contractor screen will list all the users belongs to that contractor to select the default contact point.
 	- 2. This contact point will receive mails when the contractor company is choosen for a project.
 	3. Contractor Project view will have an option to add multiple contractor users to a project belongs to their contractor company. Same for Partners as well.
 	4. Issues will list the users those who are already associated to the project (Contractor users, partner users and customer) in the Assigned to User list.
@@ -113,3 +112,87 @@ Work for this week
 	Service Provider (has two users roles, 1. Service provider admin, 2. Service provider user)
 		-> Projects he is assigned to, and projects which are assoicated to his company.
 		-> Create project
+
+
+Permission Module
+------------------
+Portal for service provide list (search by zip)
+Portal for discount coupons, ads, guest login to do search.
+
+S1: Trades and sub trades need to be entered by Fixit admin
+S2: SP Admin expites, service provided admin can select multiple trade and multiple sub trade
+s3: SP Admin details,
+
+>Permission to be added into live from dev as per XLS
+> Discount in tabler format
+> Provide space for ads in projects
+-------------
+
+Permission setting and testing
+1. If permission is set and deleted, and if user tries to set the same permission, it is not getting lister.
+2. Removed role column from permission
+
+3. Setting of permission
+	Questions ()
+	1. What is the difference between 
+		Service Provider Admin
+		Service Provider Agent
+		Service provider User
+	2. What isthe difference between
+		Insurance Admin
+		Insurance call center agent
+		Adjuster
+	3. When we say permission like 
+		For Service privider Admin , he has permission to Create, Update, View users of data filter service privoder user.
+			> This means a user who is having service provider admin as role has a permission to create, upate and view users with permission service provider user who are assigned to the service provider company ? Is my understanding is correct.
+	4. As of now create, update and view of users is under Security > Users which is completely owned by "Super Admin". Do we need to liverage this for other users as well ?
+
+	Also having some more questions related to data verification. Can we have a call by Tomorrow  Morning PST.
+
+4. Discount list as a table with 1 header row. - Done
+	name | Description | Date | Available on zip codes
+	10% off for weekend sale | <description > | <date> | <Zip>
+
+Plans for this week
+-------------------
+Permission for data filter to the best.
+Customer - Show his records in project
+Adjuster admin - show all projects which he created or assigned to his company and which he is assigned to
+Adjuster User - Show all the projects where he is assigned to
+
+Contractor admin - Show projects which he company is part of.
+Contractor User - Show projects which he is assigned
+Not Now - Allow Fixit admin to choose partners user for a project from a partner company,
+
+
+(Last priority)
+						Insurance Company
+								|
+				________________|____________________
+				|		|			|				|
+				|		|			|				|
+			Admin		Adjuster, Call Center, 	Manager
+
+			Admin (1 Super Admin)
+			Manager (Multiple Manager)
+			Adjuster, Call Center (Multiple Manager)
+
+
+MOM (4/11/2016)
+---------------
+
+Bug 12
+Testing
+Documentation for Code
+	
+Work for 4/11/2016 to 4/17/2016
+1. Meeting
+2. Deployment to live site
+3. Assignment of service provider from project page
+4. Bug 15 (Done) - Project date check is made seperate.
+5. Bug 15 (Done) - task date check is made seperate. User active start date and end date is made seperate
+6.Menu Loading was blank on initial load. hich was fixed
+
+In progress
+5. Image Upload for service provider logo store it as blob
+6. Discount image upload

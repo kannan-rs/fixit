@@ -16,6 +16,7 @@ class Layouts {
 			"js/library/jquery-2.1.3.min.js",
 			"js/library/jquery-ui.js",
 			"js/library/jquery.validate.js",
+			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
 			//"js/library/menus.js",
 			"js/shared/themes/default/layouts.js",

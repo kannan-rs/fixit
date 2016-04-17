@@ -48,7 +48,15 @@ var _tasks = (function () {
                 messages: this.errorMessage()
             });
 
-            if(validator.form()) {
+            var dateOptions = {
+                date_1      : "task_start_date",
+                date_2      : "task_end_date",
+                operation   : "<=",
+                idPrefix    : "#create_task_form "
+            }
+            var dateRangeCheck = _utils.dateCompare(dateOptions);
+
+            if(validator.form() || dateRangeCheck) {
                 _projects.taskCreateSubmit();
             }
         },
@@ -59,7 +67,15 @@ var _tasks = (function () {
                 messages: this.errorMessage()
             });
 
-            if(validator.form()) {
+            var dateOptions = {
+                date_1      : "task_start_date",
+                date_2      : "task_end_date",
+                operation   : "<=",
+                idPrefix    : "#update_task_form "
+            }
+            var dateRangeCheck = _utils.dateCompare(dateOptions);
+
+            if(validator.form() || dateRangeCheck) {
                 _projects.taskUpdateSubmit();
             }
         },

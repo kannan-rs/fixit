@@ -879,12 +879,16 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
+		//Service Provider > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
+
 		$is_allowed = $this->permissions_lib->is_allowed(FUNCTION_PROJECTS, DATA_FILTER_SERVICE_PROVIDER_USERS, 'data filter');
 
-		if(!$is_allowed["status"] ) {
+		if(!$is_allowed["status"] && !in_array(OPERATION_CHOOSE, $contractorPermission['operation'])) {
 			print_r(json_encode($is_allowed));
 			return false;
 		}
+
 
 		$project_id 			= $this->input->post('projectId');
 		$sp_user_user_id 		= $this->input->post('user_id');

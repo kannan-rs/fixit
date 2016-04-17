@@ -8,11 +8,13 @@ fixit_app.controller('top_menu', function($scope, $http) {
 			var page = _utils.get_current_module();
 			$scope.page 	= page && page != "home" ? page : "index";
 
-			menus 	= response.data;
+			var menus 	= response.data;
 
 			for(menu in menus) {
 				menus[menu].active = menus[menu].link ? menus[menu].link.split("/")[2] == $scope.page : $scope.page;
 			}
 			$scope.menus = menus;
+
+			homeObj.loadPage(menus);
 		});
 });
