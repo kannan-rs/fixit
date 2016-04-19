@@ -561,6 +561,46 @@ var _projects = (function () {
             });
         },
 
+        updateSPSubmit: function() {
+            var fail_error = null;
+            var self = this;
+            // Contractor ID is multi-select option, So clubing the values and dropping it in one MySql table field
+            var contractor_id = [];
+
+            $("#contractorSearchSelected li").each(
+                function () {
+                    contractor_id.push($(this).attr("data-contractorid"));
+                }
+           );
+
+            if (contractor_id.length) {
+                contractor_id = contractor_id.join(",");
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/projects/updateSP",
+                data: {
+                    project_sno: self.projectId,
+                    contractor_id: contractor_id
+                },
+                success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    response = $.parseJSON(response);
+                    if (response.status.toLowerCase() === "success") {
+                        $(".ui-button").trigger("click");
+                        alert(response.message);
+                        self.viewOne(response.updatedId);
+                    } else if (response.status.toLowerCase() === "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        },
+
         deleteRecord: function () {
             var fail_error = null;
             var self = this;
@@ -1767,6 +1807,35 @@ var _projects = (function () {
 
             $("#popupForAll").html(table);
             _projects.openDialog({title: "Service Provider User List"});
+        },
+
+        getContractorAssignmentForm : function(event) {
+            if(typeof(event) != 'undefined') {
+                event.stopPropagation();
+            }
+            var self = this;
+
+            $.ajax({
+                method: "POST",
+                url: "/projects/projects/service_provider_choose_form",
+                data: {
+                    projectId : self.projectId
+                },
+                success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    $("#popupForAll").html(response);
+                    self.openDialog({title: "Service Provider assignment"});
+                    self.hideContractorDetails('all');
+
+                    self.getContractorDetails($("#contractorIdDb").val());
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+            
         },
 
         update_contractor_user : function() {

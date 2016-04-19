@@ -253,6 +253,47 @@ class Projects extends CI_Controller {
 		echo $this->load->view("projects/projects/inputForm", $params, true);
 	}
 
+	public function service_provider_choose_form() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Project > Permissions for logged in User by role_id
+		$projectPermission 		= $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
+
+		/* If User dont have view permission load No permission page */
+		if(!in_array(OPERATION_CHOOSE, $projectPermission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "service provider selection"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		//Service Provider > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
+
+		$record = $this->input->post('projectId');
+
+		$this->load->model('projects/model_projects');
+
+		$projectParams = array(
+			'projectId' 		=> [$record],
+			'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
+			'projectPermission' => $projectPermission
+		);
+		$projects = $this->model_projects->getProjectsList($projectParams);
+
+
+		$params = array(
+			'contractorPermission'	=> $contractorPermission,
+			'projects'				=> $projects
+		);
+
+		echo $this->load->view("projects/projects/service_provider_choose_form", $params, true);
+	}
+
 	public function add() {
 		if(!is_logged_in()) {
 			print_r(json_encode(response_for_not_logged_in()));
@@ -527,6 +568,27 @@ class Projects extends CI_Controller {
 		
 
 		print_r(json_encode($response));
+	}
+
+	public function updateSP() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$this->load->model('projects/model_projects');
+
+		$record 		= $this->input->post('project_sno');
+		$contractorId 	= $this->input->post('contractor_id') ? $this->input->post('contractor_id') : null;
+
+		$data = array(
+			'contractor_id'	=> $contractorId
+		);
+
+		$response = $this->model_projects->update($data, $record);
+
+		print_r(json_encode($response));
+
 	}
 
 	public function deleteRecord() {

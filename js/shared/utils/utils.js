@@ -331,11 +331,7 @@ var _utils = (function () {
                 }
             }
 
-            /*if($.isArray(stateAbrList) && stateAbrList.length == 1) {
-                $('#'+id_prefix+'state').val(stateAbrList[0]);
-                $('#'+id_prefix+'state').focusout();
-            }*/
-            if($("#"+id_prefix+"stateDbVal").val()) {
+            if($("#"+id_prefix+"city").val() == $("#"+id_prefix+"cityDbVal").val() && $("#"+id_prefix+"stateDbVal").val()) {
                 $('#'+id_prefix+'state').val($("#stateDbVal").val());
                 $('#'+id_prefix+'state').focusout();
             } else if($.isArray(stateAbrList) && stateAbrList.length == 1) {
@@ -366,11 +362,7 @@ var _utils = (function () {
                     }));
                 }
                 
-                /*if (zipList.length == 1) {
-                    $('#'+id_prefix+'zipCode').val(zipList[0]);
-                    $('#'+id_prefix+'zipCode').focusout();
-                }*/
-                if( $("#"+id_prefix+"zipcodeDbVal").val()) {
+                if( $("#"+id_prefix+"city").val() == $("#"+id_prefix+"cityDbVal").val() && $("#"+id_prefix+"zipcodeDbVal").val()) {
                    $('#'+id_prefix+'zipCode').val($("#zipcodeDbVal").val());
                     $('#'+id_prefix+'zipCode').focusout(); 
                 } else if (zipList.length == 1) {
