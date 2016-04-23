@@ -126,13 +126,13 @@ class Contractors extends CI_Controller {
 		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('mail/model_mail');
 
+		$status = !empty($this->input->post('status')) ? $this->input->post('status') : "active";
+
 		$data = array(
-			//'name' 					=> $this->input->post('name'),
 			'company' 					=> $this->input->post('company'),
 			'type' 						=> $this->input->post('type'),
 			'license' 					=> $this->input->post('license'),
-			//'bbb' 					=> $this->input->post('bbb'),
-			'status' 					=> $this->input->post('status'),
+			'status' 					=> $status,
 			'address1' 					=> $this->input->post('addressLine1'),
 			'address2'					=> $this->input->post('addressLine2'),
 			'city' 						=> $this->input->post('city'),
@@ -142,7 +142,6 @@ class Contractors extends CI_Controller {
 			'office_email' 				=> $this->input->post('emailId'),
 			'office_ph' 				=> $this->input->post('contactPhoneNumber'),
 			'mobile_ph' 				=> $this->input->post('mobileNumber'),
-			'prefer' 					=> $this->input->post('prefContact'),
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
 			'website_url' 				=> $this->input->post('websiteURL'),
 			'service_area' 				=> $this->input->post('serviceZip'),
@@ -151,6 +150,12 @@ class Contractors extends CI_Controller {
 			'created_on'				=> date("Y-m-d H:i:s"),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);
+
+		if(count($_FILES) > 0) {
+			if(is_uploaded_file($_FILES['contractorLogo']['tmp_name'])) {
+				$data["logo_img"] =  addslashes(file_get_contents($_FILES['contractorLogo']['tmp_name']));
+			}
+		}
 
 		$response = $this->model_service_providers->insert($data);
 
@@ -293,14 +298,13 @@ class Contractors extends CI_Controller {
 		$this->load->model('mail/model_mail');
 
 		$contractorId 			= $this->input->post('contractorId');
+		$status = !empty($this->input->post('status')) ? $this->input->post('status') : "active";
 
 		$data = array(
-			//'name' 					=> $this->input->post('name'),
 			'company' 					=> $this->input->post('company'),
 			'type' 						=> $this->input->post('type'),
 			'license' 					=> $this->input->post('license'),
-			//'bbb' 					=> $this->input->post('bbb'),
-			'status' 					=> $this->input->post('status'),
+			'status' 					=> $status,
 			'address1' 					=> $this->input->post('addressLine1'),
 			'address2'					=> $this->input->post('addressLine2'),
 			'city' 						=> $this->input->post('city'),
@@ -311,12 +315,17 @@ class Contractors extends CI_Controller {
 			'office_ph' 				=> $this->input->post('contactPhoneNumber'),
 			'mobile_ph' 				=> $this->input->post('mobileNumber'),
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
-			'prefer' 					=> $this->input->post('prefContact'),
 			'website_url' 				=> $this->input->post('websiteURL'),
 			'service_area' 				=> $this->input->post('serviceZip'),
 			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);
+
+		if(count($_FILES) > 0) {
+			if(is_uploaded_file($_FILES['contractorLogo']['tmp_name'])) {
+				$data["logo_img"] =  addslashes(file_get_contents($_FILES['contractorLogo']['tmp_name']));
+			}
+		}
 
 		$response = $this->model_service_providers->update($data, $contractorId);
 
@@ -372,5 +381,22 @@ class Contractors extends CI_Controller {
 		$delete_contractor = $this->model_service_providers->deleteRecord($contractorId);
 
 		print_r(json_encode($delete_contractor));	
+	}
+
+	public function deleteContractorLogo() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		$this->load->model('service_providers/model_service_providers');
+		$this->load->model('mail/model_mail');
+
+		$contractorId = $this->input->post('contractorId');
+
+		$delete_contractor = $this->model_service_providers->deleteContractorLogo($contractorId);
+
+		print_r(json_encode($delete_contractor));
+
 	}
 }

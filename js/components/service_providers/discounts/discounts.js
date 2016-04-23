@@ -299,6 +299,7 @@ var _contractor_discounts = (function () {
             var discount_descr      = $("#discount_descr").val();
             var discount_for_zip    = $("#discount_for_zip").val();
             var discount_type       = $('#create_discount_contractor_form input[name=discount_type]:checked').val();
+            var original_value      = $("#original_value").val();
             var discount_value      = $("#discount_value").val();
             var discount_from_date  = _utils.toMySqlDateFormat($("#discount_from_date").val());
             var discount_to_date    = _utils.toMySqlDateFormat($("#discount_to_date").val());
@@ -313,6 +314,7 @@ var _contractor_discounts = (function () {
                     discount_descr      : discount_descr,
                     discount_for_zip    : discount_for_zip,
                     discount_type       : discount_type,
+                    original_value      : original_value,
                     discount_value      : discount_value,
                     discount_from_date  : discount_from_date,
                     discount_to_date    : discount_to_date,
@@ -420,6 +422,7 @@ var _contractor_discounts = (function () {
             var discount_descr      = $("#discount_descr").val();
             var discount_for_zip    = $("#discount_for_zip").val();
             var discount_type       = $('#update_discount_contractor_form input[name=discount_type]:checked').val();
+            var original_value      = $("#original_value").val();
             var discount_value      = $("#discount_value").val();
             var discount_from_date  = _utils.toMySqlDateFormat($("#discount_from_date").val());
             var discount_to_date    = _utils.toMySqlDateFormat($("#discount_to_date").val());
@@ -435,6 +438,7 @@ var _contractor_discounts = (function () {
                     discount_descr      : discount_descr,
                     discount_for_zip    : discount_for_zip,
                     discount_type       : discount_type,
+                    original_value      : original_value,
                     discount_value      : discount_value,
                     discount_from_date  : discount_from_date,
                     discount_to_date    : discount_to_date,

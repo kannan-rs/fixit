@@ -48,9 +48,7 @@ var homeObj = (function () {
 
             var module = _utils.get_current_page();
             var logged_in_user_details = _utils.get_logged_in_user_details();
-            console.log(module);
 
-            //module = pageModuleMap[module] ? pageModuleMap[module] : module;
             for(var i = 0; i < menus.length; i++) {
                 if( module == menus[i].link.split("/").reverse()[0]) {
                     if( menus[i].sub_menus && menus[i].sub_menus.length) {
@@ -64,88 +62,94 @@ var homeObj = (function () {
                 /* Security Page */
                 case "users":
                     _users.viewAll();
-                    break;
+                break;
                 case "create_user":
                     _users.createForm();
-                    break;
+                break;
                 case "operations":
                     _operations.viewAll();
-                    break;
+                break;
                 case "create_operation":
                     _operations.createForm()
-                    break;
+                break;
                 case "roles":
                     _roles.viewAll();
-                    break;
+                break;
                 case "create_role":
                     _roles.createForm()
-                    break;
+                break;
                 case "functions":
                     _functions.viewAll();
-                    break;
+                break;
                 case "create_function":
                     _functions.createForm()
-                    break;
+                break;
                 case "data_filters":
                     _dataFilters.viewAll();
-                    break;
+                break;
                 case "create_data_filter":
                     _dataFilters.createForm();
-                    break;
+                break;
                 case "permissions":
                     _permissions.getPageForType();
                     _permissions.getComponentInfo();
-                    break;
+                break;
                     /*Project Page*/
                 case "issues":
                     _issues.viewAll();
-                    break;
+                break;
                 case "create_issue":
                     _issues.createForm();
-                    break;
+                break;
                 case "projects":
                     _projects.viewAll();
-                    break;
+                break;
                 case "create_project":
                     _projects.createForm();
-                    break;
+                break;
                 case "service_providers":
                     _contractors.viewAll();
-                    break;
+                break;
                 case "create_contractor":
                     _contractors.createForm();
-                    break;
+                break;
                 case "adjusters":
                     _partners.viewAll();
-                    break;
+                break;
                 case "create_adjuster":
                 case "create_partner":
                     _partners.createForm();
-                    break;
+                break;
                 case "claims":
                     _claims.viewAll();
-                    break;
+                break;
                 case "create_claim":
                     _claims.createForm();
-                    break;
+                break;
                     /*Personal Details*/
                 case "home":
                 case "view_my_details":
                     _userInfo.getUserData();
-                    break;
+                break;
                 case "change_pass_form":
                     _userInfo.changePassForm();
-                    break;
+                break;
                 case "signup":
                     _utils.getAndSetCountryStatus("create_user_form");
                 break;
                 case "insurance_company":
                     _ins_comp.viewAll();
-                    break;
+                break;
                 case "create_insurance_company":
                     _ins_comp.createForm();
-                    break;
+                break;
             }
+        },
+
+        loginFormKeyPress : function(event) {
+            if(event.keyCode == 13 || event.charCode == 13) {
+                homeObj.loginValidate();
+            };
         }
     }
 })();
@@ -169,7 +173,7 @@ $(document).ready(function() {
     $('ul.nav li.dropdown').on("mouseout", function () {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut();
         //$(this).find('.sub-menu-level1').css("top", $(this).position().top);
-    });    
+    });  
     
     $("#login_error").hide();
     $("#forgotpass_error").hide();

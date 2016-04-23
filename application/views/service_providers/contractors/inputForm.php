@@ -3,9 +3,11 @@
 
 	$edit = false;
 	$prefix = "create";
+	$submitURL = "add";
 	if($contractor) {
 		$edit = true;
 		$prefix = "update";
+		$submitURL = "update";
 
 		$id 							= $contractor->id;
 		$name 							= $contractor->name;
@@ -42,20 +44,12 @@ if($openAs) {
 
 <form id="<?php echo $prefix; ?>_contractor_form" name="<?php echo $prefix; ?>_contractor_form" class="inputForm">
 	
-	<input type="hidden" id='contractorId' value="<?php echo isset($id) ? $id : ""; ?>" />
+	<input type="hidden" id='contractorId' name="contractorId" value="<?php echo isset($id) ? $id : ""; ?>" />
 	<input type="hidden" name="statusDb" id="statusDb" value="<?php echo isset($status) ? $status : ""; ?>">
-	<input type="hidden" name="prefContactDb" id="prefContactDb" value="<?php echo isset($prefer) ? $prefer : ""; ?>" />
 	<input type="hidden" name = "db_default_user_id" id= "db_default_user_id" value="<?php echo isset($default_contact_user_id) ? $default_contact_user_id : ""; ?>" />
 
 	<table class='form'>
 		<tbody>
-			<!-- <tr>
-				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->name'); ?>:</td>
-				<td>
-					<input type="text" name="name" id="name" value="<?php echo isset($name) ? $name : "";?>" required 
-						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->name_ph'); ?>">
-				</td>
-			</tr> -->
 			<!-- Company name -->
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->company'); ?>:</td>
@@ -147,21 +141,6 @@ if($openAs) {
 						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->mobileNumber_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
-			<!-- <tr>
-				<td class="label <?php echo $notMandatory;?> prefMode"><?php echo $this->lang->line_arr('contractor->input_form->prefMode'); ?>:</td>
-				<td>
-					<table class="innerOption">
-						<tr>
-							<td><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId"></td>
-							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactEmailId'); ?></td>
-							<td><input type="checkbox" name="prefContact" id="prefContactofficeNumber" value="officeNumber"></td>
-							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactofficeNumber'); ?></td>
-							<td><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber"></td>
-							<td><?php echo $this->lang->line_arr('contractor->input_form->prefContactMobileNumber'); ?></td>
-						</tr>
-					</table>
-				</td>
-			</tr> -->
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->websiteURL'); ?>:</td>
 				<td>
@@ -178,15 +157,18 @@ if($openAs) {
 			<tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->upload_logo'); ?>:</td>
 				<td>
-					<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+					<input type="file" id="contractorLogo" name="contractorLogo" multiple="multiple" />
 				</td>
 			</tr>
 
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">
-						<button type="button" id="<?php echo $prefix; ?>_contractor_submit" 
+						<!-- <button type="button" id="<?php echo $prefix; ?>_contractor_submit" 
 							onclick="_contractors.<?php echo $prefix; ?>Validate(<?php echo $validateOptions; ?>)">
+								<?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?>
+						</button> -->
+						<button type="submit" id="<?php echo $prefix; ?>_contractor_submit" >
 								<?php echo $this->lang->line_arr('contractor->buttons_links->'.$prefix); ?>
 						</button>
 						<?php
@@ -212,3 +194,69 @@ if($openAs) {
 		</tbody>
 	</table>
 </form>
+<script>
+$("#<?php echo $prefix; ?>_contractor_form").on('submit',(function(e) {
+	e.preventDefault();
+
+	var openAs 		= "<?php echo $openAs;?>";
+	var popupType 	= "<?php echo $popupType;?>";
+
+	if(!_contractors.<?php echo $prefix; ?>Validate())
+		return false;
+
+	var fileUpload = document.getElementById("contractorLogo");
+    
+    if (typeof (fileUpload.files) != "undefined") {
+        var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
+        if(size > 100 ) {
+        	alert("Image size is '"+ size + "KB'. Allowed size is less that 200KB for logo image.");
+        	return false;
+        }
+    }
+
+    /*var _URL = window.URL || window.webkitURL;
+    var file, img;
+    if ((file = fileUpload.files[0])) {
+        img = new Image();
+        img.onload = function () {
+            this.width + " " + this.height;
+        };
+        img.src = _URL.createObjectURL(file);
+    }*/
+
+	
+	$.ajax({
+    	url: "/service_providers/contractors/<?php echo $submitURL; ?>",
+		type: "POST",
+		data:  new FormData(this),
+		contentType: false, 		
+	    cache: false,
+		processData:false,
+		success: function( response ) {
+			if(!_utils.is_logged_in( response )) { return false; }
+            
+            response = $.parseJSON(response);
+
+            
+            if(response.status.toLowerCase() == "success") {
+            	if("<?php echo $prefix; ?>" == "update") {
+	                $(".ui-button").trigger("click");
+	                alert(response.message);
+	                _contractors.viewOne(response.updatedId);
+	            } else {
+	            	 _contractors.viewOne(response.insertedId, openAs, popupType);
+	            }
+            } else if(response.status.toLowerCase() == "error") {
+                alert(response.message);
+            }
+			
+	    },
+		error: function( error ) {
+			error = error;
+		}	        
+   })
+	.fail(function ( failedObj ) {
+		fail_error = failedObj;
+	});
+}));
+</script>

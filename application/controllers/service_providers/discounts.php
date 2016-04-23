@@ -197,6 +197,7 @@ class Discounts extends CI_Controller {
 		$discount_to_date 		= $this->input->post("discount_to_date");
 		$contractor_id 			= $this->input->post("contractor_id");
 		$discount_type			= $this->input->post("discount_type");
+		$original_value			= $this->input->post("original_value");
 		$discount_value			= $this->input->post("discount_value");
 
 		$data = array(
@@ -207,6 +208,7 @@ class Discounts extends CI_Controller {
 			'discount_for_sub_trade_id'		=> $sub_trade_id,
 			'discount_for_zip'				=> $discount_for_zip,
 			'discount_type'					=> $discount_type,
+			'original_value'				=> $original_value,
 			'discount_value'				=> $discount_value,
 			'discount_from_date'			=> $discount_from_date,
 			'discount_to_date'				=> $discount_to_date,
@@ -285,6 +287,7 @@ class Discounts extends CI_Controller {
 		$discount_to_date 		= $this->input->post("discount_to_date");
 		$contractor_id 			= $this->input->post("contractor_id");
 		$discount_type			= $this->input->post("discount_type");
+		$original_value			= $this->input->post("original_value");
 		$discount_value			= $this->input->post("discount_value");
 
 		$data = array(
@@ -296,6 +299,7 @@ class Discounts extends CI_Controller {
 			'discount_for_zip'				=> $discount_for_zip,
 			'discount_type'					=> $discount_type,
 			'discount_value'				=> $discount_value,
+			'original_value'				=> $original_value,
 			'discount_from_date'			=> $discount_from_date,
 			'discount_to_date'				=> $discount_to_date,
 			'created_by'					=> $this->session->userdata('logged_in_user_id'),

@@ -150,14 +150,14 @@
 		<!-- Project Service Provider Details -->
 		<h3>
 			<span class="inner_accordion"><?php echo $this->lang->line_arr('projects->headers->contractor_details'); ?></span>
-			<?php if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) { ?>
+			<?php /*if(in_array(OPERATION_CREATE, $contractorPermission['operation'])) { ?>
 			<a class="step fi-plus size-21 accordion-icon icon-right" 
 				href="javascript:void(0);"  
 				onclick="_contractors.createForm(event, {'projectId': '<?php echo $projectId; ?>', 'popup': true, 'openAs': 'popup'});" 
 				title="<?php echo $this->lang->line_arr('projects->buttons_links->add_contractor_title'); ?>"></a>
-			<?php } ?>
+			<?php } */?>
 			<?php
-			if( in_array(OPERATION_CHOOSE, $contractorPermission['operation']) ) {
+			if( in_array(OPERATION_CREATE, $contractorPermission['operation']) || in_array(OPERATION_UPDATE, $contractorPermission['operation']) || in_array(OPERATION_CHOOSE, $contractorPermission['operation']) ) {
 			?>
 			<span>
 				<a class="step fi-page-add size-21 accordion-icon icon-right" href="javascript:void(0);" onclick="_projects.getContractorAssignmentForm(event)" 

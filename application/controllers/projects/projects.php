@@ -259,11 +259,11 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
-		//Project > Permissions for logged in User by role_id
-		$projectPermission 		= $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
+		//Service Provider > Permissions for logged in User by role_id
+		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 
 		/* If User dont have view permission load No permission page */
-		if(!in_array(OPERATION_CHOOSE, $projectPermission['operation'])) {
+		if(!in_array(OPERATION_CHOOSE, $contractorPermission['operation']) && !in_array(OPERATION_CREATE, $contractorPermission['operation']) && !in_array(OPERATION_UPDATE, $contractorPermission['operation']) ) {
 			$no_permission_options = array(
 				'page_disp_string' => "service provider selection"
 			);
@@ -271,8 +271,8 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
-		//Service Provider > Permissions for logged in User by role_id
-		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
+		//Project > Permissions for logged in User by role_id
+		$projectPermission 		= $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 
 		$record = $this->input->post('projectId');
 

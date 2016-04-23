@@ -279,7 +279,7 @@ var _contractors = (function () {
                 method: "POST",
                 url: "/service_providers/contractors/createForm",
                 data: {
-                    openAs         : openAs,
+                    openAs        : openAs,
                     popupType     : popupType,
                     projectId     : projectId
                 },
@@ -309,17 +309,19 @@ var _contractors = (function () {
             }
 
             if(validator) {
-                _contractors.createSubmit( openAs, popupType );
+                return true;
+                //_contractors.createSubmit( openAs, popupType );
             }
+
+            return false;
         },
 
-        createSubmit: function( openAs, popupType ) {
+        /*createSubmit: function( openAs, popupType ) {
             var idPrefix                = "#create_contractor_form "
             var name                    = $(idPrefix+"#name").val();
             var company                 = $(idPrefix+"#company").val();
             var type                    = $(idPrefix+"#type").val();
             var license                 = $(idPrefix+"#license").val();
-            //var bbb                   = $(idPrefix+"#bbb").val() || "";
             var status                  = $(idPrefix+"#status").val() || "active";
             var addressLine1            = $(idPrefix+"#addressLine1").val();
             var addressLine2            = $(idPrefix+"#addressLine2").val();
@@ -330,16 +332,9 @@ var _contractors = (function () {
             var emailId                 = $(idPrefix+"#emailId").val();
             var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
             var mobileNumber            = $(idPrefix+"#mobileNumber").val();
-            var prefContact             = "";
             var websiteURL              = $(idPrefix+"#websiteURL").val();
             var serviceZip              = $(idPrefix+"#serviceZip").val();
             var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
-
-            $(idPrefix+"input[name=prefContact]:checked").each(
-                function() {
-                    prefContact += prefContact != "" ? (","+this.value) : this.value;
-                }
-            );
 
             $.ajax({
                 method: "POST",
@@ -349,7 +344,6 @@ var _contractors = (function () {
                     company                 : company,
                     type                    : type,
                     license                 : license,
-                    //bbb                   : bbb,
                     status                  : status,
                     addressLine1            : addressLine1,
                     addressLine2            : addressLine2,
@@ -360,7 +354,6 @@ var _contractors = (function () {
                     emailId                 : emailId,
                     contactPhoneNumber      : contactPhoneNumber,
                     mobileNumber            : mobileNumber,
-                    prefContact             : prefContact,
                     websiteURL              : websiteURL,
                     serviceZip              : serviceZip,
                     openAs                  : openAs,
@@ -369,9 +362,9 @@ var _contractors = (function () {
                 },
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
+                    
                     response = $.parseJSON(response);
                     if(response.status.toLowerCase() == "success") {
-                        //alert(response.message);
                         _contractors.viewOne(response.insertedId, openAs, popupType);
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
@@ -384,7 +377,7 @@ var _contractors = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
-        },
+        },*/
 
         viewOne: function( contractorId, openAs, popupType ) {
             this.contractorId     = contractorId;
@@ -488,19 +481,19 @@ var _contractors = (function () {
                 return false;
             }
 
-            if(validator) {
-                _contractors.updateSubmit();
+           if(validator) {
+                //_contractors.updateSubmit();
+                return true;
             }
+            return false;
         },
 
-        updateSubmit: function() {
+        /*updateSubmit: function() {
             var idPrefix                = "#update_contractor_form ";
             var contractorId            = $(idPrefix+"#contractorId").val();
-            //var name                  = $(idPrefix+"#name").val();
             var company                 = $(idPrefix+"#company").val();
             var type                    = $(idPrefix+"#type").val();
             var license                 = $(idPrefix+"#license").val();
-            //var bbb                     = $(idPrefix+"#bbb").val();
             var status                  = $(idPrefix+"#status").val() || "active";
             var addressLine1            = $(idPrefix+"#addressLine1").val();
             var addressLine2            = $(idPrefix+"#addressLine2").val();
@@ -511,27 +504,18 @@ var _contractors = (function () {
             var emailId                 = $(idPrefix+"#emailId").val();
             var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
             var mobileNumber            = $(idPrefix+"#mobileNumber").val();
-            var prefContact             = "";
             var websiteURL              = $(idPrefix+"#websiteURL").val();
             var serviceZip              = $(idPrefix+"#serviceZip").val();
             var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
-
-            $(idPrefix+"input[name=prefContact]:checked").each(
-                function() {
-                    prefContact += prefContact != "" ? (","+this.value) : this.value;
-                }
-            );
 
             $.ajax({
                 method: "POST",
                 url: "/service_providers/contractors/update",
                 data: {
                     contractorId            : contractorId,
-                    //name                  : name,
                     company                 : company,
                     type                    : type,
                     license                 : license,
-                    //bbb                   : bbb,
                     status                  : status,
                     addressLine1            : addressLine1,
                     addressLine2            : addressLine2,
@@ -542,7 +526,6 @@ var _contractors = (function () {
                     emailId                 : emailId,
                     contactPhoneNumber      : contactPhoneNumber,
                     mobileNumber            : mobileNumber,
-                    prefContact             : prefContact,
                     websiteURL              : websiteURL,
                     serviceZip              : serviceZip,
                     db_default_user_id      : db_default_user_id
@@ -566,7 +549,7 @@ var _contractors = (function () {
                 fail_error = failedObj;
                 alert(fail_error);
             });
-        },
+        },*/
 
         deleteRecord: function() {
             var deleteConfim = confirm("Do you want to delete this service provider company");
@@ -586,6 +569,37 @@ var _contractors = (function () {
                     if(response.status.toLowerCase() == "success") {
                         alert(response.message);
                         _contractors.viewAll();
+                    } else if(response.status.toLowerCase() == "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+
+        deleteContractorLogo: function() {
+            var deleteConfim = confirm("Do you want to delete this service provider company logo");
+            if (!deleteConfim) {
+                return;
+            }
+
+            $.ajax({
+                method: "POST",
+                url: "/service_providers/contractors/deleteContractorLogo",
+                data: {
+                    contractorId: _contractors.contractorId
+                },
+                success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    response = $.parseJSON(response);
+                    if(response.status.toLowerCase() == "success") {
+                        alert(response.message);
+                        _contractors.viewOne( _contractors.contractorId );
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
@@ -679,6 +693,10 @@ var _contractors = (function () {
             $("#db_default_user_id").val(options.searchId);
             $(".default-user-search-result").hide();
             $(".contractorUserList").hide();
+        },
+
+        addOrUpdateImage : function() {
+
         }
     }
 })();

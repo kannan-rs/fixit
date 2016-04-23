@@ -136,4 +136,27 @@ class Model_service_providers extends CI_Model {
 		}
 		return $response;
 	}
+
+	public function deleteContractorLogo($record) {
+		$response = array(
+			'status' => 'error'
+		);
+		if($record && $record!= "") {
+			$this->db->where('id', $record);
+
+			$data = array(
+				'logo_img' => ""
+			);
+			
+			if($this->db->update('contractor', $data)) {
+				$response['status']		= "success";
+				$response['message']	= "contractor Logo Image Deleted Successfully";
+			} else {
+				$response["message"] = "Error while deleting the contractor logo image";
+			}
+		} else {
+			$response['message']	= 'Invalid contractor, Please try again';
+		}
+		return $response;
+	}
 }

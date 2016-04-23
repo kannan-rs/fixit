@@ -502,10 +502,6 @@ class Users extends CI_controller {
 		if( $active_end_date != "" )
 			$update_details_data["active_end_date"] = $active_end_date;
 
-		/*if($belongsTo == "" || $belongsTo == "customer") {
-			$update_details_data["belongs_to_id"] = "";
-		}*/
-
 		if($referredBy == "" || $referredBy == "customer") {
 			$update_details_data["referred_by_id"] = "";
 		}

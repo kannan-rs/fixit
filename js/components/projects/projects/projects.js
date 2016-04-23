@@ -1827,7 +1827,10 @@ var _projects = (function () {
                     self.openDialog({title: "Service Provider assignment"});
                     self.hideContractorDetails('all');
 
-                    self.getContractorDetails($("#contractorIdDb").val());
+                    var selectedContractorsId = $("#contractorIdDb").val();
+                    if( selectedContractorsId != "") {
+                        self.getContractorDetails($("#contractorIdDb").val());
+                    }
                 },
                 error: function (error) {
                     error = error;

@@ -2,7 +2,7 @@
 	<h2 class=''><?php echo $this->lang->line_arr('login->headers->title'); ?></h2>
 </div>
 <div id="index_content">
-	<form class="login-form" id="login_form" method="post" action="/validation/login">
+	<form class="login-form" id="login_form" onkeypress="homeObj.loginFormKeyPress(event);">
 		<table>
 			<tbody>
 				<tr>
@@ -25,7 +25,7 @@
 				<tr>
 					<td colspan="2">
 						<button type="reset" id="resetButton" onclick=""><?php echo $this->lang->line_arr('buttons->reset'); ?></button>
-						<button class="formbutton" type="button" onclick="homeObj.loginValidate()"><?php echo $this->lang->line_arr('login->buttons_links->login'); ?></button>
+						<button class="formbutton" type="button" onclick="homeObj.loginValidate();"><?php echo $this->lang->line_arr('login->buttons_links->login'); ?></button>
 					</td>
 				</tr>
 				<tr>

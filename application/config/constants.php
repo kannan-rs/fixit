@@ -133,7 +133,7 @@ define('TOP_MENUS', '[
 		"sub_menus" 		: [
 			{
 				"text" 			: "View My Details", 
-				"link"			: "/main/home/view_my_details", 
+				"link"			: "/main/home/view_my_details",
 				"key" 			: "view_my_details",
 				"is_logged_in" 	: 1
 			},
@@ -169,24 +169,19 @@ define('TOP_MENUS', '[
 		"text" 			: "Security",
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
-		"dependency"	: {
-			"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'","'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
-		},
 		"sub_menus"		: [
 			{
 				"text"			: "Users", 
 				"link"			: "/main/security/users", 
 				"key"			: "users",
-				"dependency"	: {
-					"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
-				},
 				"sub_menus"	: [
 					{
 						"text"			: "View Users", 
 						"link"			: "/main/security/users", 
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
+							"permissions"	: "userPermission",
+							"operation"		: ["view"]
 						}
 					},
 					{
@@ -194,7 +189,8 @@ define('TOP_MENUS', '[
 						"link" 			: "/main/security/users/create_user",
 						"key"			: "users",
 						"dependency"	: {
-							"roles_by_name"	: ["'.ROLE_ADMIN.'", "'.ROLE_SUB_ADMIN.'","'.ROLE_SERVICE_PROVIDER_ADMIN.'", "'.ROLE_INSURANCECO_ADMIN.'", "'.ROLE_PARTNER_ADMIN.'"]
+							"permissions"	: "userPermission",
+							"operation"		: ["create"]
 						}
 					}
 				]

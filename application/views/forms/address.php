@@ -23,7 +23,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $addressLine1; 
+					if(!empty($addressLine1)) 
+						echo $addressLine1;
+					else 
+						echo "--";
 				}
 				if($requestFrom == "input" || $requestFrom == "both" ) { ?>
 					<input type="text" class="address" name="<?php echo $id_prefix; ?>addressLine1" id="<?php echo $id_prefix; ?>addressLine1" value="<?php echo $addressLine1; ?>" 
@@ -38,7 +41,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $addressLine2; 
+					if(!empty($$addressLine2)) 
+						echo $$addressLine2;
+					else 
+						echo "--"; 
 				}
 				if($requestFrom == "input" || $requestFrom == "both" ) { ?>
 					<input type="text" class="address" name="<?php echo $id_prefix; ?>addressLine2" id="<?php echo $id_prefix; ?>addressLine2" 
@@ -53,7 +59,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $city; 
+					if( !empty($city) )
+						echo $city; 
+					else
+						echo "--";
 				}
 				if($requestFrom == "input" || $requestFrom == "both") { ?>
 					<input type="hidden" name="<?php echo $id_prefix; ?>cityDbVal" id="<?php echo $id_prefix; ?>cityDbVal" value="<?php echo $city;?>" >
@@ -74,7 +83,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $state; 
+					if( !empty($state) )
+						echo $state; 
+					else
+						echo "--";
 				} 
 				if($requestFrom == "input" || $requestFrom == "both") { 
 			?>
@@ -92,7 +104,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $zipCode; 
+					if( !empty($zipCode) )
+						echo $zipCode; 
+					else
+						echo "--";
 				} 
 				if($requestFrom == "input" || $requestFrom == "both") { ?>
 					<input type="hidden" name="<?php echo $id_prefix; ?>zipcodeDbVal" id="<?php echo $id_prefix; ?>zipcodeDbVal" value="<?php echo $zipCode;?>">
@@ -110,7 +125,10 @@
 		<div>
 			<?php 
 				if($requestFrom == "view" || $requestFrom == "both") {
-					echo $country; 
+					if( !empty($country) )
+						echo $country; 
+					else
+						echo "--";
 				} 
 				if($requestFrom == "input" || $requestFrom == "both" ) { ?>
 					<input type="hidden" name="<?php echo $id_prefix; ?>countryDbVal" id="<?php echo $id_prefix; ?>countryDbVal" value="<?php echo $country;?>">

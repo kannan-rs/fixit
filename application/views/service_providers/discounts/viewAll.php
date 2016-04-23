@@ -5,7 +5,8 @@ if(isset($discountList) && count($discountList)) {
 	<!-- List all the Functions from database -->
 	<table cellspacing="0" class="discount-table-list">
 		<tr class='heading'>
-			<td>Details</td>
+			<td width="300px">Details</td>
+			<td>Original Value</td>
 			<td>Value</td>
 			<td>From &nbsp; To date</td>
 			<td>Available on Zip Code</td>
@@ -32,6 +33,7 @@ if(isset($discountList) && count($discountList)) {
 		$descr			= $discount->discount_descr;
 		$zips			= $discount->discount_for_zip;
 		$type			= $discount->discount_type;
+		$original_value	= $discount->original_value;
 		$value			= $discount->discount_value;
 		$from_date		= $discount->discount_from_date_for_view;
 		$to_date		= $discount->discount_to_date_for_view;
@@ -41,9 +43,8 @@ if(isset($discountList) && count($discountList)) {
 	?>
 		<tr class="oneDiscount" data-main-trade-id="<?php echo $mainTradeId; ?>" data-sub-trade-id="<?php echo $subTradeId; ?>">
 			<td><?php echo $name." - ".$descr; ?></td>
-			<td>
-			<?php echo $value.($type == "%" ? "%" : "$"); ?>
-			</td>
+			<td><?php echo (isset($original_value) && !empty($original_value)) ? $original_value."$" : "--"; ?></td>
+			<td><?php echo $value.($type == "%" ? "%" : "$"); ?></td>
 			<td>
 			<?php
 				if(isset($from_date) && $from_date != "" && trim($from_date) != "00-00-00") {

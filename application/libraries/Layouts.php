@@ -92,13 +92,18 @@ class Layouts {
 		if(is_logged_in()) {
 			$this->layout_data['role_id'] 				= $this->CI->session->userdata('logged_in_role_id');
 			$this->layout_data['role_disp_name'] 		= $this->CI->session->userdata('logged_in_role_disp_name');
+
 			$this->layout_data['projectPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_PROJECTS);
 			$this->layout_data['contractorPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 			$this->layout_data['adjusterPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_PARTNER);
 			$this->layout_data['claimPermission'] 		= $this->CI->permissions_lib->getPermissions(FUNCTION_CLAIM);
 			$this->layout_data['insCompPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_INSURANCE_COMPANY);
-
-			//print_r($this->layout_data['insCompPermission']);
+			$this->layout_data['userPermission'] 		= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);
+			/*$this->layout_data['rolePermission'] 		= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);
+			$this->layout_data['functionPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);
+			$this->layout_data['dataFilterPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);
+			$this->layout_data['operationPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);
+			$this->layout_data['permissionPermission'] 	= $this->CI->permissions_lib->getPermissions(FUNCTION_USERS);*/
 		}
 	}
 
@@ -121,19 +126,19 @@ class Layouts {
 
 			if($dependency_ok && isset($dependency['permissions']) && isset($dependency['operation'])) {
 				$permissionKey 		= $dependency['permissions'];
-				if($menu['text'] == "Insurance Company") {
+				/*if($menu['text'] == "Insurance Company") {
 					//print_r($this->layout_data[$permissionKey]);
-				}
+				}*/
 				
 				$allowedPermission 	= isset($this->layout_data[$permissionKey]) ? $this->layout_data[$permissionKey] : null;
 				$operation 			= $dependency['operation'];
 				$showMenu 			= false;
 
 				if(isset($allowedPermission)) {
-					if($menu['text'] == "Insurance Company") {
+					/*if($menu['text'] == "Insurance Company") {
 						//print_r($allowedPermission);
 						//print_r($operation);
-					}
+					}*/
 					for($opIx = 0; $opIx < count($operation); $opIx++) {
 						if(in_array($operation[$opIx], $allowedPermission['operation'])) {
 							$showMenu = true;
@@ -269,7 +274,6 @@ class Layouts {
 	public function top_menu() {
 		$menus 			= json_decode( $this->menus, true);
 		$is_logged_in	= is_logged_in() ? 1 : 0;
-		//$page 			= $is_logged_in ? DEFAULT_PAGE_IF_LOGGED_IN : DEFAULT_PAGE_IF_NOT_LOGGED_IN;
 
 		$this->set_required_permission();
 
@@ -279,15 +283,10 @@ class Layouts {
 			$selected = "";
 
 			$menu = $menus[$menuIdx];
+			
 			/* Dependency Check from Main Menu */
-
 			$dependency_pass = $this->check_menu_dependency( $menu );
-			if($menu['text'] != "Insurance Company") {
-				//continue;
-				//print_r($menu);
-			}
 			if(!$dependency_pass) {
-				//print_r($menu);
 				continue;
 			}
 			/* Dependency Check Ends */
@@ -295,8 +294,6 @@ class Layouts {
 			/* Top Menu Generation */
 			if($menu['is_logged_in'] === 'all' || $menu['is_logged_in'] === $is_logged_in) {
 				
-				//echo "<br/>menu =>";
-				//print_r($menu);
 				$sub_menus = isset($menu['sub_menus']) ? $menu['sub_menus'] : null;
 
 				$temp_menu_to_show = array(
@@ -304,6 +301,8 @@ class Layouts {
 					'link'			=> isset($menu["link"]) ? $menu["link"] : "",
 					'sub_menus'		=> array()
 				);
+
+				$show_main_menu = false;
 
 				if($sub_menus) {
 					for($subMenuIdx = 0, $subMenuCount = count($sub_menus); $subMenuIdx < $subMenuCount; $subMenuIdx++) {
@@ -323,6 +322,8 @@ class Layouts {
 							"sub_menus"		=> array()
 						);
 
+						$show_sub_menu = false;
+
 						$sub_menus2 = isset($sbm1['sub_menus']) ? $sbm1['sub_menus'] : null;
 
 						if($sub_menus2) {
@@ -336,6 +337,9 @@ class Layouts {
 									continue;
 								/* Dependency Check Ends */
 
+								$show_sub_menu 	= true;
+								$show_main_menu = true;
+
 								$temp_sub_menu_2 = array(
 									'link'		=> $sbm2['link'],
 									'clickfn'	=> isset($sbm2['clickfn']) ? $sbm2['clickfn'] : "",
@@ -344,12 +348,20 @@ class Layouts {
 
 								array_push($temp_sub_menu_1["sub_menus"], $temp_sub_menu_2);
 							}
+						} else {
+							$show_sub_menu 	= true;
+							$show_main_menu = true;
 						}
-
-						array_push($temp_menu_to_show["sub_menus"], $temp_sub_menu_1);
+						if($show_sub_menu && $show_main_menu) {
+							array_push($temp_menu_to_show["sub_menus"], $temp_sub_menu_1);
+						}
 					}
+				} else {
+					$show_main_menu = true;
 				}
-				array_push($menus_to_show, $temp_menu_to_show);
+				if( $show_main_menu ) {
+					array_push($menus_to_show, $temp_menu_to_show);
+				}
 			}
 		}
 		return json_encode($menus_to_show);

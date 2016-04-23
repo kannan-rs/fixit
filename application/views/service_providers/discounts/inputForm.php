@@ -15,6 +15,7 @@
 		$main_trade_id 				= $discount->discount_for_trade_id;
 		$sub_trade_id 				= $discount->discount_for_sub_trade_id;
 		$type						= $discount->discount_type;
+		$original_value 			= $discount->original_value;
 		$value						= $discount->discount_value;
 		$for_zip 					= $discount->discount_for_zip;
 		$from_date 					= $discount->discount_from_date_input_box;
@@ -63,6 +64,13 @@
 				</td>
 			</tr>
 			<tr>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->original_value'); ?>:</td>
+				<td>
+					<input type="text" name="original_value" id="original_value" value="<?php echo isset($original_value) ? $original_value : "";?>" 
+						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->original_value_ph'); ?>" >
+				</td>
+			</tr>
+			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->discount_value'); ?>:</td>
 				<td>
 					<input type="radio" name="discount_type" value="%" <?php echo !isset($type) || $type == "%" || $type == "" ? "checked" : ""; ?>>Percentage (%)
@@ -71,8 +79,6 @@
 						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->discount_value_ph'); ?>" required>
 				</td>
 			</tr>
-			type
-			value
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('contractor->input_form->discount_descr'); ?></td>
 				<td>

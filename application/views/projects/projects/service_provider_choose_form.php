@@ -35,6 +35,22 @@ if(in_array(OPERATION_CHOOSE, $contractorPermission['operation']) || in_array(OP
 					<ul id="contractorSearchResult" class="connectedSortable" onclick="_projects.searchContractorAction(event)"></ul>
 				</td>
 			</tr>
+			<?php 
+			if( in_array(OPERATION_CREATE, $contractorPermission['operation']) ) {
+			?>
+				<tr>
+					<td  class="label notMandatory">&nbsp;</td>
+					<td>
+						<?php
+							$start = "<a href=\"javascript:void(0);\" onclick=\"_contractors.createForm(event, {'openAs': 'popup', 'popupType' : '2'})\">";
+							$end = "</a>";
+							echo str_replace(["##replace1##", "##replace2##"], [$start, $end], $this->lang->line_arr('projects->buttons_links->new_contractor'));
+						?>
+					</td>
+				</tr>
+			<?php
+			}
+			?>
 			<tr>
 				<td colspan="2">
 					<p class="button-panel">

@@ -25,7 +25,6 @@
 <?php echo $noticeFile; ?>
 
 <input type="hidden" name="user_details_sno" id="user_details_sno" value="<?php echo $user_details->sno; ?>">
-<input type="hidden" name="dbPrimaryContact" id="dbPrimaryContact" value="<?php echo $user_details->primary_contact; ?>">
 <input type="hidden" name="dbPrefContact" id="dbPrefContact" value="<?php echo $user_details->contact_pref; ?>">
 <input type="hidden" name="viewonly" value="true">
 
@@ -43,7 +42,7 @@
 				<td><span id="selectedContractorDb"><?php echo $belongsToName; ?></span></td>
 			</tr>
 		<?php
-				} else if ($is_partner) {
+			} else if ($is_partner) {
 		?>
 			<tr>
 				<td class="label">User Belongs to Partner</td>
@@ -60,28 +59,7 @@
 			<td class="label"><?php echo $this->lang->line_arr('user->details_view->lastName'); ?></td>
 			<td class="capitalize"><?php echo $user_details->last_name; ?></td>
 		</tr>
-		<!-- <tr>
-			<td class="label"><?php echo $this->lang->line_arr('user->details_view->belongsTo'); ?></td>
-			<td class="capitalize"><?php echo !empty($user_details->belongs_to) ? $user_details->belongs_to : "-NA-"; ?></td>
-		</tr>
-			<?php 
-			if($user_details->belongs_to == "contractor") { 
-			?>
-				<tr>
-					<td class="label"><?php echo $this->lang->line_arr('user->details_view->contractor'); ?></td>
-					<td class="capitalize"><?php echo $belongsToName; ?></td>
-				</tr>
-			<?php 
-			} else if($user_details->belongs_to == "adjuster") {
-			?>
-			<tr>
-				<td class="label"><?php echo $this->lang->line_arr('user->details_view->adjuster'); ?></td>
-				<td class="capitalize"><?php echo $belongsToName; ?></td>
-			</tr>
-			<?php
-			}
-			?>
-		<tr> -->
+		<tr>
 			<td class="label"><?php echo $this->lang->line_arr('user->details_view->userStatus'); ?></td>
 			<td class="capitalize"><?php echo $user_details->status; ?></td>
 		</tr>
@@ -107,25 +85,17 @@
 			if(isset($user_details->contact_mobile) && $user_details->contact_mobile != "") {
 			?>
 			<td>
-				<?php echo $user_details->contact_mobile; ?><br/>
-				<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">&nbsp;&nbsp;
-				<?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?>
-				<!-- <table  class="innerOption">
-					<tr>
-						<td colspan="2"><?php echo $user_details->contact_mobile; ?></td>
-					</tr>
-					<tr id="mobileradio">
-						<td>
-							<input type="radio" name="primaryContact" id="primaryMobileNumber" value="mobile" disabled="disabled">
-						</td>
-						<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
-					</tr>
-				</table> -->
+			<?php 
+				echo $user_details->contact_mobile; 
+				if( $user_details->primary_contact == "mobile" || empty($user_details->primary_contact) ) {
+					echo " ( ".$this->lang->line_arr('user->details_view->primaryContact')." )";
+				}
+			?>
 			</td>
 			<?php
 			} else {
 			?>
-			<td>-NA-</td>
+			<td>--</td>
 			<?php 
 			}
 			?>
@@ -136,51 +106,21 @@
 			if(isset($user_details->contact_alt_mobile) && $user_details->contact_alt_mobile != "") {
 			?>
 			<td>
-				<?php echo $user_details->contact_alt_mobile; ?><br/>
-				<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">&nbsp;&nbsp;
-				<?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?>
-				<!-- <table class="innerOption">
-					<tr>
-						<td colspan="2"><?php echo $user_details->contact_alt_mobile; ?></td>
-					</tr>
-					<tr id="alternateradio">
-						<td>
-							<input type="radio" name="primaryContact" id="primaryAlternateNumber" value="alternate" disabled="disabled">
-						</td>
-						<td><span><?php echo $this->lang->line_arr('user->details_view->primaryContact'); ?></span></td>
-					</tr>
-				</table> -->
+				<?php 
+				echo $user_details->contact_alt_mobile; 
+				if( $user_details->primary_contact == "alternate" ) {
+					echo " ( ".$this->lang->line_arr('user->details_view->primaryContact')." )";
+				}
+				?>
 			</td>
 			<?php
 			} else {
 			?>
-			<td>-NA-</td>
+			<td>--</td>
 			<?php 
 			}
 			?>
 		</tr>
-		<!-- 
-		<tr>
-			<td class="label prefMode"><?php echo $this->lang->line_arr('user->details_view->prefMode'); ?></td>
-			<td>
-				<table class="innerOption">
-					<tr>
-						<td id="emailIdcheckbox"><input type="checkbox" name="prefContact" id="prefContactEmailId" value="emailId" disabled="disabled"></td>
-						<td id="emailIdcheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_email'); ?></td>
-						<td id="contactPhoneNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactContactPhoneNumber" value="contactPhoneNumber" disabled="disabled"></td>
-						<td id="contactPhoneNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_home_phone'); ?></td>
-					</tr>
-					<tr>
-						<td id="mobileNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactMobileNumber" value="mobileNumber" disabled="disabled"></td>
-						<td id="mobileNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_mobile_number'); ?></td>
-						<td id="altNumbercheckbox"><input type="checkbox" name="prefContact" id="prefContactAltNumber" value="altNumber" disabled="disabled"></td>
-						<td id="altNumbercheckboxlabel"><?php echo $this->lang->line_arr('user->details_view->pref_alt_number'); ?></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		-->
-			
 			<?php
 				echo $addressFile;
 			?>

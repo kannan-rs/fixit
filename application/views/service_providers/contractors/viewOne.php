@@ -187,6 +187,35 @@
 						</tbody>
 					</table>
 				</div>
+				<h3>
+					<span class="inner_accordion">
+						<?php echo $this->lang->line_arr('contractor->headers->contractor_logo') ?>
+					</span>
+				</h3>
+				<div>
+					<?php if(isset($contractor->logo_img) && !empty($contractor->logo_img)) { ?>
+					<table>
+						<tr>
+							<td><img src="data:image/jpeg;base64,<?php echo base64_encode(stripslashes($contractor->logo_img) ); ?>" width="140" height="63"></td>
+							<td>
+							<span class="options-icon">
+								<span>
+								<a class="step fi-deleteRow size-21 red delete" href="javascript:void(0);" 
+									onclick="_contractors.deleteContractorLogo(<?php echo $contractorId; ?>)" 
+									title="<?php echo $this->lang->line_arr('contractor->buttons_links->delete_hover_text'); ?>">
+								</a>
+								</span>
+							</span>
+							</td>
+						</tr>
+					</table>
+					<?php } else {
+					?>
+						No Logo uploaded
+					<?php
+					}
+					?>
+				</div>
 			</div>
 		<?php
 		if(!$openAs || $openAs != "popup") {

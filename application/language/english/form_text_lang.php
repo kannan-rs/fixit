@@ -640,7 +640,8 @@ $lang["contractor"] = array(
 		"contractor_address"		=> "Service Provider Address",
 		"contractor_contact"		=> "Service Provider Contact Details",
 		"contractor_service_area"	=> "Service Provider Service Area",
-		"contractor_others"			=> "Service Prpovider Other Details"
+		"contractor_others"			=> "Service Prpovider Other Details",
+		"contractor_logo"			=> "Service Provider Logo"
 	),
 	/*
 		Create and edit form text
@@ -678,6 +679,7 @@ $lang["contractor"] = array(
 		"discount_for_zip"				=> "Discount For Zip Codes",
 		"discount_from_date"			=> "Discount Starting Date",
 		"discount_to_date"				=> "Discount Ending Date",
+		"original_value"				=> "Original Value",
 		"discount_value"				=> "Discount Amount",
 		"testimonial_summary"			=> "Summary",
 		"testimonial_descr"				=> "Description",
@@ -707,6 +709,7 @@ $lang["contractor"] = array(
 		"discount_for_zip_ph"				=> "Discount For Zip Codes",
 		"discount_from_date_ph"				=> "Discount Starting Date",
 		"discount_to_date_ph"				=> "Discount Ending Date",
+		"original_value_ph"					=> "Original Value",
 		"discount_value_ph"					=> "Discount Value",
 		"testimonial_summary_ph"			=> "Testimonial Summary",
 		"testimonial_descr_ph"				=> "Testimonial Description",

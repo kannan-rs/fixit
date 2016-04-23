@@ -1,6 +1,6 @@
 // Top Menu Controller
 fixit_app.controller('fixitcontent', function($scope, $http) {
-	console.log($http);
+	//console.log($http);
 	/*$scope.header_view 	= "/js/shared/header/template.html";
 	$http({
 			method 	: "POST",
