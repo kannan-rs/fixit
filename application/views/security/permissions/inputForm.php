@@ -47,7 +47,7 @@
 		<section class="dataSection">
 			<?php
 				for( $oIdx = 0; $oIdx < count($data["operations"]); $oIdx++) {
-					echo "<input type=\"checkbox\" name=\"operations\" value=\"".$data["operations"][$oIdx]->sno."\" data_operation_id=\"".$data["operations"][$oIdx]->ope_id."\" />".$data["operations"][$oIdx]->ope_name."<br/>";
+					echo "<input type=\"checkbox\" name=\"operations\" value=\"".$data["operations"][$oIdx]->sno."\" />".$data["operations"][$oIdx]->ope_name."<br/>";
 				}
 			?>
 		</section>

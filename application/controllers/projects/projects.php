@@ -812,7 +812,7 @@ class Projects extends CI_Controller {
 		$project->updated_by_name 	= count($updated_by_name_arr) ? $updated_by_name_arr[0]->user_name : "-NA";
 
 		//Service Provider Name
-		$project->contractorName = "-- Not Provided --";
+		$project->contractorName = "--";
 
 		if(!in_array(OPERATION_VIEW, $contractorPermission['operation']) && !in_array(OPERATION_CHOOSE, $contractorPermission['operation'])) {
 			$no_permission_options = array(
@@ -832,7 +832,7 @@ class Projects extends CI_Controller {
 		}
 
 		// Partners Name
-		$project->partnerName = "-- Not Provided --";
+		$project->partnerName = "--";
 
 		if(!in_array(OPERATION_VIEW, $adjusterPermission['operation'])) {
 			$no_permission_options = array(
@@ -1128,7 +1128,7 @@ class Projects extends CI_Controller {
 		$project->updated_by_name = $this->model_users->getUsersList($project->updated_by)[0]->user_name;
 
 		//Service Provider Name
-		$project->contractorName = "-- Not Provided --";
+		$project->contractorName = "--";
 		if($project->contractor_id != "") {
 			$contractorIdArr = explode(",", $project->contractor_id);
 			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
@@ -1136,7 +1136,7 @@ class Projects extends CI_Controller {
 		}
 
 		// Partners Name
-		$project->partnerName = "-- Not Provided --";
+		$project->partnerName = "--";
 		if($project->adjuster_id != "") {
 			$partnerIdArr = explode(",", $project->adjuster_id);
 			$partnersResponse = $this->model_partners->getPartnersList($partnerIdArr);

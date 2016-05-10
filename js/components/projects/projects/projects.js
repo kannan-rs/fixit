@@ -1768,7 +1768,12 @@ var _projects = (function () {
             }
 
             var response = $.parseJSON(_utils.getFromUsersList( requestParams ));
-            var contractor_users_list = response.customer;
+            
+            var contractor_users_list = [];
+            if(response.status == "success") {
+                contractor_users_list = response.customer;
+            }
+            
 
             var assigned_user_id = get_sp_assigned_user_for_current_project();
 
@@ -1802,7 +1807,7 @@ var _projects = (function () {
                 table += "</tbody></table></form>";
 
             } else {
-                table = " No service provider User found";
+                table = response.message || " No service provider User found";
             }
 
             $("#popupForAll").html(table);

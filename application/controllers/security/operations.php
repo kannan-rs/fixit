@@ -80,7 +80,7 @@ class Operations extends CI_Controller {
 		$this->load->model('security/model_operations');
 
 		$data = array(
-		   'ope_id' =>  $this->input->post('ope_id'),
+		   //'ope_id' =>  $this->input->post('ope_id'),
 		   'ope_name' => $this->input->post('ope_name'),
 		   'ope_desc' => $this->input->post('ope_desc')
 		);
@@ -147,12 +147,12 @@ class Operations extends CI_Controller {
 		$this->load->model('security/model_operations');
 
 		$record = $this->input->post('ope_sno');
-		$ope_id = $this->input->post('ope_id');
+		//$ope_id = $this->input->post('ope_id');
 		$ope_name = $this->input->post('ope_name');
 		$ope_desc = $this->input->post('ope_desc');
 
 		$data = array(
-		   'ope_id' => $ope_id,
+		   //'ope_id' => $ope_id,
 		   'ope_name' => $ope_name,
 		   'ope_desc' => $ope_desc
 		);

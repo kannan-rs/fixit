@@ -97,7 +97,7 @@ class Model_form_utils extends CI_Model {
 						if($i > 0) {
 							$queryStr .= " or ";
 						}
-						$queryStr .= "belongs_to_id = '".$company_id."'";
+						$queryStr .= "belongs_to_id = '".$company_id[$i]."'";
 						if(count($company_id) -1 == $i ) {
 							$queryStr .= " ) ";
 						}
@@ -106,6 +106,10 @@ class Model_form_utils extends CI_Model {
 					//$this->db->where('belongs_to_id', $company_id);
 					$queryStr .= " AND belongs_to_id = '".$company_id."'";
 				}
+			} else if( isset($contractor_user_list) && $contractor_user_list == 1 ) {
+				$response["status"] = "error";
+				$response["message"] = "Please assign a service provider company and add user to the project";
+				return $response;
 			}
 		} else {
 			/*$this->db->where('belongs_to', "customer");

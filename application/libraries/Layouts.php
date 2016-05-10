@@ -18,7 +18,8 @@ class Layouts {
 			"js/library/jquery.validate.js",
 			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
-			"js/library/jssor.slider.mini.js",
+			//"js/library/jssor.slider.mini.js",
+			"js/library/jquery.bxslider.js",
 			//"js/library/menus.js",
 			"js/shared/themes/default/layouts.js",
 			"js/shared/apps/fixit_app.js",
@@ -67,7 +68,8 @@ class Layouts {
 	private $css_includes = array(
 		"css/jquery-ui.css",
 		"css/style.css",
-		"css/foundation-icons.css"
+		"css/foundation-icons.css",
+		"css/jquery.bxslider.css"
 	);
 
 	private $includes = array();
@@ -209,6 +211,7 @@ class Layouts {
 		$this->layout_data['baseUrl'] 		= base_url();
 		$this->layout_data['params']  		= $params;
 		$this->layout_data['is_logged_in']  = is_logged_in();
+		$this->layout_data['currentPage']	= $this->CI->session->userdata("page");
 
 		$this->set_required_permission();
 

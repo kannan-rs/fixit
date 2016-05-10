@@ -178,12 +178,12 @@ class Roles extends CI_Controller {
 		$this->load->model('security/model_roles');
 
 		$record = $this->input->post('role_sno');
-		$role_id = $this->input->post('role_id');
+		//$role_id = $this->input->post('role_id');
 		$role_name = $this->input->post('role_name');
 		$role_desc = $this->input->post('role_desc');
 
 		$data = array(
-		   'role_id' => $role_id,
+		  // 'role_id' => $role_id,
 		   'role_name' => $role_name,
 		   'role_desc' => $role_desc
 		);

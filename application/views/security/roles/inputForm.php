@@ -10,7 +10,7 @@ if(isset($roles) && count($roles)) {
 }
 
 $sno 		= isset($individualRole) ? $individualRole->sno : "";
-$role_id 	= isset($individualRole) ? $individualRole->role_id : "";
+//$role_id 	= isset($individualRole) ? $individualRole->role_id : "";
 $role_name 	= isset($individualRole) ? $individualRole->role_name : "";
 $role_desc 	= isset($individualRole) ? $individualRole->role_desc : "";
 

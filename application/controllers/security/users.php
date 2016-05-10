@@ -324,15 +324,23 @@ class Users extends CI_controller {
 			return false;
 		}
 
+		/*print_r($this->session->userdata);
+		echo "<br/>User ID-->".$this->input->post('userId');
+		echo "<br/>Session ID-->".$this->session->userdata('logged_in_user_id');*/
+
 		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS);//User > Permissions for logged in User by role_id
 
 		/* Checking for page access permission */
-		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_UPDATE, $userPermission['operation'])) {
-			$no_permission_options = array(
-				'page_disp_string' => "edit user"
-			);
-			echo $this->load->view("pages/no_permission", $no_permission_options, true);
-			return false;
+		if( $this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_UPDATE, $userPermission['operation'])) {
+			if( $this->session->userdata('page') == 'home' && $this->input->post('userId') == $this->session->userdata('logged_in_user_id')) {
+				// no Condition, this need to display edit screen
+			} else {
+				$no_permission_options = array(
+					'page_disp_string' => "edit user"
+				);
+				echo $this->load->view("pages/no_permission", $no_permission_options, true);
+				return false;
+			}
 		}
 
 		include 'include_user_model.php';
@@ -417,9 +425,13 @@ class Users extends CI_controller {
 
 		/* Checking for page access permission */
 		if(!in_array(OPERATION_UPDATE, $userPermission['operation'])) {
-			$response["message"] 			= "No permission to execute this operation";
-			print_r(json_encode($response));
-			return false;
+			if( $this->session->userdata('page') == 'home' && $this->input->post('userId') == $this->session->userdata('logged_in_user_id')) {
+				// no Condition, this need to updateuser details
+			} else {
+				$response["message"] 	= "No permission to execute this operation";
+				print_r(json_encode($response));
+				return false;
+			}
 		}
 
 		include 'include_user_model.php';
@@ -592,7 +604,11 @@ class Users extends CI_controller {
 
 		$userPermission = $this->permissions_lib->getPermissions(FUNCTION_USERS); //User > Permissions for logged in User by role_id
 
-		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_VIEW, $userPermission['operation'])) {
+		/*print_r($this->session->userdata);
+		echo "<br/>User ID-->".$this->input->post('userId');
+		echo "<br/>Session ID-->".$this->session->userdata('logged_in_user_id');*/
+		
+		if($this->session->userdata('logged_in_role_disp_name') != ROLE_ADMIN  && !in_array(OPERATION_VIEW, $userPermission['operation']) && $this->session->userdata('page') != 'home') {
 			$no_permission_options = array(
 				'page_disp_string' => "user details"
 			);

@@ -210,4 +210,24 @@ $(document).ready(function() {
     $(window).bind("load", ScaleSlider);
     $(window).bind("resize", ScaleSlider);
     $(window).bind("orientationchange", ScaleSlider);*/
+    if($('#slider1')) {
+        $('#slider1').bxSlider({
+          mode: 'fade',
+          auto: true,
+          pause: 5000,
+          pager : false,
+          controls: false,
+          autoControls: false
+        });
+    }
+
+    if($('.slider5')) {
+        $('.slider5').bxSlider({
+            slideWidth: 300,
+            minSlides: 3,
+            maxSlides: 3,
+            moveSlides: 3,
+            slideMargin: 10
+        });
+    }
 });

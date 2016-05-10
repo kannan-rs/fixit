@@ -10,7 +10,7 @@ if(isset($functions) && count($functions)) {
 }
 
 $sno 		= isset($individualFunction) ? $individualFunction->sno : "";
-$fn_id 		= isset($individualFunction) ? $individualFunction->fn_id : "";
+//$fn_id 		= isset($individualFunction) ? $individualFunction->fn_id : "";
 $fn_name 	= isset($individualFunction) ? $individualFunction->fn_name : "";
 $fn_descr 	= isset($individualFunction) ? $individualFunction->fn_descr : "";
 

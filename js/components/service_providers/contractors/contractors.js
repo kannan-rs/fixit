@@ -683,6 +683,7 @@ var _contractors = (function () {
                     $(".contractorUserList").show();
                 }
             } else {
+                alert(responseObj.message);
                 $(".default-user-search-result").hide();
                 $(".contractorUserList").hide();
             }

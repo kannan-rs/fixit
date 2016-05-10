@@ -1,16 +1,16 @@
 <?php
-	$firstName 			= $customer->first_name ? $customer->first_name : "--Not Provided--";
-	$lastName 			= $customer->last_name ? $customer->last_name : "--Not Provided--";
-	$address1 			= $customer->address1 ? $customer->address1 : "--Not Provided--";
-	$address2			= $customer->address2 ? $customer->address2 : "--Not Provided--";
-	$city 				= $customer->city ? $customer->city : "--Not Provided--";
-	$state 				= $customer->state ? $customer->state : "--Not Provided--";
-	$zipCode 			= $customer->zip_code ? $customer->zip_code : "--Not Provided--";
-	$phone 				= $customer->contact_ph1 ? $customer->contact_ph1 : "--Not Provided--";
-	$mobile 			= $customer->contact_mobile ? $customer->contact_mobile : "--Not Provided--";
-	$altNo 				= $customer->contact_alt_mobile ? $customer->contact_alt_mobile : "--Not Provided--"; 
-	$email 				= $customer->email ? $customer->email : "--Not Provided--";
-	$contactPref 		= $customer->contact_pref ? $customer->contact_pref : "--Not Provided--";
+	$firstName 			= $customer->first_name ? $customer->first_name : "--";
+	$lastName 			= $customer->last_name ? $customer->last_name : "--";
+	$address1 			= $customer->address1 ? $customer->address1 : "--";
+	$address2			= $customer->address2 ? $customer->address2 : "--";
+	$city 				= $customer->city ? $customer->city : "--";
+	$state 				= $customer->state ? $customer->state : "--";
+	$zipCode 			= $customer->zip_code ? $customer->zip_code : "--";
+	$phone 				= $customer->contact_ph1 ? $customer->contact_ph1 : "--";
+	$mobile 			= $customer->contact_mobile ? $customer->contact_mobile : "--";
+	$altNo 				= $customer->contact_alt_mobile ? $customer->contact_alt_mobile : "--"; 
+	$email 				= $customer->email ? $customer->email : "--";
+	$contactPref 		= $customer->contact_pref ? $customer->contact_pref : "--";
 
 ?>
 

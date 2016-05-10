@@ -541,6 +541,7 @@ var _users = (function () {
 
             var ownerSelected       = $(idPrefix+"input[type='radio'][name='optionSelectedContractor']:checked");
             var adjusterSelected    = $(idPrefix+"input[type='radio'][name='optionSelectedAdjuster']:checked");
+            var ins_comp_selected   = $(idPrefix+"input[type='radio'][name='optionSelectedInsComp']:checked");
 
             if (role_text.toLowerCase().indexOf("service provider") >= 0 ) {
                 belongsToId = ownerSelected.length > 0 ? ownerSelected.val() : "";
