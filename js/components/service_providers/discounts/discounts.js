@@ -129,7 +129,7 @@ var _contractor_discounts = (function () {
         _utils.set_accordion('trade_accordion');
     };
 
-    function viewAll() {
+    /*function viewAll() {
         $.ajax({
             method: "POST",
             url: "/service_providers/discounts/viewAll",
@@ -148,7 +148,7 @@ var _contractor_discounts = (function () {
         .fail(function ( failedObj ) {
             fail_error = failedObj;
         });
-    }
+    }*/
 
     function populateMainTrade( ddId ) {
         var htmlContent = "<option value=\"0\">-- Select Main Trade --</option>";
@@ -195,10 +195,51 @@ var _contractor_discounts = (function () {
                 }
             });
         },*/
+        show_discount_image : function ( discount_id ) {
+            $.ajax({
+                method: "POST",
+                url: "/service_providers/discounts/show_discount",
+                data: {
+                    discount_id : discount_id,
+                    contractor_id : _contractors.contractorId
+                },
+                success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    $("#popupForAll").html( response );
+                    _projects.openDialog({"title" : "Discount Image"});
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
+        viewAll : function() {
+            $.ajax({
+                method: "POST",
+                url: "/service_providers/discounts/viewAll",
+                data: {
+                    contractor_id     : _contractors.contractorId
+                },
+                success: function( response ) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+
+                    $("#discountList").html( response );
+                },
+                error: function( error ) {
+                    error = error;
+                }
+            })
+            .fail(function ( failedObj ) {
+                fail_error = failedObj;
+            });
+        },
 
         initialPage: function() {
             getTradeList();
-            viewAll();
+            this.viewAll();
             populateMainTrade();
         },
 
@@ -288,11 +329,17 @@ var _contractor_discounts = (function () {
             ).form();
 
             if(validator) {
-                _contractor_discounts.createSubmit();
+                $("#discount_from_date_to_db").val(_utils.toMySqlDateFormat($("#discount_from_date").val()));
+                $("#discount_to_date_to_db").val(_utils.toMySqlDateFormat($("#discount_to_date").val()));
+                $("#discount_type_to_db").val($('#create_discount_contractor_form input[name=discount_type]:checked').val());
+                $("#selected_contractor_id").val(_contractors.contractorId);
+                return true;
+                //_contractor_discounts.createSubmit();
             }
+            return false;
         },
 
-        createSubmit: function() {
+        /*createSubmit: function() {
             var main_trade_id       = $("#input_discount_for_main_trade").val();
             var sub_trade_id        = $("#input_discount_for_sub_trade").val();
             var discount_name       = $("#discount_name").val();
@@ -318,7 +365,6 @@ var _contractor_discounts = (function () {
                     discount_value      : discount_value,
                     discount_from_date  : discount_from_date,
                     discount_to_date    : discount_to_date,
-
                     contractor_id       : _contractors.contractorId
                 },
                 success: function( response ) {
@@ -339,7 +385,7 @@ var _contractor_discounts = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
-        },
+        },*/
 
         editForm: function( event, discountId ) {
             if(typeof(event) != 'undefined') {
@@ -410,11 +456,17 @@ var _contractor_discounts = (function () {
             ).form();
 
             if(validator) {
-                _contractor_discounts.updateSubmit();
+                $("#discount_from_date_to_db").val(_utils.toMySqlDateFormat($("#discount_from_date").val()));
+                $("#discount_to_date_to_db").val(_utils.toMySqlDateFormat($("#discount_to_date").val()));
+                $("#discount_type_to_db").val($('#create_discount_contractor_form input[name=discount_type]:checked').val());
+                $("#selected_contractor_id").val(_contractors.contractorId);
+                //_contractor_discounts.updateSubmit();
+                return true;
             }
+            return false;
         },
 
-        updateSubmit: function() {
+        /*updateSubmit: function() {
             var discount_id         = $("#dbDiscountId").val();
             var main_trade_id       = $("#input_discount_for_main_trade").val();
             var sub_trade_id        = $("#input_discount_for_sub_trade").val();
@@ -462,7 +514,7 @@ var _contractor_discounts = (function () {
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
-        },
+        },*/
 
         delete :  function( event, discount_id ) {
             if(typeof(event) != 'undefined') {

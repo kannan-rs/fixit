@@ -28,7 +28,6 @@
 			onclick="_utils.viewOnlyCollapseAll('accordion')"></span>
 	</span>
 	<span class="options-icon">
-		
 		<?php
 		if(in_array("service provider users", $projectPermission['data_filter']) && ($role_disp_name == ROLE_SERVICE_PROVIDER_ADMIN || $role_disp_name == ROLE_ADMIN || $role_disp_name == ROLE_SUB_ADMIN)) {
 		?>

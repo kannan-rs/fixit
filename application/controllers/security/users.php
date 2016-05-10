@@ -480,7 +480,7 @@ class Users extends CI_controller {
 			'belongs_to_id' 		=> $belongsToId,
 			'referred_by' 			=> $referredBy,
 			'referred_by_id' 		=> $referredById,
-			'status' 				=> $userStatus,
+			//'status' 				=> $userStatus,
 			'contact_ph1' 			=> $contactPhoneNumber,
 			'contact_mobile' 		=> $mobileNumber,
 			'contact_alt_mobile'	=> $altNumber,
@@ -495,6 +495,10 @@ class Users extends CI_controller {
 			'last_updated_dt' 		=> date("Y-m-d H:i:s"),
 			'updated_by'			=> $this->session->userdata('logged_in_user_id')
 		);
+
+		if( $userStatus ) {
+			$update_details_data['status'] = $userStatus;
+		}
 
 		if( $active_start_date != "" )
 			$update_details_data["active_start_date"] = $active_start_date;

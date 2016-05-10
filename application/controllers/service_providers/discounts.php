@@ -188,7 +188,7 @@ class Discounts extends CI_Controller {
 		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('service_providers/model_discounts');
 
-		$main_trade_id 			= $this->input->post("main_trade_id");
+		/*$main_trade_id 			= $this->input->post("main_trade_id");
 		$sub_trade_id 			= $this->input->post("sub_trade_id");
 		$discount_name 			= $this->input->post("discount_name");
 		$discount_descr 		= $this->input->post("discount_descr");
@@ -197,6 +197,18 @@ class Discounts extends CI_Controller {
 		$discount_to_date 		= $this->input->post("discount_to_date");
 		$contractor_id 			= $this->input->post("contractor_id");
 		$discount_type			= $this->input->post("discount_type");
+		$original_value			= $this->input->post("original_value");
+		$discount_value			= $this->input->post("discount_value");*/
+
+		$main_trade_id 			= $this->input->post("input_discount_for_main_trade");
+		$sub_trade_id 			= $this->input->post("input_discount_for_sub_trade");
+		$discount_name 			= $this->input->post("discount_name");
+		$discount_descr 		= $this->input->post("discount_descr");
+		$discount_for_zip 		= $this->input->post("discount_for_zip");
+		$discount_from_date 	= $this->input->post("discount_from_date_to_db");
+		$discount_to_date 		= $this->input->post("discount_to_date_to_db");
+		$contractor_id 			= $this->input->post("selected_contractor_id");
+		$discount_type			= $this->input->post("discount_type_to_db");
 		$original_value			= $this->input->post("original_value");
 		$discount_value			= $this->input->post("discount_value");
 
@@ -218,6 +230,13 @@ class Discounts extends CI_Controller {
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
 
+		if(count($_FILES) > 0) {
+			if(is_uploaded_file($_FILES['discountImage']['tmp_name'])) {
+				$data["discount_image"] =  addslashes(file_get_contents($_FILES['discountImage']['tmp_name']));
+			}
+		}
+
+		//print_r($data);
 		$response = $this->model_discounts->insertDiscount($data);
 
 		print_r(json_encode($response));
@@ -277,7 +296,7 @@ class Discounts extends CI_Controller {
 		$this->load->model('service_providers/model_service_providers');
 		$this->load->model('service_providers/model_discounts');
 
-		$discount_id 			= $this->input->post("discount_id");
+		/*$discount_id 			= $this->input->post("discount_id");
 		$main_trade_id 			= $this->input->post("main_trade_id");
 		$sub_trade_id 			= $this->input->post("sub_trade_id");
 		$discount_name 			= $this->input->post("discount_name");
@@ -287,6 +306,19 @@ class Discounts extends CI_Controller {
 		$discount_to_date 		= $this->input->post("discount_to_date");
 		$contractor_id 			= $this->input->post("contractor_id");
 		$discount_type			= $this->input->post("discount_type");
+		$original_value			= $this->input->post("original_value");
+		$discount_value			= $this->input->post("discount_value");*/
+
+		$discount_id 			= $this->input->post("dbDiscountId");
+		$main_trade_id 			= $this->input->post("input_discount_for_main_trade");
+		$sub_trade_id 			= $this->input->post("input_discount_for_sub_trade");
+		$discount_name 			= $this->input->post("discount_name");
+		$discount_descr 		= $this->input->post("discount_descr");
+		$discount_for_zip 		= $this->input->post("discount_for_zip");
+		$discount_from_date 	= $this->input->post("discount_from_date_to_db");
+		$discount_to_date 		= $this->input->post("discount_to_date_to_db");
+		$contractor_id 			= $this->input->post("selected_contractor_id");
+		$discount_type			= $this->input->post("discount_type_to_db");
 		$original_value			= $this->input->post("original_value");
 		$discount_value			= $this->input->post("discount_value");
 
@@ -307,6 +339,12 @@ class Discounts extends CI_Controller {
 			'created_on'					=> date("Y-m-d H:i:s"),
 			'updated_on'					=> date("Y-m-d H:i:s")
 		);
+
+		if(count($_FILES) > 0) {
+			if(is_uploaded_file($_FILES['discountImage']['tmp_name'])) {
+				$data["discount_image"] =  addslashes(file_get_contents($_FILES['discountImage']['tmp_name']));
+			}
+		}
 
 		$params = array(
 			'data'				=> $data,
@@ -344,5 +382,42 @@ class Discounts extends CI_Controller {
 
 		$response = $this->model_discounts->deleteDiscount($params);
 		print_r(json_encode($response));
+	}
+
+	public function show_discount() {
+		if(!is_logged_in()) {
+			print_r(json_encode(response_for_not_logged_in()));
+			return false;
+		}
+
+		//Service Provider > Permissions for logged in User by role_id
+		$permission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER_DISCOUNT);
+		/* If User dont have view permission load No permission page */
+		if(!in_array(OPERATION_VIEW, $permission['operation'])) {
+			$no_permission_options = array(
+				'page_disp_string' => "Service Provider Discount List"
+			);
+			echo $this->load->view("pages/no_permission", $no_permission_options, true);
+			return false;
+		}
+
+		$this->load->model('service_providers/model_discounts');
+		
+		$discount_id	= $this->input->post("discount_id");
+		$contractor_id	= $this->input->post("contractor_id");
+
+		/* Get Discount List */
+		$getParams = array(
+			"contractor_id" => $contractor_id,
+			'discount_id'	=> $discount_id
+		);
+
+		$response = $this->model_discounts->getDiscountList($getParams);
+
+		if($response["status"] == "success") {
+			$params['discountList'] = $response["discountList"];
+		}
+
+		echo $this->load->view("service_providers/discounts/view_image", $params, true);
 	}
 }

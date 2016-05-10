@@ -7,7 +7,7 @@ if(isset($discountList) && count($discountList)) {
 		<tr class='heading'>
 			<td width="300px">Details</td>
 			<td>Original Value</td>
-			<td>Value</td>
+			<td>Discount Value</td>
 			<td>From &nbsp; To date</td>
 			<td>Available on Zip Code</td>
 			<td>Actions</td>
@@ -42,9 +42,9 @@ if(isset($discountList) && count($discountList)) {
 		//$maintradeCSS 	= $mainTradeText != "all" ? "mainTrade_".$discount->discount_for_trade_id : "";
 	?>
 		<tr class="oneDiscount" data-main-trade-id="<?php echo $mainTradeId; ?>" data-sub-trade-id="<?php echo $subTradeId; ?>">
-			<td><?php echo $name." - ".$descr; ?></td>
-			<td><?php echo (isset($original_value) && !empty($original_value)) ? $original_value."$" : "--"; ?></td>
-			<td><?php echo $value.($type == "%" ? "%" : "$"); ?></td>
+			<td><a href="javascript:void(0);" onclick="_contractor_discounts.show_discount_image('<?php echo $discount->discount_id ;?>')"><?php echo $name." - ".$descr; ?></a></td>
+			<td><?php echo (isset($original_value) && !empty($original_value)) ? "$".$original_value : "--"; ?></td>
+			<td><?php echo ($type == "%" ? "" : "$").$value.($type == "%" ? "%" : ""); ?></td>
 			<td>
 			<?php
 				if(isset($from_date) && $from_date != "" && trim($from_date) != "00-00-00") {

@@ -166,7 +166,7 @@ define('TOP_MENUS', '[
 		"is_logged_in" 	: 0
 	},
 	{
-		"text" 			: "Security",
+		"text" 			: "Admin",
 		"link" 			: "/main/security",
 		"is_logged_in" 	: 1,
 		"sub_menus"		: [

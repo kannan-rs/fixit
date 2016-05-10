@@ -185,30 +185,22 @@ Bug 12
 Testing
 Documentation for Code
 
-Work for 4/18/2016 to 4/24/2016
-------------------------------
-In progress
-1. Image Upload for service provider logo store it as blob
-2. Discount image upload
-3. (Done) Fixed City undate issue on editing any form, change the database structure for all address, city, state, country fields across tables.
-4. (Done) On enter key press on login form submit.
-
 
 MOM (4/20/2016)
 --------------
 1. Rolling Bannar images in home page
 2. Discount Images and discounts details in home page as a set of 4.
-2. Discount image upload
 
- 
-1. Fixed : Login form on enter was throwing, success message in a page and not navigating to projects page. Issue Fixed 
-2. Fixed : For customer choosing of service provider was showing "permission denied" even though choose option is present.
-3. Fixed : When No service provider assigned, It is listing all the service provider in th assigned list. Expected is it need to show (0) service provider in the assigned list.
-4. Fixed : Customer are not allowed to edit their personal details. Even after the permission is set. It was coded based on role name. Not it is changed to permission
-5. End date error while updating the user record from customer > User > View > Edit
-6. Fined tuned top menu, to show main menu, if any one of the sub menu is valid. Previously it use to show main menu even if dub menu is not valid
-7. User Primary contact in view changed from option button to text, Few more cosmetic changes in User view, show "--" instead of "-NA-";
-8. Projects > Service provider > remove (+) symbol. and allow user to add service provider from the assign popup.
-9. Allow customer to remove the assigned service provider
-10. Discount page add a field for original value.(This will help in showing in discount page)
-11. Service provider logo added/ change / delete. Size check
+Done > 2. Discount image upload
+
+MOM (4/25/2016)
+--------------
+1. Change the text to Admin
+2. Edit of personal details from Home and remove security for regular users (customer, SP user etc..,)
+3. $ towards the left handl side of the value and original value.
+4. change the "Value" text to "Discount Value"
+5. Customer > Selecting of service provider has some issue.
+6. Show the SP logo in project SP section next to each SP list after expand
+
+MOM
+1. Customer after removing permission for users, his basic information is not shown.

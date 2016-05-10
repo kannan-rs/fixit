@@ -20,7 +20,7 @@ class Model_service_providers extends CI_Model {
 		return false;
 	}
 
-	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "") {
+	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "", $no_image = 0) {
 		$this->db->where('is_deleted', '0');
 		
 		if(isset($record) && !is_null($record)) {
@@ -55,13 +55,25 @@ class Model_service_providers extends CI_Model {
 		}
 
 
-		$this->db->select([
-			"*", 
-			"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
-			"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
-			"created_on",
-			"updated_on"
-		]);
+		if( !$no_image ) {
+			$this->db->select([
+				"*", 
+				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+				"created_on",
+				"updated_on"
+			]);
+		} else {
+			$this->db->select([
+				"id", "name", "company", "type", "license", "bbb", "status", "address1", "address2", "address3", "address4",
+				"city", "state", "country", "zip_code", "office_ph", "mobile_ph", "office_email", "prefer", "website_url",
+				"service_area", "default_contact_user_id", 
+				"DATE_FORMAT(created_on, \"%d-%m-%y %H:%i:%S\") as created_on_for_view", 
+				"DATE_FORMAT( updated_on, \"%d-%m-%y %H:%i:%S\") as updated_on_for_view",
+				"created_on",
+				"updated_on"
+			]);
+		}
 
 		$query = $this->db->from('contractor')->get();
 
@@ -69,7 +81,7 @@ class Model_service_providers extends CI_Model {
 		
 		$response = array();
 		
-		if($this->db->_error_number() == 0) {
+		if($this->db->_error_number() == 0 ) {
 			$response["status"] 		= "success";
 			$response["contractors"] 	= $query->result();
 		} else {
@@ -77,6 +89,8 @@ class Model_service_providers extends CI_Model {
 			$response["errorCode"] 		= $this->db->_error_number();
 			$response["errorMessage"] 	= $this->db->_error_message();
 		}
+
+		//print_r($response);
 		
 		return $response;
 	}

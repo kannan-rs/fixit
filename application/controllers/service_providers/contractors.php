@@ -18,8 +18,10 @@ class Contractors extends CI_Controller {
 		$serviceZip = trim($this->input->post("serviceZip")) ? explode(",", trim($this->input->post("serviceZip"))) : null;
 		$zip 		= trim($this->input->post("zip")) ? trim($this->input->post("zip")) : null;
 		$records 	= trim($this->input->post("records")) ? explode(",", trim($this->input->post("records"))) : null;
+
+		$no_image = 1;
 		
-		$contractorsResponse = $this->model_service_providers->get_service_provider_list( $records, $zip, $serviceZip );
+		$contractorsResponse = $this->model_service_providers->get_service_provider_list( $records, $zip, $serviceZip,  $no_image);
 
 		print_r(json_encode($contractorsResponse));
 	}

@@ -4,7 +4,7 @@
 
 		$heading = $viewFrom == "security" ? $this->lang->line_arr('user->headers->admin_view_one') : $this->lang->line_arr('user->headers->view_one');
 		$heading = $viewFrom == "projects" ? "" : $heading;
-		$heading = $heading != "" ? "<div class=\"header-options\"><h2 class=''>".$heading."</h2></div>" : $heading;
+		//$heading = $heading != "" ? "<div class=\"header-options\"><h2 class=''>".$heading."</h2></div>" : $heading;
 ?>
 <?php if($viewFrom == "security") { ?>
 <!-- <div class="create-link">
@@ -14,13 +14,35 @@
 </div> -->
 <?php } else if($viewFrom == "") { ?>
 <div class="create-link">
+	
 	<a href="javascript:void(0);" onclick="home._userInfo.editPage(<?php echo $user_details->sno; ?>);">
 		<?php echo $this->lang->line_arr('user->buttons_links->edit_details'); ?>
 	</a>
 </div>
 <?php } ?>
 
-<?php echo $heading; ?>
+<?php 
+	if( !empty($heading) ) {
+?>
+	<div class="header-options">
+		<h2 class=''> <?php echo $heading; ?> </h2>
+		<span class="options-icon">
+			<?php
+			if ( $this->session->userdata('logged_in_email') == $users->user_name ) {
+			?>
+			<span>
+				<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="_users.editUser('<?php echo $users->sno; ?>')" 
+					title="Edit Personal Details" >
+				</a>
+			</span>
+			<?php	
+			}
+			?>
+		</span>
+	</div>
+<?php
+	}
+?>
 
 <?php echo $noticeFile; ?>
 

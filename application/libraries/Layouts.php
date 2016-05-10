@@ -18,6 +18,7 @@ class Layouts {
 			"js/library/jquery.validate.js",
 			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
+			"js/library/jssor.slider.mini.js",
 			//"js/library/menus.js",
 			"js/shared/themes/default/layouts.js",
 			"js/shared/apps/fixit_app.js",
