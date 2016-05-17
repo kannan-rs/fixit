@@ -1167,41 +1167,43 @@ $lang["issues"] = array(
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"issue_name" => "Issue Name",
-		"issue_status" => "Issue Status",
-		"issue_from_date" => "Issue From Date"
+		"issue_name" 		=> "Issue Name",
+		"issue_status" 		=> "Issue Status",
+		"issue_from_date" 	=> "Issue From Date",
+		"owner_type"		=> "Owner Type",
+		"owner_name"		=> "Owner Name"
 	),
 
 	/*
 		Detailed view / individual view Row label
 	*/
 	"details_view" => array(
-		"issue_name" => "Issue Name",
+		"issue_name" 		=> "Issue Name",
 		"issue_description" => "Issue Description",
-		"assigned_to" => "Assigned to",
-		"issue_from_date" => "Issue From Date",
-		"assigned_date" => "Assigned Date",
-		"issue_status" => "Issue Status",
-		"issue_notes" => "Issue Notes"
+		"assigned_to" 		=> "Assigned to",
+		"issue_from_date" 	=> "Issue From Date",
+		"assigned_date" 	=> "Assigned Date",
+		"issue_status" 		=> "Issue Status",
+		"issue_notes" 		=> "Issue Notes"
 	),
 	/*
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"update" => "Update Issue",
-		"create" => "Create Issue",
-		"open" => "Open",
-		"closed" => "Closed",
-		"cancelled" => "Cancelled",
-		"all" => "All",
-		"open_title" => "Click on this button to view open issues",
-		"closed_title" => "Click on this button to view closed issues",
-		"cancelled_title" => "Click on this button to view cancelled issues",
-		"all_title" => "Click on this button to view all issues",
-		"add_issues_title" => "Add issues to this project",
-		"edit_issue_title" => "Edit Issues",
-		"edit_single_issue_title" => "Edit Issue",
-		"delete_title" => "Delete Issue"
+		"update" 					=> "Update Issue",
+		"create" 					=> "Create Issue",
+		"open" 						=> "Open",
+		"closed" 					=> "Closed",
+		"cancelled" 				=> "Cancelled",
+		"all" 						=> "All",
+		"open_title" 				=> "Click on this button to view open issues",
+		"closed_title" 				=> "Click on this button to view closed issues",
+		"cancelled_title" 			=> "Click on this button to view cancelled issues",
+		"all_title" 				=> "Click on this button to view all issues",
+		"add_issues_title" 			=> "Add issues to this project",
+		"edit_issue_title" 			=> "Edit Issues",
+		"edit_single_issue_title" 	=> "Edit Issue",
+		"delete_title" 				=> "Delete Issue"
 	)
 );
 
@@ -1217,14 +1219,14 @@ $lang["docs"] = array(
 			Sections
 				1. After Login 	> Projects > Individual Project View > Documents List > Add Document
 		*/
-		"docName" => "Document Name",
+		"docName" 		=> "Document Name",
 		"docAttachment" => "Choose Document",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"docName_ph" => "Document Name",
-		"docAttachment_ph" => "Choose Document",
+		"docName_ph" 		=> "Document Name",
+		"docAttachment_ph" 	=> "Choose Document",
 	),
 	
 	/*
@@ -1242,8 +1244,8 @@ $lang["docs"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"upload" => "Upload Document",
-		"delete_title" => "Delete Document"
+		"upload" 		=> "Upload Document",
+		"delete_title" 	=> "Delete Document"
 	)
 );
 
@@ -1252,8 +1254,8 @@ $lang["notes"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" => "Create Note",
-		"view_all" => "Notes"
+		"create" 	=> "Create Note",
+		"view_all" 	=> "Notes"
 	),
 	"input_form" => array(
 		/*
@@ -1262,7 +1264,7 @@ $lang["notes"] = array(
 				1. After Login 	> Projects > Individual Project View > Notes List > Add Note
 				2. After Login 	> Projects > Individual Project View > Issue List > Notes List > Add Note
 		*/
-		"noteContent" => "Notes Content",
+		"noteContent" 	=> "Notes Content",
 
 		/*
 			Place holder for text input element in Create/Edit form
@@ -1294,8 +1296,8 @@ $lang["budget"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"add" => "Add Budget",
-		"update" => "Update Budget"
+		"add" 		=> "Add Budget",
+		"update" 	=> "Update Budget"
 	),
 	"input_form" => array(
 		/*
@@ -1304,26 +1306,26 @@ $lang["budget"] = array(
 				1. After Login 	> Projects > Individual Project View > Budget List > Update Budget
 				2. After Login 	> Projects > Individual Project View > Budget List > Update Budget> Edit Budget
 		*/
-		"descr" => "Description",
-		"amount" => "Amount",
-		"date" => "Date",
+		"descr" 	=> "Description",
+		"amount" 	=> "Amount",
+		"date" 		=> "Date",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"descr_ph" => "Description",
+		"descr_ph" 	=> "Description",
 		"amount_ph" => "Paid Amount",
-		"date_ph" => "Payment Date",
+		"date_ph" 	=> "Payment Date",
 	),
 	
 	/*
 		Summary view / View All Table's Column header
 	*/
 	"summary_table" => array(
-		"paid_date" => "Paid Date",
-		"amount" => "Amount",
-		"description" => "Description",
-		"action" => "Action"
+		"paid_date" 	=> "Paid Date",
+		"amount" 		=> "Amount",
+		"description" 	=> "Description",
+		"action" 		=> "Action"
 	),
 
 	/*
@@ -1335,11 +1337,11 @@ $lang["budget"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"add" => "Add Budget",
-		"update" => "Update Budget",
-		"add_new" => "Add New Budget",
-		"edit_budget_title" => "Edit Paid Budget",
-		"delete_budget_title" => "Delete Paid Budget"
+		"add" 					=> "Add Budget",
+		"update" 				=> "Update Budget",
+		"add_new" 				=> "Add New Budget",
+		"edit_budget_title" 	=> "Edit Paid Budget",
+		"delete_budget_title" 	=> "Delete Paid Budget"
 	)
 );
 
@@ -1422,11 +1424,11 @@ $lang["claim"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" => "Create Claim",
-		"update" => "Update Claim",
-		"add_new" => "Add New Claim",
-		"edit_claim_title" => "Edit Claim",
-		"delete_claim_title" => "Delete Claim",
+		"create" 					=> "Create Claim",
+		"update" 					=> "Update Claim",
+		"add_new" 					=> "Add New Claim",
+		"edit_claim_title" 			=> "Edit Claim",
+		"delete_claim_title" 		=> "Delete Claim",
 		"add_dairy_updates_title"	=> "Add Claim Dairy Updates",
 		"add_docs_title"			=> "Add Claim Documents"
 	)
@@ -1437,8 +1439,8 @@ $lang["claim_daily_updates"] = array(
 		Title, Header and sub header text
 	*/
 	"headers" => array(
-		"create" => "Create Dairy Update",
-		"view_all" => "Dairy Updates"
+		"create" 	=> "Create Dairy Update",
+		"view_all" 	=> "Dairy Updates"
 	),
 	"input_form" => array(
 		/*
@@ -1447,12 +1449,12 @@ $lang["claim_daily_updates"] = array(
 				1. After Login 	> Projects > Individual Project View > Claim Dairy Updates List > Add Dairy Update
 				2. After Login 	> Projects > Individual Project View > Issue List > Claim Dairy Updates List > Add Dairy Update
 		*/
-		"dailyUpdateContent" => "Dairy Update Content",
+		"dailyUpdateContent" 		=> "Dairy Update Content",
 
 		/*
 			Place holder for text input element in Create/Edit form
 		*/
-		"dailyUpdateContent_ph" => "Dairy Update Content"
+		"dailyUpdateContent_ph" 	=> "Dairy Update Content"
 	),
 	
 	/*
@@ -1551,11 +1553,11 @@ $lang["claim_subrogation"] = array(
 		Button text and link text
 	*/
 	"buttons_links" => array(
-		"create" => "Create Subrogation",
-		"update" => "Update Subrogation",
-		"add_new" => "Add New Subrogation",
-		"edit_claim_title" => "Edit Subrogation",
-		"delete_claim_title" => "Delete Subrogation",
+		"create" 					=> "Create Subrogation",
+		"update" 					=> "Update Subrogation",
+		"add_new" 					=> "Add New Subrogation",
+		"edit_claim_title" 			=> "Edit Subrogation",
+		"delete_claim_title" 		=> "Delete Subrogation",
 		"add_dairy_updates_title"	=> "Add Subrogation Dairy Updates",
 		"add_docs_title"			=> "Add Subrogation Documents"
 	)

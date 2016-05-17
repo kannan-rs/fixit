@@ -60,7 +60,7 @@ if(!empty($headerText)) {
 						<option value=""><?php echo $this->lang->line_arr('issues->input_form->assignedToUserType_option_0'); ?></option>
 						<option value="customer">Customer</option>
 						<option value="contractor">Service Provider</option>
-						<option value="adjuster">Adjuster</option>
+						<!-- <option value="adjuster">Adjuster</option> -->
 					</select>
 				</td>
 			</tr>
@@ -86,14 +86,13 @@ if(!empty($headerText)) {
 			</tr>
 
 			<!-- Project Adjuster Search and Adding -->
-			<tr class="issue-adjuster-for-project-result"  id="assignedToUserAdjuster">
+			<!-- <tr class="issue-adjuster-for-project-result"  id="assignedToUserAdjuster">
 				<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueAdjusterResult'); ?></td>
 				<td>
 					<ul id="issueAdjusterResult" class="connectedSortable">
 					</ul>
 				</td>
-				<!-- <div style="clear:both;"></div> -->
-			</tr>
+			</tr> -->
 
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('issues->input_form->issueFromdate'); ?></td>

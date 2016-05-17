@@ -32,6 +32,8 @@ class Issues extends CI_Controller {
 		}
 
 		$this->load->model('projects/model_issues');
+		$this->load->model('security/model_users');
+		$this->load->model('service_providers/model_service_providers');
 
 		$openAs		 			= $this->input->post('openAs');
 		$popupType		 		= $openAs == "popup" ? "2" : "0";
@@ -40,13 +42,55 @@ class Issues extends CI_Controller {
 		
 		$issuesResponse = $this->model_issues->getIssuesList( array('records' => '', 'projectId' => $projectId, 'taskId' => $taskId, 'status' => 'all') );
 
+		$issues = $issuesResponse["issues"];
+
+		$assigneeDetails = array();
+		
+		for($i=0; $i < count($issues); $i++) {
+			$issues[$i]->created_by_name = $this->model_users->getUsersList($issues[$i]->created_by)[0]->user_name;
+			$issues[$i]->updated_by_name = $this->model_users->getUsersList($issues[$i]->updated_by)[0]->user_name;
+
+			$assigneeDetails[$issues[$i]->issue_id] = array();
+
+			if($issues[$i]->assigned_to_user_type == "customer") {
+				if(!empty($issues[$i]->assigned_to_user_id)) {
+					$userDetails = $this->model_users->getUsersList( $issues[$i]->assigned_to_user_id );
+
+					if(count($userDetails)) {
+						$customerDetails = $this->model_users->getUserDetailsByEmail( $userDetails[0]->user_name );
+						if(count($customerDetails)) {
+							$assigneeDetails[$issues[$i]->issue_id]["customerDetails"] = $customerDetails;
+							$assigneeDetails[$issues[$i]->issue_id]["customerDetails"]["user_sno"] = $userDetails[0]->sno;
+							$assigneeDetails[$issues[$i]->issue_id]["customerDetails"]["role_id"] = $userDetails[0]->role_id;
+							$assigneeDetails[$issues[$i]->issue_id]["customerDetails"]["account_status"] = $userDetails[0]->status;
+						}
+					}
+				}
+			}
+			else if($issues[$i]->assigned_to_user_type == "contractor" ) {
+				if(!empty($issues[$i]->assigned_to_user_id)) {
+					$contractorIdArr = explode(",", $issues[$i]->assigned_to_user_id);
+					$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr,"","", 1);
+					$assigneeDetails[$issues[$i]->issue_id]["contractorDetails"] = $contractorsResponse["contractors"];
+				}
+			}
+			/* else if($issues[$i]->assigned_to_user_type == "adjuster") {
+				if(!empty($issues[$i]->assigned_to_user_id)) {
+					$adjusterIdArr = explode(",", $issues[$i]->assigned_to_user_id);
+					$partnersResponse = $this->model_partners->getPartnersList($adjusterIdArr);
+					 $assigneeDetails["adjusterDetails"] = $partnersResponse["partners"];
+				}
+			}*/
+		}
+
 		$params = array(
-			'issues'			=>$issuesResponse["issues"],
+			'issues'			=> $issues,
 			'openAs' 			=> $openAs,
 			'popupType' 		=> $popupType,
 			'projectId' 		=> $projectId,
 			'taskId' 			=> $taskId,
-			'issuesPermission'	=> $issuesPermission
+			'issuesPermission'	=> $issuesPermission,
+			'assigneeDetails' 	=> $assigneeDetails
 		);
 		
 		echo $this->load->view("projects/issues/viewAll", $params, true);
@@ -328,19 +372,21 @@ class Issues extends CI_Controller {
 						}
 					}
 				}
-			} else if($issues[$i]->assigned_to_user_type == "contractor" ) {
+			}
+			else if($issues[$i]->assigned_to_user_type == "contractor" ) {
 				if(!empty($issues[$i]->assigned_to_user_id)) {
 					$contractorIdArr = explode(",", $issues[$i]->assigned_to_user_id);
 					$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
 					$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
 				}
-			} else if($issues[$i]->assigned_to_user_type == "adjuster") {
+			}
+			/* else if($issues[$i]->assigned_to_user_type == "adjuster") {
 				if(!empty($issues[$i]->assigned_to_user_id)) {
 					$adjusterIdArr = explode(",", $issues[$i]->assigned_to_user_id);
 					$partnersResponse = $this->model_partners->getPartnersList($adjusterIdArr);
 					 $assigneeDetails["adjusterDetails"] = $partnersResponse["partners"];
 				}
-			}
+			}*/
 		}
 
 		$params = array(

@@ -206,7 +206,7 @@ class Model_users extends CI_Model {
 	}
 
 	public function getUsersList($params = "", $from_db = "users") {
-		$queryStr = "SELECT users.sno, users.user_name, users.role_id, users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.first_name, user_details.last_name FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
+		$queryStr = "SELECT users.sno, users.user_name, users.role_id, users.status, users.updated_by, users.created_by, users.created_date, users.updated_date, user_details.belongs_to, user_details.belongs_to_id, user_details.first_name, user_details.last_name FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
 		$whereQuery = "";
 		$orderByQuery = "";

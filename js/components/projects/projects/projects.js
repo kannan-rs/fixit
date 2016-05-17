@@ -66,7 +66,7 @@ var _projects = (function () {
                     assigned_user_id = response.assigned_user_id;
                 }
 
-                if(response.status == "error") {
+                if(response.status == "error" && is_details) {
                     alert("Error : "+response.message);
                 }
             },
@@ -1780,17 +1780,27 @@ var _projects = (function () {
             var table = "";
 
             if( contractor_users_list.length > 0 ) {
-                table = "<form class='inputForm'><table class='form'><tbody><tr><td>First Name</td><td>Last Name</td><td>Email ID</td><td>Select User</td></tr>";
+                table = "<form class='inputForm'>";
+                table += "<table class='form'>";
+                table += "<tbody><tr>";
+                table += "<td>Name</td>";
+                table += "<td>Email ID</td>";
+                table += "<td>Company Name</td>";
+                table += "<td>Select User</td>";
+                table += "</tr>";
                 for( var i = 0; i < contractor_users_list.length; i++ ) {
                     var checked = "";
                     if(assigned_user_id.indexOf(contractor_users_list[i].sno) != -1 ) {
                         checked = "checked = 'checked'";
                     }
                     table += "<tr>";
-                    table += "<td>"+ contractor_users_list[i].first_name +"</td>";
-                    table += "<td>"+ contractor_users_list[i].last_name +"</td>";
+                    table += "<td>"+ contractor_users_list[i].first_name + " " + contractor_users_list[i].last_name +"</td>";
                     table += "<td>"+ contractor_users_list[i].email +"</td>";
-                    table += "<td><input type='checkbox' value='"+contractor_users_list[i].sno+"' name='assigned_sp_user' "+checked+"></td>"
+                    table += "<td>"+ contractor_users_list[i].belongs_to_name +"</td>";
+                    table += "<td>";
+                    table += "<input type='checkbox' value='"+contractor_users_list[i].sno+"' name='assigned_sp_user' "+checked+">";
+                    table += "<input type='hidden' value='"+contractor_users_list[i].belongs_to_id+"' id='assigned_sp_user_company_id_"+contractor_users_list[i].sno+"' >";
+                    table += "</td>"
                     table += "</tr>";
                 }
 
@@ -1850,12 +1860,17 @@ var _projects = (function () {
             //var selected_sp_user = $("input[name=assigned_sp_user]:checked").val();
 
             var selected_sp_user = [];
+            var selected_sp_user_company_id = [];
             $("input[name=assigned_sp_user]:checked").each(function() {
                 var val = $(this).val();
                 selected_sp_user.push(val);
+
+                selected_sp_user_company_id.push($("#assigned_sp_user_company_id_"+val).val());
             });
 
             selected_sp_user = selected_sp_user.join(",");
+            selected_sp_user_company_id = selected_sp_user_company_id.join(",");
+
             var self = this;
 
             $.ajax({
@@ -1864,7 +1879,7 @@ var _projects = (function () {
                 data: {
                     projectId: self.projectId,
                     user_id : selected_sp_user,
-                    user_parent_id : _projects.user_parent_id
+                    user_parent_id : _projects.user_parent_id || selected_sp_user_company_id
                 },
                 success: function (response) {
                     if(!_utils.is_logged_in( response )) { return false; }

@@ -70,47 +70,60 @@ if(in_array(OPERATION_VIEW, $issuesPermission['operation'])) {
 			$i = 0;
 	?>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->task_title'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_name; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->task_title'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_name; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->description'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_desc; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->description'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_desc; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->start_date'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_start_date_for_view; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->start_date'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_start_date_for_view; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->end_date'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_end_date_for_view; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->end_date'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_end_date_for_view; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->task_status'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_status; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->task_status'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_status; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->owner_name'); ?>:</td><td class='cell'>
-		<?php 
-			echo isset($contractors) && count($contractors) ? $contractors[0]->name." from company '".$contractors[0]->company."'" : "Customer";
-		?>
-	</td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->owner_name'); ?>:</td>
+		<td class='cell'>
+			<?php 
+				echo (isset($task_owner_user_details) && !empty( $task_owner_user_details) ) ? $task_owner_user_details." from company '".$contractors[0]->company."'" : "Customer";
+			?>
+		</td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->dependency'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_dependency; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->dependency'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_dependency; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->trend_type'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_trade_type; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->trend_type'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_trade_type; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->complete'); ?>:</td><td class='cell'><?php echo $tasks[$i]->task_percent_complete; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('tasks->details_view->complete'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->task_percent_complete; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></td><td class='cell'><?php echo $created_by; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_by'); ?></td>
+		<td class='cell'><?php echo $created_by; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_on'); ?>:</td><td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('common_text->created_on'); ?>:</td>
+		<td class='cell'><?php echo $tasks[$i]->created_on_for_view; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_by'); ?></td><td class='cell'><?php echo $updated_by; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_by'); ?></td>
+		<td class='cell'><?php echo $updated_by; ?></td>
 	</tr>
 	<tr>
-	<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_on'); ?></td><td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('common_text->updated_on'); ?></td>
+		<td class='cell'><?php echo $tasks[$i]->updated_on_for_view; ?></td>
 	</tr>
 <?php
 	}

@@ -322,11 +322,12 @@ textarea.small-textarea {
 	margin-left: 200px;*/
 }
 
-.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
+.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .second, .owner-search-result .company .default-user-search-result .second {
 	color: #D2B9B9;
 	overflow: hidden;
     text-overflow: ellipsis;
-    width: 90%;
+    width: 86%;
+    cursor : default;
 }
 
 .search-action {
@@ -336,6 +337,11 @@ textarea.small-textarea {
 	float: right;
 	margin-top: -25px;
 	background-color: #f6f6f6;
+	z-index : 1000;
+
+	input {
+		cursor : pointer;
+	}
 }
 
 .owner-search-result .search-action,

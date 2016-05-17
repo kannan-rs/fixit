@@ -68,6 +68,20 @@ class Tasks extends CI_Controller {
 				$issueCount 	= $issuesResponse && $issuesResponse["issues"] ? count($issuesResponse["issues"]) : 0;
 
 				$tasksResponse["tasks"][$i]->issueCount = $issueCount;
+
+				$tasksResponse["tasks"][$i]->task_owner_user_details = "";
+				$tasksResponse["tasks"][$i]->task_owner_company_id = "";
+
+				if( $tasksResponse["tasks"][$i]->task_owner_id ) {
+
+					$task_owner_user_details = $this->model_users->getUsersList($tasksResponse["tasks"][$i]->task_owner_id );
+					if( !empty( $task_owner_user_details )) {
+						$task_owner_user_details = $task_owner_user_details[0];
+						$tasksResponse["tasks"][$i]->task_owner_company_id =$task_owner_user_details->belongs_to_id;
+
+						$tasksResponse["tasks"][$i]->task_owner_user_details = $task_owner_user_details->first_name." ".$task_owner_user_details->last_name;
+					}
+				}
 			}
 		}
 
@@ -594,7 +608,7 @@ class Tasks extends CI_Controller {
 		//Service Provider > Permissions for logged in User by role_id
 		$contractorPermission 	= $this->permissions_lib->getPermissions(FUNCTION_SERVICE_PROVIDER);
 
-		if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
+		/*if(in_array(OPERATION_VIEW, $contractorPermission['operation'])) {
 			$task_owner_id = explode("-", $tasks[0]->task_owner_id);
 			if(count($task_owner_id) && count($task_owner_id) > 1 ) {
 				$task_owner_id = $task_owner_id[1];
@@ -606,7 +620,20 @@ class Tasks extends CI_Controller {
 				$contractorsResponse 	= $this->model_service_providers->get_service_provider_list($contractorIds);
 				$contractors 	= $contractorsResponse["contractors"];
 			}
+		}*/
+
+		if( $tasks[0]->task_owner_id ) {
+			$task_owner_user_details = $this->model_users->getUsersList($tasks[0]->task_owner_id )[0];
+			$task_owner_company_id =$task_owner_user_details->belongs_to_id;
+
+			$task_owner_user_details = $task_owner_user_details->first_name." ".$task_owner_user_details->last_name;
+
+			$contractorsResponse 	= $this->model_service_providers->get_service_provider_list($task_owner_company_id);
+			$contractors 	= $contractorsResponse["contractors"];
+
+			//print_r($contractors);
 		}
+
 		$created_by 	= $this->model_users->getUsersList($tasks[0]->created_by)[0]->user_name;
 		$updated_by 	= $this->model_users->getUsersList($tasks[0]->updated_by)[0]->user_name;
 
@@ -636,18 +663,19 @@ class Tasks extends CI_Controller {
 		$internalLink 			= ($viewFor == "" || $viewFor != "projectViewOne") ? $this->load->view("projects/internalLinks", $internalLinkParams, TRUE) : "";
 
 		$params = array(
-			'tasks' 				=>$tasks,
-			'created_by' 			=> $created_by,
-			'updated_by' 			=> $updated_by,
-			'projectId' 			=> $projectId,
-			'projectNameDescr' 		=> $projectNameDescr,
-			'internalLink' 			=> $internalLink,
-			'viewFor' 				=> $viewFor,
-			'contractors' 			=> isset($contractors) ? $contractors : [],
-			'projectPermission'		=> $projectPermission,
-			'issuesPermission'		=> $issuesPermission,
-			'contractorPermission'	=> $contractorPermission,
-			'tasksPermission'		=> $tasksPermission
+			'tasks' 					=>$tasks,
+			'created_by' 				=> $created_by,
+			'updated_by' 				=> $updated_by,
+			'task_owner_user_details'	=> $task_owner_user_details,
+			'projectId' 				=> $projectId,
+			'projectNameDescr' 			=> $projectNameDescr,
+			'internalLink' 				=> $internalLink,
+			'viewFor' 					=> $viewFor,
+			'contractors' 				=> isset($contractors) ? $contractors : [],
+			'projectPermission'			=> $projectPermission,
+			'issuesPermission'			=> $issuesPermission,
+			'contractorPermission'		=> $contractorPermission,
+			'tasksPermission'			=> $tasksPermission
 		);
 		
 		echo $this->load->view("projects/tasks/viewOne", $params, true);

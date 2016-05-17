@@ -1346,11 +1346,12 @@ textarea.small-textarea {
   /*position: absolute;
   margin-left: 200px;*/ }
 
-.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .company .default-user-search-result .second {
+.adjuster-search-result .second, .customer-search-result .second, .contractor-search-result .company, .owner-search-result .second, .owner-search-result .company .default-user-search-result .second {
   color: #D2B9B9;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 90%; }
+  width: 86%;
+  cursor: default; }
 
 .search-action {
   border: 1px solid #cccccc;
@@ -1358,7 +1359,10 @@ textarea.small-textarea {
   padding: 2px 1px 0px 1px;
   float: right;
   margin-top: -25px;
-  background-color: #f6f6f6; }
+  background-color: #f6f6f6;
+  z-index: 1000; }
+  .search-action input, .search-action textarea, .search-action select {
+    cursor: pointer; }
 
 .owner-search-result .search-action,
 .issue-contractor-for-project-result .search-action,

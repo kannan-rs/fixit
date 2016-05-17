@@ -489,29 +489,29 @@ var _utils = (function () {
                      
                     if(dataIdentifier == "customer") {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + list[i].id + "\" onclick='" + functionName + "(event, this," + clickParams + ")'>";
-                        li += "<div>" + list[i].first_name + " " + list[i].last_name + "</div>";
-                        li += "<div class=\"second\">" + list[i][key_list_email] + "</div>";
+                        li += "<div><div>" + list[i].first_name + " " + list[i].last_name + "</div>";
+                        li += "<div class=\"second\" title = \""+ list[i][key_list_email] +"\">" + list[i][key_list_email] + "</div></div>";
                         if(showRadio) {
-                            li += "<span class=\"" + css[type].symbol + " search-action\" ";
+                            li += "<div class=\"" + css[type].symbol + " search-action\" ";
                             li += " data-"+dataIdentifier+"id = " + list[i].id;
                             li += " data-prefixid = " + prefixId;
                             li += ">";
                             li += inputRadio;
-                            li += "</span>";
+                            li += "</div>";
                         }
                     } else {
                         li = "<li class=\"" + css[type].li + "\" id=\"" + prefixId + list[i].id + "\" " + 
                             (type !== "ownerList" ? "draggable=\"true\" ondragstart=\"_projects.drag(event)\"" : "");
                         li += " data-"+dataIdentifier+"id = " + list[i].id;
                         li += ">";
-                        li += "<div>" + list[i][dispStrKey] + "</div>";
-                        li += "<div class=\"company\">" + list[i].city + ", " + list[i].state + "</div>";
-                        li += "<span class=\"" + css[type].symbol + " search-action\" ";
+                        li += "<div><div>" + list[i][dispStrKey] + "</div>";
+                        li += "<div class=\"company\">" + list[i].city + ", " + list[i].state + "</div></div>";
+                        li += "<div class=\"" + css[type].symbol + " search-action\" ";
                         li += " data-"+dataIdentifier+"id = " + list[i].id;
                         li += " data-prefixid = " + prefixId;
                         li += ">";
                         li += inputRadio;
-                        li += "</span>";
+                        li += "</div>";
                     }
                     li += "</li>";
                     $('#' + appendTo).append(li);

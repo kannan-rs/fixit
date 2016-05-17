@@ -2,6 +2,16 @@
 
 class formUtils extends CI_Controller {
 
+	private function sp_id_to_details_mapping( $sp_list = "" ) {
+		$id_mapped_list = array();
+		if( !empty($sp_list) ) {
+			for( $i = 0; $i < count($sp_list); $i++ ) {
+				$id_mapped_list[$sp_list[$i]->id] = $sp_list[$i];
+			}
+		}
+		return $id_mapped_list;
+	}
+
 	public function __construct()
     {
         parent::__construct();
@@ -37,6 +47,7 @@ class formUtils extends CI_Controller {
 		$contractor_user_list 	= $this->input->post('contractor_user_list');
 
 		$company_id = "";
+		$sp_id_to_details_list = "";
 
 		$logged_in_role_disp_name = $this->session->userdata('logged_in_role_disp_name');
 
@@ -47,11 +58,8 @@ class formUtils extends CI_Controller {
 			
 			$this->load->model("service_providers/model_service_providers");
 			$company_id = $this->model_service_providers->get_contractor_company_id_by_user_id($logged_in_user_id);
-
-			//$this->load->model("security/model_users");
-
-			//$response = $this->model_users->getUsersList();
-		} else if( !empty($contractor_user_list)/* && ( $logged_in_role_disp_name == ROLE_ADMIN || $logged_in_role_disp_name == ROLE_SUB_ADMIN || )*/) {
+		} 
+		else if( !empty($contractor_user_list)) {
 			$project_id 			= $this->input->post('project_id');
 			if($project_id) {
 				$this->load->model("projects/model_projects");
@@ -67,6 +75,18 @@ class formUtils extends CI_Controller {
 			}
 		}
 
+		if( !empty($contractor_user_list) && !empty($company_id)) {
+			$this->load->model("service_providers/model_service_providers");
+			$sp_company_name_response = $this->model_service_providers->get_service_provider_list($company_id);
+			if( $sp_company_name_response && $sp_company_name_response['status'] == "success" ) {
+				$sp_id_to_details_list = $this->sp_id_to_details_mapping( $sp_company_name_response['contractors'] );
+			}
+			else {
+				print_r(json_encode($sp_company_name_response));
+				return false;
+			}
+		}
+
 		if(!isset($response)) {
 			$requestData = array(
 				"emailId"				=> $emailId,
@@ -79,6 +99,17 @@ class formUtils extends CI_Controller {
 			$this->load->model('utils/model_form_utils');
 
 			$response = $this->model_form_utils->getFromUsersList( $requestData );
+
+			if( !empty($contractor_user_list) && !empty($sp_id_to_details_list)) {
+				for( $i = 0; $i < count($response['customer']); $i++ ) {
+					if( $response['customer'][$i]->belongs_to_id > 0 && $sp_id_to_details_list[$response['customer'][$i]->belongs_to_id] ) {
+						$response['customer'][$i]->belongs_to_name = $sp_id_to_details_list[$response['customer'][$i]->belongs_to_id]->company;
+					}
+					else {
+						$response['customer'][$i]->belongs_to_id = "--";
+					}
+				}
+			}
 		}
 
 		print_r(json_encode($response));

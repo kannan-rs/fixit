@@ -51,6 +51,8 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$end_date 		= $tasks[$i]->task_end_date_for_view;
 		$projectId 		= $tasks[$i]->project_id;
 		$taskStatus 	= $tasks[$i]->task_status;
+		$task_owner 	= $tasks[$i]->task_owner_user_details;
+		$owner_comp_id 	= $tasks[$i]->task_owner_company_id;
 
 		$rowCSS 		= $taskStatus == "completed" ? "completed" : "open";
 
@@ -72,7 +74,13 @@ if($viewFor == "" || $viewFor != "projectViewOne") {
 		$notesFn 		= "_projects.getTaskNotesList('".$taskId."',0, 5);";
 		//$notesCreateFn = "_projects.addTaskNote('".$taskId."');";
 		
-		$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
+		//$ownerName = $tasks[$i]->task_owner_id && $tasks[$i]->task_owner_id != "" && array_key_exists($tasks[$i]->task_owner_id, $contractors) ? $contractors[$tasks[$i]->task_owner_id]->name : $customerName;
+
+		$ownerName = !empty($task_owner) ? $task_owner : $customerName;
+		$ownerName = "<div>".$ownerName."</div>";
+		if( !empty($task_owner) && !empty($owner_comp_id) && $contractors[$owner_comp_id] ) {
+			$ownerName .= "<div>".$contractors[$owner_comp_id]->company."</div>";
+		}
 ?>
 		<tr class='row <?php echo $rowCSS; ?>' id="task_<?php echo $taskId; ?>">
 			<!--<td class='cell number'>".($i+1)."</td>-->

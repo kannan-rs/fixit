@@ -189,29 +189,28 @@ MOM (4/20/2016)
 --------------
 2. Discount Images and discounts details in home page as a set of 4.
 
-Work Status for week (4th May 2016 to 10th May 2016)
-----------------------------------------------------
-1. Added proper slider for home page
-2. Rolling Bannar images in home page
-3. Remove slider for other pages
-4. Customer after removing permission for users, his basic information is not shown.
-5. Discount Slider sample
-6. Edit own profile was not shown because of permission problem which is corrected.
-7. Update own profile was not happened because of permission problem, which is corrected
-8. Edit user under admin has JS error on edit which was corrected.
-9. PHP error in role edit page corrected
-10. PHP error on updating the role details, corrected
-11. PHP error in function edit page corrected
-12. PHP error on updating the operation details, corrected
-13. PHP error on adding the operation details, corrected
-14. After correcting operation error for add and edit permission module had PHP error as it was refering to a field that was not present in opetraion table, corrected
-15. Changed -- Not provider -- text to -- to make UI simple
-16. Project assign service provider user list all the user from different contractor list when the service provider company was not assiged.
-	> Made this to list "0" SP user, when no company is assigned.
-17. Getting SP Users list to assign users to project throws PHP error when more than one SP company was assigned, corrected
-
-
 Issues to fix
 -------------
-18. Issues edit popup not listing the contractor to choose for assigning owners
-19. Task edit choose owner, email ID is overlapping selection, which blocks user from selecting owners
+User account related mails
+
+1. Task Assignment, assign users to the task.
+2. Issues Assignment assign user to the issue.
+3. Impliment Angular table for the users list. 
+4. Add search functionlait to the users list.
+5. Implimnet Angular table for the projects.
+6. Add search functionality for the projects.
+
+1. Issues edit popup not listing the contractor to choose for assigning owners
+--
+News - in CMS way
+Resources
+Videos
+
+Work Done - 11 to 17
+--------------------
+1. Added Company Name to the Service Provider User list under Project  > Assign Service provider user
+2. Show only the selected users from project while assigning a task.
+3. Add Service provider company ID while adding SP users to the project.
+4. Even after assigning  Service provider to task it is not listing in task list for individual view and list view.
+5. Issues Assignment of customer and service provider is not happening because of service provider image addition. Which is rectified.
+6. Added contractor assigned to owner name for issues.

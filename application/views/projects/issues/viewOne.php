@@ -17,12 +17,12 @@
 		}
 	}
 
-	if($issues->assigned_to_user_type == "adjuster") {
+	/*if($issues->assigned_to_user_type == "adjuster") {
 		if($assigneeDetails && $assigneeDetails["adjusterDetails"] && count($assigneeDetails["adjusterDetails"])) {
 			$adjusterDetails = $assigneeDetails["adjusterDetails"][0];
 			$assignedToUser = $adjusterDetails->name." from ".$adjusterDetails->company_name;
 		}
-	}
+	}*/
 
 	if($issues->assigned_to_user_type == "customer") {
 		if($assigneeDetails && $assigneeDetails["customerDetails"] && count($assigneeDetails["customerDetails"])) {

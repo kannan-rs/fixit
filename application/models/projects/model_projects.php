@@ -324,7 +324,12 @@ class Model_projects extends CI_Model {
 
 		if(!empty($data) && !empty($project_id)) {
 			$this->db->where('project_id', $project_id);
-			$this->db->where('parent_company_id', $parent_company_id);
+			
+			if( is_array( $parent_company_id ) ) {
+				$this->db->where_in('parent_company_id', $parent_company_id);	
+			} else {
+				$this->db->where('parent_company_id', $parent_company_id);
+			}
 
 			if($this->db->update('project_owners', $data)) {
 				$response['status']		= 'success';
@@ -358,6 +363,9 @@ class Model_projects extends CI_Model {
 
 	}
 
+	/*
+		List Service provider owner for a given project
+	*/
 	public function get_existing_project_owner( $params ) {
 		$response = array(
 			'status' => 'error'
@@ -366,20 +374,37 @@ class Model_projects extends CI_Model {
 		$project_id 		= $params["project_id"];
 		$parent_company_id 	= $params["parent_company_id"];
 
-		$this->db->where('project_id', $project_id);
-		$this->db->where('parent_company_id', $parent_company_id);
-		$this->db->where('is_deleted', "0");
+		if( !empty($project_id) ) {
+			$this->db->where('project_id', $project_id);
+			
+			if( !empty($parent_company_id) ) {
+				$this->db->where_in('parent_company_id', $parent_company_id);
+			}
+			
+			$this->db->where('is_deleted', "0");
 
-		$query = $this->db->get('project_owners');
+			$query = $this->db->get('project_owners');
 
-		$owner_list = array();
-		if($query->num_rows() >= 1) {
-			if($owner_list_db = $query->result()) {
-				for($i = 0; $i < count($owner_list_db); $i++) {
-					array_push($owner_list, $owner_list_db[$i]->user_id);	
+			//print_r( $this->db->last_query());
+
+			$owner_list = array();
+			if($query->num_rows() >= 1) {
+				if($owner_list_db = $query->result()) {
+					for($i = 0; $i < count($owner_list_db); $i++) {
+						array_push($owner_list, $owner_list_db[$i]->user_id);	
+					}
+					$response["status"] = "success";
+					$response["owner_list"]  = $owner_list;
 				}
-				return $owner_list;
+			} 
+			else {
+				$response["message"] = "No Service Provider User Assigned";
 			}
 		}
+		else {
+			$response["message"] = "Invalid paramaters";
+		}
+
+		return $response;
 	}
 }

@@ -52,7 +52,7 @@ class Model_form_utils extends CI_Model {
 		$response = array("status" => "error");
 
 		$queryStr 	= "SELECT users.sno, users.user_name, ";
-		$queryStr	.= "user_details.email, user_details.first_name, user_details.last_name ";
+		$queryStr	.= "user_details.email, user_details.first_name, user_details.last_name, user_details.belongs_to_id ";
 		$queryStr 	.= "FROM `users` LEFT JOIN `user_details` ON users.user_name = user_details.email where users.is_deleted = 0 AND user_details.is_deleted = 0";
 
 
@@ -89,19 +89,7 @@ class Model_form_utils extends CI_Model {
 			if( !empty($company_id) ) {
 				if( strrpos($company_id, ",") ) {
 					$company_id = explode(",", $company_id);
-					$queryStr .= " AND ";
-					for($i = 0; $i < count($company_id); $i++) {
-						if($i == 0) {
-							$queryStr .= " ( ";
-						}
-						if($i > 0) {
-							$queryStr .= " or ";
-						}
-						$queryStr .= "belongs_to_id = '".$company_id[$i]."'";
-						if(count($company_id) -1 == $i ) {
-							$queryStr .= " ) ";
-						}
-					}
+					$queryStr .= " AND belongs_to_id IN (".implode(",", $company_id).")";
 				} else {
 					//$this->db->where('belongs_to_id', $company_id);
 					$queryStr .= " AND belongs_to_id = '".$company_id."'";
@@ -111,15 +99,9 @@ class Model_form_utils extends CI_Model {
 				$response["message"] = "Please assign a service provider company and add user to the project";
 				return $response;
 			}
-		} else {
-			/*$this->db->where('belongs_to', "customer");
-			$queryStr .=" AND `belongs_to` = \"customer\"";*/
 		}
 
 		//echo $queryStr;
-		
-		//$this->db->select(["*"]);
-		//$query = $this->db->from('user_details')->get();
 
 		$query = $this->db->query($queryStr);
 

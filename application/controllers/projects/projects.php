@@ -175,6 +175,7 @@ class Projects extends CI_Controller {
 			$contractorId = $projects[0]->contractor_id;
 		}
 
+		//echo "customerId--".$customerId."<br/>";
 		if(!empty($customerId)) {
 			$assigneeDetails["status"] = "success";
 			$userDetails = $this->model_users->getUsersList( $customerId );
@@ -190,19 +191,23 @@ class Projects extends CI_Controller {
 			}
 		}
 
-		if(!empty($adjusterId)) {
+		/*if(!empty($adjusterId)) {
 			$assigneeDetails["status"] = "success";
 			$adjusterIdArr = explode(",", $adjusterId);
 			$partnersResponse = $this->model_partners->getPartnersList($adjusterIdArr);
 			 $assigneeDetails["adjusterDetails"] = $partnersResponse["partners"];
-		}
+		}*/
+
+		//echo "ContractorId--".$contractorId;
 
 		if(!empty($contractorId)) {
 			$assigneeDetails["status"] = "success";
 			$contractorIdArr = explode(",", $contractorId);
-			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr);
+			$contractorsResponse = $this->model_service_providers->get_service_provider_list($contractorIdArr, "", "", 1);
 			$assigneeDetails["contractorDetails"] = $contractorsResponse["contractors"];
 		}
+
+		//print_r($assigneeDetails);
 
 		print_r(json_encode($assigneeDetails));
 	}
@@ -960,6 +965,16 @@ class Projects extends CI_Controller {
 			$sp_user_user_id = explode(",", $sp_user_user_id);			
 		}
 
+		if(!empty($parent_company_id)) {
+			$parent_company_id = explode(",", $parent_company_id);			
+		}
+
+		$multiple_owner = true;
+
+		if( count($sp_user_user_id) != count($parent_company_id)) {
+			$multiple_owner = false;
+		}
+
 		$logged_in_role_id = $this->session->userdata('logged_in_role_id');
 
 		$update_query 		= true;
@@ -973,11 +988,13 @@ class Projects extends CI_Controller {
 		"updated_by"	=> $logged_in_role_id,
 		"updated_on"	=> date("Y-m-d H:i:s")
 		);
+
 		$params = array(
 			"data"					=> $data,
 			"project_id"			=> $project_id,
 			"parent_company_id" 	=> $parent_company_id
 		);
+
 		$response = $this->model_projects->update_project_owner($params);
 
 		if(isset($sp_user_user_id) && !empty($sp_user_user_id)) {
@@ -989,7 +1006,7 @@ class Projects extends CI_Controller {
 						"project_id"			=> $project_id,
 						"role_id"				=> $sp_user_role_id,
 						"user_id"				=> $sp_user_user_id[$i],
-						"parent_company_id" 	=> $parent_company_id,
+						"parent_company_id" 	=> $multiple_owner ? $parent_company_id[$i] : $parent_company_id,
 						"is_deleted"			=> 0,
 						"created_by"			=> $logged_in_role_id,
 						"created_on"			=> date("Y-m-d H:i:s"),
@@ -1010,31 +1027,56 @@ class Projects extends CI_Controller {
 			return false;
 		}
 
+		$response = array("status" => "error");
+
 		$this->load->model('projects/model_projects');
 
 		$user_parent_id 	= $this->input->post('user_parent_id');
 		$project_id 		= $this->input->post('project_id');
 		$details 			= $this->input->post('details');
 
+		if( empty($user_parent_id) ) {
+			//Project > Permissions for logged in User by role_id
+			$projectPermission = $this->permissions_lib->getPermissions(FUNCTION_PROJECTS);
+			
+			$projectParams = array (
+				'projectId'			=> [$project_id],
+				'role_disp_name' 	=> $this->session->userdata('logged_in_role_disp_name'),
+				'projectPermission'	=> $projectPermission
+			);
+			$projects = $this->model_projects->getProjectsList($projectParams);
+
+			$project 	= count($projects) ? $projects[0] : "";
+
+			$user_parent_id = explode(",", $project->contractor_id);
+			//print_r($user_parent_id);
+		}
+
 		$params = array(
 			"project_id"			=> $project_id,
 			"parent_company_id" 	=> $user_parent_id
 		);
 
-		$existing_record = $this->model_projects->get_existing_project_owner($params);
+		$existing_record_response = $this->model_projects->get_existing_project_owner($params);
 
-		$existing_user_details = array();
+		if( $existing_record_response["status"] == "success" ) {
+			$existing_record = $existing_record_response["owner_list"];
+			$existing_user_details = array();
 
-		if( isset($details) && !empty($details) ) {
-			$this->load->model('security/model_users');
-			for( $i = 0; $i < count($existing_record); $i++ ) {
-				array_push( $existing_user_details, $this->model_users->getUsersList($existing_record[$i])[0] );
+			if( isset($details) && !empty($details) ) {
+				$this->load->model('security/model_users');
+				for( $i = 0; $i < count($existing_record); $i++ ) {
+					array_push( $existing_user_details, $this->model_users->getUsersList($existing_record[$i])[0] );
+				}
+				$response = array('status' => "success", "assigned_user_id" => $existing_user_details);
 			}
-			$response = array('status' => "success", "assigned_user_id" => $existing_user_details);
-		} else {
-			$response = array('status' => "success", "assigned_user_id" => $existing_record);
+			else {
+				$response = array('status' => "success", "assigned_user_id" => $existing_record);
+			}
 		}
-		
+		else {
+			$response = $existing_record_response;
+		}
 
 		print_r(json_encode( $response ));
 

@@ -53,6 +53,8 @@ if(!$openAs || $openAs != "popup") {
 		<tr class='heading'>
 			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->issue_name'); ?></td>
 			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->issue_status'); ?></td>
+			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->owner_type'); ?></td>
+			<td class='cell text'><?php echo $this->lang->line_arr('issues->summary_table->owner_name'); ?></td>
 			<td class='cell date'><?php echo $this->lang->line_arr('issues->summary_table->issue_from_date'); ?></td>
 			<td class='cell action'></td>
 		</tr>
@@ -65,6 +67,29 @@ if(!$openAs || $openAs != "popup") {
 		$issueEditFn	= "_issues.editForm(".$editFnOptions.")";
 
 		$cssStatus = ($issue->status == "open" || $issue->status == "inProgress") ? "open" : $issue->status;
+
+		$assignedToUser 	= "";
+
+		/*echo $issue->issue_id."<br/>";
+		print_r($assigneeDetails[$issue->issue_id]);
+		echo "<br/>";*/
+
+		if($issue->assigned_to_user_type == "contractor") {
+			if($assigneeDetails && $assigneeDetails[$issue->issue_id] && $assigneeDetails[$issue->issue_id]["contractorDetails"] && count($assigneeDetails[$issue->issue_id]["contractorDetails"])) {
+				$contractorDetails = $assigneeDetails[$issue->issue_id]["contractorDetails"][0];
+				$assignedToUser = $contractorDetails->name." from ".$contractorDetails->company;
+			}
+		}
+
+		if($issue->assigned_to_user_type == "customer") {
+			if($assigneeDetails && $assigneeDetails[$issue->issue_id] && $assigneeDetails[$issue->issue_id]["customerDetails"] && count($assigneeDetails[$issue->issue_id]["customerDetails"])) {
+				$customerDetails = $assigneeDetails[$issue->issue_id]["customerDetails"][0];
+				$assignedToUser = $customerDetails->first_name." ".$customerDetails->last_name;
+			}
+		}
+
+		$assignedToUser = !empty($assignedToUser) ? $assignedToUser : "-NA-";
+
 	?>
 		<tr class='row viewAll <?php echo $cssStatus; ?>'>
 			<td class='cell capitalize'>
@@ -73,6 +98,8 @@ if(!$openAs || $openAs != "popup") {
 				</a>
 			</td>
 			<td class="cell capitalize"><?php echo $issue->status; ?></td>
+			<td class="cell capitalize"><?php echo $issue->assigned_to_user_type; ?></td>
+			<td class="cell capitalize"><?php echo $assignedToUser; ?></td>
 			<td class="cell capitalize date"><?php echo $issue->issue_from_date; ?></td>
 			<td class='cell table-action'>
 			<?php
