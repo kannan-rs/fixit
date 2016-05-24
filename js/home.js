@@ -143,6 +143,9 @@ var homeObj = (function () {
                 case "create_insurance_company":
                     _ins_comp.createForm();
                 break;
+                case "home_page":
+                    _home_content.showHomePageContent();
+                break;
             }
         },
 
@@ -224,9 +227,9 @@ $(document).ready(function() {
     if($('.slider5')) {
         $('.slider5').bxSlider({
             slideWidth: 300,
-            minSlides: 3,
-            maxSlides: 3,
-            moveSlides: 3,
+            minSlides: 4,
+            maxSlides: 4,
+            moveSlides: 4,
             slideMargin: 10
         });
     }

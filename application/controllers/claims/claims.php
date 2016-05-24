@@ -36,7 +36,15 @@ class Claims extends CI_Controller {
 		$this->load->model('claims/model_claims');
 		$this->load->model('security/model_users');
 		
-		$getParams = array();
+		$getParams = array(
+			"role_name" => $this->session->userdata('logged_in_role_disp_name'),
+			"user_id" 	=> $this->session->userdata('logged_in_user_id')
+		);
+
+		/*switch ($this->session->userdata('logged_in_role_disp_name')) {
+			case FUNCTION_CUSTOMER:
+			break;
+		};*/
 
 		$claimsResponse = $this->model_claims->getClaimsList($getParams);
 

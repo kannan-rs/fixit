@@ -33,11 +33,19 @@
 		<?php
 		if( !$is_logged_in && $currentPage == "" || $currentPage == "index") {
 		?>
-		<ul id="slider1">
-		  <li><img src="/img/pic1.jpg" style="width:890px" /></li>
-		  <li><img src="/img/pic2.jpg" style="width:890px" /></li>
-		  <li><img src="/img/pic3.jpg" style="width:890px" /></li>
-		  <li><img src="/img/pic4.jpg" style="width:890px" /></li>
+		<ul class="banner-ul" id="slider1">
+		  	<li><img src="/img/pic1.jpg" class="banner-image" />
+		  		<span class="banner-text">Manage projects, large or small</span>
+		  	</li>
+		  	<li><img src="/img/pic2.jpg" class="banner-image" />
+		  		<span class="banner-text">Improve communication with your service provider</span>
+		  	</li>
+		  	<li><img src="/img/pic3.jpg" class="banner-image" />
+		  		<span class="banner-text">Over communicate with your customers</span>
+		  	</li>
+		  	<li><img src="/img/pic4.jpg" class="banner-image" />
+		  		<span class="banner-text">Always know what is next in your project</span>
+		 	</li>
 		</ul>
 		<?php
     	}

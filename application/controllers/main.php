@@ -239,6 +239,20 @@ class Main extends CI_Controller {
 		$this->layouts->view( $params );
 	}
 
+	public function web_contents()
+	{
+		// With View library
+		$this->load->library("layouts");
+
+		if(!$this->isLoggedIn()) {
+			return false;
+		}
+
+		$this->layouts->setPage("web_content");
+		//Render a view
+		$this->layouts->view();
+	}
+
 	public function isLoggedIn() {
 		if(!is_logged_in()) {
 			 redirect('/main/index', 'refresh');

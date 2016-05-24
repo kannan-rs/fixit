@@ -206,7 +206,7 @@ News - in CMS way
 Resources
 Videos
 
-Work Done - 11 to 17
+Work Done - 11 to 25
 --------------------
 1. Added Company Name to the Service Provider User list under Project  > Assign Service provider user
 2. Show only the selected users from project while assigning a task.
@@ -214,3 +214,34 @@ Work Done - 11 to 17
 4. Even after assigning  Service provider to task it is not listing in task list for individual view and list view.
 5. Issues Assignment of customer and service provider is not happening because of service provider image addition. Which is rectified.
 6. Added contractor assigned to owner name for issues.
+
+1. Michael's Issue - 01
+	>> Done, For customer login, Claim Will be displayed under his name. 
+	>> Done, Budget Miss Spell corrected
+
+2. Michael's Issue - 02
+	>> Overview page content updated
+	>> Home page content updated
+	>> Banner CSS modified
+	>> Banner text added
+
+3. News - CMS
+	>> Added News Section from admin and shown the news 
+
+4. Testing and bug fixing
+	>> Signup page loading Issue Corrected
+	>> Address in signup form was coming as "--". Corrected for input form to show input text box and dropdown for address
+
+5. Resources
+	>> Added Resources Section from admin and shown the resources in home page 
+
+6. Videos
+
+7. Discount Images and discounts details in home page as a set of 4.
+
+
+
+
+8. Adding Comments to the code that helps for documentation
+
+9. Clicking on same menu to go back to previous view.

@@ -8,7 +8,7 @@
 		<td class='cell dollers'><div>$<?php echo number_format($project->paid_from_budget, 2, '.', ','); ?></div></td>
 	</tr>
 	<tr>
-		<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_budget->remaining_bbudget'); ?></td>
+		<td class='cell label'><?php echo $this->lang->line_arr('projects->details_view_budget->remaining_budget'); ?></td>
 		<td class='cell dollers'><div>$<?php echo number_format(($project->project_budget - $project->paid_from_budget), 2, '.', ','); ?></div></td>
 	</tr>
 	<tr>

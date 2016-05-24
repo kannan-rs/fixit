@@ -15,6 +15,7 @@ class Layouts {
 			"js/library/angular.min.js",
 			"js/library/jquery-2.1.3.min.js",
 			"js/library/jquery-ui.js",
+			"js/library/nicEdit.js",
 			"js/library/jquery.validate.js",
 			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
@@ -61,6 +62,7 @@ class Layouts {
 			"js/components/claims/subrogation/subrogation.js",
 			"js/components/claims/docs/docs.js",
 			'js/components/home/userInfo.js',
+			'js/components/web_contents/home_content.js',
 			"js/home.js"
 		)
 	);
@@ -227,6 +229,8 @@ class Layouts {
 		$this->setLayout($params);
 		//Set JS and CSS Includes
 		$this->setIncludes($params);
+
+		$discountResponse = $this->getDiscountData();
 		// render view
 		$this->CI->load->view("themes/".$this->layout_template."/template", $this->layout_data);
 	}
@@ -239,11 +243,14 @@ class Layouts {
 		if(!is_logged_in() && $this->layout_data['page'] == "index") {
 			//echo "<br/>Not Logged In";
 			$this->layout_data['main_content'] = $this->CI->load->view("notLoggedIn/index", $this->layout_data, true);
+
+			$this->layout_data['news_content'] = $this->getNews_content();
+			$this->layout_data['resource_content'] = $this->getResource_content();
 		} else {
 			if($this->layout_data['main_content_name'] == "signup") {
 				$this->layout_data["userType"] 			= $this->CI->session->userdata('logged_in_role_id');
 
-				$this->layout_data['addressFile']		= $this->form_lib->getAddressFile(array("view" => "create_user_form"));
+				$this->layout_data['addressFile']		= $this->CI->form_lib->getAddressFile(array("requestFrom" => "input", "view" => "create_user_form"));
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/inputForm", $this->layout_data, true);
 			} else {
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
@@ -370,6 +377,89 @@ class Layouts {
 		}
 		return json_encode($menus_to_show);
 	}
+
+	public function getNews_content() {
+		$this->CI->load->model('web_contents/model_home_content');
+
+		$getParams = array(
+			"dataFor" => "all"
+		);
+		$newsData = $this->CI->model_home_content->getNewsData();
+
+		return $newsData;
+	}
+
+	public function getResource_content() {
+		$this->CI->load->model('web_contents/model_home_content');
+
+		$getParams = array(
+			"dataFor" => "all"
+		);
+		$newsData = $this->CI->model_home_content->getResourceData();
+
+		return $newsData;
+	}
+
+	public function getDiscountData() {
+
+		/*$this->load->model('service_providers/model_service_providers');
+		$this->load->model('service_providers/model_trades');
+		$this->load->model('service_providers/model_discounts');
+		
+		$contractor_id	= "";
+		$sub_trade_id 	= "";
+		$main_trade_id 	= "";
+		$trade_name 	= "";
+
+		$getParams = array(
+			"contractor_id" => $contractor_id
+		);
+
+		// * Get Trades * /
+		//$tradesListResponse = $this->model_trades->getTradesList( $getParams );
+		//$tradesList 		= $this->convertTradesDBToId($tradesListResponse["tradesList"]);
+
+		// * Get Main Trade and Sub trade Values from databases * /
+		$main_trades_response = $this->model_trades->getMainTradeList("all");
+		$main_trades = null;
+		if($main_trades_response["status"] == "success") {
+			$main_trades = $main_trades_response["mainTradesList"];
+			$main_trades 	= $this->_mapMainTradeToId( $main_trades );
+		}
+
+		// Get Sub trade list Trades
+		$options = array(
+			"sub_trade_id" 		=> "all",
+			"parent_trade_id"	=> "all",
+			"trade_for"			=> "sub",
+			"contractor_id"		=> $contractor_id
+		);
+		$sub_trades_response = $this->model_trades->getSubTradeList($options);
+
+		$sub_trades_list = [];
+		if($sub_trades_response["status"] == "success") {
+			$sub_trades = $sub_trades_response["subTradesList"];
+			$sub_trades = $this->_mapSubTradeToId( $sub_trades );
+		}
+
+		// * Get Discount List * /
+		$response = $this->model_discounts->getDiscountList($getParams);
+
+		$params = array(
+			"sub_trade_id"		=> $sub_trade_id,
+			"main_trade_id"		=> $main_trade_id,
+			"contractor_id"		=> $contractor_id,
+			"trade_name"		=> $trade_name,
+			"tradesList"		=> $tradesList,
+			"main_trades"		=> $main_trades,
+			"sub_trades"		=> $sub_trades
+		);
+
+		if($response["status"] == "success") {
+			$params['discountList'] = $response["discountList"];
+		}*/
+	}
+	
 	/* Function Ends */
 }
 ?>

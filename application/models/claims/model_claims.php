@@ -4,7 +4,9 @@ class Model_claims extends CI_Model {
 	public function getClaimsList($params = array()) {
 		$this->db->where('is_deleted', '0');
 
-		$claim_id = isset($params["claim_id"]) ? $params["claim_id"] : null;
+		$claim_id 	= isset($params["claim_id"]) ? $params["claim_id"] : null;
+		$role_name 	= isset($params["role_name"]) ? $params["role_name"] : null;
+		$user_id 	= isset($params["user_id"]) ? $params["user_id"] : null;
 
 		if($claim_id) {
 			if(is_array($claim_id) && implode(",", $claim_id) != "" ) {
@@ -12,6 +14,16 @@ class Model_claims extends CI_Model {
 			} else if( !empty($claim_id) ) {
 				$this->db->where('claim_id', $claim_id);
 			}
+		}
+
+		switch ($role_name) {
+			case FUNCTION_CUSTOMER:
+				$this->db->where('claim_customer_id', $user_id);
+				break;
+			
+			default:
+				# code...
+				break;
 		}
 
 		$this->db->select([

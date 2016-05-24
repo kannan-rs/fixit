@@ -578,7 +578,7 @@ $lang["projects"] = array (
 	"details_view_budget" => array(
 		"project_budget" => "Project Budget",
 		"paid_from_budget" => "Paid from Budget",
-		"remaining_bbudget" => "Remaining Bbudget",
+		"remaining_budget" => "Remaining Budget",
 		"deductible" => "Deductible",
 		"referral_fee" => "Referral Fee"
 	),

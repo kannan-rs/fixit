@@ -306,6 +306,14 @@ define('TOP_MENUS', '[
 				"dependency"	: {
 					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
 				}
+			},
+			{
+				"text"			: "Home Page Content", 
+				"link"			: "/main/web_contents/home_page", 
+				"key"			: "permissions",
+				"dependency"	: {
+					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
+				}
 			}
 		]
 	},
