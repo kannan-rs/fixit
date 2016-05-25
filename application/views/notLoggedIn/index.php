@@ -14,7 +14,7 @@
 	Task assignments, document storage, issue log, sub contractor management, budget tracking, etc.
 </p>
 <p>
-	<a href="/main/signup">Register</a> and start improving your customer’s experience.
+	<a href="/main/signup">Register</a> and start improving your customer's experience.
 </p>
 
 <!-- <p class="note">This a bog standard note which can be used to highlight content to the user</p>

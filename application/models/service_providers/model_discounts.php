@@ -6,11 +6,15 @@ class Model_discounts extends CI_Model {
 		$response = array(
 			'status' => 'error'
 		);
-		$contractor_id	= $options["contractor_id"];
+		$contractor_id	= isset($options["contractor_id"]) ? $options["contractor_id"] : "";
 		$discount_id	= isset($options["discount_id"]) ? $options["discount_id"] : "";
+		$from_lib		= isset($options["from_lib"]) ? $options["from_lib"] : "";
 
-		if(isset($contractor_id) && $contractor_id != "") {
-			$this->db->where('discount_for_contractor_id', $contractor_id);
+		if((isset($contractor_id) && $contractor_id != "") || (isset($from_lib) && $from_lib == 1 )) {
+			
+			if(isset($contractor_id) && $contractor_id != "") {
+				$this->db->where('discount_for_contractor_id', $contractor_id);
+			}
 
 			if(isset($discount_id) && $discount_id != "") {
 				$this->db->where('discount_id', $discount_id);

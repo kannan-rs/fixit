@@ -164,6 +164,26 @@ class Layouts {
 		return $dependency_ok;
 	}
 
+	private function _mapMainTradeToId( $tradesList ) {
+		$mappedTradeById = [];
+		if(!empty($tradesList)) {
+			for($i=0, $count = count($tradesList); $i < $count; $i++) {
+				$mappedTradeById[$tradesList[$i]->main_trade_id] = $tradesList[$i];
+			}
+		}
+		return $mappedTradeById;
+	}
+
+	private function _mapSubTradeToId( $tradesList ) {
+		$mappedTradeById = [];
+		if(!empty($tradesList)) {
+			for($i=0, $count = count($tradesList); $i < $count; $i++) {
+				$mappedTradeById[$tradesList[$i]->sub_trade_id] = $tradesList[$i];
+			}
+		}
+		return $mappedTradeById;
+	}
+
 	public function __construct() {
 		$this->CI =& get_instance();
 	}
@@ -231,6 +251,8 @@ class Layouts {
 		$this->setIncludes($params);
 
 		$discountResponse = $this->getDiscountData();
+
+		$this->layout_data["discountResponse"] = $discountResponse;
 		// render view
 		$this->CI->load->view("themes/".$this->layout_template."/template", $this->layout_data);
 	}
@@ -402,17 +424,17 @@ class Layouts {
 
 	public function getDiscountData() {
 
-		/*$this->load->model('service_providers/model_service_providers');
-		$this->load->model('service_providers/model_trades');
-		$this->load->model('service_providers/model_discounts');
+		//$this->CI->load->model('service_providers/model_service_providers');
+		$this->CI->load->model('service_providers/model_trades');
+		$this->CI->load->model('service_providers/model_discounts');
 		
-		$contractor_id	= "";
+		//$contractor_id	= "";
 		$sub_trade_id 	= "";
 		$main_trade_id 	= "";
 		$trade_name 	= "";
 
 		$getParams = array(
-			"contractor_id" => $contractor_id
+			"from_lib" => 1
 		);
 
 		// * Get Trades * /
@@ -420,7 +442,7 @@ class Layouts {
 		//$tradesList 		= $this->convertTradesDBToId($tradesListResponse["tradesList"]);
 
 		// * Get Main Trade and Sub trade Values from databases * /
-		$main_trades_response = $this->model_trades->getMainTradeList("all");
+		$main_trades_response = $this->CI->model_trades->getMainTradeList("all");
 		$main_trades = null;
 		if($main_trades_response["status"] == "success") {
 			$main_trades = $main_trades_response["mainTradesList"];
@@ -431,10 +453,9 @@ class Layouts {
 		$options = array(
 			"sub_trade_id" 		=> "all",
 			"parent_trade_id"	=> "all",
-			"trade_for"			=> "sub",
-			"contractor_id"		=> $contractor_id
+			"trade_for"			=> "sub"
 		);
-		$sub_trades_response = $this->model_trades->getSubTradeList($options);
+		$sub_trades_response = $this->CI->model_trades->getSubTradeList($options);
 
 		$sub_trades_list = [];
 		if($sub_trades_response["status"] == "success") {
@@ -443,21 +464,27 @@ class Layouts {
 		}
 
 		// * Get Discount List * /
-		$response = $this->model_discounts->getDiscountList($getParams);
+		$response = $this->CI->model_discounts->getDiscountList($getParams);
 
 		$params = array(
 			"sub_trade_id"		=> $sub_trade_id,
 			"main_trade_id"		=> $main_trade_id,
-			"contractor_id"		=> $contractor_id,
+			//"contractor_id"		=> $contractor_id,
 			"trade_name"		=> $trade_name,
-			"tradesList"		=> $tradesList,
+			//"tradesList"		=> $tradesList,
 			"main_trades"		=> $main_trades,
 			"sub_trades"		=> $sub_trades
 		);
 
+		//print_r($response);
+
 		if($response["status"] == "success") {
 			$params['discountList'] = $response["discountList"];
-		}*/
+		}
+
+		return $params;
+
+		//echo $this->load->view("service_providers/discounts/viewAll", $params, true);
 	}
 	
 	/* Function Ends */

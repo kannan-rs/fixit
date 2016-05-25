@@ -235,13 +235,15 @@ Work Done - 11 to 25
 5. Resources
 	>> Added Resources Section from admin and shown the resources in home page 
 
-6. Videos
-
 7. Discount Images and discounts details in home page as a set of 4.
+	>> Set the Discount image listing by 4.
+	>> Shown the discount images in place of dummy images
 
-
-
+6. Videos
 
 8. Adding Comments to the code that helps for documentation
 
 9. Clicking on same menu to go back to previous view.
+
+
+1. Customer CSV upload.

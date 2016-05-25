@@ -40,9 +40,9 @@
 						<?php echo $resource_content; ?>
 					</p>
 				</div>
-				/*<div class="bluebox">
+				<!--<div class="bluebox">
 					<p>A simple blue box. Sed tortor neque, interdum nec aliquam id, egestas quis augue. Phasellus bibendum pellentesque massa eu pretium.</p>
-				</div>*/
+				</div>-->
 			</li>
 		<?php
 		}

@@ -80,35 +80,57 @@
 			}
 			?>
 			<?php
-			if(!is_logged_in() && $currentPage == "" || $currentPage == "index") {
+			if(!is_logged_in() && $currentPage == "" || $currentPage == "index" && isset($discountResponse) && !empty($discountResponse)) {
+				$disocuntsList = $discountResponse['discountList'];
+				$discountLoopCount = count($disocuntsList) > 12 ? 12 : count($disocuntsList);
+				//print_r($discounts);
 			?>
-			<div style="clear:both"></div>
-			<div class="slider5">
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount1">
-			  	<h3>Discount 1</h3>
-			  	<div>
-			  		<b> Header</b> <br/>
-			  		Some text to show discount<br/>
-			  		<span style="font-size:20px">Discount $20</span>
-			  	</div>
-			  </div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount2">
-			  	<h3>Discount 2</h3>
-			  	<div>
-			  		<b> Header</b> <br/>
-			  		Some text to show discount<br/>
-			  		<span style="font-size:20px">Discount 20%</span>
-			  	</div>
-			  </div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount3"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount4"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount5"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount6"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount7"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount8"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount9"></div>
-			  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount10"></div>
-			</div>
+				<div style="clear:both"></div>
+				<div class="slider5">
+				<?php
+					for( $dLi = 0; $dLi < $discountLoopCount; $dLi++) {
+						$discount = $disocuntsList[$dLi];
+				?>
+				  <div class="slide">
+				  	<?php
+				  	if( !empty($discount->discount_image)) {
+				  	?>
+				  		<img src="data:image/jpeg;base64,<?php echo base64_encode(stripslashes($discount->discount_image) ); ?>">
+				  	<?php
+				  	} else {
+				  	?>
+				  		<img src="http://placehold.it/300x150&text=NoDiscountImage">
+				  	<?php
+				  	}
+				  	?>
+				  	<h3>Discount 1</h3>
+				  	<div>
+				  		<b> Header</b> <br/>
+				  		Some text to show discount<br/>
+				  		<span style="font-size:20px">Discount $20</span>
+				  	</div>
+				  </div>
+				<?php
+				}
+				?>
+				  <!-- <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount2">
+				  	<h3>Discount 2</h3>
+				  	<div>
+				  		<b> Header</b> <br/>
+				  		Some text to show discount<br/>
+				  		<span style="font-size:20px">Discount 20%</span>
+				  	</div>
+				  </div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount3"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount4"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount5"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount6"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount7"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount8"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount9"></div>
+				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount10"></div>
+				 -->
+				</div>
 			<?php
 			}
 			?>
