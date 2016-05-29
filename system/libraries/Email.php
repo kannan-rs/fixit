@@ -1565,24 +1565,23 @@ class CI_Email {
 		$CI =& get_instance();
 		$CI->config->load('config');
 		
-		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "lib Email `_send_with_mail` Mail--\n"."safemode--".$this->_safe_mode."--\n", FILE_APPEND | LOCK_EX);
+		file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "\n\nlib Email `_send_with_mail` Mail--"."safemode--\n".$this->_safe_mode."--\n", FILE_APPEND | LOCK_EX);
 		
 		if ($this->_safe_mode == TRUE)
 		{
 			if($CI->config->item('development_mode') == false) {
+				$content = "Mail To : ".$this->_recipients."\n";
+				$content .= "Subject : ".$this->_subject."\n";
+				$content .= "Mail Body : ".$this->_finalbody."\n";
+				$content .= "Headers : ".$this->_header_str."\n";
 				if ( !mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str))
 				{
-					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail not send\n", FILE_APPEND | LOCK_EX);
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", $content."Status :  mail not send\n\n", FILE_APPEND | LOCK_EX);
 					return FALSE;
 				}
 				else
 				{
-					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", "mail send success\n", FILE_APPEND | LOCK_EX);
-					$to      = 'kannan2k6@gmail.com';
-					$subject1 = "from Send Mail<br/>".$this->_subject;
-
-					mail($to, $subject1, $this->_finalbody, $this->_header_str);
-
+					file_put_contents($_SERVER['DOCUMENT_ROOT']."/email_log.html", $content."Status : mail send success\n\n", FILE_APPEND | LOCK_EX);
 					return TRUE;
 				}
 			}

@@ -779,7 +779,6 @@ class Model_mail extends CI_Model {
 
 		    $this->email->from($from, $fromName);
 		    $this->email->to($to);
-		    $this->email->to("kannan2k6@gmail.com");
 		    $this->email->reply_to($from, $fromName);
 		    $this->email->subject($subject);
 		    $this->email->message($message);
