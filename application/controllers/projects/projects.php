@@ -1144,7 +1144,7 @@ class Projects extends CI_Controller {
 		$end_date		= "";
 		$percentage 	= "";
 		$contractors 	= "";
-		$partners 	= "";
+		$partners 		= null;
 		$customerFile 	= "";
 
 		// Individual View
@@ -1232,9 +1232,27 @@ class Projects extends CI_Controller {
         /* Partner Details */
         $csvArray[] = array("Partner Details", "");
         $csvArray[] = array("", "Partner Name", "Partner Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Personal Email", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
-        for($i = 0; $i < count($partners); $i++) {
-            $csvArray[] = array("", $partners[$i]->name, $partners[$i]->company_name, $partners[$i]->contact_pref, $partners[$i]->work_email_id, $partners[$i]->work_phone, $partners[$i]->personal_email_id, $partners[$i]->mobile_no, $partners[$i]->address1, $partners[$i]->address2, $partners[$i]->city, $partners[$i]->state, $partners[$i]->country, $partners[$i]->zip_code);
-        }
+        
+        if($partners) {
+	        for($i = 0; $i < count($partners); $i++) {
+	            $csvArray[] = array(
+	            					"", 
+	            					$partners[$i]->name, 
+	            					$partners[$i]->company_name, 
+	            					$partners[$i]->contact_pref, 
+	            					$partners[$i]->work_email_id, 
+	            					$partners[$i]->work_phone, 
+	            					$partners[$i]->personal_email_id, 
+	            					$partners[$i]->mobile_no, 
+	            					$partners[$i]->address1, 
+	            					$partners[$i]->address2, 
+	            					$partners[$i]->city, 
+	            					$partners[$i]->state, 
+	            					$partners[$i]->country, 
+	            					$partners[$i]->zip_code
+	            				);
+	        }
+    	}
         
         /* Task List */
         $contractors = array();

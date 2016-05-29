@@ -1,4 +1,7 @@
 <?php
+/*print_r($projectPermission);
+echo "<br/>";
+echo OPERATION_EXPORT;*/
 	if(in_array(OPERATION_UPDATE, $projectPermission['operation'])) {
 		$editFn 	= "_projects.editProject('".$projectId."')";
 	}
@@ -13,7 +16,7 @@
 		$issueFn 		= "_issues.viewAll(".$issueFnOptions.")";
 	}
 
-	if(in_array(OPERATION_EXPORT, $issuesPermission['operation'])) {
+	if(in_array(OPERATION_EXPORT, $projectPermission['operation'])) {
 		$exportFn 		= "_projects.exportCSV('".$projectId."')";
 	}
 ?>
@@ -59,7 +62,7 @@
 		</span>
 		<?php
 		} 
-		if(in_array(OPERATION_EXPORT, $issuesPermission['operation'])) {
+		if(in_array(OPERATION_EXPORT, $projectPermission['operation'])) {
 		?>
 		<span>
 			<a class="step fi-page-csv size-21" href="javascript:void(0);" 
