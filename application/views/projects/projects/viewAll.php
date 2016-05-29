@@ -69,7 +69,7 @@
 		?>
 				<tr class='row viewAll <?php echo $cssStatus; ?> <?php echo !empty($issueCount) ? "issues" : ""; ?>'>
 					<td class='cell'>
-						<a href="javascript:void(0);" onclick="_projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
+						<a href="/main/projects/projects/viewone/<?php echo $projects[$i]->proj_id; ?>" onclick="_projects.viewOne('<?php echo $projects[$i]->proj_id; ?>')">
 							<?php echo $projects[$i]->project_name; ?>
 						</a>
 					</td>

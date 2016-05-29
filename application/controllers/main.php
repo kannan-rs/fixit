@@ -20,6 +20,7 @@ class Main extends CI_Controller {
 			'function' => $function,
 			'record'=> $record
 		);
+		//print_r($data);
 
 		$this->session->set_userdata($data);
    }
@@ -83,6 +84,8 @@ class Main extends CI_Controller {
 	public function home()
 	{
 		// With View library
+		/*echo "<br/>";
+		echo "main > home";*/
 		$this->load->library("layouts");
 
 		if(!$this->isLoggedIn()) {

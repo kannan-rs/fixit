@@ -133,7 +133,7 @@ Permission setting and testing
 2. Removed role column from permission
 
 3. Setting of permission
-	Questions ()
+	Questions ()	
 	1. What is the difference between 
 		Service Provider Admin
 		Service Provider Agent
@@ -180,31 +180,29 @@ Not Now - Allow Fixit admin to choose partners user for a project from a partner
 
 MOM (4/11/2016)
 ---------------
-Bug 12
-Testing
 Documentation for Code
 
 
 MOM (4/20/2016)
 --------------
 2. Discount Images and discounts details in home page as a set of 4.
-
-Issues to fix
--------------
-User account related mails
-3. Impliment Angular table for the users list. 
-4. Add search functionlait to the users list.
-5. Implimnet Angular table for the projects.
-6. Add search functionality for the projects.
-
 6. Videos
+
 
 8. Adding Comments to the code that helps for documentation
 
 9. Clicking on same menu to go back to previous view.
 
-
-1. Customer CSV upload.
-
-EXPORT as CSV
+Work Status for last week
+-------------------------
+1. Email functionality error correction.
+2. EXPORT as CSV
 	>> Error corrected from admin
+3. Code changes to take > Pages and Sub Pages from URL to load its respective page
+4. Code changes to load App related files after loggin.
+5. Discount Section to show discount Image, Header, Description and discount Value.
+Clicking on same menu to go back to previous view.
+--------------------------------------------------
+	6. History Support for HOME tab after login.
+	7. History Support for Project links added.
+	8. History and back button support for service provider

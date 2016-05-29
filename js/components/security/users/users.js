@@ -610,7 +610,16 @@ var _users = (function () {
                             status                 : "success",
                             responseType         : "update"
                         }
-                        _users.viewOne( params );
+                        if( homeObj.page == "home" && homeObj.internal_page == "view_my_details" ) {
+                            window.location = "/main/"+homeObj.page+"/"+homeObj.internal_page+"/"+"view"+"/"+homeObj.record
+                        } else {
+                            /*console.log("user-viewone");
+                            console.log(homeObj.page);
+                            console.log(homeObj.internal_page);
+                            console.log(homeObj.operation);
+                            console.log(homeObj.record);*/
+                            _users.viewOne( params );
+                        }
                     } else {
                         alert(response["message"]);
                     }

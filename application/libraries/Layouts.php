@@ -10,7 +10,7 @@ class Layouts {
 	private $layout_template = "default";
 
 	private $js_includes = array(
-		'common' => array(
+		'libs' => array(
 			"js/shared/utils/constants.js",
 			"js/library/angular.min.js",
 			"js/library/jquery-2.1.3.min.js",
@@ -19,25 +19,10 @@ class Layouts {
 			"js/library/jquery.validate.js",
 			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
-			//"js/library/jssor.slider.mini.js",
-			"js/library/jquery.bxslider.js",
-			//"js/library/menus.js",
-			"js/shared/themes/default/layouts.js",
-			"js/shared/apps/fixit_app.js",
-
-			"js/shared/top_menu/top_menu_ctrl.js",
-			"js/shared/top_menu/top_menu_directive.js",
-
-			"js/shared/header/header_ctrl.js",
-			//"js/shared/header/header_directive.js",
-
-			"js/shared/fixitcontent/fixitcontent_ctrl.js",
-
-			"js/shared/footer/footer_ctrl.js",
-
-			"js/submit.js",
-			"js/shared/utils/utils.js",
-			"js/shared/utils/messages.js",
+			"js/library/jquery.bxslider.js"
+			
+		),
+		"if_logged_in" => array(
 			"js/components/security/users/users.js",
 			"js/components/security/operations/operations.js",
 			"js/components/security/roles/roles.js",
@@ -62,7 +47,25 @@ class Layouts {
 			"js/components/claims/subrogation/subrogation.js",
 			"js/components/claims/docs/docs.js",
 			'js/components/home/userInfo.js',
-			'js/components/web_contents/home_content.js',
+			'js/components/web_contents/home_content.js'
+		),
+		"common" => array(
+			"js/shared/themes/default/layouts.js",
+			"js/shared/apps/fixit_app.js",
+
+			"js/shared/top_menu/top_menu_ctrl.js",
+			"js/shared/top_menu/top_menu_directive.js",
+
+			"js/shared/header/header_ctrl.js",
+			//"js/shared/header/header_directive.js",
+
+			"js/shared/fixitcontent/fixitcontent_ctrl.js",
+
+			"js/shared/footer/footer_ctrl.js",
+
+			"js/submit.js",
+			"js/shared/utils/utils.js",
+			"js/shared/utils/messages.js",
 			"js/home.js"
 		)
 	);
@@ -226,14 +229,13 @@ class Layouts {
 	*/
 	public function view($params = array(), $layouts = array()) {
 
-		//$this->layout_data['menus'] 		= $this->menus;
-		$this->layout_data['left_menus_default'] = $this->left_menus_default;
-		$this->layout_data['menu_title'] 	= $this->menu_title;
-		$this->layout_data['initVar'] 		= $this->CI->session->userdata;
-		$this->layout_data['baseUrl'] 		= base_url();
-		$this->layout_data['params']  		= $params;
-		$this->layout_data['is_logged_in']  = is_logged_in();
-		$this->layout_data['currentPage']	= $this->CI->session->userdata("page");
+		$this->layout_data['left_menus_default'] 	= $this->left_menus_default;
+		$this->layout_data['menu_title'] 			= $this->menu_title;
+		$this->layout_data['initVar'] 				= $this->CI->session->userdata;
+		$this->layout_data['baseUrl'] 				= base_url();
+		$this->layout_data['params']  				= $params;
+		$this->layout_data['is_logged_in']  		= is_logged_in();
+		$this->layout_data['currentPage']			= $this->CI->session->userdata("page");
 
 		$this->set_required_permission();
 
@@ -247,6 +249,7 @@ class Layouts {
 		
 		// Set Template and its required layouts
 		$this->setLayout($params);
+
 		//Set JS and CSS Includes
 		$this->setIncludes($params);
 
@@ -259,22 +262,28 @@ class Layouts {
 
 	public function setLayout($params) {
 		// set layout's side bar for left navigation
-		$this->layout_data['left_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/left_side_bar", $this->layout_data, true);
+		//$this->layout_data['left_side_bar']	= $this->CI->load->view("themes/".$this->layout_template."/left_side_bar", $this->layout_data, true);
 		
 		
-		if(!is_logged_in() && $this->layout_data['page'] == "index") {
-			//echo "<br/>Not Logged In";
+		if(!is_logged_in() && $this->layout_data['page'] == PAGE_INDEX) {
+			//echo "<br/>Page -->".PAGE_INDEX;
 			$this->layout_data['main_content'] = $this->CI->load->view("notLoggedIn/index", $this->layout_data, true);
 
 			$this->layout_data['news_content'] = $this->getNews_content();
 			$this->layout_data['resource_content'] = $this->getResource_content();
-		} else {
-			if($this->layout_data['main_content_name'] == "signup") {
+		} 
+		else {
+			if($this->layout_data['main_content_name'] == PAGE_SIGNUP) {
+				//echo "<br/>Page -->".PAGE_SIGNUP;
 				$this->layout_data["userType"] 			= $this->CI->session->userdata('logged_in_role_id');
 
 				$this->layout_data['addressFile']		= $this->CI->form_lib->getAddressFile(array("requestFrom" => "input", "view" => "create_user_form"));
 				$this->layout_data['main_content']		= $this->CI->load->view("security/users/inputForm", $this->layout_data, true);
-			} else {
+			} 
+			else {
+				//echo "<br/>Main Content Name -->".$this->layout_data['main_content_name'];
+				//print_r($this->layout_data);
+				//echo  $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
 				$this->layout_data['main_content']		= $this->CI->load->view("pages/".$this->layout_data['main_content_name'], $this->layout_data, true);
 			}
 		}
@@ -287,6 +296,16 @@ class Layouts {
 	public function setIncludes($params) {
 		// Set layout's JS files
 		
+		for($jsIdx = 0; $jsIdx < count($this->js_includes['libs']); $jsIdx++){
+			$this->addInclude($this->js_includes['libs'][$jsIdx]);
+		}
+
+		if(is_logged_in()) {
+			for($jsIdx = 0; $jsIdx < count($this->js_includes['if_logged_in']); $jsIdx++){
+				$this->addInclude($this->js_includes['if_logged_in'][$jsIdx]);
+			}
+		}
+
 		for($jsIdx = 0; $jsIdx < count($this->js_includes['common']); $jsIdx++){
 			$this->addInclude($this->js_includes['common'][$jsIdx]);
 		}

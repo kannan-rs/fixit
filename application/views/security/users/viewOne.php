@@ -31,8 +31,7 @@
 			if ( $this->session->userdata('logged_in_email') == $users->user_name ) {
 			?>
 			<span>
-				<a class="step fi-page-edit size-21" href="javascript:void(0);" onclick="_users.editUser('<?php echo $users->sno; ?>')" 
-					title="Edit Personal Details" >
+				<a class="step fi-page-edit size-21" href="/main/home/view_my_details/edit/<?php echo $users->sno; ?>" title="Edit Personal Details" >
 				</a>
 			</span>
 			<?php	

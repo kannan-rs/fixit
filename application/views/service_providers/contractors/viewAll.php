@@ -44,13 +44,8 @@
 			$cssStatus = $contractor->status == "inactive" ? "inactive" : "active";
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
-				<!-- <td class='cell capitalize'>
-					<a href="javascript:void(0);" onclick="_contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
-						<?php echo $contractor->name; ?>
-					</a>
-				</td> -->
 				<td class="cell capitalize">
-					<a href="javascript:void(0);" onclick="_contractors.viewOne('<?php echo $contractors[$i]->id; ?>')">
+					<a href="/main/service_providers/contractors/viewone/<?php echo $contractors[$i]->id; ?>">
 						<?php echo $contractor->company; ?></td>
 					</a>
 				</td>

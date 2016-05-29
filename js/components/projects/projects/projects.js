@@ -381,7 +381,8 @@ var _projects = (function () {
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
                         alert(response.message);
-                        self.viewOne(response.insertedId);
+                        //self.viewOne(response.insertedId);
+                        window.location = "/main/projects/projects/viewone/"+response.insertedId;
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
                     }

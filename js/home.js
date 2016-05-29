@@ -36,6 +36,7 @@ var homeObj = (function () {
         },
 
         loadPage : function( menus ) {
+            //return;
             var pageModuleMap = {
                 "security"              : "users",
                 "home"                  : "view_my_details",
@@ -46,105 +47,202 @@ var homeObj = (function () {
                 "claims"                : "claims"
             }
 
-            var module = _utils.get_current_page();
-            var logged_in_user_details = _utils.get_logged_in_user_details();
+            this.page                    = _utils.get_current_page_from_url();
+            var logged_in_user_details  = _utils.get_logged_in_user_details();
 
             for(var i = 0; i < menus.length; i++) {
-                if( module == menus[i].link.split("/").reverse()[0]) {
+                if( page == menus[i].link.split("/").reverse()[0]) {
                     if( menus[i].sub_menus && menus[i].sub_menus.length) {
-                        module = menus[i].sub_menus[0].link.split("/").reverse()[0];
+                        page = menus[i].sub_menus[0].link.split("/").reverse()[0];
                         break;
                     }
                 }
             }
 
-            switch (module) {
-                /* Security Page */
+            this.internal_page  = _utils.get_internal_page_from_url( page );
+            this.operation      = _utils.get_operation_from_url( page, internal_page );
+            this.record         = _utils.get_record_from_url( page, internal_page, operation );
+
+            /*console.log("page -->" + this.page);
+            console.log("internal_page -->" + this.internal_page);
+            console.log("Operation -->" + this.operation);
+            console.log("Record -->" + this.Record);*/
+
+            switch (this.page) {
+                case "signup":
+                    _utils.getAndSetCountryStatus("create_user_form");
+                break;
+                
+                case "insurance_company":
+                    _ins_comp.viewAll();
+                break;
+                
+                case "create_insurance_company":
+                    _ins_comp.createForm();
+                break;
+                
+                case "home_page":
+                    _home_content.showHomePageContent();
+                break;
+
                 case "users":
-                    _users.viewAll();
+                    switch (this.internal_page) {
+                        case "create_user":
+                            _users.createForm();
+                        break;
+                        default:
+                            _users.viewAll();
+                        break;
+                    }
                 break;
-                case "create_user":
-                    _users.createForm();
-                break;
+
                 case "operations":
-                    _operations.viewAll();
+                    switch (this.internal_page) {
+                        case "create_operation":
+                            _operations.createForm();
+                        break;
+                        default:
+                            _operations.viewAll();
+                        break;
+                    }
                 break;
-                case "create_operation":
-                    _operations.createForm()
-                break;
+
                 case "roles":
-                    _roles.viewAll();
+                    switch (this.internal_page) {
+                        case "create_role":
+                            _roles.createForm();
+                        break;
+                        default:
+                            _roles.viewAll();
+                        break;
+                    }
                 break;
-                case "create_role":
-                    _roles.createForm()
-                break;
+
                 case "functions":
-                    _functions.viewAll();
+                    switch (this.internal_page) {
+                        case "create_function":
+                            _functions.createForm();
+                        break;
+                        default:
+                            _functions.viewAll();
+                        break;
+                    }
                 break;
-                case "create_function":
-                    _functions.createForm()
-                break;
+                
                 case "data_filters":
-                    _dataFilters.viewAll();
+                    switch (this.internal_page) {
+                        case "create_data_filter":
+                            _dataFilters.createForm();
+                        break;
+                        default:
+                            _dataFilters.viewAll();
+                        break;
+                    }
                 break;
-                case "create_data_filter":
-                    _dataFilters.createForm();
-                break;
+                
                 case "permissions":
                     _permissions.getPageForType();
                     _permissions.getComponentInfo();
                 break;
-                    /*Project Page*/
+                
                 case "issues":
-                    _issues.viewAll();
+                    switch (this.internal_page) {
+                        case "create_issue":
+                            _issues.createForm();
+                        break;
+                        default:
+                            _issues.viewAll();
+                        break;
+                    }
                 break;
-                case "create_issue":
-                    _issues.createForm();
-                break;
+                
                 case "projects":
-                    _projects.viewAll();
+                    switch (this.internal_page) {
+                        case "create_project":
+                            _projects.createForm();
+                        break;
+                        case "projects":
+                        default:
+                            switch (this.operation) {
+                                case "viewone":
+                                    console.log("in viewone")
+                                    _projects.viewOne( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _projects.viewAll();
+                                break;
+                            }
+                        break;
+                    }
                 break;
-                case "create_project":
-                    _projects.createForm();
-                break;
+                
                 case "service_providers":
-                    _contractors.viewAll();
+                    switch (this.internal_page) {
+                        case "create_contractor":
+                            _contractors.createForm();
+                        break;
+                        case "trades":
+                            _contractor_trades.showTradeList();
+                        break;
+                        default:
+                            switch (this.operation) {
+                                case "viewone":
+                                    _contractors.viewOne( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _contractors.viewAll();
+                                break;
+                                 //onclick="('<?php echo $contractors[$i]->id; ?>')"
+                            }
+                            
+                        break;
+                    }
                 break;
-                case "create_contractor":
-                    _contractors.createForm();
-                break;
+               
                 case "adjusters":
-                    _partners.viewAll();
+                    switch (this.internal_page) {
+                        case "create_adjuster":
+                        case "create_partner":
+                           _partners.createForm();
+                        break;
+                        default:
+                            _partners.viewAll();
+                        break;
+                    }
                 break;
-                case "create_adjuster":
-                case "create_partner":
-                    _partners.createForm();
-                break;
+                
                 case "claims":
-                    _claims.viewAll();
+                    switch (this.internal_page) {
+                        case "create_claim":
+                            _claims.createForm();
+                        break;
+                        default:
+                            _claims.viewAll();
+                        break;
+                    }
                 break;
-                case "create_claim":
-                    _claims.createForm();
-                break;
-                    /*Personal Details*/
+                
+                /*Personal Details*/
                 case "home":
                 case "view_my_details":
-                    _userInfo.getUserData();
-                break;
-                case "change_pass_form":
-                    _userInfo.changePassForm();
-                break;
-                case "signup":
-                    _utils.getAndSetCountryStatus("create_user_form");
-                break;
-                case "insurance_company":
-                    _ins_comp.viewAll();
-                break;
-                case "create_insurance_company":
-                    _ins_comp.createForm();
-                break;
-                case "home_page":
-                    _home_content.showHomePageContent();
+                     switch (this.internal_page) {
+                        case "change_pass_form":
+                            _userInfo.changePassForm();
+                        break;
+                        default:
+                            switch(this.operation) {
+                                case "edit":
+                                    _users.editUser( this.record );
+                                break;
+                                case "view":
+                                default:
+                                    _userInfo.getUserData( this.record );
+                                break;
+                            }
+                        break;
+                    }
                 break;
             }
         },

@@ -115,8 +115,6 @@ define('CUSTOMER_PAGE', 						'projects');
 define('SERVICE_PROVIDER_ADMIN_PAGE', 			'service_providers');
 define('SERVICE_PROVIDER_USER_PAGE', 			'service_providers');
 
-/* End of file constants.php */
-
 /*
 | Menus
 */
@@ -434,8 +432,12 @@ define('TOP_MENUS', '[
 		]
 	}
 ]');
+
 define("DEFAULT_PAGE_IF_NOT_LOGGED_IN", "index");
 define("DEFAULT_PAGE_IF_LOGGED_IN", "projects");
+define("PAGE_INDEX", "index");
+define("PAGE_SIGNUP", "signup");
+
 /* Location: ./application/config/constants.php */
 
 /* // Partner Menu next to insurance company
@@ -469,3 +471,5 @@ define("DEFAULT_PAGE_IF_LOGGED_IN", "projects");
 		]
 	},
 */
+
+/* End of file constants.php */

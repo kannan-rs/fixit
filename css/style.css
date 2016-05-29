@@ -144,7 +144,7 @@ a, a:visited {
 /*** CONTENT STYLES ***/
 div.content {
   color: #555555;
-  min-height: 550px; }
+  min-height: 400px; }
   div.content li {
     padding: 5px 0; }
 
@@ -778,6 +778,10 @@ table.innerOption {
     margin: 5px 0px 5px 0px; }
   table.innerOption input[type="radio"], table.innerOption textarea[type="radio"], table.innerOption select[type="radio"] {
     margin: 5px 0px 5px 0px; }
+
+.discount-image {
+  width: 232px;
+  height: 116px; }
 
 /* ==== Google font ==== */
 /* === fontawesome === */

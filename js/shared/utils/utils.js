@@ -804,12 +804,41 @@ var _utils = (function () {
            );
         },
 
-        get_current_page : function() {
+        get_current_page_from_url : function() {
             var loc = location.pathname.split("/");
             //module = loc[loc.indexOf("main") + 1];
             //module = loc[loc.indexOf(module) + 1] ? loc[loc.indexOf(module) + 1] : module;
 
-            return loc[loc.length - 1];
+            page = loc[loc.indexOf("main") + 1];
+            return page;
+
+            //return loc[loc.length - 1];
+        },
+
+        get_internal_page_from_url : function( page_name ) {
+            var loc = location.pathname.split("/");
+
+            internal_page = loc[loc.indexOf(page_name) + 1] ? loc[loc.indexOf(page_name) + 1] : "";
+            return internal_page;
+        },
+
+        get_operation_from_url : function( page_name, internal_page_name ) {
+            var loc = location.pathname.split("/");
+
+            var index = 1;
+            if( page_name === internal_page_name) {
+                index = 2;
+            }
+
+            operation = loc[loc.indexOf(internal_page_name) + index] ? loc[loc.indexOf(internal_page_name) + index] : "";
+            return operation;
+        },
+
+        get_record_from_url : function( page_name, internal_page_name, operation ) {
+            var loc = location.pathname.split("/");
+
+            record = loc[loc.indexOf(operation) + 1] ? loc[loc.indexOf(operation) + 1] : "";
+            return record;
         },
 
         get_current_module : function() {

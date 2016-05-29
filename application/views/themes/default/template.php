@@ -53,16 +53,16 @@
 		<section>
 			<?php
 			if(is_logged_in()) {
-				if(isset($left_side_bar) && $left_side_bar != "") {
+				/*if(isset($left_side_bar) && $left_side_bar != "") {
 			?>
 				<div class="sidebar column-220 column-left">	
 					<!-- Left Side Bar and left navigation -->
 					<?php echo $left_side_bar; ?>
 				</div>
 			<?php
-				} else {
+				} else {*/
 					$main_content_css = "column-940";
-				}
+				/*}*/
 			}
 			?>
 			<div class="content <?php echo $main_content_css; ?> column-left inner-column" ng-controller="fixitcontent">
@@ -95,7 +95,7 @@
 				  	<?php
 				  	if( !empty($discount->discount_image)) {
 				  	?>
-				  		<img src="data:image/jpeg;base64,<?php echo base64_encode(stripslashes($discount->discount_image) ); ?>">
+				  		<img class="discount-image" src="data:image/jpeg;base64,<?php echo base64_encode(stripslashes($discount->discount_image) ); ?>">
 				  	<?php
 				  	} else {
 				  	?>
@@ -103,33 +103,16 @@
 				  	<?php
 				  	}
 				  	?>
-				  	<h3>Discount 1</h3>
-				  	<div>
-				  		<b> Header</b> <br/>
-				  		Some text to show discount<br/>
-				  		<span style="font-size:20px">Discount $20</span>
+				  	<h3><?php echo $discount->discount_name; ?></h3>
+				  	<div><?php echo $discount->discount_descr; ?><br/>
+				  	<span style="font-size:20px">Discount <?php 
+				  		$disc_type = empty($discount->discount_type) || $discount->discount_value == " $" ? "$" : "%"; 
+				  		echo $discount->discount_value.$disc_type;?></span>
 				  	</div>
 				  </div>
 				<?php
 				}
 				?>
-				  <!-- <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount2">
-				  	<h3>Discount 2</h3>
-				  	<div>
-				  		<b> Header</b> <br/>
-				  		Some text to show discount<br/>
-				  		<span style="font-size:20px">Discount 20%</span>
-				  	</div>
-				  </div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount3"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount4"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount5"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount6"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount7"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount8"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount9"></div>
-				  <div class="slide"><img src="http://placehold.it/300x150&text=ImageForDiscount10"></div>
-				 -->
 				</div>
 			<?php
 			}
