@@ -28,10 +28,10 @@
 			/*echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"_dataFilters.viewOne('".$dataFilters[$i]->sno."')\">". $dataFilters[$i]->data_filter_id;
 			echo "</td>";*/
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_dataFilters.viewOne('".$dataFilters[$i]->sno."')\">". $dataFilters[$i]->data_filter_name ."</td>";
+			echo "<td class='cell'><a href=\"/main/security/data_filters/viewone/".$dataFilters[$i]->sno."\" onclick=\"_dataFilters.viewOne('".$dataFilters[$i]->sno."')\">". $dataFilters[$i]->data_filter_name ."</td>";
 			echo "<td class='cell description'>".$dataFilters[$i]->data_filter_descr."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"_dataFilters.editDataFilter('".$dataFilters[$i]->sno."')\">".$this->lang->line_arr('data_filter->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"/main/security/data_filters/edit/".$dataFilters[$i]->sno."\">".$this->lang->line_arr('data_filter->buttons_links->edit')."</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('data_filter->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}

@@ -206,3 +206,13 @@ Clicking on same menu to go back to previous view.
 	6. History Support for HOME tab after login.
 	7. History Support for Project links added.
 	8. History and back button support for service provider
+	9. History and back button support added for insurance company
+	10. History and back button support added for claim
+	11. History and back support for all sub tabs under Admin
+		-> Users
+		-> Roles
+		-> operations
+		-> functions
+		-> datafilter
+		-> Permission
+		-> Web content

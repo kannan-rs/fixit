@@ -22,12 +22,14 @@ class Model_service_providers extends CI_Model {
 
 	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "", $no_image = 0) {
 		$this->db->where('is_deleted', '0');
+		//echo "record->";
+		//print_r($record);
 		
 		if(isset($record) && !is_null($record)) {
 			//echo "record =>"; print_r(array_filter($record)); echo "--count =>".count($record)."--imp--".implode(",", $record)."<br/>";
 			if(is_array($record) && implode(",", $record) != "" ) {
 				$this->db->where_in('id', $record);
-			} else if($record != "") {
+			} else if(!is_array($record) && $record != "") {
 				$this->db->where('id', $record);
 			}
 		}

@@ -1143,7 +1143,7 @@ class Projects extends CI_Controller {
 		$start_date		= "";
 		$end_date		= "";
 		$percentage 	= "";
-		$contractors 	= "";
+		$contractors 	= null;
 		$partners 		= null;
 		$customerFile 	= "";
 
@@ -1189,11 +1189,9 @@ class Projects extends CI_Controller {
 		$project->paid_from_budget = $this->model_remainingbudget->getPaidBudgetSum($project->proj_id);
 
 		$this->load->helper('download');
-
-	    $fp = fopen('php://output', 'w');
 	    
         $csvArray = array(
-            [""], 
+            //[""], 
             ["", "Project Title", $project->project_name], 
             ["", "Project Description", $project->project_descr],
             
@@ -1225,9 +1223,25 @@ class Projects extends CI_Controller {
         $csvArray[] = array("", "Service Provider Name", "Service Provider Company", "Prefered Contact Mode", "Contact Office Email", "Contact Office Number", "Contact Mobile Number", "Address Line 1", "Address Line 2", "City", "State", "Country", "Zip Code");
         
         // Service Provider List */
-        for($i = 0; $i < count($contractors); $i++) {
-            $csvArray[] = array("", $contractors[$i]->name, $contractors[$i]->company, $contractors[$i]->prefer, $contractors[$i]->office_email, $contractors[$i]->office_ph, $contractors[$i]->mobile_ph, $contractors[$i]->address1, $contractors[$i]->address2, $contractors[$i]->city, $contractors[$i]->state, $contractors[$i]->country, $contractors[$i]->zip_code);
-        }
+        if( $contractors ) {
+	        for($i = 0; $i < count($contractors); $i++) {
+	            $csvArray[] = array(
+	            					"", 
+	            					$contractors[$i]->name, 
+	            					$contractors[$i]->company, 
+	            					$contractors[$i]->prefer, 
+	            					$contractors[$i]->office_email, 
+	            					$contractors[$i]->office_ph, 
+	            					$contractors[$i]->mobile_ph, 
+	            					$contractors[$i]->address1, 
+	            					$contractors[$i]->address2, 
+	            					$contractors[$i]->city, 
+	            					$contractors[$i]->state, 
+	            					$contractors[$i]->country, 
+	            					$contractors[$i]->zip_code
+	            				);
+	        }
+	    }
         
         /* Partner Details */
         $csvArray[] = array("Partner Details", "");
@@ -1312,11 +1326,12 @@ class Projects extends CI_Controller {
         
         
         /* Print Into XLS */
+        /*$fp = fopen('php://output', 'w');
         for($i = 0; $i < count($csvArray); $i++) {
             fputcsv($fp, $csvArray[$i]);
         }
 
-	    $data = file_get_contents('php://output'); 
+	    $data = file_get_contents('php://output'); */
 	    $name = 'data.csv';
 
 	    // Build the headers to push out the file properly.
@@ -1329,10 +1344,17 @@ class Projects extends CI_Controller {
 	    header('Content-Transfer-Encoding: binary');
 	    header('Connection: close');
 	    header('Content-Description: File Transfer');
-	    header('Content-Length: ' . filesize($data));
+	    //header('Content-Length: ' . filesize($data));
+	    $fp = fopen('php://output', 'w');
+        for($i = 0; $i < count($csvArray); $i++) {
+            fputcsv($fp, $csvArray[$i]);
+        }
+        fclose($fp);
+
+	    //$data = file_get_contents('php://output'); 
 	    exit();
 
-	    force_download($name, $data);
-	    fclose($fp);
+	    //force_download($name, $data);
+	    
 	}
 }

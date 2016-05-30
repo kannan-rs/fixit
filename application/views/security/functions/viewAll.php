@@ -28,10 +28,12 @@
 			/*echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"_functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_id;
 			echo "</td>";*/
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_name ."</td>";
+			//echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_functions.viewOne('".$functions[$i]->sno."')\">". $functions[$i]->fn_name ."</td>";
+			echo "<td class='cell'><a href=\"/main/security/functions/viewone/".$functions[$i]->sno."\">". $functions[$i]->fn_name ."</td>";
 			echo "<td class='cell description'>".$functions[$i]->fn_descr."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"_functions.editFunction('".$functions[$i]->sno."')\">".$this->lang->line_arr('function->buttons_links->edit')."</a></span>";
+			//echo "<span><a href=\"javascript:void(0);\" onclick=\"_functions.editFunction('".$functions[$i]->sno."')\">".$this->lang->line_arr('function->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"/main/security/functions/edit/".$functions[$i]->sno."\" >".$this->lang->line_arr('function->buttons_links->edit')."</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('function->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}

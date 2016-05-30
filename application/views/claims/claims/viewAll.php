@@ -25,7 +25,10 @@
 					</a>
 				</td> -->
 				<td class="cell capitalize">
-					<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->claim_id; ?>')">
+					<!--<a href="javascript:void(0);" onclick="_claims.viewOne('<?php echo $claims[$i]->claim_id; ?>')">
+						<?php echo $claim->	claim_number; ?></td>
+					</a> -->
+					<a href="/main/claims/claims/viewone/<?php echo $claims[$i]->claim_id; ?>">
 						<?php echo $claim->	claim_number; ?></td>
 					</a>
 				</td>

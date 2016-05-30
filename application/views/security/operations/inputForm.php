@@ -9,7 +9,7 @@ if(isset($operations) && count($operations)) {
 }
 
 $sno 		= isset($individualOperation) ? $individualOperation->sno : "";
-$ope_id 	= isset($individualOperation) ? $individualOperation->ope_id : "";
+//$ope_id 	= isset($individualOperation) ? $individualOperation->ope_id : "";
 $ope_name 	= isset($individualOperation) ? $individualOperation->ope_name : "";
 $ope_desc 	= isset($individualOperation) ? $individualOperation->ope_desc : "";
 ?>

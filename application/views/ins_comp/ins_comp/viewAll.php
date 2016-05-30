@@ -40,7 +40,7 @@
 	?>
 			<tr class='row viewAll <?php echo $cssStatus; ?>'>
 				<td class="cell capitalize">
-					<a href="javascript:void(0);" onclick="_ins_comp.viewOne('<?php echo $ins_comps[$i]->ins_comp_id; ?>')">
+					<a href="insurance_company/insurancecompany/viewone/<?php echo $ins_comps[$i]->ins_comp_id; ?>">
 						<?php echo $ins_comp->ins_comp_name; ?></td>
 					</a>
 				</td>

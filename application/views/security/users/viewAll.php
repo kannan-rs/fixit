@@ -30,11 +30,11 @@
 				$deleteFn = $deleteText ? "_users.deleteRecord(".$users[$i]->sno.", '".$users[$i]->user_name."')" : "";
 			}
 			echo "<tr class='row'>";
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_users.viewOne({ userId: ".$users[$i]->sno."})\">". $users[$i]->user_name ."</td>";
+			echo "<td class='cell'><a href=\"/main/security/users/viewone/".$users[$i]->sno."\">". $users[$i]->user_name ."</td>";
 			/*echo "<td class='cell capitalize'>". (!empty($users[$i]->belongs_to) ? $users[$i]->belongs_to : "-NA-") ."</td>";*/
 			echo "<td class='cell capitalize'>". $users[$i]->role_disp_name ."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"_users.editUser('".$users[$i]->sno."')\">".$this->lang->line_arr('user->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"/main/security/users/edit/".$users[$i]->sno."\" >".$this->lang->line_arr('user->buttons_links->edit')."</a></span>";
 			if( $logged_in_email != $users[$i]->user_name) {
 				echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$deleteText."</a></span></td>";
 			}

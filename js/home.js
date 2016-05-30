@@ -50,99 +50,158 @@ var homeObj = (function () {
             this.page                    = _utils.get_current_page_from_url();
             var logged_in_user_details  = _utils.get_logged_in_user_details();
 
-            for(var i = 0; i < menus.length; i++) {
-                if( page == menus[i].link.split("/").reverse()[0]) {
+            /*for(var i = 0; i < menus.length; i++) {
+                if( this.page == menus[i].link.split("/").reverse()[0]) {
                     if( menus[i].sub_menus && menus[i].sub_menus.length) {
-                        page = menus[i].sub_menus[0].link.split("/").reverse()[0];
+                        this.page = menus[i].sub_menus[0].link.split("/").reverse()[0];
                         break;
                     }
                 }
-            }
+            }*/
 
             this.internal_page  = _utils.get_internal_page_from_url( page );
             this.operation      = _utils.get_operation_from_url( page, internal_page );
             this.record         = _utils.get_record_from_url( page, internal_page, operation );
 
-            /*console.log("page -->" + this.page);
+            console.log("page -->" + this.page);
             console.log("internal_page -->" + this.internal_page);
             console.log("Operation -->" + this.operation);
-            console.log("Record -->" + this.Record);*/
+            console.log("Record -->" + this.Record);
 
             switch (this.page) {
                 case "signup":
                     _utils.getAndSetCountryStatus("create_user_form");
                 break;
-                
                 case "insurance_company":
-                    _ins_comp.viewAll();
-                break;
-                
-                case "create_insurance_company":
-                    _ins_comp.createForm();
-                break;
-                
-                case "home_page":
-                    _home_content.showHomePageContent();
-                break;
-
-                case "users":
                     switch (this.internal_page) {
-                        case "create_user":
-                            _users.createForm();
+                        case "create_insurance_company":
+                            _ins_comp.createForm();
                         break;
+                        case "insurancecompany":
                         default:
-                            _users.viewAll();
+                            switch ( this.operation ) {
+                                case "viewone":
+                                    _ins_comp.viewOne( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _ins_comp.viewAll();
+                                break;
+                            }
                         break;
                     }
                 break;
 
-                case "operations":
-                    switch (this.internal_page) {
-                        case "create_operation":
-                            _operations.createForm();
-                        break;
+                case "web_contents":
+                    switch ( this.internal_page ) {
+                        case "home_page":
                         default:
-                            _operations.viewAll();
+                            _home_content.showHomePageContent();
                         break;
                     }
                 break;
 
-                case "roles":
-                    switch (this.internal_page) {
-                        case "create_role":
-                            _roles.createForm();
-                        break;
-                        default:
-                            _roles.viewAll();
-                        break;
-                    }
-                break;
 
-                case "functions":
-                    switch (this.internal_page) {
-                        case "create_function":
-                            _functions.createForm();
+                case "security":
+                    switch ( this.internal_page ) {
+                        
+
+                        case "operations":
+                            switch ( this.operation ) {
+                                case "create_operation":
+                                    _operations.createForm();
+                                break;
+                                case "viewone":
+                                    _operations.viewOne( this.record );
+                                break;
+                                case "edit":
+                                    _operations.editOperation( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _operations.viewAll();
+                                break;
+                            }
                         break;
+
+                        case "roles":
+                            switch ( this.operation ) {
+                                case "create_role":
+                                    _roles.createForm();
+                                break;
+                                case "viewone":
+                                    _roles.viewOne( this.record );
+                                break;
+                                case "edit":
+                                    _roles.editRole( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _roles.viewAll();
+                                break;
+                            }
+                        break;
+
+                        case "functions":
+                            switch ( this.operation ) {
+                                case "create_function":
+                                    _functions.createForm();
+                                break;
+                                case "viewone":
+                                    _functions.viewOne( this.record );
+                                break;
+                                case "edit":
+                                    _functions.editFunction( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _functions.viewAll();
+                                break;
+                            }
+                        break;
+                        
+                        case "data_filters":
+                            switch (this.operation) {
+                                case "create_data_filter":
+                                    _dataFilters.createForm();
+                                break;
+                                case "viewone":
+                                    _dataFilters.viewOne( this.record );
+                                break;
+                                case "edit":
+                                    _dataFilters.editDataFilter( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _dataFilters.viewAll();
+                                break;
+                            }
+                        break;
+                        
+                        case "permissions":
+                            _permissions.getPageForType();
+                            _permissions.getComponentInfo();
+                        break;
+
+                        case "users":
                         default:
-                            _functions.viewAll();
+                            switch ( this.operation ) {
+                                case "create_user":
+                                    _users.createForm();
+                                break;
+                                case "viewone":
+                                    _users.viewOne( { userId: this.record } );
+                                break;
+                                case "edit":
+                                    _users.editUser( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _users.viewAll();
+                                break;
+                            }
                         break;
                     }
-                break;
-                
-                case "data_filters":
-                    switch (this.internal_page) {
-                        case "create_data_filter":
-                            _dataFilters.createForm();
-                        break;
-                        default:
-                            _dataFilters.viewAll();
-                        break;
-                    }
-                break;
-                
-                case "permissions":
-                    _permissions.getPageForType();
-                    _permissions.getComponentInfo();
                 break;
                 
                 case "issues":
@@ -218,8 +277,17 @@ var homeObj = (function () {
                         case "create_claim":
                             _claims.createForm();
                         break;
+                        case "claims":
                         default:
-                            _claims.viewAll();
+                            switch ( this.operation ) {
+                                case "viewone":
+                                    _claims.viewOne( this.record );
+                                break;
+                                case "viewall":
+                                default:
+                                    _claims.viewAll();
+                                break;
+                            }
                         break;
                     }
                 break;

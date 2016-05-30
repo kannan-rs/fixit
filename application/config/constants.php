@@ -170,12 +170,12 @@ define('TOP_MENUS', '[
 		"sub_menus"		: [
 			{
 				"text"			: "Users", 
-				"link"			: "/main/security/users", 
+				"link"			: "/main/security/users/viewall", 
 				"key"			: "users",
 				"sub_menus"	: [
 					{
 						"text"			: "View Users", 
-						"link"			: "/main/security/users", 
+						"link"			: "/main/security/users/viewall", 
 						"key"			: "users",
 						"dependency"	: {
 							"permissions"	: "userPermission",
@@ -195,7 +195,7 @@ define('TOP_MENUS', '[
 			},
 			{
 				"text"			: "Roles", 
-				"link"			: "/main/security/roles", 
+				"link"			: "/main/security/roles/viewall", 
 				"key"			: "roles",
 				"dependency"	: {
 					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -203,7 +203,7 @@ define('TOP_MENUS', '[
 				"sub_menus"	: [
 					{
 						"text"			: "View Roles", 
-						"link"			: "/main/security/roles", 
+						"link"			: "/main/security/roles/viewall", 
 						"key"			: "roles",
 						"dependency"	: {
 							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -221,7 +221,7 @@ define('TOP_MENUS', '[
 			},
 			{
 				"text"			: "Functions", 
-				"link"			: "/main/security/functions", 
+				"link"			: "/main/security/functions/viewall", 
 				"key"			: "functions",
 				"dependency"	: {
 					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -229,7 +229,7 @@ define('TOP_MENUS', '[
 				"sub_menus"	: [
 					{
 						"text"			: "View Functions", 
-						"link"			: "/main/security/functions", 
+						"link"			: "/main/security/functions/viewall", 
 						"key"			: "functions",
 						"dependency"	: {
 							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -247,7 +247,7 @@ define('TOP_MENUS', '[
 			},
 			{
 				"text"			: "Operations", 
-				"link"			: "/main/security/operations", 
+				"link"			: "/main/security/operations/viewall", 
 				"key"			: "operations",
 				"dependency"	: {
 					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -255,7 +255,7 @@ define('TOP_MENUS', '[
 				"sub_menus"	: [
 					{
 						"text"			: "View Operations", 
-						"link"			: "/main/security/operations", 
+						"link"			: "/main/security/operations/viewall", 
 						"key"			: "operations",
 						"dependency"	: {
 							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -273,7 +273,7 @@ define('TOP_MENUS', '[
 			},
 			{
 				"text"			: "Data Filters", 
-				"link"			: "/main/security/data_filters", 
+				"link"			: "/main/security/data_filters/viewall", 
 				"key"			: "data_filters",
 				"dependency"	: {
 					"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -281,7 +281,7 @@ define('TOP_MENUS', '[
 				"sub_menus"	: [
 					{
 						"text"			: "View Data Filters", 
-						"link"			: "/main/security/data_filters", 
+						"link"			: "/main/security/data_filters/viewall", 
 						"key"			: "data_filters",
 						"dependency"	: {
 							"roles_by_name"	: ["'.ROLE_ADMIN.'"]
@@ -317,7 +317,7 @@ define('TOP_MENUS', '[
 	},
 	{
 		"text" 			: "Projects",
-		"link" 			: "/main/projects",
+		"link" 			: "/main/projects/projects",
 		"is_logged_in" 	: 1,
 		"dependency"	: {
 			"permissions"	: "projectPermission",

@@ -28,10 +28,10 @@
 			/*echo "<td class='cell number'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"_operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_id;
 			echo "</td>";*/
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_operations.viewOne('".$operations[$i]->sno."')\">". $operations[$i]->ope_name ."</td>";
+			echo "<td class='cell'><a href=\"/main/security/operations/viewone/".$operations[$i]->sno."\" >". $operations[$i]->ope_name ."</td>";
 			echo "<td class='cell description'>".$operations[$i]->ope_desc."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"_operations.editOperation('".$operations[$i]->sno."')\">".$this->lang->line_arr('operation->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"/main/security/operations/edit/".$operations[$i]->sno."\" >".$this->lang->line_arr('operation->buttons_links->edit')."</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('operation->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}

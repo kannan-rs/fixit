@@ -28,10 +28,10 @@
 			/*echo "<td class='cell'>";
 			echo "<a href=\"javascript:void(0);\" onclick=\"_roles.viewOne('".$roles[$i]->sno."')\">". $roles[$i]->role_id;
 			echo "</td>";*/
-			echo "<td class='cell'><a href=\"javascript:void(0);\" onclick=\"_roles.viewOne('".$roles[$i]->sno."')\">". $roles[$i]->role_name ."</td>";
+			echo "<td class='cell'><a href=\"/main/security/roles/viewone/".$roles[$i]->sno."\" >". $roles[$i]->role_name ."</td>";
 			echo "<td class='cell description'>".$roles[$i]->role_desc."</td>";
 			echo "<td class='cell table-action'>";
-			echo "<span><a href=\"javascript:void(0);\" onclick=\"_roles.editRole('".$roles[$i]->sno."')\">".$this->lang->line_arr('role->buttons_links->edit')."</a></span>";
+			echo "<span><a href=\"/main/security/roles/edit/".$roles[$i]->sno."\" >".$this->lang->line_arr('role->buttons_links->edit')."</a></span>";
 			echo "<span><a href=\"javascript:void(0);\" onclick=\"".$deleteFn."\">".$this->lang->line_arr('role->buttons_links->delete')."</a></span></td>";
 			echo "</tr>";
 		}
