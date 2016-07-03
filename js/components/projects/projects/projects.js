@@ -79,6 +79,14 @@ var _projects = (function () {
         return assigned_user_id;
     }
 
+    /*function is_valied_number_for_field ( form_name, field_id ) {
+        var val = $("#"+form_name+" "+"#"+field_id).val();
+        if( val ) {
+            return !isNaN(val);
+        }
+        return true;
+    }*/
+
     return {
         /**
             Create Project Validation
@@ -172,10 +180,12 @@ var _projects = (function () {
                     required: _lang.english.errorMessage.projectForm.contractorSearchResult
                 },
                 project_budget: {
-                    required: _lang.english.errorMessage.projectForm.project_budget
+                    required: _lang.english.errorMessage.projectForm.project_budget,
+                    number : "Please enter valid amount in $"
                 },
                 lend_amount: {
-                    required: _lang.english.errorMessage.projectForm.lend_amount
+                    required: _lang.english.errorMessage.projectForm.lend_amount,
+                    number : "Please enter valid amount in $"
                 },
                 project_lender: {
                     required: _lang.english.errorMessage.projectForm.project_lender
@@ -214,6 +224,12 @@ var _projects = (function () {
                    /* minlength: 5,
                     maxlength: 5,
                     digits: true*/
+                },
+                project_budget : {
+                    number: true
+                },
+                lend_amount : {
+                    number: true
                 }
             };
         },
@@ -224,7 +240,7 @@ var _projects = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            var cityError = _utils.cityFormValidation();
+            var cityError = _utils.cityFormValidation("", "create_project_form");
 
             var dateOptions = {
                 date_1      : "start_date",
@@ -291,6 +307,8 @@ var _projects = (function () {
 
                     _utils.setAsDateFields({dateField: "start_date"});
                     _utils.setAsDateFields({dateField: "end_date"});
+
+                    $( '#create_project_form #contractorcity' ).combobox2();
                 },
                 error: function (error) {
                     error = error;
@@ -415,10 +433,12 @@ var _projects = (function () {
                     self.hideDropDowns();
 
                     if(contractorPermission && contractorPermission["operation"] && contractorPermission["operation"].indexOf("update") >=0 ) {
-                        self.getContractorDetails($("#contractorIdDb").val());
+                        if($("#contractorIdDb").val() != "")
+                            self.getContractorDetails($("#contractorIdDb").val());
                     }
                     if(adjusterPermission && adjusterPermission["operation"] && adjusterPermission["operation"].indexOf("update") >=0 ) {
-                        self.getAdjusterDetails($("#adjusterIdDb").val());
+                        if( $("#adjusterIdDb").val() != "")
+                            self.getAdjusterDetails($("#adjusterIdDb").val());
                     }
                     self.hideDropDowns();
 
@@ -429,6 +449,8 @@ var _projects = (function () {
                     _utils.getAndSetMatchCity($("#city_jqDD").val(), "edit", '');
                     _utils.setAsDateFields({dateField: "start_date"});
                     _utils.setAsDateFields({dateField: "end_date"});
+
+                    $( '#update_project_form #contractorcity' ).combobox2();
                 },
                 error: function (error) {
                     error = error;
@@ -445,7 +467,7 @@ var _projects = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "update_project_form");
 
             var dateOptions = {
                 date_1      : "start_date",
@@ -1407,7 +1429,7 @@ var _projects = (function () {
             $("#contractorIdDb").val($("#contractorId").val().join(","));
         },
 
-        getContractorListUsingServiceZip: function (prefix) {
+        /*getContractorListUsingServiceZip: function (prefix) {
             var fail_error = null;
             var self = this;
             var serviceZip = $("#contractorZipCode").val();
@@ -1422,7 +1444,6 @@ var _projects = (function () {
                     if(!_utils.is_logged_in( response )) { return false; }
                     response = $.parseJSON(response);
                     if (response.status.toLowerCase() === "success") {
-                        //response.contractorList;
                         $("#contractorSearchResult").children().remove();
 
                         var contractors = {
@@ -1436,7 +1457,47 @@ var _projects = (function () {
                             dispStrKey: "company"
                         };
                         _utils.createDropDownOptionsList(contractors);
-                        //$('#contractorSearchResult li .ui-icon').hide();
+                        self.showContractorDetails('all');
+                    } else if (response.status.toLowerCase() === "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function (error) {
+                    error = error;
+                }
+            }).fail(function (failedObj) {
+                fail_error = failedObj;
+            });
+        },*/
+
+        getContractorListUsingServiceCity: function (prefix) {
+            var fail_error = null;
+            var self = this;
+            var serviceCity = $("#contractorcity").val();
+
+            $.ajax({
+                method: "POST",
+                url: "/service_providers/contractors/getList",
+                data: {
+                    serviceCity: serviceCity
+                },
+                success: function (response) {
+                    if(!_utils.is_logged_in( response )) { return false; }
+                    response = $.parseJSON(response);
+                    if (response.status.toLowerCase() === "success") {
+                        $("#contractorSearchResult").children().remove();
+
+                        var contractors = {
+                            list: response.contractors,
+                            appendTo: "contractorSearchResult",
+                            type: "searchList",
+                            excludeList: self.selectedContractor,
+                            prefixId: "contractorSearch",
+                            actionButton: "plus",
+                            dataIdentifier: "contractor",
+                            dispStrKey: "company"
+                        };
+                        _utils.createDropDownOptionsList(contractors);
                         self.showContractorDetails('all');
                     } else if (response.status.toLowerCase() === "error") {
                         alert(response.message);
@@ -1847,6 +1908,8 @@ var _projects = (function () {
                     if( selectedContractorsId != "") {
                         self.getContractorDetails($("#contractorIdDb").val());
                     }
+
+                    $( '#choose_sp_project_form #contractorcity' ).combobox2();
                 },
                 error: function (error) {
                     error = error;

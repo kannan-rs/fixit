@@ -5,6 +5,8 @@ var _contractors = (function () {
         childs  : {}
     };
 
+    var selected_city_list = {};
+
     function formInitialSettings(forForm, options, response) {
         var openAs         = options && options.openAs ? options.openAs : "";
         var popupType     = options && options.popupType ? options.popupType : "";
@@ -171,7 +173,7 @@ var _contractors = (function () {
         .fail(function ( failedObj ) {
             fail_error = failedObj;
         });
-    }
+    };
 
     return {
         errorMessage: function () {
@@ -246,8 +248,11 @@ var _contractors = (function () {
 
         validationRules: function() {
             return {
+                company : {
+                    required : true
+                },
                 zipCode : {
-                    required: true,
+                    //required: true,
                     /*minlength: 5,
                     maxlength: 5,
                     digits : true*/
@@ -262,6 +267,7 @@ var _contractors = (function () {
         },
 
         createForm: function(event, options ) {
+            var self = this;
             if(typeof(event) != 'undefined') {
                 event.stopPropagation();
             }
@@ -286,6 +292,7 @@ var _contractors = (function () {
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     formInitialSettings("create", options, response);
+                    self.setServiceProviderCitySearch();
                 },
                 error: function( error ) {
                     error = error;
@@ -296,88 +303,99 @@ var _contractors = (function () {
             });
         },
 
-        createValidate:  function ( openAs, popupType ) {
+        inputValidate:  function ( options ) {
             var cityError = false;
-            var validator = $( "#create_contractor_form" ).validate({
+            var validator = $( "#"+options.formPrefix+"_contractor_form" ).validate({
                 rules: this.validationRules(),
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation( "", options.formPrefix+"_contractor_form" );
             if(cityError) {
                 return false;
             }
 
             if(validator) {
+                _contractors.createUpdateSubmit( options );
                 return true;
-                //_contractors.createSubmit( openAs, popupType );
+                
             }
 
             return false;
         },
 
-        /*createSubmit: function( openAs, popupType ) {
-            var idPrefix                = "#create_contractor_form "
-            var name                    = $(idPrefix+"#name").val();
-            var company                 = $(idPrefix+"#company").val();
-            var type                    = $(idPrefix+"#type").val();
-            var license                 = $(idPrefix+"#license").val();
-            var status                  = $(idPrefix+"#status").val() || "active";
-            var addressLine1            = $(idPrefix+"#addressLine1").val();
-            var addressLine2            = $(idPrefix+"#addressLine2").val();
-            var city                    = $(idPrefix+"#city").val();
-            var state                   = $(idPrefix+"#state").val();
-            var country                 = $(idPrefix+"#country").val();
-            var zipCode                 = $(idPrefix+"#zipCode").val();
-            var emailId                 = $(idPrefix+"#emailId").val();
-            var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber            = $(idPrefix+"#mobileNumber").val();
-            var websiteURL              = $(idPrefix+"#websiteURL").val();
-            var serviceZip              = $(idPrefix+"#serviceZip").val();
-            var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
+        createUpdateSubmit : function ( options ) {
+            var openAs     = options.openAs;
+            var popupType  = options.popupType;
+            var submitURL  = options.submitURL;
+            var formPrefix = options.formPrefix;
 
+            var fileUpload = document.getElementById("contractorLogo");
+    
+            if (typeof (fileUpload.files) != "undefined") {
+                var file = fileUpload.files[0];
+                if( file ) {
+                    var type = file.type.split("/")[1];
+                    var allowed_type = ["jpg", "jpeg", "bmp", "gif", "png"];
+
+                    if( allowed_type.indexOf(type) != -1 )  {
+                        var size = parseFloat(file.size / 1024).toFixed(2);
+                        if(size > 100 ) {
+                            alert("Image size is '"+ size + "KB'. Allowed size is less that 200KB for logo image.");
+                            return false;
+                        }
+                    }
+                    else {
+                        alert( "Allowed file types are '"+ allowed_type.join(", ")+"'. Please choose a file from mentioned file format");
+                        return false;
+                    }
+                }
+            }
+
+            var city_id_list = [];
+            var city_name_list = [];
+            for( var city_id in selected_city_list ) {
+                city_id_list.push( city_id );
+                city_name_list.push( selected_city_list[city_id].name );
+            }
+
+            $("#service_cities").val(city_id_list.join(","));
+            $("#service_cities_name").val(city_name_list.join(","));
+            
             $.ajax({
-                method: "POST",
-                url: "/service_providers/contractors/add",
-                data: {
-                    name                    : name,
-                    company                 : company,
-                    type                    : type,
-                    license                 : license,
-                    status                  : status,
-                    addressLine1            : addressLine1,
-                    addressLine2            : addressLine2,
-                    city                    : city,
-                    state                   : state,
-                    country                 : country,
-                    zipCode                 : zipCode,
-                    emailId                 : emailId,
-                    contactPhoneNumber      : contactPhoneNumber,
-                    mobileNumber            : mobileNumber,
-                    websiteURL              : websiteURL,
-                    serviceZip              : serviceZip,
-                    openAs                  : openAs,
-                    popupType               : popupType,
-                    db_default_user_id      : db_default_user_id
-                },
+                url: "/service_providers/contractors/"+submitURL,
+                type: "POST",
+                data:  new FormData($("#"+formPrefix+"_contractor_form")[0]), //new FormData(this),
+                contentType: false,         
+                cache: false,
+                processData:false,
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     
                     response = $.parseJSON(response);
+
+                    
                     if(response.status.toLowerCase() == "success") {
-                        _contractors.viewOne(response.insertedId, openAs, popupType);
+                        if( formPrefix == "update") {
+                            $(".ui-button").trigger("click");
+                            alert(response.message);
+                            _contractors.viewOne(response.updatedId);
+                        } else {
+                             _contractors.viewOne(response.insertedId, openAs, popupType);
+                        }
                     } else if(response.status.toLowerCase() == "error") {
                         alert(response.message);
                     }
+                    
                 },
                 error: function( error ) {
                     error = error;
-                }
-            })
+                }           
+           })
             .fail(function ( failedObj ) {
                 fail_error = failedObj;
             });
-        },*/
+        },
 
         viewOne: function( contractorId, openAs, popupType ) {
             this.contractorId     = contractorId;
@@ -444,6 +462,7 @@ var _contractors = (function () {
         },
 
         editForm: function( options ) {
+            var self = this;
             var openAs         = options && options.openAs ? options.openAs : "";
             var popupType     = options && options.popupType ? options.popupType : "";
 
@@ -459,6 +478,7 @@ var _contractors = (function () {
                 success: function( response ) {
                     if(!_utils.is_logged_in( response )) { return false; }
                     formInitialSettings("update", options, response);
+                    self.setServiceProviderCitySearch();
                 },
                 error: function( error ) {
                     error = error;
@@ -469,87 +489,35 @@ var _contractors = (function () {
             });
         },
 
-        updateValidate: function() {
-            var cityError = false;
-            var validator = $( "#update_contractor_form" ).validate({
-                rules: this.validationRules(),
-                messages: this.errorMessage()
-            }).form();
+        setServiceProviderCitySearch : function () {
+            var self = this;
+            prePopulate = [];
 
-            cityError = _utils.cityFormValidation();
-            if(cityError) {
-                return false;
-            }
+            var city_id_list = $("#service_cities").val().split(",");
+            var city_name_list = $("#service_cities_name").val().split(",");
 
-           if(validator) {
-                //_contractors.updateSubmit();
-                return true;
-            }
-            return false;
-        },
-
-        /*updateSubmit: function() {
-            var idPrefix                = "#update_contractor_form ";
-            var contractorId            = $(idPrefix+"#contractorId").val();
-            var company                 = $(idPrefix+"#company").val();
-            var type                    = $(idPrefix+"#type").val();
-            var license                 = $(idPrefix+"#license").val();
-            var status                  = $(idPrefix+"#status").val() || "active";
-            var addressLine1            = $(idPrefix+"#addressLine1").val();
-            var addressLine2            = $(idPrefix+"#addressLine2").val();
-            var city                    = $(idPrefix+"#city").val();
-            var state                   = $(idPrefix+"#state").val();
-            var country                 = $(idPrefix+"#country").val();
-            var zipCode                 = $(idPrefix+"#zipCode").val();
-            var emailId                 = $(idPrefix+"#emailId").val();
-            var contactPhoneNumber      = $(idPrefix+"#contactPhoneNumber").val();
-            var mobileNumber            = $(idPrefix+"#mobileNumber").val();
-            var websiteURL              = $(idPrefix+"#websiteURL").val();
-            var serviceZip              = $(idPrefix+"#serviceZip").val();
-            var db_default_user_id      = $(idPrefix+"#db_default_user_id").val();
-
-            $.ajax({
-                method: "POST",
-                url: "/service_providers/contractors/update",
-                data: {
-                    contractorId            : contractorId,
-                    company                 : company,
-                    type                    : type,
-                    license                 : license,
-                    status                  : status,
-                    addressLine1            : addressLine1,
-                    addressLine2            : addressLine2,
-                    city                    : city,
-                    state                   : state,
-                    country                 : country,
-                    zipCode                 : zipCode,
-                    emailId                 : emailId,
-                    contactPhoneNumber      : contactPhoneNumber,
-                    mobileNumber            : mobileNumber,
-                    websiteURL              : websiteURL,
-                    serviceZip              : serviceZip,
-                    db_default_user_id      : db_default_user_id
-                },
-                success: function( response ) {
-                    if(!_utils.is_logged_in( response )) { return false; }
-                    response = $.parseJSON(response);
-                    if(response.status.toLowerCase() == "success") {
-                        $(".ui-button").trigger("click");
-                        alert(response.message);
-                        _contractors.viewOne(response.updatedId);
-                    } else if(response.status.toLowerCase() == "error") {
-                        alert(response.message);
-                    }
-                },
-                error: function( error ) {
-                    alert(error);
+            for( var c_ix = 0; c_ix < city_id_list.length; c_ix++) {
+                if( city_id_list[c_ix] != "") {
+                    prePopulate.push({ id : city_id_list[c_ix], name : city_name_list[c_ix]});
+                    selected_city_list[city_id_list[c_ix]] = { id : city_id_list[c_ix], name : city_name_list[c_ix]};
                 }
-            })
-            .fail(function ( failedObj ) {
-                fail_error = failedObj;
-                alert(fail_error);
-            });
-        },*/
+            }
+
+            $("#service_cities").tokenInput("/utils/formUtils/getCities",
+                { 
+                    theme: "facebook",
+                    minChars : 3,
+                    hintText : "Type in 3 character of city",
+                    prePopulate : prePopulate,
+                    onAdd : function( value) {
+                        self.service_area_city_add( value );
+                    },
+                    onDelete : function( value) {
+                        self.service_area_city_remove( value );
+                    }
+                }
+            );
+        },
 
         deleteRecord: function() {
             var deleteConfim = confirm("Do you want to delete this service provider company");
@@ -698,6 +666,18 @@ var _contractors = (function () {
 
         addOrUpdateImage : function() {
 
+        },
+
+        service_area_city_add : function( selected_city ) {
+            if( !selected_city_list[selected_city.id] ) {
+                selected_city_list[selected_city.id] = selected_city;
+            }
+        },
+
+        service_area_city_remove : function ( selected_city ) {
+            if( selected_city_list[selected_city.id] ) {
+                delete(selected_city_list[selected_city.id]);
+            }
         }
     }
 })();

@@ -19,7 +19,9 @@ class Layouts {
 			"js/library/jquery.validate.js",
 			"js/library/filedrag.js",
 			"js/library/plugin/searchSelect-Jquery.js",
-			"js/library/jquery.bxslider.js"
+			"js/library/plugin/searchSelect2-Jquery.js",
+			"js/library/jquery.bxslider.js",
+			"js/library/plugin/jquery.tokeninput.js"
 			
 		),
 		"if_logged_in" => array(
@@ -74,7 +76,9 @@ class Layouts {
 		"css/jquery-ui.css",
 		"css/style.css",
 		"css/foundation-icons.css",
-		"css/jquery.bxslider.css"
+		"css/jquery.bxslider.css",
+		//"css/token-input.css",
+		"css/token-input-facebook.css"
 	);
 
 	private $includes = array();

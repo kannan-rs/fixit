@@ -1,7 +1,7 @@
 /* Utils JS */
 var _utils = (function () {
     //'use strict';
-    var searchCityStr = null;
+    var searchCityStr = {};
     var searchCityList = null;
     //var postalCodeByCity = null;
     var _states = null;
@@ -41,9 +41,10 @@ var _utils = (function () {
 
         getAndSetCountryStatus: function (moduleId, id_prefix) {
             var self = this;
-            $( '#'+moduleId+' #city' ).combobox();
             if(id_prefix) {
                 $( '#'+moduleId+' #'+id_prefix+"_city" ).combobox();
+            } else {
+                $( '#'+moduleId+' #city' ).combobox();
             }
             _utils.moduleId = moduleId;
 
@@ -152,9 +153,9 @@ var _utils = (function () {
             var i = 0;
             var city = null;
             var self = this;
-            if(value && value.length > 2 && (!searchCityList || value.substr(0,3) !== searchCityStr.substr(0,3))) {
-                searchCityStr = value.substr(0,3);
-                searchCityList = this.getCityFromLS(searchCityStr);
+            if(value && value.length > 2 && (!searchCityList || !searchCityStr[inputId] || value.substr(0,3) !== searchCityStr[inputId].substr(0,3))) {
+                searchCityStr[inputId] = value.substr(0,3);
+                searchCityList = this.getCityFromLS(searchCityStr[inputId]);
                 //_utils.moduleId = moduleId;
 
                 if(!searchCityList) {
@@ -164,14 +165,14 @@ var _utils = (function () {
                         method: 'POST',
                         url: '/utils/formUtils/getMatchCityList',
                         data: {
-                            cityStr: searchCityStr
+                            cityStr: searchCityStr[inputId]
                         },
                         success: function (response) {
                             response = $.parseJSON(response);
                             if (response.status === 'success') {
                                 searchCityList = {};
                                 searchCityList = response.cityList;
-                                self.setCityToLS(searchCityStr, searchCityList);
+                                self.setCityToLS(searchCityStr[inputId], searchCityList);
                                 
                                 self.populateCityOption(searchCityList, "", inputId);
                             } else {
@@ -196,14 +197,17 @@ var _utils = (function () {
             //$('#' + moduleId + ' #city_list').empty();
 
             var id_prefix = inputId && inputId.indexOf("property") == 0 ? "property_" : "";
+            var city_search_box_id = inputId.split("_")[0];
 
-            $('#'+id_prefix+'city').empty();
+            //$('#'+id_prefix+'city').empty();
+            $('#'+id_prefix+city_search_box_id).empty();
             if(searchCityList) {
                 for (i = 0; i < searchCityList.length; i += 1) {
                     //$('#' + moduleId + ' #city_list').append($('<option>', {
                     if(uniqueCity.indexOf(searchCityList[i].city) < 0) {
                         uniqueCity.push(searchCityList[i].city);
-                        $('#'+id_prefix+'city').append($('<option>', {
+                        //$('#'+id_prefix+'city').append($('<option>', {
+                            $('#'+id_prefix+city_search_box_id).append($('<option>', {
                             'value': searchCityList[i].city,
                             'text': searchCityList[i].city
                         }));
@@ -212,8 +216,9 @@ var _utils = (function () {
             }
             
             if(!from || from != 'edit') {
-                $("a[title='Show All Items']").trigger('click'); 
-                $('#'+id_prefix+'city_jqDD').focus();
+                $('#'+id_prefix+city_search_box_id+'_jqDD').next().trigger('click');
+                //$("a[title='Show All Items']").trigger('click'); 
+                $('#'+id_prefix+city_search_box_id+'_jqDD').focus();
             }
         },
 
@@ -740,12 +745,18 @@ var _utils = (function () {
             }
         },
 
-        cityFormValidation: function( id_prefix ) {
+        cityFormValidation: function( id_prefix , validate_on_form_id ) {
             var error = false;
             id_prefix = id_prefix ? id_prefix : "";
-            if(!$("#"+id_prefix+"city").val() && $("#"+id_prefix+"city").attr("required")) {
-                $($("#"+id_prefix+"city_jqDD").addClass("form-error").next()).addClass("form-error");
-                $("#"+id_prefix+"cityError").addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
+            validate_on_form_id = validate_on_form_id ? "#"+validate_on_form_id+" " : "";
+
+            var city_ele    = $(validate_on_form_id+"#"+id_prefix+"city");
+            var city_dd_ele = $(validate_on_form_id+"#"+id_prefix+"city_jqDD");
+            var error_ele   = $(validate_on_form_id+"#"+id_prefix+"cityError");
+
+            if(!city_ele.val() && city_ele.attr("required")) {
+                $(city_dd_ele.addClass("form-error").next()).addClass("form-error");
+                error_ele.addClass("form-error").css({"display" : "block"}).text("Please provide a valid city. Enter first three characters of city to search and select city");
                 error = true;
             }
             return error;

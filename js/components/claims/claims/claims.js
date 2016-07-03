@@ -317,7 +317,7 @@ var _claims = (function () {
 
             var is_property_address_same    = $("#is_property_address_same:checked").val();
 
-            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_") : false;
+            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_", "create_claim_form") : false;
             
             validator = validator && cityValidate ? false : validator;
 
@@ -372,7 +372,7 @@ var _claims = (function () {
 
             var is_property_address_same    = $("#is_property_address_same:checked").val();
 
-            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_") : false;
+            var cityValidate =  validator && !is_property_address_same ? _utils.cityFormValidation("property_", "update_claim_form") : false;
             
             validator = validator && cityValidate ? false : validator;
 

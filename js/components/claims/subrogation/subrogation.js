@@ -220,7 +220,7 @@ var _claim_subrogation = (function() {
                 messages: errorMessage()
             }).form();
 
-            validator = validator && _utils.cityFormValidation() ? false : validator;
+            validator = validator && _utils.cityFormValidation("", "create_subrogation_form") ? false : validator;
 
             if (validator) {
                createSubmit();
@@ -262,7 +262,7 @@ var _claim_subrogation = (function() {
                 messages: errorMessage()
             }).form();
 
-            validator = validator && _utils.cityFormValidation() ? false : validator;
+            validator = validator && _utils.cityFormValidation("", "create_subrogation_form") ? false : validator;
 
             if (validator) {
                updateSubmit();

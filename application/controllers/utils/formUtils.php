@@ -39,6 +39,21 @@ class formUtils extends CI_Controller {
 		print_r(json_encode($response));
 	}
 
+	/*public function getCities() {
+		$this->load->model('utils/model_form_utils');
+
+		$state = $this->model_form_utils->getCities();
+
+		$response["status"] = "error";
+		if($state) {
+			$response["status"] = "success";
+			$response["state"] = $state;
+		} else {
+			$response["message"] = "Error while fetching state details";
+		}
+		print_r(json_encode($response));
+	}*/
+
 	public function getFromUsersList() {
 		$emailId 				= $this->input->post('emailId');
 		$role_disp_name			= $this->input->post('role_disp_name');
@@ -149,6 +164,32 @@ class formUtils extends CI_Controller {
 			$response["message"] = "Error while fetching state details";
 		}
 		print_r(json_encode($response));
+	}
+
+	public function getCities() {
+		$this->load->model('utils/model_form_utils');
+
+		$cityStr 	= $this->input->get('q');
+
+		if(isset($cityStr) && $cityStr != "") {
+			$state = $this->model_form_utils->getMatchCityListForSearch( $cityStr );
+		} else {
+			$state = array();
+		}
+
+		/*for( $i = 0; $i < count($state); $i++) {
+
+		}*/
+
+		/*$response["status"] = "error";
+		if(isset($state)) {
+			$response["status"] = "success";
+			$response["cityList"] = $state;
+		} else {
+			$response["message"] = "Error while fetching state details";
+		}
+		print_r(json_encode($response));*/
+		print_r(json_encode($state));
 	}
 
 	public function getPostalDetailsByCity() {

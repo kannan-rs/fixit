@@ -153,9 +153,13 @@
 								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->webSite_url'); ?></td>
 								<td><?php echo $contractor->website_url; ?></td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td class='label'><?php echo $this->lang->line_arr('contractor->details_view->serive_provided'); ?></td>
 								<td><?php echo $contractor->service_area; ?></td>
+							</tr> -->
+							<tr>
+								<td class='label'>Service Provided in City</td>
+								<td><?php echo $contractor->service_in_city_name; ?></td>
 							</tr>
 						</tbody>
 					</table>

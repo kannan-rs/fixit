@@ -1416,7 +1416,8 @@ a.icon-right {
 #tabs_contractor_company_details .ui-widget-content,
 #partner_content .ui-widget-content,
 #subrogation_content .ui-widget-content {
-  border-width: 0px 0px 0px 0px; }
+  border-width: 1px 0px 1px 1px;
+  padding-bottom: 0px; }
 
 .projectViewOne .project-title {
   width: auto; }

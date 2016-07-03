@@ -191,16 +191,16 @@ MOM (4/20/2016)
 
 8. Adding Comments to the code that helps for documentation
 
-9. Clicking on same menu to go back to previous view.
-
 Work Status for last week
 -------------------------
 1. Email functionality error correction.
 2. EXPORT as CSV
 	>> Error corrected from admin
-3. Code changes to take > Pages and Sub Pages from URL to load its respective page
+3. 
 4. Code changes to load App related files after loggin.
 5. Discount Section to show discount Image, Header, Description and discount Value.
+
+Code changes to take > Pages and Sub Pages from URL to load its respective page
 Clicking on same menu to go back to previous view.
 --------------------------------------------------
 	6. History Support for HOME tab after login.
@@ -216,3 +216,18 @@ Clicking on same menu to go back to previous view.
 		-> datafilter
 		-> Permission
 		-> Web content
+
+
+MOM - 1st May 2016
+------------------
+> https://git-scm.com/ (Done)
+> Documents
+	> Installation document ( From 1st step, DB installation, User addition and deployment) (Done)
+	> Functional/User Guide Document for all modules
+	> Developer document for each pages and funct
+
+
+1. Budget PHP error.
+	>> Push to production
+2. Service provider to add multiple cities for service area
+3. Customer to choose the service provider search by city

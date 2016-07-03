@@ -227,7 +227,7 @@ var _users = (function () {
                 isTcError = true;
             }
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "create_user_form");
 
             var dateOptions = {
                 date_1      : "activeStartDate",
@@ -259,7 +259,7 @@ var _users = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("update_user_form");
 
             var dateOptions = {
                 date_1      : "activeStartDate",

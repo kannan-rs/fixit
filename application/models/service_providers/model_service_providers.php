@@ -20,7 +20,7 @@ class Model_service_providers extends CI_Model {
 		return false;
 	}
 
-	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "", $no_image = 0) {
+	public function get_service_provider_list($record = "", $zip = "", $serviceZip = "", $no_image = 0, $serviceCity = "") {
 		$this->db->where('is_deleted', '0');
 		//echo "record->";
 		//print_r($record);
@@ -54,6 +54,10 @@ class Model_service_providers extends CI_Model {
 			} else if($service_area != "") {
 				$this->db->or_like('service_area', $serviceZip);
 			}
+		}
+
+		if( $serviceCity != "" ) {
+			$this->db->or_like('service_in_city_name', $serviceCity);
 		}
 
 

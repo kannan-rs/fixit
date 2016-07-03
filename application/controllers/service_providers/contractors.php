@@ -16,12 +16,15 @@ class Contractors extends CI_Controller {
 		$this->load->model('service_providers/model_service_providers');
 
 		$serviceZip = trim($this->input->post("serviceZip")) ? explode(",", trim($this->input->post("serviceZip"))) : null;
+		
+		$serviceCity = trim($this->input->post("serviceCity"));
+
 		$zip 		= trim($this->input->post("zip")) ? trim($this->input->post("zip")) : null;
 		$records 	= trim($this->input->post("records")) ? explode(",", trim($this->input->post("records"))) : null;
 
 		$no_image = 1;
 		
-		$contractorsResponse = $this->model_service_providers->get_service_provider_list( $records, $zip, $serviceZip,  $no_image);
+		$contractorsResponse = $this->model_service_providers->get_service_provider_list( $records, $zip, $serviceZip,  $no_image, $serviceCity);
 
 		print_r(json_encode($contractorsResponse));
 	}
@@ -147,6 +150,8 @@ class Contractors extends CI_Controller {
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
 			'website_url' 				=> $this->input->post('websiteURL'),
 			'service_area' 				=> $this->input->post('serviceZip'),
+			'service_in_city_id'		=> $this->input->post('service_cities'),
+			'service_in_city_name'		=> $this->input->post('service_cities_name'),
 			'created_by'				=> $this->session->userdata('logged_in_user_id'),
 			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'created_on'				=> date("Y-m-d H:i:s"),
@@ -319,6 +324,8 @@ class Contractors extends CI_Controller {
 			'default_contact_user_id'	=> $this->input->post('db_default_user_id'),
 			'website_url' 				=> $this->input->post('websiteURL'),
 			'service_area' 				=> $this->input->post('serviceZip'),
+			'service_in_city_id'		=> $this->input->post('service_cities'),
+			'service_in_city_name'		=> $this->input->post('service_cities_name'),
 			'updated_by'				=> $this->session->userdata('logged_in_user_id'),
 			'updated_on'				=> date("Y-m-d H:i:s")
 		);

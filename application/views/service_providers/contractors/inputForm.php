@@ -24,6 +24,8 @@
 		$service_area 					= $contractor->service_area;
 		$default_contact_user_id		= $contractor->default_contact_user_id;
 		$default_contact_user_disp_str	= isset($contractor->default_contact_user_disp_str) ? $contractor->default_contact_user_disp_str : "";
+		$service_in_city_id				= $contractor->service_in_city_id;
+		$service_in_city_name			= $contractor->service_in_city_name;
 
 	}
 
@@ -54,7 +56,7 @@ if($openAs) {
 			<tr>
 				<td class="label"><?php echo $this->lang->line_arr('contractor->input_form->company'); ?>:</td>
 				<td>
-					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>" required 
+					<input type="text" name="company" id="company" value="<?php echo isset($company) ? $company : "";?>"  
 						placeholder="<?php echo $this->lang->line_arr('contractor->input_form->company_ph'); ?>">
 				</td>
 			</tr>
@@ -147,10 +149,17 @@ if($openAs) {
 					<input type="text" name="websiteURL" id="websiteURL" value="<?php echo isset($website_url) ? $website_url : "";?>" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->websiteURL_ph'); ?>" <?php  echo $required; ?> >
 				</td>
 			</tr>
-			<tr>
+			<!-- <tr>
 				<td class="label <?php echo $notMandatory;?>"><?php echo $this->lang->line_arr('contractor->input_form->serviceZip'); ?>:</td>
 				<td>
 					<textarea name="serviceZip" id="serviceZip" class="small-textarea" placeholder="<?php echo $this->lang->line_arr('contractor->input_form->serviceZip_ph'); ?>" <?php  echo $required; ?> ><?php echo isset($service_area) ? $service_area : ""; ?></textarea>
+				</td>
+			</tr> -->
+			<tr>
+				<td class="label <?php echo $notMandatory;?>">Service Provided Cities:</td>
+				<td>
+					<input name="service_cities" id="service_cities" class="" placeholder="Enter city name for search" <?php  echo $required; ?> value ="<?php echo isset($service_in_city_id) ? $service_in_city_id : ""; ?>" >
+					<input type="hidden" id="service_cities_name"  name="service_cities_name" value ="<?php echo isset($service_in_city_name) ? $service_in_city_name : ""; ?>" >
 				</td>
 			</tr>
 
@@ -195,68 +204,25 @@ if($openAs) {
 	</table>
 </form>
 <script>
-$("#<?php echo $prefix; ?>_contractor_form").on('submit',(function(e) {
-	e.preventDefault();
+	var formOptions = {
+		"openAs"		: "<?php echo $openAs;?>",
+		"popupType"		: "<?php echo $popupType;?>",
+		"submitURL"		: "<?php echo $submitURL; ?>",
+		"formPrefix"	: "<?php echo $prefix; ?>"
+	};
+	$("#"+formOptions.formPrefix+"_contractor_form").on('submit',(function(e) {
+		e.preventDefault();
 
-	var openAs 		= "<?php echo $openAs;?>";
-	var popupType 	= "<?php echo $popupType;?>";
+		if( formOptions.formPrefix == "create" || formOptions.formPrefix == "update" ) {
+			if (!_contractors.inputValidate(formOptions)) {
+				return false;
+			}
+		} 
+		else {
+			alert("Something went wrong. Try after some time");
+			return false;
+		}
 
-	if(!_contractors.<?php echo $prefix; ?>Validate())
-		return false;
+	}));
 
-	var fileUpload = document.getElementById("contractorLogo");
-    
-    if (typeof (fileUpload.files) != "undefined") {
-        var size = parseFloat(fileUpload.files[0].size / 1024).toFixed(2);
-        if(size > 100 ) {
-        	alert("Image size is '"+ size + "KB'. Allowed size is less that 200KB for logo image.");
-        	return false;
-        }
-    }
-
-    /*var _URL = window.URL || window.webkitURL;
-    var file, img;
-    if ((file = fileUpload.files[0])) {
-        img = new Image();
-        img.onload = function () {
-            this.width + " " + this.height;
-        };
-        img.src = _URL.createObjectURL(file);
-    }*/
-
-	
-	$.ajax({
-    	url: "/service_providers/contractors/<?php echo $submitURL; ?>",
-		type: "POST",
-		data:  new FormData(this),
-		contentType: false, 		
-	    cache: false,
-		processData:false,
-		success: function( response ) {
-			if(!_utils.is_logged_in( response )) { return false; }
-            
-            response = $.parseJSON(response);
-
-            
-            if(response.status.toLowerCase() == "success") {
-            	if("<?php echo $prefix; ?>" == "update") {
-	                $(".ui-button").trigger("click");
-	                alert(response.message);
-	                _contractors.viewOne(response.updatedId);
-	            } else {
-	            	 _contractors.viewOne(response.insertedId, openAs, popupType);
-	            }
-            } else if(response.status.toLowerCase() == "error") {
-                alert(response.message);
-            }
-			
-	    },
-		error: function( error ) {
-			error = error;
-		}	        
-   })
-	.fail(function ( failedObj ) {
-		fail_error = failedObj;
-	});
-}));
 </script>

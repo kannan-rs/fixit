@@ -195,7 +195,7 @@ var _partners = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "create_partner_form");
             if (cityError) {
                 return false;
             }
@@ -378,7 +378,7 @@ var _partners = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "update_partner_form");
             if (cityError) {
                 return false;
             }

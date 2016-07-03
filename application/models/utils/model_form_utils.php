@@ -32,6 +32,26 @@ class Model_form_utils extends CI_Model {
 		return $state;
 	}
 
+	public function getMatchCityListForSearch( $city = "") {
+		/*if(isset($city) && !is_null($city) && $city != "") {
+			$this->db->like('city', $city, "after");
+		}*/
+		
+		$q = "SELECT postal_code_id as id, city as name FROM `postal_codes` where city LIKE CONCAT('%', '".$city."' ,'%')";
+		//echo $q;
+		$query = $this->db->query( $q );
+		//$this->db->select(["zipcode", "city", "state_abbreviation"]);
+		//$this->db->order_by("city", "asc");
+
+		//$query = $this->db->from('postal_codes')->get();
+		
+		$state = $query->result();
+		
+		return $state;
+	}
+
+	
+
 	public function getPostalDetailsByCity( $city = "") {
 		if(isset($city) && !is_null($city) && $city != "") {
 			$this->db->where('city', $city);	

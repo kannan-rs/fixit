@@ -142,7 +142,7 @@ var _ins_comp = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "create_ins_comp_form");
             if(cityError) {
                 return false;
             }
@@ -290,7 +290,7 @@ var _ins_comp = (function () {
                 messages: this.errorMessage()
             }).form();
 
-            cityError = _utils.cityFormValidation();
+            cityError = _utils.cityFormValidation("", "update_ins_comp_form");
             if(cityError) {
                 return false;
             }

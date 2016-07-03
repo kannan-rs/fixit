@@ -22,8 +22,9 @@
 	$customer_id 			= "";
 	$associated_claim_num 	= "";
 
-	$contractorLable 	= "Selected Service Provider from Search result";
-	$adjusterLable		= "Selected Adjuster from Search result";
+	$contractorLable 		= "Selected Service Provider from Search result";
+	//$contractorCityLable 	= "Selected Service Provider from Search result";
+	$adjusterLable			= "Selected Adjuster from Search result";
 	
 	if(isset($projects) && count($projects)) {
 		$prefix = "update";
@@ -149,11 +150,30 @@
 					</ul>
 				</td>
 			</tr>
+			<!--
 			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->contractorZipCode'); ?></td>
+				<td class="label notMandatory"><?php /*echo $this->lang->line_arr('projects->input_form->contractorZipCode'); */?></td>
 				<td>
 					<input type="text" name="contractorZipCode" id="contractorZipCode" value="" Placeholder="<?php echo $this->lang->line_arr('projects->input_form->contractorZipCode_ph'); ?>">
 					<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceZip('')"></span>
+				</td>
+			</tr>
+			-->
+			<tr>
+				<td class="label notMandatory">Search Service Provider By City</td>
+				<td style="padding:0px;">
+					<table style="margin:0px; height:24px;">
+						<tr>
+							<td style="padding:0px; width:240px;">
+								<select name="contractorcity" id="contractorcity" 
+									onkeyup="_utils.getAndSetMatchCity(this.value,'<?php echo $prefix; ?>_project_form','contractorcity')">
+								</select>
+							</td>
+							<td style="padding:0px;">
+								<span class="fi-zoom-in size-21 searchIcon" onclick="_projects.getContractorListUsingServiceCity('')"></span>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 			<tr class="contractor-search-result">
@@ -185,7 +205,7 @@
 
 			<!-- Project Budget -->
 			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_budget'); ?></td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->project_budget'); ?> <b>($)</b></td>
 				<td>
 					<input type="text" name="project_budget" id="project_budget" placeholder="<?php echo $this->lang->line_arr('projects->input_form->project_budget_ph'); ?>" value="<?php echo $project_budget; ?>" >
 				</td>
@@ -193,7 +213,7 @@
 
 			<!-- Project Loan Amount -->
 			<tr>
-				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->lend_amount'); ?></td>
+				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->lend_amount'); ?> <b>($)</b></td>
 				<td>
 					<input type="text" name="lend_amount" id="lend_amount" placeholder="<?php echo $this->lang->line_arr('projects->input_form->lend_amount_ph'); ?>" value="<?php echo $lend_amount; ?>">
 				</td>
@@ -207,9 +227,9 @@
 				</td>
 			</tr>
 
-				<?php
-				if($role_disp_name == ROLE_ADMIN ) {
-				?>
+			<?php
+			if($role_disp_name == ROLE_ADMIN ) {
+			?>
 			<!-- Project Deductible -->
 			<tr>
 				<td class="label notMandatory"><?php echo $this->lang->line_arr('projects->input_form->deductible'); ?></td>
@@ -217,9 +237,9 @@
 					<input type="text" name="deductible" id="deductible" placeholder="<?php echo $this->lang->line_arr('projects->input_form->deductible_ph'); ?>" value="<?php echo $deductible; ?>">
 				</td>
 			</tr>
-				<?php
-				}
-				?>
+			<?php
+			}
+			?>
 
 			<!-- Project Owner ID -->
 			<tr>
